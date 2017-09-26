@@ -17,6 +17,8 @@
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
     "@types/react": "^16.0.7",
-    "@types/react-dom": "^15.5.4"
+    "@types/react-dom": "^15.5.4",
+    "prettier": "^1.7.0",
+    "tslint-config-prettier": "^1.5.0"
   }
 }
