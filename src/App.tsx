@@ -9,13 +9,11 @@ class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
-          <Layout className="app">
-            <Header className="app__header">LykkeWallet</Header>
-            <Content className="app__shell">LykkeWallet</Content>
-            <Footer>&copy; 2017 Lykke, Inc.</Footer>
-          </Layout>
-        </div>
+        <Layout className="app">
+          <Header className="app__header">LykkeWallet</Header>
+          <Content className="app__shell">LykkeWallet</Content>
+          <Footer>&copy; 2017 Lykke, Inc.</Footer>
+        </Layout>
       </Router>
     );
   }
