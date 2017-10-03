@@ -2,6 +2,7 @@ import {Layout} from 'antd';
 import * as React from 'react';
 import {BrowserRouter as Router} from 'react-router-dom';
 import './App.css';
+import Copyright from './components/Copyright';
 
 const {Header, Content, Footer} = Layout;
 
@@ -12,7 +13,9 @@ class App extends React.Component {
         <Layout className="app">
           <Header className="app__header">LykkeWallet</Header>
           <Content className="app__shell">LykkeWallet</Content>
-          <Footer>&copy; 2017 Lykke, Inc.</Footer>
+          <Footer>
+            <Copyright />
+          </Footer>
         </Layout>
       </Router>
     );
