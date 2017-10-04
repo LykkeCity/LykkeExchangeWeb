@@ -1,21 +1,23 @@
 import {Layout} from 'antd';
 import * as React from 'react';
+import {BrowserRouter as Router} from 'react-router-dom';
 import './App.css';
+import Copyright from './components/Copyright';
 
-const {Header, Content, Footer} = Layout
+const {Header, Content, Footer} = Layout;
 
 class App extends React.Component {
   render() {
     return (
-      <Layout className="app">
-        <Header className="app__header">
-          Lykke
-        </Header>
-        <Content className="app__shell">
-          Lykke Exchange web app
-        </Content>
-        <Footer>&copy; 2017 Lykke, Inc.</Footer>
-      </Layout>
+      <Router>
+        <Layout className="app">
+          <Header className="app__header">LykkeWallet</Header>
+          <Content className="app__shell">LykkeWallet</Content>
+          <Footer>
+            <Copyright />
+          </Footer>
+        </Layout>
+      </Router>
     );
   }
 }
