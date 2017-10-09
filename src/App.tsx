@@ -4,8 +4,9 @@ import * as React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Copyright from './components/Copyright';
+import Logo from './components/Logo';
 import {ROUTE_LOGIN, ROUTE_WALLET} from './constants/routes';
-import Login from './pages/Login';
+import Login from './pages/LoginPage';
 import {RootStore} from './stores';
 
 const {Header, Content, Footer} = Layout;
@@ -16,7 +17,9 @@ class App extends React.Component {
       <Provider rootStore={new RootStore()}>
         <Router>
           <Layout className="app">
-            <Header className="app__header">LykkeWallet</Header>
+            <Header className="app__header">
+              <Logo color="#fefefe" />
+            </Header>
             <Content className="app__shell">
               <Route exact={true} path={ROUTE_WALLET} component={Wallets} />
               <Route path={ROUTE_LOGIN} component={Login} />
