@@ -1,2 +1,2 @@
-export * from './LoginPage';
-export * from './WalletPage';
+export {default as LoginPage} from './LoginPage';
+export {default as WalletPage} from './WalletPage';

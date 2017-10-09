@@ -6,10 +6,14 @@ import './App.css';
 import Copyright from './components/Copyright';
 import Logo from './components/Logo';
 import {ROUTE_LOGIN, ROUTE_WALLET} from './constants/routes';
-import {LoginPage, WalletPage} from './pages/';
+import {LoginPage, WalletPage} from './pages';
 import {RootStore} from './stores';
 
 const {Header, Content, Footer} = Layout;
+
+export interface InjectedRootStoreProps {
+  rootStore?: RootStore;
+}
 
 class App extends React.Component {
   render() {

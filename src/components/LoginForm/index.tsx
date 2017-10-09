@@ -4,15 +4,12 @@ import Form from 'antd/lib/form/Form';
 import Input from 'antd/lib/input/Input';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Redirect} from 'react-router';
-import {ROUTE_WALLET} from '../../constants/routes';
+import {InjectedRootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {RootStore} from '../../stores';
 import './style.css';
 
-interface LoginFormProps {
+interface LoginFormProps extends InjectedRootStoreProps {
   form: any;
-  rootStore?: RootStore;
 }
 
 const FormItem = Form.Item;
@@ -32,9 +29,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    return this.authStore.isAuthenticated ? (
-      <Redirect to={ROUTE_WALLET} />
-    ) : (
+    return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
           {getFieldDecorator('email', {
