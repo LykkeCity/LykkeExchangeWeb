@@ -1,14 +1,8 @@
-@import '~antd/dist/antd.css';
-
+@import url(~antd/dist/antd.css);
 .app {
-  min-height: 100vh;
-}
-
-.app__header {
-  color: white;
-}
-
-.app__shell {
-  background: white;
-  padding: 50px;
-}
+  min-height: 100vh; }
+  .app .app__header {
+    color: white; }
+  .app .app__shell {
+    background: white;
+    padding: 50px; }
