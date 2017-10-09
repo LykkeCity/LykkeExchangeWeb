@@ -1,0 +1,88 @@
+.social__item {
+  text-decoration: none !important;
+  margin-right: 40px;
+  margin-right: 2.5rem;
+}
+
+.social__item:last-child {
+  margin-right: 0;
+}
+
+.social__item:hover {
+  color: #3f4d60;
+}
+
+.social--footer > li > a {
+  display: inline-block;
+  color: rgba(63, 77, 96, 0.8);
+  padding: 5px 0;
+  padding: 0.3125rem 0;
+}
+
+.social--footer > li > a:hover {
+  color: #3f4d60;
+}
+
+.social--header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  white-space: normal;
+  padding: 0 30px;
+  padding: 0 1.875rem;
+  bottom: 20px;
+  bottom: 1.25rem;
+}
+
+.social--simple > li > a {
+  display: inline-block;
+  color: rgba(63, 77, 96, 0.8);
+  padding: 5px 0;
+  padding: 0.3125rem 0;
+}
+
+.social--simple > li > a:hover {
+  color: #3f4d60;
+}
+
+.social--footer_alt,
+.social--header {
+  padding: 5px 0;
+  padding: 0.3125rem 0;
+}
+
+.social--footer_alt .icon,
+.social--header .icon {
+  margin-right: 0;
+}
+
+.social--footer_alt > li,
+.social--header > li {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 20px;
+  font-size: 1.25rem;
+  margin-left: 28px;
+  margin-left: 1.75rem;
+}
+
+.social--footer_alt > li:first-child,
+.social--header > li:first-child {
+  margin-left: 0;
+}
+
+.social--footer_alt > li > a,
+.social--header > li > a {
+  color: #3f4d60;
+  display: inline-block;
+  vertical-align: middle;
+  opacity: 0.6;
+  padding: 8px;
+  padding: 0.5rem;
+}
+
+.social--footer_alt > li > a:hover,
+.social--header > li > a:hover {
+  color: #3f4d60;
+  opacity: 1;
+}
