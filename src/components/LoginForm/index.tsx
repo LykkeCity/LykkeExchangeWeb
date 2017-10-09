@@ -5,6 +5,8 @@ import Input from 'antd/lib/input/Input';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect} from 'react-router';
+import {ROUTE_WALLET} from '../../constants/routes';
+import {STORE_ROOT} from '../../constants/stores';
 import {RootStore} from '../../stores';
 import './style.css';
 
@@ -31,7 +33,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
   render() {
     const {getFieldDecorator} = this.props.form;
     return this.authStore.isAuthenticated ? (
-      <Redirect to={'/wallets'} />
+      <Redirect to={ROUTE_WALLET} />
     ) : (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
@@ -68,6 +70,6 @@ export class LoginForm extends React.Component<LoginFormProps> {
 }
 
 const WrappedNormalLoginForm = Form.create()(
-  inject('rootStore')(observer(LoginForm))
+  inject(STORE_ROOT)(observer(LoginForm))
 );
 export default WrappedNormalLoginForm;

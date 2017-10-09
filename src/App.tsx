@@ -4,6 +4,7 @@ import * as React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Copyright from './components/Copyright';
+import {ROUTE_LOGIN, ROUTE_WALLET} from './constants/routes';
 import Login from './pages/Login';
 import {RootStore} from './stores';
 
@@ -17,8 +18,8 @@ class App extends React.Component {
           <Layout className="app">
             <Header className="app__header">LykkeWallet</Header>
             <Content className="app__shell">
-              <Route exact={true} path="/wallets" component={Wallets} />
-              <Route path="/login" component={Login} />
+              <Route exact={true} path={ROUTE_WALLET} component={Wallets} />
+              <Route path={ROUTE_LOGIN} component={Login} />
             </Content>
             <Footer>
               <Copyright />
