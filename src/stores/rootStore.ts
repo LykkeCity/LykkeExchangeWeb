@@ -1,6 +1,12 @@
+import {AuthApi} from '../api';
+import {AuthStore} from './index';
+
 export class RootStore {
-  // tslint:disable-next-line:no-empty
-  constructor() {}
+  readonly authStore: AuthStore;
+
+  constructor() {
+    this.authStore = new AuthStore(this, new AuthApi());
+  }
 }
 
 export default RootStore;
