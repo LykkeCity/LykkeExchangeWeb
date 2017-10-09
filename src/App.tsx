@@ -6,7 +6,7 @@ import './App.css';
 import Copyright from './components/Copyright';
 import Logo from './components/Logo';
 import {ROUTE_LOGIN, ROUTE_WALLET} from './constants/routes';
-import Login from './pages/LoginPage';
+import {LoginPage, WalletPage} from './pages/';
 import {RootStore} from './stores';
 
 const {Header, Content, Footer} = Layout;
@@ -21,8 +21,8 @@ class App extends React.Component {
               <Logo color="#fefefe" />
             </Header>
             <Content className="app__shell">
-              <Route exact={true} path={ROUTE_WALLET} component={Wallets} />
-              <Route path={ROUTE_LOGIN} component={Login} />
+              <Route exact={true} path={ROUTE_WALLET} component={WalletPage} />
+              <Route path={ROUTE_LOGIN} component={LoginPage} />
             </Content>
             <Footer>
               <Copyright />
@@ -35,5 +35,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-const Wallets = () => <div>Wallets</div>;
