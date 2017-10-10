@@ -1,4 +1,4 @@
-import {observable, reaction, action} from 'mobx';
+import {action, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
 import {Credentials} from '../models/structs';
