@@ -6,7 +6,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {InjectedRootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {authUtils} from '../../utils';
+import {AuthUtils} from '../../utils';
 import './style.css';
 
 interface LoginFormProps extends InjectedRootStoreProps {
@@ -20,7 +20,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
 
   handleSubmit = (e: any) => {
     e.preventDefault();
-    location.replace(authUtils.buildConnectUrl());
+    location.replace(AuthUtils.buildConnectUrl());
   };
 
   render() {

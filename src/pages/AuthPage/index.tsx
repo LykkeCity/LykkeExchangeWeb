@@ -4,26 +4,24 @@ import {Redirect} from 'react-router-dom';
 import {InjectedRootStoreProps} from '../../App';
 import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {authUtils} from '../../utils';
+import {AuthUtils} from '../../utils';
 
 export class AuthPage extends React.Component<InjectedRootStoreProps> {
   private readonly authStore = this.props.rootStore!.authStore;
 
   componentWillMount() {
     const code = new URL(location.href).searchParams.get('code');
-    authUtils.getToken(code!).then((resp: any) => {
+    (async () => {
+      const resp = await AuthUtils.getToken(code!);
       const token = resp.access_token;
       if (!!token) {
-        this.authStore.isAuthenticated = true;
-        this.props.rootStore!.tokenStore.set(token);
+        this.authStore.setToken(token);
       }
-    });
+    })();
   }
 
   render() {
-    return this.authStore.isAuthenticated ? (
-      <Redirect to={ROUTE_WALLET} />
-    ) : null;
+    return this.authStore.token ? <Redirect to={ROUTE_WALLET} /> : null;
   }
 }
 

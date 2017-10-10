@@ -7,8 +7,8 @@ export const buildConnectUrl = () => {
   return `${AUTH_URL}/signin?returnurl=${returnUrl}`;
 };
 
-export const getToken = (code: string) =>
-  fetch(`${AUTH_URL}${authUrls.token}`, {
+export const getToken = async (code: string) =>
+  await fetch(`${AUTH_URL}${authUrls.token}`, {
     body: `code=${code}&client_id=${app.clientId}&client_secret=${app.secret}&grant_type=authorization_code&redirect_uri=${app.redirectUrl}`,
     headers: {
       'Content-type': 'application/x-www-form-urlencoded'
