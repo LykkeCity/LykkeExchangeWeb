@@ -10,11 +10,13 @@ import './App.css';
 import Copyright from './components/Copyright';
 import Logo from './components/Logo';
 import Social from './components/Social';
-import {ROUTE_LOGIN, ROUTE_WALLET} from './constants/routes';
+import {ROUTE_AUTH, ROUTE_LOGIN, ROUTE_WALLET} from './constants/routes';
 import {LoginPage, WalletPage} from './pages';
+import AuthPage from './pages/AuthPage';
 import {RootStore} from './stores';
 
 const {Header, Content, Footer} = Layout;
+const rootStore = new RootStore();
 
 export interface InjectedRootStoreProps {
   rootStore?: RootStore;
@@ -23,7 +25,7 @@ export interface InjectedRootStoreProps {
 class App extends React.Component {
   render() {
     return (
-      <Provider rootStore={new RootStore()}>
+      <Provider rootStore={rootStore}>
         <Router>
           <Layout className="app">
             <Header className="app__header">
@@ -46,7 +48,8 @@ class App extends React.Component {
                 <Menu.Item>My Lykke</Menu.Item>
               </Menu>
               <Route exact={true} path={ROUTE_WALLET} component={WalletPage} />
-              <Route path={ROUTE_LOGIN} component={LoginPage} />
+              <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
+              <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
             </Content>
             <Footer>
               <Row>
