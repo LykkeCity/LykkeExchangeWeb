@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "antd": "^2.13.3",
+    "classnames": "^2.2.5",
     "mobx": "^3.3.0",
     "mobx-react": "^4.3.2",
     "react": "^16.0.0",
@@ -22,6 +23,7 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "@types/classnames": "^2.2.3",
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
     "@types/react": "^16.0.7",
