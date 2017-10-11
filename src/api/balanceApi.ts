@@ -11,6 +11,8 @@ export class RestBalanceApi extends RestApi implements BalanceApi {
     this.wretch
       .url('/client/balances')
       .get()
+      // tslint:disable-next-line:no-console
+      .unauthorized((err: any) => console.error(err))
       .json();
 
   fetchById = (assetId: string) =>

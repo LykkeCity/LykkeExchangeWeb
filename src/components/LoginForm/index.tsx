@@ -20,7 +20,7 @@ export class LoginForm extends React.Component<LoginFormProps> {
 
   handleSubmit = (e: any) => {
     e.preventDefault();
-    location.replace(AuthUtils.buildConnectUrl());
+    location.replace(AuthUtils.getConnectUrl());
   };
 
   render() {

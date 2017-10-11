@@ -6,8 +6,10 @@ export class RestApi {
   protected readonly token = TokenUtils.get();
 
   protected readonly wretch = wretch(this.baseUrl)
-    .headers({Authorization: `Bearer ${this.token}`})
-    .options({mode: 'cors'});
+    .headers({
+      Authorization: `Bearer ${this.token}`
+    })
+    .options({mode: 'no-cors'});
 }
 
 export default RestApi;
