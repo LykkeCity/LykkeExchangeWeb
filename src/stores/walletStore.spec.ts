@@ -14,7 +14,7 @@ describe('wallet store', () => {
   it('should expose strongly typed list of wallets', () => {
     const {wallets} = walletStore;
     expect(wallets).toBeDefined();
-    wallets.push(new WalletModel({name: 'wallet'}));
-    expect(wallets[0]).toHaveProperty('name');
+    wallets.push(new WalletModel({title: 'wallet'}));
+    expect(wallets[0]).toHaveProperty('title');
   });
 });
