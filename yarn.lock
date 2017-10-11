@@ -6623,6 +6623,10 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
 
+wretch@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/wretch/-/wretch-0.3.1.tgz#0ea657275fd7e5d98c4adb08596220b003da636f"
+
 write-file-atomic@^1.1.2:
   version "1.3.4"
   resolved "https://registry.yarnpkg.com/write-file-atomic/-/write-file-atomic-1.3.4.tgz#f807a4f0b1d9e913ae7a48112e6cc3af1991b45f"
