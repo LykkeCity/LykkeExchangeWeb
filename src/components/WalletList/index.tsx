@@ -15,7 +15,10 @@ export const WalletList = ({rootStore}: {rootStore?: RootStore}) => (
         <Col span={10} offset={2}>
           <h2 className="wallet__title">
             {w.title}
-            <Icon type="down" />
+            <Icon
+              type={w.collapsed ? 'up' : 'down'}
+              onClick={w.toggleCollapse}
+            />
           </h2>
           <div className="wallet__desc">{w.desc}</div>
         </Col>
