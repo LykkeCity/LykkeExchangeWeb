@@ -9,9 +9,9 @@ import {RootStore} from '../../stores/index';
 import './style.css';
 
 export const WalletList = ({rootStore}: {rootStore?: RootStore}) => (
-  <div className="wallet-list">
+  <div className="wallet__list">
     {rootStore!.walletStore.wallets.map(w => (
-      <Row className="wallet">
+      <Row key={w.id} className="wallet">
         <Col span={10} offset={2}>
           <h2 className="wallet__title">
             {w.title}
