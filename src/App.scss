@@ -1,14 +1,12 @@
-@import '~antd/dist/antd.css';
+@import 'styles/vendor/bootstrap-custom.min';
+@import 'styles/components/fonts';
+@import 'styles/components/icons';
+@import 'styles/utils';
 
-.app {
-  min-height: 100vh;
-
-  .app__header {
-    color: white;
-  }
-
-  .app__shell {
-    background: white;
-    padding: 0 50px;
-  }
-}
+@import '../node_modules/LykkeFramework/assets/scss/common/general';
+@import '../node_modules/LykkeFramework/assets/scss/common/typo';
+@import '../node_modules/LykkeFramework/assets/scss/common/helpers';
+@import '../node_modules/LykkeFramework/assets/scss/partials/form';
+@import '../node_modules/LykkeFramework/assets/scss/partials/btn';
+@import '../node_modules/LykkeFramework/assets/scss/partials/social';
+@import '../node_modules/LykkeFramework/assets/scss/responsive';

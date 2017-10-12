@@ -1,11 +1,19 @@
+import * as classnames from 'classnames';
 import * as React from 'react';
+
 import './style.css';
 
-export default () => (
-  <ul className="social social--footer_alt">
+const SOCIAL_CLASS_NAME = 'social';
+
+export default ({theme}: any) => (
+  <ul
+    className={classnames(SOCIAL_CLASS_NAME, {
+      [SOCIAL_CLASS_NAME + '--' + theme]: theme
+    })}
+  >
     <li>
       <a
-        href="https://www.facebook.com/groups/542506412568917/"
+        href="https://www.facebook.com/LykkeCity"
         target="_blank"
         className="social__item"
       >
@@ -32,7 +40,7 @@ export default () => (
     </li>
     <li>
       <a
-        href="https://www.youtube.com/channel/UCmMYipGdKMF0kzfaE-PXsNQ"
+        href="https://www.youtube.com/c/LykkeX"
         target="_blank"
         className="social__item"
       >
@@ -41,7 +49,7 @@ export default () => (
     </li>
     <li>
       <a
-        href="https://www.linkedin.com/company/lykke-ag"
+        href="https://www.linkedin.com/company/lykke"
         target="_blank"
         className="social__item"
       >
@@ -68,7 +76,7 @@ export default () => (
     </li>
     <li>
       <a
-        href="https://lykkecommunity.slack.com"
+        href="http://lykkecommunity.herokuapp.com"
         target="_blank"
         className="social__item"
       >
