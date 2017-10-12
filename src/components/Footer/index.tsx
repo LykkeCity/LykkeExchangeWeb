@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import Social from '../Social';
 import Apps from '../Apps';
-import Copyright from '../Copyright';
 import Subscribe from '../Blocks/Subscribe';
+import Copyright from '../Copyright';
+import Social from '../Social';
 import Nav from './nav';
 import './style.css';
 
@@ -11,7 +11,7 @@ export default () => (
   <footer className="footer">
     <div className="footer__top">
       <div className="container">
-        <div className="separator"></div>
+        <div className="separator" />
 
         <div className="row">
           <div className="col-md-5">
@@ -29,7 +29,7 @@ export default () => (
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-7 pull-right">
-            <Social theme="footer"/>
+            <Social theme="footer" />
           </div>
           <div className="col-xs-12 col-sm-5">
             <ul className="footer_links">
@@ -37,13 +37,17 @@ export default () => (
                 <Copyright />
               </li>
               <li className="middot">&middot;</li>
-              <li><a href="">Privacy Policy</a></li>
+              <li>
+                <a href="">Privacy Policy</a>
+              </li>
               <li className="middot">&middot;</li>
-              <li><a href="">Terms of Use</a></li>
+              <li>
+                <a href="">Terms of Use</a>
+              </li>
             </ul>
           </div>
         </div>
       </div>
     </div>
   </footer>
-)
+);
