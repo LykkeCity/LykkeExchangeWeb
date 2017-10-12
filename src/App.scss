@@ -1,4 +1,4 @@
-@import 'styles/vendor/bootstrap-custom.min.css';
+@import 'styles/vendor/bootstrap-custom.min';
 @import 'styles/components/fonts';
 @import 'styles/components/icons';
 @import 'styles/utils';
@@ -10,16 +10,3 @@
 @import '../node_modules/LykkeFramework/assets/scss/partials/btn';
 @import '../node_modules/LykkeFramework/assets/scss/partials/social';
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
-
-.app {
-  min-height: 100vh;
-
-  .app__header {
-    color: white;
-  }
-
-  .app__shell {
-    background: white;
-    padding: 0 50px;
-  }
-}
