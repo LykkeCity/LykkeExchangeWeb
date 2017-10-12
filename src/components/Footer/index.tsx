@@ -8,7 +8,7 @@ import Nav from './nav';
 import './style.css';
 
 export default () => (
-  <footer className="footer">
+  <footer className="footer ant-row">
     <div className="footer__top">
       <div className="container">
         <div className="separator" />

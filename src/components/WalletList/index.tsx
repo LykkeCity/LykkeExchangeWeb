@@ -1,6 +1,7 @@
 import {Icon} from 'antd';
 import Col from 'antd/lib/grid/col';
 import Row from 'antd/lib/grid/row';
+import 'antd/lib/grid/style/css';
 import * as classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
