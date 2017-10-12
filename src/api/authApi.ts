@@ -1,15 +1,24 @@
-import {UserModel} from '../models';
 import {Credentials} from '../models/structs';
+import {RestApi} from './index';
 import {ApiResponse} from './types';
 
 export interface AuthApi {
-  signIn: (credentials: Credentials) => ApiResponse<UserModel>;
+  getToken: (credentials: Credentials) => ApiResponse<any>;
 }
 
-export class RestAuthApi implements AuthApi {
-  constructor(private fetch?: any) {}
-
-  signIn = (credentials: Credentials) => this.fetch.post('signin');
+export class RestAuthApi extends RestApi implements AuthApi {
+  getToken = (credentials: Credentials) =>
+    this.baseWretch
+      .url('/client/auth')
+      .content('application/json-patch+json')
+      .json({
+        ClientInfo: '',
+        Email: credentials.email,
+        PartnerId: '',
+        Password: credentials.password
+      })
+      .post()
+      .json();
 }
 
 export default RestAuthApi;

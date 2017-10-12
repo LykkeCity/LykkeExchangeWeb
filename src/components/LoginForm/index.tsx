@@ -6,7 +6,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {InjectedRootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {AuthUtils} from '../../utils';
+// import {AuthUtils} from '../../utils';
 import './style.css';
 
 interface LoginFormProps extends InjectedRootStoreProps {
@@ -18,9 +18,17 @@ const FormItem = Form.Item;
 export class LoginForm extends React.Component<LoginFormProps> {
   readonly authStore = this.props.rootStore!.authStore;
 
-  handleSubmit = (e: any) => {
+  handleSubmit = async (e: any) => {
     e.preventDefault();
-    location.replace(AuthUtils.getConnectUrl());
+    this.props.form.validateFields(async (err: any, values: any) => {
+      if (!err) {
+        const resp = await this.authStore.getToken({
+          ...values
+        });
+        this.authStore.setToken(resp.AccessToken);
+      }
+    });
+    // location.replace(AuthUtils.getConnectUrl());
   };
 
   render() {

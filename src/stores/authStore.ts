@@ -25,8 +25,8 @@ export class AuthStore {
 
   @action setToken = (token: string) => (this.token = token);
 
-  signIn = async (credentials: Credentials) => {
-    const resp = await this.api!.signIn(credentials);
+  getToken = async (credentials: Credentials) => {
+    const resp = await this.api!.getToken(credentials);
     return resp;
   };
 }

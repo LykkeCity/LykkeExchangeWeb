@@ -4,4 +4,5 @@ export {AuthUtils};
 import * as TokenUtils from './tokenUtils';
 export {TokenUtils};
 
-export const nextId = () => Math.round(Math.random() * 10);
+let idx = 0;
+export const nextId = () => idx++;

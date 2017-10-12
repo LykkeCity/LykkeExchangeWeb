@@ -8,7 +8,7 @@ export interface BalanceApi {
 
 export class RestBalanceApi extends RestApi implements BalanceApi {
   fetchAll = () =>
-    this.wretch
+    this.bearerWretch
       .url('/client/balances')
       .get()
       // tslint:disable-next-line:no-console
@@ -16,7 +16,7 @@ export class RestBalanceApi extends RestApi implements BalanceApi {
       .json();
 
   fetchById = (assetId: string) =>
-    this.wretch
+    this.bearerWretch
       .url('/client/balances/${assetId}')
       .get()
       .json();

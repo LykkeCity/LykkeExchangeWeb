@@ -1,6 +1,5 @@
 import {AuthStore, RootStore} from '.';
 import {MockAuthApi} from '../api/mocks/authApi';
-import {UserModel} from '../models';
 
 const root = new RootStore();
 const authStore = new AuthStore(root, new MockAuthApi());
@@ -12,17 +11,7 @@ describe('auth store', () => {
     expect(authStore.rootStore).toBeInstanceOf(RootStore);
   });
 
-  it('should provide sign in method', () => {
-    expect(authStore.signIn).toBeDefined();
-  });
-
-  test('sign in should return user or null', () => {
-    const sut = jest.fn(authStore.signIn);
-    const result = sut.call({
-      email: 'foo@bar.com',
-      password: 'bar'
-    });
-
-    expect(result).resolves.toBeInstanceOf(UserModel);
+  it('should provide get token method', () => {
+    expect(authStore.getToken).toBeDefined();
   });
 });
