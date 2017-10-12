@@ -1,3 +1,3 @@
 import * as React from 'react';
 
-export default () => <div>&copy; 2016 Lykke. All rights reserved</div>;
+export default () => <span className="copy">&copy; 2017 Lykke, Inc.</span>;

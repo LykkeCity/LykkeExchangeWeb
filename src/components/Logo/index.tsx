@@ -1,9 +1,9 @@
-import {Icon} from 'antd';
 import * as React from 'react';
 
 export default ({color}: any) => (
-  <h2 style={{fontSize: 18, color, marginBottom: '10px'}}>
-    <Icon type="wallet" />&nbsp;
-    <strong>Lykke</strong>Wallet
-  </h2>
+  <div className="header__logo header_logo">
+    <a href="/">
+      <img className="header_logo__img" src="images/lykke_new.svg" height="36" alt="lykke_logo"/>
+    </a>
+  </div>
 );
