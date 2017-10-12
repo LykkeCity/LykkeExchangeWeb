@@ -13,7 +13,7 @@ export const WalletList = ({rootStore}: {rootStore?: RootStore}) => (
   <div className="wallet__list">
     {rootStore!.walletStore.wallets.map(w => (
       <Row key={w.id} className="wallet">
-        <Col span={10} offset={2}>
+        <Col span={9} offset={3}>
           <h2 className="wallet__title">
             {w.title}
             <Icon
@@ -23,7 +23,7 @@ export const WalletList = ({rootStore}: {rootStore?: RootStore}) => (
           </h2>
           <div className="wallet__desc">{w.desc}</div>
         </Col>
-        <Col span={10} offset={2}>
+        <Col span={9} offset={3}>
           <div className="wallet__total-balance">Total balance</div>
           <h3 className="wallet__total-balance-value">{w.figures.total} LKK</h3>
           <div>

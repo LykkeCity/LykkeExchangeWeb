@@ -3,20 +3,28 @@ import {nextId} from '../utils/index';
 
 export class WalletModel {
   id: string;
-  title: string;
-  desc: string;
+  @observable title: string;
+  @observable desc: string;
+
+  @observable
   figures: {
     total: number;
     sent: number;
     received: number;
     pnl: number;
+  } = {
+    pnl: 0,
+    received: 0,
+    sent: 0,
+    total: 0
   };
 
   @observable collapsed: boolean;
 
   constructor(json?: any) {
-    Object.assign(this, json);
-    this.id = json.id || nextId();
+    this.id = json.Id || nextId();
+    this.title = json.Name || 'Untitled';
+    this.desc = json.Type;
   }
 
   toggleCollapse = () => (this.collapsed = !this.collapsed);
