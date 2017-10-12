@@ -8,7 +8,6 @@ import {STORE_ROOT} from '../../constants/stores';
 
 export class WalletPage extends React.Component<InjectedRootStoreProps> {
   private readonly authStore = this.props.rootStore!.authStore;
-  // private readonly balanceStore = this.props.rootStore!.balanceStore;
 
   render() {
     return !this.authStore.token ? ( // FIXME: refactor to ProtectedRoute HOC
