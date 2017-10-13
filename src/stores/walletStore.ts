@@ -15,18 +15,18 @@ export class WalletStore {
 
   fetchAll = async () => {
     const resp = await this.api!.fetchAll();
+    const balances = await this.rootStore.balanceStore.fetchAll();
     runInAction(() => {
       this.wallets = resp.map((x: any) => new WalletModel(x));
-      this.wallets.forEach(async x => {
-        await this.api!.fetchBalanceById(x.id).res(res => {
-          if (res.status === 204) {
-            x.setBalances([]);
-          } else if (res.status === 200) {
-            res.json().then((dto: any) => {
-              x.setBalances(dto);
-            });
-          }
-        });
+      balances.forEach((dto: any) => {
+        const wallet = this.wallets.find(w => w.id === dto.Id);
+        if (!!wallet) {
+          wallet.setBalances(dto.Balances);
+        } else {
+          const tradingWallet = new WalletModel(dto);
+          tradingWallet.setBalances(dto.Balances);
+          this.wallets.push(tradingWallet);
+        }
       });
       this.loading = false;
     });

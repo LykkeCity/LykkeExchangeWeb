@@ -11,12 +11,7 @@ export class BalanceStore {
     this.rootStore = rootStore;
   }
 
-  fetchAll = async () => {
-    const balances = await this.api!.fetchAll();
-    runInAction(() => {
-      this.balances = balances as any[];
-    });
-  };
+  fetchAll = async () => await this.api!.fetchAll();
 
   fetchById = async (assetId: string) => {
     const balance = await this.api!.fetchById(assetId);
