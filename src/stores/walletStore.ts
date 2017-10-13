@@ -7,6 +7,7 @@ export class WalletStore {
   readonly rootStore: RootStore;
 
   @observable wallets: WalletModel[] = [];
+  @observable loading: boolean = true;
 
   constructor(rootStore: RootStore, private api?: WalletApi) {
     this.rootStore = rootStore;
@@ -17,17 +18,17 @@ export class WalletStore {
     runInAction(() => {
       this.wallets = resp.map((x: any) => new WalletModel(x));
       this.wallets.forEach(async x => {
-        let balance = 0;
         await this.api!.fetchBalanceById(x.id).res(res => {
           if (res.status === 204) {
-            balance = 0;
+            x.setBalances([]);
           } else if (res.status === 200) {
             res.json().then((dto: any) => {
-              x.figures.total = dto[0].Balance;
+              x.setBalances(dto);
             });
           }
         });
       });
+      this.loading = false;
     });
   };
 }

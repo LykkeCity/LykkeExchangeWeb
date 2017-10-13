@@ -2,8 +2,8 @@
   text-align: left;
 
   .wallet {
-    border-bottom: solid 1px #ebedef;
     margin-top: 50px;
+    padding: 30px;
 
     .wallet__title {
       font-size: 40px;
@@ -61,6 +61,32 @@
 
     .wallet__figure-val--pl {
       color: #13b72a;
+    }
+
+    .wallet__balances {
+      margin-top: 20px;
+      table {
+        border-collapse: collapse;
+        font-size: 16px;
+        margin-top: 10px;
+        width: 100%;
+
+        tr {
+          border-bottom: solid 1px #ebedef;
+        }
+
+        th,
+        td {
+          text-align: left;
+          padding: 10px;
+          &:first-child {
+            width: 70%;
+          }
+          &:last-child {
+            text-align: right;
+          }
+        }
+      }
     }
   }
 }

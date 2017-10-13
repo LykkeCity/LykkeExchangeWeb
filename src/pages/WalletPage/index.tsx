@@ -18,7 +18,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
     return !this.authStore.token ? ( // FIXME: refactor to ProtectedRoute HOC
       <Redirect to={ROUTE_LOGIN} />
     ) : (
-      <WalletList />
+      <WalletList loading={this.walletStore.loading} />
     );
   }
 }
