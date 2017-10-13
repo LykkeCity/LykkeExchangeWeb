@@ -19,7 +19,7 @@ export const WalletList: React.SFC<InjectedRootStoreProps & LoadableProps> = ({
       <div key={w.id} className={classnames('wallet')}>
         <WalletSummary wallet={w} />
         <Row>
-          <Col span={19} offset={3}>
+          <Col span={18} offset={2}>
             {w.expanded && <WalletBalanceList wallet={w} />}
           </Col>
         </Row>
