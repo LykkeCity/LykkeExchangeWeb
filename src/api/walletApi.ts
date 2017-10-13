@@ -7,13 +7,15 @@ export interface WalletApi {
 
 export class RestWalletApi extends RestApi implements WalletApi {
   fetchAll = () =>
-    this.bearerWretch
+    this.bearerWretch()
       .url('/client/wallets/')
       .get()
       .json<any[]>();
 
   fetchBalanceById = (id: string) =>
-    this.bearerWretch.url(`/client/wallet/${id}/balances`).get();
+    this.bearerWretch()
+      .url(`/client/wallet/${id}/balances`)
+      .get();
 }
 
 export default RestWalletApi;
