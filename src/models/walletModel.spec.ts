@@ -11,7 +11,7 @@ describe('wallet model', () => {
   });
 
   it('should pick an id from dto object if provided', () => {
-    const w = new WalletModel({id: 42, name: 'wl'});
+    const w = new WalletModel({Id: 42, Name: 'wl'});
     expect(w.id).toBe(42);
   });
 });
