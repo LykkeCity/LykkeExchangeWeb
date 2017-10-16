@@ -9,13 +9,13 @@ export interface BalanceApi {
 export class RestBalanceApi extends RestApi implements BalanceApi {
   fetchAll = () =>
     this.bearerWretch()
-      .url('/client/balances')
+      .url('/wallets/balances')
       .get()
       .json();
 
   fetchById = (assetId: string) =>
     this.bearerWretch()
-      .url('/client/balances/${assetId}')
+      .url('/wallets/balances/${assetId}')
       .get()
       .json();
 }

@@ -42,7 +42,7 @@ export class WalletStore {
   convertToBaseCurrency = (convertable: {
     toAssetId: string;
     fromAssetId: string;
-    volume: number;
+    amount: number;
     direction: 'Sell' | 'Buy';
   }) => this.api!.convertToBaseCurrency(convertable);
 }

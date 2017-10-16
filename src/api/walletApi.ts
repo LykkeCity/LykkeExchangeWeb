@@ -8,25 +8,25 @@ export interface WalletApi {
 export class RestWalletApi extends RestApi implements WalletApi {
   fetchAll = () =>
     this.bearerWretch()
-      .url('/client/wallets/')
+      .url('/wallets/')
       .get()
       .json<any[]>();
 
   fetchBalanceById = (id: string) =>
     this.bearerWretch()
-      .url(`/client/wallet/${id}/balances`)
+      .url(`/wallet/${id}/balances`)
       .get();
 
   create = (name: string, type: string) =>
     this.bearerWretch()
-      .url('/client/wallet')
+      .url('/wallets')
       .json({Name: name, Type: type})
       .post()
       .json();
 
   createApiWallet = (name: string) =>
     this.bearerWretch()
-      .url('/hft/key')
+      .url('/wallets/hft')
       .json({Name: name})
       .post()
       .json();
@@ -34,7 +34,16 @@ export class RestWalletApi extends RestApi implements WalletApi {
   convertToBaseCurrency = (convertable: any) =>
     this.baseWretch
       .url('/Market/converter')
-      .json(convertable)
+      .json({
+        AssetsFrom: [
+          {
+            Amount: convertable.amount,
+            AssetId: convertable.fromAssetId
+          }
+        ],
+        BaseAssetId: convertable.toAssetId,
+        OrderAction: convertable.direction
+      })
       .post()
       .json();
 }

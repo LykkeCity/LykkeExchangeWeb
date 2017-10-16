@@ -25,31 +25,29 @@ export class WalletModel {
   };
 
   @observable collapsed: boolean = true;
+
   @computed
   get expanded() {
     return !this.collapsed;
   }
 
+  @observable baseCurrency = 'LKK';
+
   @computed
   get totalBalance() {
     const total = new BalanceModel();
-    total.assetId = 'LKK'; // TODO: get from the base asset
     total.balance = this.balances.reduce(
       (prev, curr) => (total.balance += curr.balance),
       0
     );
-
-    this.store!
-      .convertToBaseCurrency({
-        toAssetId: total.assetId,
-        // tslint:disable-next-line:object-literal-sort-keys
-        fromAssetId: this.balances[0].assetId,
-        volume: total.balance,
-        direction: 'Buy'
-      })
-      .then((resp: any) => (total.balance = resp.Result.Converted.To.Amount));
     return total;
   }
+  @observable
+  totalBalanceInBaseCurrency: BalanceModel = {
+    assetId: this.baseCurrency,
+    balance: 0,
+    baseCurrency: this.baseCurrency
+  };
 
   @observable balances: BalanceModel[] = [];
 
@@ -61,8 +59,22 @@ export class WalletModel {
   }
 
   @action
-  setBalances = (dto: any[]) =>
-    (this.balances = dto.map(x => new BalanceModel(x)));
+  setBalances = (dto: any[]) => {
+    this.balances = dto.map(x => new BalanceModel(x));
+    this.balances.forEach(balance =>
+      this.store!
+        .convertToBaseCurrency({
+          amount: balance.balance,
+          direction: 'Buy',
+          fromAssetId: balance.assetId,
+          toAssetId: this.baseCurrency
+        })
+        .then((resp: any) => {
+          this.totalBalanceInBaseCurrency.balance =
+            resp.Result.Converted[0].To.Amount;
+        })
+    );
+  };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
 }

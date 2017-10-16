@@ -13,7 +13,7 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
   <div>
     <div className="wallet__total-balance">Total balance</div>
     <h3 className="wallet__total-balance-value">
-      {wallet.totalBalance.balance} {wallet.totalBalance.assetId}
+      {wallet.totalBalanceInBaseCurrency.balance} {wallet.baseCurrency}
     </h3>
     <div>
       <span className="wallet__figure">Received:</span>{' '}
