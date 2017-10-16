@@ -24,6 +24,16 @@ export class AuthStore {
     );
   }
 
+  auth = async (code: string) => {
+    const bearerToken = await this.getBearerToken(code);
+    localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
+
+    const sessionToken = await this.getSessionToken();
+    // tslint:disable-next-line:no-console
+    console.log(sessionToken);
+    this.setToken(sessionToken.token);
+  };
+
   @action setToken = (token: string) => (this.token = token);
 
   getAuthToken = async (credentials: Credentials) => {
@@ -32,31 +42,21 @@ export class AuthStore {
     return token;
   };
 
-  getSessionToken = async () => {
-    const resp = await this.api!.getSessionToken(AuthUtils.app.client_id);
-    // tslint:disable-next-line:no-console
-    console.log(resp);
-    this.setToken(resp.token);
-  };
+  getSessionToken = () => this.api!.getSessionToken(AuthUtils.app.client_id);
 
-  getBearerToken = async (code: string) => {
-    const resp = await this.api!.getBearerToken(
-      AuthUtils.app,
-      code,
-      AuthUtils.connectUrls.token
-    );
-    localStorage.setItem('lww-oauth', JSON.stringify(resp));
-  };
+  getBearerToken = (code: string) =>
+    this.api!.getBearerToken(AuthUtils.app, code, AuthUtils.connectUrls.token);
 
   getConnectUrl = () => {
     const {client_id, redirect_uri} = AuthUtils.app;
-    const connectPath = `${AuthUtils.connectUrls.auth}?${queryStringFromObject({
+    const authorizePath = `${AuthUtils.connectUrls
+      .auth}?${queryStringFromObject({
       client_id,
       redirect_uri,
       response_type: 'code',
       scope: AUTH_SCOPE
     })}`;
 
-    return `${process.env.REACT_APP_API_URL}${connectPath}`;
+    return `${process.env.REACT_APP_AUTH_URL}${authorizePath}`;
   };
 }
