@@ -1,7 +1,4 @@
-import {BalanceModel, WalletModel} from '.';
-import {WalletApi} from '../api/index';
-import {RestWalletApi} from '../api/walletApi';
-import {RootStore, WalletStore} from '../stores/index';
+import {WalletModel} from '.';
 
 const wallet = new WalletModel({
   name: 'w1'
