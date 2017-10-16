@@ -1,11 +1,14 @@
 import Button from 'antd/lib/button/button';
-import Modal from 'antd/lib/modal/Modal';
+import Form, {FormComponentProps} from 'antd/lib/form/Form';
+import FormItem from 'antd/lib/form/FormItem';
+import Input from 'antd/lib/input/Input';
 import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect} from 'react-router';
 import {InjectedRootStoreProps} from '../../App';
+import Drawer from '../../components/Drawer/index';
 import WalletList from '../../components/WalletList';
 import {ROUTE_LOGIN} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -36,43 +39,48 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
           Create new wallet
         </Button>
         <WalletList loading={this.walletStore.loading} />
-        <Modal
-          title="Create new wallet"
+        <Drawer
+          title="New API Wallet"
           visible={this.showCreateWalletWindow}
-          okText="Ok"
-          cancelText="Cancel"
+          onOk={this.handleCreateWallet(this.walletName)}
           // tslint:disable-next-line:jsx-no-lambda
-          onOk={async () => {
-            const wallet = await this.walletStore.createApiWallet(
-              this.walletName
-            );
-            this.walletApiKey = wallet.apiKey;
-          }}
-          // tslint:disable-next-line:jsx-no-lambda
-          onCancel={() => (this.showCreateWalletWindow = false)}
+          onClose={() => (this.showCreateWalletWindow = false)}
+          cancelText="Cancel and close"
+          okText="Generate API Key"
         >
-          <div>
-            <input
-              type="text"
-              placeholder="Place a name for your wallet"
-              // tslint:disable-next-line:jsx-no-lambda
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                this.walletName = e.currentTarget.value;
-              }}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              name="apikey"
-              id="apikey"
-              value={this.walletApiKey}
-            />
-          </div>
-        </Modal>
+          <h2>New Wallet</h2>
+          <h3>API Wallet</h3>
+          <h4>Name of wallet</h4>
+          <WalletFormWrapper />
+        </Drawer>
       </div>
     );
   }
+
+  private readonly handleCreateWallet = (name: string) => async () => {
+    const wallet = await this.walletStore.createApiWallet(this.walletName);
+    this.walletApiKey = wallet.apiKey;
+  };
 }
+
+const WalletForm = (props: FormComponentProps) => {
+  const {getFieldDecorator} = props.form;
+  return (
+    <Form layout="vertical">
+      <FormItem label="Name of wallet">
+        {getFieldDecorator('name', {
+          rules: [
+            {
+              message: 'Please input the title of collection!',
+              required: true
+            }
+          ]
+        })(<Input />)}
+      </FormItem>
+    </Form>
+  );
+};
+
+const WalletFormWrapper = Form.create()(WalletForm as any);
 
 export default inject(STORE_ROOT)(observer(WalletPage));

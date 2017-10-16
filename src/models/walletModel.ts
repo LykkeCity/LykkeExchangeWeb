@@ -1,4 +1,4 @@
-import {action, computed, observable} from 'mobx';
+import {action, computed, observable, runInAction} from 'mobx';
 import {BalanceModel} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
@@ -61,19 +61,19 @@ export class WalletModel {
   @action
   setBalances = (dto: any[]) => {
     this.balances = dto.map(x => new BalanceModel(x));
-    this.balances.forEach(balance =>
-      this.store!
-        .convertToBaseCurrency({
-          amount: balance.balance,
-          direction: 'Buy',
-          fromAssetId: balance.assetId,
-          toAssetId: this.baseCurrency
-        })
-        .then((resp: any) => {
-          this.totalBalanceInBaseCurrency.balance =
-            resp.Result.Converted[0].To.Amount;
-        })
-    );
+    this.balances.forEach(async balance => {
+      const resp = await this.store!.convertToBaseCurrency({
+        amount: balance.balance,
+        direction: 'Buy',
+        fromAssetId: balance.assetId,
+        toAssetId: this.baseCurrency
+      });
+      runInAction(
+        () =>
+          (this.totalBalanceInBaseCurrency.balance =
+            resp.Result.Converted[0].To.Amount)
+      );
+    });
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
