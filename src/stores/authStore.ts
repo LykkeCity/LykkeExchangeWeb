@@ -25,9 +25,10 @@ export class AuthStore {
   }
 
   auth = async (code: string) => {
-    const bearerToken = await this.getBearerToken(code);
-    localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
-
+    if (!!code) {
+      const bearerToken = await this.getBearerToken(code);
+      localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
+    }
     const sessionToken = await this.getSessionToken();
     // tslint:disable-next-line:no-console
     console.log(sessionToken);

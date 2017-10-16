@@ -9,11 +9,8 @@ export class AuthPage extends React.Component<InjectedRootStoreProps> {
   private readonly authStore = this.props.rootStore!.authStore;
 
   componentWillMount() {
-    this.authStore.getSessionToken();
     const code = new URL(location.href).searchParams.get('code');
-    if (!!code) {
-      this.authStore.getBearerToken(code!);
-    }
+    this.authStore.auth(code!);
   }
 
   render() {
