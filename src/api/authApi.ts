@@ -19,6 +19,26 @@ export class RestAuthApi extends RestApi implements AuthApi {
       })
       .post()
       .json();
+
+  getSessionToken = (clientId: string) =>
+    this.authWretch
+      .url('/getlykkewallettoken')
+      .headers({
+        application_id: clientId
+      })
+      .get()
+      .json();
+
+  getBearerToken = (app: any, code: string, path: string) =>
+    this.authWretch
+      .url(path)
+      .formUrl({
+        code,
+        grant_type: 'authorization_code',
+        ...app
+      })
+      .post()
+      .json();
 }
 
 export default RestAuthApi;

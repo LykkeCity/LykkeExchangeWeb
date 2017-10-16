@@ -1,6 +1,5 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Link} from 'react-router-dom';
 import {InjectedRootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import Logo from '../Logo';
@@ -30,7 +29,7 @@ export const HeaderBar: React.SFC<InjectedRootStoreProps> = ({rootStore}) => {
 
             <div className="header_actions__login header_login pull-right">
               <div className="header_user dropdown__control">
-                <Link to={'/login'}>
+                <a href={rootStore!.authStore.getConnectUrl()}>
                   <div className="header_login__title">Sign in</div>
                   {/* Для залогиненого
                     <div className="header_user__img">
@@ -38,7 +37,7 @@ export const HeaderBar: React.SFC<InjectedRootStoreProps> = ({rootStore}) => {
                     </div>
                     <div className="header_login__title">Leroy</div>
                     */}
-                </Link>
+                </a>
               </div>
 
               {/* Для залогиненого

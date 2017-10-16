@@ -1,11 +1,13 @@
 import {action, computed, observable} from 'mobx';
 import {BalanceModel} from '.';
-import {nextId} from '../utils/index';
+import {WalletStore} from '../stores';
+import {nextId} from '../utils';
 
 export class WalletModel {
   id: string;
   @observable title: string;
   @observable desc: string;
+  @observable apiKey: string;
 
   @observable
   figures: {
@@ -31,20 +33,31 @@ export class WalletModel {
   @computed
   get totalBalance() {
     const total = new BalanceModel();
+    total.assetId = 'LKK'; // TODO: get from the base asset
     total.balance = this.balances.reduce(
       (prev, curr) => (total.balance += curr.balance),
       0
     );
-    total.assetId = 'LKK'; // FIXME: get from the base asset
+
+    this.store!
+      .convertToBaseCurrency({
+        toAssetId: total.assetId,
+        // tslint:disable-next-line:object-literal-sort-keys
+        fromAssetId: this.balances[0].assetId,
+        volume: total.balance,
+        direction: 'Buy'
+      })
+      .then((resp: any) => (total.balance = resp.Result.Converted.To.Amount));
     return total;
   }
 
   @observable balances: BalanceModel[] = [];
 
-  constructor(json?: any) {
+  constructor(json?: any, private store?: WalletStore) {
     this.id = json.Id || nextId();
     this.title = json.Name || 'Untitled';
     this.desc = json.Type;
+    this.apiKey = json.ApiKey;
   }
 
   @action

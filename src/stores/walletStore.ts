@@ -17,7 +17,7 @@ export class WalletStore {
     const resp = await this.api!.fetchAll();
     const balances = await this.rootStore.balanceStore.fetchAll();
     runInAction(() => {
-      this.wallets = resp.map((x: any) => new WalletModel(x));
+      this.wallets = resp.map((x: any) => new WalletModel(x, this));
       balances.forEach((dto: any) => {
         const wallet = this.wallets.find(w => w.id === dto.Id);
         if (!!wallet) {
@@ -31,6 +31,20 @@ export class WalletStore {
       this.loading = false;
     });
   };
+
+  createApiWallet = async (name: string) => {
+    const resp = await this.api!.createApiWallet(name);
+    const apiWallet = new WalletModel({...resp, Id: resp.WalletId});
+    runInAction(() => this.wallets.push(apiWallet));
+    return apiWallet;
+  };
+
+  convertToBaseCurrency = (convertable: {
+    toAssetId: string;
+    fromAssetId: string;
+    volume: number;
+    direction: 'Sell' | 'Buy';
+  }) => this.api!.convertToBaseCurrency(convertable);
 }
 
 export default WalletStore;
