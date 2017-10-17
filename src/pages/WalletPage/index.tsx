@@ -1,25 +1,29 @@
 import Button from 'antd/lib/button/button';
-import Form, {FormComponentProps} from 'antd/lib/form/Form';
-import FormItem from 'antd/lib/form/FormItem';
-import Input from 'antd/lib/input/Input';
 import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect} from 'react-router';
 import {InjectedRootStoreProps} from '../../App';
+import CreateWalletForm from '../../components/CreateWalletForm';
+import CreateWalletWizard, {
+  Step,
+  Steps
+} from '../../components/CreateWalletWizard';
 import Drawer from '../../components/Drawer/index';
+import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm/index';
 import WalletList from '../../components/WalletList';
 import {ROUTE_LOGIN} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import {WalletModel} from '../../models';
 
 export class WalletPage extends React.Component<InjectedRootStoreProps> {
   private readonly authStore = this.props.rootStore!.authStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
 
   @observable private showCreateWalletWindow: boolean = false;
-  @observable private walletName: string;
-  @observable private walletApiKey: string;
+  @observable private wallet: WalletModel = new WalletModel(this.walletStore);
+  @observable private activeStep: number = 1;
 
   componentDidMount() {
     this.walletStore.fetchAll();
@@ -30,57 +34,62 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
       <Redirect to={ROUTE_LOGIN} />
     ) : (
       <div>
-        <Button
-          // tslint:disable-next-line:jsx-no-lambda
-          onClick={() => {
-            this.showCreateWalletWindow = true;
-          }}
-        >
-          Create new wallet
-        </Button>
+        <Button onClick={this.handleToggleDrawer}>Create new wallet</Button>
         <WalletList loading={this.walletStore.loading} />
-        <Drawer
-          title="New API Wallet"
-          visible={this.showCreateWalletWindow}
-          onOk={this.handleCreateWallet(this.walletName)}
-          // tslint:disable-next-line:jsx-no-lambda
-          onClose={() => (this.showCreateWalletWindow = false)}
-          cancelText="Cancel and close"
-          okText="Generate API Key"
-        >
+        <Drawer title="New API Wallet" show={this.showCreateWalletWindow}>
           <h2>New Wallet</h2>
           <h3>API Wallet</h3>
-          <h4>Name of wallet</h4>
-          <WalletFormWrapper />
+          <CreateWalletWizard>
+            <Steps activeIndex={this.activeStep}>
+              <Step
+                title="Name of wallet"
+                onHide={this.handleToggleDrawer}
+                onNext={this.handleCreateWallet}
+                index={1}
+              >
+                <CreateWalletForm onChangeName={this.handleChangeWalletName} />
+                <div className="drawer__footer">
+                  <Button onClick={this.handleToggleDrawer} type="ghost">
+                    Cancel and close
+                  </Button>
+                  <Button onClick={this.handleCreateWallet} type="primary">
+                    Ok
+                  </Button>
+                </div>
+              </Step>
+              <Step
+                title="Generate API key"
+                onHide={this.handleToggleDrawer}
+                onNext={this.handleCreateWallet}
+                index={2}
+              >
+                <GenerateWalletKeyForm wallet={this.wallet} />
+                <div className="drawer__footer">
+                  <Button onClick={this.handleToggleDrawer} type="primary">
+                    Ok
+                  </Button>
+                </div>
+              </Step>
+            </Steps>
+          </CreateWalletWizard>
         </Drawer>
       </div>
     );
   }
 
-  private readonly handleCreateWallet = (name: string) => async () => {
-    const wallet = await this.walletStore.createApiWallet(this.walletName);
-    this.walletApiKey = wallet.apiKey;
+  private readonly handleChangeWalletName: React.EventHandler<
+    React.ChangeEvent<HTMLInputElement>
+  > = e => {
+    this.wallet.title = e.currentTarget.value;
   };
+
+  private readonly handleCreateWallet = async () => {
+    this.wallet = await this.walletStore.createApiWallet(this.wallet.title);
+    this.activeStep++;
+  };
+
+  private readonly handleToggleDrawer = () =>
+    (this.showCreateWalletWindow = !this.showCreateWalletWindow);
 }
-
-const WalletForm = (props: FormComponentProps) => {
-  const {getFieldDecorator} = props.form;
-  return (
-    <Form layout="vertical">
-      <FormItem label="Name of wallet">
-        {getFieldDecorator('name', {
-          rules: [
-            {
-              message: 'Please input the title of collection!',
-              required: true
-            }
-          ]
-        })(<Input />)}
-      </FormItem>
-    </Form>
-  );
-};
-
-const WalletFormWrapper = Form.create()(WalletForm as any);
 
 export default inject(STORE_ROOT)(observer(WalletPage));

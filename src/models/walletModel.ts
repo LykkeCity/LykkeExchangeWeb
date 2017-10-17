@@ -4,7 +4,7 @@ import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
 export class WalletModel {
-  id: string;
+  @observable id: string;
   @observable title: string;
   @observable desc: string;
   @observable apiKey: string;
@@ -52,10 +52,12 @@ export class WalletModel {
   @observable balances: BalanceModel[] = [];
 
   constructor(json?: any, private store?: WalletStore) {
-    this.id = json.Id || nextId();
-    this.title = json.Name || 'Untitled';
-    this.desc = json.Type;
-    this.apiKey = json.ApiKey;
+    if (!!json) {
+      this.id = json.Id || nextId();
+      this.title = json.Name || 'Untitled';
+      this.desc = json.Type;
+      this.apiKey = json.ApiKey;
+    }
   }
 
   @action

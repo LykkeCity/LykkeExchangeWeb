@@ -1,4 +1,4 @@
-import {observable, runInAction} from 'mobx';
+import {action, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {WalletApi} from '../api';
 import {WalletModel} from '../models';
@@ -32,11 +32,18 @@ export class WalletStore {
     });
   };
 
+  @action add = (wallet: WalletModel) => this.wallets.unshift(wallet);
+
   createApiWallet = async (name: string) => {
     const resp = await this.api!.createApiWallet(name);
-    const apiWallet = new WalletModel({...resp, Id: resp.WalletId});
-    runInAction(() => this.wallets.push(apiWallet));
+    const apiWallet = new WalletModel({...resp, Id: resp.WalletId, Name: name});
+    this.add(apiWallet);
     return apiWallet;
+  };
+
+  regenerateApiKey = async (wallet: WalletModel) => {
+    const resp = await this.api!.regenerateApiKey(wallet.id);
+    runInAction(() => (wallet.apiKey = resp.ApiKey));
   };
 
   convertToBaseCurrency = (convertable: {
