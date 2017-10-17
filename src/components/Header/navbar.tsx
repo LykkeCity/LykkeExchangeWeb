@@ -1,6 +1,8 @@
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 
+import Balance from './balance';
+
 export default function NavBar() {
   return (
     <div className="header_nav_container">
@@ -91,6 +93,8 @@ export default function NavBar() {
                 </menu>
               </li> */}
             </ul>
+
+            <Balance />
           </div>
         </div>
       </nav>
