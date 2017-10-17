@@ -577,9 +577,9 @@
   }
 
   @media all and (max-height: 860px),
-  all and (max-width: $screen-mobile),
-  screen and (max-device-width: $screen-tablet),
-  screen and (pointer: coarse) {
+    all and (max-width: $screen-mobile),
+    screen and (max-device-width: $screen-tablet),
+    screen and (pointer: coarse) {
     .social {
       text-align: center !important;
 
@@ -891,7 +891,7 @@
   font-weight: normal;
   z-index: 111;
   box-shadow: 0 8px 50px 0 rgba(63, 77, 96, 0.4),
-  0 5px 5px 0 rgba(63, 77, 96, 0.05);
+    0 5px 5px 0 rgba(63, 77, 96, 0.05);
 
   @include rem(padding, 5px);
   @include rem(font-size, 16px);
@@ -956,7 +956,7 @@
 
   .submenu_list {
     box-shadow: 0 8px 20px 0 rgba(63, 77, 96, 0.2),
-    0 5px 5px 0 rgba(63, 77, 96, 0.05);
+      0 5px 5px 0 rgba(63, 77, 96, 0.05);
     border-radius: 0 0 $border-radius $border-radius;
 
     &__item > a {
@@ -986,6 +986,20 @@
   @include rem(font-size, 16px);
   @include rem(margin-top, 15px);
 
+  &:before {
+    font-family: icon, sans-serif;
+    content: '\e92b';
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: #8c94a0;
+    top: 100%;
+
+    @include rem(margin-top, -1px);
+    @include rem(font-size, 11px);
+  }
+
   .icon,
   &__currency,
   &__value {
@@ -997,20 +1011,6 @@
   &__currency {
     color: #79818f;
     position: relative;
-
-    &:before {
-      font-family: icon, sans-serif;
-      content: "\e92b";
-      position: absolute;
-      left: 0;
-      right: 0;
-      text-align: center;
-      color: #8c94a0;
-      top: 100%;
-
-      @include rem(margin-top, -1px);
-      @include rem(font-size, 11px);
-    }
   }
 
   .dropdown_control {
@@ -1053,7 +1053,7 @@
 }
 
 .balance_data {
-  font-feature-settings: "tnum";
+  font-feature-settings: 'tnum';
 
   &__item {
     color: $secondary;
@@ -1067,7 +1067,6 @@
   }
 
   &__value {
-    color: rgba($secondary, .6);
+    color: rgba($secondary, 0.6);
   }
 }
-
