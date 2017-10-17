@@ -5,6 +5,9 @@ import {STORE_ROOT} from '../../constants/stores';
 import Logo from '../Logo';
 
 export const HeaderBar: React.SFC<InjectedRootStoreProps> = ({rootStore}) => {
+  const {authStore} = rootStore!;
+  const isAuthenticated = !!rootStore!.authStore.token;
+
   return (
     <div className="header_container">
       <header className="header">
@@ -18,9 +21,8 @@ export const HeaderBar: React.SFC<InjectedRootStoreProps> = ({rootStore}) => {
           <Logo />
 
           <div className="header__actions header_actions pull-right">
-            {!!rootStore!.authStore.token && (
+            {isAuthenticated && (
               <div className="header_actions__logout visible-xs pull-right">
-                hey hi
                 <a href="/Home/LogOut" className="btn btn--icon btn_logout">
                   <i className="icon icon--exit" />
                 </a>
@@ -29,23 +31,38 @@ export const HeaderBar: React.SFC<InjectedRootStoreProps> = ({rootStore}) => {
 
             <div className="header_actions__login header_login pull-right">
               <div className="header_user dropdown__control">
-                <a href={rootStore!.authStore.getConnectUrl()}>
+                <a href={authStore.getConnectUrl()}>
                   <div className="header_login__title">Sign in</div>
-                  {/* Для залогиненого
-                    <div className="header_user__img">
-                      <img src="images/user_default.svg" width="40" alt="user_image"/>
+                  {isAuthenticated && [
+                    <div key={'user_img'} className="header_user__img">
+                      <img
+                        src="images/user_default.svg"
+                        width="40"
+                        alt="user_image"
+                      />
+                    </div>,
+                    <div key={'user_name'} className="header_login__title">
+                      Leroy
                     </div>
-                    <div className="header_login__title">Leroy</div>
-                    */}
+                  ]}
                 </a>
               </div>
 
-              {/* Для залогиненого
+              {isAuthenticated && (
                 <div className="dropdown__container">
                   <ul className="dropdown__nav">
-                    <li><a href="/Home/LogOut">Sign Out</a></li>
+                    <li>
+                      <a
+                        href={authStore.getLogoutUrl()}
+                        target="_blank"
+                        onClick={rootStore!.authStore.logout}
+                      >
+                        Sign Out
+                      </a>
+                    </li>
                   </ul>
-                </div>*/}
+                </div>
+              )}
             </div>
 
             <div className="header_actions__search">
