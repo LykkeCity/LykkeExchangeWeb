@@ -1,0 +1,23 @@
+.wallet-action-bar {
+  border: solid 1px #ebedef;
+  border-left: none;
+  border-right: none;
+  padding: 30px 0;
+  font-weight: 600;
+  font-size: 16px;
+
+  .wallet-action-bar__item {
+    text-transform: uppercase;
+    margin-right: 40px;
+    color: #333333;
+  }
+
+  .wallet-action-bar__button {
+    float: right;
+    background: #0da7fc;
+    padding: 10px 50px;
+    color: #ffffff;
+    border: none;
+    border-radius: 100px;
+  }
+}

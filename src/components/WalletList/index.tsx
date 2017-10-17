@@ -7,22 +7,30 @@ import * as React from 'react';
 import {InjectedRootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {loadable, LoadableProps} from '../hoc/loadable';
+import WalletActionBar from '../WalletActionBar';
 import WalletBalanceList from '../WalletBalanceList';
-import WalletSummary from '../WalletSummary/index';
+import WalletSummary from '../WalletSummary';
 import './style.css';
 
-export const WalletList: React.SFC<InjectedRootStoreProps & LoadableProps> = ({
-  rootStore
-}) => (
+type WalletListProps = InjectedRootStoreProps & LoadableProps;
+
+export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
   <div className="wallet__list">
     {rootStore!.walletStore.wallets.map(w => (
       <div key={w.id} className={classnames('wallet')}>
         <WalletSummary wallet={w} />
-        <Row>
-          <Col span={18} offset={2}>
-            {w.expanded && <WalletBalanceList wallet={w} />}
-          </Col>
-        </Row>
+        {w.expanded && [
+          <Row key={WalletActionBar.name}>
+            <Col span={18} offset={2}>
+              <WalletActionBar />
+            </Col>
+          </Row>,
+          <Row key={WalletBalanceList.name}>
+            <Col span={18} offset={2}>
+              <WalletBalanceList wallet={w} />
+            </Col>
+          </Row>
+        ]}
       </div>
     ))}
   </div>

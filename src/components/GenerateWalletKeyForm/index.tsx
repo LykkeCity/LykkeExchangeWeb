@@ -7,6 +7,8 @@ import {InjectedRootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
+const WALLET_KEY_INPUT = 'walletKey';
+
 interface GenerateWalletKeyFormProps extends InjectedRootStoreProps {
   wallet: WalletModel;
 }
@@ -18,26 +20,22 @@ export class GenerateWalletKeyForm extends React.Component<
     return (
       <div>
         <Input
-          id="walletKey"
-          name="walletKey"
+          id={WALLET_KEY_INPUT}
+          name={WALLET_KEY_INPUT}
           defaultValue={this.props.wallet.apiKey}
           readOnly={true}
           suffix={[
-            <Popover
-              key={'regen'}
-              title="Regenerate a new API key"
-              placement="topLeft"
-            >
+            <Popover key={'regenerateKey'} title="Regenerate a new API key">
               <Icon type="key" onClick={this.handleRegenerateKey} />
             </Popover>,
-            <Icon key={'copy'} type="copy" onClick={this.handleCopyKey} />
+            <Icon key={'copyKey'} type="copy" onClick={this.handleCopyKey} />
           ]}
         />
       </div>
     );
   }
 
-  private readonly showConfirm = () =>
+  private readonly handleRegenerateKey = () =>
     Modal.confirm({
       cancelText: 'No, back to wallet',
       content:
@@ -49,13 +47,11 @@ export class GenerateWalletKeyForm extends React.Component<
       title: 'Do you want to regenerate API key?'
     });
 
-  private readonly handleRegenerateKey = () => {
-    this.showConfirm();
-  };
-
   private readonly handleCopyKey = () => {
     try {
-      (document.querySelector('#walletKey') as HTMLInputElement).select();
+      (document.querySelector(
+        `#${WALLET_KEY_INPUT}`
+      ) as HTMLInputElement).select();
       document.execCommand('copy');
     } catch (err) {
       // tslint:disable-next-line:no-console
