@@ -12,6 +12,6 @@ describe('auth store', () => {
   });
 
   it('should provide get token method', () => {
-    expect(authStore.getToken).toBeDefined();
+    expect(authStore.getAuthToken).toBeDefined();
   });
 });

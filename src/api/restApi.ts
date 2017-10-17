@@ -2,16 +2,18 @@ import wretch from 'wretch';
 import {TokenUtils} from '../utils/index';
 
 export class RestApi {
-  protected readonly baseUrl = 'https://apiv2-dev.lykkex.net/api'; // FIXME: get baseUrl from config
-  protected readonly token = TokenUtils.get();
+  protected readonly authUrl = process.env.REACT_APP_AUTH_URL;
+  protected readonly baseApiUrl = process.env.REACT_APP_API_URL;
 
-  protected readonly baseWretch = wretch(this.baseUrl).options({
+  protected readonly baseWretch = wretch(this.baseApiUrl).options({
     mode: 'cors'
   });
+  protected readonly authWretch = wretch(this.authUrl);
 
-  protected readonly bearerWretch = this.baseWretch.headers({
-    Authorization: `Bearer ${this.token}`
-  });
+  protected readonly bearerWretch = () =>
+    this.baseWretch.headers({
+      Authorization: `Bearer ${TokenUtils.get()}`
+    });
 }
 
 export default RestApi;

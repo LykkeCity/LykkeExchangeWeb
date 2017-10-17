@@ -2,7 +2,8 @@ import {action, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
 import {Credentials} from '../models/structs';
-import {TokenUtils} from '../utils/index';
+import {AUTH_SCOPE, queryStringFromObject} from '../utils/authUtils';
+import {AuthUtils, TokenUtils} from '../utils/index';
 
 export class AuthStore {
   readonly rootStore: RootStore;
@@ -23,10 +24,40 @@ export class AuthStore {
     );
   }
 
+  auth = async (code: string) => {
+    if (!!code) {
+      const bearerToken = await this.getBearerToken(code);
+      localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
+    }
+    const sessionToken = await this.getSessionToken();
+    // tslint:disable-next-line:no-console
+    console.log(sessionToken);
+    this.setToken(sessionToken.token);
+  };
+
   @action setToken = (token: string) => (this.token = token);
 
-  getToken = async (credentials: Credentials) => {
-    const resp = await this.api!.getToken(credentials);
-    return resp;
+  getAuthToken = async (credentials: Credentials) => {
+    const token = (await this.api!.getToken(credentials)).AccessToken;
+    this.setToken(token);
+    return token;
+  };
+
+  getSessionToken = () => this.api!.getSessionToken(AuthUtils.app.client_id);
+
+  getBearerToken = (code: string) =>
+    this.api!.getBearerToken(AuthUtils.app, code, AuthUtils.connectUrls.token);
+
+  getConnectUrl = () => {
+    const {client_id, redirect_uri} = AuthUtils.app;
+    const authorizePath = `${AuthUtils.connectUrls
+      .auth}?${queryStringFromObject({
+      client_id,
+      redirect_uri,
+      response_type: 'code',
+      scope: AUTH_SCOPE
+    })}`;
+
+    return `${process.env.REACT_APP_AUTH_URL}${authorizePath}`;
   };
 }

@@ -29,7 +29,7 @@ export const HeaderBar: React.SFC<InjectedRootStoreProps> = ({rootStore}) => {
 
             <div className="header_actions__login header_login pull-right">
               <div className="header_user dropdown__control">
-                <a href="/Home/SignIn">
+                <a href={rootStore!.authStore.getConnectUrl()}>
                   <div className="header_login__title">Sign in</div>
                   {/* Для залогиненого
                     <div className="header_user__img">

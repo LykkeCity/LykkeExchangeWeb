@@ -1,5 +1,5 @@
 import {AuthStore, BalanceStore, WalletStore} from '.';
-import {AuthApi, BalanceApi} from '../api';
+import {AuthApi, BalanceApi, WalletApi} from '../api';
 
 export class RootStore {
   readonly authStore: AuthStore;
@@ -8,7 +8,7 @@ export class RootStore {
 
   constructor() {
     this.authStore = new AuthStore(this, new AuthApi());
-    this.walletStore = new WalletStore(this);
+    this.walletStore = new WalletStore(this, new WalletApi());
     this.balanceStore = new BalanceStore(this, new BalanceApi());
   }
 }

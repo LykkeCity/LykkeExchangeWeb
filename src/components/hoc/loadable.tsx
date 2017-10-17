@@ -1,3 +1,4 @@
+import Spin from 'antd/lib/spin';
 import * as React from 'react';
 
 type WrappedComponentProps<P> = React.ComponentClass<P> | React.SFC<P>;
@@ -11,4 +12,10 @@ export interface LoadableProps {
 }
 
 export const loadable: HOCComponent<LoadableProps> = C => props =>
-  props.loading ? <div>Loading...</div> : <C {...props} />;
+  props.loading ? (
+    <div style={{textAlign: 'center', margin: '50px auto'}}>
+      <Spin size="large" />
+    </div>
+  ) : (
+    <C {...props} />
+  );

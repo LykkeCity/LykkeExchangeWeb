@@ -1,61 +1,50 @@
-import {observable} from 'mobx';
+import {observable, runInAction} from 'mobx';
 import {RootStore} from '.';
+import {WalletApi} from '../api';
 import {WalletModel} from '../models';
 
 export class WalletStore {
   readonly rootStore: RootStore;
 
   @observable wallets: WalletModel[] = [];
+  @observable loading: boolean = true;
 
-  constructor(rootStore: RootStore) {
+  constructor(rootStore: RootStore, private api?: WalletApi) {
     this.rootStore = rootStore;
-
-    this.wallets.push(
-      new WalletModel({
-        title: `Mobile Wallet`,
-        // tslint:disable-next-line:object-literal-sort-keys
-        desc:
-          'Lorem ipsum dolor sit amet, mel id dicant ceteros neglegentur. Duisefficiantur mea ne. Accusam oporteat constituam vis ad, mea ne mazimdicit. His paulo detracto ad, eum brute tempor ad. Cu eum requevoluptua lucilius, agam atqui essent his cu. An eum affertconsetetur neglegentur, iriure prompta periculis sit ex.',
-        figures: {
-          total: 36897.32,
-          // tslint:disable-next-line:object-literal-sort-keys
-          received: 45280.46,
-          sent: 2340.56,
-          pnl: 53
-        }
-      })
-    );
-    this.wallets.push(
-      new WalletModel({
-        title: `API Wallet`,
-        // tslint:disable-next-line:object-literal-sort-keys
-        desc:
-          'Lorem ipsum dolor sit amet, mel id dicant ceteros neglegentur. Duisefficiantur mea ne. Accusam oporteat constituam vis ad, mea ne mazimdicit. His paulo detracto ad, eum brute tempor ad. Cu eum requevoluptua lucilius, agam atqui essent his cu. An eum affertconsetetur neglegentur, iriure prompta periculis sit ex.',
-        figures: {
-          total: 0,
-          // tslint:disable-next-line:object-literal-sort-keys
-          received: 0,
-          sent: 0,
-          pnl: 0
-        }
-      })
-    );
-    this.wallets.push(
-      new WalletModel({
-        title: `Web Wallet`,
-        // tslint:disable-next-line:object-literal-sort-keys
-        desc:
-          'Lorem ipsum dolor sit amet, mel id dicant ceteros neglegentur. Duisefficiantur mea ne. Accusam oporteat constituam vis ad, mea ne mazimdicit. His paulo detracto ad, eum brute tempor ad. Cu eum requevoluptua lucilius, agam atqui essent his cu. An eum affertconsetetur neglegentur, iriure prompta periculis sit ex.',
-        figures: {
-          total: 3897.32,
-          // tslint:disable-next-line:object-literal-sort-keys
-          received: 45280.46,
-          sent: 2340.56,
-          pnl: 53
-        }
-      })
-    );
   }
+
+  fetchAll = async () => {
+    const resp = await this.api!.fetchAll();
+    const balances = await this.rootStore.balanceStore.fetchAll();
+    runInAction(() => {
+      this.wallets = resp.map((x: any) => new WalletModel(x, this));
+      balances.forEach((dto: any) => {
+        const wallet = this.wallets.find(w => w.id === dto.Id);
+        if (!!wallet) {
+          wallet.setBalances(dto.Balances);
+        } else {
+          const tradingWallet = new WalletModel(dto);
+          tradingWallet.setBalances(dto.Balances);
+          this.wallets.push(tradingWallet);
+        }
+      });
+      this.loading = false;
+    });
+  };
+
+  createApiWallet = async (name: string) => {
+    const resp = await this.api!.createApiWallet(name);
+    const apiWallet = new WalletModel({...resp, Id: resp.WalletId});
+    runInAction(() => this.wallets.push(apiWallet));
+    return apiWallet;
+  };
+
+  convertToBaseCurrency = (convertable: {
+    toAssetId: string;
+    fromAssetId: string;
+    amount: number;
+    direction: 'Sell' | 'Buy';
+  }) => this.api!.convertToBaseCurrency(convertable);
 }
 
 export default WalletStore;
