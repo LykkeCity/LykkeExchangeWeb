@@ -43,7 +43,11 @@ export class AuthStore {
     return token;
   };
 
-  getSessionToken = () => this.api!.getSessionToken(AuthUtils.app.client_id);
+  getSessionToken = () =>
+    this.api!.getSessionToken(
+      AuthUtils.app.client_id,
+      JSON.parse(localStorage.getItem('lww-oauth')!).access_token
+    );
 
   getBearerToken = (code: string) =>
     this.api!.getBearerToken(AuthUtils.app, code, AuthUtils.connectUrls.token);
