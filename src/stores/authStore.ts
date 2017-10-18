@@ -64,4 +64,11 @@ export class AuthStore {
 
     return `${process.env.REACT_APP_AUTH_URL}${authorizePath}`;
   };
+
+  getLogoutUrl = () =>
+    `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`;
+
+  logout = async () => {
+    this.setToken(null as any);
+  };
 }

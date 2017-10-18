@@ -8,6 +8,7 @@ export class MockAuthApi extends RestApi implements AuthApi {
     Promise.resolve({token: 'bar'} as any);
   getBearerToken = (app: any, code: string, path: string) =>
     Promise.resolve({token: 'bar'});
+  signOut = (path: string) => ({} as any);
 }
 
 export default MockAuthApi;

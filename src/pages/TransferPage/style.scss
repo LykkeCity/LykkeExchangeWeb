@@ -1,0 +1,84 @@
+.transfer {
+  width: 600px;
+  margin: 50px auto 0;
+  text-align: center;
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 40px;
+    font-weight: 600;
+  }
+
+  h2 {
+    margin-bottom: 30px;
+    font-size: 36px;
+    font-weight: 300;
+  }
+
+  .transfer__desc {
+    margin-bottom: 40px;
+  }
+
+  .transfer__bar {
+    color: #8c94a0;
+    text-align: left;
+    margin-bottom: 30px;
+
+    span {
+      margin-right: 10px;
+      font-size: 16px;
+      &:first-child {
+        float: left;
+        padding-left: 50px;
+      }
+      &:last-child {
+        float: right;
+      }
+    }
+  }
+
+  .transfer__form {
+    border: solid 1px #ebedef;
+    border-left: none;
+    border-right: none;
+    padding: 30px 50px;
+    margin-bottom: 60px;
+    div {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      margin: 10px 0;
+      label {
+        font-size: 18px;
+        font-weight: 600;
+        flex: 1 1 auto;
+        width: 200px;
+        display: inline-block;
+        text-align: left;
+      }
+      input,
+      select {
+        flex: 0 0 1;
+        width: 370px;
+        height: 40px;
+        display: inline-block;
+        padding: 5px;
+      }
+    }
+  }
+
+  .transfer__actions {
+    font-size: 18px;
+    font-weight: 600;
+
+    input[type='submit'] {
+      background: #0da7fc;
+      padding: 10px 50px;
+      color: #ffffff;
+      border: none;
+      border-radius: 100px;
+      width: 370px;
+      margin-bottom: 24px;
+    }
+  }
+}

@@ -78,6 +78,12 @@ export class WalletModel {
     });
   };
 
+  transfer = (toWallet: WalletModel, amount: number) => {
+    this.balances[0].balance -= amount;
+    toWallet.balances[0].balance += amount;
+    // TODO: call transfer api endpoint
+  };
+
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
 }
 

@@ -22,7 +22,7 @@ export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
         {w.expanded && [
           <Row key={WalletActionBar.name}>
             <Col span={18} offset={2}>
-              <WalletActionBar />
+              <WalletActionBar wallet={w} />
             </Col>
           </Row>,
           <Row key={WalletBalanceList.name}>

@@ -40,6 +40,8 @@ export class RestAuthApi extends RestApi implements AuthApi {
       })
       .post()
       .json();
+
+  signOut = (path: string) => this.authWretch.url(path).get();
 }
 
 export default RestAuthApi;
