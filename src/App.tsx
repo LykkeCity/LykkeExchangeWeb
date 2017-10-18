@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import {ProtectedRoute} from './components/ProtectedRoute/index';
 import {
   ROUTE_AUTH,
   ROUTE_LOGIN,
@@ -31,11 +32,17 @@ class App extends React.Component {
           <Layout className="app">
             <Header />
             <Content className="app__shell">
-              <Route exact={true} path={ROUTE_WALLET} component={WalletPage} />
-              <Route
+              <ProtectedRoute
+                exact={true}
+                path={ROUTE_WALLET}
+                Component={WalletPage}
+                authStore={rootStore.authStore}
+              />
+              <ProtectedRoute
                 exact={true}
                 path={ROUTE_TRANSFER}
-                component={TransferPage}
+                Component={TransferPage}
+                authStore={rootStore.authStore}
               />
               <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
               <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
