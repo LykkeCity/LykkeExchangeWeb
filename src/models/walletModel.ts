@@ -78,10 +78,12 @@ export class WalletModel {
     });
   };
 
-  transfer = (toWallet: WalletModel, amount: number) => {
-    this.balances[0].balance -= amount;
-    toWallet.balances[0].balance += amount;
-    // TODO: call transfer api endpoint
+  transfer = async (toWallet: WalletModel, amount: number) => {
+    await this.store!.transfer(this, toWallet, amount, '');
+    runInAction(() => {
+      this.balances[0].balance -= amount;
+      toWallet.balances[0].balance += amount;
+    });
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);

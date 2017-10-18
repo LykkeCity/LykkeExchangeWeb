@@ -30,8 +30,6 @@ export class AuthStore {
       localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
     }
     const sessionToken = await this.getSessionToken();
-    // tslint:disable-next-line:no-console
-    console.log(sessionToken);
     this.setToken(sessionToken.token);
   };
 

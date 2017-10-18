@@ -46,7 +46,7 @@ export class TransferPage extends React.Component<InjectedRootStoreProps> {
               onChange={this.handleChangeWallet(Dir.From)}
               value={this.fromWallet.id}
             >
-              {this.props.rootStore!.walletStore.wallets.map(w => (
+              {this.props.rootStore!.walletStore.walletsWithAssets.map(w => (
                 <option key={w.id} value={w.id}>
                   {w.title}
                 </option>
@@ -56,7 +56,7 @@ export class TransferPage extends React.Component<InjectedRootStoreProps> {
           <div>
             <label>To</label>
             <select onChange={this.handleChangeWallet(Dir.To)}>
-              {this.props.rootStore!.walletStore.wallets.map(w => (
+              {this.props.rootStore!.walletStore.walletsWithAssets.map(w => (
                 <option key={w.id} value={w.id}>
                   {w.title}
                 </option>

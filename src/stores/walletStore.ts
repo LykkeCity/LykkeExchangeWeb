@@ -1,4 +1,4 @@
-import {action, observable, runInAction} from 'mobx';
+import {action, computed, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {WalletApi} from '../api';
 import {WalletModel} from '../models';
@@ -11,6 +11,11 @@ export class WalletStore {
 
   constructor(rootStore: RootStore, private api?: WalletApi) {
     this.rootStore = rootStore;
+  }
+
+  @computed
+  get walletsWithAssets() {
+    return this.wallets.filter(w => w.balances.length > 0);
   }
 
   fetchAll = async () => {
@@ -52,6 +57,13 @@ export class WalletStore {
     amount: number;
     direction: 'Sell' | 'Buy';
   }) => this.api!.convertToBaseCurrency(convertable);
+
+  transfer = (
+    from: WalletModel,
+    to: WalletModel,
+    amount: number,
+    asset: string
+  ) => this.api!.transfer(from.id, to.id, amount, asset);
 }
 
 export default WalletStore;
