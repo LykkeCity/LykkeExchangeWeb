@@ -1,3 +1,6 @@
+import {Icon} from 'antd';
+import Modal from 'antd/lib/modal/Modal';
+import 'antd/lib/modal/style';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
@@ -16,12 +19,15 @@ enum Dir {
 export class TransferPage extends React.Component<InjectedRootStoreProps> {
   @observable amount: number = 0;
   @observable
-  fromWallet: WalletModel = this.props.rootStore!.uiStore.currentWallet ||
+  fromWallet: WalletModel = this.props.rootStore!.walletStore.selectedWallet ||
     new WalletModel();
   @observable toWallet: WalletModel = new WalletModel();
+  @observable qrSrc: string;
+  @observable showQr: boolean;
+  @observable transferInProgres: boolean = false;
 
   render() {
-    return (
+    return !this.transferInProgres ? (
       <div className="transfer">
         <h1>Transfer</h1>
         <h2>{this.amount} BTC</h2>
@@ -46,7 +52,7 @@ export class TransferPage extends React.Component<InjectedRootStoreProps> {
               onChange={this.handleChangeWallet(Dir.From)}
               value={this.fromWallet.id}
             >
-              {this.props.rootStore!.walletStore.wallets.map(w => (
+              {this.props.rootStore!.walletStore.walletsWithAssets.map(w => (
                 <option key={w.id} value={w.id}>
                   {w.title}
                 </option>
@@ -56,7 +62,7 @@ export class TransferPage extends React.Component<InjectedRootStoreProps> {
           <div>
             <label>To</label>
             <select onChange={this.handleChangeWallet(Dir.To)}>
-              {this.props.rootStore!.walletStore.wallets.map(w => (
+              {this.props.rootStore!.walletStore.walletsWithAssets.map(w => (
                 <option key={w.id} value={w.id}>
                   {w.title}
                 </option>
@@ -75,6 +81,39 @@ export class TransferPage extends React.Component<InjectedRootStoreProps> {
           <div>
             <Link to={ROUTE_WALLET}>Cancel and go back</Link>
           </div>
+        </div>
+        <Modal
+          visible={this.showQr}
+          title="Address"
+          okText="Cancel transaction"
+          cancelText="Close"
+          // tslint:disable-next-line:jsx-no-lambda
+          onCancel={() => {
+            this.transferInProgres = true;
+            this.toggleQr();
+          }}
+          onOk={this.toggleQr}
+          className="transfer-qr"
+        >
+          <p className="transfer-qr__desc">
+            Please use your LykkeWallet app to confirm the transfer:
+          </p>
+          <div className="transfer-qr__img">
+            <img src={this.qrSrc} alt="qr" height={160} width={160} />
+          </div>
+          <div />
+        </Modal>
+      </div>
+    ) : (
+      <div className="transfer-result">
+        <Icon type="success" />
+        <div className="transfer-result__desc">
+          Your transfer transaction has been successfuly broadcasted to
+          Blockchain.  We will notify you when it will be confirmed.
+        </div>
+        <div className="transfer-result__amount">{this.amount} BTC</div>
+        <div>
+          <Link to={ROUTE_WALLET}>Go back to wallets</Link>
         </div>
       </div>
     );
@@ -98,9 +137,12 @@ export class TransferPage extends React.Component<InjectedRootStoreProps> {
       this.toWallet;
   };
 
-  private readonly handleSubmit = () => {
-    this.fromWallet.transfer(this.toWallet, this.amount);
+  private readonly handleSubmit = async () => {
+    this.qrSrc = await this.fromWallet.transfer(this.toWallet, this.amount);
+    this.toggleQr();
   };
+
+  private readonly toggleQr = () => (this.showQr = !this.showQr);
 }
 
 export default inject(STORE_ROOT)(observer(TransferPage));

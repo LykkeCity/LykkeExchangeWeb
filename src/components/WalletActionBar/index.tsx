@@ -13,30 +13,25 @@ interface WalletActionBarProps extends InjectedRootStoreProps {
 
 export class WalletActionBar extends React.Component<WalletActionBarProps> {
   render() {
+    const {wallet, rootStore} = this.props;
     return (
       <div className="wallet-action-bar">
         <span className="wallet-action-bar__item">Deposit</span>
         <span className="wallet-action-bar__item">Withdraw</span>
         <span className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER} onClick={this.handleClickTransfer}>
+          <Link to={ROUTE_TRANSFER} onClick={wallet.select}>
             Transfer
           </Link>
         </span>
         <button
           className="wallet-action-bar__button"
-          onClick={this.props.rootStore!.uiStore.toggleCreateWalletDrawer}
+          onClick={rootStore!.uiStore.toggleCreateWalletDrawer}
         >
           + New Wallet
         </button>
       </div>
     );
   }
-
-  private readonly handleClickTransfer = () => {
-    this.props.rootStore!.uiStore.rootStore!.uiStore.setCurrentWallet(
-      this.props.wallet
-    );
-  };
 }
 
 export default inject(STORE_ROOT)(observer(WalletActionBar));

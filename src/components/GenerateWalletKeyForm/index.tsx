@@ -22,7 +22,7 @@ export class GenerateWalletKeyForm extends React.Component<
         <Input
           id={WALLET_KEY_INPUT}
           name={WALLET_KEY_INPUT}
-          defaultValue={this.props.wallet.apiKey}
+          value={this.props.wallet.apiKey}
           readOnly={true}
           suffix={[
             <Popover key={'regenerateKey'} title="Regenerate a new API key">

@@ -1,4 +1,4 @@
-import {action, observable, runInAction} from 'mobx';
+import {action, computed, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {WalletApi} from '../api';
 import {WalletModel} from '../models';
@@ -13,6 +13,16 @@ export class WalletStore {
     this.rootStore = rootStore;
   }
 
+  @computed
+  get walletsWithAssets() {
+    return this.wallets.filter(w => w.balances.length > 0);
+  }
+
+  @computed
+  get selectedWallet() {
+    return this.wallets.find(w => w.selected);
+  }
+
   fetchAll = async () => {
     const resp = await this.api!.fetchAll();
     const balances = await this.rootStore.balanceStore.fetchAll();
@@ -23,7 +33,7 @@ export class WalletStore {
         if (!!wallet) {
           wallet.setBalances(dto.Balances);
         } else {
-          const tradingWallet = new WalletModel(dto);
+          const tradingWallet = new WalletModel(dto, this);
           tradingWallet.setBalances(dto.Balances);
           this.wallets.push(tradingWallet);
         }
@@ -52,6 +62,20 @@ export class WalletStore {
     amount: number;
     direction: 'Sell' | 'Buy';
   }) => this.api!.convertToBaseCurrency(convertable);
+
+  transfer = async (
+    from: WalletModel,
+    to: WalletModel,
+    amount: number,
+    asset: string
+  ) => {
+    const dto = JSON.stringify({
+      AccountId: from.id,
+      Amount: amount
+    });
+    // await this.api!.sendTransferNotification();
+    return `//lykke-qr.azurewebsites.net/QR/${btoa(JSON.stringify(dto))}.gif`;
+  };
 }
 
 export default WalletStore;

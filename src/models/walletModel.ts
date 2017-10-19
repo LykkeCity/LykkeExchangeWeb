@@ -31,6 +31,8 @@ export class WalletModel {
     return !this.collapsed;
   }
 
+  @observable selected: boolean;
+
   @observable baseCurrency = 'LKK';
 
   @computed
@@ -78,13 +80,17 @@ export class WalletModel {
     });
   };
 
-  transfer = (toWallet: WalletModel, amount: number) => {
-    this.balances[0].balance -= amount;
-    toWallet.balances[0].balance += amount;
-    // TODO: call transfer api endpoint
+  transfer = async (toWallet: WalletModel, amount: number) => {
+    runInAction(() => {
+      // this.balances[0].balance -= amount;
+      // toWallet.balances[0].balance += amount;
+    });
+    return await this.store!.transfer(this, toWallet, amount, '');
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
+
+  @action select = () => (this.selected = true);
 }
 
 export default WalletModel;

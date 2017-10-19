@@ -22,8 +22,8 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
 
-  @observable private wallet: WalletModel = new WalletModel(this.walletStore);
-  @observable private activeStep: number = 1;
+  @observable private wallet = new WalletModel(this.walletStore);
+  @observable private activeStep = 1;
 
   componentDidMount() {
     this.walletStore.fetchAll();
