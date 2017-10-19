@@ -19,8 +19,8 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
             className={classnames(
               'icon',
               wallet.expanded
-                ? 'icon--chevron-thin-down'
-                : 'icon--chevron-thin-up'
+                ? 'icon--chevron-thin-up'
+                : 'icon--chevron-thin-down'
             )}
           />
         </h2>

@@ -12,7 +12,7 @@ import './style.css';
 type WalletListProps = InjectedRootStoreProps & LoadableProps;
 
 export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
-  <section className="wallet_list">
+  <div className="wallet_list">
     {rootStore!.walletStore.wallets.map(w => (
       <div key={w.id} className={classnames('wallet')}>
         <div className="wallet__inner">
@@ -32,7 +32,7 @@ export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
         </div>
       </div>
     ))}
-  </section>
+  </div>
 );
 
 export default loadable(inject(STORE_ROOT)(observer(WalletList)));
