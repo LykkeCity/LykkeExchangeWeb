@@ -33,7 +33,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
     return !this.authStore.token ? ( // FIXME: refactor to ProtectedRoute HOC
       <Redirect to={ROUTE_LOGIN} />
     ) : (
-      <div>
+      <div className="container">
         <WalletList loading={this.walletStore.loading} />
         <Drawer
           title="New API Wallet"

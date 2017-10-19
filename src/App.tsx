@@ -1,4 +1,3 @@
-import {Layout} from 'antd';
 import {Provider} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
@@ -17,7 +16,6 @@ import AuthPage from './pages/AuthPage';
 import TransferPage from './pages/TransferPage/index';
 import {RootStore} from './stores';
 
-const {Content} = Layout;
 const rootStore = new RootStore();
 
 export interface InjectedRootStoreProps {
@@ -29,9 +27,9 @@ class App extends React.Component {
     return (
       <Provider rootStore={rootStore}>
         <Router>
-          <Layout className="app">
+          <div className="app">
             <Header />
-            <Content className="app__shell">
+            <div className="app__shell">
               <ProtectedRoute
                 exact={true}
                 path={ROUTE_WALLET}
@@ -46,9 +44,9 @@ class App extends React.Component {
               />
               <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
               <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
-            </Content>
+            </div>
             <Footer />
-          </Layout>
+          </div>
         </Router>
       </Provider>
     );

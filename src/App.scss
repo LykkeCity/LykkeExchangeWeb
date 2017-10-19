@@ -10,3 +10,11 @@
 @import '../node_modules/LykkeFramework/assets/scss/partials/btn';
 @import '../node_modules/LykkeFramework/assets/scss/partials/social';
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
+
+.app__shell {
+  padding: 40px 0;
+}
+
+body {
+  @include rem(padding-bottom, 400px);
+}

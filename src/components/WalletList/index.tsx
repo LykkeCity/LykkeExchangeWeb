@@ -1,6 +1,3 @@
-import Col from 'antd/lib/grid/col';
-import Row from 'antd/lib/grid/row';
-import 'antd/lib/grid/style/css';
 import * as classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
@@ -15,25 +12,27 @@ import './style.css';
 type WalletListProps = InjectedRootStoreProps & LoadableProps;
 
 export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
-  <div className="wallet__list">
+  <section className="wallet_list">
     {rootStore!.walletStore.wallets.map(w => (
       <div key={w.id} className={classnames('wallet')}>
-        <WalletSummary wallet={w} />
-        {w.expanded && [
-          <Row key={WalletActionBar.name}>
-            <Col span={18} offset={2}>
-              <WalletActionBar wallet={w} />
-            </Col>
-          </Row>,
-          <Row key={WalletBalanceList.name}>
-            <Col span={18} offset={2}>
-              <WalletBalanceList wallet={w} />
-            </Col>
-          </Row>
-        ]}
+        <div className="wallet__inner">
+          <WalletSummary wallet={w} />
+          {w.expanded && [
+            <div className="row" key={WalletActionBar.name}>
+              <div className="col-xs-12">
+                <WalletActionBar wallet={w} />
+              </div>
+            </div>,
+            <div className="row" key={WalletBalanceList.name}>
+              <div className="col-xs-12">
+                <WalletBalanceList wallet={w} />
+              </div>
+            </div>
+          ]}
+        </div>
       </div>
     ))}
-  </div>
+  </section>
 );
 
 export default loadable(inject(STORE_ROOT)(observer(WalletList)));

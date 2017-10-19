@@ -982,22 +982,23 @@
 
 .header_nav_balance {
   white-space: nowrap;
+  position: relative;
+  padding-right: 15px;
 
   @include rem(font-size, 16px);
   @include rem(margin-top, 15px);
 
   &:before {
     font-family: icon, sans-serif;
-    content: '\e92b';
+    content: '\e967';
     position: absolute;
-    left: 0;
-    right: 0;
+    top: 50%;
     text-align: center;
-    color: #8c94a0;
-    top: 100%;
+    color: $gray-dark;
 
-    @include rem(margin-top, -1px);
-    @include rem(font-size, 11px);
+    @include rem(margin-top, -10px);
+    @include rem(right, -5px);
+    @include rem(font-size, 20px);
   }
 
   .icon,
@@ -1006,6 +1007,8 @@
     opacity: 1;
     display: inline-block;
     vertical-align: middle;
+
+    @include rem(margin-right, 5px);
   }
 
   &__currency {
@@ -1028,9 +1031,8 @@
   }
 
   .icon {
-    color: $secondary;
+    color: $gray-dark;
 
-    @include rem(margin-right, 0);
     @include rem(font-size, 18px);
   }
 
