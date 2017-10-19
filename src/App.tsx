@@ -1,7 +1,6 @@
 import {Provider} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import './App.css';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import {ProtectedRoute} from './components/ProtectedRoute/index';
@@ -15,6 +14,8 @@ import {LoginPage, WalletPage} from './pages';
 import AuthPage from './pages/AuthPage';
 import TransferPage from './pages/TransferPage/index';
 import {RootStore} from './stores';
+
+import './App.css';
 
 const rootStore = new RootStore();
 
