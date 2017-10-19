@@ -1,4 +1,4 @@
-import {action, observable, runInAction} from 'mobx';
+import {action, computed, observable} from 'mobx';
 import {WalletModel} from '.';
 
 export class TransferModel {
@@ -8,7 +8,14 @@ export class TransferModel {
   @observable to: WalletModel;
   @observable amount: number;
   @observable asset: string;
-  @observable qr: string;
+  @computed
+  get qr() {
+    const dto = JSON.stringify({
+      AccountId: this.from.id,
+      Amount: this.amount
+    });
+    return `//lykke-qr.azurewebsites.net/QR/${btoa(JSON.stringify(dto))}.gif`;
+  }
 
   constructor(
     from: WalletModel,
@@ -26,8 +33,9 @@ export class TransferModel {
   update = (transfer: Partial<TransferModel>) => Object.assign(this, transfer);
 
   submit = async () => {
-    const qr = await this.from.transfer(this);
-    runInAction(() => (this.qr = qr));
+    // this.from.debit(this.amount);
+    // this.to.credit(this.amount);
+    await this.from.transfer(this);
   };
 }
 

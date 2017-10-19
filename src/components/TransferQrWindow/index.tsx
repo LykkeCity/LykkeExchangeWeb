@@ -9,6 +9,7 @@ interface TransferQrWindowProps extends ModalProps {
 
 export class TransferQrWindow extends React.Component<TransferQrWindowProps> {
   render() {
+    const {transfer} = this.props;
     return (
       <Modal
         title="Address"
@@ -21,7 +22,7 @@ export class TransferQrWindow extends React.Component<TransferQrWindowProps> {
           Please use your LykkeWallet app to confirm the transfer:
         </p>
         <div className="transfer-qr__img">
-          <img src={this.props.transfer.qr} alt="qr" height={160} width={160} />
+          <img src={transfer.qr} alt="qr" height={160} width={160} />
         </div>
         <div />
       </Modal>

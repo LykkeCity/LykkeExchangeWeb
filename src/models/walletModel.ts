@@ -83,18 +83,13 @@ export class WalletModel {
   @action debit = (amount: number) => (this.balances[0].balance -= amount);
   @action credit = (amount: number) => (this.balances[0].balance += amount);
 
-  transfer = async (transfer: TransferModel) => {
-    runInAction(() => {
-      // this.debit(transfer.amount);
-      // transfer.to.credit(transfer.amount);
-    });
-    return await this.store!.transfer(
+  transfer = async (transfer: TransferModel) =>
+    await this.store!.transfer(
       this,
       transfer.to,
       transfer.amount,
       transfer.asset
     );
-  };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
 

@@ -84,12 +84,7 @@ export class WalletStore {
     amount: number,
     asset: string
   ) => {
-    const dto = JSON.stringify({
-      AccountId: from.id,
-      Amount: amount
-    });
     // await this.api!.sendTransferNotification();
-    return `//lykke-qr.azurewebsites.net/QR/${btoa(JSON.stringify(dto))}.gif`;
   };
 }
 

@@ -50,8 +50,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     <form className="transfer__form">
       <div>
         <label>Asset</label>
-        <select onSelect={handleChangeAsset}>
-          <option value="BTC">BTC</option>
+        <select onChange={handleChangeAsset}>
+          {transfer.from.balances.map(b => (
+            <option key={b.assetId} value={b.assetId}>
+              {b.assetId}
+            </option>
+          ))}
         </select>
       </div>
       <div>
