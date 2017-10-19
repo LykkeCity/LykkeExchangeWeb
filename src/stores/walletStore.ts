@@ -33,7 +33,7 @@ export class WalletStore {
         if (!!wallet) {
           wallet.setBalances(dto.Balances);
         } else {
-          const tradingWallet = new WalletModel(dto);
+          const tradingWallet = new WalletModel(dto, this);
           tradingWallet.setBalances(dto.Balances);
           this.wallets.push(tradingWallet);
         }
@@ -63,12 +63,19 @@ export class WalletStore {
     direction: 'Sell' | 'Buy';
   }) => this.api!.convertToBaseCurrency(convertable);
 
-  transfer = (
+  transfer = async (
     from: WalletModel,
     to: WalletModel,
     amount: number,
     asset: string
-  ) => this.api!.transfer(from.id, to.id, amount, asset);
+  ) => {
+    const dto = JSON.stringify({
+      AccountId: from.id,
+      Amount: amount
+    });
+    // await this.api!.sendTransferNotification();
+    return `//lykke-qr.azurewebsites.net/QR/${btoa(JSON.stringify(dto))}.gif`;
+  };
 }
 
 export default WalletStore;

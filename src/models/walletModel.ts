@@ -81,11 +81,11 @@ export class WalletModel {
   };
 
   transfer = async (toWallet: WalletModel, amount: number) => {
-    await this.store!.transfer(this, toWallet, amount, '');
     runInAction(() => {
-      this.balances[0].balance -= amount;
-      toWallet.balances[0].balance += amount;
+      // this.balances[0].balance -= amount;
+      // toWallet.balances[0].balance += amount;
     });
+    return await this.store!.transfer(this, toWallet, amount, '');
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);

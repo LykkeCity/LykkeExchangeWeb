@@ -82,3 +82,40 @@
     }
   }
 }
+.transfer-qr {
+  padding: 10px;
+
+  .ant-modal-title {
+    font-size: 28px;
+    font-weight: 600;
+  }
+
+  .transfer-qr__desc {
+    color: #3f4d60;
+    font-size: 18px;
+    text-align: left;
+  }
+
+  .transfer-qr__img {
+    text-align: center;
+    margin: 0 auto;
+  }
+}
+
+.transfer-result {
+  width: 569px;
+  margin: 30px auto;
+  text-align: center;
+
+  &__desc {
+    font-size: 28px;
+    font-weight: 600;
+    margin: 30px 0;
+  }
+
+  &__amount {
+    font-size: 36px;
+    font-weight: 300px;
+    margin-bottom: 40px;
+  }
+}
