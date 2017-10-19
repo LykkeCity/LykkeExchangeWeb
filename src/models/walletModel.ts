@@ -1,5 +1,5 @@
 import {action, computed, observable, runInAction} from 'mobx';
-import {BalanceModel} from '.';
+import {BalanceModel, TransferModel} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
@@ -80,12 +80,20 @@ export class WalletModel {
     });
   };
 
-  transfer = async (toWallet: WalletModel, amount: number) => {
+  @action debit = (amount: number) => (this.balances[0].balance -= amount);
+  @action credit = (amount: number) => (this.balances[0].balance += amount);
+
+  transfer = async (transfer: TransferModel) => {
     runInAction(() => {
-      // this.balances[0].balance -= amount;
-      // toWallet.balances[0].balance += amount;
+      // this.debit(transfer.amount);
+      // transfer.to.credit(transfer.amount);
     });
-    return await this.store!.transfer(this, toWallet, amount, '');
+    return await this.store!.transfer(
+      this,
+      transfer.to,
+      transfer.amount,
+      transfer.asset
+    );
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);

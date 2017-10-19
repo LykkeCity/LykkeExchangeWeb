@@ -42,7 +42,22 @@ export class WalletStore {
     });
   };
 
+  fetchById = async (id: string) => {
+    const dto = await this.api!.fetchById(id);
+    const wallet = new WalletModel(dto, this);
+    this.replace(wallet);
+    return wallet;
+  };
+
+  findById = (id: string) => this.wallets.find(w => w.id === id);
+
   @action add = (wallet: WalletModel) => this.wallets.unshift(wallet);
+
+  @action
+  replace = (wallet: WalletModel) => {
+    const idx = this.wallets.findIndex(w => w.id === wallet.id);
+    this.wallets.splice(idx, 1, wallet);
+  };
 
   createApiWallet = async (name: string) => {
     const resp = await this.api!.createApiWallet(name);

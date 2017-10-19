@@ -3,22 +3,19 @@ import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Redirect} from 'react-router';
 import {InjectedRootStoreProps} from '../../App';
 import CreateWalletForm from '../../components/CreateWalletForm';
 import CreateWalletWizard, {
   Step,
   Steps
 } from '../../components/CreateWalletWizard';
-import Drawer from '../../components/Drawer/index';
-import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm/index';
+import Drawer from '../../components/Drawer';
+import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
 import WalletList from '../../components/WalletList';
-import {ROUTE_LOGIN} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
 export class WalletPage extends React.Component<InjectedRootStoreProps> {
-  private readonly authStore = this.props.rootStore!.authStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
 
@@ -30,9 +27,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
   }
 
   render() {
-    return !this.authStore.token ? ( // FIXME: refactor to ProtectedRoute HOC
-      <Redirect to={ROUTE_LOGIN} />
-    ) : (
+    return (
       <div>
         <WalletList loading={this.walletStore.loading} />
         <Drawer
