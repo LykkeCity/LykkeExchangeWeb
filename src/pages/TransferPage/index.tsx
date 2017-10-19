@@ -16,7 +16,7 @@ enum Dir {
 export class TransferPage extends React.Component<InjectedRootStoreProps> {
   @observable amount: number = 0;
   @observable
-  fromWallet: WalletModel = this.props.rootStore!.uiStore.currentWallet ||
+  fromWallet: WalletModel = this.props.rootStore!.walletStore.selectedWallet ||
     new WalletModel();
   @observable toWallet: WalletModel = new WalletModel();
 

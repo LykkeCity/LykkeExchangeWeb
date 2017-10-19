@@ -25,10 +25,8 @@ export class AuthStore {
   }
 
   auth = async (code: string) => {
-    if (!!code) {
-      const bearerToken = await this.getBearerToken(code);
-      localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
-    }
+    const bearerToken = await this.getBearerToken(code);
+    localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
     const sessionToken = await this.getSessionToken();
     this.setToken(sessionToken.token);
   };

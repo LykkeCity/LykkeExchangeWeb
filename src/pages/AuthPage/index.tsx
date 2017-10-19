@@ -10,7 +10,9 @@ export class AuthPage extends React.Component<InjectedRootStoreProps> {
 
   componentWillMount() {
     const code = new URL(location.href).searchParams.get('code');
-    this.authStore.auth(code!);
+    if (!!code) {
+      this.authStore.auth(code!);
+    }
   }
 
   render() {

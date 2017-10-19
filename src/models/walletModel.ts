@@ -31,6 +31,8 @@ export class WalletModel {
     return !this.collapsed;
   }
 
+  @observable selected: boolean;
+
   @observable baseCurrency = 'LKK';
 
   @computed
@@ -87,6 +89,8 @@ export class WalletModel {
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
+
+  @action select = () => (this.selected = true);
 }
 
 export default WalletModel;

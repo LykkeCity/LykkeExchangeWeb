@@ -91,4 +91,12 @@ describe('wallet model', () => {
     // assert
     expect(mockConverter.mock.calls.length).toBe(count);
   });
+
+  it('should select wallet', () => {
+    const w = new WalletModel();
+    w.select();
+    walletStore.add(w);
+    expect(walletStore.selectedWallet).toBeDefined();
+    expect(walletStore.selectedWallet).toBe(w);
+  });
 });

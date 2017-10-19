@@ -18,6 +18,11 @@ export class WalletStore {
     return this.wallets.filter(w => w.balances.length > 0);
   }
 
+  @computed
+  get selectedWallet() {
+    return this.wallets.find(w => w.selected);
+  }
+
   fetchAll = async () => {
     const resp = await this.api!.fetchAll();
     const balances = await this.rootStore.balanceStore.fetchAll();
