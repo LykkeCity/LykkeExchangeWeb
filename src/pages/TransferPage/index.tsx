@@ -14,7 +14,7 @@ import './style.css';
 export class TransferPage extends React.Component<
   InjectedRootStoreProps & RouteComponentProps<any>
 > {
-  @observable transfer: TransferModel = TransferModel.blank();
+  @observable transfer: TransferModel = TransferModel.empty();
   @observable showQrWindow: boolean;
 
   componentDidMount() {

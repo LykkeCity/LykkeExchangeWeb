@@ -2,7 +2,7 @@ import {action, computed, observable} from 'mobx';
 import {WalletModel} from '.';
 
 export class TransferModel {
-  static blank = () =>
+  static empty = () =>
     new TransferModel(new WalletModel(), new WalletModel(), 0, '');
   @observable from: WalletModel;
   @observable to: WalletModel;
@@ -10,11 +10,11 @@ export class TransferModel {
   @observable asset: string;
   @computed
   get qr() {
-    const dto = JSON.stringify({
+    const dto = {
       AccountId: this.from.id,
       Amount: this.amount
-    });
-    return `//lykke-qr.azurewebsites.net/QR/${btoa(JSON.stringify(dto))}.gif`;
+    };
+    return btoa(JSON.stringify(dto));
   }
 
   constructor(
