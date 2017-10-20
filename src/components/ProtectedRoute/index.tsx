@@ -1,11 +1,10 @@
 import * as React from 'react';
 import {Redirect, Route, RouteProps} from 'react-router';
-import {InjectedRootStoreProps} from '../../App';
 import {ROUTE_LOGIN} from '../../constants/routes';
 import {AuthStore} from '../../stores/index';
 
 interface ProtectedRouteProps extends RouteProps {
-  Component: React.ComponentClass<InjectedRootStoreProps>;
+  Component: React.ComponentClass<any> | React.SFC<any>;
   authStore: AuthStore;
 }
 
@@ -30,3 +29,5 @@ export const ProtectedRoute = ({
       )}
   />
 );
+
+export default ProtectedRoute;

@@ -1,0 +1,51 @@
+.transfer__form {
+  border: solid 1px #ebedef;
+  border-left: none;
+  border-right: none;
+  padding: 30px 50px;
+  margin-bottom: 60px;
+  div {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 10px 0;
+    label {
+      font-size: 18px;
+      font-weight: 600;
+      flex: 1 1 auto;
+      width: 200px;
+      display: inline-block;
+      text-align: left;
+    }
+    input,
+    select {
+      flex: 0 0 1;
+      width: 370px;
+      height: 40px;
+      display: inline-block;
+      padding: 5px;
+    }
+  }
+}
+
+.transfer__actions {
+  font-size: 18px;
+  font-weight: 600;
+  display: block !important;
+  text-align: center;
+  margin-top: 30px !important;
+
+  & > div {
+    display: block;
+  }
+
+  input[type='submit'] {
+    background: #0da7fc;
+    padding: 10px 50px;
+    color: #ffffff;
+    border: none;
+    border-radius: 100px;
+    width: 370px;
+    margin-bottom: 24px;
+  }
+}

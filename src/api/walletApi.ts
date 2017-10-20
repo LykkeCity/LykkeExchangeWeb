@@ -12,6 +12,12 @@ export class RestWalletApi extends RestApi implements WalletApi {
       .get()
       .json<any[]>();
 
+  fetchById = (id: string) =>
+    this.bearerWretch()
+      .url(`/wallets/${id}`)
+      .get()
+      .json<any[]>();
+
   fetchBalanceById = (id: string) =>
     this.bearerWretch()
       .url(`/wallet/${id}/balances`)
