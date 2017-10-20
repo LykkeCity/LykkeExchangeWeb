@@ -23,7 +23,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
   @observable private activeStep = 1;
 
   componentDidMount() {
-    this.walletStore.fetchAll();
+    this.walletStore.fetchWallets();
   }
 
   render() {

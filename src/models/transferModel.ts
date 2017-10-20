@@ -3,16 +3,7 @@ import {WalletModel} from '.';
 import {TransferStore} from '../stores';
 
 export class TransferModel {
-  static empty = (store: TransferStore) =>
-    new TransferModel(new WalletModel(), new WalletModel(), 0, '', store);
-
-  static create = (
-    from: WalletModel,
-    to: WalletModel,
-    amount: number,
-    asset: string,
-    store: TransferStore
-  ) => new TransferModel(from, to, amount, asset, store);
+  readonly store: TransferStore;
 
   @observable from: WalletModel;
   @observable to: WalletModel;
@@ -20,7 +11,7 @@ export class TransferModel {
   @observable asset: string;
 
   @computed
-  get qr() {
+  get asQr() {
     const dto = {
       AccountId: this.from.id,
       Amount: this.amount
@@ -28,17 +19,10 @@ export class TransferModel {
     return btoa(JSON.stringify(dto));
   }
 
-  protected constructor(
-    from: WalletModel,
-    to: WalletModel,
-    amount: number,
-    asset: string,
-    private store: TransferStore
-  ) {
-    this.from = from;
-    this.to = to;
-    this.amount = amount;
-    this.asset = asset;
+  constructor(store: TransferStore) {
+    this.store = store;
+    this.from = this.store.rootStore.walletStore.createWallet();
+    this.to = this.store.rootStore.walletStore.createWallet();
   }
 
   @action

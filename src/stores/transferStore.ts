@@ -11,8 +11,18 @@ export class TransferStore {
     this.rootStore = rootStore;
   }
 
-  transfer = async (transfer: TransferModel) =>
+  createTransfer = () => {
+    const transfer = new TransferModel(this);
+    this.addTransfer(transfer);
+    return transfer;
+  };
+
+  addTransfer = (transfer: TransferModel) => this.transfers.unshift(transfer);
+
+  transfer = async (transfer: TransferModel) => {
     await this.api.transfer(transfer);
+    this.addTransfer(transfer);
+  };
 }
 
 export default TransferStore;

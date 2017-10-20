@@ -6,10 +6,10 @@ import {nextId} from '../utils';
 export class WalletModel {
   static empty = () => new WalletModel();
 
-  @observable id: string = '';
-  @observable title: string = '';
-  @observable desc: string = '';
-  @observable apiKey: string = '';
+  @observable id: string;
+  @observable title: string;
+  @observable desc: string;
+  @observable apiKey: string;
 
   @observable
   figures: {

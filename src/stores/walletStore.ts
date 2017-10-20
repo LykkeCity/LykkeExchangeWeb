@@ -23,7 +23,13 @@ export class WalletStore {
     return this.wallets.find(w => w.selected);
   }
 
-  fetchAll = async () => {
+  createWallet = () => {
+    const wallet = new WalletModel();
+    this.addWallet(wallet);
+    return wallet;
+  };
+
+  fetchWallets = async () => {
     const resp = await this.api!.fetchAll();
     const balances = await this.rootStore.balanceStore.fetchAll();
     runInAction(() => {
@@ -42,19 +48,19 @@ export class WalletStore {
     });
   };
 
-  fetchById = async (id: string) => {
+  fetchWalletById = async (id: string) => {
     const dto = await this.api!.fetchById(id);
     const wallet = new WalletModel(dto, this);
-    this.replace(wallet);
+    this.updateWallet(wallet);
     return wallet;
   };
 
-  findById = (id: string) => this.wallets.find(w => w.id === id);
+  findWalletById = (id: string) => this.wallets.find(w => w.id === id);
 
-  @action add = (wallet: WalletModel) => this.wallets.unshift(wallet);
+  @action addWallet = (wallet: WalletModel) => this.wallets.unshift(wallet);
 
   @action
-  replace = (wallet: WalletModel) => {
+  updateWallet = (wallet: WalletModel) => {
     const idx = this.wallets.findIndex(w => w.id === wallet.id);
     this.wallets.splice(idx, 1, wallet);
   };
@@ -62,7 +68,7 @@ export class WalletStore {
   createApiWallet = async (name: string) => {
     const resp = await this.api!.createApiWallet(name);
     const apiWallet = new WalletModel({...resp, Id: resp.WalletId, Name: name});
-    this.add(apiWallet);
+    this.addWallet(apiWallet);
     return apiWallet;
   };
 

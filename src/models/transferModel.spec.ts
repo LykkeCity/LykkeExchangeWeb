@@ -1,33 +1,22 @@
-import {TransferModel, WalletModel} from '.';
+import {WalletModel} from '.';
 import {RootStore} from '../stores';
 
 const rootStore = new RootStore();
 const {transferStore} = rootStore;
 
 describe('transfer model', () => {
-  test('blank should return an empty transfer object', () => {
-    const sut = TransferModel.empty(transferStore);
-
-    expect(sut).toBeDefined();
-    expect(sut).not.toBeNull();
-    expect(sut.amount).toBe(0);
-    expect(sut.asset).toBe('');
-    expect(sut.from).toBeDefined();
-    expect(sut.to).toBeDefined();
-  });
-
   it('should correctly and automaticaly update qr', () => {
     const amount = 10;
     const walletId = 1;
-    const sut = TransferModel.create(
-      new WalletModel({Id: walletId}),
-      new WalletModel(),
+    const sut = transferStore.createTransfer();
+    sut.update({
+      from: new WalletModel({Id: walletId}),
+      // tslint:disable-next-line:object-literal-sort-keys
       amount,
-      'LKK',
-      transferStore
-    );
+      asset: 'LKK'
+    });
 
-    expect(sut.qr).toBe(
+    expect(sut.asQr).toBe(
       btoa(
         JSON.stringify({
           AccountId: walletId,
@@ -35,21 +24,16 @@ describe('transfer model', () => {
         })
       )
     );
-    expect(JSON.parse(atob(sut.qr)).Amount).toBe(amount);
-    expect(JSON.parse(atob(sut.qr)).AccountId).toBe(walletId);
+    expect(JSON.parse(atob(sut.asQr)).Amount).toBe(amount);
+    expect(JSON.parse(atob(sut.asQr)).AccountId).toBe(walletId);
   });
 
   it('should merge transfer object', () => {
-    const sut = TransferModel.create(
-      new WalletModel({Id: 1}),
-      new WalletModel(),
-      10,
-      'LKK',
-      transferStore
-    );
-
+    const sut = transferStore.createTransfer();
     sut.update({
-      amount: 100
+      amount: 100,
+      asset: 'LKK',
+      from: new WalletModel({Id: 1})
     });
 
     expect(sut.amount).toBe(100);
@@ -58,13 +42,14 @@ describe('transfer model', () => {
   });
 
   it('should call transfer method', () => {
-    const sut = TransferModel.create(
-      new WalletModel(),
-      new WalletModel(),
-      10,
-      'LKK',
-      transferStore
-    );
+    const sut = transferStore.createTransfer();
+    sut.update({
+      from: new WalletModel(),
+      to: new WalletModel(),
+      // tslint:disable-next-line:object-literal-sort-keys
+      amount: 10,
+      asset: 'LKK'
+    });
     transferStore.transfer = jest.fn();
 
     sut.submit();

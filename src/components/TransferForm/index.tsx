@@ -5,13 +5,14 @@ import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel} from '../../models';
 import {WalletStore} from '../../stores/index';
+import {LoadableProps} from '../hoc/loadable';
 import './style.css';
 
 type FormEventHandler = React.FormEventHandler<
   HTMLInputElement | HTMLSelectElement
 >;
 
-interface TransferFormProps {
+interface TransferFormProps extends LoadableProps {
   transfer: TransferModel;
   walletStore: WalletStore;
   onTransfer?: (transfer: TransferModel) => any;
@@ -33,7 +34,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
 
   const handleChangeWallet = (side: 'from' | 'to'): FormEventHandler => e => {
     transfer.update({
-      [side]: walletStore.findById(e.currentTarget.value)
+      [side]: walletStore.findWalletById(e.currentTarget.value)
     });
   };
 
