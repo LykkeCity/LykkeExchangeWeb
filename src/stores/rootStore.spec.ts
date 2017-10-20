@@ -1,4 +1,11 @@
-import {AuthStore, BalanceStore, RootStore, UiStore, WalletStore} from './';
+import {
+  AuthStore,
+  BalanceStore,
+  RootStore,
+  TransferStore,
+  UiStore,
+  WalletStore
+} from '.';
 
 const rootStore = new RootStore();
 
@@ -25,5 +32,11 @@ describe('root store', () => {
     expect(rootStore).toHaveProperty('uiStore');
     expect(rootStore.uiStore).toBeDefined();
     expect(rootStore.uiStore).toBeInstanceOf(UiStore);
+  });
+
+  it('should hold strongly typed ref to transfer store', () => {
+    expect(rootStore).toHaveProperty('transferStore');
+    expect(rootStore.transferStore).toBeDefined();
+    expect(rootStore.transferStore).toBeInstanceOf(TransferStore);
   });
 });

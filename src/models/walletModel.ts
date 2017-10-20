@@ -1,13 +1,15 @@
 import {action, computed, observable, runInAction} from 'mobx';
-import {BalanceModel, TransferModel} from '.';
+import {BalanceModel} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
 export class WalletModel {
-  @observable id: string;
-  @observable title: string;
-  @observable desc: string;
-  @observable apiKey: string;
+  static empty = () => new WalletModel();
+
+  @observable id: string = '';
+  @observable title: string = '';
+  @observable desc: string = '';
+  @observable apiKey: string = '';
 
   @observable
   figures: {
@@ -17,7 +19,7 @@ export class WalletModel {
     pnl: number;
     assetId: string;
   } = {
-    assetId: 'LKK',
+    assetId: '',
     pnl: 0,
     received: 0,
     sent: 0,
@@ -82,14 +84,6 @@ export class WalletModel {
 
   @action debit = (amount: number) => (this.balances[0].balance -= amount);
   @action credit = (amount: number) => (this.balances[0].balance += amount);
-
-  transfer = async (transfer: TransferModel) =>
-    await this.store!.transfer(
-      this,
-      transfer.to,
-      transfer.amount,
-      transfer.asset
-    );
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
 

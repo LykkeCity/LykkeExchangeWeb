@@ -77,15 +77,6 @@ export class WalletStore {
     amount: number;
     direction: 'Sell' | 'Buy';
   }) => this.api!.convertToBaseCurrency(convertable);
-
-  transfer = async (
-    from: WalletModel,
-    to: WalletModel,
-    amount: number,
-    asset: string
-  ) => {
-    // await this.api!.sendTransferNotification();
-  };
 }
 
 export default WalletStore;

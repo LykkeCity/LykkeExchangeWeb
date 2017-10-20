@@ -1,8 +1,12 @@
-import {TransferModel, WalletModel} from './index';
+import {TransferModel, WalletModel} from '.';
+import {RootStore} from '../stores';
+
+const rootStore = new RootStore();
+const {transferStore} = rootStore;
 
 describe('transfer model', () => {
   test('blank should return an empty transfer object', () => {
-    const sut = TransferModel.empty();
+    const sut = TransferModel.empty(transferStore);
 
     expect(sut).toBeDefined();
     expect(sut).not.toBeNull();
@@ -15,11 +19,12 @@ describe('transfer model', () => {
   it('should correctly and automaticaly update qr', () => {
     const amount = 10;
     const walletId = 1;
-    const sut = new TransferModel(
+    const sut = TransferModel.create(
       new WalletModel({Id: walletId}),
       new WalletModel(),
       amount,
-      'LKK'
+      'LKK',
+      transferStore
     );
 
     expect(sut.qr).toBe(
@@ -35,11 +40,12 @@ describe('transfer model', () => {
   });
 
   it('should merge transfer object', () => {
-    const sut = new TransferModel(
+    const sut = TransferModel.create(
       new WalletModel({Id: 1}),
       new WalletModel(),
       10,
-      'LKK'
+      'LKK',
+      transferStore
     );
 
     sut.update({
@@ -51,13 +57,18 @@ describe('transfer model', () => {
     expect(sut.asset).toBe('LKK');
   });
 
-  it('should call transfer method on source wallet', () => {
-    const fromWallet = new WalletModel({Id: 1});
-    fromWallet.transfer = jest.fn();
-    const sut = new TransferModel(fromWallet, new WalletModel(), 10, 'LKK');
+  it('should call transfer method', () => {
+    const sut = TransferModel.create(
+      new WalletModel(),
+      new WalletModel(),
+      10,
+      'LKK',
+      transferStore
+    );
+    transferStore.transfer = jest.fn();
 
     sut.submit();
 
-    expect(fromWallet.transfer).toBeCalled();
+    expect(transferStore.transfer).toBeCalled();
   });
 });
