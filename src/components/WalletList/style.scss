@@ -13,7 +13,7 @@
   @include rem(padding, 0 100px);
   @include rem(margin-bottom, 24px);
 
-  &:hover {
+  &:hover &--opened {
     box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
       0 2px 6px 0 rgba(63, 77, 96, 0.1);
 
@@ -30,82 +30,94 @@
   }
 
   &__title {
-    font-size: 40px;
-    font-weight: 600;
+    font-weight: $fw-semi;
     line-height: 1.25;
-    color: #333333;
-    margin-bottom: 15px;
+    color: $text;
 
-    i.anticon {
-      font-size: 30px;
-      font-weight: 300 !important;
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 15px);
+
+    i.icon {
       color: #d8d8d8;
-      padding-left: 15px;
       cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
+
+      @include rem(padding, 5px);
+      @include rem(font-size, 30px);
+      @include rem(margin-left, 10px);
     }
   }
 
-  .wallet__desc {
-    opacity: 0.8;
-    font-size: 16px;
+  &__desc {
     line-height: 1.56;
-    color: #3f4d60;
-    margin-bottom: 50px;
+    color: rgba($secondary, 0.8);
+
+    @include rem(font-size, 16px);
   }
 
-  .wallet__total-balance {
-    opacity: 0.6;
-    font-size: 13px;
+  &__total-balance {
     line-height: 1.85;
-    letter-spacing: 2.4px;
-    color: #3f4d60;
+    color: rgba($secondary, 0.6);
     text-transform: uppercase;
+
+    @include rem(font-size, 13px);
+    @include rem(line-height, 2.4px);
   }
 
-  .wallet__total-balance-value {
-    font-size: 36px;
-    font-weight: 300;
+  &__total-balance-value {
+    font-weight: $fw-light;
     line-height: 1.11;
     text-align: left;
-    color: #333333;
+    color: $text;
+
+    @include rem(font-size, 36px);
   }
 
-  .wallet__figure {
-    font-size: 16px;
+  &__figure {
     line-height: 1.5;
-    color: #3f4d60;
+    color: $secondary;
+
+    @include rem(font-size, 16px);
   }
 
-  .wallet__figure-val {
-    opacity: 0.6;
-    font-size: 16px;
+  &__figure-val {
     line-height: 1.5;
-    color: #3f4d60;
+    color: rgba($secondary, 0.6);
+
+    @include rem(font-size, 16px);
+
+    &--pl {
+      color: $green;
+    }
   }
 
-  .wallet__figure-val--pl {
-    color: #13b72a;
-  }
-
-  .wallet__balances {
+  &__balances {
     margin-top: 20px;
+
+    @include rem(margin-top, 20px);
+
     table {
       border-collapse: collapse;
-      font-size: 16px;
-      margin-top: 10px;
       width: 100%;
 
+      @include rem(font-size, 16px);
+      @include rem(margin-top, 10px);
+
       tr {
-        border-bottom: solid 1px #ebedef;
+        border-bottom: solid 1px $border-alt;
       }
 
       th,
       td {
         text-align: left;
-        padding: 20px;
+
+        @include rem(padding, 20px);
+
         &:first-child {
           width: 70%;
         }
+
         &:last-child {
           text-align: right;
         }

@@ -213,7 +213,7 @@
 
   @media all and (max-width: $screen-landscape) {
     height: 132px;
-    padding-top: 83px;
+    padding-top: 80px;
     overflow: hidden;
 
     &__inner {
@@ -229,7 +229,7 @@
   }
 
   @media all and (max-width: $screen-mobile) {
-    padding-top: 62px;
+    padding-top: 60px;
     height: 105px;
 
     &.nav_up {
@@ -252,6 +252,7 @@
     > a {
       color: inherit;
       display: block;
+      text-decoration: none !important;
 
       @include rem(padding, 10px 13px);
     }

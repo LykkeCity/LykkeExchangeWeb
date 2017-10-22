@@ -8,7 +8,6 @@
 @import '../node_modules/LykkeFramework/assets/scss/common/helpers';
 @import '../node_modules/LykkeFramework/assets/scss/partials/form';
 @import '../node_modules/LykkeFramework/assets/scss/partials/btn';
-@import '../node_modules/LykkeFramework/assets/scss/partials/social';
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
 
 .app__shell {
@@ -17,4 +16,8 @@
 
 body {
   @include rem(padding-bottom, 400px);
+}
+
+.form-control:focus {
+  border-color: #b2b8bf;
 }

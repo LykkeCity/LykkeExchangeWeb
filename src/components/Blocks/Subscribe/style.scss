@@ -38,14 +38,14 @@
       position: relative;
       top: 0;
     }
-  }
 
-  .btn--circle {
-    line-height: normal;
+    &.btn--circle {
+      line-height: normal;
 
-    @include rem(min-width, 40px);
-    @include rem(height, 40px);
-    @include rem(padding, 5px);
+      @include rem(min-width, 40px);
+      @include rem(height, 40px);
+      @include rem(padding, 5px);
+    }
   }
 
   .form-control {
