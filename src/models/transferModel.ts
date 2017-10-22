@@ -1,32 +1,28 @@
 import {action, computed, observable} from 'mobx';
 import {WalletModel} from '.';
+import {TransferStore} from '../stores';
 
 export class TransferModel {
-  static blank = () =>
-    new TransferModel(new WalletModel(), new WalletModel(), 0, '');
+  readonly store: TransferStore;
+
   @observable from: WalletModel;
   @observable to: WalletModel;
   @observable amount: number;
   @observable asset: string;
+
   @computed
-  get qr() {
-    const dto = JSON.stringify({
+  get asQr() {
+    const dto = {
       AccountId: this.from.id,
       Amount: this.amount
-    });
-    return `//lykke-qr.azurewebsites.net/QR/${btoa(JSON.stringify(dto))}.gif`;
+    };
+    return btoa(JSON.stringify(dto));
   }
 
-  constructor(
-    from: WalletModel,
-    to: WalletModel,
-    amount: number,
-    asset: string
-  ) {
-    this.from = from;
-    this.to = to;
-    this.amount = amount;
-    this.asset = asset;
+  constructor(store: TransferStore) {
+    this.store = store;
+    this.from = this.store.rootStore.walletStore.createWallet();
+    this.to = this.store.rootStore.walletStore.createWallet();
   }
 
   @action
@@ -35,7 +31,7 @@ export class TransferModel {
   submit = async () => {
     // this.from.debit(this.amount);
     // this.to.credit(this.amount);
-    await this.from.transfer(this);
+    await this.store.transfer(this);
   };
 }
 

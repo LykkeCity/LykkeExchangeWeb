@@ -4,6 +4,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {InjectedRootStoreProps} from '../../App';
+import {loadable} from '../../components/hoc/loadable';
 import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
@@ -11,16 +12,26 @@ import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel} from '../../models';
 import './style.css';
 
-export class TransferPage extends React.Component<
-  InjectedRootStoreProps & RouteComponentProps<any>
-> {
-  @observable transfer: TransferModel = TransferModel.blank();
+const TransferFormLoadable = loadable(TransferForm);
+
+interface TransferPageProps
+  extends InjectedRootStoreProps,
+    RouteComponentProps<any> {}
+
+export class TransferPage extends React.Component<TransferPageProps> {
+  @observable
+  transfer: TransferModel = this.props
+    .rootStore!.transferStore.createTransfer();
   @observable showQrWindow: boolean;
+  @observable loaded = false;
 
   componentDidMount() {
     this.props.rootStore!.walletStore
-      .fetchById(this.props.match.params.walletId)
-      .then(w => (this.transfer.from = w));
+      .fetchWalletById(this.props.match.params.walletId)
+      .then(wallet => {
+        this.transfer.from = wallet;
+        this.loaded = true;
+      });
   }
 
   render() {
@@ -32,10 +43,11 @@ export class TransferPage extends React.Component<
           To transfer any asset to other wallet please fill in the form.
         </p>
         <TransferBar />
-        <TransferForm
+        <TransferFormLoadable
           transfer={this.transfer}
           walletStore={this.props.rootStore!.walletStore}
           onTransfer={this.handleTransfer}
+          loading={!this.loaded}
         />
         <TransferQrWindow
           visible={this.showQrWindow}

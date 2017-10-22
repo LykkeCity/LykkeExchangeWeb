@@ -58,11 +58,6 @@ export class RestWalletApi extends RestApi implements WalletApi {
       })
       .post()
       .json();
-
-  sendTransferNotification = () =>
-    this.bearerWretch()
-      .url(`//foo`)
-      .post();
 }
 
 export default RestWalletApi;

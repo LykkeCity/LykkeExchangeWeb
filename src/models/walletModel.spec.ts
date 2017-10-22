@@ -95,7 +95,7 @@ describe('wallet model', () => {
   it('should select wallet', () => {
     const w = new WalletModel();
     w.select();
-    walletStore.add(w);
+    walletStore.addWallet(w);
     expect(walletStore.selectedWallet).toBeDefined();
     expect(walletStore.selectedWallet).toBe(w);
   });
