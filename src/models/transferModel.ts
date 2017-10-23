@@ -1,29 +1,42 @@
-import {action, computed, observable} from 'mobx';
+import {action, computed, observable, reaction} from 'mobx';
 import {WalletModel} from '.';
 import {TransferStore} from '../stores';
 
 export class TransferModel {
-  readonly store: TransferStore;
-
   @observable from: WalletModel;
   @observable to: WalletModel;
   @observable amount: number;
   @observable asset: string;
 
+  @observable amountInBaseCurrency: number;
+
   @computed
-  get asQr() {
-    return !!this.from
-      ? btoa(
-          JSON.stringify({
-            AccountId: this.from.id,
-            Amount: this.amount
-          })
-        )
-      : '';
+  get asJson() {
+    return JSON.stringify({
+      AccountId: this.from.id,
+      Amount: this.amount
+    });
   }
 
-  constructor(store: TransferStore) {
+  @computed
+  get asBase64() {
+    return !!this.from ? btoa(this.asJson) : '';
+  }
+
+  constructor(private store: TransferStore) {
     this.store = store;
+    reaction(
+      () => this.amount + this.asset,
+      async () => {
+        if (!!this.amount && !!this.asset) {
+          const resp = await this.store.convertToBaseCurrency(
+            this,
+            this.store.rootStore.uiStore.baseCurrency
+          );
+          this.amountInBaseCurrency = resp.Converted[0].To.Amount;
+        }
+      }
+    );
   }
 
   @action

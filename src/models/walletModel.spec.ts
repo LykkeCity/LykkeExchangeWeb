@@ -14,13 +14,14 @@ const mockConverter = jest.fn(() =>
   })
 );
 const MockApi = jest.fn<WalletApi>(() => ({
-  convertToBaseCurrency: mockConverter,
   create: jest.fn(),
   createApiWallet: jest.fn(),
   fetchAll: jest.fn(),
   fetchBalanceById: jest.fn()
 }));
-const walletStore = new WalletStore(rootStore, new MockApi());
+const walletStore = new WalletStore(rootStore, new MockApi(), {
+  convertToBaseCurrency: mockConverter
+} as any);
 const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 
 describe('wallet model', () => {

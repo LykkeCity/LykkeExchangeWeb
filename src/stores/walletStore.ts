@@ -1,6 +1,6 @@
 import {action, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
-import {WalletApi} from '../api';
+import {ConverterApi, WalletApi} from '../api';
 import {DirectionModel, WalletModel} from '../models';
 
 export class WalletStore {
@@ -9,7 +9,11 @@ export class WalletStore {
   @observable wallets: WalletModel[] = [];
   @observable loading: boolean = true;
 
-  constructor(rootStore: RootStore, private api?: WalletApi) {
+  constructor(
+    rootStore: RootStore,
+    private api?: WalletApi,
+    private converter?: ConverterApi
+  ) {
     this.rootStore = rootStore;
   }
 
@@ -66,7 +70,7 @@ export class WalletStore {
   };
 
   convertToBaseCurrency = async (wallet: WalletModel) => {
-    const resp = await this.api!.convertToBaseCurrency({
+    const resp = await this.converter!.convertToBaseCurrency({
       AssetsFrom: wallet.balances.map(x => ({
         Amount: x.balance,
         AssetId: x.assetId

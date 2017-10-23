@@ -2,6 +2,15 @@ import {RootStore} from '../stores';
 
 const rootStore = new RootStore();
 const {transferStore, walletStore} = rootStore;
+transferStore.convertToBaseCurrency = jest.fn(() => ({
+  Converted: [
+    {
+      To: {
+        Amount: 100
+      }
+    }
+  ]
+}));
 
 describe('transfer model', () => {
   it('should correctly and automaticaly update qr', () => {
@@ -15,7 +24,7 @@ describe('transfer model', () => {
       asset: 'LKK'
     });
 
-    expect(sut.asQr).toBe(
+    expect(sut.asBase64).toBe(
       btoa(
         JSON.stringify({
           AccountId: walletId,
@@ -23,8 +32,8 @@ describe('transfer model', () => {
         })
       )
     );
-    expect(JSON.parse(atob(sut.asQr)).Amount).toBe(amount);
-    expect(JSON.parse(atob(sut.asQr)).AccountId).toBe(walletId);
+    expect(JSON.parse(atob(sut.asBase64)).Amount).toBe(amount);
+    expect(JSON.parse(atob(sut.asBase64)).AccountId).toBe(walletId);
   });
 
   it('should merge transfer object', () => {

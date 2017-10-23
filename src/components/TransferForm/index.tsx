@@ -1,6 +1,7 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
+import {InjectedRootStoreProps} from '../../App';
 import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel} from '../../models';
@@ -12,7 +13,7 @@ type FormEventHandler = React.FormEventHandler<
   HTMLInputElement | HTMLSelectElement
 >;
 
-interface TransferFormProps extends LoadableProps {
+interface TransferFormProps extends LoadableProps, InjectedRootStoreProps {
   transfer: TransferModel;
   walletStore: WalletStore;
   onTransfer?: (transfer: TransferModel) => any;
@@ -23,14 +24,16 @@ interface TransferFormProps extends LoadableProps {
 export const TransferForm: React.SFC<TransferFormProps> = ({
   transfer,
   walletStore,
+  rootStore,
   onTransfer = () => null,
   onSucceeddedTransfer = () => null,
   onFailedTransfer = () => null
 }) => {
-  const handleChangeAmount: FormEventHandler = e =>
+  const handleChangeAmount: FormEventHandler = e => {
     transfer.update({
       amount: Number(e.currentTarget.value)
     });
+  };
 
   const handleChangeWallet = (side: 'from' | 'to'): FormEventHandler => e => {
     transfer.update({
@@ -51,7 +54,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     <form className="transfer__form">
       <div>
         <label>Asset</label>
-        <select onChange={handleChangeAsset}>
+        <select onChange={handleChangeAsset} value={transfer.asset}>
           {transfer.from.balances.map(b => (
             <option key={b.assetId} value={b.assetId}>
               {b.assetId}
@@ -82,6 +85,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       <div>
         <label>Amount</label>
         <input type="text" onChange={handleChangeAmount} />
+      </div>
+      <div>
+        <div>&nbsp;</div>
+        <div>
+          {transfer.amountInBaseCurrency} {rootStore!.uiStore.baseCurrency}
+        </div>
       </div>
       <div className="transfer__actions">
         <div>

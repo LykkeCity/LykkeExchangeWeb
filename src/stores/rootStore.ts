@@ -1,5 +1,11 @@
 import {AuthStore, BalanceStore, TransferStore, UiStore, WalletStore} from '.';
-import {AuthApi, BalanceApi, TransferApi, WalletApi} from '../api';
+import {
+  AuthApi,
+  BalanceApi,
+  ConverterApi,
+  TransferApi,
+  WalletApi
+} from '../api';
 
 export class RootStore {
   readonly authStore: AuthStore;
@@ -9,11 +15,12 @@ export class RootStore {
   readonly transferStore: TransferStore;
 
   constructor() {
+    const converter = new ConverterApi();
     this.authStore = new AuthStore(this, new AuthApi());
-    this.walletStore = new WalletStore(this, new WalletApi());
+    this.walletStore = new WalletStore(this, new WalletApi(), converter);
     this.balanceStore = new BalanceStore(this, new BalanceApi());
     this.uiStore = new UiStore(this);
-    this.transferStore = new TransferStore(this, new TransferApi());
+    this.transferStore = new TransferStore(this, new TransferApi(), converter);
   }
 }
 

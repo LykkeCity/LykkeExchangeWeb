@@ -42,13 +42,6 @@ export class RestWalletApi extends RestApi implements WalletApi {
       .url(`/Hft/${id}/regenerateKey`)
       .put()
       .json();
-
-  convertToBaseCurrency = (convertable: any) =>
-    this.baseWretch
-      .url('/market/converter')
-      .json(convertable)
-      .post()
-      .json();
 }
 
 export default RestWalletApi;

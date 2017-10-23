@@ -5,6 +5,7 @@ export class UiStore {
   readonly rootStore: RootStore;
 
   @observable showCreateWalletDrawer: boolean = false;
+  @observable baseCurrency: string = 'LKK';
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;

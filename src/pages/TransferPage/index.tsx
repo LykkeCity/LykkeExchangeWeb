@@ -32,7 +32,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
       const wallet = this.walletStore.findWalletById(
         this.props.match.params.walletId
       );
-      this.transfer.update({from: wallet});
+      this.transfer.update({
+        from: wallet
+      });
+      if (wallet!.balances.length > 0) {
+        this.transfer.update({asset: wallet!.balances[0].assetId});
+      }
       this.loaded = true;
     });
   }
