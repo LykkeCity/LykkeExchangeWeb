@@ -3,7 +3,7 @@ import './style.css';
 
 export default () => (
   <div className="transfer__bar">
-    <span>Templates</span>
+    <span>Templates (2)</span>
     <span>Recent transfers</span>
     <span>Add to favorites</span>
   </div>

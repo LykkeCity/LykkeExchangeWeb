@@ -1,21 +1,31 @@
 .transfer {
-  width: 600px;
-  margin: 50px auto 0;
-  text-align: center;
-
+  color: #333;
+  width: 570px;
+  margin: 53px auto 33px;
   h1 {
-    margin-bottom: 10px;
+    text-align: center;
+    margin-bottom: 11px;
     font-size: 40px;
     font-weight: 600;
+    line-height: 1.25;
   }
 
   h2 {
-    margin-bottom: 30px;
     font-size: 36px;
     font-weight: 300;
+    line-height: 1.11;
+    margin-bottom: 28px;
+    text-align: center;
   }
 
-  .transfer__desc {
-    margin-bottom: 40px;
+  .transfer__text {
+    font-size: 16px;
+    line-height: 1.5;
+    text-align: left;
+    color: #3f4d60;
+    margin-bottom: 37px;
+    &--center {
+      text-align: center;
+    }
   }
 }

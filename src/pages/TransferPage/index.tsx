@@ -47,7 +47,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
       <div className="transfer">
         <h1>Transfer</h1>
         <h2>{this.transfer.amount} BTC</h2>
-        <p className="transfer__desc">
+        <p className="transfer__text">
           To transfer any asset to other wallet please fill in the form.
         </p>
         <TransferBar />
@@ -57,6 +57,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
           onTransfer={this.handleTransfer}
           loading={!this.loaded}
         />
+        <div className="transfer__text transfer__text--center">
+          If you have any other problem contact our support: support@lykke.com
+        </div>
         <TransferQrWindow
           visible={this.showQrWindow}
           transfer={this.transfer}

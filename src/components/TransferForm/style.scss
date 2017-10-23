@@ -1,51 +1,65 @@
-.transfer__form {
-  border: solid 1px #ebedef;
-  border-left: none;
-  border-right: none;
-  padding: 30px 50px;
-  margin-bottom: 60px;
-  div {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    margin: 10px 0;
-    label {
-      font-size: 18px;
-      font-weight: 600;
-      flex: 1 1 auto;
-      width: 200px;
-      display: inline-block;
-      text-align: left;
+.transfer-form {
+  border-bottom: solid 1px #ebedef;
+  margin-bottom: 33px;
+  .transfer-form__body {
+    border: solid 1px #ebedef;
+    border-left: none;
+    border-right: none;
+    padding: 30px 0 32px;
+    margin-bottom: 60px;
+    .transfer-form__group {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 0 20px;
+      .transfer-form__label {
+        font-size: 18px;
+        font-weight: 600;
+      }
+      .transfer-form__input {
+        width: 370px;
+        height: 50px;
+        padding: 13px 20px;
+        font-size: 16px;
+        line-height: 1.5;
+        text-align: left;
+        color: #3f4d60;
+      }
+      &:nth-child(4) {
+        margin-bottom: 13px;
+      }
+      &:nth-child(5) {
+        margin: 0;
+        .transfer-form__input {
+          opacity: 0.6;
+          font-size: 16px;
+          line-height: 1.5;
+          text-align: left;
+          color: #3f4d60;
+          padding: 0;
+          display: inline;
+        }
+      }
     }
-    input,
-    select {
-      flex: 0 0 1;
+  }
+  .transfer__actions {
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center;
+    color: #0da7fc;
+    margin-bottom: 100px;
+    & > div {
+      display: block;
+    }
+
+    input[type='submit'] {
+      background: #0da7fc;
+      padding: 14px;
+      color: #ffffff;
+      border: none;
+      border-radius: 100px;
       width: 370px;
-      height: 40px;
-      display: inline-block;
-      padding: 5px;
+      margin-bottom: 24px;
     }
-  }
-}
-
-.transfer__actions {
-  font-size: 18px;
-  font-weight: 600;
-  display: block !important;
-  text-align: center;
-  margin-top: 30px !important;
-
-  & > div {
-    display: block;
-  }
-
-  input[type='submit'] {
-    background: #0da7fc;
-    padding: 10px 50px;
-    color: #ffffff;
-    border: none;
-    border-radius: 100px;
-    width: 370px;
-    margin-bottom: 24px;
   }
 }

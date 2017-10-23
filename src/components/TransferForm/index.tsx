@@ -51,45 +51,62 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   };
 
   return (
-    <form className="transfer__form">
-      <div>
-        <label>Asset</label>
-        <select onChange={handleChangeAsset} value={transfer.asset}>
-          {transfer.from.balances.map(b => (
-            <option key={b.assetId} value={b.assetId}>
-              {b.assetId}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>From</label>
-        <select onChange={handleChangeWallet('from')} value={transfer.from.id}>
-          {walletStore.getWalletsWithAssets().map(w => (
-            <option key={w.id} value={w.id}>
-              {w.title}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>To</label>
-        <select onChange={handleChangeWallet('to')}>
-          {walletStore.getAllWalletsExceptOne(transfer.from).map(w => (
-            <option key={w.id} value={w.id}>
-              {w.title}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Amount</label>
-        <input type="text" onChange={handleChangeAmount} />
-      </div>
-      <div>
-        <div>&nbsp;</div>
-        <div>
-          {transfer.amountInBaseCurrency} {rootStore!.uiStore.baseCurrency}
+    <form className="transfer-form">
+      <div className="transfer-form__body">
+        <div className="transfer-form__group">
+          <label className="transfer-form__label">Asset</label>
+          <select
+            onChange={handleChangeAsset}
+            value={transfer.asset}
+            className="transfer-form__input"
+          >
+            {transfer.from.balances.map(b => (
+              <option key={b.assetId} value={b.assetId}>
+                {b.assetId}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="transfer-form__group">
+          <label className="transfer-form__label">From</label>
+          <select
+            onChange={handleChangeWallet('from')}
+            value={transfer.from.id}
+            className="transfer-form__input"
+          >
+            {walletStore.getWalletsWithAssets().map(w => (
+              <option key={w.id} value={w.id}>
+                {w.title}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="transfer-form__group">
+          <label className="transfer-form__label">To</label>
+          <select
+            onChange={handleChangeWallet('to')}
+            className="transfer-form__input"
+          >
+            {walletStore.getAllWalletsExceptOne(transfer.from).map(w => (
+              <option key={w.id} value={w.id}>
+                {w.title}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="transfer-form__group">
+          <label className="transfer-form__label">Amount</label>
+          <input
+            type="text"
+            onChange={handleChangeAmount}
+            className="transfer-form__input"
+          />
+        </div>
+        <div className="transfer-form__group">
+          <div className="transfer-form__label">&nbsp;</div>
+          <div className="transfer-form__input">
+            = {transfer.amountInBaseCurrency} {rootStore!.uiStore.baseCurrency}
+          </div>
         </div>
       </div>
       <div className="transfer__actions">
