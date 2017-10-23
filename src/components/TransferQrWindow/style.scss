@@ -1,19 +1,70 @@
 .transfer-qr {
   padding: 10px;
 
-  .ant-modal-title {
-    font-size: 28px;
-    font-weight: 600;
-  }
+  .ant-modal-content {
+    width: 370px;
+    padding: 41px 40px 34px;
+    background: #fff;
 
-  .transfer-qr__desc {
-    color: #3f4d60;
-    font-size: 18px;
-    text-align: left;
-  }
+    .ant-modal-header {
+      border: none;
+      padding: 0;
+      .ant-modal-title {
+        font-size: 28px;
+        font-weight: 600;
+        line-height: 1.43;
+        text-align: left;
+        color: #333333;
+      }
+    }
 
-  .transfer-qr__img {
-    text-align: center;
-    margin: 0 auto;
+    .ant-modal-body {
+      border: none;
+      font-size: 18px;
+      line-height: 1.67;
+      text-align: left;
+      color: #3f4d60;
+      padding: 10px 0 0;
+
+      .transfer-qr__desc {
+        color: #3f4d60;
+        text-align: left;
+      }
+      .transfer-qr__img {
+        text-align: center;
+        margin: 42px auto 55px;
+        width: 160px;
+        height: 160px;
+      }
+    }
+
+    .ant-modal-footer {
+      border: none;
+      display: flex;
+      flex-direction: column-reverse;
+      margin: 0;
+      padding: 0;
+      .ant-btn {
+        border: none;
+        background: transparent;
+        color: #0da7fc;
+        font-size: 18px;
+        font-weight: 600;
+        margin: 0;
+      }
+      .ant-btn-primary {
+        background: #0da7fc;
+        display: inline-block;
+        color: #ffffff;
+        border: none;
+        border-radius: 100px;
+        height: 50px;
+        margin: 0 0 24px;
+        padding: 13px 0;
+        span {
+          display: inline-block;
+        }
+      }
+    }
   }
 }

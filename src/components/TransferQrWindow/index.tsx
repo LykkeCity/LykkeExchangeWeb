@@ -29,7 +29,6 @@ export class TransferQrWindow extends React.Component<TransferQrWindowProps> {
             width={160}
           />
         </div>
-        <div />
       </Modal>
     );
   }
