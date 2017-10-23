@@ -1,11 +1,9 @@
-import {action, computed, observable, runInAction} from 'mobx';
+import {action, computed, observable} from 'mobx';
 import {BalanceModel} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
 export class WalletModel {
-  static empty = () => new WalletModel();
-
   @observable id: string;
   @observable title: string;
   @observable desc: string;
@@ -33,8 +31,6 @@ export class WalletModel {
     return !this.collapsed;
   }
 
-  @observable selected: boolean;
-
   @observable baseCurrency = 'LKK';
 
   @computed
@@ -46,6 +42,7 @@ export class WalletModel {
     );
     return total;
   }
+
   @observable
   totalBalanceInBaseCurrency: BalanceModel = {
     assetId: this.baseCurrency,
@@ -67,27 +64,15 @@ export class WalletModel {
   @action
   setBalances = (dto: any[]) => {
     this.balances = dto.map(x => new BalanceModel(x));
-    this.balances.forEach(async balance => {
-      const resp = await this.store!.convertToBaseCurrency({
-        amount: balance.balance,
-        direction: 'Buy',
-        fromAssetId: balance.assetId,
-        toAssetId: this.baseCurrency
-      });
-      runInAction(
-        () =>
-          (this.totalBalanceInBaseCurrency.balance =
-            resp.Result.Converted[0].To.Amount)
-      );
-    });
+    if (this.balances.length > 0) {
+      this.store!.convertToBaseCurrency(this);
+    }
   };
 
   @action debit = (amount: number) => (this.balances[0].balance -= amount);
   @action credit = (amount: number) => (this.balances[0].balance += amount);
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
-
-  @action select = () => (this.selected = true);
 }
 
 export default WalletModel;

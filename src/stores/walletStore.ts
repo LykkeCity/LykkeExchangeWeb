@@ -1,7 +1,7 @@
 import {action, computed, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {WalletApi} from '../api';
-import {WalletModel} from '../models';
+import {DirectionModel, WalletModel} from '../models';
 
 export class WalletStore {
   readonly rootStore: RootStore;
@@ -16,11 +16,6 @@ export class WalletStore {
   @computed
   get walletsWithAssets() {
     return this.wallets.filter(w => w.balances.length > 0);
-  }
-
-  @computed
-  get selectedWallet() {
-    return this.wallets.find(w => w.selected);
   }
 
   createWallet = () => {
@@ -77,12 +72,22 @@ export class WalletStore {
     runInAction(() => (wallet.apiKey = resp.ApiKey));
   };
 
-  convertToBaseCurrency = (convertable: {
-    toAssetId: string;
-    fromAssetId: string;
-    amount: number;
-    direction: 'Sell' | 'Buy';
-  }) => this.api!.convertToBaseCurrency(convertable);
+  convertToBaseCurrency = async (wallet: WalletModel) => {
+    const resp = await this.api!.convertToBaseCurrency({
+      AssetsFrom: wallet.balances.map(x => ({
+        Amount: x.balance,
+        AssetId: x.assetId
+      })),
+      BaseAssetId: wallet.baseCurrency,
+      OrderAction: DirectionModel.Buy
+    });
+    runInAction(() => {
+      wallet.totalBalanceInBaseCurrency.balance = resp.Converted.reduce(
+        (sum: number, curr: {To: {Amount: number}}) => sum + curr.To.Amount,
+        0
+      );
+    });
+  };
 }
 
 export default WalletStore;

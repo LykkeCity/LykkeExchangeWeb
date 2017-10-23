@@ -5,15 +5,13 @@ import {RootStore, WalletStore} from '../stores/index';
 const rootStore = new RootStore();
 const mockConverter = jest.fn(() =>
   Promise.resolve({
-    Result: {
-      Converted: [
-        {
-          To: {
-            Amount: 100
-          }
+    Converted: [
+      {
+        To: {
+          Amount: 100
         }
-      ]
-    }
+      }
+    ]
   })
 );
 const MockApi = jest.fn<WalletApi>(() => ({
@@ -75,7 +73,7 @@ describe('wallet model', () => {
     expect(mockConverter.mock.calls.length).toBe(count);
   });
 
-  it('should call converter for each non-empty balance', () => {
+  it('should call converter once for each wallet', () => {
     // arrange
     const count = 5;
     mockConverter.mock.calls.splice(0);
@@ -89,14 +87,6 @@ describe('wallet model', () => {
     );
 
     // assert
-    expect(mockConverter.mock.calls.length).toBe(count);
-  });
-
-  it('should select wallet', () => {
-    const w = new WalletModel();
-    w.select();
-    walletStore.addWallet(w);
-    expect(walletStore.selectedWallet).toBeDefined();
-    expect(walletStore.selectedWallet).toBe(w);
+    expect(mockConverter.mock.calls.length).toBe(1);
   });
 });

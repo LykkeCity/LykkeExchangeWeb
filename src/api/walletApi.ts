@@ -45,17 +45,8 @@ export class RestWalletApi extends RestApi implements WalletApi {
 
   convertToBaseCurrency = (convertable: any) =>
     this.baseWretch
-      .url('/Market/converter')
-      .json({
-        AssetsFrom: [
-          {
-            Amount: convertable.amount,
-            AssetId: convertable.fromAssetId
-          }
-        ],
-        BaseAssetId: convertable.toAssetId,
-        OrderAction: convertable.direction
-      })
+      .url('/market/converter')
+      .json(convertable)
       .post()
       .json();
 }

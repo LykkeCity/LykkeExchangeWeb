@@ -19,10 +19,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
         <span className="wallet-action-bar__item">Deposit</span>
         <span className="wallet-action-bar__item">Withdraw</span>
         <span className="wallet-action-bar__item">
-          <Link
-            to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}
-            onClick={wallet.select}
-          >
+          <Link to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}>
             Transfer
           </Link>
         </span>
