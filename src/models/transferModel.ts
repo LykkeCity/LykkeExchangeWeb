@@ -12,17 +12,18 @@ export class TransferModel {
 
   @computed
   get asQr() {
-    const dto = {
-      AccountId: this.from.id,
-      Amount: this.amount
-    };
-    return btoa(JSON.stringify(dto));
+    return !!this.from
+      ? btoa(
+          JSON.stringify({
+            AccountId: this.from.id,
+            Amount: this.amount
+          })
+        )
+      : '';
   }
 
   constructor(store: TransferStore) {
     this.store = store;
-    this.from = this.store.rootStore.walletStore.createWallet();
-    this.to = this.store.rootStore.walletStore.createWallet();
   }
 
   @action

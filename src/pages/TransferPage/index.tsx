@@ -19,19 +19,22 @@ interface TransferPageProps
     RouteComponentProps<any> {}
 
 export class TransferPage extends React.Component<TransferPageProps> {
-  @observable
-  transfer: TransferModel = this.props
-    .rootStore!.transferStore.createTransfer();
+  readonly walletStore = this.props.rootStore!.walletStore;
+  readonly transferStore = this.props.rootStore!.transferStore;
+  readonly balanceStore = this.props.rootStore!.balanceStore;
+
+  @observable transfer: TransferModel = this.transferStore.createTransfer();
   @observable showQrWindow: boolean;
   @observable loaded = false;
 
   componentDidMount() {
-    this.props.rootStore!.walletStore
-      .fetchWalletById(this.props.match.params.walletId)
-      .then(wallet => {
-        this.transfer.from = wallet;
-        this.loaded = true;
-      });
+    this.walletStore.fetchWallets().then(() => {
+      const wallet = this.walletStore.findWalletById(
+        this.props.match.params.walletId
+      );
+      this.transfer.update({from: wallet});
+      this.loaded = true;
+    });
   }
 
   render() {
@@ -45,7 +48,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
         <TransferBar />
         <TransferFormLoadable
           transfer={this.transfer}
-          walletStore={this.props.rootStore!.walletStore}
+          walletStore={this.walletStore}
           onTransfer={this.handleTransfer}
           loading={!this.loaded}
         />

@@ -62,7 +62,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       <div>
         <label>From</label>
         <select onChange={handleChangeWallet('from')} value={transfer.from.id}>
-          {walletStore.walletsWithAssets.map(w => (
+          {walletStore.getWalletsWithAssets().map(w => (
             <option key={w.id} value={w.id}>
               {w.title}
             </option>
@@ -72,7 +72,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       <div>
         <label>To</label>
         <select onChange={handleChangeWallet('to')}>
-          {walletStore.walletsWithAssets.map(w => (
+          {walletStore.getAllWalletsExceptOne(transfer.from).map(w => (
             <option key={w.id} value={w.id}>
               {w.title}
             </option>

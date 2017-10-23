@@ -1,4 +1,4 @@
-import classnames from 'classnames';
+// import classnames from 'classnames';
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
@@ -13,9 +13,10 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
   <div>
     <div className="wallet__total-balance">Total balance</div>
     <h3 className="wallet__total-balance-value">
-      {wallet.totalBalanceInBaseCurrency.balance} {wallet.baseCurrency}
+      {wallet.totalBalanceInBaseCurrency.balance.toFixed(2)}{' '}
+      {wallet.baseCurrency}
     </h3>
-    <div>
+    {/* <div>
       <span className="wallet__figure">Received:</span>{' '}
       <span className="wallet__figure-val">
         {wallet.figures.received} {wallet.figures.assetId}
@@ -34,7 +35,7 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
       >
         +{wallet.figures.pnl}
       </span>
-    </div>
+    </div> */}
   </div>
 );
 

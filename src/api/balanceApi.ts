@@ -18,6 +18,12 @@ export class RestBalanceApi extends RestApi implements BalanceApi {
       .url('/wallets/balances/${assetId}')
       .get()
       .json();
+
+  fetchForWallet = (walletId: string) =>
+    this.bearerWretch()
+      .url(`/wallets/${walletId}/balances/`)
+      .get()
+      .json();
 }
 
 export default RestBalanceApi;

@@ -1,4 +1,3 @@
-import {WalletModel} from '.';
 import {WalletApi} from '../api/index';
 import {RootStore, WalletStore} from '../stores/index';
 
@@ -22,7 +21,7 @@ const MockApi = jest.fn<WalletApi>(() => ({
   fetchBalanceById: jest.fn()
 }));
 const walletStore = new WalletStore(rootStore, new MockApi());
-const walletSut = new WalletModel({Id: 42, Name: 'w'}, walletStore);
+const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 
 describe('wallet model', () => {
   it('should provide an id', () => {
@@ -31,12 +30,12 @@ describe('wallet model', () => {
   });
 
   it('should pick an id from dto object if provided', () => {
-    const w = new WalletModel({Id: 42, Name: 'wl'});
-    expect(w.id).toBe(42);
+    const w = walletStore.createWallet({Id: 43, Name: 'wl'});
+    expect(w.id).toBe(43);
   });
 
   test('total balance in base currency should be defined', () => {
-    const w = new WalletModel({Id: 42, Name: 'w'});
+    const w = walletStore.createWallet({Id: 44, Name: 'w'});
     expect(w.totalBalanceInBaseCurrency).toBeDefined();
   });
 
