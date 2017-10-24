@@ -14,7 +14,10 @@ type WalletListProps = InjectedRootStoreProps & LoadableProps;
 export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
   <div className="wallet_list">
     {rootStore!.walletStore.wallets.map(w => (
-      <div key={w.id} className={classnames('wallet')}>
+      <div
+        key={w.id}
+        className={classnames('wallet', {'wallet--expanded': w.expanded})}
+      >
         <div className="wallet__inner">
           <WalletSummary wallet={w} />
           {w.expanded && [
