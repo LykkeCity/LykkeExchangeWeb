@@ -1,3 +1,5 @@
+@import '../../styles/utils';
+
 .drawer {
   position: absolute;
   left: 0;
@@ -10,76 +12,70 @@
   .drawer__body {
     background: #fff;
     height: 100%;
-    width: 550px;
+    @include rem(width, 550px);
     position: absolute;
     right: 0;
     z-index: 112;
     .drawer__breadcrumb {
       background: #f5f6f7;
-      padding: 18px 40px;
       color: #3f4d60;
-      font-size: 16px;
-      margin-bottom: 58px;
+      @include rem(padding, 18px 40px);
+      @include rem(font-size, 16px);
+      @include rem(margin-bottom, 58px);
       > span {
         opacity: 0.6;
       }
     }
 
     .drawer__content {
-      padding: 0 40px;
+      @include rem(padding, 0 40px);
       h2 {
-        font-size: 40px;
-        font-weight: 600;
-        line-height: 1.25;
         color: #333333;
+        @include rem(font-size, 40px);
+        font-weight: 600;
+        margin-bottom: 0;
       }
       h3 {
-        font-size: 28px;
-        font-weight: 300;
-        line-height: 1.43;
-        letter-spacing: -0.3px;
         color: #8c94a0;
-        margin-bottom: 27px;
+        @include rem(font-size, 28px);
+        font-weight: 300;
+        letter-spacing: -0.3px;
       }
       .step__title {
+        border-bottom: solid 1px #ebedef;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 23px;
-        padding-bottom: 12px;
-        border-bottom: solid 1px #ebedef;
+        @include rem(margin-bottom, 23px);
+        @include rem(padding-bottom, 12px);
         h4 {
-          font-size: 21px;
-          font-weight: 600;
-          line-height: 1.9;
           color: #333333;
+          @include rem(font-size, 21px);
+          font-weight: 600;
         }
         small {
           opacity: 0.6;
-          font-size: 13px;
-          line-height: 1.85;
-          letter-spacing: 2.4px;
+          @include rem(font-size, 13px);
+          @include rem(letter-spacing, 2.4px);
           color: #3f4d60;
           text-transform: uppercase;
         }
       }
       .ant-form-item,
       .form-item {
-        font-size: 16px;
+        @include rem(font-size, 16px);
         color: #3f4d60;
         .ant-form-item-label,
         .form-item-label {
           opacity: 0.8;
-          line-height: 1.5;
           label {
             font-weight: normal;
           }
         }
         input {
-          font-size: 16px;
+          @include rem(font-size, 16px);
           color: #3f4d60;
-          padding: 20px 16px 20px 20px;
-          line-height: 1.25;
+          @include rem(padding, 20px 16px 20px 20px);
           &:read-only {
             border: none;
             border-bottom: solid 1px #ebedef;
@@ -90,9 +86,9 @@
           width: 21px;
           height: 21px;
           color: #b2b8bf;
-          margin-bottom: 28px;
+          @include rem(margin-bottom, 28px);
           &:first-child {
-            margin-right: 32px;
+            @include rem(margin-right, 32px);
           }
           .ant-popover {
             width: 226px;
@@ -102,7 +98,7 @@
             box-shadow: 0 8px 50px 0 rgba(63, 77, 96, 0.4),
               0 5px 5px 0 rgba(63, 77, 96, 0.05);
             padding: 13px 20px;
-            font-size: 16px;
+            @include rem(font-size, 16px);
             color: #3f4d60;
             top: 50px !important;
           }
@@ -111,13 +107,13 @@
     }
 
     .drawer__footer {
-      margin-top: 60px;
+      @include rem(margin-top, 60px);
       text-align: right;
       .ant-btn {
         border: none;
         background: transparent;
         color: #0da7fc;
-        font-size: 18px;
+        @include rem(font-size, 18px);
         font-weight: 600;
         margin: 0;
       }
@@ -128,7 +124,7 @@
         border: none;
         border-radius: 100px;
         height: 50px;
-        padding: 13px 40px;
+        @include rem(padding, 13px 40px);
       }
     }
   }
@@ -147,16 +143,15 @@
 
 .ant-modal-content {
   width: 370px;
-  padding: 41px 40px 34px;
+  @include rem(padding, 41px 40px 34px);
   background: #fff;
 
   .ant-modal-header {
     border: none;
     padding: 0;
     .ant-modal-title {
-      font-size: 28px;
+      @include rem(font-size, 28px);
       font-weight: 600;
-      line-height: 1.43;
       text-align: left;
       color: #333333;
     }
@@ -164,16 +159,14 @@
 
   .ant-modal-body {
     border: none;
-    font-size: 18px;
-    line-height: 1.67;
+    @include rem(font-size, 18px);
     text-align: left;
     color: #3f4d60;
-    padding: 10px 0 0;
-    margin-bottom: 55px;
+    @include rem(padding, 10px 0 0);
+    @include rem(margin-bottom, 55px);
     .modal__text {
       color: #3f4d60;
-      font-size: 18px;
-      line-height: 1.67;
+      @include rem(font-size, 18px);
     }
   }
 
@@ -187,7 +180,7 @@
       border: none;
       background: transparent;
       color: #0da7fc;
-      font-size: 18px;
+      @include rem(font-size, 18px);
       font-weight: 600;
       margin: 0;
     }
@@ -198,8 +191,8 @@
       border: none;
       border-radius: 100px;
       height: 50px;
-      margin: 0 0 24px;
-      padding: 13px 0;
+      @include rem(margin, 0 0 24px);
+      @include rem(padding, 13px 0);
       span {
         display: inline-block;
       }
