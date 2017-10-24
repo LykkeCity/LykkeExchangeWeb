@@ -11,7 +11,7 @@
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
 
 .app__shell {
-  padding: 40px 0;
+  @include rem(padding, 50px 0);
 }
 
 body {

@@ -5,10 +5,13 @@ export default ({color}: any) => (
     <a href="/">
       <img
         className="header_logo__img"
-        src="/images/lykke_new.svg"
+        src="images/lykke_wallet_logo.svg"
         height="36"
-        alt="lykke_logo"
+        alt="lykke_wallet_logo"
       />
+      <div className="header_logo__title">
+        Lykke<span>Wallet</span>
+      </div>
     </a>
   </div>
 );

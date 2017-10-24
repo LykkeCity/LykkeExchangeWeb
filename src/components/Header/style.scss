@@ -19,7 +19,6 @@
   right: 0;
   top: 0;
   z-index: 110;
-  border-bottom: 1px solid #ebedef;
 
   @include rem(padding, 25px 0);
   @include transition(transform $transition-default);
@@ -36,12 +35,15 @@
 
   &__menu_button {
     @include rem(margin-left, -5px);
-    @include rem(margin-right, 13px);
+    @include rem(margin-right, 15px);
   }
 
   &__logo {
+    @include rem(margin-top, -5px);
+    @include rem(margin-bottom, -5px);
+
     img {
-      @include rem(height, 40px);
+      @include rem(height, 50px);
     }
   }
 
@@ -195,6 +197,7 @@
       font-weight: $fw-semi;
 
       @include rem(letter-spacing, 2px);
+      @include rem(margin-right, 5px);
 
       .icon {
         margin-top: -5px;

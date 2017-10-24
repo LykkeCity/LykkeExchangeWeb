@@ -9,24 +9,26 @@ interface WalletSummaryProps {
 }
 
 export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
-  <div className={classnames({'wallet--expanded': wallet.expanded})}>
+  <div className={classnames({wallet__expanded: wallet.expanded})}>
     <div className="row">
-      <div className="col-sm-8">
-        <h2 className="wallet__title">
-          {wallet.title}
-          <i
-            onClick={wallet.toggleCollapse}
-            className={classnames(
-              'icon',
-              wallet.expanded
-                ? 'icon--chevron-thin-up'
-                : 'icon--chevron-thin-down'
-            )}
-          />
-        </h2>
-        <div className="wallet__desc">{wallet.desc}</div>
+      <div className="col-sm-7">
+        <div className="wallet__info">
+          <h2 className="wallet__title">
+            {wallet.title}
+            <i
+              onClick={wallet.toggleCollapse}
+              className={classnames(
+                'icon',
+                wallet.expanded
+                  ? 'icon--chevron-thin-up'
+                  : 'icon--chevron-thin-down'
+              )}
+            />
+          </h2>
+          <div className="wallet__desc">{wallet.desc}</div>
+        </div>
       </div>
-      <div className="col-sm-4">
+      <div className="col-sm-5">
         <WalletTotalBalance wallet={wallet} />
       </div>
     </div>

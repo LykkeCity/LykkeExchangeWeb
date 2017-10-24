@@ -7,13 +7,14 @@
 .wallet {
   cursor: pointer;
   border-radius: 8px;
-  background-color: $white;
-  transition: box-shadow $transition-default;
+  transition: all $transition-default;
 
+  @include rem(margin-bottom, -1px);
   @include rem(padding, 0 100px);
-  @include rem(margin-bottom, 24px);
 
-  &:hover &--opened {
+  &:hover,
+  &--expanded {
+    background-color: $white;
     box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
       0 2px 6px 0 rgba(63, 77, 96, 0.1);
 
@@ -22,11 +23,15 @@
     }
   }
 
+  &--opened {
+    @include rem(margin-bottom, 24px);
+  }
+
   &__inner {
     border-bottom: 1px solid $border-alt;
     transition: border-color $transition-default;
 
-    @include rem(padding, 40px 0);
+    @include rem(padding, 45px 0);
   }
 
   &__title {
@@ -44,7 +49,7 @@
       vertical-align: middle;
 
       @include rem(padding, 5px);
-      @include rem(font-size, 30px);
+      @include rem(font-size, 20px);
       @include rem(margin-left, 10px);
     }
   }
@@ -56,13 +61,20 @@
     @include rem(font-size, 16px);
   }
 
+  &__total,
+  &__info {
+    @include rem(margin-bottom, 10px);
+  }
+
   &__total-balance {
     line-height: 1.85;
     color: rgba($secondary, 0.6);
     text-transform: uppercase;
 
     @include rem(font-size, 13px);
-    @include rem(line-height, 2.4px);
+    @include rem(letter-spacing, 2.4px);
+    @include rem(margin-top, 5px);
+    @include rem(margin-bottom, 8px);
   }
 
   &__total-balance-value {
@@ -71,6 +83,7 @@
     text-align: left;
     color: $text;
 
+    @include rem(margin-bottom, 8px);
     @include rem(font-size, 36px);
   }
 
@@ -78,6 +91,7 @@
     line-height: 1.5;
     color: $secondary;
 
+    @include rem(margin-right, 5px);
     @include rem(font-size, 16px);
   }
 
@@ -87,8 +101,12 @@
 
     @include rem(font-size, 16px);
 
-    &--pl {
+    &--green {
       color: $green;
+    }
+
+    &--red {
+      color: $red;
     }
   }
 
@@ -123,5 +141,9 @@
         }
       }
     }
+  }
+
+  @media all and(min-width: $screen-landscape + 1) {
+    min-height: 245px;
   }
 }
