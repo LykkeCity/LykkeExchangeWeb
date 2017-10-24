@@ -5,7 +5,7 @@ export default ({color}: any) => (
     <a href="/">
       <img
         className="header_logo__img"
-        src="images/lykke_wallet_logo.svg"
+        src={`${process.env.PUBLIC_URL}/images/lykke_wallet_logo.svg`}
         height="36"
         alt="lykke_wallet_logo"
       />

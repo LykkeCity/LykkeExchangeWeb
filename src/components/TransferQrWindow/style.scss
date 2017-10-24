@@ -1,31 +1,31 @@
+@import '../../styles/utils';
+
 .transfer-qr {
-  padding: 10px;
+  @include rem(padding, 10px);
   width: 370px !important;
 
   .ant-modal-content {
     width: 370px;
-    padding: 41px 40px 34px;
+    @include rem(padding, 41px 40px 34px);
     background: #fff;
 
     .ant-modal-header {
       border: none;
       padding: 0;
       .ant-modal-title {
-        font-size: 28px;
-        font-weight: 600;
-        line-height: 1.43;
-        text-align: left;
         color: #333333;
+        @include rem(font-size, 28px);
+        font-weight: 600;
+        text-align: left;
       }
     }
 
     .ant-modal-body {
       border: none;
-      font-size: 18px;
-      line-height: 1.67;
+      @include rem(font-size, 18px);
       text-align: left;
       color: #3f4d60;
-      padding: 10px 0 0;
+      @include rem(padding, 10px 0 0);
 
       .transfer-qr__desc {
         color: #3f4d60;
@@ -33,7 +33,7 @@
       }
       .transfer-qr__img {
         text-align: center;
-        margin: 42px auto 55px;
+        @include rem(margin, 42px auto 55px);
         width: 160px;
         height: 160px;
       }
@@ -49,7 +49,7 @@
         border: none;
         background: transparent;
         color: #0da7fc;
-        font-size: 18px;
+        @include rem(font-size, 18px);
         font-weight: 600;
         margin: 0;
       }
@@ -59,9 +59,9 @@
         color: #ffffff;
         border: none;
         border-radius: 100px;
-        height: 50px;
-        margin: 0 0 24px;
-        padding: 13px 0;
+        @include rem(height, 50px);
+        @include rem(margin, 0 0 24px);
+        @include rem(padding, 13px 0);
         span {
           display: inline-block;
         }
