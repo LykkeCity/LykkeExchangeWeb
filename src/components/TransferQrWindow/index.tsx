@@ -23,13 +23,12 @@ export class TransferQrWindow extends React.Component<TransferQrWindowProps> {
         </p>
         <div className="transfer-qr__img">
           <img
-            src={`//lykke-qr.azurewebsites.net/QR/${transfer.asQr}.gif`}
+            src={`//lykke-qr.azurewebsites.net/QR/${transfer.asBase64}.gif`}
             alt="qr"
             height={160}
             width={160}
           />
         </div>
-        <div />
       </Modal>
     );
   }

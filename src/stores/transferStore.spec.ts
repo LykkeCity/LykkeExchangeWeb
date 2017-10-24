@@ -1,9 +1,13 @@
 import {RootStore, TransferStore} from '.';
-import {TransferApi} from '../api/index';
-import {TransferModel} from '../models/index';
+import {ConverterApi, TransferApi} from '../api';
+import {TransferModel} from '../models';
 
 const rootStore = new RootStore();
-const transferStore = new TransferStore(rootStore, new TransferApi());
+const transferStore = new TransferStore(
+  rootStore,
+  new TransferApi(),
+  new ConverterApi()
+);
 
 describe('transfer store', () => {
   it('should hold strongly typed ref to the root store', () => {

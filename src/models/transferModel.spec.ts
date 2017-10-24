@@ -1,8 +1,16 @@
-import {WalletModel} from '.';
 import {RootStore} from '../stores';
 
 const rootStore = new RootStore();
-const {transferStore} = rootStore;
+const {transferStore, walletStore} = rootStore;
+transferStore.convertToBaseCurrency = jest.fn(() => ({
+  Converted: [
+    {
+      To: {
+        Amount: 100
+      }
+    }
+  ]
+}));
 
 describe('transfer model', () => {
   it('should correctly and automaticaly update qr', () => {
@@ -10,13 +18,13 @@ describe('transfer model', () => {
     const walletId = 1;
     const sut = transferStore.createTransfer();
     sut.update({
-      from: new WalletModel({Id: walletId}),
+      from: walletStore.createWallet({Id: walletId}),
       // tslint:disable-next-line:object-literal-sort-keys
       amount,
       asset: 'LKK'
     });
 
-    expect(sut.asQr).toBe(
+    expect(sut.asBase64).toBe(
       btoa(
         JSON.stringify({
           AccountId: walletId,
@@ -24,8 +32,8 @@ describe('transfer model', () => {
         })
       )
     );
-    expect(JSON.parse(atob(sut.asQr)).Amount).toBe(amount);
-    expect(JSON.parse(atob(sut.asQr)).AccountId).toBe(walletId);
+    expect(JSON.parse(atob(sut.asBase64)).Amount).toBe(amount);
+    expect(JSON.parse(atob(sut.asBase64)).AccountId).toBe(walletId);
   });
 
   it('should merge transfer object', () => {
@@ -33,7 +41,7 @@ describe('transfer model', () => {
     sut.update({
       amount: 100,
       asset: 'LKK',
-      from: new WalletModel({Id: 1})
+      from: walletStore.createWallet({Id: 1})
     });
 
     expect(sut.amount).toBe(100);
@@ -44,8 +52,8 @@ describe('transfer model', () => {
   it('should call transfer method', () => {
     const sut = transferStore.createTransfer();
     sut.update({
-      from: new WalletModel(),
-      to: new WalletModel(),
+      from: walletStore.createWallet(),
+      to: walletStore.createWallet(),
       // tslint:disable-next-line:object-literal-sort-keys
       amount: 10,
       asset: 'LKK'

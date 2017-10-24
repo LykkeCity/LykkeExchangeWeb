@@ -1,13 +1,13 @@
-import {Credentials} from '../models/structs';
+import {CredentialsModel} from '../models';
 import {RestApi} from './index';
 import {ApiResponse} from './types';
 
 export interface AuthApi {
-  getToken: (credentials: Credentials) => ApiResponse<any>;
+  getToken: (credentials: CredentialsModel) => ApiResponse<any>;
 }
 
 export class RestAuthApi extends RestApi implements AuthApi {
-  getToken = (credentials: Credentials) =>
+  getToken = (credentials: CredentialsModel) =>
     this.baseWretch
       .url('/client/auth')
       .content('application/json-patch+json')

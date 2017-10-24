@@ -1,30 +1,28 @@
-import {WalletModel} from '.';
 import {WalletApi} from '../api/index';
 import {RootStore, WalletStore} from '../stores/index';
 
 const rootStore = new RootStore();
 const mockConverter = jest.fn(() =>
   Promise.resolve({
-    Result: {
-      Converted: [
-        {
-          To: {
-            Amount: 100
-          }
+    Converted: [
+      {
+        To: {
+          Amount: 100
         }
-      ]
-    }
+      }
+    ]
   })
 );
 const MockApi = jest.fn<WalletApi>(() => ({
-  convertToBaseCurrency: mockConverter,
   create: jest.fn(),
   createApiWallet: jest.fn(),
   fetchAll: jest.fn(),
   fetchBalanceById: jest.fn()
 }));
-const walletStore = new WalletStore(rootStore, new MockApi());
-const walletSut = new WalletModel({Id: 42, Name: 'w'}, walletStore);
+const walletStore = new WalletStore(rootStore, new MockApi(), {
+  convertToBaseCurrency: mockConverter
+} as any);
+const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 
 describe('wallet model', () => {
   it('should provide an id', () => {
@@ -33,12 +31,12 @@ describe('wallet model', () => {
   });
 
   it('should pick an id from dto object if provided', () => {
-    const w = new WalletModel({Id: 42, Name: 'wl'});
-    expect(w.id).toBe(42);
+    const w = walletStore.createWallet({Id: 43, Name: 'wl'});
+    expect(w.id).toBe(43);
   });
 
   test('total balance in base currency should be defined', () => {
-    const w = new WalletModel({Id: 42, Name: 'w'});
+    const w = walletStore.createWallet({Id: 44, Name: 'w'});
     expect(w.totalBalanceInBaseCurrency).toBeDefined();
   });
 
@@ -75,7 +73,7 @@ describe('wallet model', () => {
     expect(mockConverter.mock.calls.length).toBe(count);
   });
 
-  it('should call converter for each non-empty balance', () => {
+  it('should call converter once for each wallet', () => {
     // arrange
     const count = 5;
     mockConverter.mock.calls.splice(0);
@@ -89,14 +87,6 @@ describe('wallet model', () => {
     );
 
     // assert
-    expect(mockConverter.mock.calls.length).toBe(count);
-  });
-
-  it('should select wallet', () => {
-    const w = new WalletModel();
-    w.select();
-    walletStore.addWallet(w);
-    expect(walletStore.selectedWallet).toBeDefined();
-    expect(walletStore.selectedWallet).toBe(w);
+    expect(mockConverter.mock.calls.length).toBe(1);
   });
 });

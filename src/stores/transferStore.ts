@@ -1,13 +1,17 @@
 import {observable} from 'mobx';
-import {TransferApi} from '../api/index';
-import {TransferModel} from '../models/index';
-import {RootStore} from './index';
+import {RootStore} from '.';
+import {ConverterApi, TransferApi} from '../api';
+import {DirectionModel, TransferModel} from '../models';
 
 export class TransferStore {
   readonly rootStore: RootStore;
   @observable transfers: TransferModel[] = [];
 
-  constructor(rootStore: RootStore, private api: TransferApi) {
+  constructor(
+    rootStore: RootStore,
+    private api: TransferApi,
+    private converter: ConverterApi
+  ) {
     this.rootStore = rootStore;
   }
 
@@ -23,6 +27,18 @@ export class TransferStore {
     await this.api.transfer(transfer);
     this.addTransfer(transfer);
   };
+
+  convertToBaseCurrency = (transfer: TransferModel, baseCurrency: string) =>
+    this.converter!.convertToBaseCurrency({
+      AssetsFrom: [
+        {
+          Amount: transfer.amount,
+          AssetId: transfer.asset
+        }
+      ],
+      BaseAssetId: baseCurrency,
+      OrderAction: DirectionModel.Buy
+    });
 }
 
 export default TransferStore;

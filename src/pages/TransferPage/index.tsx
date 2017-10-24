@@ -19,19 +19,27 @@ interface TransferPageProps
     RouteComponentProps<any> {}
 
 export class TransferPage extends React.Component<TransferPageProps> {
-  @observable
-  transfer: TransferModel = this.props
-    .rootStore!.transferStore.createTransfer();
+  readonly walletStore = this.props.rootStore!.walletStore;
+  readonly transferStore = this.props.rootStore!.transferStore;
+  readonly balanceStore = this.props.rootStore!.balanceStore;
+
+  @observable transfer: TransferModel = this.transferStore.createTransfer();
   @observable showQrWindow: boolean;
   @observable loaded = false;
 
   componentDidMount() {
-    this.props.rootStore!.walletStore
-      .fetchWalletById(this.props.match.params.walletId)
-      .then(wallet => {
-        this.transfer.from = wallet;
-        this.loaded = true;
+    this.walletStore.fetchWallets().then(() => {
+      const wallet = this.walletStore.findWalletById(
+        this.props.match.params.walletId
+      );
+      this.transfer.update({
+        from: wallet
       });
+      if (wallet!.balances.length > 0) {
+        this.transfer.update({asset: wallet!.balances[0].assetId});
+      }
+      this.loaded = true;
+    });
   }
 
   render() {
@@ -39,16 +47,19 @@ export class TransferPage extends React.Component<TransferPageProps> {
       <div className="transfer">
         <h1>Transfer</h1>
         <h2>{this.transfer.amount} BTC</h2>
-        <p className="transfer__desc">
+        <p className="transfer__text">
           To transfer any asset to other wallet please fill in the form.
         </p>
         <TransferBar />
         <TransferFormLoadable
           transfer={this.transfer}
-          walletStore={this.props.rootStore!.walletStore}
+          walletStore={this.walletStore}
           onTransfer={this.handleTransfer}
           loading={!this.loaded}
         />
+        <div className="transfer__text transfer__text--center">
+          If you have any other problem contact our support: support@lykke.com
+        </div>
         <TransferQrWindow
           visible={this.showQrWindow}
           transfer={this.transfer}

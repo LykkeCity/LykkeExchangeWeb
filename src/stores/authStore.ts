@@ -1,7 +1,7 @@
 import {action, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
-import {Credentials} from '../models/structs';
+import {CredentialsModel} from '../models';
 import {AUTH_SCOPE, queryStringFromObject} from '../utils/authUtils';
 import {AuthUtils, TokenUtils} from '../utils/index';
 
@@ -33,7 +33,7 @@ export class AuthStore {
 
   @action setToken = (token: string) => (this.token = token);
 
-  getAuthToken = async (credentials: Credentials) => {
+  getAuthToken = async (credentials: CredentialsModel) => {
     const token = (await this.api!.getToken(credentials)).AccessToken;
     this.setToken(token);
     return token;

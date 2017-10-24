@@ -1,6 +1,7 @@
 import {observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {BalanceApi} from '../api/';
+import {WalletModel} from '../models/index';
 
 export class BalanceStore {
   readonly rootStore: RootStore;
@@ -18,6 +19,13 @@ export class BalanceStore {
     runInAction(() => {
       const idx = this.balances.findIndex(x => x.id === balance);
       this.balances[idx] = balance;
+    });
+  };
+
+  fetchForWallet = async (wallet: WalletModel) => {
+    const balances = (await this.api!.fetchForWallet(wallet.id)) as any[];
+    runInAction(() => {
+      wallet.setBalances(balances);
     });
   };
 }
