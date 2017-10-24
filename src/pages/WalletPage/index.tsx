@@ -33,6 +33,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
         <Drawer
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
+          style={{top: `${this.uiStore.windowTop}px`}}
         >
           <h2>New Wallet</h2>
           <h3>API Wallet</h3>
@@ -53,7 +54,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
                     Cancel and close
                   </Button>
                   <Button onClick={this.handleCreateWallet} type="primary">
-                    Ok
+                    Generate API Key
                   </Button>
                 </div>
               </Step>
@@ -69,7 +70,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
                     onClick={this.uiStore.toggleCreateWalletDrawer}
                     type="primary"
                   >
-                    Ok
+                    Finish
                   </Button>
                 </div>
               </Step>

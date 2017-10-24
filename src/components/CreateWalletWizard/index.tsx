@@ -42,11 +42,9 @@ export const Step: React.SFC<WizardStepProps> = ({
   children
 }) => (
   <div>
-    <div>
-      <h4>
-        {title}&nbsp;
-        <small>{`Step ${index} of ${total}`}</small>
-      </h4>
+    <div className="step__title">
+      <h4>{title}</h4>
+      <small>{`Step ${index} of ${total}`}</small>
     </div>
     {children}
   </div>
