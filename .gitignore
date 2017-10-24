@@ -24,4 +24,4 @@ yarn-error.log*
 # raw css
 src/**/*.css
 
-.env**
+.env*.local

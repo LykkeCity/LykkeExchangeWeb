@@ -16,18 +16,18 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     const {wallet, rootStore} = this.props;
     return (
       <div className="wallet-action-bar">
-        <span className="wallet-action-bar__item">Deposit</span>
-        <span className="wallet-action-bar__item">Withdraw</span>
-        <span className="wallet-action-bar__item">
+        <div className="wallet-action-bar__item">Deposit</div>
+        <div className="wallet-action-bar__item">Withdraw</div>
+        <div className="wallet-action-bar__item">
           <Link to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}>
             Transfer
           </Link>
-        </span>
+        </div>
         <button
-          className="wallet-action-bar__button"
+          className="wallet-action-bar__button btn btn--primary btn-sm"
           onClick={rootStore!.uiStore.toggleCreateWalletDrawer}
         >
-          + New Wallet
+          <i className="icon icon--add" /> New Wallet
         </button>
       </div>
     );

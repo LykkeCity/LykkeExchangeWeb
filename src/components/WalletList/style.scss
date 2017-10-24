@@ -1,91 +1,146 @@
-.wallet__list {
+@import '../../styles/utils';
+
+.wallet_list {
   text-align: left;
+}
 
-  .wallet {
-    margin-top: 50px;
-    padding: 30px;
+.wallet {
+  border-radius: 8px;
+  transition: all $transition-default;
 
-    .wallet__title {
-      font-size: 40px;
-      font-weight: 600;
-      line-height: 1.25;
-      color: #333333;
-      margin-bottom: 15px;
+  @include rem(margin-bottom, -1px);
+  @include rem(padding, 0 20px);
 
-      i.anticon {
-        font-size: 30px;
-        font-weight: 300 !important;
-        color: #d8d8d8;
-        padding-left: 15px;
-        cursor: pointer;
+  &--expanded {
+    @include rem(margin-bottom, 24px);
+  }
+
+  &__inner {
+    border-bottom: 1px solid $border-alt;
+    transition: border-color $transition-default;
+
+    @include rem(padding, 45px 0);
+  }
+
+  &__title {
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    color: $text;
+
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 15px);
+
+    i.icon {
+      color: #d8d8d8;
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
+      transition: color $transition-default;
+
+      @include rem(padding, 5px);
+      @include rem(font-size, 20px);
+      @include rem(margin-left, 10px);
+
+      &:hover {
+        color: rgba($secondary, 0.8);
       }
     }
+  }
 
-    .wallet__desc {
-      opacity: 0.8;
-      font-size: 16px;
-      line-height: 1.56;
-      color: #3f4d60;
-      margin-bottom: 50px;
+  &__desc {
+    line-height: 1.56;
+    color: rgba($secondary, 0.8);
+
+    @include rem(font-size, 16px);
+  }
+
+  &__total,
+  &__info {
+    @include rem(margin-bottom, 10px);
+  }
+
+  &__info {
+    @include rem(padding-right, 40px);
+  }
+
+  &__total-balance {
+    line-height: 1.85;
+    color: rgba($secondary, 0.6);
+    text-transform: uppercase;
+
+    @include rem(font-size, 13px);
+    @include rem(letter-spacing, 2.4px);
+    @include rem(margin-top, 5px);
+    @include rem(margin-bottom, 8px);
+  }
+
+  &__total-balance-value {
+    font-weight: $fw-light;
+    line-height: 1.11;
+    text-align: left;
+    color: $text;
+
+    @include rem(margin-bottom, 8px);
+    @include rem(font-size, 36px);
+  }
+
+  &__figure {
+    line-height: 1.5;
+    color: $secondary;
+
+    @include rem(margin-right, 5px);
+    @include rem(font-size, 16px);
+  }
+
+  &__figure-val {
+    line-height: 1.5;
+    color: rgba($secondary, 0.6);
+
+    @include rem(font-size, 16px);
+
+    &--green {
+      color: $green;
     }
 
-    .wallet__total-balance {
-      opacity: 0.6;
-      font-size: 13px;
-      line-height: 1.85;
-      letter-spacing: 2.4px;
-      color: #3f4d60;
-      text-transform: uppercase;
+    &--red {
+      color: $red;
     }
+  }
 
-    .wallet__total-balance-value {
-      font-size: 36px;
-      font-weight: 300;
-      line-height: 1.11;
-      text-align: left;
-      color: #333333;
+  &__balances {
+    @include rem(padding-top, 35px);
+
+    h3 {
+      @include rem(margin-bottom, 10px);
+
+      small {
+        color: $gray-dark;
+
+        @include rem(font-size, 16px);
+        @include rem(margin-left, 10px);
+      }
     }
+  }
 
-    .wallet__figure {
-      font-size: 16px;
-      line-height: 1.5;
-      color: #3f4d60;
-    }
+  &__expanded {
+    @include rem(margin-top, 20px);
+  }
 
-    .wallet__figure-val {
-      opacity: 0.6;
-      font-size: 16px;
-      line-height: 1.5;
-      color: #3f4d60;
-    }
+  @media all and (min-width: $screen-landscape + 1) {
+    min-height: 245px;
+  }
 
-    .wallet__figure-val--pl {
-      color: #13b72a;
-    }
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding, 0 100px);
 
-    .wallet__balances {
-      margin-top: 20px;
-      table {
-        border-collapse: collapse;
-        font-size: 16px;
-        margin-top: 10px;
-        width: 100%;
+    &:hover,
+    &--expanded {
+      background-color: $white;
+      box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
+        0 2px 6px 0 rgba(63, 77, 96, 0.1);
 
-        tr {
-          border-bottom: solid 1px #ebedef;
-        }
-
-        th,
-        td {
-          text-align: left;
-          padding: 20px;
-          &:first-child {
-            width: 70%;
-          }
-          &:last-child {
-            text-align: right;
-          }
-        }
+      .wallet__inner {
+        border-bottom-color: transparent;
       }
     }
   }

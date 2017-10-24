@@ -5,16 +5,10 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  z-index:10;
-  color: rgba(#3f4d60, .80);
+  z-index: 10;
+  color: rgba(#3f4d60, 0.8);
 
   @include rem(font-size, 18px);
-
-  .social--footer_alt {
-    margin-bottom: 0;
-
-    @include rem(padding, 12px 0);
-  }
 
   &__top {
     @include rem(padding, 48px 0);
@@ -31,27 +25,27 @@
   }
 
   &__bottom {
-    background: #F5F6F7;
+    background: #f5f6f7;
 
     @include rem(padding, 17px 0);
   }
 
   &__copy {
-    color: rgba($secondary, .80);
+    color: rgba($secondary, 0.8);
     font-weight: normal;
     line-height: 1.67;
 
     @include rem(padding, 18px 0);
 
     a {
-      color: rgba($secondary, .80);
+      color: rgba($secondary, 0.8);
       white-space: nowrap;
     }
   }
 
   @media (max-width: $screen-landscape) {
     &__top {
-      .row>div {
+      .row > div {
         margin-bottom: 25px;
       }
     }
@@ -90,12 +84,6 @@
       width: 100%;
       text-align: center;
     }
-
-    .social--footer {
-      > li {
-        margin-left: 5px;
-      }
-    }
   }
 
   .separator {
@@ -124,7 +112,7 @@
   }
 
   .middot {
-    @include rem(margin, 0 4px);
+    @include rem(margin, 0 8px);
   }
 
   .apps {
@@ -272,7 +260,7 @@
 }
 
 .nav {
-  &--list {
+  &.nav--list {
     line-height: 1.56;
     text-align: left;
     margin-top: 0;
@@ -306,7 +294,7 @@
   }
 
   @media all and (max-width: $screen-landscape) {
-    &--list {
+    &.nav--list {
       font-size: 14px;
       line-height: 1.43;
 
@@ -314,7 +302,8 @@
         font-size: 14px;
       }
 
-      > li {}
+      > li {
+      }
     }
   }
 }

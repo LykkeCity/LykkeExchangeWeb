@@ -28,7 +28,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <WalletList loading={this.walletStore.loading} />
         <Drawer
           title="New API Wallet"

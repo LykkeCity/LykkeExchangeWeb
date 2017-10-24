@@ -10,7 +10,7 @@ interface WalletTotalBalanceProps {
 export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
   wallet
 }) => (
-  <div>
+  <div className="wallet__total">
     <div className="wallet__total-balance">Total balance</div>
     <h3 className="wallet__total-balance-value">
       {wallet.totalBalanceInBaseCurrency.balance.toFixed(2)}{' '}
@@ -31,7 +31,7 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
     <div>
       <span className="wallet__figure">P&amp;L:</span>{' '}
       <span
-        className={classnames('wallet__figure-val', 'wallet__figure-val--pl')}
+        className={classnames('wallet__figure-val', 'wallet__figure-val--green')}
       >
         +{wallet.figures.pnl}
       </span>
