@@ -1,5 +1,5 @@
 import {action, autorun, computed, observable} from 'mobx';
-import {BalanceModel} from '.';
+import {BalanceModel, WalletType} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
@@ -9,8 +9,19 @@ export class WalletModel {
   @observable desc: string = '';
   @observable apiKey: string = '';
   @observable baseCurrency = 'LKK';
+  @observable type: WalletType;
 
   @observable balances: BalanceModel[] = [];
+
+  @computed
+  get hasBalances() {
+    return this.balances && this.balances.length > 0;
+  }
+
+  @computed
+  get isTrading() {
+    return this.type === WalletType.Trading;
+  }
 
   @computed
   get totalBalance() {
@@ -49,11 +60,11 @@ export class WalletModel {
 
   mapFromJson = (dto: any) => {
     this.id = dto.Id || nextId();
-    this.title = dto.Name || `Wallet#${this.id}`;
+    this.title = dto.Name || `Untitled`;
     this.desc =
-      dto.Type +
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ';
     this.apiKey = dto.ApiKey;
+    this.type = dto.Type;
     if (!!dto.Balances) {
       this.setBalances(dto.Balances);
     }
