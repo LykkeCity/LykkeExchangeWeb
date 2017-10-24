@@ -1,23 +1,55 @@
-.wallet-action-bar {
-  border: solid 1px #ebedef;
-  border-left: none;
-  border-right: none;
-  padding: 30px 0;
-  font-weight: 600;
-  font-size: 16px;
+@import '../../styles/utils';
 
-  .wallet-action-bar__item {
+.wallet-action-bar {
+  border-bottom: solid 1px $border-alt;
+  font-weight: $fw-semi;
+
+  @include clearfix;
+  @include rem(padding, 30px 0);
+  @include rem(font-size, 16px);
+
+  &__item {
     text-transform: uppercase;
-    margin-right: 40px;
-    color: #333333;
+    color: $text;
+    float: left;
+    letter-spacing: 1.6px;
+
+    @include rem(margin-right, 40px);
+
+    &--active {
+      color: $primary;
+
+      a {
+        color: $primary;
+      }
+    }
+
+    a {
+      color: $text;
+
+      &:hover {
+        color: $primary;
+      }
+    }
   }
 
-  .wallet-action-bar__button {
+  &__button.btn {
     float: right;
-    background: #0da7fc;
-    padding: 10px 50px;
-    color: #ffffff;
+    background-color: $primary;
+    color: $white;
     border: none;
     border-radius: 100px;
+    line-height: normal;
+    height: auto;
+
+    @include rem(margin, -8px 0);
+
+    .icon {
+      position: relative;
+      top: -1px;
+
+      @include rem(font-size, 20px);
+      @include rem(margin, -10px 0 -10px -10px);
+    }
   }
 }

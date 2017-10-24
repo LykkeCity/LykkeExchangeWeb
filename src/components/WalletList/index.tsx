@@ -22,12 +22,14 @@ export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
         <div className="wallet__inner">
           <WalletSummary wallet={w} />
           {w.expanded && [
-            <div key={WalletActionBar.name}>
+            <div className="wallet__expanded" key="">
               <WalletTabs />
-              <WalletActionBar wallet={w} />
-            </div>,
-            <div key={WalletBalanceList.name}>
-              <WalletBalanceList wallet={w} />
+              <div key={WalletActionBar.name}>
+                <WalletActionBar wallet={w} />
+              </div>
+              <div key={WalletBalanceList.name}>
+                <WalletBalanceList wallet={w} />
+              </div>
             </div>
           ]}
         </div>

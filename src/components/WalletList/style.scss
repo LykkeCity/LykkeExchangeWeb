@@ -5,25 +5,13 @@
 }
 
 .wallet {
-  cursor: pointer;
   border-radius: 8px;
   transition: all $transition-default;
 
   @include rem(margin-bottom, -1px);
-  @include rem(padding, 0 100px);
+  @include rem(padding, 0 20px);
 
-  &:hover,
   &--expanded {
-    background-color: $white;
-    box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
-      0 2px 6px 0 rgba(63, 77, 96, 0.1);
-
-    .wallet__inner {
-      border-bottom-color: transparent;
-    }
-  }
-
-  &--opened {
     @include rem(margin-bottom, 24px);
   }
 
@@ -47,10 +35,15 @@
       cursor: pointer;
       display: inline-block;
       vertical-align: middle;
+      transition: color $transition-default;
 
       @include rem(padding, 5px);
       @include rem(font-size, 20px);
       @include rem(margin-left, 10px);
+
+      &:hover {
+        color: rgba($secondary, 0.8);
+      }
     }
   }
 
@@ -64,6 +57,10 @@
   &__total,
   &__info {
     @include rem(margin-bottom, 10px);
+  }
+
+  &__info {
+    @include rem(padding-right, 40px);
   }
 
   &__total-balance {
@@ -111,39 +108,40 @@
   }
 
   &__balances {
-    margin-top: 20px;
+    @include rem(padding-top, 35px);
 
-    @include rem(margin-top, 20px);
+    h3 {
+      @include rem(margin-bottom, 10px);
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
+      small {
+        color: $gray-dark;
 
-      @include rem(font-size, 16px);
-      @include rem(margin-top, 10px);
-
-      tr {
-        border-bottom: solid 1px $border-alt;
-      }
-
-      th,
-      td {
-        text-align: left;
-
-        @include rem(padding, 20px);
-
-        &:first-child {
-          width: 70%;
-        }
-
-        &:last-child {
-          text-align: right;
-        }
+        @include rem(font-size, 16px);
+        @include rem(margin-left, 10px);
       }
     }
   }
 
-  @media all and(min-width: $screen-landscape + 1) {
+  &__expanded {
+    @include rem(margin-top, 20px);
+  }
+
+  @media all and (min-width: $screen-landscape + 1) {
     min-height: 245px;
+  }
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding, 0 100px);
+
+    &:hover,
+    &--expanded {
+      background-color: $white;
+      box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
+        0 2px 6px 0 rgba(63, 77, 96, 0.1);
+
+      .wallet__inner {
+        border-bottom-color: transparent;
+      }
+    }
   }
 }

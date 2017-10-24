@@ -11,13 +11,31 @@
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
 
 .app__shell {
-  @include rem(padding, 50px 0);
+  @include rem(padding, 20px 0);
+  @include rem(margin-bottom, 50px);
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding, 50px 0);
+    @include rem(margin-bottom, 100px);
+  }
 }
 
 body {
-  @include rem(padding-bottom, 400px);
+  padding-bottom: 862px;
+
+  @media all and (min-width: $screen-mobile + 1) {
+    padding-bottom: 778px;
+  }
+
+  @media all and (min-width: $screen-landscape + 1) {
+    padding-bottom: 643px;
+  }
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding-bottom, 419px);
+  }
 }
 
 .form-control:focus {
-  border-color: #b2b8bf;
+  border-color: $gray-light;
 }

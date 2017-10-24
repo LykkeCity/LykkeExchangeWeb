@@ -9,7 +9,7 @@ interface WalletSummaryProps {
 }
 
 export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
-  <div className={classnames({wallet__expanded: wallet.expanded})}>
+  <div>
     <div className="row">
       <div className="col-sm-7">
         <div className="wallet__info">
