@@ -381,6 +381,7 @@
 
     @include rem(margin-right, -10px);
     @include rem(margin-left, 15px);
+    @include rem(padding-right, 15px);
 
     .header_user {
       .header_user__img + .header_login__title {
@@ -1074,5 +1075,22 @@
 
   &__value {
     color: rgba($secondary, 0.6);
+  }
+}
+
+.dropdown__nav {
+  background: #ffffff;
+  border-radius: 3px;
+  box-shadow: 0 5px 5px rgba(63, 77, 96, 0.05), 0 0 20px rgba(63, 77, 96, 0.15);
+  @include rem(padding, 10px);
+  transition: all 0.3s ease;
+  & > li > a {
+    color: rgba(63, 77, 96, 0.8);
+    text-decoration: none !important;
+    font-size: 1rem;
+    font-weight: normal !important;
+    @include rem(padding, 4px 10px);
+    display: inline-block;
+    vertical-align: top;
   }
 }
