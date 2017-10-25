@@ -9,29 +9,13 @@
     border-right: none;
     @include rem(padding, 30px 0 32px);
     @include rem(margin-bottom, 60px);
-    .transfer-form__group {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      @include rem(margin, 0 0 20px);
-      .transfer-form__label {
-        @include rem(font-size, 18px);
-        font-weight: 600;
-      }
-      .transfer-form__input {
-        width: 370px;
-        height: 50px;
-        @include rem(padding, 13px 20px);
-        @include rem(font-size, 16px);
-        text-align: left;
-        color: #3f4d60;
-      }
+    .form__group {
       &:nth-child(4) {
         @include rem(margin-bottom, 13px);
       }
       &:nth-child(5) {
         margin: 0;
-        .transfer-form__input {
+        .form__input {
           opacity: 0.6;
           @include rem(font-size, 16px);
           text-align: left;
