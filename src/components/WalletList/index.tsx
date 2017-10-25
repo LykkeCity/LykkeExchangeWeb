@@ -7,7 +7,6 @@ import {loadable, LoadableProps} from '../hoc/loadable';
 import WalletActionBar from '../WalletActionBar';
 import WalletBalanceList from '../WalletBalanceList';
 import WalletSummary from '../WalletSummary';
-import WalletTabs from '../WalletTabs';
 import './style.css';
 
 type WalletListProps = RootStoreProps & LoadableProps;
@@ -23,7 +22,6 @@ export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
           <WalletSummary wallet={w} />
           {w.expanded && (
             <div className="wallet__expanded">
-              {w.isTrading && <WalletTabs />}
               <div key={WalletActionBar.name}>
                 <WalletActionBar wallet={w} />
               </div>

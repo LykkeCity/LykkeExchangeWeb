@@ -4,7 +4,6 @@ import {Redirect, Route, RouteProps} from 'react-router';
 import {RootStoreProps} from '../../App';
 import {ROUTE_LOGIN} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-// import {AuthStore} from '../../stores/index';
 
 type ProtectedRouteProps = RouteProps & RootStoreProps;
 

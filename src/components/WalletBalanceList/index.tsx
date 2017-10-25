@@ -45,15 +45,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     />
                   </div>
                   <div className="issuer__content">
-                    <div className="issuer__name">
-                      {b.assetId}
-                      <button type="button" className="btn btn--icon">
-                        <i className="icon icon--qr_alt" />
-                      </button>
-                    </div>
-                    <div className="issuer__desc issuer__desc--accent">
-                      Limited offer
-                    </div>
+                    <div className="issuer__name">{b.assetId}</div>
                   </div>
                 </div>
               </td>

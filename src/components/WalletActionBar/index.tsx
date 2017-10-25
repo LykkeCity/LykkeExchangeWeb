@@ -16,11 +16,14 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     const {wallet, rootStore} = this.props;
     return (
       <div className="wallet-action-bar">
-        <div className="wallet-action-bar__item">Deposit</div>
-        <div className="wallet-action-bar__item">Withdraw</div>
         <div className="wallet-action-bar__item">
           <Link to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}>
-            Transfer
+            Deposit
+          </Link>
+        </div>
+        <div className="wallet-action-bar__item">
+          <Link to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}>
+            Withdraw
           </Link>
         </div>
         <button
