@@ -33,7 +33,6 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
         <Drawer
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
-          style={{top: `${this.uiStore.windowTop}px`}}
         >
           <h2>New Wallet</h2>
           <h3>API Wallet</h3>

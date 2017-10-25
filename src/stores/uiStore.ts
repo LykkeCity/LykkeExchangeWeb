@@ -6,7 +6,6 @@ export class UiStore {
 
   @observable showCreateWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
-  @observable windowTop: number;
   @observable baseCurrency: string = 'LKK';
 
   constructor(rootStore: RootStore) {
@@ -14,7 +13,6 @@ export class UiStore {
   }
 
   readonly toggleCreateWalletDrawer = () => {
-    this.windowTop = window.pageYOffset;
     this.showCreateWalletDrawer = !this.showCreateWalletDrawer;
   };
 
