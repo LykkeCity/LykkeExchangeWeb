@@ -22,9 +22,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly balanceStore = this.props.rootStore!.balanceStore;
+  readonly uiStore = this.props.rootStore!.uiStore;
 
   @observable transfer: TransferModel = this.transferStore.createTransfer();
-  @observable showQrWindow: boolean;
   @observable loaded = false;
 
   componentDidMount() {
@@ -62,16 +62,15 @@ export class TransferPage extends React.Component<TransferPageProps> {
           <a href="mailto:support@lykke.com">our support</a>
         </div>
         <TransferQrWindow
-          visible={this.showQrWindow}
           transfer={this.transfer}
-          onCancel={this.toggleQrWindow}
+          onCancel={this.uiStore.toggleQrWindow}
         />
       </div>
     );
   }
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
-    this.toggleQrWindow();
+    this.uiStore.toggleQrWindow();
   };
 
   // private readonly handleOkTransfer = (transfer: TransferModel) => {
@@ -79,9 +78,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
   //     amount: transfer.amount // TODO: replace with transferStore
   //   });
   // };
-
-  private readonly toggleQrWindow = () =>
-    (this.showQrWindow = !this.showQrWindow);
 }
 
 export default inject(STORE_ROOT)(observer(TransferPage));

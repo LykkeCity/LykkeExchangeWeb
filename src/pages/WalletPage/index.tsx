@@ -40,7 +40,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
             <Steps activeIndex={this.activeStep}>
               <Step
                 title="Name of wallet"
-                onHide={this.uiStore.toggleCreateWalletDrawer}
+                onCancel={this.uiStore.toggleCreateWalletDrawer}
                 onNext={this.handleCreateWallet}
                 index={1}
               >
@@ -59,7 +59,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
               </Step>
               <Step
                 title="Generate API key"
-                onHide={this.uiStore.toggleCreateWalletDrawer}
+                onCancel={this.uiStore.toggleCreateWalletDrawer}
                 onNext={this.handleCreateWallet}
                 index={2}
               >

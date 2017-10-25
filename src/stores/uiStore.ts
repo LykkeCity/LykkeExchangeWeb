@@ -1,4 +1,4 @@
-import {observable} from 'mobx';
+import {computed, observable} from 'mobx';
 import {RootStore} from '.';
 
 export class UiStore {
@@ -6,7 +6,18 @@ export class UiStore {
 
   @observable showCreateWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
+  @observable showQrWindow: boolean;
+
   @observable baseCurrency: string = 'LKK';
+
+  @computed
+  get overlayed() {
+    return (
+      this.showCreateWalletDrawer ||
+      this.showConfirmRegenerateKey ||
+      this.showQrWindow
+    );
+  }
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -19,6 +30,8 @@ export class UiStore {
   readonly toggleConfirmRegenerateKey = () => {
     this.showConfirmRegenerateKey = !this.showConfirmRegenerateKey;
   };
+
+  readonly toggleQrWindow = () => (this.showQrWindow = !this.showQrWindow);
 }
 
 export default UiStore;

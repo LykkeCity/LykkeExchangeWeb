@@ -21,7 +21,7 @@ interface WizardStepProps {
   index: number;
   total?: number;
   onNext: any;
-  onHide: any;
+  onCancel: any;
 }
 
 export const Steps: React.SFC<WizardStepsProps> = props => {
@@ -35,7 +35,7 @@ export const Steps: React.SFC<WizardStepsProps> = props => {
 
 export const Step: React.SFC<WizardStepProps> = ({
   title,
-  onHide,
+  onCancel,
   onNext,
   index,
   total,
