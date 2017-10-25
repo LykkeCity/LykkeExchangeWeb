@@ -1,29 +1,28 @@
+@import '../../styles/utils';
+
 .transfer {
   color: #333;
   width: 570px;
-  margin: 53px auto 33px;
+  @include rem(margin, 0 auto 33px);
   h1 {
-    text-align: center;
-    margin-bottom: 11px;
-    font-size: 40px;
     font-weight: 600;
-    line-height: 1.25;
+    text-align: center;
+    @include rem(margin-bottom, 11px);
+    @include rem(font-size, 40px);
   }
 
   h2 {
-    font-size: 36px;
+    @include rem(font-size, 36px);
     font-weight: 300;
-    line-height: 1.11;
-    margin-bottom: 28px;
     text-align: center;
+    @include rem(margin-bottom, 28px);
   }
 
   .transfer__text {
-    font-size: 16px;
-    line-height: 1.5;
+    @include rem(font-size, 16px);
     text-align: left;
     color: #3f4d60;
-    margin-bottom: 37px;
+    @include rem(margin-bottom, 37px);
     &--center {
       text-align: center;
     }

@@ -4,3 +4,4 @@ export * from './balanceModel';
 export * from './transferModel';
 export * from './directionModel';
 export * from './credentialsModel';
+export * from './walletType';

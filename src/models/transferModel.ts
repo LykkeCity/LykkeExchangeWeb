@@ -33,7 +33,8 @@ export class TransferModel {
             this,
             this.store.rootStore.uiStore.baseCurrency
           );
-          this.amountInBaseCurrency = resp.Converted[0].To.Amount;
+          this.amountInBaseCurrency =
+            resp.Converted[0] && resp.Converted[0].To.Amount;
         }
       }
     );
