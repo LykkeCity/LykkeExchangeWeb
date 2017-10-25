@@ -1,12 +1,12 @@
 import Modal, {ModalProps} from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel} from '../../models';
 import './style.css';
 
-interface TransferQrWindowProps extends InjectedRootStoreProps, ModalProps {
+interface TransferQrWindowProps extends RootStoreProps, ModalProps {
   transfer: TransferModel;
 }
 

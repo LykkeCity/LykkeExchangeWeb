@@ -3,7 +3,7 @@ import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import CreateWalletForm from '../../components/CreateWalletForm';
 import CreateWalletWizard, {
   Step,
@@ -15,16 +15,12 @@ import WalletList from '../../components/WalletList';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
-export class WalletPage extends React.Component<InjectedRootStoreProps> {
+export class WalletPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
 
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
-
-  componentDidMount() {
-    this.walletStore.fetchWallets();
-  }
 
   render() {
     return (

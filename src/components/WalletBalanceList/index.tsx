@@ -1,3 +1,4 @@
+import Dropdown from 'antd/lib/dropdown/dropdown';
 import 'antd/lib/table/style/css';
 import {observer} from 'mobx-react';
 import * as React from 'react';
@@ -61,9 +62,27 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                 {b.balance} {b.assetId}
               </td>
               <td className="_action">
-                <button type="button" className="btn btn--icon">
-                  <i className="icon icon--actions" />
-                </button>
+                <Dropdown
+                  overlay={
+                    <div
+                      style={{
+                        background: '#fff',
+                        boxShadow:
+                          '0 5px 5px rgba(63, 77, 96, 0.05), 0 0 20px rgba(63, 77, 96, 0.15)',
+                        fontSize: '1rem',
+                        padding: '10px'
+                      }}
+                    >
+                      Transfer
+                    </div>
+                  }
+                  trigger={['click']}
+                  placement="bottomCenter"
+                >
+                  <button type="button" className="btn btn--icon">
+                    <i className="icon icon--actions" />
+                  </button>
+                </Dropdown>
               </td>
             </tr>
           ))}

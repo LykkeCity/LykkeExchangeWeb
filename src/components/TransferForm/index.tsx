@@ -1,7 +1,7 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel} from '../../models';
@@ -13,7 +13,7 @@ type FormEventHandler = React.FormEventHandler<
   HTMLInputElement | HTMLSelectElement
 >;
 
-interface TransferFormProps extends LoadableProps, InjectedRootStoreProps {
+interface TransferFormProps extends LoadableProps, RootStoreProps {
   transfer: TransferModel;
   walletStore: WalletStore;
   onTransfer?: (transfer: TransferModel) => any;

@@ -4,11 +4,11 @@ import Form from 'antd/lib/form/Form';
 import Input from 'antd/lib/input/Input';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
-interface LoginFormProps extends InjectedRootStoreProps {
+interface LoginFormProps extends RootStoreProps {
   form: any;
 }
 

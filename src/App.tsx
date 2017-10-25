@@ -5,7 +5,6 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
 import NoMatch from './components/NoMatch';
-import {ProtectedRoute} from './components/ProtectedRoute';
 import TransferResult from './components/TransferResult';
 import {ROUTE_AUTH, ROUTE_TRANSFER, ROUTE_WALLET} from './constants/routes';
 import {WalletPage} from './pages';
@@ -16,11 +15,15 @@ import {RootStore} from './stores';
 import './App.css';
 import {STORE_ROOT} from './constants/stores';
 
-export interface InjectedRootStoreProps {
+export interface RootStoreProps {
   rootStore?: RootStore;
 }
 
-class App extends React.Component<InjectedRootStoreProps> {
+class App extends React.Component<RootStoreProps> {
+  componentDidMount() {
+    this.props.rootStore!.walletStore.fetchWallets();
+  }
+
   render() {
     return (
       <Router>
@@ -32,22 +35,15 @@ class App extends React.Component<InjectedRootStoreProps> {
           <Header />
           <div className="app__shell">
             <Switch>
-              <ProtectedRoute
+              <Route exact={true} path={ROUTE_WALLET} component={WalletPage} />
+              <Route
                 exact={true}
-                path={ROUTE_WALLET}
-                Component={WalletPage}
-                authStore={this.props.rootStore!.authStore}
-              />
-              <ProtectedRoute
-                /* exact={true} */
                 path={`${ROUTE_WALLET}/:walletId${ROUTE_TRANSFER}`}
-                Component={TransferPage}
-                authStore={this.props.rootStore!.authStore}
+                component={TransferPage}
               />
-              <ProtectedRoute
+              <Route
                 path={`${ROUTE_TRANSFER}/success`}
-                Component={TransferResult}
-                authStore={this.props.rootStore!.authStore}
+                component={TransferResult}
               />
               <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
               <Route component={NoMatch} />

@@ -1,13 +1,13 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER, ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 import './style.css';
 
-interface WalletActionBarProps extends InjectedRootStoreProps {
+interface WalletActionBarProps extends RootStoreProps {
   wallet: WalletModel;
 }
 
