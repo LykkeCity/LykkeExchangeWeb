@@ -7,9 +7,6 @@ export class UiStore {
   @observable showCreateWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
-
-  @observable baseCurrency: string = 'LKK';
-
   @computed
   get overlayed() {
     return (

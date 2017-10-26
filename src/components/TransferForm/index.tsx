@@ -86,7 +86,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
         </FormGroup>
         <FormGroup label="">
           <div className="form__input">
-            = {transfer.amountInBaseCurrency} {rootStore!.uiStore.baseCurrency}
+            = {transfer.amountInBaseCurrency}{' '}
+            {rootStore!.profileStore.baseCurrency}
           </div>
         </FormGroup>
       </div>
