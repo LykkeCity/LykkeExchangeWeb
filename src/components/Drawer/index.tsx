@@ -15,7 +15,7 @@ export class Drawer extends React.Component<DrawerProps> {
 
   render() {
     return this.props.show
-      ? (ReactDOM as any).createPortal(
+      ? ReactDOM.createPortal(
           <div className="drawer">
             <div className="drawer__body">
               <div className="drawer__breadcrumb">
@@ -26,7 +26,7 @@ export class Drawer extends React.Component<DrawerProps> {
             </div>
             <div className="drawer__overlay">&nbsp;</div>
           </div>,
-          document.getElementById('drawer-portal')
+          document.getElementById('drawer-portal')!
         )
       : null;
   }
