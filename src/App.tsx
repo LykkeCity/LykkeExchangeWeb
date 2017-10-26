@@ -24,6 +24,7 @@ class App extends React.Component<RootStoreProps> {
   componentDidMount() {
     this.props.rootStore!.walletStore.fetchWallets();
     this.props.rootStore!.profileStore.fetchBaseCurrency();
+    this.props.rootStore!.profileStore.fetchFirstName();
   }
 
   render() {

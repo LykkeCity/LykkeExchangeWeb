@@ -3,6 +3,7 @@ import {ProfileStore, RootStore} from '.';
 const rootStore = new RootStore();
 const mockApi = {
   fetchBaseCurrency: jest.fn(),
+  getUserName: jest.fn(),
   updateBaseCurrency: jest.fn()
 };
 const profileStore = new ProfileStore(rootStore, mockApi);
