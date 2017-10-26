@@ -1,13 +1,13 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER, ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 import './style.css';
 
-interface WalletActionBarProps extends InjectedRootStoreProps {
+interface WalletActionBarProps extends RootStoreProps {
   wallet: WalletModel;
 }
 
@@ -16,11 +16,14 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     const {wallet, rootStore} = this.props;
     return (
       <div className="wallet-action-bar">
-        <div className="wallet-action-bar__item">Deposit</div>
-        <div className="wallet-action-bar__item">Withdraw</div>
         <div className="wallet-action-bar__item">
           <Link to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}>
-            Transfer
+            Deposit
+          </Link>
+        </div>
+        <div className="wallet-action-bar__item">
+          <Link to={`${ROUTE_WALLET}/${wallet.id}${ROUTE_TRANSFER}`}>
+            Withdraw
           </Link>
         </div>
         <button

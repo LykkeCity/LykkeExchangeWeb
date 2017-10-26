@@ -11,14 +11,13 @@
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-router-dom": "^4.2.2",
-    "react-scripts-ts": "2.7.0",
-    "wretch": "^0.3.1"
+    "react-scripts-ts": "2.8.0",
+    "wretch": "^1.0.0"
   },
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css":
-      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-ts": "react-scripts-ts start",
     "start": "npm-run-all -p watch-css start-ts",
     "build": "npm run build-css && react-scripts-ts build",
@@ -30,8 +29,8 @@
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
     "@types/numeral": "^0.0.22",
-    "@types/react": "^16.0.7",
-    "@types/react-dom": "^15.5.4",
+    "@types/react": "^16.0.18",
+    "@types/react-dom": "^16.0.2",
     "@types/react-router-dom": "^4.0.8",
     "LykkeFramework": "^0.3.40",
     "compass-mixins": "0.12.10",

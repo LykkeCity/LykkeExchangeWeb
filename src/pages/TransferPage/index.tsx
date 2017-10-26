@@ -3,43 +3,46 @@ import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {loadable} from '../../components/hoc/loadable';
 import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel} from '../../models';
+import {TransferModel, WalletModel} from '../../models';
 import './style.css';
 
 const TransferFormLoadable = loadable(TransferForm);
 
-interface TransferPageProps
-  extends InjectedRootStoreProps,
-    RouteComponentProps<any> {}
+interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
 export class TransferPage extends React.Component<TransferPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly balanceStore = this.props.rootStore!.balanceStore;
+  readonly uiStore = this.props.rootStore!.uiStore;
 
   @observable transfer: TransferModel = this.transferStore.createTransfer();
-  @observable showQrWindow: boolean;
-  @observable loaded = false;
+  walletId = this.props.match.params.walletId;
+
+  updateTransfer = (wallet: WalletModel) => {
+    this.transfer.update({
+      from: wallet
+    });
+    if (wallet!.balances.length > 0) {
+      this.transfer.update({asset: wallet!.balances[0].assetId});
+    }
+  };
 
   componentDidMount() {
-    this.walletStore.fetchWallets().then(() => {
-      const wallet = this.walletStore.findWalletById(
-        this.props.match.params.walletId
-      );
-      this.transfer.update({
-        from: wallet
-      });
-      if (wallet!.balances.length > 0) {
-        this.transfer.update({asset: wallet!.balances[0].assetId});
-      }
-      this.loaded = true;
-    });
+    const wallet = this.walletStore.findWalletById(this.walletId);
+    if (wallet) {
+      this.updateTransfer(wallet);
+    } else {
+      this.walletStore
+        .fetchWalletById(this.walletId)
+        .then(w => this.updateTransfer(w));
+    }
   }
 
   render() {
@@ -55,23 +58,22 @@ export class TransferPage extends React.Component<TransferPageProps> {
           transfer={this.transfer}
           walletStore={this.walletStore}
           onTransfer={this.handleTransfer}
-          loading={!this.loaded}
+          loading={!this.transfer.from}
         />
         <div className="transfer__text transfer__text--center">
           If you have any other problem contact{' '}
           <a href="mailto:support@lykke.com">our support</a>
         </div>
         <TransferQrWindow
-          visible={this.showQrWindow}
           transfer={this.transfer}
-          onCancel={this.toggleQrWindow}
+          onCancel={this.uiStore.toggleQrWindow}
         />
       </div>
     );
   }
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
-    this.toggleQrWindow();
+    this.uiStore.toggleQrWindow();
   };
 
   // private readonly handleOkTransfer = (transfer: TransferModel) => {
@@ -79,9 +81,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
   //     amount: transfer.amount // TODO: replace with transferStore
   //   });
   // };
-
-  private readonly toggleQrWindow = () =>
-    (this.showQrWindow = !this.showQrWindow);
 }
 
 export default inject(STORE_ROOT)(observer(TransferPage));

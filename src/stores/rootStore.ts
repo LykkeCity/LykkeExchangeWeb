@@ -1,8 +1,16 @@
-import {AuthStore, BalanceStore, TransferStore, UiStore, WalletStore} from '.';
+import {
+  AuthStore,
+  BalanceStore,
+  ProfileStore,
+  TransferStore,
+  UiStore,
+  WalletStore
+} from '.';
 import {
   AuthApi,
   BalanceApi,
   ConverterApi,
+  ProfileApi,
   TransferApi,
   WalletApi
 } from '../api';
@@ -13,6 +21,7 @@ export class RootStore {
   readonly balanceStore: BalanceStore;
   readonly uiStore: UiStore;
   readonly transferStore: TransferStore;
+  readonly profileStore: ProfileStore;
 
   constructor() {
     const converter = new ConverterApi();
@@ -21,6 +30,7 @@ export class RootStore {
     this.balanceStore = new BalanceStore(this, new BalanceApi());
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(this, new TransferApi(), converter);
+    this.profileStore = new ProfileStore(this, new ProfileApi());
   }
 }
 

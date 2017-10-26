@@ -4,13 +4,13 @@ import Input from 'antd/lib/input/Input';
 import Modal from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
 const WALLET_KEY_INPUT = 'walletKey';
 
-interface GenerateWalletKeyFormProps extends InjectedRootStoreProps {
+interface GenerateWalletKeyFormProps extends RootStoreProps {
   wallet: WalletModel;
 }
 

@@ -3,7 +3,7 @@ import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import CreateWalletForm from '../../components/CreateWalletForm';
 import CreateWalletWizard, {
   Step,
@@ -15,16 +15,12 @@ import WalletList from '../../components/WalletList';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
-export class WalletPage extends React.Component<InjectedRootStoreProps> {
+export class WalletPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
 
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
-
-  componentDidMount() {
-    this.walletStore.fetchWallets();
-  }
 
   render() {
     return (
@@ -33,7 +29,6 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
         <Drawer
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
-          style={{top: `${this.uiStore.windowTop}px`}}
         >
           <h2>New Wallet</h2>
           <h3>API Wallet</h3>
@@ -41,7 +36,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
             <Steps activeIndex={this.activeStep}>
               <Step
                 title="Name of wallet"
-                onHide={this.uiStore.toggleCreateWalletDrawer}
+                onCancel={this.uiStore.toggleCreateWalletDrawer}
                 onNext={this.handleCreateWallet}
                 index={1}
               >
@@ -60,7 +55,7 @@ export class WalletPage extends React.Component<InjectedRootStoreProps> {
               </Step>
               <Step
                 title="Generate API key"
-                onHide={this.uiStore.toggleCreateWalletDrawer}
+                onCancel={this.uiStore.toggleCreateWalletDrawer}
                 onNext={this.handleCreateWallet}
                 index={2}
               >

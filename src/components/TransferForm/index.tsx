@@ -1,19 +1,22 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {InjectedRootStoreProps} from '../../App';
+import {RootStoreProps} from '../../App';
 import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel} from '../../models';
-import {WalletStore} from '../../stores/index';
+import {WalletStore} from '../../stores';
+import FormGroup from '../FormGroup';
+import FormInput from '../FormInput';
 import {LoadableProps} from '../hoc/loadable';
+import Select from '../Select';
 import './style.css';
 
 type FormEventHandler = React.FormEventHandler<
   HTMLInputElement | HTMLSelectElement
 >;
 
-interface TransferFormProps extends LoadableProps, InjectedRootStoreProps {
+interface TransferFormProps extends LoadableProps, RootStoreProps {
   transfer: TransferModel;
   walletStore: WalletStore;
   onTransfer?: (transfer: TransferModel) => any;
@@ -53,61 +56,40 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   return (
     <form className="transfer-form">
       <div className="transfer-form__body">
-        <div className="transfer-form__group">
-          <label className="transfer-form__label">Asset</label>
-          <select
+        <FormGroup label="Asset">
+          <Select
+            options={transfer.from.balances.map(b => ({value: b.assetId}))}
             onChange={handleChangeAsset}
             value={transfer.asset}
-            className="transfer-form__input"
-          >
-            {transfer.from.balances.map(b => (
-              <option key={b.assetId} value={b.assetId}>
-                {b.assetId}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="transfer-form__group">
-          <label className="transfer-form__label">From</label>
-          <select
+          />
+        </FormGroup>
+        <FormGroup label="From">
+          <Select
+            options={walletStore
+              .getWalletsWithAssets()
+              .map(w => ({value: w.id, label: w.title}))}
             onChange={handleChangeWallet('from')}
             value={transfer.from.id}
-            className="transfer-form__input"
-          >
-            {walletStore.getWalletsWithAssets().map(w => (
-              <option key={w.id} value={w.id}>
-                {w.title}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="transfer-form__group">
-          <label className="transfer-form__label">To</label>
-          <select
-            onChange={handleChangeWallet('to')}
-            className="transfer-form__input"
-          >
-            {walletStore.getAllWalletsExceptOne(transfer.from).map(w => (
-              <option key={w.id} value={w.id}>
-                {w.title}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="transfer-form__group">
-          <label className="transfer-form__label">Amount</label>
-          <input
-            type="text"
-            onChange={handleChangeAmount}
-            className="transfer-form__input"
           />
-        </div>
-        <div className="transfer-form__group">
-          <div className="transfer-form__label">&nbsp;</div>
-          <div className="transfer-form__input">
-            = {transfer.amountInBaseCurrency} {rootStore!.uiStore.baseCurrency}
+        </FormGroup>
+        <FormGroup label="To">
+          <Select
+            options={walletStore
+              .getAllWalletsExceptOne(transfer.from)
+              .map(w => ({value: w.id, label: w.title}))}
+            onChange={handleChangeWallet('to')}
+            value={transfer.from.id}
+          />
+        </FormGroup>
+        <FormGroup label="Amount">
+          <FormInput type="text" onChange={handleChangeAmount} />
+        </FormGroup>
+        <FormGroup label="">
+          <div className="form__input">
+            = {transfer.amountInBaseCurrency}{' '}
+            {rootStore!.profileStore.baseCurrency}
           </div>
-        </div>
+        </FormGroup>
       </div>
       <div className="transfer__actions">
         <div>
