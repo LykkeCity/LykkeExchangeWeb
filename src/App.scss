@@ -8,7 +8,11 @@
 @import '../node_modules/LykkeFramework/assets/scss/common/helpers';
 @import '../node_modules/LykkeFramework/assets/scss/partials/form';
 @import '../node_modules/LykkeFramework/assets/scss/partials/btn';
+@import '../node_modules/LykkeFramework/assets/scss/partials/assets';
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
+
+@import 'styles/components/asset_list';
+@import 'styles/components/forms';
 
 .app__shell {
   @include rem(padding, 20px 0);
@@ -38,8 +42,4 @@ body {
   @media all and (min-width: $screen-tablet + 1) {
     @include rem(padding-bottom, 419px);
   }
-}
-
-.form-control:focus {
-  border-color: $gray-light;
 }
