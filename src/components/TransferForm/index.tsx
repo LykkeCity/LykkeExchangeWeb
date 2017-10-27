@@ -10,6 +10,7 @@ import FormGroup from '../FormGroup';
 import FormInput from '../FormInput';
 import {LoadableProps} from '../hoc/loadable';
 import Select, {SelectOption} from '../Select';
+import WalletSelect from '../WalletSelect';
 import './style.css';
 
 type InputEventHandler = React.FormEventHandler<HTMLInputElement>;
@@ -46,7 +47,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   };
 
   const handleChangeAsset = (option: any) =>
-    transfer.update({asset: option.value});
+    transfer.update({asset: option.assetId});
 
   const handleSubmit: InputEventHandler = async e => {
     e.preventDefault();
@@ -57,29 +58,26 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   return (
     <form className="transfer-form">
       <div className="transfer-form__body">
+        <FormGroup label="From">
+          <WalletSelect
+            options={walletStore.getWalletsWithAssets()}
+            onChange={handleChangeWallet('from')}
+            value={transfer.from && transfer.from.id}
+          />
+        </FormGroup>
         <FormGroup label="Asset">
           <Select
-            options={transfer.from.balances}
+            options={transfer.from.balances.map(x => x)}
             valueKey="assetId"
             labelKey="assetId"
             onChange={handleChangeAsset}
             value={transfer.asset}
-          />
-        </FormGroup>
-        <FormGroup label="From">
-          <Select
-            options={walletStore
-              .getWalletsWithAssets()
-              .map(w => ({value: w.id, label: w.title}))}
-            onChange={handleChangeWallet('from')}
-            value={transfer.from.id}
+            clearable={false}
           />
         </FormGroup>
         <FormGroup label="To">
-          <Select
+          <WalletSelect
             options={walletStore.getAllWalletsExceptOne(transfer.from)}
-            valueKey="id"
-            labelKey="title"
             onChange={handleChangeWallet('to')}
             value={transfer.to && transfer.to.id}
           />

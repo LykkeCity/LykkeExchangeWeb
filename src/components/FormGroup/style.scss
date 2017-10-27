@@ -22,3 +22,20 @@
     @include rem(padding, 7px 0);
   }
 }
+
+.option {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+.Select-menu-outer {
+  border-radius: 4px !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 8px 50px 0 rgba(63, 77, 96, 0.4),
+    0 5px 5px 0 rgba(63, 77, 96, 0.05) !important;
+  @include rem(padding, 15px 15px inherit);
+}
+.is-focused {
+  background: #f5f6f7 !important;
+}

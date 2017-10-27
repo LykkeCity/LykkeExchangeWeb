@@ -8,7 +8,7 @@ export interface SelectOption {
   label?: string;
 }
 
-interface SelectProps extends ReactSelectProps<any> {
+export interface SelectProps extends ReactSelectProps<any> {
   options: any[];
   value?: string;
   onChange?: any;
