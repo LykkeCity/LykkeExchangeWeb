@@ -9,12 +9,16 @@
     @include rem(font-size, 18px);
     font-weight: 600;
   }
-  .form__input {
+  .form__input,
+  .form__select {
     width: 370px;
     height: 50px;
     @include rem(padding, 13px 20px);
     @include rem(font-size, 16px);
     text-align: left;
     color: #3f4d60;
+  }
+  .form__select {
+    @include rem(padding, 7px 0);
   }
 }

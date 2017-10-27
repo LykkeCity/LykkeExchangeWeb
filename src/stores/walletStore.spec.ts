@@ -1,9 +1,17 @@
 import {RootStore, WalletStore} from '.';
 
 const rootStore = new RootStore();
-const walletStore = new WalletStore(rootStore, {
+const mockConverter = {
+  convertToBaseCurrency: jest.fn(() => ({Converted: [{To: {Amount: 1}}]}))
+};
+const mockWalletApi = {
   createApiWallet: jest.fn((name: string) => name)
-} as any);
+};
+const walletStore = new WalletStore(
+  rootStore,
+  mockWalletApi as any,
+  mockConverter as any
+);
 
 describe('wallet store', () => {
   it('should hold strongly typed ref to the root store', () => {
