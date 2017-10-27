@@ -1,4 +1,4 @@
-import {action, observable, runInAction} from 'mobx';
+import {action, computed, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {DirectionModel, WalletModel} from '../models';
@@ -8,6 +8,14 @@ export class WalletStore {
 
   @observable wallets: WalletModel[] = [];
   @observable loading: boolean = true;
+
+  @computed
+  get totalBalance() {
+    return this.wallets.reduce(
+      (acc, curr) => (acc += curr.totalBalanceInBaseCurrency.balance),
+      0
+    );
+  }
 
   constructor(
     rootStore: RootStore,
