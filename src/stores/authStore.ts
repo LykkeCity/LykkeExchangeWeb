@@ -70,4 +70,6 @@ export class AuthStore {
   // todo: reauth if token is expired
   getAccessToken = () =>
     JSON.parse(localStorage.getItem(AUTH_TOKEN_KEY)!).access_token;
+
+  isAuthenticated = () => !!this.token;
 }

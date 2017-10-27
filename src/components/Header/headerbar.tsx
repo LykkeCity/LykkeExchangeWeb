@@ -8,7 +8,7 @@ import UserInfo from './userInfo';
 
 export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {authStore} = rootStore!;
-  const isAuthenticated = !!rootStore!.authStore.token;
+  const isAuthenticated = authStore.isAuthenticated();
 
   return (
     <div className="header_container">

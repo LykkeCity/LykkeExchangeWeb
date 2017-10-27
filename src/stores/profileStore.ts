@@ -3,15 +3,18 @@ import {ProfileApi} from '../api/profileApi';
 import {RootStore} from './index';
 
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
+const FIRST_NAME_KEY = 'lww-first-name';
 
 export class ProfileStore {
   readonly rootStore: RootStore;
 
   @observable baseCurrency: string = 'LKK';
-  @observable firstName: string = 'Noname';
+  @observable
+  firstName: string = localStorage.getItem(FIRST_NAME_KEY) || 'Noname';
 
   constructor(rootStore: RootStore, private api?: ProfileApi) {
     this.rootStore = rootStore;
+
     reaction(
       () => this.baseCurrency,
       baseCurrency => {
@@ -20,6 +23,17 @@ export class ProfileStore {
           this.api!.updateBaseCurrency(baseCurrency);
         } else {
           localStorage.removeItem(BASE_CURRENCY_STORAGE_KEY);
+        }
+      }
+    );
+
+    reaction(
+      () => this.firstName,
+      firstName => {
+        if (firstName) {
+          localStorage.setItem(FIRST_NAME_KEY, firstName);
+        } else {
+          localStorage.removeItem(FIRST_NAME_KEY);
         }
       }
     );
@@ -33,11 +47,16 @@ export class ProfileStore {
   };
 
   fetchFirstName = async () => {
-    const token = this.rootStore.authStore.getAccessToken();
-    const resp = await this.api!.getUserName(token);
-    runInAction(() => {
-      this.firstName = resp.firstName; // TODO: see the above todo
-    });
+    const {authStore} = this.rootStore!;
+
+    if (authStore.isAuthenticated() && !localStorage.getItem(FIRST_NAME_KEY)) {
+      const token = authStore.getAccessToken();
+      const resp = await this.api!.getUserName(token);
+
+      runInAction(() => {
+        this.firstName = resp.firstName;
+      });
+    }
   };
 }
 
