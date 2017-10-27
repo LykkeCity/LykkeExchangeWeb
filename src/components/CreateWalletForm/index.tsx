@@ -18,7 +18,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
             name="name"
             id="name"
             className="form-control"
-            required="true"
+            required={true}
             onChange={this.props.onChangeName}
           />
           {
