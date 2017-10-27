@@ -1,4 +1,5 @@
 import {RestApi} from '.';
+import {connectUrls} from '../utils/authUtils';
 import {ApiResponse} from './types';
 
 export interface ProfileApi {
@@ -8,19 +9,17 @@ export interface ProfileApi {
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
-  fetchBaseCurrency = () =>
-    this.bearerWretch()
-      .get('/baseCurrency')
-      .json();
+  fetchBaseCurrency = () => this.bearerWretch();
+  // .get('/baseCurrency')
+  // .json();
 
-  updateBaseCurrency = (baseCurrency: string) =>
-    this.bearerWretch()
-      .json({baseCurrency}) // TODO: adjust data contract
-      .post('/baseCurrency');
+  updateBaseCurrency = (baseCurrency: string) => this.bearerWretch();
+  // .json({baseCurrency}) // TODO: adjust data contract
+  // .post('/baseCurrency');
 
   getUserName = (token: string) =>
     this.authWretch
-      .url('/connect/userinfo')
+      .url(connectUrls.info)
       .headers({
         Authorization: `Bearer ${token}`
       })
