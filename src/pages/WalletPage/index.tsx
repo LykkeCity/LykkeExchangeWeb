@@ -22,6 +22,11 @@ export class WalletPage extends React.Component<RootStoreProps> {
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
 
+  componentDidMount() {
+    this.props.rootStore!.walletStore.fetchWallets();
+    this.props.rootStore!.profileStore.fetchBaseCurrency();
+  }
+
   render() {
     return (
       <div className="container">
