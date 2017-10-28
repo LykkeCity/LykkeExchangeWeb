@@ -7,6 +7,13 @@ export class UiStore {
   @observable showCreateWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
+
+  @observable pendingRequestsCount: number = 0;
+  @computed
+  get hasPendingRequests() {
+    return this.pendingRequestsCount > 0;
+  }
+
   @computed
   get overlayed() {
     return (
@@ -19,6 +26,10 @@ export class UiStore {
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
   }
+
+  startFetch = (num?: number) =>
+    !!num ? (this.pendingRequestsCount += num) : this.pendingRequestsCount++;
+  finishFetch = () => this.pendingRequestsCount--;
 
   readonly toggleCreateWalletDrawer = () => {
     this.showCreateWalletDrawer = !this.showCreateWalletDrawer;
