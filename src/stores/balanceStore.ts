@@ -1,7 +1,7 @@
 import {observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {BalanceApi} from '../api/';
-import {WalletModel} from '../models/index';
+import {BalanceModel, WalletModel} from '../models/index';
 
 export class BalanceStore {
   readonly rootStore: RootStore;
@@ -11,6 +11,8 @@ export class BalanceStore {
   constructor(rootStore: RootStore, private api?: BalanceApi) {
     this.rootStore = rootStore;
   }
+
+  createBalance = (dto?: any) => new BalanceModel(this, dto);
 
   fetchAll = async () => await this.api!.fetchAll();
 

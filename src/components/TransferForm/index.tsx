@@ -8,13 +8,13 @@ import {TransferModel} from '../../models';
 import {WalletStore} from '../../stores';
 import FormGroup from '../FormGroup';
 import FormInput from '../FormInput';
-import {LoadableProps} from '../hoc/loadable';
-import Select from '../Select';
+import {loadable, LoadableProps} from '../hoc/loadable';
+import Select, {SelectOption} from '../Select';
+import WalletSelect from '../WalletSelect';
 import './style.css';
 
-type FormEventHandler = React.FormEventHandler<
-  HTMLInputElement | HTMLSelectElement
->;
+type InputEventHandler = React.FormEventHandler<HTMLInputElement>;
+type SelectEventHandler = (e: SelectOption) => void;
 
 interface TransferFormProps extends LoadableProps, RootStoreProps {
   transfer: TransferModel;
@@ -32,22 +32,24 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   onSucceeddedTransfer = () => null,
   onFailedTransfer = () => null
 }) => {
-  const handleChangeAmount: FormEventHandler = e => {
+  const handleChangeAmount: InputEventHandler = e => {
     transfer.update({
       amount: Number(e.currentTarget.value)
     });
   };
 
-  const handleChangeWallet = (side: 'from' | 'to'): FormEventHandler => e => {
+  const handleChangeWallet = (
+    side: 'from' | 'to'
+  ): SelectEventHandler => option => {
     transfer.update({
-      [side]: walletStore.findWalletById(e.currentTarget.value)
+      [side]: option
     });
   };
 
-  const handleChangeAsset: FormEventHandler = e =>
-    transfer.update({asset: e.currentTarget.value});
+  const handleChangeAsset = (option: any) =>
+    transfer.update({asset: option.assetId});
 
-  const handleSubmit: FormEventHandler = async e => {
+  const handleSubmit: InputEventHandler = async e => {
     e.preventDefault();
     await transfer.submit();
     onTransfer(transfer);
@@ -56,29 +58,28 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   return (
     <form className="transfer-form">
       <div className="transfer-form__body">
-        <FormGroup label="Asset">
-          <Select
-            options={transfer.from.balances.map(b => ({value: b.assetId}))}
-            onChange={handleChangeAsset}
-            value={transfer.asset}
+        <FormGroup label="From">
+          <WalletSelect
+            options={walletStore.getWalletsWithAssets()}
+            onChange={handleChangeWallet('from')}
+            value={transfer.from && transfer.from.id}
           />
         </FormGroup>
-        <FormGroup label="From">
+        <FormGroup label="Asset">
           <Select
-            options={walletStore
-              .getWalletsWithAssets()
-              .map(w => ({value: w.id, label: w.title}))}
-            onChange={handleChangeWallet('from')}
-            value={transfer.from.id}
+            options={transfer.from.balances.map(x => x)}
+            valueKey="assetId"
+            labelKey="assetId"
+            onChange={handleChangeAsset}
+            value={transfer.asset}
+            clearable={false}
           />
         </FormGroup>
         <FormGroup label="To">
-          <Select
-            options={walletStore
-              .getAllWalletsExceptOne(transfer.from)
-              .map(w => ({value: w.id, label: w.title}))}
+          <WalletSelect
+            options={walletStore.getAllWalletsExceptOne(transfer.from)}
             onChange={handleChangeWallet('to')}
-            value={transfer.from.id}
+            value={transfer.to && transfer.to.id}
           />
         </FormGroup>
         <FormGroup label="Amount">
@@ -103,4 +104,4 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   );
 };
 
-export default inject(STORE_ROOT)(observer(TransferForm));
+export default loadable(inject(STORE_ROOT)(observer(TransferForm)));

@@ -1,15 +1,17 @@
 import classnames from 'classnames';
 import * as React from 'react';
+import Select2, {ReactSelectProps} from 'react-select';
+import 'react-select/dist/react-select.css';
 
-interface Option {
+export interface SelectOption {
   value: string;
   label?: string;
 }
 
-interface SelectProps {
-  options: Option[];
+export interface SelectProps extends ReactSelectProps<any> {
+  options: any[];
   value?: string;
-  onChange?: React.FormEventHandler<HTMLSelectElement>;
+  onChange?: any;
   className?: string;
 }
 
@@ -17,15 +19,16 @@ export const Select: React.SFC<SelectProps> = ({
   options,
   value,
   onChange,
-  className
+  className,
+  ...rest
 }) => (
-  <select className={classnames('form__input', className)} onChange={onChange}>
-    {options.map(o => (
-      <option key={o.value} value={o.value}>
-        {o.label || o.value}
-      </option>
-    ))}
-  </select>
+  <Select2
+    value={value}
+    options={options}
+    onChange={onChange}
+    className={classnames('form__select', className)}
+    {...rest}
+  />
 );
 
 export default Select;

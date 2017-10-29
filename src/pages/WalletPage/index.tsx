@@ -21,10 +21,20 @@ export class WalletPage extends React.Component<RootStoreProps> {
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
 
+  componentDidMount() {
+    this.uiStore.startFetch(2);
+    this.props.rootStore!.walletStore
+      .fetchWallets()
+      .then(() => this.uiStore.finishFetch());
+    this.props.rootStore!.profileStore
+      .fetchBaseCurrency()
+      .then(() => this.uiStore.finishFetch(), () => this.uiStore.finishFetch());
+  }
+
   render() {
     return (
       <div className="container">
-        <WalletList loading={this.walletStore.loading} />
+        <WalletList loading={this.uiStore.hasPendingRequests} />
         <Drawer
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
