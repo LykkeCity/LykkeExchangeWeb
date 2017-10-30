@@ -5,8 +5,7 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
-  const {authStore} = rootStore!;
-  const {profileStore} = rootStore!;
+  const {authStore, profileStore} = rootStore!;
 
   return (
     <div className="header__actions header_actions__login header_login pull-right">

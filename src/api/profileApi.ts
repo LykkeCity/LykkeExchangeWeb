@@ -9,13 +9,15 @@ export interface ProfileApi {
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
-  fetchBaseCurrency = () => this.bearerWretch();
-  // .get('/baseCurrency')
-  // .json();
+  fetchBaseCurrency = () =>
+    this.bearerWretch()
+      .get('/baseCurrency')
+      .json();
 
-  updateBaseCurrency = (baseCurrency: string) => this.bearerWretch();
-  // .json({baseCurrency}) // TODO: adjust data contract
-  // .post('/baseCurrency');
+  updateBaseCurrency = (baseCurrency: string) =>
+    this.bearerWretch()
+      .json({baseCurrency}) // TODO: adjust data contract
+      .post('/baseCurrency');
 
   getUserName = (token: string) =>
     this.authWretch

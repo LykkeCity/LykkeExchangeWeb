@@ -1,4 +1,4 @@
-import {action, observable, reaction} from 'mobx';
+import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
 import {CredentialsModel} from '../models';
@@ -67,9 +67,11 @@ export class AuthStore {
     this.setToken(null as any);
   };
 
-  // todo: reauth if token is expired
   getAccessToken = () =>
     JSON.parse(localStorage.getItem(AUTH_TOKEN_KEY)!).access_token;
 
-  isAuthenticated = () => !!this.token;
+  @computed
+  get isAuthenticated() {
+    return !!this.token;
+  }
 }

@@ -35,14 +35,11 @@ export class WalletStore {
   createWallet = (dto?: any) => new WalletModel(this, dto);
 
   fetchWallets = async () => {
-    const {authStore} = this.rootStore!;
-    if (authStore.isAuthenticated()) {
-      const balances = await this.rootStore.balanceStore.fetchAll();
-      runInAction(() => {
-        this.wallets = balances.map(this.createWallet);
-        this.loading = false;
-      });
-    }
+    const balances = await this.rootStore.balanceStore.fetchAll();
+    runInAction(() => {
+      this.wallets = balances.map(this.createWallet);
+      this.loading = false;
+    });
   };
 
   fetchWalletById = async (id: string) => {

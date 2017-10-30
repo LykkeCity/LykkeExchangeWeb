@@ -8,7 +8,6 @@ import UserInfo from './userInfo';
 
 export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {authStore} = rootStore!;
-  const isAuthenticated = authStore.isAuthenticated();
 
   return (
     <div className="header_container">
@@ -22,9 +21,9 @@ export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
 
           <Logo />
 
-          {isAuthenticated && <UserInfo />}
+          {authStore.isAuthenticated && <UserInfo />}
 
-          {!isAuthenticated && (
+          {!authStore.isAuthenticated && (
             <div className="header_actions__login header_login pull-right">
               <div className="header_user dropdown__control">
                 <a href={authStore.getConnectUrl()}>

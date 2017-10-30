@@ -3,16 +3,13 @@ import {ProfileApi} from '../api/profileApi';
 import {RootStore} from './index';
 
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
-const FIRST_NAME_KEY = 'lww-first-name';
 const DEFAULT_FIRST_NAME = 'Noname';
 
 export class ProfileStore {
   readonly rootStore: RootStore;
 
   @observable baseCurrency: string = 'LKK';
-  @observable
-  firstName: string = localStorage.getItem(FIRST_NAME_KEY) ||
-    DEFAULT_FIRST_NAME;
+  @observable firstName: string = DEFAULT_FIRST_NAME;
 
   constructor(rootStore: RootStore, private api?: ProfileApi) {
     this.rootStore = rootStore;
@@ -28,17 +25,6 @@ export class ProfileStore {
         }
       }
     );
-
-    reaction(
-      () => this.firstName,
-      firstName => {
-        if (firstName) {
-          localStorage.setItem(FIRST_NAME_KEY, firstName);
-        } else {
-          localStorage.removeItem(FIRST_NAME_KEY);
-        }
-      }
-    );
   }
 
   fetchBaseCurrency = async () => {
@@ -51,13 +37,10 @@ export class ProfileStore {
   fetchFirstName = async () => {
     const {authStore} = this.rootStore!;
 
-    if (authStore.isAuthenticated() && !localStorage.getItem(FIRST_NAME_KEY)) {
+    if (authStore.isAuthenticated) {
       const token = authStore.getAccessToken();
       const resp = await this.api!.getUserName(token);
-
-      runInAction(() => {
-        this.firstName = resp.firstName;
-      });
+      this.firstName = resp.firstName;
     }
   };
 }
