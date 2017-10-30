@@ -1,7 +1,6 @@
 import {ProfileStore, RootStore} from '.';
 
 const rootStore = new RootStore();
-Object.defineProperty(rootStore, 'isAuthenticated', {value: jest.fn()});
 const mockApi = {
   fetchBaseCurrency: jest.fn(),
   getUserName: jest.fn(),
