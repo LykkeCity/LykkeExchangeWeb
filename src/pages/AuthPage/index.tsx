@@ -1,22 +1,26 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Redirect} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_HOME} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 
-export class AuthPage extends React.Component<RootStoreProps> {
+type AuthPageProps = RootStoreProps & RouteComponentProps<any>;
+
+export class AuthPage extends React.Component<AuthPageProps> {
   private readonly authStore = this.props.rootStore!.authStore;
 
-  componentWillMount() {
+  componentDidMount() {
     const code = new URL(location.href).searchParams.get('code');
     if (!!code) {
-      this.authStore.auth(code!);
+      this.authStore
+        .auth(code)
+        .then(() => this.props.history.replace(ROUTE_HOME));
     }
   }
 
   render() {
-    return this.authStore.token ? <Redirect to={ROUTE_HOME} /> : null;
+    return null;
   }
 }
 

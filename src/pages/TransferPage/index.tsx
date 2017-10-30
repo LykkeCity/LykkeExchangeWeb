@@ -4,15 +4,12 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {loadable} from '../../components/hoc/loadable';
 import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel, WalletModel} from '../../models';
 import './style.css';
-
-const TransferFormLoadable = loadable(TransferForm);
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
@@ -39,9 +36,22 @@ export class TransferPage extends React.Component<TransferPageProps> {
     if (wallet) {
       this.updateTransfer(wallet);
     } else {
+      this.uiStore.startFetch();
       this.walletStore
         .fetchWalletById(this.walletId)
-        .then(w => this.updateTransfer(w));
+        .then(w => {
+          this.updateTransfer(w);
+          this.uiStore.finishFetch();
+        })
+        .catch(() => {
+          this.uiStore.finishFetch();
+          this.uiStore.startFetch();
+          this.walletStore.fetchWallets().then(() => {
+            this.uiStore.finishFetch();
+            const w = this.walletStore.findWalletById(this.walletId)!;
+            this.updateTransfer(w);
+          });
+        });
     }
   }
 
@@ -54,7 +64,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
           To transfer any asset to other wallet please fill in the form.
         </p>
         <TransferBar />
-        <TransferFormLoadable
+        <TransferForm
           transfer={this.transfer}
           walletStore={this.walletStore}
           onTransfer={this.handleTransfer}

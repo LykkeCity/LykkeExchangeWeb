@@ -25,7 +25,7 @@ export class WalletModel {
 
   @computed
   get totalBalance() {
-    const total = new BalanceModel();
+    const total = this.balanceStore.createBalance();
     total.balance = this.balances.reduce(
       (prev, curr) => (total.balance += curr.balance),
       0
@@ -33,12 +33,7 @@ export class WalletModel {
     return total;
   }
 
-  @observable
-  totalBalanceInBaseCurrency: BalanceModel = {
-    assetId: this.baseCurrency,
-    balance: 0,
-    baseCurrency: this.baseCurrency
-  };
+  @observable totalBalanceInBaseCurrency: BalanceModel;
 
   @observable collapsed: boolean = true;
   @computed
@@ -46,7 +41,10 @@ export class WalletModel {
     return !this.collapsed;
   }
 
+  private balanceStore = this.store.rootStore.balanceStore;
+
   constructor(private store: WalletStore, dto?: any) {
+    this.totalBalanceInBaseCurrency = this.balanceStore.createBalance();
     if (!!dto) {
       this.mapFromJson(dto);
     }
@@ -70,11 +68,9 @@ export class WalletModel {
     }
   };
 
-  @action addToStore = () => this.store.addWallet(this);
-
   @action
   setBalances = (dto: any[]) => {
-    this.balances = dto.map(x => new BalanceModel(x));
+    this.balances = dto.map(this.balanceStore.createBalance);
   };
 
   @action debit = (amount: number) => (this.balances[0].balance -= amount);
