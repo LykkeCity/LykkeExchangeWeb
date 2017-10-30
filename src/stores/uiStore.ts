@@ -15,6 +15,11 @@ export class UiStore {
   }
 
   @computed
+  get appLoaded() {
+    return !this.hasPendingRequests && !!this.rootStore.authStore.token;
+  }
+
+  @computed
   get overlayed() {
     return (
       this.showCreateWalletDrawer ||

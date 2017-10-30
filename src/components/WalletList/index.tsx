@@ -3,13 +3,12 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {loadable, LoadableProps} from '../hoc/loadable';
 import WalletActionBar from '../WalletActionBar';
 import WalletBalanceList from '../WalletBalanceList';
 import WalletSummary from '../WalletSummary';
 import './style.css';
 
-type WalletListProps = RootStoreProps & LoadableProps;
+type WalletListProps = RootStoreProps;
 
 export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
   <div className="wallet_list">
@@ -36,4 +35,4 @@ export const WalletList: React.SFC<WalletListProps> = ({rootStore}) => (
   </div>
 );
 
-export default loadable(inject(STORE_ROOT)(observer(WalletList)));
+export default inject(STORE_ROOT)(observer(WalletList));
