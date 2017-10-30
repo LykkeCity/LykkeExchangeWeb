@@ -14,4 +14,12 @@ describe('auth store', () => {
   it('should provide get token method', () => {
     expect(authStore.getAuthToken).toBeDefined();
   });
+
+  it('should have defined token', () => {
+    expect(authStore).toHaveProperty('token');
+  });
+
+  it('should provide is authenticated method', () => {
+    expect(authStore.isAuthenticated).toBeDefined();
+  });
 });

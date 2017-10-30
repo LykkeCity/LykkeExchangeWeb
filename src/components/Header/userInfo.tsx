@@ -5,7 +5,8 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
-  const {authStore} = rootStore!;
+  const {authStore, profileStore} = rootStore!;
+
   return (
     <div className="header__actions header_actions__login header_login pull-right">
       <div className="header_user dropdown__control">
@@ -28,7 +29,7 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
           className="dropdown__container"
           placement="bottomRight"
         >
-          <div className="header_login__title">Leroy</div>
+          <div className="header_login__title">{profileStore.firstName}</div>
         </Dropdown>
       </div>
     </div>

@@ -8,9 +8,11 @@ export class ProfileStore {
   readonly rootStore: RootStore;
 
   @observable baseCurrency: string = 'LKK';
+  @observable firstName: string;
 
   constructor(rootStore: RootStore, private api?: ProfileApi) {
     this.rootStore = rootStore;
+
     reaction(
       () => this.baseCurrency,
       baseCurrency => {
@@ -29,6 +31,13 @@ export class ProfileStore {
     runInAction(() => {
       this.baseCurrency = resp.AssetId; // TODO: grab prop name from dto
     });
+  };
+
+  fetchFirstName = async () => {
+    const {authStore} = this.rootStore!;
+    const token = authStore.getAccessToken();
+    const resp = await this.api!.getUserName(token);
+    this.firstName = resp.firstName;
   };
 }
 

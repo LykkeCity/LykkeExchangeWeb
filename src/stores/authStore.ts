@@ -1,9 +1,11 @@
-import {action, observable, reaction} from 'mobx';
+import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
 import {CredentialsModel} from '../models';
 import {AUTH_SCOPE, queryStringFromObject} from '../utils/authUtils';
 import {AuthUtils, TokenUtils} from '../utils/index';
+
+const AUTH_TOKEN_KEY = 'lww-oauth';
 
 export class AuthStore {
   readonly rootStore: RootStore;
@@ -26,7 +28,7 @@ export class AuthStore {
 
   auth = async (code: string) => {
     const bearerToken = await this.getBearerToken(code);
-    localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
+    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(bearerToken));
     const sessionToken = await this.getSessionToken();
     this.setToken(sessionToken.token);
   };
@@ -42,10 +44,7 @@ export class AuthStore {
   };
 
   getSessionToken = () =>
-    this.api!.getSessionToken(
-      AuthUtils.app.client_id,
-      JSON.parse(localStorage.getItem('lww-oauth')!).access_token
-    );
+    this.api!.getSessionToken(AuthUtils.app.client_id, this.getAccessToken());
 
   getBearerToken = (code: string) =>
     this.api!.getBearerToken(AuthUtils.app, code, AuthUtils.connectUrls.token);
@@ -77,4 +76,12 @@ export class AuthStore {
       this.clearToken();
     }, 1000);
   };
+
+  getAccessToken = () =>
+    JSON.parse(localStorage.getItem(AUTH_TOKEN_KEY)!).access_token;
+
+  @computed
+  get isAuthenticated() {
+    return !!this.token;
+  }
 }
