@@ -3,10 +3,13 @@ import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
+import {TransferResult} from '../../components/TransferResult/index';
+import {ROUTE_TRANSFER_SUCCESS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel, WalletModel} from '../../models';
 import './style.css';
@@ -33,25 +36,8 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   componentDidMount() {
     const wallet = this.walletStore.findWalletById(this.walletId);
-    if (wallet) {
-      this.updateTransfer(wallet);
-    } else {
-      this.uiStore.startFetch();
-      this.walletStore
-        .fetchWalletById(this.walletId)
-        .then(w => {
-          this.updateTransfer(w);
-          this.uiStore.finishFetch();
-        })
-        .catch(() => {
-          this.uiStore.finishFetch();
-          this.uiStore.startFetch();
-          this.walletStore.fetchWallets().then(() => {
-            this.uiStore.finishFetch();
-            const w = this.walletStore.findWalletById(this.walletId)!;
-            this.updateTransfer(w);
-          });
-        });
+    if (!!wallet) {
+      this.updateTransfer(wallet!);
     }
   }
 
@@ -78,6 +64,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
           transfer={this.transfer}
           onCancel={this.uiStore.toggleQrWindow}
         />
+        <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
       </div>
     );
   }
