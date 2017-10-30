@@ -2,6 +2,7 @@ import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {Route} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import CreateWalletForm from '../../components/CreateWalletForm';
 import CreateWalletWizard, {
@@ -11,8 +12,10 @@ import CreateWalletWizard, {
 import Drawer from '../../components/Drawer';
 import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
 import WalletList from '../../components/WalletList';
+import {ROUTE_WALLET, ROUTE_WALLET_TRANSFER} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
+import TransferPage from '../TransferPage/index';
 
 export class WalletPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
@@ -21,20 +24,9 @@ export class WalletPage extends React.Component<RootStoreProps> {
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
 
-  componentDidMount() {
-    this.uiStore.startFetch(2);
-    this.props.rootStore!.walletStore
-      .fetchWallets()
-      .then(() => this.uiStore.finishFetch());
-    this.props.rootStore!.profileStore
-      .fetchBaseCurrency()
-      .then(() => this.uiStore.finishFetch(), () => this.uiStore.finishFetch());
-  }
-
   render() {
     return (
       <div className="container">
-        <WalletList loading={this.uiStore.hasPendingRequests} />
         <Drawer
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
@@ -89,6 +81,12 @@ export class WalletPage extends React.Component<RootStoreProps> {
             </Steps>
           </CreateWalletWizard>
         </Drawer>
+        <Route exact={true} path={ROUTE_WALLET} component={WalletList} />
+        <Route
+          exact={true}
+          path={ROUTE_WALLET_TRANSFER}
+          component={TransferPage}
+        />
       </div>
     );
   }
