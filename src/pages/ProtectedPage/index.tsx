@@ -4,7 +4,12 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {NoMatch} from '../../components/NoMatch/index';
 import Spinner from '../../components/Spinner';
-import {ROUTE_ROOT, ROUTE_WALLET} from '../../constants/routes';
+import {TransferResult} from '../../components/TransferResult/index';
+import {
+  ROUTE_ROOT,
+  ROUTE_TRANSFER_SUCCESS,
+  ROUTE_WALLET
+} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
 
@@ -32,6 +37,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             to={ROUTE_WALLET}
           />
           <Route path={ROUTE_WALLET} component={WalletPage} />
+          <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
           <Route component={NoMatch} />
         </Switch>
       </div>

@@ -3,13 +3,10 @@ import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
-import {Route} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
-import {TransferResult} from '../../components/TransferResult/index';
-import {ROUTE_TRANSFER_SUCCESS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel, WalletModel} from '../../models';
 import './style.css';
@@ -64,7 +61,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
           transfer={this.transfer}
           onCancel={this.uiStore.toggleQrWindow}
         />
-        <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
       </div>
     );
   }
