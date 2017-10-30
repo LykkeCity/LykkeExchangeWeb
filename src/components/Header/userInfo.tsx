@@ -20,13 +20,7 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
           overlay={
             <ul className="dropdown__nav">
               <li>
-                <a
-                  onClick={authStore.logout}
-                  href={authStore.getLogoutUrl()}
-                  target="_blank"
-                >
-                  Sign out
-                </a>
+                <a onClick={authStore.logout}>Sign out</a>
               </li>
             </ul>
           }

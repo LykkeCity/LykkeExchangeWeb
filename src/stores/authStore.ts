@@ -33,6 +33,8 @@ export class AuthStore {
 
   @action setToken = (token: string) => (this.token = token);
 
+  @action clearToken = () => (this.token = null);
+
   getAuthToken = async (credentials: CredentialsModel) => {
     const token = (await this.api!.getToken(credentials)).AccessToken;
     this.setToken(token);
@@ -65,6 +67,14 @@ export class AuthStore {
     `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`;
 
   logout = async () => {
-    this.setToken(null as any);
+    const logoutwindow = window.open(
+      `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`,
+      'logoutWindow',
+      'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=300,left=100,top=100'
+    );
+    await setTimeout(() => {
+      logoutwindow.close();
+      this.clearToken();
+    }, 1000);
   };
 }

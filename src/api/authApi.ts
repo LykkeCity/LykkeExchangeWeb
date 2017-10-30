@@ -41,7 +41,11 @@ export class RestAuthApi extends RestApi implements AuthApi {
       .post()
       .json();
 
-  signOut = (path: string) => this.authWretch.url(path).get();
+  signOut = (path: string, token: string) =>
+    this.authWretch
+      .auth(`Bearer ${token}`)
+      .url(path)
+      .post();
 }
 
 export default RestAuthApi;
