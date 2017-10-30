@@ -8,7 +8,6 @@ import {TransferModel} from '../../models';
 import {WalletStore} from '../../stores';
 import FormGroup from '../FormGroup';
 import FormInput from '../FormInput';
-import {loadable, LoadableProps} from '../hoc/loadable';
 import Select, {SelectOption} from '../Select';
 import WalletSelect from '../WalletSelect';
 import './style.css';
@@ -16,7 +15,7 @@ import './style.css';
 type InputEventHandler = React.FormEventHandler<HTMLInputElement>;
 type SelectEventHandler = (e: SelectOption) => void;
 
-interface TransferFormProps extends LoadableProps, RootStoreProps {
+interface TransferFormProps extends RootStoreProps {
   transfer: TransferModel;
   walletStore: WalletStore;
   onTransfer?: (transfer: TransferModel) => any;
@@ -104,4 +103,4 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   );
 };
 
-export default loadable(inject(STORE_ROOT)(observer(TransferForm)));
+export default inject(STORE_ROOT)(observer(TransferForm));

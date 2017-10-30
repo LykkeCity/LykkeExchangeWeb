@@ -2,8 +2,8 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {loadable} from '../../components/hoc/loadable';
 import {NoMatch} from '../../components/NoMatch/index';
-import Spinner from '../../components/Spinner';
 import {TransferResult} from '../../components/TransferResult/index';
 import {
   ROUTE_ROOT,
@@ -27,7 +27,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   }
 
   render() {
-    return this.uiStore.appLoaded ? (
+    return (
       <div className="app__shell">
         <Switch>
           <Redirect
@@ -36,13 +36,14 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             from={ROUTE_ROOT}
             to={ROUTE_WALLET}
           />
-          <Route path={ROUTE_WALLET} component={WalletPage} />
+          <Route
+            path={ROUTE_WALLET}
+            component={loadable(this.uiStore.hasPendingRequests)(WalletPage)}
+          />
           <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
           <Route component={NoMatch} />
         </Switch>
       </div>
-    ) : (
-      <Spinner />
     );
   }
 }
