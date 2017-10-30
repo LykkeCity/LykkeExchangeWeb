@@ -30,7 +30,10 @@ class App extends React.Component<RootStoreProps> {
   render() {
     return (
       <Router>
-        <div className={classnames(this.classes)}>
+        <div
+          className={classnames(this.classes)}
+          onClick={this.props.rootStore!.uiStore.closeSidebar}
+        >
           <Header />
           <Switch>
             <Route path={ROUTE_AUTH} component={AuthPage} />

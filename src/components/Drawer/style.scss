@@ -7,15 +7,28 @@
   right: 0;
   height: 100%;
   z-index: 111;
-  transition: width 4s ease-out;
+  @include transition(transform $transition-default);
+  @include transform(translate(100%, 0));
+  &--open {
+    @include transform(translate(0, 0));
+  }
 
   .drawer__body {
     background: #fff;
     height: 100%;
     @include rem(width, 550px);
-    position: absolute;
+    position: fixed;
+    top: 0;
     right: 0;
+    bottom: 0;
     z-index: 112;
+    @include transition(transform $transition-default);
+    @include transform(translate(100%, 0));
+
+    &--open {
+      @include transform(translate(0, 0));
+    }
+
     .drawer__breadcrumb {
       background: #f5f6f7;
       color: #3f4d60;

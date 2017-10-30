@@ -52,7 +52,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
           walletStore={this.walletStore}
           onTransfer={this.handleTransfer}
         />
-        )
         <div className="transfer__text transfer__text--center">
           If you have any other problem contact{' '}
           <a href="mailto:support@lykke.com">our support</a>

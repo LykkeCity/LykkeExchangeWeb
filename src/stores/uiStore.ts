@@ -7,6 +7,7 @@ export class UiStore {
   @observable showCreateWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
+  @observable showSidebar: boolean;
 
   @observable pendingRequestsCount: number = 0;
   @computed
@@ -24,7 +25,8 @@ export class UiStore {
     return (
       this.showCreateWalletDrawer ||
       this.showConfirmRegenerateKey ||
-      this.showQrWindow
+      this.showQrWindow ||
+      this.showSidebar
     );
   }
 
@@ -45,6 +47,9 @@ export class UiStore {
   };
 
   readonly toggleQrWindow = () => (this.showQrWindow = !this.showQrWindow);
+  readonly toggleSidebar = () => (this.showSidebar = !this.showSidebar);
+  readonly closeSidebar = () =>
+    this.showSidebar && (this.showSidebar = !this.showSidebar);
 }
 
 export default UiStore;
