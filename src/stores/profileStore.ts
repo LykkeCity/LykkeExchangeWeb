@@ -4,13 +4,15 @@ import {RootStore} from './index';
 
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
 const FIRST_NAME_KEY = 'lww-first-name';
+const DEFAULT_FIRST_NAME = 'Noname';
 
 export class ProfileStore {
   readonly rootStore: RootStore;
 
   @observable baseCurrency: string = 'LKK';
   @observable
-  firstName: string = localStorage.getItem(FIRST_NAME_KEY) || 'Noname';
+  firstName: string = localStorage.getItem(FIRST_NAME_KEY) ||
+    DEFAULT_FIRST_NAME;
 
   constructor(rootStore: RootStore, private api?: ProfileApi) {
     this.rootStore = rootStore;

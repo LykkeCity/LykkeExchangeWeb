@@ -24,6 +24,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     this.profileStore
       .fetchBaseCurrency()
       .then(() => this.uiStore.finishFetch(), () => this.uiStore.finishFetch());
+    this.profileStore.fetchFirstName().then(() => this.uiStore.finishFetch());
   }
 
   render() {
