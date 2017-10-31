@@ -44,6 +44,11 @@
       width: 370px;
       @include rem(padding, 14px);
       @include rem(margin-bottom, 24px);
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
     }
   }
 }

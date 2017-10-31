@@ -93,7 +93,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       </div>
       <div className="transfer__actions">
         <div>
-          <input type="submit" value="Submit" onClick={handleSubmit} />
+          <input
+            type="submit"
+            value="Submit"
+            disabled={!transfer.canTransfer}
+            onClick={handleSubmit}
+          />
         </div>
         <div>
           <Link to={ROUTE_WALLET}>Cancel and go back</Link>

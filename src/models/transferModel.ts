@@ -23,6 +23,11 @@ export class TransferModel {
     return !!this.from ? btoa(this.asJson) : '';
   }
 
+  @computed
+  get canTransfer() {
+    return !!this.from && !!this.to && !!this.amount && !!this.asset;
+  }
+
   constructor(private store: TransferStore) {
     this.store = store;
     reaction(
