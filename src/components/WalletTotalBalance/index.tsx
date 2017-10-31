@@ -2,6 +2,7 @@
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
+import {NumberFormat} from '../NumberFormat';
 
 interface WalletTotalBalanceProps {
   wallet: WalletModel;
@@ -13,7 +14,7 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
   <div className="wallet__total">
     <div className="wallet__total-balance">Total balance</div>
     <h3 className="wallet__total-balance-value">
-      {wallet.totalBalanceInBaseCurrency.balance.toFixed(2)}{' '}
+      <NumberFormat value={wallet.totalBalanceInBaseCurrency.balance} />{' '}
       {wallet.baseCurrency}
     </h3>
     {/* <div>
