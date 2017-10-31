@@ -30,10 +30,10 @@ export class RestWalletApi extends RestApi implements WalletApi {
       .post()
       .json();
 
-  createApiWallet = (name: string) =>
+  createApiWallet = (name: string, desc?: string) =>
     this.bearerWretch()
       .url('/wallets/hft')
-      .json({Name: name})
+      .json({Name: name, Description: desc})
       .post()
       .json();
 

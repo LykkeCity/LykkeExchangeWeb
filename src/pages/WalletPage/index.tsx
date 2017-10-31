@@ -46,6 +46,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
                   onChangeName={this.handleChangeWalletName}
                   onSubmit={this.handleCreateWallet}
                   onCancel={this.uiStore.toggleCreateWalletDrawer}
+                  onChangeDesc={this.handleChangeWalletDesc}
                 />
               </Step>
               <Step
@@ -77,14 +78,19 @@ export class WalletPage extends React.Component<RootStoreProps> {
     );
   }
 
-  private readonly handleChangeWalletName: React.EventHandler<
-    React.ChangeEvent<HTMLInputElement>
-  > = e => {
+  private readonly handleChangeWalletName = (
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
     this.wallet.title = e.currentTarget.value;
+  };
+  private readonly handleChangeWalletDesc = (
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
+    this.wallet.desc = e.currentTarget.value;
   };
 
   private readonly handleCreateWallet = async () => {
-    this.wallet = await this.walletStore.createApiWallet(this.wallet.title);
+    this.wallet = await this.walletStore.createApiWallet(this.wallet);
     this.activeStep++;
   };
 }

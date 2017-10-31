@@ -10,10 +10,6 @@ interface DrawerProps {
 }
 
 export class Drawer extends React.Component<DrawerProps> {
-  componentWillReceiveProps(props: DrawerProps) {
-    document.body.style.overflow = props.show ? 'hidden' : 'auto';
-  }
-
   render() {
     return ReactDOM.createPortal(
       <div className={classNames('drawer', {'drawer--open': this.props.show})}>

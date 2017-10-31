@@ -79,6 +79,10 @@
         @include rem(font-size, 16px);
         color: #3f4d60;
 
+        .ant-form-item-control {
+          @include rem(margin-bottom, 16px);
+        }
+
         .has-error {
           color: red;
 
@@ -95,7 +99,8 @@
           }
         }
 
-        input {
+        input,
+        textarea {
           @include rem(font-size, 16px);
           color: #3f4d60;
           @include rem(padding, 20px 16px 20px 20px);

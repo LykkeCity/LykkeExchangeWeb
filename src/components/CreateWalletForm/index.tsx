@@ -3,10 +3,12 @@ import Form, {FormComponentProps} from 'antd/lib/form/Form';
 import FormItem from 'antd/lib/form/FormItem';
 import 'antd/lib/form/style';
 import Input from 'antd/lib/input/Input';
+import TextArea from 'antd/lib/input/TextArea';
 import * as React from 'react';
 
 interface WalletFormProps extends FormComponentProps {
   onChangeName: React.ChangeEventHandler<HTMLInputElement>;
+  onChangeDesc?: React.ChangeEventHandler<any>;
   onSubmit: React.MouseEventHandler<any>;
   onCancel: React.MouseEventHandler<any>;
 }
@@ -25,6 +27,13 @@ export class WalletForm extends React.Component<WalletFormProps> {
               }
             ]
           })(<Input onChange={this.props.onChangeName} />)}
+        </FormItem>
+        <FormItem label="Description">
+          <TextArea
+            rows={4}
+            onChange={this.props.onChangeDesc}
+            placeholder="Put your description, like My API Wallet"
+          />
         </FormItem>
         <div className="drawer__footer">
           <Button onClick={this.props.onCancel} type="ghost">
