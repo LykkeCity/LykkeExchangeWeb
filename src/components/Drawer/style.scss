@@ -78,6 +78,15 @@
       .form-item {
         @include rem(font-size, 16px);
         color: #3f4d60;
+
+        .has-error {
+          color: red;
+
+          input {
+            border-color: red;
+          }
+        }
+
         .ant-form-item-label,
         .form-item-label {
           opacity: 0.8;
@@ -85,6 +94,7 @@
             font-weight: normal;
           }
         }
+
         input {
           @include rem(font-size, 16px);
           color: #3f4d60;

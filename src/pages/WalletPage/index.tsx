@@ -42,18 +42,11 @@ export class WalletPage extends React.Component<RootStoreProps> {
                 onNext={this.handleCreateWallet}
                 index={1}
               >
-                <CreateWalletForm onChangeName={this.handleChangeWalletName} />
-                <div className="drawer__footer">
-                  <Button
-                    onClick={this.uiStore.toggleCreateWalletDrawer}
-                    type="ghost"
-                  >
-                    Cancel and close
-                  </Button>
-                  <Button onClick={this.handleCreateWallet} type="primary">
-                    Generate API Key
-                  </Button>
-                </div>
+                <CreateWalletForm
+                  onChangeName={this.handleChangeWalletName}
+                  onSubmit={this.handleCreateWallet}
+                  onCancel={this.uiStore.toggleCreateWalletDrawer}
+                />
               </Step>
               <Step
                 title="Generate API key"
