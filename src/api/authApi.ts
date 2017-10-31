@@ -45,7 +45,8 @@ export class RestAuthApi extends RestApi implements AuthApi {
     this.authWretch
       .auth(`Bearer ${token}`)
       .url(path)
-      .post();
+      .post()
+      .res();
 }
 
 export default RestAuthApi;

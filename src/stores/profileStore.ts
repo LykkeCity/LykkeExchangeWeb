@@ -36,7 +36,9 @@ export class ProfileStore {
   fetchFirstName = async () => {
     const {authStore} = this.rootStore!;
     const token = authStore.getAccessToken();
-    const resp = await this.api!.getUserName(token);
+    const resp = await this.api!.getUserName(token, () =>
+      location.replace(this.rootStore.authStore.getConnectUrl())
+    );
     this.firstName = resp.firstName;
   };
 }
