@@ -8,7 +8,7 @@ import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel, WalletModel} from '../../models';
+import {TransferModel} from '../../models';
 import './style.css';
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
@@ -16,25 +16,15 @@ interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
 export class TransferPage extends React.Component<TransferPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly transferStore = this.props.rootStore!.transferStore;
-  readonly balanceStore = this.props.rootStore!.balanceStore;
   readonly uiStore = this.props.rootStore!.uiStore;
 
   @observable transfer: TransferModel = this.transferStore.createTransfer();
-  walletId = this.props.match.params.walletId;
-
-  updateTransfer = (wallet: WalletModel) => {
-    this.transfer.update({
-      from: wallet
-    });
-    if (wallet!.balances.length > 0) {
-      this.transfer.update({asset: wallet!.balances[0].assetId});
-    }
-  };
 
   componentDidMount() {
-    const wallet = this.walletStore.findWalletById(this.walletId);
+    const {walletId, dest} = this.props.match.params;
+    const wallet = this.walletStore.findWalletById(walletId);
     if (!!wallet) {
-      this.updateTransfer(wallet!);
+      this.transfer.setWallet(wallet, dest);
     }
   }
 

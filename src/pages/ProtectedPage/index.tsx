@@ -7,11 +7,13 @@ import {NoMatch} from '../../components/NoMatch/index';
 import {TransferResult} from '../../components/TransferResult/index';
 import {
   ROUTE_ROOT,
+  ROUTE_TRANSFER,
   ROUTE_TRANSFER_SUCCESS,
   ROUTE_WALLET
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
+import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
@@ -28,6 +30,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   }
 
   render() {
+    const withLoading = loadable(this.uiStore.hasPendingRequests);
     return (
       <div className="app__shell">
         <Switch>
@@ -37,10 +40,8 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             from={ROUTE_ROOT}
             to={ROUTE_WALLET}
           />
-          <Route
-            path={ROUTE_WALLET}
-            component={loadable(this.uiStore.hasPendingRequests)(WalletPage)}
-          />
+          <Route path={ROUTE_WALLET} component={withLoading(WalletPage)} />
+          <Route path={ROUTE_TRANSFER} component={withLoading(TransferPage)} />
           <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
           <Route component={NoMatch} />
         </Switch>

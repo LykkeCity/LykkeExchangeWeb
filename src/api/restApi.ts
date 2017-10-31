@@ -10,6 +10,11 @@ export class RestApi {
   });
   protected readonly authWretch = wretch(this.authUrl);
 
+  get = (url: string, cb: any) =>
+    this.baseWretch.get(url).badRequest((err: any) => cb && cb());
+
+  post = (url: string, payload: any) => this.baseWretch.json(payload).post(url);
+
   protected readonly bearerWretch = () =>
     this.baseWretch.headers({
       Authorization: `Bearer ${TokenUtils.get()}`

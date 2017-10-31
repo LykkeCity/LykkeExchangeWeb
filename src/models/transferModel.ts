@@ -43,6 +43,14 @@ export class TransferModel {
   @action
   update = (transfer: Partial<TransferModel>) => Object.assign(this, transfer);
 
+  @action
+  setWallet = (wallet: WalletModel, dest: 'from' | 'to') => {
+    this[dest] = wallet;
+    if (dest === 'from' && wallet.hasBalances) {
+      this.asset = wallet.balances[0].assetId;
+    }
+  };
+
   submit = async () => {
     // this.from.debit(this.amount);
     // this.to.credit(this.amount);
