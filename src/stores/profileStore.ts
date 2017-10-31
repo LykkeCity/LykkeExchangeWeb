@@ -1,4 +1,4 @@
-import {observable, reaction, runInAction} from 'mobx';
+import {computed, observable, reaction, runInAction} from 'mobx';
 import {ProfileApi} from '../api/profileApi';
 import {RootStore} from './index';
 
@@ -8,7 +8,13 @@ export class ProfileStore {
   readonly rootStore: RootStore;
 
   @observable baseCurrency: string = 'LKK';
-  @observable firstName: string;
+  @observable firstName: string = '';
+  @observable lastName: string = '';
+
+  @computed
+  get fullName() {
+    return `${this.firstName} ${this.lastName}`;
+  }
 
   constructor(rootStore: RootStore, private api?: ProfileApi) {
     this.rootStore = rootStore;
@@ -40,6 +46,7 @@ export class ProfileStore {
       location.replace(this.rootStore.authStore.getConnectUrl())
     );
     this.firstName = resp.firstName;
+    this.lastName = resp.lastName;
   };
 }
 

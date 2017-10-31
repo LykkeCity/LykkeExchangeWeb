@@ -29,7 +29,7 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
           className="dropdown__container"
           placement="bottomRight"
         >
-          <div className="header_login__title">{profileStore.firstName}</div>
+          <div className="header_login__title">{profileStore.fullName}</div>
         </Dropdown>
       </div>
     </div>
