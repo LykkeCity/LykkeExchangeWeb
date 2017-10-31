@@ -1,24 +1,63 @@
 import wretch from 'wretch';
+import {Wretcher} from 'wretch/dist/wretcher';
+import {RootStore} from '../stores/index';
 import {TokenUtils} from '../utils/index';
 
 export class RestApi {
-  protected readonly authUrl = process.env.REACT_APP_AUTH_URL;
+  protected readonly baseAuthUrl = process.env.REACT_APP_AUTH_URL;
   protected readonly baseApiUrl = process.env.REACT_APP_API_URL;
 
-  protected readonly baseWretch = wretch(this.baseApiUrl).options({
-    mode: 'cors'
-  });
-  protected readonly authWretch = wretch(this.authUrl);
+  protected readonly apiWretch = wretch(this.baseApiUrl);
+  protected readonly authWretch = wretch(this.baseAuthUrl);
 
-  get = (url: string, cb: any) =>
-    this.baseWretch.get(url).badRequest((err: any) => cb && cb());
+  protected get = this._get(() => this.apiBearerWretch());
+  protected post = this._post(() => this.apiBearerWretch());
+  protected put = this._put(() => this.apiBearerWretch());
 
-  post = (url: string, payload: any) => this.baseWretch.json(payload).post(url);
+  protected getAuth = this._get(() => this.authBearerWretch());
+  protected postAuth = this._post(() => this.authBearerWretch());
 
-  protected readonly bearerWretch = () =>
-    this.baseWretch.headers({
-      Authorization: `Bearer ${TokenUtils.get()}`
-    });
+  constructor(private rootStore: RootStore) {}
+
+  protected apiBearerWretch() {
+    return this.apiWretch.auth(`Bearer ${TokenUtils.getSessionToken()}`);
+  }
+  protected authBearerWretch() {
+    return this.authWretch.auth(`Bearer ${TokenUtils.getAccessToken()}`);
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _get(wretcher: () => Wretcher) {
+    return (url: string, cb?: any) =>
+      wretcher()
+        .url(url)
+        .get()
+        .unauthorized(cb || this.rootStore.authStore.redirectToAuthServer)
+        .badRequest(cb || this.rootStore.authStore.redirectToAuthServer)
+        .json();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _post(wretcher: () => Wretcher) {
+    return (url: string, payload: any, cb?: any) =>
+      wretcher()
+        .url(url)
+        .json(payload)
+        .post()
+        .unauthorized(cb || this.rootStore.authStore.redirectToAuthServer)
+        .json();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _put(wretcher: () => Wretcher) {
+    return (url: string, payload: any, cb?: any) =>
+      wretcher()
+        .url(url)
+        .json(payload)
+        .put()
+        .unauthorized(cb || this.rootStore.authStore.redirectToAuthServer)
+        .json();
+  }
 }
 
 export default RestApi;

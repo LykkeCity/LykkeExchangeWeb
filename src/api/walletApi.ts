@@ -1,47 +1,30 @@
 import {RestApi} from '.';
+import {RootStore} from '../stores/index';
 import {ApiResponse} from './types';
 
 export interface WalletApi {
-  fetchAll: () => ApiResponse<any[]>;
+  fetchAll: () => ApiResponse<any>;
 }
 
 export class RestWalletApi extends RestApi implements WalletApi {
-  fetchAll = () =>
-    this.bearerWretch()
-      .url('/wallets/')
-      .get()
-      .json<any[]>();
+  constructor(rootStore: RootStore) {
+    super(rootStore);
+  }
 
-  fetchById = (id: string) =>
-    this.bearerWretch()
-      .url(`/wallets/${id}`)
-      .get()
-      .json<any[]>();
+  fetchAll = () => this.get('/wallets/');
 
-  fetchBalanceById = (id: string) =>
-    this.bearerWretch()
-      .url(`/wallet/${id}/balances`)
-      .get();
+  fetchById = (id: string) => this.get(`/wallets/${id}`);
+
+  fetchBalanceById = (id: string) => this.get(`/wallet/${id}/balances`);
 
   create = (name: string, type: string) =>
-    this.bearerWretch()
-      .url('/wallets')
-      .json({Name: name, Type: type})
-      .post()
-      .json();
+    this.post('/wallets', {Name: name, Type: type});
 
   createApiWallet = (name: string, desc?: string) =>
-    this.bearerWretch()
-      .url('/wallets/hft')
-      .json({Name: name, Description: desc})
-      .post()
-      .json();
+    this.post('/wallets/hft', {Name: name, Description: desc});
 
   regenerateApiKey = (id: string) =>
-    this.bearerWretch()
-      .url(`/Hft/${id}/regenerateKey`)
-      .put()
-      .json();
+    this.put(`/hft/${id}/regenerateKey`, undefined);
 }
 
 export default RestWalletApi;

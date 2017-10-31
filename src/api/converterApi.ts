@@ -2,7 +2,7 @@ import {RestApi} from './index';
 
 export class ConverterApi extends RestApi {
   convertToBaseCurrency = (convertable: any) =>
-    this.baseWretch
+    this.apiWretch
       .url('/market/converter')
       .json(convertable)
       .post()

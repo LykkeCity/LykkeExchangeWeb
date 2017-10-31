@@ -10,7 +10,7 @@ const AUTH_TOKEN_KEY = 'lww-oauth';
 export class AuthStore {
   readonly rootStore: RootStore;
 
-  @observable token = TokenUtils.get();
+  @observable token = TokenUtils.getSessionToken();
 
   constructor(rootStore: RootStore, private api?: AuthApi) {
     this.rootStore = rootStore;
@@ -18,9 +18,10 @@ export class AuthStore {
       () => this.token,
       token => {
         if (token) {
-          TokenUtils.set(token);
+          TokenUtils.setSessionToken(token);
         } else {
-          TokenUtils.clear();
+          TokenUtils.clearSessionToken();
+          TokenUtils.clearAccessToken();
         }
       }
     );
@@ -28,7 +29,7 @@ export class AuthStore {
 
   auth = async (code: string) => {
     const bearerToken = await this.getBearerToken(code);
-    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(bearerToken));
+    TokenUtils.setAccessToken(JSON.stringify(bearerToken));
     const sessionToken = await this.getSessionToken();
     this.setToken(sessionToken.token);
   };
@@ -37,6 +38,7 @@ export class AuthStore {
 
   @action clearToken = () => (this.token = null);
 
+  // TODO: To be removed
   getAuthToken = async (credentials: CredentialsModel) => {
     const token = (await this.api!.getToken(credentials)).AccessToken;
     this.setToken(token);
@@ -84,4 +86,6 @@ export class AuthStore {
   get isAuthenticated() {
     return !!this.token;
   }
+
+  redirectToAuthServer = () => location.replace(this.getConnectUrl());
 }

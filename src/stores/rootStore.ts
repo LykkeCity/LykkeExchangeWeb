@@ -24,13 +24,17 @@ export class RootStore {
   readonly profileStore: ProfileStore;
 
   constructor() {
-    const converter = new ConverterApi();
-    this.authStore = new AuthStore(this, new AuthApi());
-    this.walletStore = new WalletStore(this, new WalletApi(), converter);
-    this.balanceStore = new BalanceStore(this, new BalanceApi());
+    this.authStore = new AuthStore(this, new AuthApi(this));
+    const converter = new ConverterApi(this);
+    this.walletStore = new WalletStore(this, new WalletApi(this), converter);
+    this.balanceStore = new BalanceStore(this, new BalanceApi(this));
     this.uiStore = new UiStore(this);
-    this.transferStore = new TransferStore(this, new TransferApi(), converter);
-    this.profileStore = new ProfileStore(this, new ProfileApi());
+    this.transferStore = new TransferStore(
+      this,
+      new TransferApi(this),
+      converter
+    );
+    this.profileStore = new ProfileStore(this, new ProfileApi(this));
   }
 }
 

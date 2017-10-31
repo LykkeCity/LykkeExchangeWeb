@@ -42,9 +42,7 @@ export class ProfileStore {
   fetchFirstName = async () => {
     const {authStore} = this.rootStore!;
     const token = authStore.getAccessToken();
-    const resp = await this.api!.getUserName(token, () =>
-      location.replace(this.rootStore.authStore.getConnectUrl())
-    );
+    const resp = await this.api!.getUserName(token);
     this.firstName = resp.firstName;
     this.lastName = resp.lastName;
   };
