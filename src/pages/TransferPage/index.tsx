@@ -4,6 +4,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {NumberFormat} from '../../components/NumberFormat';
 import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
@@ -42,7 +43,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
     return (
       <div className="transfer">
         <h1>Transfer</h1>
-        <h2>{this.transfer.amount} BTC</h2>
+        <h2>
+          <NumberFormat value={this.transfer.amount} /> BTC
+        </h2>
         <p className="transfer__text">
           To transfer any asset to other wallet please fill in the form.
         </p>

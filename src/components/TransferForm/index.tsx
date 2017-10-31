@@ -8,6 +8,7 @@ import {TransferModel} from '../../models';
 import {WalletStore} from '../../stores';
 import FormGroup from '../FormGroup';
 import FormInput from '../FormInput';
+import {NumberFormat} from '../NumberFormat';
 import Select, {SelectOption} from '../Select';
 import WalletSelect from '../WalletSelect';
 import './style.css';
@@ -86,7 +87,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
         </FormGroup>
         <FormGroup label="">
           <div className="form__input">
-            = {transfer.amountInBaseCurrency}{' '}
+            = <NumberFormat value={transfer.amountInBaseCurrency} />{' '}
             {rootStore!.profileStore.baseCurrency}
           </div>
         </FormGroup>
