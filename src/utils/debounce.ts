@@ -19,7 +19,7 @@ export const debounce = (
     const last = Date.now() - timestamp;
 
     if (last < wait && last >= 0) {
-      timeout = setTimeout(later, wait - last);
+      timeout = window.setTimeout(later, wait - last);
     } else {
       timeout = null;
       if (!immediate) {
@@ -29,13 +29,13 @@ export const debounce = (
     }
   };
 
-  const debounced: Debounce = () => {
+  const debounced: Debounce = function() {
     context = this;
     args = arguments;
     timestamp = Date.now();
     const callNow = immediate && !timeout;
     if (!timeout) {
-      timeout = setTimeout(later, wait);
+      timeout = window.setTimeout(later, wait);
     }
     if (callNow) {
       result = func.apply(context, args);

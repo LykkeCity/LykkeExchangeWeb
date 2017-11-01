@@ -1,7 +1,7 @@
 import {debounce} from './debounce';
 
 describe('debounce', () => {
-  let callBack: () => any;
+  let callBack: jest.Mock;
 
   beforeEach(() => {
     jest.useFakeTimers();
@@ -25,11 +25,8 @@ describe('debounce', () => {
   it('should not execute prior to timeout', () => {
     const fn = debounce(callBack, 100);
 
-    // call debounced function at interval of 50
-    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
-    // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
 
     expect(callBack.mock.calls.length).toEqual(0);
@@ -38,11 +35,8 @@ describe('debounce', () => {
   it('should execute prior to timeout when flushed', () => {
     const fn = debounce(callBack, 100);
 
-    // call debounced function at interval of 50
-    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
-    // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
 
     fn.flush();
@@ -53,11 +47,8 @@ describe('debounce', () => {
   it('should not execute again after timeout when flushed before the timeout', () => {
     const fn = debounce(callBack, 100);
 
-    // call debounced function at interval of 50
-    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
-    // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
 
     fn.flush();
@@ -73,11 +64,8 @@ describe('debounce', () => {
   it('should not execute on a timer after being flushed', () => {
     const fn = debounce(callBack, 100);
 
-    // call debounced function at interval of 50
-    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
-    // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
 
     fn.flush();
