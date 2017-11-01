@@ -1,5 +1,5 @@
 export const debounce = (
-  func: (a: any) => void,
+  func: (a: any) => any,
   wait: number,
   immediate: boolean = false
 ) => {
@@ -27,8 +27,12 @@ export const debounce = (
     context = this;
     args = arguments;
     timestamp = Date.now();
+    // tslint:disable-next-line:no-console
+    console.log('main debounce');
     const callNow = immediate && !timeout;
     if (!timeout) {
+      // tslint:disable-next-line:no-console
+      console.log('setting timout', timeout);
       timeout = setTimeout(later, wait);
     }
     if (callNow) {
@@ -47,6 +51,8 @@ export const debounce = (
   };
 
   debounced.flush = () => {
+    // tslint:disable-next-line:no-console
+    console.log(timeout);
     if (timeout) {
       result = func.apply(context, args);
       context = args = null;
