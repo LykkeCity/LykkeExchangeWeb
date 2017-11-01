@@ -21,12 +21,15 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
 
   componentDidMount() {
-    this.uiStore.startFetch(3);
-    this.walletStore.fetchWallets().then(() => this.uiStore.finishFetch());
+    this.uiStore.startRequest(3);
+    this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
     this.profileStore
       .fetchBaseCurrency()
-      .then(() => this.uiStore.finishFetch(), () => this.uiStore.finishFetch());
-    this.profileStore.fetchFirstName().then(() => this.uiStore.finishFetch());
+      .then(
+        () => this.uiStore.finishRequest(),
+        () => this.uiStore.finishRequest()
+      );
+    this.profileStore.fetchFirstName().then(() => this.uiStore.finishRequest());
   }
 
   render() {
