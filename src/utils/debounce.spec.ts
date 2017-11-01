@@ -1,16 +1,15 @@
 import {debounce} from './debounce';
 
-const callBack = jest.fn();
-
 describe('debounce', () => {
-  let clock: typeof jest;
+  let callBack: () => any;
 
   beforeEach(() => {
-    clock = jest.useFakeTimers();
+    jest.useFakeTimers();
+    callBack = jest.fn();
   });
 
   afterEach(() => {
-    clock.clearAllTimers();
+    jest.clearAllTimers();
   });
 
   it('should be defined as function', () => {
@@ -27,8 +26,8 @@ describe('debounce', () => {
     const fn = debounce(callBack, 100);
 
     // call debounced function at interval of 50
-    setTimeout(fn, 100);
-    setTimeout(fn, 150);
+    setTimeout(fn(), 100);
+    setTimeout(fn(), 150);
 
     // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -40,8 +39,8 @@ describe('debounce', () => {
     const fn = debounce(callBack, 100);
 
     // call debounced function at interval of 50
-    setTimeout(fn, 100);
-    setTimeout(fn, 150);
+    setTimeout(fn(), 100);
+    setTimeout(fn(), 150);
 
     // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -55,8 +54,8 @@ describe('debounce', () => {
     const fn = debounce(callBack, 100);
 
     // call debounced function at interval of 50
-    setTimeout(fn, 100);
-    setTimeout(fn, 150);
+    setTimeout(fn(), 100);
+    setTimeout(fn(), 150);
 
     // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -75,8 +74,8 @@ describe('debounce', () => {
     const fn = debounce(callBack, 100);
 
     // call debounced function at interval of 50
-    setTimeout(fn, 100);
-    setTimeout(fn, 150);
+    setTimeout(fn(), 100);
+    setTimeout(fn(), 150);
 
     // set the clock to 25 (period of the wait) ticks after the last debounced call
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -86,7 +85,7 @@ describe('debounce', () => {
     expect(callBack.mock.calls.length).toEqual(1);
 
     // schedule again
-    setTimeout(fn, 250);
+    setTimeout(fn(), 250);
 
     // move to past the new timeout
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 400;
