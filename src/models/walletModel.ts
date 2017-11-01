@@ -5,8 +5,9 @@ import {nextId} from '../utils';
 
 export class WalletModel {
   @observable id: string = '';
-  @observable title: string = '';
-  @observable desc: string = '';
+  @observable title: string = 'Untitled';
+  @observable
+  desc: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
   @observable apiKey: string = '';
   @observable baseCurrency = 'LKK';
   @observable type: WalletType;
@@ -58,9 +59,8 @@ export class WalletModel {
 
   mapFromJson = (dto: any) => {
     this.id = dto.Id || nextId();
-    this.title = dto.Name || `Untitled`;
-    this.desc =
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. ';
+    this.title = dto.Name || this.title;
+    this.desc = dto.Description || this.desc;
     this.apiKey = dto.ApiKey;
     this.type = dto.Type;
     if (!!dto.Balances) {

@@ -12,10 +12,9 @@ import CreateWalletWizard, {
 import Drawer from '../../components/Drawer';
 import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
 import WalletList from '../../components/WalletList';
-import {ROUTE_WALLET, ROUTE_WALLET_TRANSFER} from '../../constants/routes';
+import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
-import TransferPage from '../TransferPage/index';
 
 export class WalletPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
@@ -43,23 +42,12 @@ export class WalletPage extends React.Component<RootStoreProps> {
                 onNext={this.handleCreateWallet}
                 index={1}
               >
-                <CreateWalletForm onChangeName={this.handleChangeWalletName} />
-                <div className="drawer__footer">
-                  <button
-                    className="btn btn--flat"
-                    type="button"
-                    onClick={this.uiStore.toggleCreateWalletDrawer}
-                  >
-                    Cancel and close
-                  </button>
-                  <button
-                    className="btn btn--primary"
-                    type="button"
-                    onClick={this.handleCreateWallet}
-                  >
-                    Generate API Key
-                  </button>
-                </div>
+                <CreateWalletForm
+                  onChangeName={this.handleChangeWalletName}
+                  onSubmit={this.handleCreateWallet}
+                  onCancel={this.uiStore.toggleCreateWalletDrawer}
+                  onChangeDesc={this.handleChangeWalletDesc}
+                />
               </Step>
               <Step
                 title="Generate API key"
@@ -82,23 +70,23 @@ export class WalletPage extends React.Component<RootStoreProps> {
           </CreateWalletWizard>
         </Drawer>
         <Route exact={true} path={ROUTE_WALLET} component={WalletList} />
-        <Route
-          exact={true}
-          path={ROUTE_WALLET_TRANSFER}
-          component={TransferPage}
-        />
       </div>
     );
   }
 
-  private readonly handleChangeWalletName: React.EventHandler<
-    React.ChangeEvent<HTMLInputElement>
-  > = e => {
+  private readonly handleChangeWalletName = (
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
     this.wallet.title = e.currentTarget.value;
+  };
+  private readonly handleChangeWalletDesc = (
+    e: React.FormEvent<HTMLInputElement>
+  ) => {
+    this.wallet.desc = e.currentTarget.value;
   };
 
   private readonly handleCreateWallet = async () => {
-    this.wallet = await this.walletStore.createApiWallet(this.wallet.title);
+    this.wallet = await this.walletStore.createApiWallet(this.wallet);
     this.activeStep++;
   };
 }

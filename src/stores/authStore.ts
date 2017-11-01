@@ -1,14 +1,16 @@
-import {action, observable, reaction} from 'mobx';
+import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
 import {CredentialsModel} from '../models';
 import {AUTH_SCOPE, queryStringFromObject} from '../utils/authUtils';
 import {AuthUtils, TokenUtils} from '../utils/index';
 
+const AUTH_TOKEN_KEY = 'lww-oauth';
+
 export class AuthStore {
   readonly rootStore: RootStore;
 
-  @observable token = TokenUtils.get();
+  @observable token = TokenUtils.getSessionToken();
 
   constructor(rootStore: RootStore, private api?: AuthApi) {
     this.rootStore = rootStore;
@@ -16,9 +18,10 @@ export class AuthStore {
       () => this.token,
       token => {
         if (token) {
-          TokenUtils.set(token);
+          TokenUtils.setSessionToken(token);
         } else {
-          TokenUtils.clear();
+          TokenUtils.clearSessionToken();
+          TokenUtils.clearAccessToken();
         }
       }
     );
@@ -26,13 +29,16 @@ export class AuthStore {
 
   auth = async (code: string) => {
     const bearerToken = await this.getBearerToken(code);
-    localStorage.setItem('lww-oauth', JSON.stringify(bearerToken));
+    TokenUtils.setAccessToken(JSON.stringify(bearerToken));
     const sessionToken = await this.getSessionToken();
     this.setToken(sessionToken.token);
   };
 
   @action setToken = (token: string) => (this.token = token);
 
+  @action clearToken = () => (this.token = null);
+
+  // TODO: To be removed
   getAuthToken = async (credentials: CredentialsModel) => {
     const token = (await this.api!.getToken(credentials)).AccessToken;
     this.setToken(token);
@@ -40,10 +46,7 @@ export class AuthStore {
   };
 
   getSessionToken = () =>
-    this.api!.getSessionToken(
-      AuthUtils.app.client_id,
-      JSON.parse(localStorage.getItem('lww-oauth')!).access_token
-    );
+    this.api!.getSessionToken(AuthUtils.app.client_id, this.getAccessToken());
 
   getBearerToken = (code: string) =>
     this.api!.getBearerToken(AuthUtils.app, code, AuthUtils.connectUrls.token);
@@ -65,6 +68,24 @@ export class AuthStore {
     `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`;
 
   logout = async () => {
-    this.setToken(null as any);
+    const logoutwindow = window.open(
+      `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`,
+      'logoutWindow',
+      'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=300,left=100,top=100'
+    );
+    await setTimeout(() => {
+      logoutwindow.close();
+      this.clearToken();
+    }, 1000);
   };
+
+  getAccessToken = () =>
+    JSON.parse(localStorage.getItem(AUTH_TOKEN_KEY)!).access_token;
+
+  @computed
+  get isAuthenticated() {
+    return !!this.token;
+  }
+
+  redirectToAuthServer = () => location.replace(this.getConnectUrl());
 }

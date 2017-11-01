@@ -1,4 +1,4 @@
-import {computed, observable} from 'mobx';
+import {computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 
 export class UiStore {
@@ -7,6 +7,7 @@ export class UiStore {
   @observable showCreateWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
+  @observable showSidebar: boolean;
 
   @observable pendingRequestsCount: number = 0;
   @computed
@@ -24,17 +25,29 @@ export class UiStore {
     return (
       this.showCreateWalletDrawer ||
       this.showConfirmRegenerateKey ||
-      this.showQrWindow
+      this.showQrWindow ||
+      this.showSidebar
     );
   }
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+    reaction(
+      () => this.pendingRequestsCount,
+      count => {
+        if (count < 0) {
+          this.pendingRequestsCount = 0;
+        }
+      }
+    );
   }
 
-  startFetch = (num?: number) =>
-    !!num ? (this.pendingRequestsCount += num) : this.pendingRequestsCount++;
-  finishFetch = () => this.pendingRequestsCount--;
+  readonly startRequest = (num: number = 1) =>
+    (this.pendingRequestsCount += num);
+  readonly finishRequest = (num: number = 1) => {
+    this.pendingRequestsCount -= num;
+  };
+  readonly clearPendingRequests = () => (this.pendingRequestsCount = 0);
 
   readonly toggleCreateWalletDrawer = () => {
     this.showCreateWalletDrawer = !this.showCreateWalletDrawer;
@@ -45,6 +58,10 @@ export class UiStore {
   };
 
   readonly toggleQrWindow = () => (this.showQrWindow = !this.showQrWindow);
+  readonly toggleSidebar = () => (this.showSidebar = !this.showSidebar);
+
+  readonly closeSidebar = () =>
+    this.showSidebar && (this.showSidebar = !this.showSidebar);
 }
 
 export default UiStore;

@@ -29,7 +29,9 @@ describe('wallet store', () => {
 
   it('create api wallet should add it to the list of wallets', async () => {
     const {wallets} = walletStore;
-    const wallet = await walletStore.createApiWallet('-foo');
+    const wallet = await walletStore.createApiWallet(
+      walletStore.createWallet({Name: '-foo'})
+    );
     expect(wallets).toContainEqual(wallet);
   });
 

@@ -7,7 +7,8 @@
   right: 0;
   height: 100%;
   z-index: 111;
-  transition: width 4s ease-out;
+
+  @include transform(translate(100%, 0));
 
   .control-label {
     @include rem(margin-bottom, 16px);
@@ -23,6 +24,7 @@
     height: 100%;
     position: absolute;
     right: 0;
+    bottom: 0;
     z-index: 112;
     width: 0;
     transform: translate3d(100%, 0, 0);
@@ -135,8 +137,10 @@
   }
 
   &--show {
+    @include transform(translate(0, 0));
+
     .drawer__body {
-      animation: slideIn 0.4s ease 0.1s forwards;
+      @include animation(slideIn 0.3s ease 0.05s forwards);
     }
   }
 }

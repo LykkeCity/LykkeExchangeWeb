@@ -7,10 +7,7 @@ interface TransferApi {
 }
 
 export class RestTransferApi extends RestApi implements TransferApi {
-  transfer = (transfer: TransferModel) =>
-    this.bearerWretch()
-      .url(`/transfer`) // TODO: replace with the actual url
-      .post();
+  transfer = (transfer: TransferModel) => this.post(`/transfer`, transfer); // TODO: replace with the actual url
 }
 
 export default TransferApi;

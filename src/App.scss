@@ -43,3 +43,23 @@ body {
     @include rem(padding-bottom, 419px);
   }
 }
+
+.form-control {
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+textarea.form-control {
+  border-color: $gray-25;
+
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+.text--truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

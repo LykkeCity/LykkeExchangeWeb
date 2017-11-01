@@ -1,16 +1,17 @@
 import classnames from 'classnames';
+import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import ProtectedRoute from './components/ProtectedRoute/index';
 import {ROUTE_AUTH, ROUTE_ROOT} from './constants/routes';
 import {STORE_ROOT} from './constants/stores';
 import AuthPage from './pages/AuthPage';
 import ProtectedPage from './pages/ProtectedPage/index';
 import {RootStore} from './stores';
 
-import {computed} from 'mobx';
 import './App.css';
 
 export interface RootStoreProps {
@@ -29,11 +30,14 @@ class App extends React.Component<RootStoreProps> {
   render() {
     return (
       <Router>
-        <div className={classnames(this.classes)}>
+        <div
+          className={classnames(this.classes)}
+          onClick={this.props.rootStore!.uiStore.closeSidebar}
+        >
           <Header />
           <Switch>
             <Route path={ROUTE_AUTH} component={AuthPage} />
-            <Route path={ROUTE_ROOT} component={ProtectedPage} />
+            <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
           </Switch>
           <Footer />
         </div>

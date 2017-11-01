@@ -7,8 +7,9 @@ export interface AuthApi {
 }
 
 export class RestAuthApi extends RestApi implements AuthApi {
+  // TODO: To be removed
   getToken = (credentials: CredentialsModel) =>
-    this.baseWretch
+    this.apiWretch
       .url('/client/auth')
       .content('application/json-patch+json')
       .json({
@@ -21,12 +22,11 @@ export class RestAuthApi extends RestApi implements AuthApi {
       .json();
 
   getSessionToken = (clientId: string, token: string) =>
-    this.authWretch
-      .url('/getlykkewallettoken')
+    this.authBearerWretch()
       .headers({
-        Authorization: `Bearer ${token}`,
         application_id: clientId
       })
+      .url('/getlykkewallettoken')
       .get()
       .json();
 
@@ -41,7 +41,7 @@ export class RestAuthApi extends RestApi implements AuthApi {
       .post()
       .json();
 
-  signOut = (path: string) => this.authWretch.url(path).get();
+  signOut = (path: string, token: string) => this.postAuth(path, {});
 }
 
 export default RestAuthApi;

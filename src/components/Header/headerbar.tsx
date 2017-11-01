@@ -7,24 +7,32 @@ import HeaderSearch from './headerSearch';
 import UserInfo from './userInfo';
 
 export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
-  const {authStore} = rootStore!;
-  const isAuthenticated = !!rootStore!.authStore.token;
+  const {authStore, uiStore} = rootStore!;
+
+  const handleToggleSidebar = (e: React.SyntheticEvent<any>) => {
+    e.stopPropagation();
+    uiStore.toggleSidebar();
+  };
 
   return (
     <div className="header_container">
       <header className="header">
         <div className="container">
           <div className="header__menu_button">
-            <button className="btn btn_menu btn--icon" type="button">
+            <button
+              className="btn btn_menu btn--icon"
+              type="button"
+              onClick={handleToggleSidebar}
+            >
               <span />
             </button>
           </div>
 
           <Logo />
 
-          {isAuthenticated && <UserInfo />}
+          {authStore.isAuthenticated && <UserInfo />}
 
-          {!isAuthenticated && (
+          {!authStore.isAuthenticated && (
             <div className="header_actions__login header_login pull-right">
               <div className="header_user dropdown__control">
                 <a href={authStore.getConnectUrl()}>

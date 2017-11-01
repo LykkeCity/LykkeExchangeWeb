@@ -1,4 +1,10 @@
-import {action, computed, observable, runInAction} from 'mobx';
+import {
+  action,
+  computed,
+  extendObservable,
+  observable,
+  runInAction
+} from 'mobx';
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {DirectionModel, WalletModel} from '../models';
@@ -65,11 +71,15 @@ export class WalletStore {
     this.wallets.splice(idx, 1, wallet);
   };
 
-  createApiWallet = async (name: string) => {
-    const dto = await this.api!.createApiWallet(name);
-    const wallet = this.createWallet({...dto, Id: dto.WalletId, Name: name});
-    this.addWallet(wallet);
-    return wallet;
+  createApiWallet = async (wallet: WalletModel) => {
+    const {title, desc} = wallet;
+    const dto = await this.api!.createApiWallet(title, desc);
+    const newWallet = this.createWallet({
+      ApiKey: dto.ApiKey,
+      Id: dto.WalletId
+    });
+    this.addWallet(extendObservable(newWallet, {title, desc}));
+    return newWallet;
   };
 
   regenerateApiKey = async (wallet: WalletModel) => {

@@ -17,6 +17,8 @@ export class TransferStore {
 
   createTransfer = () => {
     const transfer = new TransferModel(this);
+    transfer.from = this.rootStore.walletStore.createWallet();
+    transfer.to = this.rootStore.walletStore.createWallet();
     this.addTransfer(transfer);
     return transfer;
   };

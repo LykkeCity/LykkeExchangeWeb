@@ -5,8 +5,8 @@ import {TransferModel} from '../models';
 const rootStore = new RootStore();
 const transferStore = new TransferStore(
   rootStore,
-  new TransferApi(),
-  new ConverterApi()
+  new TransferApi(rootStore),
+  new ConverterApi(rootStore)
 );
 
 describe('transfer store', () => {

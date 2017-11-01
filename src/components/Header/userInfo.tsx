@@ -5,7 +5,8 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
-  const {authStore} = rootStore!;
+  const {authStore, profileStore} = rootStore!;
+
   return (
     <div className="header__actions header_actions__login header_login pull-right">
       <div className="header_user dropdown__control">
@@ -20,13 +21,7 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
           overlay={
             <ul className="dropdown__nav">
               <li>
-                <a
-                  onClick={authStore.logout}
-                  href={authStore.getLogoutUrl()}
-                  target="_blank"
-                >
-                  Sign out
-                </a>
+                <a onClick={authStore.logout}>Sign out</a>
               </li>
             </ul>
           }
@@ -34,7 +29,7 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
           className="dropdown__container"
           placement="bottomRight"
         >
-          <div className="header_login__title">Leroy</div>
+          <div className="header_login__title">{profileStore.fullName}</div>
         </Dropdown>
       </div>
     </div>
