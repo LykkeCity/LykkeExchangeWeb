@@ -1,1 +1,1 @@
-export type ApiResponse<T> = Promise<T> | T;
+export type ApiResponse<T = any> = Promise<T> | T;

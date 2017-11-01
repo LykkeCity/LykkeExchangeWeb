@@ -1,8 +1,16 @@
-import {computed, observable, reaction, runInAction} from 'mobx';
+import {
+  computed,
+  extendObservable,
+  observable,
+  reaction,
+  runInAction
+} from 'mobx';
 import {ProfileApi} from '../api/profileApi';
+import {StorageUtils} from '../utils/index';
 import {RootStore} from './index';
 
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
+const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
   readonly rootStore: RootStore;
@@ -23,10 +31,10 @@ export class ProfileStore {
       () => this.baseCurrency,
       baseCurrency => {
         if (!!baseCurrency) {
-          localStorage.setItem(BASE_CURRENCY_STORAGE_KEY, baseCurrency);
+          baseCurrencyStorage.set(baseCurrency);
           this.api!.updateBaseCurrency(baseCurrency);
         } else {
-          localStorage.removeItem(BASE_CURRENCY_STORAGE_KEY);
+          baseCurrencyStorage.clear();
         }
       }
     );
@@ -40,11 +48,9 @@ export class ProfileStore {
   };
 
   fetchFirstName = async () => {
-    const {authStore} = this.rootStore!;
-    const token = authStore.getAccessToken();
-    const resp = await this.api!.getUserName(token);
-    this.firstName = resp.firstName;
-    this.lastName = resp.lastName;
+    const {authStore: {getAccessToken}} = this.rootStore!;
+    const resp = await this.api!.getUserName(getAccessToken());
+    extendObservable(this, resp);
   };
 }
 

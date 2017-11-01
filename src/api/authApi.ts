@@ -1,27 +1,13 @@
-import {CredentialsModel} from '../models';
 import {RestApi} from './index';
 import {ApiResponse} from './types';
 
 export interface AuthApi {
-  getToken: (credentials: CredentialsModel) => ApiResponse<any>;
+  fetchSessionToken: (clientId: string, token: string) => ApiResponse;
+  fetchBearerToken: (app: any, code: string, path: string) => ApiResponse;
 }
 
 export class RestAuthApi extends RestApi implements AuthApi {
-  // TODO: To be removed
-  getToken = (credentials: CredentialsModel) =>
-    this.apiWretch
-      .url('/client/auth')
-      .content('application/json-patch+json')
-      .json({
-        ClientInfo: '',
-        Email: credentials.email,
-        PartnerId: '',
-        Password: credentials.password
-      })
-      .post()
-      .json();
-
-  getSessionToken = (clientId: string, token: string) =>
+  fetchSessionToken = (clientId: string, token: string) =>
     this.authBearerWretch()
       .headers({
         application_id: clientId
@@ -30,7 +16,7 @@ export class RestAuthApi extends RestApi implements AuthApi {
       .get()
       .json();
 
-  getBearerToken = (app: any, code: string, path: string) =>
+  fetchBearerToken = (app: any, code: string, path: string) =>
     this.authWretch
       .url(path)
       .formUrl({

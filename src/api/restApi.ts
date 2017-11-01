@@ -1,7 +1,6 @@
 import wretch from 'wretch';
 import {Wretcher} from 'wretch/dist/wretcher';
 import {RootStore} from '../stores/index';
-import {TokenUtils} from '../utils/index';
 
 export class RestApi {
   protected readonly baseAuthUrl = process.env.REACT_APP_AUTH_URL;
@@ -20,10 +19,12 @@ export class RestApi {
   constructor(private rootStore: RootStore) {}
 
   protected apiBearerWretch() {
-    return this.apiWretch.auth(`Bearer ${TokenUtils.getSessionToken()}`);
+    return this.apiWretch.auth(`Bearer ${this.rootStore.authStore.token}`);
   }
   protected authBearerWretch() {
-    return this.authWretch.auth(`Bearer ${TokenUtils.getAccessToken()}`);
+    return this.authWretch.auth(
+      `Bearer ${this.rootStore.authStore.getAccessToken()}`
+    );
   }
 
   // tslint:disable-next-line:variable-name

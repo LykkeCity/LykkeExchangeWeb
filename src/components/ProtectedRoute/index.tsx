@@ -11,11 +11,13 @@ const AbsoluteRedirect = ({to}: {to: string}) => {
 
 type ProtectedRouteProps = RouteProps & RootStoreProps;
 
-export const ProtectedRoute = ({rootStore, ...rest}: ProtectedRouteProps) =>
-  !!rootStore!.authStore.token ? (
+export const ProtectedRoute = ({rootStore, ...rest}: ProtectedRouteProps) => {
+  const {authStore: {isAuthenticated, getConnectUrl}} = rootStore!;
+  return isAuthenticated ? (
     <Route {...rest} />
   ) : (
-    <AbsoluteRedirect to={rootStore!.authStore.getConnectUrl()} />
+    <AbsoluteRedirect to={getConnectUrl()} />
   );
+};
 
 export default inject(STORE_ROOT)(observer(ProtectedRoute));
