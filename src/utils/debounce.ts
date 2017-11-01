@@ -39,5 +39,22 @@ export const debounce = (
     return result;
   };
 
+  debounced.clear = () => {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  debounced.flush = () => {
+    if (timeout) {
+      result = func.apply(context, args);
+      context = args = null;
+
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
   return debounced;
 };
