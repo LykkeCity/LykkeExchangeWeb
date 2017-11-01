@@ -28,34 +28,45 @@ export class RestApi {
 
   // tslint:disable-next-line:variable-name
   private _get(wretcher: () => Wretcher) {
-    return (url: string, cb?: any) =>
+    return (
+      url: string,
+      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
       wretcher()
         .url(url)
         .get()
-        .unauthorized(cb || this.rootStore.authStore.redirectToAuthServer)
-        .badRequest(cb || this.rootStore.authStore.redirectToAuthServer)
+        .unauthorized(cb)
+        .badRequest(cb)
         .json();
   }
 
   // tslint:disable-next-line:variable-name
   private _post(wretcher: () => Wretcher) {
-    return (url: string, payload: any, cb?: any) =>
+    return (
+      url: string,
+      payload: any,
+      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
       wretcher()
         .url(url)
         .json(payload)
         .post()
-        .unauthorized(cb || this.rootStore.authStore.redirectToAuthServer)
+        .unauthorized(cb)
         .json();
   }
 
   // tslint:disable-next-line:variable-name
   private _put(wretcher: () => Wretcher) {
-    return (url: string, payload: any, cb?: any) =>
+    return (
+      url: string,
+      payload: any,
+      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
       wretcher()
         .url(url)
         .json(payload)
         .put()
-        .unauthorized(cb || this.rootStore.authStore.redirectToAuthServer)
+        .unauthorized(cb)
         .json();
   }
 }
