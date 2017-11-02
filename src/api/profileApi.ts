@@ -14,10 +14,10 @@ export class RestProfileApi extends RestApi implements ProfileApi {
     super(rootStore);
   }
 
-  fetchBaseCurrency = () => this.get('/baseCurrency');
+  fetchBaseCurrency = () => this.get('/assets/baseAsset');
 
   updateBaseCurrency = (baseCurrency: string) =>
-    this.post('/baseCurrency', {baseCurrency});
+    this.post('/assets/baseAsset', {BaseAsssetId: baseCurrency});
 
   getUserName = (token: string) => this.getAuth(connectUrls.info);
 }

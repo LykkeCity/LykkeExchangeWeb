@@ -1,13 +1,21 @@
-import {computed, observable, reaction, runInAction} from 'mobx';
+import {
+  computed,
+  extendObservable,
+  observable,
+  reaction,
+  runInAction
+} from 'mobx';
 import {ProfileApi} from '../api/profileApi';
+import {StorageUtils} from '../utils/index';
 import {RootStore} from './index';
 
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
+const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
   readonly rootStore: RootStore;
 
-  @observable baseCurrency: string = 'LKK';
+  @observable baseCurrency: string = baseCurrencyStorage.get() || 'LKK';
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -23,10 +31,10 @@ export class ProfileStore {
       () => this.baseCurrency,
       baseCurrency => {
         if (!!baseCurrency) {
-          localStorage.setItem(BASE_CURRENCY_STORAGE_KEY, baseCurrency);
-          this.api!.updateBaseCurrency(baseCurrency);
+          baseCurrencyStorage.set(baseCurrency);
+          // this.api!.updateBaseCurrency(baseCurrency);
         } else {
-          localStorage.removeItem(BASE_CURRENCY_STORAGE_KEY);
+          baseCurrencyStorage.clear();
         }
       }
     );
@@ -35,16 +43,14 @@ export class ProfileStore {
   fetchBaseCurrency = async () => {
     const resp = await this.api!.fetchBaseCurrency();
     runInAction(() => {
-      this.baseCurrency = resp.AssetId; // TODO: grab prop name from dto
+      this.baseCurrency = resp.BaseAssetId || this.baseCurrency;
     });
   };
 
   fetchFirstName = async () => {
-    const {authStore} = this.rootStore!;
-    const token = authStore.getAccessToken();
-    const resp = await this.api!.getUserName(token);
-    this.firstName = resp.firstName;
-    this.lastName = resp.lastName;
+    const {authStore: {getAccessToken}} = this.rootStore!;
+    const resp = await this.api!.getUserName(getAccessToken());
+    extendObservable(this, resp);
   };
 }
 

@@ -1,4 +1,5 @@
 import {RootStore, WalletStore} from '.';
+import {WalletModel} from '../models/index';
 
 const rootStore = new RootStore();
 const mockConverter = {
@@ -37,7 +38,7 @@ describe('wallet store', () => {
 
   describe('allWalletsExceptOne', () => {
     it('should not return wallet passed as param', () => {
-      walletStore.clear();
+      walletStore.clearWallets();
       const count = 5;
       for (let i = 1; i < count; i++) {
         const w = walletStore.createWallet({Id: i, Name: `Wallet ${i}`});
@@ -52,11 +53,28 @@ describe('wallet store', () => {
     });
 
     it('should return an empty array when filtering an empty array', () => {
-      walletStore.clear();
+      walletStore.clearWallets();
       const w = walletStore.createWallet({Id: '1', Name: 'w1'});
 
       expect(walletStore.getAllWalletsExceptOne(w)).not.toContainEqual(w);
       expect(walletStore.getAllWalletsExceptOne(w).length).toEqual(0);
+    });
+  });
+
+  describe('convert to base asset', () => {
+    let wallet: WalletModel;
+    const convert = jest.fn();
+
+    beforeEach(() => {
+      walletStore.convertToBaseAsset = convert;
+      wallet = walletStore.createWallet();
+    });
+
+    it('should call converter when new balance appears', () => {
+      wallet.setBalances([{Balance: 100, AssetId: 'LKK'}]);
+      walletStore.addWallet(wallet);
+
+      expect(convert.mock.calls.length).toBe(1);
     });
   });
 });

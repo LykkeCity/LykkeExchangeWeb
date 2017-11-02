@@ -9,7 +9,7 @@ const optionRenderer = (baseCurrency: string) => (wallet: WalletModel) => (
   <div className="option">
     <div>{wallet.title}</div>
     <div>
-      {wallet.totalBalanceInBaseCurrency.balance}&nbsp;{baseCurrency}
+      {wallet.totalBalance.balance}&nbsp;{baseCurrency}
     </div>
   </div>
 );

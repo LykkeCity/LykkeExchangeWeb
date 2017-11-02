@@ -11,10 +11,6 @@ describe('auth store', () => {
     expect(authStore.rootStore).toBeInstanceOf(RootStore);
   });
 
-  it('should provide get token method', () => {
-    expect(authStore.getAuthToken).toBeDefined();
-  });
-
   it('should have defined token', () => {
     expect(authStore).toHaveProperty('token');
   });

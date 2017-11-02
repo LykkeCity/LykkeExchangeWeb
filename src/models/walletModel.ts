@@ -1,18 +1,21 @@
-import {action, autorun, computed, observable} from 'mobx';
+import {action, computed, observable, reaction} from 'mobx';
 import {BalanceModel, WalletType} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
 export class WalletModel {
-  @observable id: string = '';
-  @observable title: string = 'Untitled';
+  @observable id = '';
+  @observable title = '';
   @observable
-  desc: string = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
-  @observable apiKey: string = '';
-  @observable baseCurrency = 'LKK';
+  desc = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+  @observable apiKey = '';
   @observable type: WalletType;
 
   @observable balances: BalanceModel[] = [];
+  @observable totalBalance: BalanceModel;
+
+  @observable collapsed = true;
+  @observable expanded = !this.collapsed;
 
   @computed
   get hasBalances() {
@@ -24,57 +27,63 @@ export class WalletModel {
     return this.type === WalletType.Trading;
   }
 
-  @computed
-  get totalBalance() {
-    const total = this.balanceStore.createBalance();
-    total.balance = this.balances.reduce(
-      (prev, curr) => (total.balance += curr.balance),
-      0
-    );
-    return total;
-  }
+  constructor(private readonly store: WalletStore, dto?: any) {
+    const {
+      balanceStore: {createBalance},
+      profileStore: {baseCurrency}
+    } = this.store.rootStore;
+    this.totalBalance = createBalance();
+    this.totalBalance.assetId = baseCurrency;
+    this.updateFromJson(dto);
 
-  @observable totalBalanceInBaseCurrency: BalanceModel;
-
-  @observable collapsed: boolean = true;
-  @computed
-  get expanded() {
-    return !this.collapsed;
-  }
-
-  private balanceStore = this.store.rootStore.balanceStore;
-
-  constructor(private store: WalletStore, dto?: any) {
-    this.totalBalanceInBaseCurrency = this.balanceStore.createBalance();
-    if (!!dto) {
-      this.mapFromJson(dto);
-    }
-
-    autorun(() => {
-      if (this.balances.length > 0) {
-        this.store!.convertToBaseCurrency(this);
+    reaction(
+      () => this.collapsed,
+      collapsed => {
+        this.expanded = !collapsed;
       }
-    });
+    );
   }
 
-  mapFromJson = (dto: any) => {
-    this.id = dto.Id || nextId();
-    this.title = dto.Name || this.title;
-    this.desc = dto.Description || this.desc;
-    this.apiKey = dto.ApiKey;
-    this.type = dto.Type;
-    if (!!dto.Balances) {
-      this.setBalances(dto.Balances);
+  @action
+  updateFromJson = (dto: any) => {
+    if (!!dto) {
+      this.id = dto.Id || nextId();
+      this.type = dto.Type;
+      this.title = this.isTrading ? 'Trading Wallet' : dto.Name || this.title;
+      this.desc = dto.Description || this.desc;
+      this.apiKey = dto.ApiKey;
+      if (!!dto.Balances) {
+        this.setBalances(dto.Balances);
+      }
     }
   };
 
   @action
   setBalances = (dto: any[]) => {
-    this.balances = dto.map(this.balanceStore.createBalance);
+    const {createBalance} = this.store.rootStore.balanceStore;
+    this.balances = dto.map(createBalance);
   };
 
-  @action debit = (amount: number) => (this.balances[0].balance -= amount);
-  @action credit = (amount: number) => (this.balances[0].balance += amount);
+  @action
+  deposit = (balance: number, assetId: string) => {
+    const {createBalance} = this.store.rootStore.balanceStore;
+    const incomingBalance = createBalance();
+    incomingBalance.assetId = assetId;
+    incomingBalance.balance = balance;
+
+    const currBalance = this.balances.find(
+      b => b.assetId === incomingBalance.assetId
+    );
+    if (!!currBalance) {
+      currBalance.balance -= incomingBalance.balance;
+    } else {
+      this.balances.push(incomingBalance);
+    }
+  };
+  @action
+  withdraw = (amount: number, assetId: string) => {
+    this.balances.find(b => b.assetId === assetId)!.balance += amount;
+  };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);
 }
