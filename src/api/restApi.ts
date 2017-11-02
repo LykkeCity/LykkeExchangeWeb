@@ -1,9 +1,10 @@
 import wretch from 'wretch';
 import {Wretcher} from 'wretch/dist/wretcher';
+import {config} from '../config';
 import {RootStore} from '../stores/index';
 
 export class RestApi {
-  protected readonly baseAuthUrl = process.env.REACT_APP_AUTH_URL;
+  protected readonly baseAuthUrl = config.auth.url;
   protected readonly baseApiUrl = process.env.REACT_APP_API_URL;
 
   protected readonly apiWretch = wretch(this.baseApiUrl);
