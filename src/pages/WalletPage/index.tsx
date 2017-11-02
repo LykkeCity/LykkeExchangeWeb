@@ -1,4 +1,3 @@
-import Button from 'antd/lib/button/button';
 import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
@@ -31,8 +30,10 @@ export class WalletPage extends React.Component<RootStoreProps> {
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
         >
-          <h2>New Wallet</h2>
-          <h3>API Wallet</h3>
+          <div className="drawer__title">
+            <h2>New Wallet</h2>
+            <h3>API Wallet</h3>
+          </div>
           <CreateWalletWizard>
             <Steps activeIndex={this.activeStep}>
               <Step
@@ -56,12 +57,13 @@ export class WalletPage extends React.Component<RootStoreProps> {
               >
                 <GenerateWalletKeyForm wallet={this.wallet} />
                 <div className="drawer__footer">
-                  <Button
+                  <button
+                    className="btn btn--primary"
+                    type="button"
                     onClick={this.uiStore.toggleCreateWalletDrawer}
-                    type="primary"
                   >
-                    Finish
-                  </Button>
+                    Save
+                  </button>
                 </div>
               </Step>
             </Steps>

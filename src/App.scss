@@ -8,7 +8,11 @@
 @import '../node_modules/LykkeFramework/assets/scss/common/helpers';
 @import '../node_modules/LykkeFramework/assets/scss/partials/form';
 @import '../node_modules/LykkeFramework/assets/scss/partials/btn';
+@import '../node_modules/LykkeFramework/assets/scss/partials/assets';
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
+
+@import 'styles/components/asset_list';
+@import 'styles/components/forms';
 
 .app__shell {
   @include rem(padding, 20px 0);
@@ -40,8 +44,24 @@ body {
   }
 }
 
-.form-control:focus {
-  border-color: $gray-light;
+.form-control {
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+textarea.form-control {
+  border-color: $gray-25;
+
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+.text--truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .text--truncate {

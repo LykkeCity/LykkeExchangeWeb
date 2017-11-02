@@ -1,9 +1,4 @@
-import Button from 'antd/lib/button/button';
 import Form, {FormComponentProps} from 'antd/lib/form/Form';
-import FormItem from 'antd/lib/form/FormItem';
-import 'antd/lib/form/style';
-import Input from 'antd/lib/input/Input';
-import TextArea from 'antd/lib/input/TextArea';
 import * as React from 'react';
 
 interface WalletFormProps extends FormComponentProps {
@@ -15,33 +10,51 @@ interface WalletFormProps extends FormComponentProps {
 
 export class WalletForm extends React.Component<WalletFormProps> {
   render() {
-    const {getFieldDecorator} = this.props.form;
     return (
       <Form layout="vertical">
-        <FormItem label="Name of wallet">
-          {getFieldDecorator('name', {
-            rules: [
-              {
-                message: 'Please input the name of the wallet',
-                required: true
-              }
-            ]
-          })(<Input onChange={this.props.onChangeName} />)}
-        </FormItem>
-        <FormItem label="Description">
-          <TextArea
-            rows={4}
+        <div className="form-group">
+          <label htmlFor="name" className="control-label">
+            Name of wallet
+          </label>
+          <input
+            type="text"
+            name="name"
+            id="name"
+            className="form-control"
+            required={true}
+            onChange={this.props.onChangeName}
+          />
+          {
+            // TODO Раз уж мы собираемся уйти от antd... надо чуть доделать. Для инпута с ошибкой добавлять модификатор form-control--error
+            // <div className="label_error">Please input the name of the wallet</div>
+          }
+        </div>
+        <div className="form-group">
+          <label htmlFor="desc" className="control-label">
+            Description
+          </label>
+          <textarea
+            id="desc"
             onChange={this.props.onChangeDesc}
             placeholder="Put your description, like My API Wallet"
+            className="form-control"
           />
-        </FormItem>
+        </div>
         <div className="drawer__footer">
-          <Button onClick={this.props.onCancel} type="ghost">
+          <button
+            className="btn btn--flat"
+            type="button"
+            onClick={this.props.onCancel}
+          >
             Cancel and close
-          </Button>
-          <Button onClick={this.handleSubmit} type="primary">
+          </button>
+          <button
+            className="btn btn--primary"
+            type="button"
+            onClick={this.handleSubmit}
+          >
             Generate API Key
-          </Button>
+          </button>
         </div>
       </Form>
     );

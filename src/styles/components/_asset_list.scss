@@ -1,0 +1,58 @@
+.asset_link_list {
+  margin: 0;
+
+  @include rem(margin-bottom, 20px);
+
+  .asset_link {
+    display: table;
+    width: 100%;
+
+    &:after,
+    &:before {
+      display: none;
+    }
+
+    &__info,
+    &__action {
+      display: table-cell;
+      vertical-align: middle;
+      float: none;
+    }
+
+    &__action {
+      @include rem(padding-left, 15px);
+    }
+  }
+}
+
+.asset_link {
+  &__title {
+    line-height: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include rem(margin-bottom, 5px);
+  }
+
+  &__info {
+    @include rem(padding-right, 15px);
+  }
+
+  &__desc {
+    margin-right: 0;
+    margin-left: 0;
+    display: block;
+    word-break: break-word;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hidden_field {
+    position: absolute;
+    right: 100%;
+    bottom: 100%;
+    opacity: 0;
+    padding: 0;
+  }
+}
