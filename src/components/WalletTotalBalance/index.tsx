@@ -1,41 +1,25 @@
 // import classnames from 'classnames';
-import {observer} from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {RootStoreProps} from '../../App';
+import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
-interface WalletTotalBalanceProps {
+interface WalletTotalBalanceProps extends RootStoreProps {
   wallet: WalletModel;
 }
 
 export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
-  wallet
+  wallet,
+  rootStore
 }) => (
   <div className="wallet__total">
     <div className="wallet__total-balance">Total balance</div>
     <h3 className="wallet__total-balance-value">
-      {wallet.totalBalance.balance.toFixed(2)} {wallet.totalBalance.assetId}
+      {wallet.totalBalance.balance.toFixed(2)}{' '}
+      {rootStore!.profileStore.baseCurrency}
     </h3>
-    {/* <div>
-      <span className="wallet__figure">Received:</span>{' '}
-      <span className="wallet__figure-val">
-        {wallet.figures.received} {wallet.figures.assetId}
-      </span>
-    </div>
-    <div>
-      <span className="wallet__figure">Sent:</span>{' '}
-      <span className="wallet__figure-val">
-        {wallet.figures.sent} {wallet.figures.assetId}
-      </span>
-    </div>
-    <div>
-      <span className="wallet__figure">P&amp;L:</span>{' '}
-      <span
-        className={classnames('wallet__figure-val', 'wallet__figure-val--green')}
-      >
-        +{wallet.figures.pnl}
-      </span>
-    </div> */}
   </div>
 );
 
-export default observer(WalletTotalBalance);
+export default inject(STORE_ROOT)(observer(WalletTotalBalance));

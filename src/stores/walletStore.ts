@@ -100,8 +100,11 @@ export class WalletStore {
       this.rootStore.profileStore.baseCurrency
     );
     runInAction(() => {
+      // tslint:disable-next-line:no-console
+      console.info(resp);
+
       wallet.totalBalance.balance = resp.Converted.reduce(
-        (agg: number, curr: any) => (agg += curr.To.Amount),
+        (agg: number, curr: any) => (agg += curr.To && curr.To.Amount),
         0
       );
     });

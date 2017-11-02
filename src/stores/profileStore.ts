@@ -15,7 +15,7 @@ const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 export class ProfileStore {
   readonly rootStore: RootStore;
 
-  @observable baseCurrency: string = 'LKK';
+  @observable baseCurrency: string = baseCurrencyStorage.get() || 'LKK';
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -32,7 +32,7 @@ export class ProfileStore {
       baseCurrency => {
         if (!!baseCurrency) {
           baseCurrencyStorage.set(baseCurrency);
-          this.api!.updateBaseCurrency(baseCurrency);
+          // this.api!.updateBaseCurrency(baseCurrency);
         } else {
           baseCurrencyStorage.clear();
         }
@@ -43,7 +43,7 @@ export class ProfileStore {
   fetchBaseCurrency = async () => {
     const resp = await this.api!.fetchBaseCurrency();
     runInAction(() => {
-      this.baseCurrency = resp.AssetId; // TODO: grab prop name from dto
+      this.baseCurrency = resp.BaseAssetId || this.baseCurrency;
     });
   };
 

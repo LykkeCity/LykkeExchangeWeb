@@ -11,7 +11,19 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => (
         {rootStore!.walletStore.totalBalance.toFixed(2)}
       </div>
       <div className="header_nav_balance__currency">
-        {rootStore!.profileStore.baseCurrency}
+        {}
+        <select
+          value={rootStore!.profileStore.baseCurrency}
+          // tslint:disable-next-line:jsx-no-lambda
+          onChange={e =>
+            (rootStore!.profileStore.baseCurrency = e.currentTarget.value)}
+        >
+          {['LKK', 'USD', 'EUR'].map(x => (
+            <option key={x} value={x}>
+              {x}
+            </option>
+          ))}
+        </select>
       </div>
     </div>
   </div>
