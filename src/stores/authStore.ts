@@ -1,16 +1,18 @@
-import {action, computed, observable, reaction} from 'mobx';
+import {computed, observable, reaction, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
-import {CredentialsModel} from '../models';
 import {AUTH_SCOPE, queryStringFromObject} from '../utils/authUtils';
-import {AuthUtils, TokenUtils} from '../utils/index';
+import {AuthUtils, StorageUtils} from '../utils/index';
 
-const AUTH_TOKEN_KEY = 'lww-oauth';
+const TOKEN_KEY = 'lww-token';
+const OAUTH_KEY = 'lww-oauth';
+
+const tokenStorage = StorageUtils.withKey(TOKEN_KEY);
+const authStorage = StorageUtils.withKey(OAUTH_KEY);
 
 export class AuthStore {
   readonly rootStore: RootStore;
-
-  @observable token = TokenUtils.get();
+  @observable token = tokenStorage.get();
 
   constructor(rootStore: RootStore, private api?: AuthApi) {
     this.rootStore = rootStore;
@@ -18,36 +20,33 @@ export class AuthStore {
       () => this.token,
       token => {
         if (token) {
-          TokenUtils.set(token);
+          tokenStorage.set(token);
         } else {
-          TokenUtils.clear();
+          tokenStorage.clear();
+          authStorage.clear();
         }
       }
     );
   }
 
   auth = async (code: string) => {
-    const bearerToken = await this.getBearerToken(code);
-    localStorage.setItem(AUTH_TOKEN_KEY, JSON.stringify(bearerToken));
-    const sessionToken = await this.getSessionToken();
-    this.setToken(sessionToken.token);
+    const authContext = await this.fetchBearerToken(code);
+    authStorage.set(JSON.stringify(authContext));
+    const sessionToken = await this.fetchSessionToken();
+    runInAction(() => {
+      this.token = sessionToken.token;
+    });
   };
 
-  @action setToken = (token: string) => (this.token = token);
+  fetchSessionToken = () =>
+    this.api!.fetchSessionToken(AuthUtils.app.client_id, this.getAccessToken());
 
-  @action clearToken = () => (this.token = null);
-
-  getAuthToken = async (credentials: CredentialsModel) => {
-    const token = (await this.api!.getToken(credentials)).AccessToken;
-    this.setToken(token);
-    return token;
-  };
-
-  getSessionToken = () =>
-    this.api!.getSessionToken(AuthUtils.app.client_id, this.getAccessToken());
-
-  getBearerToken = (code: string) =>
-    this.api!.getBearerToken(AuthUtils.app, code, AuthUtils.connectUrls.token);
+  fetchBearerToken = (code: string) =>
+    this.api!.fetchBearerToken(
+      AuthUtils.app,
+      code,
+      AuthUtils.connectUrls.token
+    );
 
   getConnectUrl = () => {
     const {client_id, redirect_uri} = AuthUtils.app;
@@ -73,15 +72,21 @@ export class AuthStore {
     );
     await setTimeout(() => {
       logoutwindow.close();
-      this.clearToken();
+      runInAction(() => {
+        this.token = null;
+      });
     }, 1000);
   };
 
-  getAccessToken = () =>
-    JSON.parse(localStorage.getItem(AUTH_TOKEN_KEY)!).access_token;
+  getAccessToken = () => {
+    const authContext = authStorage.get();
+    return authContext && JSON.parse(authContext).access_token;
+  };
 
   @computed
   get isAuthenticated() {
     return !!this.token;
   }
+
+  redirectToAuthServer = () => location.replace(this.getConnectUrl());
 }

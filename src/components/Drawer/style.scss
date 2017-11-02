@@ -7,141 +7,124 @@
   right: 0;
   height: 100%;
   z-index: 111;
-  @include transition(transform $transition-default);
+
   @include transform(translate(100%, 0));
-  &--open {
-    @include transform(translate(0, 0));
+
+  .control-label {
+    @include rem(margin-bottom, 16px);
   }
 
-  .drawer__body {
-    background: #fff;
+  .asset_link:first-child {
+    padding-top: 0;
+    border-top: 0 !important;
+  }
+
+  &__body {
+    background: $white;
     height: 100%;
-    @include rem(width, 550px);
-    position: fixed;
-    top: 0;
+    position: absolute;
     right: 0;
     bottom: 0;
     z-index: 112;
-    @include transition(transform $transition-default);
-    @include transform(translate(100%, 0));
+    width: 0;
+    transform: translate3d(100%, 0, 0);
 
-    &--open {
-      @include transform(translate(0, 0));
+    @include rem(width, 550px);
+  }
+
+  &__title {
+    @include rem(margin-bottom, 30px);
+
+    h2 {
+      margin-bottom: 0;
     }
 
-    .drawer__breadcrumb {
-      background: #f5f6f7;
-      color: #3f4d60;
-      @include rem(padding, 18px 40px);
+    h3 {
+      color: $gray-dark;
+      font-weight: $fw-light;
+      letter-spacing: -0.3px;
+      margin-bottom: 0;
+    }
+  }
+
+  &__content {
+    @include rem(padding, 58px 40px);
+
+    .ant-form-item,
+    .form-item {
+      color: $secondary;
+
       @include rem(font-size, 16px);
-      @include rem(margin-bottom, 58px);
-      > span {
-        opacity: 0.6;
-      }
-    }
 
-    .drawer__content {
-      @include rem(padding, 0 40px);
-      h2 {
-        color: #333333;
-        @include rem(font-size, 40px);
-        font-weight: 600;
-        margin-bottom: 0;
-      }
-      h3 {
-        color: #8c94a0;
-        @include rem(font-size, 28px);
-        font-weight: 300;
-        letter-spacing: -0.3px;
-      }
-      .step__title {
-        border-bottom: solid 1px #ebedef;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        @include rem(margin-bottom, 23px);
-        @include rem(padding-bottom, 12px);
-        h4 {
-          color: #333333;
-          @include rem(font-size, 21px);
-          font-weight: 600;
-        }
-        small {
-          opacity: 0.6;
-          @include rem(font-size, 13px);
-          @include rem(letter-spacing, 2.4px);
-          color: #3f4d60;
-          text-transform: uppercase;
+      .ant-form-item-label,
+      .form-item-label {
+        opacity: 0.8;
+
+        label {
+          font-weight: normal;
         }
       }
-      .ant-form-item,
-      .form-item {
-        @include rem(font-size, 16px);
-        color: #3f4d60;
-        .ant-form-item-label,
-        .form-item-label {
-          opacity: 0.8;
-          label {
-            font-weight: normal;
-          }
+
+      .anticon {
+        width: 21px;
+        height: 21px;
+        color: $gray-light;
+
+        @include rem(margin-bottom, 28px);
+
+        &:first-child {
+          @include rem(margin-right, 32px);
         }
-        input {
+
+        .ant-popover {
+          width: 226px;
+          height: 61.5px;
+          border-radius: 1px;
+          color: $secondary;
+          top: 50px !important;
+          background-color: $white;
+          box-shadow: 0 8px 50px 0 rgba(63, 77, 96, 0.4),
+            0 5px 5px 0 rgba(63, 77, 96, 0.05);
+
           @include rem(font-size, 16px);
-          color: #3f4d60;
-          @include rem(padding, 20px 16px 20px 20px);
-          &:read-only {
-            border: none;
-            border-bottom: solid 1px #ebedef;
-            padding-left: 0;
-          }
+          @include rem(padding, 13px 20px);
         }
-        .anticon {
-          width: 21px;
-          height: 21px;
-          color: #b2b8bf;
-          @include rem(margin-bottom, 28px);
-          &:first-child {
-            @include rem(margin-right, 32px);
-          }
-          .ant-popover {
-            width: 226px;
-            height: 61.5px;
-            border-radius: 1px;
-            background-color: #ffffff;
-            box-shadow: 0 8px 50px 0 rgba(63, 77, 96, 0.4),
-              0 5px 5px 0 rgba(63, 77, 96, 0.05);
-            padding: 13px 20px;
-            @include rem(font-size, 16px);
-            color: #3f4d60;
-            top: 50px !important;
-          }
-        }
-      }
-    }
-
-    .drawer__footer {
-      @include rem(margin-top, 60px);
-      text-align: right;
-      .ant-btn {
-        border: none;
-        background: transparent;
-        color: #0da7fc;
-        @include rem(font-size, 18px);
-        font-weight: 600;
-        margin: 0;
-      }
-      .ant-btn-primary {
-        background: #0da7fc;
-        display: inline-block;
-        color: #ffffff;
-        border: none;
-        border-radius: 100px;
-        height: 50px;
-        @include rem(padding, 13px 60px);
       }
     }
   }
-  .drawer__overlay {
+
+  &__footer {
+    text-align: right;
+
+    @include rem(margin-top, 60px);
+
+    .btn--primary {
+      @include rem(min-width, 260px);
+    }
+
+    .ant-btn {
+      border: none;
+      background: transparent;
+      color: $primary;
+      font-weight: $fw-semi;
+      margin: 0;
+
+      @include rem(font-size, 18px);
+    }
+
+    .ant-btn-primary {
+      background: $primary;
+      display: inline-block;
+      color: $white;
+      border: none;
+      border-radius: 100px;
+      height: 50px;
+
+      @include rem(padding, 13px 60px);
+    }
+  }
+
+  &__overlay {
     position: fixed;
     z-index: 110;
     top: 0;
@@ -150,35 +133,102 @@
     bottom: 0;
     opacity: 0.5;
     -webkit-backdrop-filter: blur(5px);
-    background-color: #cfd2d7;
+    background-color: $gray-25;
+  }
+
+  &--show {
+    @include transform(translate(0, 0));
+
+    .drawer__body {
+      @include animation(slideIn 0.3s ease 0.05s forwards);
+    }
+  }
+}
+
+.step_title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: solid 1px $border-alt;
+
+  @include rem(margin-bottom, 23px);
+  @include rem(padding-bottom, 12px);
+
+  h4 {
+    color: $text;
+    font-weight: $fw-semi;
+    margin-bottom: 0;
+
+    @include rem(font-size, 21px);
+  }
+
+  small {
+    color: rgba($secondary, 0.6);
+    text-transform: uppercase;
+
+    @include rem(font-size, 13px);
+    @include rem(letter-spacing, 2.4px);
+  }
+}
+
+.breadcrumbs {
+  background: $gray-5;
+
+  @include rem(font-size, 16px);
+  @include rem(padding, 20px 40px);
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .icon {
+    color: $gray-light;
+
+    @include rem(margin, 0 10px);
+    @include rem(font-size, 12px);
+  }
+
+  &_item {
+    color: $secondary;
+
+    &--current {
+      color: rgba($secondary, 0.6);
+    }
   }
 }
 
 .ant-modal-content {
   width: 370px;
+  background: $white;
+
   @include rem(padding, 41px 40px 34px);
-  background: #fff;
 
   .ant-modal-header {
     border: none;
     padding: 0;
+
     .ant-modal-title {
-      @include rem(font-size, 28px);
-      font-weight: 600;
+      font-weight: $fw-semi;
       text-align: left;
-      color: #333333;
+      color: $text;
+
+      @include rem(font-size, 28px);
     }
   }
 
   .ant-modal-body {
     border: none;
-    @include rem(font-size, 18px);
     text-align: left;
-    color: #3f4d60;
+    color: $secondary;
+
+    @include rem(font-size, 18px);
     @include rem(padding, 10px 0 0);
     @include rem(margin-bottom, 55px);
+
     .modal__text {
-      color: #3f4d60;
+      color: $secondary;
+
       @include rem(font-size, 18px);
     }
   }
@@ -189,26 +239,41 @@
     flex-direction: column;
     margin: 0;
     padding: 0;
+
     .ant-btn {
       border: none;
       background: transparent;
-      color: #0da7fc;
-      @include rem(font-size, 18px);
-      font-weight: 600;
+      color: $primary;
+      font-weight: $fw-semi;
       margin: 0;
+
+      @include rem(font-size, 18px);
     }
+
     .ant-btn-primary {
-      background: #0da7fc;
+      background: $primary;
       display: inline-block;
-      color: #ffffff;
+      color: $white;
       border: none;
       border-radius: 100px;
       height: 50px;
+
       @include rem(margin, 0 0 24px);
       @include rem(padding, 13px 0);
+
       span {
         display: inline-block;
       }
     }
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 0, 0);
   }
 }

@@ -1,4 +1,5 @@
 import {RootStore, WalletStore} from '.';
+import {WalletModel} from '../models/index';
 
 const rootStore = new RootStore();
 const mockConverter = {
@@ -29,32 +30,53 @@ describe('wallet store', () => {
 
   it('create api wallet should add it to the list of wallets', async () => {
     const {wallets} = walletStore;
-    const wallet = await walletStore.createApiWallet('-foo');
+    const wallet = await walletStore.createApiWallet(
+      walletStore.createWallet({Name: '-foo'})
+    );
     expect(wallets).toContainEqual(wallet);
   });
 
   describe('allWalletsExceptOne', () => {
+    beforeEach(() => {
+      walletStore.clearWallets();
+    });
     it('should not return wallet passed as param', () => {
-      walletStore.clear();
       const count = 5;
       for (let i = 1; i < count; i++) {
-        const w = walletStore.createWallet({Id: i, Name: `Wallet ${i}`});
-
-        walletStore.addWallet(w);
+        walletStore.addWallet(
+          walletStore.createWallet({Id: i, Name: `Wallet ${i}`})
+        );
       }
-      const excWallet = walletStore.createWallet({Id: 3, Name: 'Wallet 3'});
-      const rest = walletStore.getAllWalletsExceptOne(excWallet);
+      const excludeWallet = walletStore.createWallet({Id: 3, Name: 'Wallet 3'});
+      const rest = walletStore.getWalletsExceptOne(excludeWallet);
 
       expect(rest.length).toBe(count - 1);
-      expect(rest).not.toContainEqual(excWallet);
+      expect(rest).not.toContain(excludeWallet);
     });
 
     it('should return an empty array when filtering an empty array', () => {
-      walletStore.clear();
+      walletStore.clearWallets();
       const w = walletStore.createWallet({Id: '1', Name: 'w1'});
 
-      expect(walletStore.getAllWalletsExceptOne(w)).not.toContainEqual(w);
-      expect(walletStore.getAllWalletsExceptOne(w).length).toEqual(0);
+      expect(walletStore.getWalletsExceptOne(w)).not.toContainEqual(w);
+      expect(walletStore.getWalletsExceptOne(w).length).toEqual(0);
+    });
+  });
+
+  describe('convert to base asset', () => {
+    let wallet: WalletModel;
+    const convert = jest.fn();
+
+    beforeEach(() => {
+      walletStore.convertBalances = convert;
+      wallet = walletStore.createWallet();
+    });
+
+    it('should call converter when new balance appears', () => {
+      wallet.setBalances([{Balance: 100, AssetId: 'LKK'}]);
+      walletStore.addWallet(wallet);
+
+      expect(convert.mock.calls.length).toBe(1);
     });
   });
 });

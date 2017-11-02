@@ -10,7 +10,7 @@ const optionRenderer = (baseCurrency: string) => (wallet: WalletModel) => (
   <div className="option">
     <div>{wallet.title}</div>
     <div>
-      <NumberFormat value={wallet.totalBalanceInBaseCurrency.balance} />&nbsp;{baseCurrency}
+      <NumberFormat value={wallet.totalBalance} />&nbsp;{baseCurrency}
     </div>
   </div>
 );
@@ -25,7 +25,7 @@ export class WalletSelect extends React.Component<MyWalletSelectProps> {
         labelKey="title"
         clearable={false}
         optionRenderer={optionRenderer(
-          this.props.rootStore!.profileStore.baseCurrency
+          this.props.rootStore!.profileStore.baseAsset
         )}
         {...this.props}
       />

@@ -19,13 +19,6 @@ export class LoginForm extends React.Component<LoginFormProps> {
 
   handleSubmit = async (e: any) => {
     e.preventDefault();
-    this.props.form.validateFields(async (err: any, values: any) => {
-      if (!err) {
-        this.authStore.getAuthToken({
-          ...values
-        });
-      }
-    });
   };
 
   render() {

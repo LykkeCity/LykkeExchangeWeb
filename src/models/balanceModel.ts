@@ -1,18 +1,29 @@
-import {observable} from 'mobx';
+import {computed, extendObservable, observable} from 'mobx';
 import {BalanceStore} from '../stores/index';
 
 export class BalanceModel {
   assetId: string = '';
   @observable balance: number = 0;
-  baseCurrency = 'LKK'; // TODO: grab from api
 
   private readonly store: BalanceStore;
 
+  @computed
+  get asJson() {
+    return {
+      Amount: this.balance,
+      AssetId: this.assetId
+    };
+  }
+
   constructor(store: BalanceStore, json?: any) {
     this.store = store;
-    if (!!json) {
-      this.assetId = json.AssetId;
-      this.balance = json.Balance;
-    }
+    this.updateFromJson(json);
   }
+
+  private readonly updateFromJson = (dto: any) => {
+    if (!!dto) {
+      const {AssetId: assetId, Balance: balance} = dto;
+      extendObservable(this, {assetId, balance});
+    }
+  };
 }

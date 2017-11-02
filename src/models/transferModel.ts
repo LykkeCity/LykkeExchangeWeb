@@ -23,6 +23,11 @@ export class TransferModel {
     return !!this.from ? btoa(this.asJson) : '';
   }
 
+  @computed
+  get canTransfer() {
+    return !!this.from && !!this.to && !!this.amount && !!this.asset;
+  }
+
   constructor(private store: TransferStore) {
     this.store = store;
     reaction(
@@ -31,7 +36,7 @@ export class TransferModel {
         if (!!this.amount && !!this.asset) {
           const resp = await this.store.convertToBaseCurrency(
             this,
-            this.store.rootStore.profileStore.baseCurrency
+            this.store.rootStore.profileStore.baseAsset
           );
           this.amountInBaseCurrency =
             resp.Converted[0] && resp.Converted[0].To.Amount;
@@ -42,6 +47,14 @@ export class TransferModel {
 
   @action
   update = (transfer: Partial<TransferModel>) => Object.assign(this, transfer);
+
+  @action
+  setWallet = (wallet: WalletModel, dest: 'from' | 'to') => {
+    this[dest] = wallet;
+    if (dest === 'from' && wallet.hasBalances) {
+      this.asset = wallet.balances[0].assetId;
+    }
+  };
 
   submit = async () => {
     // this.from.debit(this.amount);

@@ -2,7 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLET_TRANSFER_TO} from '../../constants/routes';
+import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 import './style.css';
@@ -17,10 +17,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     return (
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
-          <Link to={ROUTE_WALLET_TRANSFER_TO(wallet.id)}>Deposit</Link>
+          <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
         </div>
         <div className="wallet-action-bar__item">
-          <Link to={ROUTE_WALLET_TRANSFER_TO(wallet.id)}>Withdraw</Link>
+          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Withdraw</Link>
         </div>
         <button
           className="wallet-action-bar__button btn btn--primary btn-sm"

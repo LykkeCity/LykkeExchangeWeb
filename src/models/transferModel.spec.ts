@@ -1,4 +1,5 @@
 import {RootStore} from '../stores';
+import {TransferModel} from './index';
 
 const rootStore = new RootStore();
 const {transferStore, walletStore} = rootStore;
@@ -63,5 +64,52 @@ describe('transfer model', () => {
     sut.submit();
 
     expect(transferStore.transfer).toBeCalled();
+  });
+
+  describe('canTransfer method', () => {
+    let transfer: TransferModel;
+
+    beforeEach(() => {
+      transfer = transferStore.createTransfer();
+    });
+
+    it('should provide canTransfer method', () => {
+      expect(transfer.canTransfer).toBeDefined();
+    });
+    it('should return false on blank transfer', () => {
+      expect(transfer.canTransfer).toBe(false);
+    });
+    it('should return false when some of the fields are empty', () => {
+      transfer.update({
+        from: walletStore.createWallet(),
+        to: walletStore.createWallet(),
+        // tslint:disable-next-line:object-literal-sort-keys
+        amount: 0,
+        asset: 'LKK'
+      });
+      const transfer2 = transferStore.createTransfer();
+      transfer2.update({
+        from: walletStore.createWallet(),
+        to: walletStore.createWallet(),
+        // tslint:disable-next-line:object-literal-sort-keys
+        amount: 10,
+        asset: ''
+      });
+
+      expect(transfer.canTransfer).toBe(false);
+      expect(transfer2.canTransfer).toBe(false);
+    });
+
+    it('should return true when all fields contain data', () => {
+      transfer.update({
+        from: walletStore.createWallet(),
+        to: walletStore.createWallet(),
+        // tslint:disable-next-line:object-literal-sort-keys
+        amount: 10,
+        asset: 'LKK'
+      });
+
+      expect(transfer.canTransfer).toBe(true);
+    });
   });
 });

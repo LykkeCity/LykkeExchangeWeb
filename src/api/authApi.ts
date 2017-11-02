@@ -1,36 +1,22 @@
-import {CredentialsModel} from '../models';
 import {RestApi} from './index';
 import {ApiResponse} from './types';
 
 export interface AuthApi {
-  getToken: (credentials: CredentialsModel) => ApiResponse<any>;
+  fetchSessionToken: (clientId: string, token: string) => ApiResponse;
+  fetchBearerToken: (app: any, code: string, path: string) => ApiResponse;
 }
 
 export class RestAuthApi extends RestApi implements AuthApi {
-  getToken = (credentials: CredentialsModel) =>
-    this.baseWretch
-      .url('/client/auth')
-      .content('application/json-patch+json')
-      .json({
-        ClientInfo: '',
-        Email: credentials.email,
-        PartnerId: '',
-        Password: credentials.password
-      })
-      .post()
-      .json();
-
-  getSessionToken = (clientId: string, token: string) =>
-    this.authWretch
-      .url('/getlykkewallettoken')
+  fetchSessionToken = (clientId: string, token: string) =>
+    this.authBearerWretch()
       .headers({
-        Authorization: `Bearer ${token}`,
         application_id: clientId
       })
+      .url('/getlykkewallettoken')
       .get()
       .json();
 
-  getBearerToken = (app: any, code: string, path: string) =>
+  fetchBearerToken = (app: any, code: string, path: string) =>
     this.authWretch
       .url(path)
       .formUrl({
@@ -41,11 +27,7 @@ export class RestAuthApi extends RestApi implements AuthApi {
       .post()
       .json();
 
-  signOut = (path: string, token: string) =>
-    this.authWretch
-      .auth(`Bearer ${token}`)
-      .url(path)
-      .post();
+  signOut = (path: string, token: string) => this.postAuth(path, {});
 }
 
 export default RestAuthApi;

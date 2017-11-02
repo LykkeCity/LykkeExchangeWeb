@@ -60,7 +60,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       <div className="transfer-form__body">
         <FormGroup label="From">
           <WalletSelect
-            options={walletStore.getWalletsWithAssets()}
+            options={walletStore.walletsWithAssets}
             onChange={handleChangeWallet('from')}
             value={transfer.from && transfer.from.id}
           />
@@ -77,7 +77,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
         </FormGroup>
         <FormGroup label="To">
           <WalletSelect
-            options={walletStore.getAllWalletsExceptOne(transfer.from)}
+            options={walletStore.getWalletsExceptOne(transfer.from)}
             onChange={handleChangeWallet('to')}
             value={transfer.to && transfer.to.id}
           />
@@ -88,13 +88,18 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
         <FormGroup label="">
           <div className="form__input">
             = <NumberFormat value={transfer.amountInBaseCurrency} />{' '}
-            {rootStore!.profileStore.baseCurrency}
+            {rootStore!.profileStore.baseAsset}
           </div>
         </FormGroup>
       </div>
       <div className="transfer__actions">
         <div>
-          <input type="submit" value="Submit" onClick={handleSubmit} />
+          <input
+            type="submit"
+            value="Submit"
+            disabled={!transfer.canTransfer}
+            onClick={handleSubmit}
+          />
         </div>
         <div>
           <Link to={ROUTE_WALLET}>Cancel and go back</Link>

@@ -20,7 +20,7 @@ const MockApi = jest.fn<WalletApi>(() => ({
   fetchBalanceById: jest.fn()
 }));
 const walletStore = new WalletStore(rootStore, new MockApi(), {
-  convertToBaseCurrency: mockConverter
+  convertToBaseAsset: mockConverter
 } as any);
 const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 
@@ -37,7 +37,7 @@ describe('wallet model', () => {
 
   test('total balance in base currency should be defined', () => {
     const w = walletStore.createWallet({Id: 44, Name: 'w'});
-    expect(w.totalBalanceInBaseCurrency).toBeDefined();
+    expect(w.totalBalance).toBeDefined();
   });
 
   it('should set empty balances when passed an empty dto array', () => {
@@ -85,6 +85,7 @@ describe('wallet model', () => {
         Balance: 100
       })
     );
+    walletStore.addWallet(walletSut);
 
     // assert
     expect(mockConverter.mock.calls.length).toBe(1);

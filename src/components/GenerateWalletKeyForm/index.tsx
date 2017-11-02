@@ -1,6 +1,3 @@
-import {Icon} from 'antd';
-import Button from 'antd/lib/button/button';
-import Input from 'antd/lib/input/Input';
 import Modal from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
@@ -20,40 +17,63 @@ export class GenerateWalletKeyForm extends React.Component<
   render() {
     return (
       <div className="form-item">
-        <div className="form-item-label">
-          <label>API Key</label>
+        <div className="asset_link_list">
+          <div className="asset_link">
+            <div className="asset_link__info">
+              <div className="asset_link__title">API Key</div>
+              <div className="asset_link__desc">
+                {this.props.wallet.apiKey}
+                <input
+                  id={WALLET_KEY_INPUT}
+                  name={WALLET_KEY_INPUT}
+                  value={this.props.wallet.apiKey}
+                  readOnly={true}
+                  type="text"
+                  className="hidden_field"
+                />
+              </div>
+            </div>
+            <div className="asset_link__action">
+              <button
+                className="btn btn--icon"
+                type="button"
+                onClick={this.toggleConfirm}
+              >
+                <i className="icon icon--key" />
+              </button>
+            </div>
+            <div className="asset_link__action">
+              <button
+                className="btn btn--icon"
+                type="button"
+                onClick={this.handleCopyKey}
+              >
+                <i className="icon icon--copy_thin" />
+              </button>
+            </div>
+          </div>
         </div>
-        <Input
-          id={WALLET_KEY_INPUT}
-          name={WALLET_KEY_INPUT}
-          value={this.props.wallet.apiKey}
-          readOnly={true}
-          suffix={[
-            <Icon
-              key="regenKey"
-              type="key"
-              onClick={this.toggleConfirm}
-              title="Regenerate API Key"
-            />,
-            <Icon key="copyKey" type="copy" onClick={this.handleCopyKey} />
-          ]}
-        />
         <Modal
           visible={this.props.rootStore!.uiStore.showConfirmRegenerateKey}
           title="Regenerate API key?"
           onOk={this.toggleConfirm}
           onCancel={this.toggleConfirm}
           footer={[
-            <Button key="back" type="primary" onClick={this.toggleConfirm}>
+            <button
+              key="back"
+              type="button"
+              className="btn btn--primary btn-block"
+              onClick={this.toggleConfirm}
+            >
               No, back to wallet
-            </Button>,
-            <Button
+            </button>,
+            <button
               key="submit"
-              size="large"
+              className="btn btn--flat btn-block"
               onClick={this.handleRegenerateKey}
             >
               Yes, change API key
-            </Button>
+            </button>
           ]}
         >
           <div className="modal__text">

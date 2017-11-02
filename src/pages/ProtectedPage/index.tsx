@@ -7,11 +7,13 @@ import {NoMatch} from '../../components/NoMatch/index';
 import {TransferResult} from '../../components/TransferResult/index';
 import {
   ROUTE_ROOT,
+  ROUTE_TRANSFER,
   ROUTE_TRANSFER_SUCCESS,
   ROUTE_WALLET
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
+import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
@@ -19,15 +21,19 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
 
   componentDidMount() {
-    this.uiStore.startFetch(3);
-    this.walletStore.fetchWallets().then(() => this.uiStore.finishFetch());
+    this.uiStore.startRequest(3);
+    this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
     this.profileStore
-      .fetchBaseCurrency()
-      .then(() => this.uiStore.finishFetch(), () => this.uiStore.finishFetch());
-    this.profileStore.fetchFirstName().then(() => this.uiStore.finishFetch());
+      .fetchBaseAsset()
+      .then(
+        () => this.uiStore.finishRequest(),
+        () => this.uiStore.finishRequest()
+      );
+    this.profileStore.fetchFirstName().then(() => this.uiStore.finishRequest());
   }
 
   render() {
+    const withLoading = loadable(this.uiStore.hasPendingRequests);
     return (
       <div className="app__shell">
         <Switch>
@@ -37,10 +43,8 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             from={ROUTE_ROOT}
             to={ROUTE_WALLET}
           />
-          <Route
-            path={ROUTE_WALLET}
-            component={loadable(this.uiStore.hasPendingRequests)(WalletPage)}
-          />
+          <Route path={ROUTE_WALLET} component={withLoading(WalletPage)} />
+          <Route path={ROUTE_TRANSFER} component={withLoading(TransferPage)} />
           <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
           <Route component={NoMatch} />
         </Switch>
