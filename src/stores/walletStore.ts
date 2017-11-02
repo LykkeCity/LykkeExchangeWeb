@@ -15,10 +15,7 @@ export class WalletStore {
 
   @computed
   get totalBalance() {
-    return this.wallets.reduce(
-      (acc, curr) => (acc += curr.totalBalance.balance),
-      0
-    );
+    return this.wallets.reduce((acc, curr) => (acc += curr.totalBalance), 0);
   }
 
   constructor(
@@ -28,26 +25,22 @@ export class WalletStore {
   ) {
     reaction(
       () =>
-        this.wallets.filter(w => w.hasBalances).map(wallet => ({
-          wallet,
-          // tslint:disable-next-line:object-literal-sort-keys
-          balances: wallet.balances
-            .filter(b => b.assetId !== this.rootStore.profileStore.baseCurrency)
-            .map(b => b.asJson)
+        this.walletsWithAssets.map(wallet => ({
+          balances: wallet.balances.map(b => b.balance),
+          wallet
         })),
-      wallets => {
-        wallets.forEach(async ({wallet}) => {
-          this.convertToBaseAsset(wallet);
-        });
+      () => {
+        this.convertBalances();
       }
     );
   }
 
-  getWalletsWithAssets = () => {
-    return this.wallets.filter(w => w.balances.length > 0);
-  };
+  @computed
+  get walletsWithAssets() {
+    return this.wallets.filter(w => w.hasBalances);
+  }
 
-  getAllWalletsExceptOne = (wallet: WalletModel) =>
+  getWalletsExceptOne = (wallet: WalletModel) =>
     this.wallets.filter(w => w !== wallet);
 
   createWallet = (dto?: any) => new WalletModel(this, dto);
@@ -94,21 +87,19 @@ export class WalletStore {
     runInAction(() => (wallet.apiKey = resp.ApiKey));
   };
 
-  convertToBaseAsset = async (wallet: WalletModel) => {
-    const resp = await this.converter!.convertToBaseAsset(
-      wallet.balances,
-      this.rootStore.profileStore.baseCurrency
-    );
-    runInAction(() => {
-      // tslint:disable-next-line:no-console
-      console.info(resp);
-
-      wallet.totalBalance.balance = resp.Converted.reduce(
-        (agg: number, curr: any) => (agg += curr.To && curr.To.Amount),
-        0
+  convertBalances = () =>
+    this.walletsWithAssets.forEach(async wallet => {
+      const resp = await this.converter!.convertToBaseAsset(
+        wallet.balances,
+        this.rootStore.profileStore.baseAsset
       );
+      runInAction(() => {
+        wallet.totalBalance = resp.Converted.reduce(
+          (agg: number, curr: any) => (agg += curr.To && curr.To.Amount),
+          0
+        );
+      });
     });
-  };
 }
 
 export default WalletStore;

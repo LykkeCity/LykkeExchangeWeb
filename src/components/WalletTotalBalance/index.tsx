@@ -1,4 +1,3 @@
-// import classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
@@ -16,8 +15,7 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
   <div className="wallet__total">
     <div className="wallet__total-balance">Total balance</div>
     <h3 className="wallet__total-balance-value">
-      {wallet.totalBalance.balance.toFixed(2)}{' '}
-      {rootStore!.profileStore.baseCurrency}
+      {wallet.totalBalance.toFixed(2)} {rootStore!.profileStore.baseAsset}
     </h3>
   </div>
 );

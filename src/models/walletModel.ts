@@ -11,8 +11,9 @@ export class WalletModel {
   @observable apiKey = '';
   @observable type: WalletType;
 
+  @observable totalBalance = 0;
+
   @observable balances: BalanceModel[] = [];
-  @observable totalBalance: BalanceModel;
 
   @observable collapsed = true;
   @observable expanded = !this.collapsed;
@@ -28,14 +29,7 @@ export class WalletModel {
   }
 
   constructor(private readonly store: WalletStore, dto?: any) {
-    const {
-      balanceStore: {createBalance},
-      profileStore: {baseCurrency}
-    } = this.store.rootStore;
-    this.totalBalance = createBalance();
-    this.totalBalance.assetId = baseCurrency;
     this.updateFromJson(dto);
-
     reaction(
       () => this.collapsed,
       collapsed => {
@@ -82,7 +76,10 @@ export class WalletModel {
   };
   @action
   withdraw = (amount: number, assetId: string) => {
-    this.balances.find(b => b.assetId === assetId)!.balance += amount;
+    const balance = this.balances.find(b => b.assetId === assetId);
+    if (!!balance) {
+      balance.balance += amount;
+    }
   };
 
   @action toggleCollapse = () => (this.collapsed = !this.collapsed);

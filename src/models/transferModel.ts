@@ -36,7 +36,7 @@ export class TransferModel {
         if (!!this.amount && !!this.asset) {
           const resp = await this.store.convertToBaseCurrency(
             this,
-            this.store.rootStore.profileStore.baseCurrency
+            this.store.rootStore.profileStore.baseAsset
           );
           this.amountInBaseCurrency =
             resp.Converted[0] && resp.Converted[0].To.Amount;

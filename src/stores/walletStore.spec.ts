@@ -37,27 +37,29 @@ describe('wallet store', () => {
   });
 
   describe('allWalletsExceptOne', () => {
-    it('should not return wallet passed as param', () => {
+    beforeEach(() => {
       walletStore.clearWallets();
+    });
+    it('should not return wallet passed as param', () => {
       const count = 5;
       for (let i = 1; i < count; i++) {
-        const w = walletStore.createWallet({Id: i, Name: `Wallet ${i}`});
-
-        walletStore.addWallet(w);
+        walletStore.addWallet(
+          walletStore.createWallet({Id: i, Name: `Wallet ${i}`})
+        );
       }
-      const excWallet = walletStore.createWallet({Id: 3, Name: 'Wallet 3'});
-      const rest = walletStore.getAllWalletsExceptOne(excWallet);
+      const excludeWallet = walletStore.createWallet({Id: 3, Name: 'Wallet 3'});
+      const rest = walletStore.getWalletsExceptOne(excludeWallet);
 
       expect(rest.length).toBe(count - 1);
-      expect(rest).not.toContainEqual(excWallet);
+      expect(rest).not.toContain(excludeWallet);
     });
 
     it('should return an empty array when filtering an empty array', () => {
       walletStore.clearWallets();
       const w = walletStore.createWallet({Id: '1', Name: 'w1'});
 
-      expect(walletStore.getAllWalletsExceptOne(w)).not.toContainEqual(w);
-      expect(walletStore.getAllWalletsExceptOne(w).length).toEqual(0);
+      expect(walletStore.getWalletsExceptOne(w)).not.toContainEqual(w);
+      expect(walletStore.getWalletsExceptOne(w).length).toEqual(0);
     });
   });
 
@@ -66,7 +68,7 @@ describe('wallet store', () => {
     const convert = jest.fn();
 
     beforeEach(() => {
-      walletStore.convertToBaseAsset = convert;
+      walletStore.convertBalances = convert;
       wallet = walletStore.createWallet();
     });
 
