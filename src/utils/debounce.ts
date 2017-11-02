@@ -29,11 +29,12 @@ export const debounce = (
     }
   };
 
-  const debounced: Debounce = function() {
+  const debouncedFunc: () => any = function(this: typeof debouncedFunc) {
     context = this;
     args = arguments;
     timestamp = Date.now();
     const callNow = immediate && !timeout;
+
     if (!timeout) {
       timeout = window.setTimeout(later, wait);
     }
@@ -45,14 +46,14 @@ export const debounce = (
     return result;
   };
 
-  debounced.clear = () => {
+  const clear = () => {
     if (timeout) {
       clearTimeout(timeout);
       timeout = null;
     }
   };
 
-  debounced.flush = () => {
+  const flush = () => {
     if (timeout) {
       result = func.apply(context, args);
       context = args = null;
@@ -61,6 +62,13 @@ export const debounce = (
       timeout = null;
     }
   };
+
+  const debounced: Debounce = (() => {
+    const f: any = debouncedFunc;
+    f.clear = clear;
+    f.flush = flush;
+    return f;
+  })();
 
   return debounced;
 };

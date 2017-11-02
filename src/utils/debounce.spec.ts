@@ -25,6 +25,7 @@ describe('debounce', () => {
   it('should not execute prior to timeout', () => {
     const fn = debounce(callBack, 100);
 
+    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -35,6 +36,7 @@ describe('debounce', () => {
   it('should execute prior to timeout when flushed', () => {
     const fn = debounce(callBack, 100);
 
+    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -47,6 +49,7 @@ describe('debounce', () => {
   it('should not execute again after timeout when flushed before the timeout', () => {
     const fn = debounce(callBack, 100);
 
+    setTimeout(fn(), 100);
     setTimeout(fn(), 150);
 
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
@@ -59,26 +62,6 @@ describe('debounce', () => {
     jasmine.DEFAULT_TIMEOUT_INTERVAL = 225;
 
     expect(callBack.mock.calls.length).toEqual(1);
-  });
-
-  it('should not execute on a timer after being flushed', () => {
-    const fn = debounce(callBack, 100);
-
-    setTimeout(fn(), 150);
-
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
-
-    fn.flush();
-
-    expect(callBack.mock.calls.length).toEqual(1);
-
-    // schedule again
-    setTimeout(fn(), 250);
-
-    // move to past the new timeout
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 400;
-
-    expect(callBack.mock.calls.length).toEqual(2);
   });
 
   it('should not execute when flushed if nothing was scheduled', () => {
