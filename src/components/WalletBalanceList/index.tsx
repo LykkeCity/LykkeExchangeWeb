@@ -4,6 +4,7 @@ import {observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
+import {NumberFormat} from '../NumberFormat';
 import './style.css';
 
 interface WalletBalanceListProps {
@@ -51,7 +52,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
               </td>
               <td className="_currency">{b.assetId}</td>
               <td className="_amount">
-                {b.balance} {b.assetId}
+                <NumberFormat value={b.balance} /> {b.assetId}
               </td>
               <td className="_action">
                 <Dropdown

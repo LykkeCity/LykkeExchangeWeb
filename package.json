@@ -13,12 +13,14 @@
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.8.0",
     "react-select": "^1.0.0-rc.10",
+    "uuid": "^3.1.0",
     "wretch": "^1.0.0"
   },
   "scripts": {
     "precommit": "lint-staged",
     "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "watch-css":
+      "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start-ts": "react-scripts-ts start",
     "start": "npm-run-all -p watch-css start-ts",
     "build": "npm run build-css && react-scripts-ts build",
@@ -34,6 +36,7 @@
     "@types/react-dom": "^16.0.2",
     "@types/react-router-dom": "^4.0.8",
     "@types/react-select": "^1.0.59",
+    "@types/uuid": "^3.4.3",
     "LykkeFramework": "^0.3.40",
     "compass-mixins": "0.12.10",
     "husky": "^0.14.3",

@@ -24,7 +24,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     this.uiStore.startRequest(3);
     this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
     this.profileStore
-      .fetchBaseCurrency()
+      .fetchBaseAsset()
       .then(
         () => this.uiStore.finishRequest(),
         () => this.uiStore.finishRequest()

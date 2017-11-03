@@ -5,3 +5,4 @@ export * from './transferModel';
 export * from './directionModel';
 export * from './credentialsModel';
 export * from './walletType';
+export * from './opStatus';

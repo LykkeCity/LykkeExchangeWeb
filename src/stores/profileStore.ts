@@ -1,4 +1,5 @@
 import {
+  action,
   computed,
   extendObservable,
   observable,
@@ -13,9 +14,8 @@ const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
 const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
-  readonly rootStore: RootStore;
-
-  @observable baseCurrency: string = baseCurrencyStorage.get() || 'LKK';
+  @observable knownBaseAssets: string[] = ['LKK', 'USD', 'EUR'];
+  @observable baseAsset: string = baseCurrencyStorage.get() || 'LKK';
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -24,15 +24,15 @@ export class ProfileStore {
     return `${this.firstName} ${this.lastName}`;
   }
 
-  constructor(rootStore: RootStore, private api?: ProfileApi) {
-    this.rootStore = rootStore;
-
+  constructor(private readonly rootStore: RootStore, private api?: ProfileApi) {
+    const {walletStore} = this.rootStore;
     reaction(
-      () => this.baseCurrency,
+      () => this.baseAsset,
       baseCurrency => {
         if (!!baseCurrency) {
+          walletStore.convertBalances();
           baseCurrencyStorage.set(baseCurrency);
-          // this.api!.updateBaseCurrency(baseCurrency);
+          this.api!.updateBaseAsset(baseCurrency);
         } else {
           baseCurrencyStorage.clear();
         }
@@ -40,10 +40,15 @@ export class ProfileStore {
     );
   }
 
-  fetchBaseCurrency = async () => {
-    const resp = await this.api!.fetchBaseCurrency();
+  @action
+  setBaseAsset = async (asset: string) => {
+    this.baseAsset = asset;
+  };
+
+  fetchBaseAsset = async () => {
+    const resp = await this.api!.fetchBaseAsset();
     runInAction(() => {
-      this.baseCurrency = resp.BaseAssetId || this.baseCurrency;
+      this.baseAsset = resp.BaseAssetId || this.baseAsset;
     });
   };
 

@@ -3,13 +3,14 @@ import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models/index';
+import {NumberFormat} from '../NumberFormat';
 import {Select, SelectProps} from '../Select';
 
 const optionRenderer = (baseCurrency: string) => (wallet: WalletModel) => (
   <div className="option">
     <div>{wallet.title}</div>
     <div>
-      {wallet.totalBalance.balance}&nbsp;{baseCurrency}
+      <NumberFormat value={wallet.totalBalance} />&nbsp;{baseCurrency}
     </div>
   </div>
 );
@@ -24,7 +25,7 @@ export class WalletSelect extends React.Component<MyWalletSelectProps> {
         labelKey="title"
         clearable={false}
         optionRenderer={optionRenderer(
-          this.props.rootStore!.profileStore.baseCurrency
+          this.props.rootStore!.profileStore.baseAsset
         )}
         {...this.props}
       />

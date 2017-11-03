@@ -2,23 +2,24 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
+import {NumberFormat} from '../NumberFormat';
 
 export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => (
   <div className="header_nav_balance pull-right">
     <div className="dropdown_control">
       <i className="icon icon--finance_alt" />
       <div className="header_nav_balance__value">
-        {rootStore!.walletStore.totalBalance.toFixed(2)}
+        <NumberFormat value={rootStore!.walletStore.totalBalance} />
       </div>
       <div className="header_nav_balance__currency">
         {}
         <select
-          value={rootStore!.profileStore.baseCurrency}
+          value={rootStore!.profileStore.baseAsset}
           // tslint:disable-next-line:jsx-no-lambda
           onChange={e =>
-            (rootStore!.profileStore.baseCurrency = e.currentTarget.value)}
+            rootStore!.profileStore.setBaseAsset(e.currentTarget.value)}
         >
-          {['LKK', 'USD', 'EUR'].map(x => (
+          {rootStore!.profileStore.knownBaseAssets.map(x => (
             <option key={x} value={x}>
               {x}
             </option>

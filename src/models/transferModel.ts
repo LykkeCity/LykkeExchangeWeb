@@ -1,8 +1,10 @@
 import {action, computed, observable, reaction} from 'mobx';
+import * as uuid from 'uuid';
 import {WalletModel} from '.';
 import {TransferStore} from '../stores';
 
 export class TransferModel {
+  id = uuid.v4();
   @observable from: WalletModel;
   @observable to: WalletModel;
   @observable amount: number;
@@ -12,15 +14,16 @@ export class TransferModel {
 
   @computed
   get asJson() {
-    return JSON.stringify({
-      AccountId: this.from.id,
-      Amount: this.amount
-    });
+    return {
+      Amount: this.amount,
+      AssetId: this.asset,
+      WalletId: this.to.id
+    };
   }
 
   @computed
   get asBase64() {
-    return !!this.from ? btoa(this.asJson) : '';
+    return btoa(JSON.stringify(this.asJson));
   }
 
   @computed
@@ -36,7 +39,7 @@ export class TransferModel {
         if (!!this.amount && !!this.asset) {
           const resp = await this.store.convertToBaseCurrency(
             this,
-            this.store.rootStore.profileStore.baseCurrency
+            this.store.rootStore.profileStore.baseAsset
           );
           this.amountInBaseCurrency =
             resp.Converted[0] && resp.Converted[0].To.Amount;
@@ -56,10 +59,22 @@ export class TransferModel {
     }
   };
 
+  @action
+  setAmount = (amount: number) => {
+    this.amount = amount;
+  };
+
+  @action
+  setAsset = (assetId: string) => {
+    this.asset = assetId;
+  };
+
   submit = async () => {
-    // this.from.debit(this.amount);
-    // this.to.credit(this.amount);
-    await this.store.transfer(this);
+    if (this.canTransfer) {
+      await this.store.transfer(this);
+      this.from.withdraw(this.amount, this.asset);
+      this.to.deposit(this.amount, this.asset);
+    }
   };
 }
 
