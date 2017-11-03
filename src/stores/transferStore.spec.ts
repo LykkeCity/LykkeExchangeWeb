@@ -43,11 +43,22 @@ describe('transfer store', () => {
     expect(sut).not.toBeNull();
   });
 
-  it('should provide an id', () => {
+  it('createTransfer should provide an id', () => {
     const sut = createTransfer();
 
     expect(sut.id).toBeDefined();
     expect(sut.id).not.toBeNull();
+  });
+
+  it('newTransfer should not be added to transfer list', () => {
+    const store = new TransferStore(
+      rootStore,
+      mockTransferApi,
+      mockConverterApi
+    );
+
+    expect(store.transfers.length).toBe(0);
+    expect(store.transfers).not.toContain(store.newTransfer);
   });
 
   it('should not convert if transfer currency is the same as base one', () => {
@@ -92,6 +103,44 @@ describe('transfer store', () => {
     transferStore.convertToBaseCurrency(transferModel, baseCurrency);
 
     expect(mockConverterApi.convertToBaseAsset).toBeCalled();
+  });
+
+  describe('should reset new transfer', () => {
+    it('should provide reset method', () => {
+      expect(transferStore.resetCurrentTransfer).toBeDefined();
+    });
+
+    it('should correctly reset transfer', () => {
+      const oldTransfer = transferStore.newTransfer;
+      const oldId = oldTransfer.id;
+
+      transferStore.resetCurrentTransfer();
+
+      expect(transferStore.newTransfer).toBeDefined();
+      expect(transferStore.newTransfer).not.toBeNull();
+      expect(transferStore.newTransfer.id).not.toBe(oldId);
+    });
+
+    it('should reset transfer to blank state', () => {
+      const oldTransfer = transferStore.newTransfer;
+
+      transferStore.resetCurrentTransfer();
+
+      expect(transferStore.newTransfer.asset).toBe('');
+      expect(transferStore.newTransfer.amount).toBe(0);
+      expect(transferStore.newTransfer).not.toEqual(oldTransfer);
+      expect(transferStore.newTransfer.canTransfer).toBe(false);
+    });
+
+    it('should not add resetted transfer to store', () => {
+      transferStore.transfers = [];
+      transferStore.resetCurrentTransfer();
+
+      expect(transferStore.transfers.length).toBe(0);
+      expect(transferStore.transfers).not.toContainEqual(
+        transferStore.newTransfer
+      );
+    });
   });
 
   describe('submit transfer', () => {

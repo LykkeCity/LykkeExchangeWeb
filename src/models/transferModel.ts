@@ -7,8 +7,8 @@ export class TransferModel {
   id = uuid.v4();
   @observable from: WalletModel;
   @observable to: WalletModel;
-  @observable amount: number;
-  @observable asset: string;
+  @observable amount: number = 0;
+  @observable asset: string = '';
 
   @observable amountInBaseCurrency: number;
 

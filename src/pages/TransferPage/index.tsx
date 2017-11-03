@@ -18,12 +18,19 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly uiStore = this.props.rootStore!.uiStore;
 
+  intervalId: any;
+
   componentDidMount() {
     const {walletId, dest} = this.props.match.params;
     const wallet = this.walletStore.findWalletById(walletId);
     if (!!wallet) {
       this.transferStore.newTransfer.setWallet(wallet, dest);
     }
+  }
+
+  componentDidUnmount() {
+    clearInterval(this.intervalId);
+    this.transferStore.resetCurrentTransfer();
   }
 
   render() {
@@ -49,7 +56,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
   }
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
-    setInterval(async () => {
+    this.intervalId = setInterval(async () => {
       const op = await this.transferStore.fetchOperationDetails(transfer);
       // tslint:disable-next-line:no-console
       console.info(op);
