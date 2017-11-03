@@ -11,7 +11,7 @@ export class WalletModel {
   @observable apiKey = '';
   @observable type: WalletType;
 
-  @observable totalBalance = 0;
+  @observable totalBalance: number = 0;
 
   @observable balances: BalanceModel[] = [];
 
