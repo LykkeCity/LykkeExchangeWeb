@@ -40,7 +40,7 @@ export class AuthStore {
   };
 
   fetchSessionToken = () =>
-    this.api!.fetchSessionToken(config.auth.client_id, this.getAccessToken());
+    this.api!.fetchSessionToken(config.auth.client_id!, this.getAccessToken());
 
   fetchBearerToken = (code: string) =>
     this.api!.fetchBearerToken(config.auth, code, config.auth.apiUrls.token);
