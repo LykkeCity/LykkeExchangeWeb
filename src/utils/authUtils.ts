@@ -12,10 +12,3 @@ export const queryStringFromObject = (obj: any, path?: string) =>
       return queryString;
     })
     .join('&');
-
-export const connectUrls = {
-  auth: '/connect/authorize',
-  info: '/connect/userinfo',
-  logout: '/connect/logout',
-  token: '/connect/token'
-};

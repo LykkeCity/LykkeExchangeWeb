@@ -3,7 +3,7 @@ import {RootStore} from '.';
 import {AuthApi} from '../api';
 import {config} from '../config';
 import {queryStringFromObject} from '../utils/authUtils';
-import {AuthUtils, StorageUtils} from '../utils/index';
+import {StorageUtils} from '../utils/index';
 
 const TOKEN_KEY = 'lww-token';
 const OAUTH_KEY = 'lww-oauth';
@@ -43,14 +43,13 @@ export class AuthStore {
     this.api!.fetchSessionToken(config.auth.client_id, this.getAccessToken());
 
   fetchBearerToken = (code: string) =>
-    this.api!.fetchBearerToken(config.auth, code, AuthUtils.connectUrls.token);
+    this.api!.fetchBearerToken(config.auth, code, config.auth.apiUrls.token);
 
   getConnectUrl = () => {
     const {client_id, redirect_uri} = config.auth;
     // tslint:disable-next-line:no-console
     console.log('client ', config.auth, process.env.REACT_APP_CLIENT_ID);
-    const authorizePath = `${AuthUtils.connectUrls
-      .auth}?${queryStringFromObject({
+    const authorizePath = `${config.auth.apiUrls.auth}?${queryStringFromObject({
       client_id,
       redirect_uri,
       response_type: 'code',
@@ -60,11 +59,11 @@ export class AuthStore {
     return `${config.auth.url}${authorizePath}`;
   };
 
-  getLogoutUrl = () => `${config.auth.url}${AuthUtils.connectUrls.logout}`;
+  getLogoutUrl = () => `${config.auth.url}${config.auth.apiUrls.logout}`;
 
   logout = async () => {
     const logoutwindow = window.open(
-      `${config.auth.url}${AuthUtils.connectUrls.logout}`,
+      `${config.auth.url}${config.auth.apiUrls.logout}`,
       'logoutWindow',
       'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=300,left=100,top=100'
     );
