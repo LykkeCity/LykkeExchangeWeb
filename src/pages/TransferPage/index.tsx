@@ -4,7 +4,6 @@ import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {NumberFormat} from '../../components/NumberFormat';
-import TransferBar from '../../components/TransferBar';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {STORE_ROOT} from '../../constants/stores';
@@ -28,7 +27,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
     }
   }
 
-  componentDidUnmount() {
+  componentWillUnmount() {
     clearInterval(this.intervalId);
     this.transferStore.resetCurrentTransfer();
   }
@@ -45,7 +44,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
           <p className="transfer__text">
             To transfer any asset to other wallet please fill in the form.
           </p>
-          <TransferBar />
           <TransferForm onTransfer={this.handleTransfer} />
           <div className="transfer__text transfer__text--center">
             If you have any other problem contact{' '}

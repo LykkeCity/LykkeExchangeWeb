@@ -42,11 +42,11 @@ export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
             </div>
           )}
 
-          <div className="header_actions__search pull-right">
+          {/* <div className="header_actions__search pull-right">
             <button className="btn btn--icon btn_open_search" type="button">
               <i className="icon icon--search" />
             </button>
-          </div>
+          </div> */}
         </div>
 
         <HeaderSearch />

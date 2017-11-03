@@ -2,6 +2,8 @@ import Dropdown from 'antd/lib/dropdown/dropdown';
 import 'antd/lib/table/style/css';
 import {observer} from 'mobx-react';
 import * as React from 'react';
+import {Link} from 'react-router-dom';
+import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
 import {NumberFormat} from '../NumberFormat';
@@ -15,13 +17,20 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet
 }) => (
   <div className="wallet__balances">
-    {/* // TODO: group by issuer */}
-    <h3>
-      Issuer
+    {wallet.hasBalances || (
       <small>
         {wallet.balances.length} {plural(wallet.balances.length, 'asset')}
       </small>
-    </h3>
+    )}
+    {wallet.hasBalances && (
+      <h3>
+        {/* // TODO: group by issuer */}
+        Issuer
+        <small>
+          {wallet.balances.length} {plural(wallet.balances.length, 'asset')}
+        </small>
+      </h3>
+    )}
     {wallet.hasBalances && (
       <table className="table_assets">
         <thead>
@@ -57,16 +66,15 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
               <td className="_action">
                 <Dropdown
                   overlay={
-                    <div
-                      style={{
-                        background: '#fff',
-                        boxShadow:
-                          '0 5px 5px rgba(63, 77, 96, 0.05), 0 0 20px rgba(63, 77, 96, 0.15)',
-                        fontSize: '1rem',
-                        padding: '10px'
-                      }}
-                    >
-                      Transfer
+                    <div className="asset-menu">
+                      <div>
+                        <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
+                      </div>
+                      <div>
+                        <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>
+                          Withdraw
+                        </Link>
+                      </div>
                     </div>
                   }
                   trigger={['click']}

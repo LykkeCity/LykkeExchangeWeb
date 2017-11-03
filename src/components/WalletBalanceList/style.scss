@@ -124,3 +124,24 @@
     }
   }
 }
+
+.asset-menu {
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: 0 5px 5px rgba(63, 77, 96, 0.05), 0 0 20px rgba(63, 77, 96, 0.15);
+  @include rem(font-size, 1rem);
+  @include rem(padding, 10px);
+  div {
+    @include rem(padding, 10px);
+    @include rem(margin, 5px 0);
+
+    &:hover {
+      background: $gray-5;
+    }
+
+    a {
+      color: $text;
+      text-transform: uppercase;
+    }
+  }
+}

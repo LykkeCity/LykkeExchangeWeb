@@ -9,29 +9,29 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   return (
     <div className="header__actions header_actions__login header_login pull-right">
-      <div className="header_user dropdown__control">
-        <div className="header_user__img">
-          <img
-            src={`${process.env.PUBLIC_URL}/images/user_default.svg`}
-            width="40"
-            alt="user_image"
-          />
-        </div>
-        <Dropdown
-          overlay={
-            <ul className="dropdown__nav">
-              <li>
-                <a onClick={authStore.logout}>Sign out</a>
-              </li>
-            </ul>
-          }
-          trigger={['click']}
-          className="dropdown__container"
-          placement="bottomRight"
-        >
+      <Dropdown
+        overlay={
+          <ul className="dropdown__nav">
+            <li>
+              <a onClick={authStore.logout}>Sign out</a>
+            </li>
+          </ul>
+        }
+        trigger={['click']}
+        className="dropdown__container"
+        placement="bottomRight"
+      >
+        <div className="header_user dropdown__control">
+          <div className="header_user__img">
+            <img
+              src={`${process.env.PUBLIC_URL}/images/user_default.svg`}
+              width="40"
+              alt="user_image"
+            />
+          </div>
           <div className="header_login__title">{profileStore.fullName}</div>
-        </Dropdown>
-      </div>
+        </div>
+      </Dropdown>
     </div>
   );
 };
