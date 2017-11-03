@@ -69,11 +69,9 @@ export class TransferModel {
     this.asset = assetId;
   };
 
-  submit = async () => {
+  sendTransfer = async () => {
     if (this.canTransfer) {
-      await this.store.transfer(this);
-      this.from.withdraw(this.amount, this.asset);
-      this.to.deposit(this.amount, this.asset);
+      await this.store.startTransfer(this);
     }
   };
 }

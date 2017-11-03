@@ -51,11 +51,11 @@ describe('transfer model', () => {
       amount: 10,
       asset: 'LKK'
     });
-    transferStore.transfer = jest.fn();
+    transferStore.startTransfer = jest.fn();
 
-    sut.submit();
+    sut.sendTransfer();
 
-    expect(transferStore.transfer).toBeCalled();
+    expect(transferStore.startTransfer).toBeCalled();
   });
 
   describe('canTransfer method', () => {

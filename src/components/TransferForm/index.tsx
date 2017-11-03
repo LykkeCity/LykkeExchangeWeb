@@ -42,7 +42,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     toggleQrWindow();
-    await transfer.submit();
+    await transfer.sendTransfer();
     onTransfer(transfer);
   };
 

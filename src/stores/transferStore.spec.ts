@@ -3,8 +3,9 @@ import {TransferModel} from '../models';
 
 const rootStore = new RootStore();
 const mockTransferApi = {
+  cancelTransfer: jest.fn(),
   fetchOperationDetails: jest.fn(),
-  transfer: jest.fn()
+  startTransfer: jest.fn()
 };
 const mockConverterApi = {
   convertToBaseAsset: jest.fn(() => ({Converted: [{To: {Amount: 1}}]}))
@@ -169,21 +170,72 @@ describe('transfer store', () => {
     });
 
     it('should not call api when transfer is not valid', () => {
-      transferStore.transfer = jest.fn();
+      transferStore.startTransfer = jest.fn();
       sut.asset = '';
 
-      sut.submit();
+      sut.sendTransfer();
 
-      expect(transferStore.transfer).not.toBeCalled();
+      expect(transferStore.startTransfer).not.toBeCalled();
     });
 
     it('should call api when transfer is valid', () => {
-      transferStore.transfer = jest.fn();
+      transferStore.startTransfer = jest.fn();
 
-      sut.submit();
+      sut.sendTransfer();
 
-      expect(transferStore.transfer).toBeCalled();
-      expect(transferStore.transfer).toBeCalledWith(sut);
+      expect(transferStore.startTransfer).toBeCalled();
+      expect(transferStore.startTransfer).toBeCalledWith(sut);
+    });
+  });
+
+  describe('finish transfer', () => {
+    let sut: TransferModel;
+    const createValidTransfer = (transfer?: TransferModel) => {
+      sut = transfer || createTransfer();
+      const sourceWallet = createWallet({Id: 1, Name: 'w1'});
+      const destWallet = createWallet({Id: 2, Name: 'w2'});
+      sut.setWallet(sourceWallet, 'from');
+      sut.setWallet(destWallet, 'to');
+      sut.setAmount(100);
+      sut.setAsset('LKK');
+      return sut;
+    };
+
+    beforeEach(() => {
+      createValidTransfer();
+      sut.from.deposit = jest.fn();
+      sut.from.withdraw = jest.fn();
+      sut.to.deposit = jest.fn();
+      sut.to.withdraw = jest.fn();
+    });
+
+    it('should call deposit and withdraw on related wallets', () => {
+      transferStore.finishTransfer(sut);
+
+      expect(sut.from.withdraw).toBeCalled();
+      expect(sut.from.deposit).not.toBeCalled();
+      expect(sut.to.deposit).toBeCalled();
+      expect(sut.to.withdraw).not.toBeCalled();
+    });
+
+    it('should call deposit on dest wallet with transfer amount and asset', () => {
+      transferStore.finishTransfer(sut);
+      expect(sut.to.deposit).toBeCalledWith(sut.amount, sut.asset);
+    });
+
+    it('should call withdraw on source wallet with transfer amount and asset', () => {
+      transferStore.finishTransfer(sut);
+      expect(sut.from.withdraw).toBeCalledWith(sut.amount, sut.asset);
+    });
+
+    it('should reset current transfer', () => {
+      sut = createValidTransfer(transferStore.newTransfer);
+      const id = transferStore.newTransfer.id;
+
+      transferStore.finishTransfer(sut);
+
+      expect(transferStore.newTransfer.canTransfer).toBe(false);
+      expect(transferStore.newTransfer.id).not.toBe(id);
     });
   });
 });
