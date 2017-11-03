@@ -988,23 +988,23 @@
 .header_nav_balance {
   white-space: nowrap;
   position: relative;
-  padding-right: 15px;
+  // padding-right: 15px;
 
   @include rem(font-size, 16px);
   @include rem(margin-top, 15px);
 
-  &:before {
-    font-family: icon, sans-serif;
-    content: '\e967';
-    position: absolute;
-    top: 50%;
-    text-align: center;
-    color: $gray-dark;
+  // &:before {
+  //   font-family: icon, sans-serif;
+  //   content: '\e967';
+  //   position: absolute;
+  //   top: 50%;
+  //   text-align: center;
+  //   color: $gray-dark;
 
-    @include rem(margin-top, -10px);
-    @include rem(right, -5px);
-    @include rem(font-size, 20px);
-  }
+  //   @include rem(margin-top, -10px);
+  //   @include rem(right, -5px);
+  //   @include rem(font-size, 20px);
+  // }
 
   .icon,
   &__currency,
