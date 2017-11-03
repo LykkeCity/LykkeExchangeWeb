@@ -53,7 +53,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--linkedin-icn" />
+        <i className="icon icon--linkedin" />
       </a>
     </li>
     <li>

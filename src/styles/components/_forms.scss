@@ -21,3 +21,24 @@
 .btn-block + .btn-block {
   margin-left: 0;
 }
+
+.input-group-addon {
+}
+
+.addon-text {
+  cursor: default !important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.inline-form {
+  .control-label {
+    color: $text;
+    font-weight: $fw-semi;
+
+    @include rem(font-size, 18px);
+    @include rem(margin-top, 14px);
+  }
+}

@@ -1,54 +1,16 @@
 @import '../../styles/utils';
 
 .transfer-form {
-  border-bottom: solid 1px #ebedef;
+  border-bottom: solid 1px $border-alt;
+
   @include rem(margin-bottom, 33px);
-  .transfer-form__body {
-    border: solid 1px #ebedef;
+
+  &__body {
+    border: solid 1px $border-alt;
     border-left: none;
     border-right: none;
+
     @include rem(padding, 30px 0 32px);
     @include rem(margin-bottom, 60px);
-    .form__group {
-      &:nth-child(4) {
-        @include rem(margin-bottom, 13px);
-      }
-      &:nth-child(5) {
-        margin: 0;
-        .form__input {
-          opacity: 0.6;
-          @include rem(font-size, 16px);
-          text-align: left;
-          color: #3f4d60;
-          padding: 0;
-          display: inline;
-        }
-      }
-    }
-  }
-  .transfer__actions {
-    @include rem(font-size, 18px);
-    font-weight: 600;
-    text-align: center;
-    color: #0da7fc;
-    @include rem(margin-bottom, 100px);
-    & > div {
-      display: block;
-    }
-
-    input[type='submit'] {
-      background: #0da7fc;
-      color: #ffffff;
-      border: none;
-      border-radius: 100px;
-      width: 370px;
-      @include rem(padding, 14px);
-      @include rem(margin-bottom, 24px);
-
-      &:disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
-      }
-    }
   }
 }

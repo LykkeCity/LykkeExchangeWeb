@@ -8,12 +8,8 @@
   border-radius: 8px;
   transition: all $transition-default;
 
-  @include rem(margin-bottom, -1px);
   @include rem(padding, 0 20px);
-
-  &--expanded {
-    @include rem(margin-bottom, 24px);
-  }
+  @include rem(margin-bottom, 24px);
 
   &__inner {
     border-bottom: 1px solid $border-alt;
@@ -128,6 +124,10 @@
 
   @media all and (min-width: $screen-landscape + 1) {
     min-height: 245px;
+
+    &__inner {
+      min-height: 245px;
+    }
   }
 
   @media all and (min-width: $screen-tablet + 1) {

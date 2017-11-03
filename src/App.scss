@@ -12,6 +12,7 @@
 @import '../node_modules/LykkeFramework/assets/scss/responsive';
 
 @import 'styles/components/asset_list';
+@import 'styles/components/action_link';
 @import 'styles/components/forms';
 
 .app__shell {
@@ -56,12 +57,6 @@ textarea.form-control {
   &:focus {
     border-color: $gray-light;
   }
-}
-
-.text--truncate {
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
 }
 
 .text--truncate {
