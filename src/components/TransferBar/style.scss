@@ -1,21 +1,30 @@
 @import '../../styles/utils';
 
-.transfer__bar {
-  color: #8c94a0;
+.transfer_bar {
+  color: $gray-dark;
   text-align: left;
+
   @include rem(font-size, 16px);
-  @include rem(margin-bottom, 27px);
+  @include rem(margin, 27px 0);
+
+  a {
+    color: inherit;
+  }
+
+  .icon {
+    position: relative;
+    top: -1px;
+  }
 
   span {
     &:first-child {
       float: left;
     }
+
     &:first-child::after {
-      padding: 0 10px;
-      content: '•';
-    }
-    &:last-child {
-      float: right;
+      content: '·';
+
+      @include rem(padding, 0 10px);
     }
   }
 }

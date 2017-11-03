@@ -988,23 +988,24 @@
 .header_nav_balance {
   white-space: nowrap;
   position: relative;
-  // padding-right: 15px;
 
   @include rem(font-size, 16px);
   @include rem(margin-top, 15px);
 
-  // &:before {
-  //   font-family: icon, sans-serif;
-  //   content: '\e967';
-  //   position: absolute;
-  //   top: 50%;
-  //   text-align: center;
-  //   color: $gray-dark;
+  &:before {
+    font-family: icon, sans-serif;
+    content: '\e967';
+    position: absolute;
+    top: 50%;
+    text-align: center;
+    color: $gray-dark;
+    z-index: 2;
+    pointer-events: none;
 
-  //   @include rem(margin-top, -10px);
-  //   @include rem(right, -5px);
-  //   @include rem(font-size, 20px);
-  // }
+    @include rem(margin-top, -10px);
+    @include rem(right, -5px);
+    @include rem(font-size, 20px);
+  }
 
   .icon,
   &__currency,
@@ -1019,6 +1020,21 @@
   &__currency {
     color: #79818f;
     position: relative;
+    margin-right: 0;
+
+    select {
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      appearance: none;
+      border: 0;
+      cursor: pointer;
+
+      @include rem(padding-right, 15px);
+
+      &:focus {
+        outline: none;
+      }
+    }
   }
 
   .dropdown_control {

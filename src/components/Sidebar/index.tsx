@@ -181,7 +181,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--linkedin-icn" />
+                  <i className="icon icon--linkedin" />
                   <span> Linkedin</span>
                 </a>
               </li>

@@ -82,7 +82,7 @@
   margin-left: -1em;
   color: rgb(255, 255, 255);
 }
-.icon--linkedin-icn:before {
+.icon--linkedin:before {
   content: '\e914';
 }
 .icon--more:before {
@@ -393,4 +393,10 @@
 }
 .icon--save_template:before {
   content: '\e901';
+}
+.icon--details:before {
+  content: '\e902';
+}
+.icon--repeat:before {
+  content: '\e903';
 }

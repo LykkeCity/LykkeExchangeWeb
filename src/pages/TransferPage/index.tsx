@@ -29,21 +29,23 @@ export class TransferPage extends React.Component<TransferPageProps> {
   render() {
     const {newTransfer} = this.transferStore;
     return (
-      <div className="transfer">
-        <h1>Transfer</h1>
-        <h2>
-          <NumberFormat value={newTransfer.amount} /> {newTransfer.asset}
-        </h2>
-        <p className="transfer__text">
-          To transfer any asset to other wallet please fill in the form.
-        </p>
-        <TransferBar />
-        <TransferForm onTransfer={this.handleTransfer} />
-        <div className="transfer__text transfer__text--center">
-          If you have any other problem contact{' '}
-          <a href="mailto:support@lykke.com">our support</a>
+      <div className="container">
+        <div className="transfer">
+          <h1>Transfer</h1>
+          <h2>
+            <NumberFormat value={newTransfer.amount} /> {newTransfer.asset}
+          </h2>
+          <p className="transfer__text">
+            To transfer any asset to other wallet please fill in the form.
+          </p>
+          <TransferBar />
+          <TransferForm onTransfer={this.handleTransfer} />
+          <div className="transfer__text transfer__text--center">
+            If you have any other problem contact{' '}
+            <a href="mailto:support@lykke.com">our support</a>
+          </div>
+          <TransferQrWindow />
         </div>
-        <TransferQrWindow />
       </div>
     );
   }

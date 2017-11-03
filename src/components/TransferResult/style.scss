@@ -1,34 +1,35 @@
 @import '../../styles/utils';
 
 .transfer-result {
-  @include rem(width, 569px);
-  @include rem(margin, 30px auto);
   text-align: center;
-  color: #333333;
+  color: $text;
+  max-width: 100%;
+  padding: 2vh 0;
+
+  @include rem(width, 570px);
+  @include rem(margin, 30px auto);
   @include rem(line-height, 1.43);
 
   &__desc {
+    font-weight: $fw-semi;
+
     @include rem(font-size, 28px);
-    font-weight: 600;
-    @include rem(margin, 30px 0);
+    @include rem(margin, 30px 0 20px);
   }
 
   &__amount {
+    font-weight: $fw-light;
+
     @include rem(font-size, 36px);
-    font-weight: 300;
     @include rem(margin-bottom, 40px);
   }
 
   &__actions {
-    a {
-      border-radius: 100px;
-      background-color: #0da7fc;
-      color: white;
-      display: inline-block;
-      @include rem(padding, 15px 40px);
-      &:hover {
-        color: white;
-      }
-    }
+    @include rem(margin-bottom, 40px 0 60px);
+  }
+
+  &__actions,
+  &__button {
+    text-align: center;
   }
 }

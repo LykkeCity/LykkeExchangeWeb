@@ -23,8 +23,35 @@ export const TransferResult: React.SFC<RootStoreProps> = ({rootStore}) => {
         <div className="transfer-result__amount">
           {transfer.amount} {transfer.asset}
         </div>
+        {
+          // TODO
+        }
         <div className="transfer-result__actions">
-          <Link to={ROUTE_WALLET}>Go back to wallets</Link>
+          <div className="actions_list">
+            <div className="actions_list__item">
+              <button type="button" className="action_link">
+                <i className="icon icon--details" />
+                View details
+              </button>
+            </div>
+            <div className="actions_list__item">
+              <button type="button" className="action_link">
+                <i className="icon icon--repeat" />
+                Repeat operation
+              </button>
+            </div>
+            <div className="actions_list__item">
+              <button type="button" className="action_link">
+                <i className="icon icon--save_template" />
+                Save to templates
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="transfer-result__button">
+          <Link to={ROUTE_WALLET} className="btn btn--primary">
+            Go back to wallets
+          </Link>
         </div>
       </div>
     )

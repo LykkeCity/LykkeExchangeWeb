@@ -5,8 +5,6 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel, WalletModel} from '../../models';
-import FormGroup from '../FormGroup';
-import FormInput from '../FormInput';
 import {NumberFormat} from '../NumberFormat';
 import Select, {SelectOption} from '../Select';
 import WalletSelect from '../WalletSelect';
@@ -49,58 +47,105 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   };
 
   return (
-    <form className="transfer-form">
+    <form className="transfer-form inline-form">
       <div className="transfer-form__body">
-        <FormGroup label="From">
-          <WalletSelect
-            options={walletStore.walletsWithAssets}
-            onChange={handleChangeWallet('from')}
-            value={transfer.from && transfer.from.id}
-          />
-        </FormGroup>
-        <FormGroup label="Asset">
-          <Select
-            options={transfer.from.balances.map(x => x)}
-            valueKey="assetId"
-            labelKey="assetId"
-            onChange={handleChangeAsset}
-            value={transfer.asset}
-            clearable={false}
-          />
-        </FormGroup>
-        <FormGroup label="To">
-          <WalletSelect
-            options={walletStore.getWalletsExceptOne(transfer.from)}
-            onChange={handleChangeWallet('to')}
-            value={transfer.to && transfer.to.id}
-          />
-        </FormGroup>
-        <FormGroup label="Amount">
-          <FormInput
-            type="text"
-            onChange={handleChangeAmount}
-            value={transfer.amount}
-          />
-        </FormGroup>
-        <FormGroup label="">
-          <div className="form__input">
-            = <NumberFormat value={transfer.amountInBaseCurrency} />{' '}
-            {rootStore!.profileStore.baseAsset}
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-4">
+              <label htmlFor="tr_from" className="control-label">
+                From
+              </label>
+            </div>
+            <div className="col-sm-8">
+              <WalletSelect
+                options={walletStore.walletsWithAssets}
+                onChange={handleChangeWallet('from')}
+                value={transfer.from && transfer.from.id}
+              />
+            </div>
           </div>
-        </FormGroup>
+        </div>
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-4">
+              <label htmlFor="tr_asset" className="control-label">
+                Asset
+              </label>
+            </div>
+            <div className="col-sm-8">
+              <Select
+                options={transfer.from.balances.map(x => x)}
+                valueKey="assetId"
+                labelKey="assetId"
+                onChange={handleChangeAsset}
+                value={transfer.asset}
+                clearable={false}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-4">
+              <label htmlFor="tr_to" className="control-label">
+                To
+              </label>
+            </div>
+            <div className="col-sm-8">
+              <WalletSelect
+                options={walletStore.getWalletsExceptOne(transfer.from)}
+                onChange={handleChangeWallet('to')}
+                value={transfer.to && transfer.to.id}
+              />
+            </div>
+          </div>
+        </div>
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-4">
+              <label htmlFor="tr_amount" className="control-label">
+                Amount
+              </label>
+            </div>
+            <div className="col-sm-8">
+              <div className="input-group">
+                <div className="input-group-addon addon-text">
+                  {transfer.asset}
+                </div>
+                <input
+                  id="tr_amount"
+                  type="text"
+                  className="form-control"
+                  value={transfer.amount}
+                  onChange={handleChangeAmount}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <div className="row">
+            <div className="col-sm-8 col-sm-offset-4">
+              <div className="text-muted">
+                = <NumberFormat value={transfer.amountInBaseCurrency} />{' '}
+                {rootStore!.profileStore.baseAsset}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div className="transfer__actions">
-        <div>
-          <input
-            type="submit"
-            value="Submit"
-            disabled={!transfer.canTransfer}
-            onClick={handleSubmit}
-          />
-        </div>
-        <div>
-          <Link to={ROUTE_WALLET}>Cancel and go back</Link>
-        </div>
+        <input
+          type="submit"
+          value="Submit"
+          className="btn btn--primary"
+          disabled={!transfer.canTransfer}
+          onClick={handleSubmit}
+        />
+        <Link to={ROUTE_WALLET} className="btn btn--flat">
+          Cancel and go back
+        </Link>
       </div>
     </form>
   );
