@@ -49,14 +49,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
   }
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
-    this.uiStore.toggleQrWindow();
+    setInterval(async () => {
+      const op = await this.transferStore.fetchOperationDetails(transfer);
+      // tslint:disable-next-line:no-console
+      console.info(op);
+    }, 5000);
   };
-
-  // private readonly handleOkTransfer = (transfer: TransferModel) => {
-  //   this.props.history.replace(`${ROUTE_TRANSFER}/success`, {
-  //     amount: transfer.amount // TODO: replace with transferStore
-  //   });
-  // };
 }
 
 export default inject(STORE_ROOT)(observer(TransferPage));

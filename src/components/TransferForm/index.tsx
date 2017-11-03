@@ -21,7 +21,7 @@ interface TransferFormProps extends RootStoreProps {
 
 export const TransferForm: React.SFC<TransferFormProps> = ({
   rootStore,
-  onTransfer
+  onTransfer = () => null
 }) => {
   const {
     transferStore: {newTransfer: transfer},
@@ -45,6 +45,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     e.preventDefault();
     toggleQrWindow();
     await transfer.submit();
+    onTransfer(transfer);
   };
 
   return (

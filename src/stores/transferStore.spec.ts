@@ -3,6 +3,7 @@ import {TransferModel} from '../models';
 
 const rootStore = new RootStore();
 const mockTransferApi = {
+  fetchOperationDetails: jest.fn(),
   transfer: jest.fn()
 };
 const mockConverterApi = {

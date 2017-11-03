@@ -33,6 +33,9 @@ export class TransferStore {
     this.addTransfer(transfer);
   };
 
+  fetchOperationDetails = (transfer: TransferModel) =>
+    this.api.fetchOperationDetails(transfer);
+
   convertToBaseCurrency = (transfer: TransferModel, baseCurrency: string) => {
     const balance = this.rootStore.balanceStore.createBalance();
     balance.balance = transfer.amount;
