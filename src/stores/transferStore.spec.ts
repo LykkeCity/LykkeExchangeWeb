@@ -11,8 +11,8 @@ const mockConverterApi = {
 };
 const transferStore = new TransferStore(
   rootStore,
-  mockTransferApi,
-  mockConverterApi
+  mockTransferApi as any,
+  mockConverterApi as any
 );
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
