@@ -1,8 +1,9 @@
 import {computed, observable, reaction, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
-import {AUTH_SCOPE, queryStringFromObject} from '../utils/authUtils';
-import {AuthUtils, StorageUtils} from '../utils/index';
+import {config} from '../config';
+import {queryStringFromObject} from '../utils/authUtils';
+import {StorageUtils} from '../utils/index';
 
 const TOKEN_KEY = 'lww-token';
 const OAUTH_KEY = 'lww-oauth';
@@ -39,34 +40,30 @@ export class AuthStore {
   };
 
   fetchSessionToken = () =>
-    this.api!.fetchSessionToken(AuthUtils.app.client_id, this.getAccessToken());
+    this.api!.fetchSessionToken(config.auth.client_id!, this.getAccessToken());
 
   fetchBearerToken = (code: string) =>
-    this.api!.fetchBearerToken(
-      AuthUtils.app,
-      code,
-      AuthUtils.connectUrls.token
-    );
+    this.api!.fetchBearerToken(config.auth, code, config.auth.apiUrls.token);
 
   getConnectUrl = () => {
-    const {client_id, redirect_uri} = AuthUtils.app;
-    const authorizePath = `${AuthUtils.connectUrls
-      .auth}?${queryStringFromObject({
+    const {client_id, redirect_uri} = config.auth;
+    // tslint:disable-next-line:no-console
+    console.log('client ', config.auth, process.env.REACT_APP_CLIENT_ID);
+    const authorizePath = `${config.auth.apiUrls.auth}?${queryStringFromObject({
       client_id,
       redirect_uri,
       response_type: 'code',
-      scope: AUTH_SCOPE
+      scope: config.auth.scope
     })}`;
 
-    return `${process.env.REACT_APP_AUTH_URL}${authorizePath}`;
+    return `${config.auth.url}${authorizePath}`;
   };
 
-  getLogoutUrl = () =>
-    `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`;
+  getLogoutUrl = () => `${config.auth.url}${config.auth.apiUrls.logout}`;
 
   logout = async () => {
     const logoutwindow = window.open(
-      `${process.env.REACT_APP_AUTH_URL}${AuthUtils.connectUrls.logout}`,
+      `${config.auth.url}${config.auth.apiUrls.logout}`,
       'logoutWindow',
       'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=300,left=100,top=100'
     );

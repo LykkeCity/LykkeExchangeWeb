@@ -1,6 +1,6 @@
 import {RestApi} from '.';
+import {config} from '../config';
 import {RootStore} from '../stores/index';
-import {connectUrls} from '../utils/authUtils';
 import {ApiResponse} from './types';
 
 export interface ProfileApi {
@@ -22,7 +22,7 @@ export class RestProfileApi extends RestApi implements ProfileApi {
       .json({BaseAsssetId: baseCurrency})
       .post();
 
-  getUserName = (token: string) => this.getAuth(connectUrls.info);
+  getUserName = (token: string) => this.getAuth(config.auth.apiUrls.info);
 }
 
 export default RestProfileApi;

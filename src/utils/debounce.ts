@@ -12,32 +12,25 @@ export const debounce = (
   let timeout: number | null;
   let args: any;
   let context: any;
-  let timestamp: number;
   let result: any;
 
   const later = () => {
-    const last = Date.now() - timestamp;
-
-    if (last < wait && last >= 0) {
-      timeout = window.setTimeout(later, wait - last);
-    } else {
-      timeout = null;
-      if (!immediate) {
-        result = func.apply(context, args);
-        context = args = null;
-      }
+    timeout = null;
+    if (!immediate) {
+      result = func.apply(context, args);
+      context = args = null;
     }
   };
 
-  const debouncedFunc: () => any = function(this: typeof debouncedFunc) {
+  const debouncedFunc: () => any = function(this: any) {
     context = this;
     args = arguments;
-    timestamp = Date.now();
     const callNow = immediate && !timeout;
 
     if (!timeout) {
       timeout = window.setTimeout(later, wait);
     }
+
     if (callNow) {
       result = func.apply(context, args);
       context = args = null;

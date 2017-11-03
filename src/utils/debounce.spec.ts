@@ -22,50 +22,41 @@ describe('debounce', () => {
     expect(fn).toHaveProperty('clear');
   });
 
-  it(
-    'should not execute prior to timeout',
-    () => {
-      const fn = debounce(callBack, 100);
+  it('should not execute prior to timeout', () => {
+    const fn = debounce(callBack, 100);
 
-      setTimeout(fn(), 100);
-      setTimeout(fn(), 150);
+    fn();
 
-      expect(callBack.mock.calls.length).toEqual(0);
-    },
-    175
-  );
+    jest.runTimersToTime(90);
 
-  it(
-    'should execute prior to timeout when flushed',
-    () => {
-      const fn = debounce(callBack, 100);
+    expect(callBack.mock.calls.length).toEqual(0);
+  });
 
-      setTimeout(fn(), 100);
-      setTimeout(fn(), 150);
+  it('should execute prior to timeout when flushed', () => {
+    const fn = debounce(callBack, 100);
 
-      fn.flush();
+    fn();
 
-      expect(callBack.mock.calls.length).toEqual(1);
-    },
-    175
-  );
+    jest.runTimersToTime(150);
+
+    fn.flush();
+
+    expect(callBack.mock.calls.length).toEqual(1);
+  });
 
   it('should not execute again after timeout when flushed before the timeout', () => {
     const fn = debounce(callBack, 100);
 
-    setTimeout(fn(), 100);
-    setTimeout(fn(), 150);
+    fn();
 
-    // jest.setTimeout(175) // not a function error
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 175;
+    jest.runTimersToTime(120);
 
     fn.flush();
 
     expect(callBack.mock.calls.length).toEqual(1);
 
     // move to past the timeout
-    // jest.setTimeout(225) // not a function error
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 225;
+    jest.runTimersToTime(225);
 
     expect(callBack.mock.calls.length).toEqual(1);
   });
@@ -76,5 +67,20 @@ describe('debounce', () => {
     fn.flush();
 
     expect(callBack.mock.calls.length).toEqual(0);
+  });
+
+  it('should be debounces function', () => {
+    const fn = debounce(callBack, 100);
+
+    fn();
+    expect(callBack).not.toBeCalled();
+
+    jest.runTimersToTime(50);
+    expect(callBack).not.toBeCalled();
+
+    jest.runTimersToTime(100);
+
+    expect(callBack).toBeCalled();
+    expect(callBack.mock.calls.length).toBe(1);
   });
 });
