@@ -31,6 +31,12 @@ export class TransferStore {
   };
 
   convertToBaseCurrency = (transfer: TransferModel, baseCurrency: string) => {
+    const conversionIsRequired = transfer.asset !== baseCurrency;
+
+    if (!conversionIsRequired) {
+      return {Converted: [{To: {Amount: transfer.amount}}]}; // todo: introduce model ?
+    }
+
     const balance = this.rootStore.balanceStore.createBalance();
     balance.balance = transfer.amount;
     balance.assetId = transfer.asset;

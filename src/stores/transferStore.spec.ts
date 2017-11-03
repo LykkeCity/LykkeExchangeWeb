@@ -3,10 +3,12 @@ import {ConverterApi, TransferApi} from '../api';
 import {TransferModel} from '../models';
 
 const rootStore = new RootStore();
+const converterApi = new ConverterApi(rootStore);
+converterApi.convertToBaseAsset = jest.fn();
 const transferStore = new TransferStore(
   rootStore,
   new TransferApi(rootStore),
-  new ConverterApi(rootStore)
+  converterApi
 );
 
 describe('transfer store', () => {
@@ -33,5 +35,15 @@ describe('transfer store', () => {
 
     expect(sut).toBeDefined();
     expect(sut).not.toBeNull();
+  });
+
+  it('should not convert if transfer currency is the same as base one', () => {
+    const transferModel = new TransferModel(transferStore);
+    transferModel.asset = 'TEST';
+    const baseCurrency = 'TEST';
+
+    transferStore.convertToBaseCurrency(transferModel, baseCurrency);
+
+    expect(converterApi.convertToBaseAsset).not.toBeCalled();
   });
 });
