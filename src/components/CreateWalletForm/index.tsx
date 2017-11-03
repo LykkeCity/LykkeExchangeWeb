@@ -1,7 +1,11 @@
-import Form, {FormComponentProps} from 'antd/lib/form/Form';
+import * as classNames from 'classnames';
+import {observable} from 'mobx';
+import {observer} from 'mobx-react';
 import * as React from 'react';
+import {WalletModel} from '../../models/index';
 
-interface WalletFormProps extends FormComponentProps {
+interface WalletFormProps {
+  wallet: WalletModel;
   onChangeName: React.ChangeEventHandler<HTMLInputElement>;
   onChangeDesc?: React.ChangeEventHandler<any>;
   onSubmit: React.MouseEventHandler<any>;
@@ -9,9 +13,11 @@ interface WalletFormProps extends FormComponentProps {
 }
 
 export class WalletForm extends React.Component<WalletFormProps> {
+  @observable hasErrors = false;
+
   render() {
     return (
-      <Form layout="vertical">
+      <form>
         <div className="form-group">
           <label htmlFor="name" className="control-label">
             Name of wallet
@@ -20,14 +26,20 @@ export class WalletForm extends React.Component<WalletFormProps> {
             type="text"
             name="name"
             id="name"
-            className="form-control"
+            className={classNames('form-control', {
+              'form-control--error': this.hasErrors
+            })}
             required={true}
-            onChange={this.props.onChangeName}
+            value={this.props.wallet.title}
+            onChange={this.handleChangeName}
+            autoFocus={true}
+            onBlur={this.handleBlur}
           />
-          {
-            // TODO Раз уж мы собираемся уйти от antd... надо чуть доделать. Для инпута с ошибкой добавлять модификатор form-control--error
-            // <div className="label_error">Please input the name of the wallet</div>
-          }
+          {this.hasErrors && (
+            <div className="label_error">
+              Please input the name of the wallet
+            </div>
+          )}
         </div>
         <div className="form-group">
           <label htmlFor="desc" className="control-label">
@@ -52,21 +64,34 @@ export class WalletForm extends React.Component<WalletFormProps> {
             className="btn btn--primary"
             type="button"
             onClick={this.handleSubmit}
+            disabled={!this.props.wallet.isValid}
           >
             Generate API Key
           </button>
         </div>
-      </Form>
+      </form>
     );
   }
 
-  handleSubmit: React.MouseEventHandler<any> = e => {
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        this.props.onSubmit(e);
-      }
-    });
+  private handleChangeName: React.ChangeEventHandler<HTMLInputElement> = e => {
+    this.validateForm();
+    this.props.onChangeName(e);
+  };
+
+  private handleSubmit: React.MouseEventHandler<any> = e => {
+    this.validateForm();
+    if (this.props.wallet.isValid) {
+      this.props.onSubmit(e);
+    }
+  };
+
+  private handleBlur = () => {
+    this.validateForm();
+  };
+
+  private validateForm = () => {
+    this.hasErrors = !this.props.wallet.isValid;
   };
 }
 
-export default Form.create()(WalletForm);
+export default observer(WalletForm);

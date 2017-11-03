@@ -43,6 +43,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
                 index={1}
               >
                 <CreateWalletForm
+                  wallet={this.wallet}
                   onChangeName={this.handleChangeWalletName}
                   onSubmit={this.handleCreateWallet}
                   onCancel={this.uiStore.toggleCreateWalletDrawer}

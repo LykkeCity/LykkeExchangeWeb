@@ -28,6 +28,11 @@ export class WalletModel {
     return this.type === WalletType.Trading;
   }
 
+  @computed
+  get isValid() {
+    return !!this.title;
+  }
+
   constructor(private readonly store: WalletStore, dto?: any) {
     this.updateFromJson(dto);
     reaction(
