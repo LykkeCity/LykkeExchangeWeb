@@ -54,6 +54,12 @@
   version "16.0.18"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.0.18.tgz#c08eea79ada55bf10b5353e18c21797dd17afa23"
 
+"@types/uuid@^3.4.3":
+  version "3.4.3"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-3.4.3.tgz#121ace265f5569ce40f4f6d0ff78a338c732a754"
+  dependencies:
+    "@types/node" "*"
+
 LykkeFramework@^0.3.40:
   version "0.3.46"
   resolved "https://registry.yarnpkg.com/LykkeFramework/-/LykkeFramework-0.3.46.tgz#80513e11113a218ab4fe4f533818204c8d63703a"

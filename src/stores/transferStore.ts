@@ -1,25 +1,28 @@
 import {observable} from 'mobx';
 import {RootStore} from '.';
-import {ConverterApi, TransferApi} from '../api';
+import {ConverterApi} from '../api/converterApi';
+import {TransferApi} from '../api/transferApi';
 import {TransferModel} from '../models';
 
 export class TransferStore {
-  readonly rootStore: RootStore;
   @observable transfers: TransferModel[] = [];
+  @observable newTransfer: TransferModel;
 
   constructor(
-    rootStore: RootStore,
+    readonly rootStore: RootStore,
     private api: TransferApi,
     private converter: ConverterApi
   ) {
-    this.rootStore = rootStore;
+    this.newTransfer = this.createTransfer(false);
   }
 
-  createTransfer = () => {
+  createTransfer = (addtoStore = true) => {
     const transfer = new TransferModel(this);
     transfer.from = this.rootStore.walletStore.createWallet();
     transfer.to = this.rootStore.walletStore.createWallet();
-    this.addTransfer(transfer);
+    if (addtoStore) {
+      this.addTransfer(transfer);
+    }
     return transfer;
   };
 

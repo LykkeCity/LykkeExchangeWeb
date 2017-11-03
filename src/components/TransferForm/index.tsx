@@ -4,8 +4,7 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel} from '../../models';
-import {WalletStore} from '../../stores';
+import {TransferModel, WalletModel} from '../../models';
 import FormGroup from '../FormGroup';
 import FormInput from '../FormInput';
 import {NumberFormat} from '../NumberFormat';
@@ -14,45 +13,38 @@ import WalletSelect from '../WalletSelect';
 import './style.css';
 
 type InputEventHandler = React.FormEventHandler<HTMLInputElement>;
-type SelectEventHandler = (e: SelectOption) => void;
+type SelectEventHandler = (e: WalletModel | SelectOption) => void;
 
 interface TransferFormProps extends RootStoreProps {
-  transfer: TransferModel;
-  walletStore: WalletStore;
   onTransfer?: (transfer: TransferModel) => any;
-  onSucceeddedTransfer?: (transfer: TransferModel) => any;
-  onFailedTransfer?: (transfer: TransferModel, reason: any) => any;
 }
 
 export const TransferForm: React.SFC<TransferFormProps> = ({
-  transfer,
-  walletStore,
   rootStore,
-  onTransfer = () => null,
-  onSucceeddedTransfer = () => null,
-  onFailedTransfer = () => null
+  onTransfer
 }) => {
+  const {
+    transferStore: {newTransfer: transfer},
+    walletStore,
+    uiStore: {toggleQrWindow}
+  } = rootStore!;
+
   const handleChangeAmount: InputEventHandler = e => {
-    transfer.update({
-      amount: Number(e.currentTarget.value)
-    });
+    transfer.setAmount(Number(e.currentTarget.value));
   };
 
   const handleChangeWallet = (
     side: 'from' | 'to'
   ): SelectEventHandler => option => {
-    transfer.update({
-      [side]: option
-    });
+    transfer.setWallet(option as WalletModel, side);
   };
 
-  const handleChangeAsset = (option: any) =>
-    transfer.update({asset: option.assetId});
+  const handleChangeAsset = (option: any) => transfer.setAsset(option.assetId);
 
-  const handleSubmit: InputEventHandler = async e => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
+    toggleQrWindow();
     await transfer.submit();
-    onTransfer(transfer);
   };
 
   return (
@@ -83,7 +75,11 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           />
         </FormGroup>
         <FormGroup label="Amount">
-          <FormInput type="text" onChange={handleChangeAmount} />
+          <FormInput
+            type="text"
+            onChange={handleChangeAmount}
+            value={transfer.amount}
+          />
         </FormGroup>
         <FormGroup label="">
           <div className="form__input">
