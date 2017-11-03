@@ -51,6 +51,30 @@ describe('transfer store', () => {
   });
 
   it('should not convert if transfer currency is the same as base one', () => {
+    const transferCurrency = 'TEST';
+    const baseCurrency = 'TEST';
+
+    const isRequired = transferStore.conversionIsRequired(
+      transferCurrency,
+      baseCurrency
+    );
+
+    expect(isRequired).toBeFalsy();
+  });
+
+  it('should convert if transfer currency is not the same as base one', () => {
+    const transferCurrency = 'TEST 1';
+    const baseCurrency = 'TEST 2';
+
+    const isRequired = transferStore.conversionIsRequired(
+      transferCurrency,
+      baseCurrency
+    );
+
+    expect(isRequired).toBeTruthy();
+  });
+
+  it('should not request conversion api if no conversion is required', () => {
     const transferModel = new TransferModel(transferStore);
     transferModel.asset = 'TEST';
     const baseCurrency = 'TEST';
@@ -58,6 +82,16 @@ describe('transfer store', () => {
     transferStore.convertToBaseCurrency(transferModel, baseCurrency);
 
     expect(mockConverterApi.convertToBaseAsset).not.toBeCalled();
+  });
+
+  it('should request conversion api if conversion is required', () => {
+    const transferModel = new TransferModel(transferStore);
+    transferModel.asset = 'TEST 1';
+    const baseCurrency = 'TEST 2';
+
+    transferStore.convertToBaseCurrency(transferModel, baseCurrency);
+
+    expect(mockConverterApi.convertToBaseAsset).toBeCalled();
   });
 
   describe('submit transfer', () => {
