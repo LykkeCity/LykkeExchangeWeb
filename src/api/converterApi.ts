@@ -1,7 +1,15 @@
 import {BalanceModel, DirectionModel} from '../models/index';
 import {RestApi} from './index';
+import {ApiResponse} from './types/index';
 
-export class ConverterApi extends RestApi {
+export interface ConverterApi {
+  convertToBaseAsset: (
+    balances: BalanceModel[],
+    baseCurrency: string
+  ) => ApiResponse<any>;
+}
+
+export class RestConverterApi extends RestApi implements ConverterApi {
   convertToBaseAsset = (balances: BalanceModel[], baseCurrency: string) =>
     this.apiWretch
       .url('/market/converter')
@@ -14,4 +22,4 @@ export class ConverterApi extends RestApi {
       .json();
 }
 
-export default ConverterApi;
+export default RestConverterApi;
