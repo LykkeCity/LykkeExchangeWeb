@@ -1,4 +1,4 @@
-import {observable} from 'mobx';
+import {action, observable} from 'mobx';
 import {RootStore} from '.';
 import {ConverterApi} from '../api/converterApi';
 import {TransferApi} from '../api/transferApi';
@@ -16,6 +16,7 @@ export class TransferStore {
     this.newTransfer = this.createTransfer(false);
   }
 
+  @action
   createTransfer = (addtoStore = true) => {
     const transfer = new TransferModel(this);
     transfer.from = this.rootStore.walletStore.createWallet();
@@ -26,8 +27,15 @@ export class TransferStore {
     return transfer;
   };
 
+  @action
   addTransfer = (transfer: TransferModel) => this.transfers.unshift(transfer);
 
+  @action
+  resetCurrentTransfer = () => {
+    this.newTransfer = this.createTransfer(false);
+  };
+
+  @action
   transfer = async (transfer: TransferModel) => {
     await this.api.transfer(transfer);
     this.addTransfer(transfer);
