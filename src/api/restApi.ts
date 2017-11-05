@@ -5,7 +5,7 @@ import {RootStore} from '../stores/index';
 
 export class RestApi {
   protected readonly baseAuthUrl = config.auth.url;
-  protected readonly baseApiUrl = process.env.REACT_APP_API_URL;
+  protected readonly baseApiUrl = config.baseApi.url;
 
   protected readonly apiWretch = wretch(this.baseApiUrl);
   protected readonly authWretch = wretch(this.baseAuthUrl);
