@@ -54,7 +54,10 @@ export class ProfileStore {
 
   fetchFirstName = async () => {
     const {authStore: {getAccessToken}} = this.rootStore!;
-    const resp = await this.api!.getUserName(getAccessToken());
+    const resp = await this.api!.getUserName(
+      getAccessToken(),
+      this.rootStore.authStore.redirectToAuthServer
+    );
     extendObservable(this, resp);
   };
 }
