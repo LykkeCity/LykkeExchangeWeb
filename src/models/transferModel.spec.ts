@@ -2,7 +2,7 @@ import {RootStore} from '../stores';
 import {TransferModel} from './index';
 
 const rootStore = new RootStore();
-const {transferStore, walletStore, walletStore: {createWallet}} = rootStore;
+const {transferStore, walletStore} = rootStore;
 transferStore.convertToBaseCurrency = jest.fn(() => ({
   Converted: [
     {
