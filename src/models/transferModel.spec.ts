@@ -15,18 +15,11 @@ transferStore.convertToBaseCurrency = jest.fn(() => ({
 
 describe('transfer model', () => {
   it('should correctly and automaticaly update qr', () => {
-    const amount = 10;
-    const walletId = 1;
     const sut = transferStore.createTransfer();
-    sut.setWallet(createWallet({Id: ' -' + walletId}), 'from');
-    sut.setWallet(createWallet({Id: walletId}), 'to');
-    sut.setAmount(amount);
-    sut.setAsset('LKK');
 
-    expect(sut.asBase64).toBe(btoa(JSON.stringify(sut.asJson)));
-    expect(JSON.parse(atob(sut.asBase64))).toEqual(sut.asJson);
-    expect(JSON.parse(atob(sut.asBase64)).Amount).toBe(amount);
-    expect(JSON.parse(atob(sut.asBase64)).WalletId).toBe(walletId);
+    expect(sut.asBase64).toBe(btoa(JSON.stringify({Id: sut.id})));
+    expect(JSON.parse(atob(sut.asBase64))).toEqual({Id: sut.id});
+    expect(JSON.parse(atob(sut.asBase64)).Id).toBe(sut.id);
   });
 
   it('should merge transfer object', () => {
