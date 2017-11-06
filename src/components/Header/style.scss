@@ -1021,6 +1021,12 @@
     color: #79818f;
     position: relative;
     margin-right: 0;
+    letter-spacing: inherit !important;
+    font-weight: inherit !important;
+
+    .submenu {
+      @include rem(max-height, 410px);
+    }
 
     select {
       -webkit-appearance: none;
