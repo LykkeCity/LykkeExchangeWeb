@@ -56,11 +56,15 @@ export class TransferPage extends React.Component<TransferPageProps> {
   }
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
-    this.intervalId = setInterval(async () => {
-      const op = await this.transferStore.fetchOperationDetails(transfer);
-      // tslint:disable-next-line:no-console
-      console.info(op);
-    }, 5000);
+    const poll = () => {
+      setTimeout(async () => {
+        const op = await this.transferStore.fetchOperationDetails(transfer);
+        // tslint:disable-next-line:no-console
+        console.info(op);
+        poll();
+      }, 5000);
+    };
+    poll();
   };
 }
 
