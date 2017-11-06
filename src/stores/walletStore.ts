@@ -1,11 +1,4 @@
-import {
-  action,
-  computed,
-  extendObservable,
-  observable,
-  reaction,
-  runInAction
-} from 'mobx';
+import {action, computed, observable, reaction, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {WalletModel} from '../models';
@@ -43,7 +36,18 @@ export class WalletStore {
   getWalletsExceptOne = (wallet: WalletModel) =>
     this.wallets.filter(w => w !== wallet);
 
-  createWallet = (dto?: any) => new WalletModel(this, dto);
+  createWallet = (id?: string | number, title?: string) =>
+    new WalletModel(this, {Id: id, Name: title});
+
+  updateFromServer = (json: any) => {
+    let wallet = this.findWalletById(json.Id);
+    if (!wallet) {
+      wallet = new WalletModel(this, json);
+      this.addWallet(wallet);
+    } else {
+      wallet.updateFromJson(json);
+    }
+  };
 
   @action
   addWallet = (wallet: WalletModel) => {
@@ -58,12 +62,14 @@ export class WalletStore {
   createApiWallet = async (wallet: WalletModel) => {
     const {title, desc} = wallet;
     const dto = await this.api!.createApiWallet(title, desc);
-    const newWallet = this.createWallet({
+    this.updateFromServer({
       ApiKey: dto.ApiKey,
-      Id: dto.WalletId
+      Id: dto.WalletId,
+      // tslint:disable-next-line:object-literal-sort-keys
+      Description: desc,
+      Name: title
     });
-    this.addWallet(extendObservable(newWallet, {title, desc}));
-    return newWallet;
+    return this.findWalletById(dto.WalletId);
   };
 
   findWalletById = (id: string) => this.wallets.find(w => w.id === id);
@@ -79,7 +85,7 @@ export class WalletStore {
 
   fetchWalletById = async (id: string) => {
     const dto = await this.api!.fetchById(id);
-    return this.createWallet(dto);
+    return this.updateFromServer(dto);
   };
 
   regenerateApiKey = async (wallet: WalletModel) => {

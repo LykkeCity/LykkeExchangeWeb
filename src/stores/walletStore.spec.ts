@@ -6,7 +6,7 @@ const mockConverter = {
   convertToBaseCurrency: jest.fn(() => ({Converted: [{To: {Amount: 1}}]}))
 };
 const mockWalletApi = {
-  createApiWallet: jest.fn((name: string) => name)
+  createApiWallet: jest.fn((name: string) => ({WalletId: '1'}))
 };
 const walletStore = new WalletStore(
   rootStore,
@@ -24,14 +24,15 @@ describe('wallet store', () => {
   it('should expose strongly typed list of wallets', () => {
     const {wallets} = walletStore;
     expect(wallets).toBeDefined();
-    wallets.push(walletStore.createWallet({title: 'wallet'}));
+    walletStore.updateFromServer({title: 'wallet'});
+    // wallets.push(walletStore.createWallet({title: 'wallet'}));
     expect(wallets[0]).toHaveProperty('title');
   });
 
   it('create api wallet should add it to the list of wallets', async () => {
     const {wallets} = walletStore;
     const wallet = await walletStore.createApiWallet(
-      walletStore.createWallet({Name: '-foo'})
+      walletStore.createWallet('1', '-foo')
     );
     expect(wallets).toContainEqual(wallet);
   });
@@ -43,11 +44,9 @@ describe('wallet store', () => {
     it('should not return wallet passed as param', () => {
       const count = 5;
       for (let i = 1; i < count; i++) {
-        walletStore.addWallet(
-          walletStore.createWallet({Id: i, Name: `Wallet ${i}`})
-        );
+        walletStore.addWallet(walletStore.createWallet(i, `Wallet ${i}`));
       }
-      const excludeWallet = walletStore.createWallet({Id: 3, Name: 'Wallet 3'});
+      const excludeWallet = walletStore.createWallet(3, 'Wallet 3');
       const rest = walletStore.getWalletsExceptOne(excludeWallet);
 
       expect(rest.length).toBe(count - 1);
@@ -56,7 +55,7 @@ describe('wallet store', () => {
 
     it('should return an empty array when filtering an empty array', () => {
       walletStore.clearWallets();
-      const w = walletStore.createWallet({Id: '1', Name: 'w1'});
+      const w = walletStore.createWallet('1', 'w1');
 
       expect(walletStore.getWalletsExceptOne(w)).not.toContainEqual(w);
       expect(walletStore.getWalletsExceptOne(w).length).toEqual(0);

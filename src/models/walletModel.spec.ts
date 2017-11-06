@@ -22,7 +22,7 @@ const MockApi = jest.fn<WalletApi>(() => ({
 const walletStore = new WalletStore(rootStore, new MockApi(), {
   convertToBaseAsset: mockConverter
 } as any);
-const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
+const walletSut = walletStore.createWallet(42, 'w');
 
 describe('wallet model', () => {
   it('should provide an id', () => {
@@ -31,12 +31,12 @@ describe('wallet model', () => {
   });
 
   it('should pick an id from dto object if provided', () => {
-    const w = walletStore.createWallet({Id: 43, Name: 'wl'});
+    const w = walletStore.createWallet(43, 'wl');
     expect(w.id).toBe(43);
   });
 
   test('total balance in base currency should be defined', () => {
-    const w = walletStore.createWallet({Id: 44, Name: 'w'});
+    const w = walletStore.createWallet(44, 'w');
     expect(w.totalBalance).toBeDefined();
   });
 

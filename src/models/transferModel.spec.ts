@@ -18,8 +18,8 @@ describe('transfer model', () => {
     const amount = 10;
     const walletId = 1;
     const sut = transferStore.createTransfer();
-    sut.setWallet(createWallet({Id: ' -' + walletId}), 'from');
-    sut.setWallet(createWallet({Id: walletId}), 'to');
+    sut.setWallet(createWallet(' -' + walletId), 'from');
+    sut.setWallet(createWallet(walletId), 'to');
     sut.setAmount(amount);
     sut.setAsset('LKK');
 
@@ -34,7 +34,7 @@ describe('transfer model', () => {
     sut.update({
       amount: 100,
       asset: 'LKK',
-      from: walletStore.createWallet({Id: 1})
+      from: walletStore.createWallet(1)
     });
 
     expect(sut.amount).toBe(100);
