@@ -23,7 +23,7 @@ export class TransferModel {
 
   @computed
   get asBase64() {
-    return btoa(JSON.stringify(this.asJson));
+    return btoa(JSON.stringify({Id: this.id}));
   }
 
   @computed

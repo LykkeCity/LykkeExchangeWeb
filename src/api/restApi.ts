@@ -38,7 +38,6 @@ export class RestApi {
         .url(url)
         .get()
         .unauthorized(cb)
-        .badRequest(cb)
         .json();
   }
 

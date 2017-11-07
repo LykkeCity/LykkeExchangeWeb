@@ -11,8 +11,12 @@ import './style.css';
 
 const assetIcon = {
   BTC: 'bitcoin.png',
-  ETH: 'ethereum-lykke.png',
-  LKK: 'lykke.png',
+  ETH: 'icon-eth.svg',
+  LKK: 'icon-lkk.svg',
+  LKK1Y: 'icon-lkk-1-y.svg',
+  SLR: 'icon-slr.svg',
+  TIME: 'icon-time.svg',
+  TREE: 'icon-tree.svg',
   // tslint:disable-next-line:object-literal-sort-keys
   EUR: 'eur-lykke.png',
   USD: 'usd-lykke.png',
@@ -32,9 +36,15 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 }) => (
   <div className="wallet__balances">
     {wallet.hasBalances || (
-      <small>
-        {wallet.balances.length} {plural(wallet.balances.length, 'asset')}
-      </small>
+      <h3>
+        Issuer
+        <small>
+          {wallet.balances.length} {plural(wallet.balances.length, 'asset')}
+        </small>
+        <div>
+          <small style={{margin: 0}}>You don’t have any asset yet</small>
+        </div>
+      </h3>
     )}
     {wallet.hasBalances && (
       <h3>

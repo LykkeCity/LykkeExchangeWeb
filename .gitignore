@@ -25,3 +25,6 @@ yarn-error.log*
 src/**/*.css
 
 .env*.local
+
+.vscode/**/*.*
+!.vscode/launch.json

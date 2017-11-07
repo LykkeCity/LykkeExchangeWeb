@@ -6,7 +6,7 @@ import {ApiResponse} from './types';
 export interface ProfileApi {
   fetchBaseAsset: () => ApiResponse<any>;
   updateBaseAsset: (baseCurrency: string) => ApiResponse<any>;
-  getUserName: (token: string) => ApiResponse<any>;
+  getUserName: (token: string, cb?: any) => ApiResponse<any>;
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
@@ -22,7 +22,12 @@ export class RestProfileApi extends RestApi implements ProfileApi {
       .json({BaseAsssetId: baseCurrency})
       .post();
 
-  getUserName = (token: string) => this.getAuth(config.auth.apiUrls.info);
+  getUserName = (token: string, cb?: any) =>
+    this.authBearerWretch()
+      .url(config.auth.apiUrls.info)
+      .get()
+      .badRequest(cb)
+      .json();
 }
 
 export default RestProfileApi;

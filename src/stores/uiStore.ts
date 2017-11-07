@@ -8,6 +8,7 @@ export class UiStore {
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
+  @observable showBaseCurrencyPicker: boolean;
 
   @observable pendingRequestsCount: number = 0;
   @computed
@@ -62,6 +63,9 @@ export class UiStore {
 
   readonly closeSidebar = () =>
     this.showSidebar && (this.showSidebar = !this.showSidebar);
+
+  readonly toggleBaseAssetPicker = () =>
+    (this.showBaseCurrencyPicker = !this.showBaseCurrencyPicker);
 }
 
 export default UiStore;
