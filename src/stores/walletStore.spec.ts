@@ -15,6 +15,10 @@ const walletStore = new WalletStore(
 );
 
 describe('wallet store', () => {
+  beforeEach(() => {
+    walletStore.clearWallets();
+  });
+
   it('should hold strongly typed ref to the root store', () => {
     expect(walletStore).toHaveProperty('rootStore');
     expect(walletStore.rootStore).toBeDefined();
@@ -25,7 +29,6 @@ describe('wallet store', () => {
     const {wallets} = walletStore;
     expect(wallets).toBeDefined();
     walletStore.updateFromServer({title: 'wallet'});
-    // wallets.push(walletStore.createWallet({title: 'wallet'}));
     expect(wallets[0]).toHaveProperty('title');
   });
 
@@ -37,10 +40,31 @@ describe('wallet store', () => {
     expect(wallets).toContainEqual(wallet);
   });
 
+  it('should create a new wallet if received a new one from server', () => {
+    const {wallets} = walletStore;
+    walletStore.addWallet(walletStore.createWallet('w1'));
+
+    expect(wallets.length).toEqual(1);
+
+    walletStore.updateFromServer({Name: 'w2'});
+
+    expect(wallets.length).toEqual(2);
+  });
+
+  it('should not create a new wallet if update wallet from server', () => {
+    const {wallets} = walletStore;
+    const wallet = walletStore.createWallet('w1');
+    walletStore.addWallet(wallet);
+
+    expect(wallets.length).toEqual(1);
+
+    walletStore.updateFromServer({Id: wallet.id, Name: 'w2'});
+
+    expect(wallets.length).toEqual(1);
+    expect(wallets[0].title).toEqual('w2');
+  });
+
   describe('allWalletsExceptOne', () => {
-    beforeEach(() => {
-      walletStore.clearWallets();
-    });
     it('should not return wallet passed as param', () => {
       const count = 5;
       for (let i = 1; i < count; i++) {
@@ -54,7 +78,6 @@ describe('wallet store', () => {
     });
 
     it('should return an empty array when filtering an empty array', () => {
-      walletStore.clearWallets();
       const w = walletStore.createWallet('w1');
 
       expect(walletStore.getWalletsExceptOne(w)).not.toContainEqual(w);

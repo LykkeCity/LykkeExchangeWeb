@@ -46,6 +46,8 @@ export class WalletStore {
     } else {
       wallet.updateFromJson(json);
     }
+
+    return wallet;
   };
 
   @action
@@ -61,14 +63,14 @@ export class WalletStore {
   createApiWallet = async (wallet: WalletModel) => {
     const {title, desc} = wallet;
     const dto = await this.api!.createApiWallet(title, desc);
-    this.updateFromServer({
+    const newWallet = this.updateFromServer({
       ApiKey: dto.ApiKey,
       Id: dto.WalletId,
       // tslint:disable-next-line:object-literal-sort-keys
       Description: desc,
       Name: title
     });
-    return this.findWalletById(dto.WalletId)!;
+    return newWallet;
   };
 
   findWalletById = (id: string) => this.wallets.find(w => w.id === id);
@@ -78,7 +80,7 @@ export class WalletStore {
   fetchWallets = async () => {
     const balances = await this.rootStore.balanceStore.fetchAll();
     runInAction(() => {
-      this.wallets = balances.map(this.createWallet);
+      this.wallets = balances.map(this.updateFromServer);
     });
   };
 
