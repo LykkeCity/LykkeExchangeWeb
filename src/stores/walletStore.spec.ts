@@ -32,7 +32,7 @@ describe('wallet store', () => {
   it('create api wallet should add it to the list of wallets', async () => {
     const {wallets} = walletStore;
     const wallet = await walletStore.createApiWallet(
-      walletStore.createWallet('1', '-foo')
+      walletStore.createWallet('-foo')
     );
     expect(wallets).toContainEqual(wallet);
   });
@@ -44,9 +44,9 @@ describe('wallet store', () => {
     it('should not return wallet passed as param', () => {
       const count = 5;
       for (let i = 1; i < count; i++) {
-        walletStore.addWallet(walletStore.createWallet(i, `Wallet ${i}`));
+        walletStore.addWallet(walletStore.createWallet(`Wallet ${i}`));
       }
-      const excludeWallet = walletStore.createWallet(3, 'Wallet 3');
+      const excludeWallet = walletStore.createWallet('Wallet 3');
       const rest = walletStore.getWalletsExceptOne(excludeWallet);
 
       expect(rest.length).toBe(count - 1);
@@ -55,7 +55,7 @@ describe('wallet store', () => {
 
     it('should return an empty array when filtering an empty array', () => {
       walletStore.clearWallets();
-      const w = walletStore.createWallet('1', 'w1');
+      const w = walletStore.createWallet('w1');
 
       expect(walletStore.getWalletsExceptOne(w)).not.toContainEqual(w);
       expect(walletStore.getWalletsExceptOne(w).length).toEqual(0);

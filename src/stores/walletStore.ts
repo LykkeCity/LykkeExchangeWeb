@@ -36,8 +36,7 @@ export class WalletStore {
   getWalletsExceptOne = (wallet: WalletModel) =>
     this.wallets.filter(w => w !== wallet);
 
-  createWallet = (id?: string | number, title?: string) =>
-    new WalletModel(this, {Id: id, Name: title});
+  createWallet = (title?: string) => new WalletModel(this, {Name: title});
 
   updateFromServer = (json: any) => {
     let wallet = this.findWalletById(json.Id);
