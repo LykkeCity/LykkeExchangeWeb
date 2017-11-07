@@ -7,7 +7,7 @@ import {NumberFormat} from '../../components/NumberFormat';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel} from '../../models';
+import {OpStatus, TransferModel} from '../../models';
 import './style.css';
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
@@ -16,8 +16,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly uiStore = this.props.rootStore!.uiStore;
-
-  intervalId: any;
 
   componentDidMount() {
     const {walletId, dest} = this.props.match.params;
@@ -28,7 +26,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
   }
 
   componentWillUnmount() {
-    clearInterval(this.intervalId);
     this.transferStore.resetCurrentTransfer();
   }
 
@@ -59,9 +56,11 @@ export class TransferPage extends React.Component<TransferPageProps> {
     const poll = () => {
       setTimeout(async () => {
         const op = await this.transferStore.fetchOperationDetails(transfer);
-        // tslint:disable-next-line:no-console
-        console.info(op);
-        poll();
+        if (op.Status !== OpStatus.Completed) {
+          poll();
+        } else {
+          this.transferStore.finishTransfer(transfer);
+        }
       }, 5000);
     };
     poll();
