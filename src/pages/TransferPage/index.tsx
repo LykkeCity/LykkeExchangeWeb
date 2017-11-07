@@ -6,6 +6,7 @@ import {RootStoreProps} from '../../App';
 import {NumberFormat} from '../../components/NumberFormat';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
+import {ROUTE_TRANSFER_SUCCESS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {OpStatus, TransferModel} from '../../models';
 import './style.css';
@@ -23,10 +24,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
     if (!!wallet) {
       this.transferStore.newTransfer.setWallet(wallet, dest);
     }
-  }
-
-  componentWillUnmount() {
-    this.transferStore.resetCurrentTransfer();
   }
 
   render() {
@@ -59,9 +56,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
         if (op.Status !== OpStatus.Completed) {
           poll();
         } else {
+          const {amount, asset} = transfer;
           this.transferStore.finishTransfer(transfer);
+          this.uiStore.toggleQrWindow();
+          this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
         }
-      }, 5000);
+      }, 3000);
     };
     poll();
   };
