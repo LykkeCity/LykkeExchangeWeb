@@ -4,7 +4,7 @@ import {WalletModel} from '.';
 import {TransferStore} from '../stores';
 
 export class TransferModel {
-  id = uuid.v4();
+  id = '';
   @observable from: WalletModel;
   @observable to: WalletModel;
   @observable amount: number = 0;
@@ -34,6 +34,8 @@ export class TransferModel {
 
   constructor(private store: TransferStore) {
     this.store = store;
+    this.id = uuid.v4();
+
     reaction(
       () => this.amount + this.asset,
       async () => {
