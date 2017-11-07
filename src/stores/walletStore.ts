@@ -68,7 +68,7 @@ export class WalletStore {
       Description: desc,
       Name: title
     });
-    return this.findWalletById(dto.WalletId);
+    return this.findWalletById(dto.WalletId)!;
   };
 
   findWalletById = (id: string) => this.wallets.find(w => w.id === id);
