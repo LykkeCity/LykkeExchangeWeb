@@ -10,7 +10,11 @@ export interface TransferApi {
 
 export class RestTransferApi extends RestApi implements TransferApi {
   startTransfer = (transfer: TransferModel) =>
-    this.post(`/operations/transfer/${transfer.id}`, transfer.asJson);
+    this.apiBearerWretch()
+      .url(`/operations/transfer/${transfer.id}`)
+      .json(transfer.asJson)
+      .post()
+      .text();
 
   cancelTransfer = (transfer: TransferModel) =>
     this.post(`/operations/cancel/${transfer.id}`, {});

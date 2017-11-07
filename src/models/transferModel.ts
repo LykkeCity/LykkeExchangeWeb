@@ -17,6 +17,7 @@ export class TransferModel {
     return {
       Amount: this.amount,
       AssetId: this.asset,
+      SourceWalletId: this.from.id,
       WalletId: this.to.id
     };
   }
