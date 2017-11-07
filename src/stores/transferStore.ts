@@ -59,16 +59,22 @@ export class TransferStore {
     return transferCurrency !== baseCurrency;
   };
 
-  convertToBaseCurrency = (transfer: TransferModel, baseCurrency: string) => {
+  convertToBaseCurrency = async (
+    transfer: TransferModel,
+    baseCurrency: string
+  ) => {
     if (!this.conversionIsRequired(transfer.asset, baseCurrency)) {
-      return {Converted: [{To: {Amount: transfer.amount}}]}; // todo: introduce model ?
+      transfer.amountInBaseCurrency = transfer.amount;
+      return transfer;
     }
 
     const balance = this.rootStore.balanceStore.createBalance();
     balance.balance = transfer.amount;
     balance.assetId = transfer.asset;
 
-    return this.converter!.convertToBaseAsset([balance], baseCurrency);
+    return transfer.updateFromJson(
+      await this.converter!.convertToBaseAsset([balance], baseCurrency)
+    );
   };
 }
 

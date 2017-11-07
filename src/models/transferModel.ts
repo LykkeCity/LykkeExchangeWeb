@@ -37,16 +37,20 @@ export class TransferModel {
       () => this.amount + this.asset,
       async () => {
         if (!!this.amount && !!this.asset) {
-          const resp = await this.store.convertToBaseCurrency(
+          await this.store.convertToBaseCurrency(
             this,
             this.store.rootStore.profileStore.baseAsset
           );
-          this.amountInBaseCurrency =
-            resp.Converted[0] && resp.Converted[0].To.Amount;
         }
       }
     );
   }
+
+  updateFromJson = (json: any) => {
+    if (json.Converted[0]) {
+      this.amountInBaseCurrency = json.Converted[0].To.Amount;
+    }
+  };
 
   @action
   update = (transfer: Partial<TransferModel>) => Object.assign(this, transfer);
