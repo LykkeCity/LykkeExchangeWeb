@@ -87,7 +87,14 @@ export class WalletModel {
     }
   };
 
-  @action toggleCollapse = () => (this.collapsed = !this.collapsed);
+  @action
+  toggleCollapse = () => {
+    this.collapsed = !this.collapsed;
+    if (!this.collapsed) {
+      const restWallets = this.store.getWalletsExceptOne(this);
+      restWallets.forEach(w => (w.collapsed = true));
+    }
+  };
 }
 
 export default WalletModel;
