@@ -68,9 +68,10 @@ export class TransferStore {
       return transfer;
     }
 
-    const balance = this.rootStore.balanceStore.createBalance();
-    balance.balance = transfer.amount;
-    balance.assetId = transfer.asset;
+    const balance = this.rootStore.balanceStore.createBalance(
+      transfer.asset,
+      transfer.amount
+    );
 
     return transfer.updateFromJson(
       await this.converter!.convertToBaseAsset([balance], baseCurrency)

@@ -1,4 +1,4 @@
-import {action, observable, runInAction} from 'mobx';
+import {observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {BalanceApi} from '../api/';
 import {BalanceModel, WalletModel} from '../models/index';
@@ -6,25 +6,25 @@ import {BalanceModel, WalletModel} from '../models/index';
 export class BalanceStore {
   readonly rootStore: RootStore;
 
-  @observable balances: any[];
+  @observable balances: any[] = [];
 
   constructor(rootStore: RootStore, private api?: BalanceApi) {
     this.rootStore = rootStore;
   }
 
-  createBalance = (dto?: any) => new BalanceModel(this, dto);
+  createBalance = (assetId?: string, balance?: number) =>
+    new BalanceModel(this, {AssetId: assetId, Balance: balance});
 
-  @action
-  updateFromServer = (json: any) => {
-    const idx = this.balances.findIndex(x => x.id === json);
-    this.balances[idx] = json;
-  };
+  updateFromServer = (json: any) => new BalanceModel(this, json);
 
   fetchAll = async () => await this.api!.fetchAll();
 
   fetchById = async (assetId: string) => {
     const balance = await this.api!.fetchById(assetId);
-    this.updateFromServer(balance);
+    runInAction(() => {
+      const idx = this.balances.findIndex(x => x.id === balance);
+      this.balances[idx] = balance;
+    });
   };
 
   fetchForWallet = async (wallet: WalletModel) => {
