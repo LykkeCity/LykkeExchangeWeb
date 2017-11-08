@@ -114,7 +114,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 </div>
                 <input
                   id="tr_amount"
-                  type="text"
+                  type="number"
                   className="form-control"
                   value={transfer.amount}
                   onChange={handleChangeAmount}

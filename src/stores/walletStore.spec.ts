@@ -70,10 +70,10 @@ describe('wallet store', () => {
       for (let i = 1; i < count; i++) {
         walletStore.addWallet(walletStore.createWallet(`Wallet ${i}`));
       }
-      const excludeWallet = walletStore.createWallet('Wallet 3');
+      const excludeWallet = walletStore.wallets[2];
       const rest = walletStore.getWalletsExceptOne(excludeWallet);
 
-      expect(rest.length).toBe(count - 1);
+      expect(rest.length).toBe(walletStore.wallets.length - 1);
       expect(rest).not.toContain(excludeWallet);
     });
 

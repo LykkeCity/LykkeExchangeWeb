@@ -6,8 +6,9 @@ import {RootStoreProps} from '../../App';
 import {NumberFormat} from '../../components/NumberFormat';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
+import {ROUTE_TRANSFER_SUCCESS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel} from '../../models';
+import {OpStatus, TransferModel} from '../../models';
 import './style.css';
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
@@ -17,19 +18,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly uiStore = this.props.rootStore!.uiStore;
 
-  intervalId: any;
-
   componentDidMount() {
     const {walletId, dest} = this.props.match.params;
     const wallet = this.walletStore.findWalletById(walletId);
     if (!!wallet) {
       this.transferStore.newTransfer.setWallet(wallet, dest);
     }
-  }
-
-  componentWillUnmount() {
-    clearInterval(this.intervalId);
-    this.transferStore.resetCurrentTransfer();
   }
 
   render() {
@@ -59,10 +53,15 @@ export class TransferPage extends React.Component<TransferPageProps> {
     const poll = () => {
       setTimeout(async () => {
         const op = await this.transferStore.fetchOperationDetails(transfer);
-        // tslint:disable-next-line:no-console
-        console.info(op);
-        poll();
-      }, 5000);
+        if (op.Status !== OpStatus.Completed) {
+          poll();
+        } else {
+          const {amount, asset} = transfer;
+          this.transferStore.finishTransfer(transfer);
+          this.uiStore.toggleQrWindow();
+          this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
+        }
+      }, 3000);
     };
     poll();
   };

@@ -1,5 +1,6 @@
 import {WalletApi} from '../api/index';
 import {RootStore, WalletStore} from '../stores/index';
+import {WalletModel} from './index';
 
 const rootStore = new RootStore();
 const mockConverter = jest.fn(() =>
@@ -90,5 +91,40 @@ describe('wallet model', () => {
 
     // assert
     expect(mockConverter.mock.calls.length).toBe(1);
+  });
+
+  describe('toggle collapse', () => {
+    let wallet: WalletModel;
+
+    beforeEach(() => {
+      wallet = walletStore.createWallet();
+    });
+
+    it('should toggle collapsed state', () => {
+      const collapsed = wallet.collapsed;
+
+      wallet.toggleCollapse();
+
+      expect(wallet.collapsed).toBe(!collapsed);
+      expect(wallet.expanded).toBe(!wallet.collapsed);
+    });
+
+    it('should collapse all the rest wallets when expanding curr one', () => {
+      for (let i = 0; i < 5; i++) {
+        walletStore.addWallet(walletStore.createWallet(`w${i}`));
+      }
+      const currWallet = walletStore.wallets[3];
+      const restWallets = walletStore.getWalletsExceptOne(currWallet);
+
+      currWallet.collapsed = true;
+      currWallet.toggleCollapse(); // expand wallet
+
+      expect(restWallets.filter(w => w.collapsed).length).toBe(
+        walletStore.wallets.length - 1
+      );
+      expect(restWallets.some(w => w.collapsed)).toBe(true);
+      expect(restWallets.filter(w => w.expanded).length).toBe(0);
+      expect(restWallets.some(w => w.expanded)).toBe(false);
+    });
   });
 });
