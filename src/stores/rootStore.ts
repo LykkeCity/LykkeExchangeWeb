@@ -4,6 +4,7 @@ import {
   ProfileStore,
   TransferStore,
   UiStore,
+  WalletBalanceStore,
   WalletStore
 } from '.';
 import {
@@ -19,6 +20,7 @@ export class RootStore {
   readonly authStore: AuthStore;
   readonly walletStore: WalletStore;
   readonly balanceStore: BalanceStore;
+  readonly walletBalanceStore: WalletBalanceStore;
   readonly uiStore: UiStore;
   readonly transferStore: TransferStore;
   readonly profileStore: ProfileStore;
@@ -27,7 +29,11 @@ export class RootStore {
     this.authStore = new AuthStore(this, new AuthApi(this));
     const converter = new ConverterApi(this);
     this.walletStore = new WalletStore(this, new WalletApi(this), converter);
-    this.balanceStore = new BalanceStore(this, new BalanceApi(this));
+    this.balanceStore = new BalanceStore();
+    this.walletBalanceStore = new WalletBalanceStore(
+      this,
+      new BalanceApi(this)
+    );
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(
       this,

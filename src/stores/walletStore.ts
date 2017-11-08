@@ -78,7 +78,7 @@ export class WalletStore {
   clearWallets = () => (this.wallets = []);
 
   fetchWallets = async () => {
-    const balances = await this.rootStore.balanceStore.fetchAll();
+    const balances = await this.rootStore.walletBalanceStore.fetchAll();
     runInAction(() => {
       this.wallets = balances.map(this.updateFromServer);
     });
