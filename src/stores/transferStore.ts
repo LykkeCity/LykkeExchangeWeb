@@ -36,9 +36,7 @@ export class TransferStore {
   };
 
   @action
-  startTransfer = async (transfer: TransferModel) => {
-    await this.api.startTransfer(transfer);
-  };
+  startTransfer = (transfer: TransferModel) => this.api.startTransfer(transfer);
 
   finishTransfer = (transfer: TransferModel) => {
     const {amount, asset, from: sourceWallet, to: destWallet} = transfer;
