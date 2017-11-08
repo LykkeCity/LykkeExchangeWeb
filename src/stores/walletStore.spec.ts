@@ -47,10 +47,10 @@ describe('wallet store', () => {
           walletStore.createWallet({Id: i, Name: `Wallet ${i}`})
         );
       }
-      const excludeWallet = walletStore.createWallet({Id: 3, Name: 'Wallet 3'});
+      const excludeWallet = walletStore.wallets[2];
       const rest = walletStore.getWalletsExceptOne(excludeWallet);
 
-      expect(rest.length).toBe(count - 1);
+      expect(rest.length).toBe(walletStore.wallets.length - 1);
       expect(rest).not.toContain(excludeWallet);
     });
 

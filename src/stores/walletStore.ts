@@ -9,6 +9,7 @@ import {
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {WalletModel} from '../models';
+import {sum} from '../utils/math';
 
 export class WalletStore {
   @observable wallets: WalletModel[] = [];
@@ -41,7 +42,7 @@ export class WalletStore {
   }
 
   getWalletsExceptOne = (wallet: WalletModel) =>
-    this.wallets.filter(w => w !== wallet);
+    this.wallets.filter(w => w.id !== wallet.id);
 
   createWallet = (dto?: any) => new WalletModel(this, dto);
 
@@ -87,19 +88,25 @@ export class WalletStore {
     runInAction(() => (wallet.apiKey = resp.ApiKey));
   };
 
-  convertBalances = () =>
+  convertBalances = () => {
+    const {baseAsset} = this.rootStore.profileStore;
     this.walletsWithAssets.forEach(async wallet => {
       const resp = await this.converter!.convertToBaseAsset(
-        wallet.balances,
-        this.rootStore.profileStore.baseAsset
+        wallet.balances.filter(b => b.assetId !== baseAsset),
+        baseAsset
       );
       runInAction(() => {
-        wallet.totalBalance = resp.Converted.reduce(
-          (agg: number, curr: any) => (agg += curr.To && curr.To.Amount),
-          0
-        );
+        wallet.totalBalance = resp.Converted
+          .filter((x: any) => !!x.To && !!x.To.Amount)
+          .map((x: any) => x.To.Amount)
+          .reduce(sum, 0);
+        wallet.totalBalance += wallet.balances
+          .filter(b => b.assetId === baseAsset)
+          .map(b => b.balance)
+          .reduce(sum, 0);
       });
     });
+  };
 }
 
 export default WalletStore;
