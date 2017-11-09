@@ -1,28 +1,48 @@
 import Modal, {ModalProps} from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {RouteComponentProps, withRouter} from 'react-router';
 import {RootStoreProps} from '../../App';
+import {ROUTE_WALLET} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
-type TransferQrWindowProps = RootStoreProps & ModalProps;
+type TransferQrWindowProps = RootStoreProps &
+  ModalProps &
+  RouteComponentProps<any>;
 
 export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   rootStore,
+  history,
   ...rest
 }) => {
   const {
     transferStore: {newTransfer: transfer},
     uiStore: {showQrWindow, toggleQrWindow}
   } = rootStore!;
+
+  const handleCancel = async () => {
+    await transfer.cancel();
+    toggleQrWindow();
+    history.replace(ROUTE_WALLET);
+  };
+
   return (
     <Modal
       visible={showQrWindow}
       title="Address"
-      okText="Cancel transaction"
-      cancelText="Close"
       onCancel={toggleQrWindow}
       className="transfer-qr"
+      closable={false}
+      footer={[
+        <button
+          key="cancel"
+          className="btn btn--primary"
+          onClick={handleCancel}
+        >
+          Cancel transaction
+        </button>
+      ]}
       {...rest}
     >
       <p className="transfer-qr__desc">
@@ -40,4 +60,4 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   );
 };
 
-export default inject(STORE_ROOT)(observer(TransferQrWindow));
+export default withRouter(inject(STORE_ROOT)(observer(TransferQrWindow)));

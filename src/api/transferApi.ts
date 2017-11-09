@@ -17,7 +17,9 @@ export class RestTransferApi extends RestApi implements TransferApi {
       .text();
 
   cancelTransfer = (transfer: TransferModel) =>
-    this.post(`/operations/cancel/${transfer.id}`, {});
+    this.apiBearerWretch()
+      .url(`/operations/cancel/${transfer.id}`)
+      .post();
 
   fetchOperationDetails = (transfer: TransferModel) =>
     this.get(`/operations/${transfer.id}`);
