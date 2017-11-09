@@ -1,8 +1,10 @@
 import {computed, extendObservable, observable} from 'mobx';
 import {BalanceStore} from '../stores/index';
+import {AssetModel} from './index';
 
 export class BalanceModel {
   assetId: string = '';
+  asset: AssetModel;
   @observable balance: number = 0;
 
   private readonly store: BalanceStore;

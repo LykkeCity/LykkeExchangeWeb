@@ -72,9 +72,13 @@ export class WalletStore {
   clearWallets = () => (this.wallets = []);
 
   fetchWallets = async () => {
+    const wallets = await this.api!.fetchAll();
     const balances = await this.rootStore.balanceStore.fetchAll();
     runInAction(() => {
-      this.wallets = balances.map(this.createWallet);
+      this.wallets = wallets.map(this.createWallet);
+      this.wallets.forEach(w => {
+        w.setBalances(balances.find((b: any) => b.Id === w.id).Balances);
+      });
     });
   };
 

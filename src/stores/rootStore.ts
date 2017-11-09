@@ -1,4 +1,5 @@
 import {
+  AssetStore,
   AuthStore,
   BalanceStore,
   ProfileStore,
@@ -7,6 +8,7 @@ import {
   WalletStore
 } from '.';
 import {
+  AssetApi,
   AuthApi,
   BalanceApi,
   ConverterApi,
@@ -22,6 +24,7 @@ export class RootStore {
   readonly uiStore: UiStore;
   readonly transferStore: TransferStore;
   readonly profileStore: ProfileStore;
+  readonly assetStore: AssetStore;
 
   constructor() {
     this.authStore = new AuthStore(this, new AuthApi(this));
@@ -35,6 +38,7 @@ export class RootStore {
       converter
     );
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
+    this.assetStore = new AssetStore(this, new AssetApi(this));
   }
 }
 

@@ -15,6 +15,7 @@ const transferStore = new TransferStore(
   mockTransferApi as any,
   mockConverterApi as any
 );
+rootStore.assetStore.getById = jest.fn();
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
 

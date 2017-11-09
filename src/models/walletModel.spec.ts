@@ -24,6 +24,12 @@ const walletStore = new WalletStore(rootStore, new MockApi(), {
   convertToBaseAsset: mockConverter
 } as any);
 const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
+rootStore.assetStore.getById = jest.fn(() => ({
+  id: '1',
+  name: 'asset1',
+  // tslint:disable-next-line:object-literal-sort-keys
+  category: 'Lykke'
+}));
 
 describe('wallet model', () => {
   it('should provide an id', () => {

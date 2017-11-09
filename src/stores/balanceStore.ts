@@ -12,7 +12,16 @@ export class BalanceStore {
     this.rootStore = rootStore;
   }
 
-  createBalance = (dto?: any) => new BalanceModel(this, dto);
+  createBalance = (dto?: any) => {
+    const balance = new BalanceModel(this);
+    if (!!dto) {
+      const asset = this.rootStore.assetStore.getById(dto.AssetId);
+      balance.asset = asset!;
+      balance.assetId = asset!.name;
+      balance.balance = dto.Balance;
+    }
+    return balance;
+  };
 
   fetchAll = async () => await this.api!.fetchAll();
 
