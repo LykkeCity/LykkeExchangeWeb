@@ -72,7 +72,11 @@ export class WalletPage extends React.Component<RootStoreProps> {
             </Steps>
           </CreateWalletWizard>
         </Drawer>
-        <Route exact={true} path={ROUTE_WALLETS} component={WalletList} />
+        <Route
+          exact={true}
+          path={`${ROUTE_WALLETS}/:type`}
+          component={WalletList}
+        />
       </div>
     );
   }

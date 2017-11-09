@@ -1,6 +1,6 @@
 export const ROUTE_ROOT = '/';
 
-export const ROUTE_WALLETS = '/wallets/:type';
+export const ROUTE_WALLETS = '/wallets';
 export const ROUTE_WALLETS_PRIVATE = '/wallets/private';
 export const ROUTE_WALLETS_HFT = '/wallets/hft';
 
