@@ -1,6 +1,8 @@
 import * as numeral from 'numeral';
 import * as React from 'react';
 
+numeral.zeroFormat('0.00');
+
 interface NumberFormatProps {
   value: number;
   format?: string;
