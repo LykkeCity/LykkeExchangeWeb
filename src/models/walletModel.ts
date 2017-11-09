@@ -29,7 +29,7 @@ export class WalletModel {
 
   @computed
   get isValid() {
-    return !!this.title;
+    return !!this.title.trim();
   }
 
   filter = {
