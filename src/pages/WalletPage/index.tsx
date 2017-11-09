@@ -12,7 +12,8 @@ import CreateWalletWizard, {
 import Drawer from '../../components/Drawer';
 import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
 import WalletList from '../../components/WalletList';
-import {ROUTE_WALLET} from '../../constants/routes';
+import WalletTabs from '../../components/WalletTabs/index';
+import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
@@ -26,6 +27,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
   render() {
     return (
       <div className="container">
+        <WalletTabs />
         <Drawer
           title="New API Wallet"
           show={this.uiStore.showCreateWalletDrawer}
@@ -70,7 +72,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
             </Steps>
           </CreateWalletWizard>
         </Drawer>
-        <Route exact={true} path={ROUTE_WALLET} component={WalletList} />
+        <Route exact={true} path={ROUTE_WALLETS} component={WalletList} />
       </div>
     );
   }

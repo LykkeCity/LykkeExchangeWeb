@@ -1,5 +1,13 @@
 @import '../../styles/utils';
 
+.wallet-tabs {
+  @include rem(margin, 0 20px);
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(margin, 0 100px);
+  }
+}
+
 .tabs {
   border-bottom: 1px solid $border-alt;
 }
@@ -11,7 +19,7 @@
   line-height: normal;
   padding: 0;
   border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
+  margin-bottom: -5px;
 
   @include rem(font-size, 18px);
   @include transition(all 0.3s ease);
@@ -40,6 +48,7 @@
   &--active {
     border-color: $primary;
     color: $text;
+    font-weight: $fw-semi;
 
     .tab__link {
       color: $text;
@@ -48,5 +57,17 @@
 
   &:hover {
     text-decoration: none;
+  }
+
+  &__pane {
+    @include rem(padding, 40px 20px);
+
+    div:last-child {
+      text-align: right;
+    }
+
+    @media all and (min-width: $screen-tablet + 1) {
+      // @include rem(padding, 0 100px);
+    }
   }
 }

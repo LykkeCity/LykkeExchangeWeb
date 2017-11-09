@@ -9,7 +9,8 @@ import {
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_SUCCESS,
-  ROUTE_WALLET
+  ROUTE_WALLETS,
+  ROUTE_WALLETS_PRIVATE
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
@@ -37,13 +38,9 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     return (
       <div className="app__shell">
         <Switch>
-          <Redirect
-            exact={true}
-            path={ROUTE_ROOT}
-            from={ROUTE_ROOT}
-            to={ROUTE_WALLET}
-          />
-          <Route path={ROUTE_WALLET} component={withLoading(WalletPage)} />
+          <Redirect exact={true} path={ROUTE_ROOT} to={ROUTE_WALLETS_PRIVATE} />
+          <Redirect exact={true} path="/wallets" to={ROUTE_WALLETS_PRIVATE} />
+          <Route path={ROUTE_WALLETS} component={withLoading(WalletPage)} />
           <Route path={ROUTE_TRANSFER} component={withLoading(TransferPage)} />
           <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
           <Route component={NoMatch} />

@@ -1,17 +1,22 @@
 import * as React from 'react';
+import {Link} from 'react-router-dom';
+import {ROUTE_WALLETS} from '../../constants/routes';
 
 export default function SiteNav() {
   return (
     <nav className="site_nav">
       <div className="site_nav__inner">
         <div className="container">
-          <ul className="header_nav__list nav_list nav_list--alt">
-            <li className="nav_list__item">
-              <a href="/">Trading Wallet</a>
+          <ul className="tabs">
+            <li className="tab tab--active">
+              <Link to={ROUTE_WALLETS} className="tab__link">
+                Trading Wallet
+              </Link>
             </li>
-
-            <li className="nav_list__item nav_list__item--active">
-              <a href="/">Private Wallet</a>
+            <li className="tab">
+              <Link to={ROUTE_WALLETS} className="tab__link">
+                API Wallets
+              </Link>
             </li>
           </ul>
         </div>

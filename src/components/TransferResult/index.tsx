@@ -2,7 +2,7 @@ import {Icon} from 'antd';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
-import {ROUTE_WALLET} from '../../constants/routes';
+import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
@@ -47,7 +47,7 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
         </div>
       </div> */}
       <div className="transfer-result__button">
-        <Link to={ROUTE_WALLET} className="btn btn--primary">
+        <Link to={ROUTE_WALLETS} className="btn btn--primary">
           Go back to wallets
         </Link>
       </div>

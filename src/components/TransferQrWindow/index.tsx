@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLET} from '../../constants/routes';
+import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
@@ -24,7 +24,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   const handleCancel = async () => {
     await transfer.cancel();
     toggleQrWindow();
-    history.replace(ROUTE_WALLET);
+    history.replace(ROUTE_WALLETS);
   };
 
   return (
