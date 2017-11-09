@@ -27,11 +27,11 @@ describe('transfer model', () => {
     sut.update({
       amount: 100,
       asset: 'LKK',
-      from: walletStore.createWallet({Id: 1})
+      from: walletStore.createWallet('test')
     });
 
     expect(sut.amount).toBe(100);
-    expect(sut.from.id).toBe(1);
+    expect(sut.from.title).toBe('test');
     expect(sut.asset).toBe('LKK');
   });
 

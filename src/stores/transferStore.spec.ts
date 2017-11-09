@@ -148,8 +148,8 @@ describe('transfer store', () => {
     let sut: TransferModel;
     const createValidTransfer = (transfer?: TransferModel) => {
       sut = transfer || createTransfer();
-      const sourceWallet = createWallet({Id: 1, Name: 'w1'});
-      const destWallet = createWallet({Id: 2, Name: 'w2'});
+      const sourceWallet = createWallet('w1');
+      const destWallet = createWallet('w2');
       sut.setWallet(sourceWallet, 'from');
       sut.setWallet(destWallet, 'to');
       sut.setAmount(100);
@@ -192,8 +192,8 @@ describe('transfer store', () => {
     let sut: TransferModel;
     const createValidTransfer = (transfer?: TransferModel) => {
       sut = transfer || createTransfer();
-      const sourceWallet = createWallet({Id: 1, Name: 'w1'});
-      const destWallet = createWallet({Id: 2, Name: 'w2'});
+      const sourceWallet = createWallet('w1');
+      const destWallet = createWallet('w2');
       sut.setWallet(sourceWallet, 'from');
       sut.setWallet(destWallet, 'to');
       sut.setAmount(100);

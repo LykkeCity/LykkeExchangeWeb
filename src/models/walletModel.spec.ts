@@ -23,7 +23,7 @@ const MockApi = jest.fn<WalletApi>(() => ({
 const walletStore = new WalletStore(rootStore, new MockApi(), {
   convertToBaseAsset: mockConverter
 } as any);
-const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
+const walletSut = walletStore.createWallet('w');
 
 describe('wallet model', () => {
   it('should provide an id', () => {
@@ -32,12 +32,13 @@ describe('wallet model', () => {
   });
 
   it('should pick an id from dto object if provided', () => {
-    const w = walletStore.createWallet({Id: 43, Name: 'wl'});
-    expect(w.id).toBe(43);
+    const w = walletStore.createWallet('wl');
+    expect(w.id).toBeDefined();
+    expect(w.title).toBe('wl');
   });
 
   test('total balance in base currency should be defined', () => {
-    const w = walletStore.createWallet({Id: 44, Name: 'w'});
+    const w = walletStore.createWallet('w');
     expect(w.totalBalance).toBeDefined();
   });
 
@@ -110,9 +111,7 @@ describe('wallet model', () => {
 
     it('should collapse all the rest wallets when expanding curr one', () => {
       for (let i = 0; i < 5; i++) {
-        walletStore.addWallet(
-          walletStore.createWallet({Id: i++, Name: `w${i}`})
-        );
+        walletStore.addWallet(walletStore.createWallet(`w${i}`));
       }
       const currWallet = walletStore.wallets[3];
       const restWallets = walletStore.getWalletsExceptOne(currWallet);

@@ -63,16 +63,14 @@ export class WalletModel {
 
   @action
   setBalances = (dto: any[]) => {
-    const {createBalance} = this.store.rootStore.balanceStore;
-    this.balances = dto.map(createBalance);
+    const {updateFromServer} = this.store.rootStore.balanceStore;
+    this.balances = dto.map(updateFromServer);
   };
 
   @action
   deposit = (balance: number, assetId: string) => {
     const {createBalance} = this.store.rootStore.balanceStore;
-    const incomingBalance = createBalance();
-    incomingBalance.assetId = assetId;
-    incomingBalance.balance = balance;
+    const incomingBalance = createBalance(assetId, balance);
 
     const currBalance = this.balances.find(
       b => b.assetId === incomingBalance.assetId

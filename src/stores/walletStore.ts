@@ -1,11 +1,4 @@
-import {
-  action,
-  computed,
-  extendObservable,
-  observable,
-  reaction,
-  runInAction
-} from 'mobx';
+import {action, computed, observable, reaction, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {WalletModel} from '../models';
@@ -44,7 +37,19 @@ export class WalletStore {
   getWalletsExceptOne = (wallet: WalletModel) =>
     this.wallets.filter(w => w.id !== wallet.id);
 
-  createWallet = (dto?: any) => new WalletModel(this, dto);
+  createWallet = (title?: string) => new WalletModel(this, {Name: title});
+
+  updateFromServer = (json: any) => {
+    let wallet = this.findWalletById(json.Id);
+    if (!wallet) {
+      wallet = new WalletModel(this, json);
+      this.addWallet(wallet);
+    } else {
+      wallet.updateFromJson(json);
+    }
+
+    return wallet;
+  };
 
   @action
   addWallet = (wallet: WalletModel) => {
@@ -59,11 +64,13 @@ export class WalletStore {
   createApiWallet = async (wallet: WalletModel) => {
     const {title, desc} = wallet;
     const dto = await this.api!.createApiWallet(title, desc);
-    const newWallet = this.createWallet({
+    const newWallet = this.updateFromServer({
       ApiKey: dto.ApiKey,
-      Id: dto.WalletId
+      Id: dto.WalletId,
+      // tslint:disable-next-line:object-literal-sort-keys
+      Description: desc,
+      Name: title
     });
-    this.addWallet(extendObservable(newWallet, {title, desc}));
     return newWallet;
   };
 
@@ -72,15 +79,15 @@ export class WalletStore {
   clearWallets = () => (this.wallets = []);
 
   fetchWallets = async () => {
-    const balances = await this.rootStore.balanceStore.fetchAll();
+    const balances = await this.rootStore.walletBalanceStore.fetchAll();
     runInAction(() => {
-      this.wallets = balances.map(this.createWallet);
+      this.wallets = balances.map(this.updateFromServer);
     });
   };
 
   fetchWalletById = async (id: string) => {
     const dto = await this.api!.fetchById(id);
-    return this.createWallet(dto);
+    return this.updateFromServer(dto);
   };
 
   regenerateApiKey = async (wallet: WalletModel) => {
