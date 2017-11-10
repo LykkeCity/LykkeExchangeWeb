@@ -32,7 +32,21 @@ class App extends React.Component<RootStoreProps> {
       <Router>
         <div
           className={classnames(this.classes)}
-          onClick={this.props.rootStore!.uiStore.closeSidebar}
+          // tslint:disable-next-line:jsx-no-lambda
+          onClick={e => {
+            const {
+              closeSidebar,
+              toggleBaseAssetPicker,
+              showBaseCurrencyPicker
+            } = this.props.rootStore!.uiStore;
+            closeSidebar();
+            if (
+              e.target !== document.getElementById('baseAsset') &&
+              showBaseCurrencyPicker
+            ) {
+              toggleBaseAssetPicker();
+            }
+          }}
         >
           <Header />
           <Switch>
