@@ -9,7 +9,7 @@ import {
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {WalletModel} from '../models';
-import {sum} from '../utils/math';
+// import {sum} from '../utils/math';
 
 export class WalletStore {
   @observable wallets: WalletModel[] = [];
@@ -100,14 +100,24 @@ export class WalletStore {
         baseAsset
       );
       runInAction(() => {
-        wallet.totalBalance = resp.Converted
+        const convertedAmounts = resp.Converted
           .filter((x: any) => !!x.To && !!x.To.Amount)
-          .map((x: any) => x.To.Amount)
-          .reduce(sum, 0);
-        wallet.totalBalance += wallet.balances
-          .filter(b => b.assetId === baseAsset)
-          .map(b => b.balance)
-          .reduce(sum, 0);
+          .map((x: any) => ({asset: x.From.AssetId, balance: x.To.Amount}));
+
+        wallet.balances.forEach(b => {
+          const convertedAmount = convertedAmounts.find(
+            (x: any) => x.asset === b.assetId
+          );
+          b.balanceInBaseAsset =
+            (convertedAmount && convertedAmount.balance) || b.balance;
+        });
+        // wallet.totalBalance = convertedAmounts
+        //   .map((x: any) => x.balance)
+        //   .reduce(sum, 0);
+        // wallet.totalBalance += wallet.balances
+        //   .filter(b => b.assetId === baseAsset)
+        //   .map(b => b.balance)
+        //   .reduce(sum, 0);
       });
     });
   };

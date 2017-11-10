@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
-import {asBalance} from '../hoc/assetBalance';
+import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
 
 const assetIcon = {
@@ -36,15 +36,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 }) => (
   <div className="wallet__balances">
     {wallet.hasBalances || (
-      <h3>
-        Issuer
-        <small>
-          {wallet.balances.length} {plural(wallet.balances.length, 'asset')}
-        </small>
-        <div>
-          <small style={{margin: 0}}>You don’t have any asset yet</small>
-        </div>
-      </h3>
+      <small style={{margin: 0}}>You don’t have any asset yet</small>
     )}
     {wallet.hasBalances &&
       Object.keys(wallet.getBalancesByCategory).map(x => {
@@ -84,7 +76,10 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                         </div>
                       </div>
                     </td>
-                    <td className="_currency">{b.assetId}</td>
+                    <td className="_currency">
+                      {asAssetBalance(b.baseAsset!, b.balanceInBaseAsset)}{' '}
+                      {b.baseAsset!.name}
+                    </td>
                     <td className="_amount">
                       {asBalance(b)} {b.assetId}
                     </td>

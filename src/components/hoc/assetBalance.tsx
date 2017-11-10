@@ -1,7 +1,12 @@
 import * as React from 'react';
-import {BalanceModel} from '../../models/index';
+import {AssetModel, BalanceModel} from '../../models/index';
 import {formatWithAccuracy} from '../../utils/index';
 import {NumberFormat} from '../NumberFormat/index';
+
+export const asAssetBalance = (asset: AssetModel, balance: number) => {
+  const format = formatWithAccuracy(asset.accuracy);
+  return <NumberFormat value={balance} format={format} />;
+};
 
 export const asBalance = (balance: BalanceModel) => {
   const format = formatWithAccuracy(balance.asset.accuracy);

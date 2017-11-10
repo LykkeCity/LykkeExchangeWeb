@@ -27,6 +27,7 @@ export class RootStore {
   readonly assetStore: AssetStore;
 
   constructor() {
+    this.assetStore = new AssetStore(this, new AssetApi(this));
     this.authStore = new AuthStore(this, new AuthApi(this));
     const converter = new ConverterApi(this);
     this.walletStore = new WalletStore(this, new WalletApi(this), converter);
@@ -38,7 +39,6 @@ export class RootStore {
       converter
     );
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
-    this.assetStore = new AssetStore(this, new AssetApi(this));
   }
 }
 

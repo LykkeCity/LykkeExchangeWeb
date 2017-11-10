@@ -7,6 +7,7 @@ import {
   runInAction
 } from 'mobx';
 import {ProfileApi} from '../api/profileApi';
+import {AssetModel} from '../models/index';
 import {seq} from '../utils';
 import {StorageUtils} from '../utils/index';
 import {RootStore} from './index';
@@ -15,8 +16,8 @@ const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
 const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
-  @observable knownBaseAssets: string[] = ['LKK', 'USD', 'EUR'];
   @observable baseAsset: string = baseCurrencyStorage.get() || 'LKK';
+  @observable baseAssetAsModel: AssetModel;
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -41,8 +42,9 @@ export class ProfileStore {
   }
 
   @action
-  setBaseAsset = async (asset: string) => {
-    this.baseAsset = asset;
+  setBaseAsset = async (asset: AssetModel) => {
+    this.baseAsset = asset.name;
+    this.baseAssetAsModel = asset;
   };
 
   fetchBaseAsset = async () => {

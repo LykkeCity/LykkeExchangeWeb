@@ -7,6 +7,13 @@ export class BalanceModel {
   asset: AssetModel;
   @observable balance: number = 0;
 
+  @computed
+  get baseAsset() {
+    const {profileStore: {baseAsset}, assetStore} = this.store.rootStore;
+    return assetStore.getById(baseAsset);
+  }
+  @observable balanceInBaseAsset: number = 0;
+
   private readonly store: BalanceStore;
 
   @computed

@@ -12,7 +12,7 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
     walletStore: {totalBalance}
   } = rootStore!;
 
-  const handleClickBaseAsset = (x: string) => (e: any) => {
+  const handleClickBaseAsset = (x: any) => (e: any) => {
     setBaseAsset(x);
     toggleBaseAssetPicker();
   };
@@ -42,7 +42,7 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
                   key={x.id}
                   value={x.name}
                   className="submenu_list__item"
-                  onClick={handleClickBaseAsset(x.name)}
+                  onClick={handleClickBaseAsset(x)}
                 >
                   <a>{x.name}</a>
                 </li>

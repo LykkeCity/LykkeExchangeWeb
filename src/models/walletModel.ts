@@ -2,6 +2,7 @@ import {action, computed, observable, reaction} from 'mobx';
 import {BalanceModel, WalletType} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
+import {sum} from '../utils/math';
 
 interface GroupedBalances {
   [key: string]: BalanceModel[];
@@ -14,7 +15,10 @@ export class WalletModel {
   @observable apiKey = '';
   @observable type: WalletType;
 
-  @observable totalBalance: number = 0;
+  @computed
+  get totalBalance() {
+    return this.balances.map(b => b.balanceInBaseAsset).reduce(sum, 0);
+  }
 
   @observable balances: BalanceModel[] = [];
 
