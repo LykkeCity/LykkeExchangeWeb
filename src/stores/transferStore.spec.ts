@@ -19,6 +19,16 @@ rootStore.assetStore.getById = jest.fn();
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
 
+const createValidTransfer = (transfer: TransferModel) => {
+  const sourceWallet = createWallet({Id: 1, Name: 'w1'});
+  const destWallet = createWallet({Id: 2, Name: 'w2'});
+  transfer.setWallet(sourceWallet, 'from');
+  transfer.setWallet(destWallet, 'to');
+  transfer.setAmount(100);
+  transfer.setAsset('LKK');
+  return transfer;
+};
+
 describe('transfer store', () => {
   it('should hold strongly typed ref to the root store', () => {
     expect(transferStore).toHaveProperty('rootStore');
@@ -134,6 +144,16 @@ describe('transfer store', () => {
       expect(transferStore.newTransfer.canTransfer).toBe(false);
     });
 
+    it('should reset wallets when resetting a transfer', () => {
+      const {from: {id: fromId}, to: {id: toId}} = createValidTransfer(
+        transferStore.newTransfer
+      );
+      transferStore.resetCurrentTransfer();
+
+      expect(transferStore.newTransfer.from.id).not.toBe(fromId);
+      expect(transferStore.newTransfer.to).not.toBe(toId);
+    });
+
     it('should not add resetted transfer to store', () => {
       transferStore.transfers = [];
       transferStore.resetCurrentTransfer();
@@ -146,24 +166,14 @@ describe('transfer store', () => {
   });
 
   describe('submit transfer', () => {
-    let sut: TransferModel;
-    const createValidTransfer = (transfer?: TransferModel) => {
-      sut = transfer || createTransfer();
-      const sourceWallet = createWallet({Id: 1, Name: 'w1'});
-      const destWallet = createWallet({Id: 2, Name: 'w2'});
-      sut.setWallet(sourceWallet, 'from');
-      sut.setWallet(destWallet, 'to');
-      sut.setAmount(100);
-      sut.setAsset('LKK');
-      return sut;
-    };
+    const sut = transferStore.createTransfer(false);
 
     beforeEach(() => {
-      createValidTransfer();
+      createValidTransfer(sut);
     });
 
     test('sanity check on transfer create helper', () => {
-      expect(createValidTransfer().canTransfer).toBe(true);
+      expect(createValidTransfer(sut).canTransfer).toBe(true);
     });
 
     it('should pass dest wallet id to the transfer object', () => {
@@ -190,20 +200,10 @@ describe('transfer store', () => {
   });
 
   describe('finish transfer', () => {
-    let sut: TransferModel;
-    const createValidTransfer = (transfer?: TransferModel) => {
-      sut = transfer || createTransfer();
-      const sourceWallet = createWallet({Id: 1, Name: 'w1'});
-      const destWallet = createWallet({Id: 2, Name: 'w2'});
-      sut.setWallet(sourceWallet, 'from');
-      sut.setWallet(destWallet, 'to');
-      sut.setAmount(100);
-      sut.setAsset('LKK');
-      return sut;
-    };
+    const sut = transferStore.createTransfer(false);
 
     beforeEach(() => {
-      createValidTransfer();
+      createValidTransfer(sut);
       sut.from.deposit = jest.fn();
       sut.from.withdraw = jest.fn();
       sut.to.deposit = jest.fn();

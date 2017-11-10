@@ -8,6 +8,7 @@ import {TransferResult} from '../../components/TransferResult/index';
 import {
   ROUTE_ROOT,
   ROUTE_TRANSFER,
+  ROUTE_TRANSFER_BASE,
   ROUTE_TRANSFER_SUCCESS,
   ROUTE_WALLETS,
   ROUTE_WALLETS_PRIVATE
@@ -34,14 +35,23 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   }
 
   render() {
-    const withLoading = loadable(this.uiStore.hasPendingRequests);
+    const asLoading = loadable(this.uiStore.hasPendingRequests);
     return (
       <div className="app__shell">
         <Switch>
           <Redirect exact={true} path={ROUTE_ROOT} to={ROUTE_WALLETS_PRIVATE} />
-          <Redirect exact={true} path="/wallets" to={ROUTE_WALLETS_PRIVATE} />
-          <Route path={ROUTE_WALLETS} component={withLoading(WalletPage)} />
-          <Route path={ROUTE_TRANSFER} component={withLoading(TransferPage)} />
+          <Redirect
+            exact={true}
+            path={ROUTE_WALLETS}
+            to={ROUTE_WALLETS_PRIVATE}
+          />
+          <Route path={ROUTE_WALLETS} component={asLoading(WalletPage)} />
+          <Route
+            exact={true}
+            path={ROUTE_TRANSFER_BASE}
+            component={asLoading(TransferPage)}
+          />
+          <Route path={ROUTE_TRANSFER} component={asLoading(TransferPage)} />
           <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
           <Route component={NoMatch} />
         </Switch>

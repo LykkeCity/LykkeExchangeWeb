@@ -34,7 +34,10 @@ export class TransferModel {
 
   constructor(private store: TransferStore) {
     this.store = store;
+    const {createWallet} = this.store.rootStore.walletStore;
     this.id = uuid.v4();
+    this.from = createWallet();
+    this.to = createWallet();
 
     reaction(
       () => this.amount + this.asset,

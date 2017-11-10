@@ -19,8 +19,6 @@ export class TransferStore {
   @action
   createTransfer = (addtoStore = true) => {
     const transfer = new TransferModel(this);
-    transfer.from = this.rootStore.walletStore.createWallet();
-    transfer.to = this.rootStore.walletStore.createWallet();
     if (addtoStore) {
       this.addTransfer(transfer);
     }
@@ -46,9 +44,8 @@ export class TransferStore {
     this.resetCurrentTransfer();
   };
 
-  cancelTransfer = async (transfer: TransferModel) => {
-    await this.api.cancelTransfer(transfer);
-  };
+  cancelTransfer = (transfer: TransferModel) =>
+    this.api.cancelTransfer(transfer);
 
   fetchOperationDetails = (transfer: TransferModel) =>
     this.api.fetchOperationDetails(transfer);

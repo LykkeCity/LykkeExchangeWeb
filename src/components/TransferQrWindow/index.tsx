@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps, withRouter} from 'react-router';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLETS} from '../../constants/routes';
+import {ROUTE_TRANSFER_BASE} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
@@ -17,26 +17,29 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   ...rest
 }) => {
   const {
-    transferStore: {newTransfer: transfer},
+    transferStore,
+    transferStore: {newTransfer},
     uiStore: {showQrWindow, toggleQrWindow}
   } = rootStore!;
 
   const handleCancel = async () => {
-    await transfer.cancel();
+    await newTransfer.cancel();
+    transferStore.resetCurrentTransfer();
     toggleQrWindow();
-    history.replace(ROUTE_WALLETS);
+    history.replace(ROUTE_TRANSFER_BASE);
+  };
+
+  const handleClose = (e: any) => {
+    if (e.key !== 'Escape') {
+      toggleQrWindow();
+    }
   };
 
   return (
     <Modal
       visible={showQrWindow}
       title="Address"
-      // tslint:disable-next-line:jsx-no-lambda
-      onCancel={(e: any) => {
-        if (e.key !== 'Escape') {
-          toggleQrWindow();
-        }
-      }}
+      onCancel={handleClose}
       className="transfer-qr"
       closable={false}
       footer={[
@@ -55,7 +58,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       </p>
       <div className="transfer-qr__img">
         <img
-          src={`//lykke-qr.azurewebsites.net/QR/${transfer.asBase64}.gif`}
+          src={`//lykke-qr.azurewebsites.net/QR/${newTransfer.asBase64}.gif`}
           alt="qr"
           height={160}
           width={160}
