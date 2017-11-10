@@ -49,11 +49,6 @@ export class WalletModel {
     return !!this.title.trim();
   }
 
-  filter = {
-    hft: () => this.type === WalletType.Trusted && !!this.apiKey,
-    private: () => this.type === WalletType.Trading
-  };
-
   constructor(private readonly store: WalletStore, dto?: any) {
     this.updateFromJson(dto);
     reaction(

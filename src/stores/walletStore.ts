@@ -8,8 +8,7 @@ import {
 } from 'mobx';
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
-import {WalletModel} from '../models';
-// import {sum} from '../utils/math';
+import {WalletModel, WalletType} from '../models';
 
 export class WalletStore {
   @observable wallets: WalletModel[] = [];
@@ -41,6 +40,18 @@ export class WalletStore {
     return this.wallets.filter(w => w.hasBalances);
   }
 
+  @computed
+  get apiWallets() {
+    return this.wallets.filter(
+      w => w.type === WalletType.Trusted && !!w.apiKey
+    );
+  }
+
+  @computed
+  get tradingWallets() {
+    return this.wallets.filter(w => w.isTrading);
+  }
+
   getWalletsExceptOne = (wallet: WalletModel) =>
     this.wallets.filter(w => w.id !== wallet.id);
 
@@ -63,7 +74,9 @@ export class WalletStore {
       ApiKey: dto.ApiKey,
       Id: dto.WalletId
     });
-    this.addWallet(extendObservable(newWallet, {title, desc}));
+    this.addWallet(
+      extendObservable(newWallet, {title, desc, type: WalletType.Trusted})
+    );
     return newWallet;
   };
 
@@ -111,13 +124,6 @@ export class WalletStore {
           b.balanceInBaseAsset =
             (convertedAmount && convertedAmount.balance) || b.balance;
         });
-        // wallet.totalBalance = convertedAmounts
-        //   .map((x: any) => x.balance)
-        //   .reduce(sum, 0);
-        // wallet.totalBalance += wallet.balances
-        //   .filter(b => b.assetId === baseAsset)
-        //   .map(b => b.balance)
-        //   .reduce(sum, 0);
       });
     });
   };

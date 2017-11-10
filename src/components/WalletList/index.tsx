@@ -16,7 +16,10 @@ export const WalletList: React.SFC<WalletListProps> = ({
   match: {params: {type}}
 }) => (
   <div className="wallet_list">
-    {rootStore!.walletStore.wallets.filter(w => w.filter[type]()).map(w => (
+    {(type === 'hft'
+      ? rootStore!.walletStore.apiWallets
+      : rootStore!.walletStore.tradingWallets
+    ).map(w => (
       <div
         key={w.id}
         className={classnames('wallet', {'wallet--expanded': w.expanded})}
