@@ -81,6 +81,8 @@ export class TransferModel {
       await this.store.startTransfer(this);
     }
   };
+
+  cancel = () => this.store.cancelTransfer(this);
 }
 
 export default TransferModel;

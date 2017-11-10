@@ -24,6 +24,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
     if (!!wallet) {
       this.transferStore.newTransfer.setWallet(wallet, dest);
     }
+    window.scrollTo(0, 0);
   }
 
   render() {

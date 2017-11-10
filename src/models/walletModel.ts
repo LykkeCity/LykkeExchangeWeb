@@ -6,8 +6,7 @@ import {nextId} from '../utils';
 export class WalletModel {
   @observable id = '';
   @observable title = '';
-  @observable
-  desc = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+  @observable desc = 'No description';
   @observable apiKey = '';
   @observable type: WalletType;
 
@@ -30,8 +29,13 @@ export class WalletModel {
 
   @computed
   get isValid() {
-    return !!this.title;
+    return !!this.title.trim();
   }
+
+  filter = {
+    hft: () => this.type === WalletType.Trusted && !!this.apiKey,
+    private: () => this.type === WalletType.Trading
+  };
 
   constructor(
     private readonly store: WalletStore,

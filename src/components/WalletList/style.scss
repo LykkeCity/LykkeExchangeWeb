@@ -63,21 +63,30 @@
     line-height: 1.85;
     color: rgba($secondary, 0.6);
     text-transform: uppercase;
+    text-align: right;
 
     @include rem(font-size, 13px);
     @include rem(letter-spacing, 2.4px);
     @include rem(margin-top, 5px);
     @include rem(margin-bottom, 8px);
+
+    @media all and (max-width: $screen-tablet) {
+      text-align: left;
+    }
   }
 
   &__total-balance-value {
     font-weight: $fw-light;
     line-height: 1.11;
-    text-align: left;
+    text-align: right;
     color: $text;
 
     @include rem(margin-bottom, 8px);
     @include rem(font-size, 36px);
+
+    @media all and (max-width: $screen-tablet) {
+      text-align: left;
+    }
   }
 
   &__figure {

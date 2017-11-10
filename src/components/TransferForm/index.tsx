@@ -2,7 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLET} from '../../constants/routes';
+import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel, WalletModel} from '../../models';
 import {NumberFormat} from '../NumberFormat';
@@ -143,7 +143,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           disabled={!transfer.canTransfer}
           onClick={handleSubmit}
         />
-        <Link to={ROUTE_WALLET} className="btn btn--flat">
+        <Link to={ROUTE_WALLETS} className="btn btn--flat">
           Cancel and go back
         </Link>
       </div>
