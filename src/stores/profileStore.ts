@@ -60,7 +60,9 @@ export class ProfileStore {
       getAccessToken(),
       this.rootStore.authStore.redirectToAuthServer
     );
-    extendObservable(this, resp);
+    if (!!resp) {
+      extendObservable(this, resp);
+    }
   };
 }
 
