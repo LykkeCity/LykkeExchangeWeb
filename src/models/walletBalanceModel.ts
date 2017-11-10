@@ -1,5 +1,6 @@
 import {action, observable} from 'mobx';
 import {WalletBalanceStore} from '../stores/walletBalanceStore';
+import {nextId} from '../utils/index';
 import {BalanceModel, WalletType} from './index';
 
 export class WalletBalanceModel {
@@ -8,11 +9,14 @@ export class WalletBalanceModel {
   type: WalletType;
   @observable balances: BalanceModel[];
 
-  private readonly store: WalletBalanceStore;
-
-  constructor(store: WalletBalanceStore, json?: any) {
-    this.store = store;
-    this.updateFromJson(json);
+  constructor(
+    private readonly store: WalletBalanceStore,
+    walletBalance?: Partial<WalletBalanceModel>
+  ) {
+    if (!!walletBalance) {
+      this.id = walletBalance.id || String(nextId());
+      Object.assign(this, walletBalance);
+    }
   }
 
   @action

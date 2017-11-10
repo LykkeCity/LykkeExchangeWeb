@@ -33,8 +33,15 @@ export class WalletModel {
     return !!this.title;
   }
 
-  constructor(private readonly store: WalletStore, dto?: any) {
-    this.updateFromJson(dto);
+  constructor(
+    private readonly store: WalletStore,
+    wallet?: Partial<WalletModel>
+  ) {
+    if (!!wallet) {
+      this.id = wallet.id || String(nextId());
+      Object.assign(this, wallet);
+    }
+
     reaction(
       () => this.collapsed,
       collapsed => {

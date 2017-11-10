@@ -26,6 +26,10 @@ const walletStore = new WalletStore(rootStore, new MockApi(), {
 const walletSut = walletStore.createWallet('w');
 
 describe('wallet model', () => {
+  beforeEach(() => {
+    walletStore.clearWallets();
+  });
+
   it('should provide an id', () => {
     expect(walletSut).toHaveProperty('id');
     expect(walletSut.id).toBeDefined();

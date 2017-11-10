@@ -3,8 +3,8 @@ export class UserModel {
   name: string;
   username: string;
 
-  constructor(json?: any) {
-    Object.assign(this, json);
+  constructor(user?: Partial<UserModel>) {
+    Object.assign(this, user);
   }
 }
 export default UserModel;

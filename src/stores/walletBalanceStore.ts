@@ -17,7 +17,8 @@ export class WalletBalanceStore {
   updateFromServer = (json: any) => {
     let walletBalance = this.balances.find(w => w.id === json.Id);
     if (!walletBalance) {
-      walletBalance = new WalletBalanceModel(this, json);
+      walletBalance = new WalletBalanceModel(this);
+      walletBalance.updateFromJson(json);
       this.balances.push(walletBalance);
     } else {
       walletBalance.updateFromJson(json);

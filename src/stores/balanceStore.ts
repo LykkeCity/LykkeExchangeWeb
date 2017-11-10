@@ -2,9 +2,13 @@ import {BalanceModel} from '../models/index';
 
 export class BalanceStore {
   createBalance = (assetId?: string, balance?: number) =>
-    new BalanceModel(this, {AssetId: assetId, Balance: balance});
+    new BalanceModel({assetId, balance});
 
-  updateFromServer = (json: any) => new BalanceModel(this, json);
+  updateFromServer = (json: any) => {
+    const balance = new BalanceModel();
+    balance.updateFromJson(json);
+    return balance;
+  };
 }
 
 export default BalanceStore;
