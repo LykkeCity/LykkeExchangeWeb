@@ -7,6 +7,9 @@ const mockConverter = jest.fn(() =>
   Promise.resolve({
     Converted: [
       {
+        From: {
+          AssetId: 'LKK'
+        },
         To: {
           Amount: 100
         }
