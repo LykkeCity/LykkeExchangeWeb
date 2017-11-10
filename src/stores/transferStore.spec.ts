@@ -230,10 +230,10 @@ describe('transfer store', () => {
     });
 
     it('should reset current transfer', () => {
-      sut = createValidTransfer(transferStore.newTransfer);
+      const sut2 = createValidTransfer(transferStore.newTransfer);
       const id = transferStore.newTransfer.id;
 
-      transferStore.finishTransfer(sut);
+      transferStore.finishTransfer(sut2);
 
       expect(transferStore.newTransfer.canTransfer).toBe(false);
       expect(transferStore.newTransfer.id).not.toBe(id);
