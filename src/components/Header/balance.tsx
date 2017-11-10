@@ -25,7 +25,9 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
           <NumberFormat value={totalBalance} />
         </div>
         <div className="header_nav_balance__currency nav_list__item">
-          <a onClick={toggleBaseAssetPicker}>{baseAsset}</a>
+          <a id="baseAsset" onClick={toggleBaseAssetPicker}>
+            {baseAsset}
+          </a>
           <menu
             className="submenu"
             style={

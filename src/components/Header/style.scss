@@ -1024,13 +1024,13 @@
     letter-spacing: inherit !important;
     font-weight: inherit !important;
 
+    > a {
+      padding-left: 0;
+    }
+
     .submenu {
       right: 0;
       left: auto;
-
-      > a {
-        padding-left: 0;
-      }
 
       &_list {
         $submenu_height: 410px;
