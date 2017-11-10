@@ -22,10 +22,11 @@ export class TransferPage extends React.Component<TransferPageProps> {
     const {walletId, dest} = this.props.match.params;
     const wallet = this.walletStore.findWalletById(walletId);
 
-    this.transferStore.newTransfer.setWallet(
-      wallet || this.walletStore.createWallet(),
-      dest
-    );
+    if (!!wallet) {
+      this.transferStore.newTransfer.setWallet(wallet, dest);
+    } else {
+      this.transferStore.resetCurrentTransfer();
+    }
 
     window.scrollTo(0, 0);
   }

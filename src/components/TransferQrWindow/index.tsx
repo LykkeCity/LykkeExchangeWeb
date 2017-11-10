@@ -1,30 +1,32 @@
 import Modal, {ModalProps} from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {RouteComponentProps, withRouter} from 'react-router';
+import {withRouter} from 'react-router';
 import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER_BASE} from '../../constants/routes';
-import {STORE_ROOT} from '../../constants/stores';
+import {TransferModel} from '../../models/index';
+// import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
-type TransferQrWindowProps = RootStoreProps &
-  ModalProps &
-  RouteComponentProps<any>;
+interface TransferQrWindowProps extends ModalProps {
+  resetCurrentTransfer?: any;
+  transfer?: TransferModel;
+  showQrWindow?: boolean;
+  toggleQrWindow?: any;
+  history?: any;
+}
 
 export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
-  rootStore,
   history,
+  resetCurrentTransfer,
+  showQrWindow,
+  toggleQrWindow,
+  transfer,
   ...rest
 }) => {
-  const {
-    transferStore,
-    transferStore: {newTransfer},
-    uiStore: {showQrWindow, toggleQrWindow}
-  } = rootStore!;
-
   const handleCancel = async () => {
-    await newTransfer.cancel();
-    transferStore.resetCurrentTransfer();
+    await transfer!.cancel();
+    resetCurrentTransfer();
     toggleQrWindow();
     history.replace(ROUTE_TRANSFER_BASE);
   };
@@ -42,6 +44,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       onCancel={handleClose}
       className="transfer-qr"
       closable={false}
+      maskClosable={false}
       footer={[
         <button
           key="cancel"
@@ -58,7 +61,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       </p>
       <div className="transfer-qr__img">
         <img
-          src={`//lykke-qr.azurewebsites.net/QR/${newTransfer.asBase64}.gif`}
+          src={`//lykke-qr.azurewebsites.net/QR/${transfer!.asBase64}.gif`}
           alt="qr"
           height={160}
           width={160}
@@ -68,4 +71,11 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   );
 };
 
-export default withRouter(inject(STORE_ROOT)(observer(TransferQrWindow)));
+export default withRouter(
+  inject((stores: RootStoreProps) => ({
+    resetCurrentTransfer: stores.rootStore!.transferStore.resetCurrentTransfer,
+    showQrWindow: stores.rootStore!.uiStore.showQrWindow,
+    toggleQrWindow: stores.rootStore!.uiStore.toggleQrWindow,
+    transfer: stores.rootStore!.transferStore.newTransfer
+  }))(observer(TransferQrWindow))
+);
