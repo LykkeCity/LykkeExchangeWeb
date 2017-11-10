@@ -59,9 +59,10 @@ export class TransferModel {
 
   @action
   setWallet = (wallet: WalletModel, dest: 'from' | 'to') => {
-    this[dest] = wallet;
-    if (dest === 'from' && wallet.hasBalances) {
-      this.asset = wallet.balances[0].assetId;
+    if (dest === 'from') {
+      this.from = wallet;
+    } else {
+      this.to = wallet;
     }
   };
 
