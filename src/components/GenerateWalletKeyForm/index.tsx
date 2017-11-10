@@ -75,6 +75,7 @@ export class GenerateWalletKeyForm extends React.Component<
               Yes, change API key
             </button>
           ]}
+          style={{margin: '0 auto'}}
         >
           <div className="modal__text">
             <p>This action is irreversible!</p>
