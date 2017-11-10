@@ -24,24 +24,21 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   transfer,
   ...rest
 }) => {
-  const handleCancel = async () => {
+  const handleCancelTransfer = async () => {
     await transfer!.cancel();
     resetCurrentTransfer();
     toggleQrWindow();
     history.replace(ROUTE_TRANSFER_BASE);
   };
 
-  const handleClose = (e: any) => {
-    if (e.key !== 'Escape') {
-      toggleQrWindow();
-    }
-  };
-
   return (
     <Modal
       visible={showQrWindow}
       title="Address"
-      onCancel={handleClose}
+      // tslint:disable-next-line:jsx-no-lambda
+      onCancel={() => {
+        return;
+      }}
       className="transfer-qr"
       closable={false}
       maskClosable={false}
@@ -49,7 +46,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
         <button
           key="cancel"
           className="btn btn--primary"
-          onClick={handleCancel}
+          onClick={handleCancelTransfer}
         >
           Cancel transaction
         </button>
