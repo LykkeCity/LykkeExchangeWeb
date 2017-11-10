@@ -1,10 +1,14 @@
-import {observable, runInAction} from 'mobx';
+import {computed, observable, runInAction} from 'mobx';
 import {AssetApi} from '../api/assetApi';
 import {AssetModel} from '../models/index';
 import {RootStore} from './index';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
+  @computed
+  get baseAssets() {
+    return this.assets.filter(x => x.isBase);
+  }
   @observable categories: any[] = [];
 
   constructor(readonly rootStore: RootStore, private api: AssetApi) {}
@@ -16,15 +20,25 @@ export class AssetStore {
     const resp = await this.api.fetchAssets();
     runInAction(() => {
       this.assets = resp.Assets.map(
-        ({Id: id, DisplayId: name, CategoryId, Accuracy: accuracy}: any) =>
-          new AssetModel({
+        ({
+          Id: id,
+          DisplayId: name,
+          CategoryId,
+          Accuracy: accuracy,
+          IsBase
+        }: any) => {
+          const category = this.categories.find(x => x.Id === CategoryId) || {
+            Name: 'Other'
+          };
+          const asset = new AssetModel({
             accuracy,
-            category: (this.categories.find(x => x.Id === CategoryId) || {
-              Name: 'Uncategorized'
-            }).Name,
+            category: category.Name,
             id,
             name
-          })
+          });
+          asset.isBase = IsBase;
+          return asset;
+        }
       );
     });
   };

@@ -24,7 +24,6 @@ export class AuthStore {
           tokenStorage.set(token);
         } else {
           tokenStorage.clear();
-          authStorage.clear();
         }
       }
     );
@@ -47,8 +46,6 @@ export class AuthStore {
 
   getConnectUrl = () => {
     const {client_id, redirect_uri} = config.auth;
-    // tslint:disable-next-line:no-console
-    console.log('client ', config.auth, process.env.REACT_APP_CLIENT_ID);
     const authorizePath = `${config.auth.apiUrls.auth}?${queryStringFromObject({
       client_id,
       redirect_uri,
@@ -71,6 +68,7 @@ export class AuthStore {
       logoutwindow.close();
       runInAction(() => {
         this.token = null;
+        authStorage.clear();
       });
     }, 1000);
   };

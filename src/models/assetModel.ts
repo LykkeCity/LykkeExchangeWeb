@@ -4,6 +4,8 @@ export class AssetModel {
   category: string;
   accuracy: number;
 
+  isBase: boolean = false;
+
   constructor(asset: Partial<AssetModel>) {
     Object.assign(this, asset);
   }
