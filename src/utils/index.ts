@@ -20,3 +20,7 @@ export const pipe = (...fns: AnyFunc[]) => fns.reduce(_pipe);
 
 export const seq = (...fns: AnyFunc[]) => (...args: AnyArgs) =>
   fns.forEach(f => f(...args));
+
+export const formatWithAccuracy = (accuracy: number) => {
+  return `0.${new Array(accuracy).fill('0').join('')}`;
+};

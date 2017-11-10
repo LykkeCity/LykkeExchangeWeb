@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
-import {NumberFormat} from '../NumberFormat';
+import {asBalance} from '../hoc/assetBalance';
 import './style.css';
 
 const assetIcon = {
@@ -86,7 +86,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     </td>
                     <td className="_currency">{b.assetId}</td>
                     <td className="_amount">
-                      <NumberFormat value={b.balance} /> {b.assetId}
+                      {asBalance(b)} {b.assetId}
                     </td>
                     <td className="_action">
                       <Dropdown

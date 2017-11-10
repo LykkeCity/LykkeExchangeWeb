@@ -22,6 +22,7 @@ export class AssetStore {
       this.assets = resp.Assets.map(
         ({
           Id: id,
+          Name,
           DisplayId: name,
           CategoryId,
           Accuracy: accuracy,
@@ -34,7 +35,7 @@ export class AssetStore {
             accuracy,
             category: category.Name,
             id,
-            name
+            name: name || Name
           });
           asset.isBase = IsBase;
           return asset;
