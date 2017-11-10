@@ -31,7 +31,12 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
     <Modal
       visible={showQrWindow}
       title="Address"
-      onCancel={toggleQrWindow}
+      // tslint:disable-next-line:jsx-no-lambda
+      onCancel={(e: any) => {
+        if (e.key !== 'Escape') {
+          toggleQrWindow();
+        }
+      }}
       className="transfer-qr"
       closable={false}
       footer={[
