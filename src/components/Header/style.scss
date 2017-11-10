@@ -949,7 +949,6 @@
       overflow: visible;
     }
   }
-
   .submenu {
     padding-top: 0;
     z-index: 1;
@@ -963,6 +962,7 @@
     box-shadow: 0 8px 20px 0 rgba(63, 77, 96, 0.2),
       0 5px 5px 0 rgba(63, 77, 96, 0.05);
     border-radius: 0 0 $border-radius $border-radius;
+    height: auto;
 
     &__item > a {
       padding: 10px 15px;
@@ -1024,8 +1024,36 @@
     letter-spacing: inherit !important;
     font-weight: inherit !important;
 
+    > a {
+      padding-left: 0;
+    }
+
     .submenu {
-      @include rem(max-height, 410px);
+      right: 0;
+      left: auto;
+
+      &_list {
+        $submenu_height: 410px;
+        $submenu_width: 120px;
+        @include rem(height, $submenu_height);
+        @include rem(min-height, $submenu_height);
+        @include rem(max-height, $submenu_height);
+        @include rem(width, $submenu_width);
+        @include rem(min-width, $submenu_width);
+        @include rem(max-width, $submenu_width);
+        overflow-y: auto;
+
+        &__item {
+          cursor: pointer;
+          a {
+            &:hover {
+              background-color: #0da7fc !important;
+              border-radius: 5px;
+              color: #ffffff;
+            }
+          }
+        }
+      }
     }
 
     select {

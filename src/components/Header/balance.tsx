@@ -7,7 +7,8 @@ import {NumberFormat} from '../NumberFormat';
 export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {
     uiStore: {showBaseCurrencyPicker, toggleBaseAssetPicker},
-    profileStore: {setBaseAsset, baseAsset, knownBaseAssets},
+    profileStore: {setBaseAsset, baseAsset},
+    assetStore: {baseAssets},
     walletStore: {totalBalance}
   } = rootStore!;
 
@@ -24,7 +25,9 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
           <NumberFormat value={totalBalance} />
         </div>
         <div className="header_nav_balance__currency nav_list__item">
-          <a onClick={toggleBaseAssetPicker}>{baseAsset}</a>
+          <a id="baseAsset" onClick={toggleBaseAssetPicker}>
+            {baseAsset}
+          </a>
           <menu
             className="submenu"
             style={
@@ -34,14 +37,14 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
             }
           >
             <ul className="submenu_list">
-              {knownBaseAssets.map(x => (
+              {baseAssets.map(x => (
                 <li
-                  key={x}
-                  value={x}
+                  key={x.id}
+                  value={x.name}
                   className="submenu_list__item"
-                  onClick={handleClickBaseAsset(x)}
+                  onClick={handleClickBaseAsset(x.name)}
                 >
-                  <a>{x}</a>
+                  <a>{x.name}</a>
                 </li>
               ))}
             </ul>

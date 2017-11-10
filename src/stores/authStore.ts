@@ -24,7 +24,6 @@ export class AuthStore {
           tokenStorage.set(token);
         } else {
           tokenStorage.clear();
-          authStorage.clear();
         }
       }
     );
@@ -69,6 +68,7 @@ export class AuthStore {
       logoutwindow.close();
       runInAction(() => {
         this.token = null;
+        authStorage.clear();
       });
     }, 1000);
   };

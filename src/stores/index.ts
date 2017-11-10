@@ -5,4 +5,5 @@ export * from './balanceStore';
 export * from './uiStore';
 export * from './transferStore';
 export * from './profileStore';
+export * from './assetStore';
 export * from './walletBalanceStore';

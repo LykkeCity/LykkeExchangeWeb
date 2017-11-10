@@ -3,6 +3,10 @@ import {BalanceModel, WalletType} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 
+interface GroupedBalances {
+  [key: string]: BalanceModel[];
+}
+
 export class WalletModel {
   @observable id = '';
   @observable title = '';
@@ -13,6 +17,15 @@ export class WalletModel {
   @observable totalBalance: number = 0;
 
   @observable balances: BalanceModel[] = [];
+
+  @computed
+  get getBalancesByCategory() {
+    return this.balances.reduce<GroupedBalances>((agg, curr) => {
+      const category = curr.asset.category;
+      agg[category] = [...(agg[category] || []), curr];
+      return agg;
+    }, {});
+  }
 
   @observable collapsed = true;
   @observable expanded = !this.collapsed;

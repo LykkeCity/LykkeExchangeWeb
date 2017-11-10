@@ -7,6 +7,7 @@ import {
   runInAction
 } from 'mobx';
 import {ProfileApi} from '../api/profileApi';
+import {seq} from '../utils';
 import {StorageUtils} from '../utils/index';
 import {RootStore} from './index';
 
@@ -31,8 +32,7 @@ export class ProfileStore {
       baseCurrency => {
         if (!!baseCurrency) {
           walletStore.convertBalances();
-          baseCurrencyStorage.set(baseCurrency);
-          this.api!.updateBaseAsset(baseCurrency);
+          seq(baseCurrencyStorage.set, this.api!.updateBaseAsset)(baseCurrency);
         } else {
           baseCurrencyStorage.clear();
         }

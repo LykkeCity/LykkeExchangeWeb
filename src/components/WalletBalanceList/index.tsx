@@ -6,7 +6,7 @@ import {Link} from 'react-router-dom';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
-import {NumberFormat} from '../NumberFormat';
+import {asBalance} from '../hoc/assetBalance';
 import './style.css';
 
 const assetIcon = {
@@ -46,74 +46,79 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
         </div>
       </h3>
     )}
-    {wallet.hasBalances && (
-      <h3>
-        {/* // TODO: group by issuer */}
-        Issuer
-        <small>
-          {wallet.balances.length} {plural(wallet.balances.length, 'asset')}
-        </small>
-      </h3>
-    )}
-    {wallet.hasBalances && (
-      <table className="table_assets">
-        <thead>
-          <tr>
-            <th className="_asset">Asset</th>
-            <th className="_currency">Base currency</th>
-            <th className="_amount">Amount</th>
-            <th className="_action">&nbsp;</th>
-          </tr>
-        </thead>
-        <tbody>
-          {wallet.balances.map(b => (
-            <tr key={b.assetId + b.balance}>
-              <td className="_asset">
-                <div className="issuer">
-                  <div className="issuer__img">
-                    <img
-                      src={assetIconUrl(b.assetId)}
-                      alt="asset"
-                      width={48}
-                      height={48}
-                    />
-                  </div>
-                  <div className="issuer__content">
-                    <div className="issuer__name">{b.assetId}</div>
-                  </div>
-                </div>
-              </td>
-              <td className="_currency">{b.assetId}</td>
-              <td className="_amount">
-                <NumberFormat value={b.balance} /> {b.assetId}
-              </td>
-              <td className="_action">
-                <Dropdown
-                  overlay={
-                    <div className="asset-menu">
-                      <div>
-                        <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
+    {wallet.hasBalances &&
+      Object.keys(wallet.getBalancesByCategory).map(x => {
+        const balances = wallet.getBalancesByCategory[x];
+        return (
+          <div key={x}>
+            <h3>
+              {x}
+              <small>
+                {balances.length} {plural(balances.length, 'asset')}
+              </small>
+            </h3>
+            <table className="table_assets">
+              <thead>
+                <tr>
+                  <th className="_asset">Asset</th>
+                  <th className="_currency">Base currency</th>
+                  <th className="_amount">Amount</th>
+                  <th className="_action">&nbsp;</th>
+                </tr>
+              </thead>
+              <tbody>
+                {balances.map(b => (
+                  <tr key={b.assetId + b.balance}>
+                    <td className="_asset">
+                      <div className="issuer">
+                        <div className="issuer__img">
+                          <img
+                            src={assetIconUrl(b.assetId)}
+                            alt="asset"
+                            width={48}
+                            height={48}
+                          />
+                        </div>
+                        <div className="issuer__content">
+                          <div className="issuer__name">{b.assetId}</div>
+                        </div>
                       </div>
-                      <div>
-                        <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>
-                          Withdraw
-                        </Link>
-                      </div>
-                    </div>
-                  }
-                  trigger={['click']}
-                  placement="bottomCenter"
-                >
-                  <button type="button" className="btn btn--icon">
-                    <i className="icon icon--actions" />
-                  </button>
-                </Dropdown>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    )}
+                    </td>
+                    <td className="_currency">{b.assetId}</td>
+                    <td className="_amount">
+                      {asBalance(b)} {b.assetId}
+                    </td>
+                    <td className="_action">
+                      <Dropdown
+                        overlay={
+                          <div className="asset-menu">
+                            <div>
+                              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
+                                Deposit
+                              </Link>
+                            </div>
+                            <div>
+                              <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>
+                                Withdraw
+                              </Link>
+                            </div>
+                          </div>
+                        }
+                        trigger={['click']}
+                        placement="bottomCenter"
+                      >
+                        <button type="button" className="btn btn--icon">
+                          <i className="icon icon--actions" />
+                        </button>
+                      </Dropdown>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
   </div>
 );
 

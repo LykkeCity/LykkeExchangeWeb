@@ -6,3 +6,4 @@ export {default as WalletApi} from './walletApi';
 export {RestTransferApi as TransferApi} from './transferApi';
 export {default as ConverterApi} from './converterApi';
 export {default as ProfileApi} from './profileApi';
+export {default as AssetApi} from './assetApi';

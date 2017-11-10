@@ -13,6 +13,12 @@ const walletStore = new WalletStore(
   mockWalletApi as any,
   mockConverter as any
 );
+rootStore.assetStore.getById = jest.fn(() => ({
+  id: '1',
+  name: 'asset1',
+  // tslint:disable-next-line:object-literal-sort-keys
+  category: 'Lykke'
+}));
 
 describe('wallet store', () => {
   beforeEach(() => {

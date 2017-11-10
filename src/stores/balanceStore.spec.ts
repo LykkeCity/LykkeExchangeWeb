@@ -1,6 +1,10 @@
-import {BalanceStore} from '.';
+import {BalanceStore, RootStore} from '.';
+import {AssetModel} from '../models/index';
 
-const balanceStore = new BalanceStore();
+const rootStore = new RootStore();
+const balanceStore = new BalanceStore(rootStore);
+const {assetStore} = rootStore;
+assetStore.getById = jest.fn((id: string) => new AssetModel({name: id}));
 
 describe('wallet store', () => {
   describe('updateFromServer', () => {
