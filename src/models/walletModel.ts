@@ -90,7 +90,7 @@ export class WalletModel {
       b => b.assetId === incomingBalance.assetId
     );
     if (!!currBalance) {
-      currBalance.balance -= incomingBalance.balance;
+      currBalance.balance += incomingBalance.balance;
     } else {
       this.balances.push(incomingBalance);
     }
@@ -99,7 +99,7 @@ export class WalletModel {
   withdraw = (amount: number, assetId: string) => {
     const balance = this.balances.find(b => b.assetId === assetId);
     if (!!balance) {
-      balance.balance += amount;
+      balance.balance -= amount;
     }
   };
 

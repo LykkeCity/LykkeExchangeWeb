@@ -29,7 +29,7 @@ const walletStore = new WalletStore(rootStore, new MockApi(), {
 const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 rootStore.assetStore.getById = jest.fn(() => ({
   id: '1',
-  name: 'asset1',
+  name: 'LKK',
   // tslint:disable-next-line:object-literal-sort-keys
   category: 'Lykke'
 }));
@@ -135,6 +135,46 @@ describe('wallet model', () => {
       expect(restWallets.some(w => w.collapsed)).toBe(true);
       expect(restWallets.filter(w => w.expanded).length).toBe(0);
       expect(restWallets.some(w => w.expanded)).toBe(false);
+    });
+  });
+
+  describe('withdraw', () => {
+    it('should withdraw specified amount from wallet', () => {
+      const wallet = walletStore.createWallet();
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+
+      wallet.withdraw(10, 'LKK');
+
+      expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(90);
+    });
+  });
+
+  describe('deposit', () => {
+    it('should deposit dest wallet by amount specified', () => {
+      const wallet = walletStore.createWallet();
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+
+      wallet.deposit(10, 'LKK');
+
+      expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(110);
+    });
+
+    it('should deposit even if balance with asset specified not exist', () => {
+      const wallet = walletStore.createWallet();
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+
+      wallet.deposit(1, 'BTC');
+
+      expect(wallet.balances.find(b => b.assetId === 'BTC')!.balance).toBe(1);
+    });
+
+    it('should not change other balances when deposit', () => {
+      const wallet = walletStore.createWallet();
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+
+      wallet.deposit(1, 'BTC');
+
+      expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(100);
     });
   });
 });
