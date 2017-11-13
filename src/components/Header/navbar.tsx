@@ -1,7 +1,7 @@
 import * as classNames from 'classnames';
 import * as React from 'react';
 import {Link, Route, withRouter} from 'react-router-dom';
-import {ROUTE_WALLETS} from '../../constants/routes';
+import {ROUTE_TRANSFER_BASE, ROUTE_WALLETS} from '../../constants/routes';
 import Balance from './balance';
 
 const classes = (className: string, active: boolean) => {
@@ -33,6 +33,7 @@ export const NavBar = ({match}: any) => (
         <div className="container">
           <ul className="header_nav__list nav_list">
             <NavLink to={ROUTE_WALLETS} label="Wallets" />
+            <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
           </ul>
           <Balance />
         </div>
