@@ -17,12 +17,20 @@ export default ({theme}: any) => (
   >
     <div className="apps_apple">
       <a href={APPSTORE_LINK} target="_blank" rel="noopener noreferrer">
-        <img src="images/appstore-badge.svg" width="170" alt="apps_apple" />
+        <img
+          src={`${process.env.PUBLIC_URL}/images/appstore-badge.svg`}
+          width="170"
+          alt="apps_apple"
+        />
       </a>
     </div>
     <div className="apps_google">
       <a href={GOOGLEPLAY_LINK} target="_blank" rel="noopener noreferrer">
-        <img src="images/google-play.svg" width="170" alt="apps_google" />
+        <img
+          src={`${process.env.PUBLIC_URL}/images/google-play.svg`}
+          width="170"
+          alt="apps_google"
+        />
       </a>
     </div>
   </div>
