@@ -1,5 +1,5 @@
 interface Debounce {
-  (): any;
+  (...args: any[]): any;
   clear: () => void;
   flush: () => void;
 }
@@ -22,7 +22,7 @@ export const debounce = (
     }
   };
 
-  const debouncedFunc: () => any = function(this: any) {
+  const debouncedFunc: (...params: any[]) => any = function(this: any) {
     context = this;
     args = arguments;
     const callNow = immediate && !timeout;

@@ -83,4 +83,15 @@ describe('debounce', () => {
     expect(callBack).toBeCalled();
     expect(callBack.mock.calls.length).toBe(1);
   });
+
+  it('should return results if immidate call', () => {
+    const callBackWithArgs = jest.fn((i: number) => i * 2);
+    const fn = debounce(callBackWithArgs, 100, true);
+
+    const result = fn(2);
+
+    expect(callBackWithArgs).toBeCalled();
+    expect(callBackWithArgs.mock.calls.length).toBe(1);
+    expect(result).toBe(4);
+  });
 });
