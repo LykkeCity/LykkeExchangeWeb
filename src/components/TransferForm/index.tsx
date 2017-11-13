@@ -37,11 +37,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     uiStore: {toggleQrWindow}
   } = rootStore!;
 
-  const debouncedSetAmount = (value: number) =>
-    debounce(() => transfer.setAmount(value), 300)(value);
-
   const handleChangeAmount = (e: any) => {
-    debouncedSetAmount(e.currentTarget.value);
+    debounce((v: number) => transfer.setAmount(v), 300)(e.currentTarget.value);
   };
 
   const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
