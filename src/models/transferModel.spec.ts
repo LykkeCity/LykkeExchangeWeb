@@ -44,6 +44,7 @@ describe('transfer model', () => {
       amount: 10,
       asset: 'LKK'
     });
+    sut.hasEnoughAmount = jest.fn(() => true);
     transferStore.startTransfer = jest.fn();
 
     sut.sendTransfer();
@@ -93,6 +94,7 @@ describe('transfer model', () => {
         amount: 10,
         asset: 'LKK'
       });
+      transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
 
       expect(transfer.canTransfer).toBe(true);
     });

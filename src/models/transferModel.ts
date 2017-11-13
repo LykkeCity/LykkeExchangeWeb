@@ -34,7 +34,7 @@ export class TransferModel {
       !!this.to &&
       !!this.amount &&
       !!this.asset &&
-      this.hasEnoughAmount(this.amount)
+      !!this.hasEnoughAmount(this.amount)
     );
   }
 

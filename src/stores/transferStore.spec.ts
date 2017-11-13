@@ -18,10 +18,26 @@ const transferStore = new TransferStore(
 rootStore.assetStore.getById = jest.fn();
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
+rootStore.assetStore.getById = jest.fn(() => ({
+  id: '1',
+  name: 'LKK',
+  // tslint:disable-next-line:object-literal-sort-keys
+  category: 'Lykke'
+}));
 
 const createValidTransfer = (transfer: TransferModel) => {
-  const sourceWallet = createWallet({Id: 1, Name: 'w1'});
-  const destWallet = createWallet({Id: 2, Name: 'w2'});
+  const sourceWallet = createWallet({
+    Id: 1,
+    Name: 'w1',
+    // tslint:disable-next-line:object-literal-sort-keys
+    Balances: [{AssetId: 'LKK', Balance: 100}]
+  });
+  const destWallet = createWallet({
+    Id: 2,
+    Name: 'w2',
+    // tslint:disable-next-line:object-literal-sort-keys
+    Balances: [{AssetId: 'LKK', Balance: 100}]
+  });
   transfer.setWallet(sourceWallet, 'from');
   transfer.setWallet(destWallet, 'to');
   transfer.setAmount(100);
