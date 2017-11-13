@@ -47,6 +47,8 @@ export class TransferPage extends React.Component<TransferPageProps> {
     window.scrollTo(0, 0);
   }
 
+  // componentWillUnmount() {}
+
   render() {
     const {newTransfer} = this.transferStore;
     return (
@@ -75,6 +77,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
     let j = 0;
     const timeout = 1000;
     const poll = () => {
+      if (this.transferStore.newTransfer.amount === 0) {
+        return;
+      }
       k = k + 1;
       const operationIsTooLong = k > 30;
       const fromConfirmedToCompletedIsTooLong =
@@ -89,11 +94,13 @@ export class TransferPage extends React.Component<TransferPageProps> {
             this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
             break;
           case OpStatus.Canceled:
-            this.transferStore.resetCurrentTransfer();
-            this.uiStore.closeQrWindow();
-            this.props.history.replace(ROUTE_TRANSFER_FAIL, {
-              reason: 'canceled'
-            });
+            if (this.transferStore.newTransfer.amount > 0) {
+              this.transferStore.resetCurrentTransfer();
+              this.uiStore.closeQrWindow();
+              this.props.history.replace(ROUTE_TRANSFER_FAIL, {
+                reason: 'canceled'
+              });
+            }
             break;
           case OpStatus.Confirmed:
             j = j + 1;
