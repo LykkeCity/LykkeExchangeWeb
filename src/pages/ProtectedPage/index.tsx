@@ -22,7 +22,7 @@ import {WalletPage} from '../../pages/index';
 import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<RootStoreProps> {
-  // private readonly walletStore = this.props.rootStore!.walletStore;
+  private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly assetStore = this.props.rootStore!.assetStore;
@@ -32,7 +32,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     this.assetStore
       .fetchCategories()
       .then(() => this.assetStore.fetchAssets())
-      // .then(() => this.walletStore.fetchWallets())
+      .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.profileStore.fetchFirstName())
       .then(() => this.uiStore.finishRequest());
@@ -49,7 +49,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             path={ROUTE_WALLETS}
             to={ROUTE_WALLETS_PRIVATE}
           />
-          <Route path={ROUTE_WALLETS} component={WalletPage} />
+          <Route path={ROUTE_WALLETS} component={asLoading(WalletPage)} />
           <Route
             exact={true}
             path={ROUTE_TRANSFER_BASE}

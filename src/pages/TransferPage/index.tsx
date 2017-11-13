@@ -90,6 +90,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
         switch (op.Status) {
           case OpStatus.Completed:
             this.transferStore.finishTransfer(transfer);
+            await this.walletStore.fetchWallets();
             this.uiStore.closeQrWindow();
             this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
             break;

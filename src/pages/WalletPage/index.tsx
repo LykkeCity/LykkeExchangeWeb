@@ -11,7 +11,6 @@ import CreateWalletWizard, {
 } from '../../components/CreateWalletWizard';
 import Drawer from '../../components/Drawer';
 import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
-import {loadable} from '../../components/hoc/loadable';
 import WalletList from '../../components/WalletList';
 import WalletTabs from '../../components/WalletTabs/index';
 import {ROUTE_WALLETS} from '../../constants/routes';
@@ -31,20 +30,14 @@ export class WalletPage extends React.Component<RootStoreProps> {
     this.transferStore.resetCurrentTransfer();
   }
 
-  componentDidMount() {
-    this.uiStore.startRequest();
-    this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
-  }
-
   render() {
-    const asLoading = loadable(this.uiStore.hasPendingRequests);
     return (
       <div className="container">
         <WalletTabs />
         <Route
           exact={true}
           path={`${ROUTE_WALLETS}/:type`}
-          component={asLoading(WalletList)}
+          component={WalletList}
         />
         <Drawer
           title="New API Wallet"
