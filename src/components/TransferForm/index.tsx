@@ -4,7 +4,8 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel, WalletModel} from '../../models';
+import {BalanceModel, TransferModel, WalletModel} from '../../models';
+import {asBalance} from '../hoc/assetBalance';
 import {NumberFormat} from '../NumberFormat';
 import Select, {SelectOption} from '../Select';
 import WalletSelect from '../WalletSelect';
@@ -75,6 +76,17 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             <div className="col-sm-8">
               <Select
                 options={transfer.from.balances.map(x => x)}
+                // tslint:disable-next-line:jsx-no-lambda
+                optionRenderer={(balance: BalanceModel) => (
+                  <div className="option">
+                    <div>{balance.assetId}</div>
+                    <div>
+                      <small style={{color: 'gray'}}>
+                        {asBalance(balance)}
+                      </small>
+                    </div>
+                  </div>
+                )}
                 valueKey="assetId"
                 labelKey="assetId"
                 onChange={handleChangeAsset}

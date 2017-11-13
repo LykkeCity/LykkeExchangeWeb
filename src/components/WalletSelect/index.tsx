@@ -10,7 +10,9 @@ const optionRenderer = (baseCurrency: string) => (wallet: WalletModel) => (
   <div className="option">
     <div>{wallet.title}</div>
     <div>
-      <NumberFormat value={wallet.totalBalance} />&nbsp;{baseCurrency}
+      <small style={{color: 'gray'}}>
+        <NumberFormat value={wallet.totalBalance} />&nbsp;{baseCurrency}
+      </small>
     </div>
   </div>
 );
