@@ -6,6 +6,7 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, TransferModel, WalletModel} from '../../models';
+import {debounce} from '../../utils/debounce';
 import {asBalance} from '../hoc/assetBalance';
 import {NumberFormat} from '../NumberFormat';
 import Select from '../Select';
@@ -37,7 +38,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   } = rootStore!;
 
   const handleChangeAmount = (e: any) => {
-    transfer.setAmount(e.currentTarget.value);
+    debounce((v: number) => transfer.setAmount(v), 300)(e.currentTarget.value);
   };
 
   const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
