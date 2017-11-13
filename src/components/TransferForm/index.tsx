@@ -1,18 +1,25 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
+import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, TransferModel, WalletModel} from '../../models';
 import {asBalance} from '../hoc/assetBalance';
 import {NumberFormat} from '../NumberFormat';
-import Select, {SelectOption} from '../Select';
+import Select from '../Select';
 import WalletSelect from '../WalletSelect';
 import './style.css';
 
-type InputEventHandler = React.FormEventHandler<HTMLInputElement>;
-type SelectEventHandler = (e: WalletModel | SelectOption) => void;
+// tslint:disable-next-line:no-var-requires
+const TextMask = require('react-text-mask').default;
+const numberMask = createNumberMask({
+  allowDecimal: true,
+  decimalLimit: 8,
+  prefix: '',
+  suffix: ''
+});
 
 interface TransferFormProps extends RootStoreProps {
   onTransfer?: (transfer: TransferModel) => any;
@@ -28,13 +35,11 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     uiStore: {toggleQrWindow}
   } = rootStore!;
 
-  const handleChangeAmount: InputEventHandler = e => {
-    transfer.setAmount(Number(e.currentTarget.value));
+  const handleChangeAmount = (e: any) => {
+    transfer.setAmount(e.currentTarget.value);
   };
 
-  const handleChangeWallet = (
-    side: 'from' | 'to'
-  ): SelectEventHandler => option => {
+  const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
     transfer.setWallet(option as WalletModel, side);
   };
 
@@ -124,9 +129,16 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 <div className="input-group-addon addon-text">
                   {transfer.asset}
                 </div>
-                <input
+                {/* <input
                   id="tr_amount"
                   type="number"
+                  className="form-control"
+                  value={transfer.amount}
+                  onChange={handleChangeAmount}
+                  /> */}
+                <TextMask
+                  id="tr_amount"
+                  mask={numberMask}
                   className="form-control"
                   value={transfer.amount}
                   onChange={handleChangeAmount}

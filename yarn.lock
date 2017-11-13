@@ -5487,6 +5487,12 @@ react-slick@~0.15.4:
     object-assign "^4.1.0"
     slick-carousel "^1.6.0"
 
+react-text-mask@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/react-text-mask/-/react-text-mask-5.0.2.tgz#09bce3f94ac244c11932082e42328cb455b73aa6"
+  dependencies:
+    prop-types "^15.5.6"
+
 react@^16.0.0:
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
@@ -6390,6 +6396,10 @@ test-exclude@^4.1.1:
     object-assign "^4.1.0"
     read-pkg-up "^1.0.1"
     require-main-filename "^1.0.1"
+
+text-mask-addons@^3.7.1:
+  version "3.7.1"
+  resolved "https://registry.yarnpkg.com/text-mask-addons/-/text-mask-addons-3.7.1.tgz#8304f5c952533ab76533053e4f90cb4fdaa3995b"
 
 text-table@0.2.0:
   version "0.2.0"

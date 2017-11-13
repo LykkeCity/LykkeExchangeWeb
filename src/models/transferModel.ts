@@ -49,6 +49,8 @@ export class TransferModel {
           );
           this.amountInBaseCurrency =
             resp.Converted[0] && resp.Converted[0].To.Amount;
+        } else {
+          this.amountInBaseCurrency = 0;
         }
       }
     );

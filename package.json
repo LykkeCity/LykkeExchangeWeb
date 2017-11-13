@@ -13,6 +13,8 @@
     "react-router-dom": "^4.2.2",
     "react-scripts-ts": "2.8.0",
     "react-select": "^1.0.0-rc.10",
+    "react-text-mask": "^5.0.2",
+    "text-mask-addons": "^3.7.1",
     "uuid": "^3.1.0",
     "wretch": "^1.0.0"
   },
