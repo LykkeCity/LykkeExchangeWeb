@@ -20,9 +20,15 @@ import {WalletModel} from '../../models';
 export class WalletPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
+  private readonly transferStore = this.props.rootStore!.transferStore;
 
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
+
+  constructor(props: any) {
+    super(props);
+    this.transferStore.resetCurrentTransfer();
+  }
 
   render() {
     return (
