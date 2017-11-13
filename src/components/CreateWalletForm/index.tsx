@@ -74,8 +74,8 @@ export class WalletForm extends React.Component<WalletFormProps> {
   }
 
   private handleChangeName: React.ChangeEventHandler<HTMLInputElement> = e => {
-    this.validateForm();
     this.props.onChangeName(e);
+    this.validateForm();
   };
 
   private handleSubmit: React.MouseEventHandler<any> = e => {
