@@ -59,6 +59,8 @@ export class UiStore {
   };
 
   readonly toggleQrWindow = () => (this.showQrWindow = !this.showQrWindow);
+  readonly closeQrWindow = () => (this.showQrWindow = false);
+
   readonly toggleSidebar = () => (this.showSidebar = !this.showSidebar);
 
   readonly closeSidebar = () =>

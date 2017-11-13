@@ -5,14 +5,13 @@ import {withRouter} from 'react-router';
 import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER_BASE} from '../../constants/routes';
 import {TransferModel} from '../../models/index';
-// import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
 interface TransferQrWindowProps extends ModalProps {
   resetCurrentTransfer?: any;
   transfer?: TransferModel;
   showQrWindow?: boolean;
-  toggleQrWindow?: any;
+  closeQrWindow?: any;
   history?: any;
 }
 
@@ -20,15 +19,18 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   history,
   resetCurrentTransfer,
   showQrWindow,
-  toggleQrWindow,
+  closeQrWindow,
   transfer,
   ...rest
 }) => {
   const handleCancelTransfer = async () => {
-    await transfer!.cancel();
-    resetCurrentTransfer();
-    toggleQrWindow();
-    history.replace(ROUTE_TRANSFER_BASE);
+    try {
+      await transfer!.cancel();
+    } finally {
+      resetCurrentTransfer();
+      closeQrWindow();
+      history.replace(ROUTE_TRANSFER_BASE);
+    }
   };
 
   return (
@@ -44,7 +46,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       maskClosable={false}
       footer={[
         <button
-          key="cancel"
+          key="cancelTx"
           className="btn btn--primary"
           onClick={handleCancelTransfer}
         >
@@ -70,9 +72,9 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
 
 export default withRouter(
   inject((stores: RootStoreProps) => ({
+    closeQrWindow: stores.rootStore!.uiStore.closeQrWindow,
     resetCurrentTransfer: stores.rootStore!.transferStore.resetCurrentTransfer,
     showQrWindow: stores.rootStore!.uiStore.showQrWindow,
-    toggleQrWindow: stores.rootStore!.uiStore.toggleQrWindow,
     transfer: stores.rootStore!.transferStore.newTransfer
   }))(observer(TransferQrWindow))
 );

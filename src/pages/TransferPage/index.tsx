@@ -75,7 +75,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
         } else {
           const {amount, asset} = transfer;
           this.transferStore.finishTransfer(transfer);
-          this.uiStore.toggleQrWindow();
+          this.uiStore.closeQrWindow();
           this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
         }
       }, 3000);
