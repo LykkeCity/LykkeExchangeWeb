@@ -53,7 +53,7 @@ export const WalletTabs = (props: any) => (
           mobile device. Trading Wallet is secured with 2-of-2 multisignature
           protection. One key is controled by Lykke and another one is located
           on your mobile device. Please keep your 12 words seed private key
-          backup safly.
+          backup safely.
         </div>
       </div>
     </TabPane>

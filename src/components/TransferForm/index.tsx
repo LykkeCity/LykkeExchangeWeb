@@ -6,7 +6,6 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, TransferModel, WalletModel} from '../../models';
-import {debounce} from '../../utils/debounce';
 import {asBalance} from '../hoc/assetBalance';
 import {NumberFormat} from '../NumberFormat';
 import Select from '../Select';
@@ -17,6 +16,7 @@ import './style.css';
 const TextMask = require('react-text-mask').default;
 const numberMask = createNumberMask({
   allowDecimal: true,
+  allowLeadingZeroes: true,
   decimalLimit: 8,
   includeThousandsSeparator: false,
   prefix: '',
@@ -38,7 +38,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   } = rootStore!;
 
   const handleChangeAmount = (e: any) => {
-    debounce((v: number) => transfer.setAmount(v), 300)(e.currentTarget.value);
+    transfer.setAmount(e.currentTarget.value);
   };
 
   const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
@@ -135,7 +135,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                   id="tr_amount"
                   mask={numberMask}
                   className="form-control"
-                  value={transfer.amount}
+                  value={transfer.amount || ''}
                   onChange={handleChangeAmount}
                 />
               </div>
