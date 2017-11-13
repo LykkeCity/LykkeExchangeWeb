@@ -1,3 +1,5 @@
+type Procedure = (...args: any[]) => any;
+
 interface Debounce {
   (...args: any[]): any;
   clear: () => void;
@@ -5,7 +7,7 @@ interface Debounce {
 }
 
 export const debounce = (
-  func: (a: any) => any,
+  func: Procedure,
   wait: number,
   immediate: boolean = false
 ) => {
@@ -22,7 +24,7 @@ export const debounce = (
     }
   };
 
-  const debouncedFunc: (...params: any[]) => any = function(this: any) {
+  const debouncedFunc: Procedure = function(this: any) {
     context = this;
     args = arguments;
     const callNow = immediate && !timeout;
