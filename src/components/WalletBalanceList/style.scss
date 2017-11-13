@@ -12,6 +12,7 @@
   td._currency {
     color: $gray-dark;
     letter-spacing: 0.18px;
+    white-space: nowrap;
   }
 
   td._amount {

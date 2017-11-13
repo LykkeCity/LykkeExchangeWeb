@@ -386,6 +386,7 @@
     .header_user {
       .header_user__img + .header_login__title {
         color: $text;
+        cursor: pointer;
       }
     }
 

@@ -17,7 +17,7 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
             </li>
           </ul>
         }
-        trigger={['click']}
+        trigger={['hover']}
         className="dropdown__container"
         placement="bottomRight"
       >

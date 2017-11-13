@@ -15,8 +15,8 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
         style={{color: 'limegreen', fontSize: '64px'}}
       />
       <div className="transfer-result__desc">
-        Your transfer transaction has been successfuly broadcasted to
-        Blockchain. We will notify you when it will be confirmed.
+        Your transfer transaction has been successfully broadcasted. We will
+        notify you when it will be confirmed.
       </div>
       <div className="transfer-result__amount">
         {amount} {asset}
