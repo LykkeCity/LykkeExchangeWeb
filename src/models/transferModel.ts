@@ -29,7 +29,13 @@ export class TransferModel {
 
   @computed
   get canTransfer() {
-    return !!this.from && !!this.to && !!this.amount && !!this.asset;
+    return (
+      !!this.from &&
+      !!this.to &&
+      !!this.amount &&
+      !!this.asset &&
+      this.hasEnoughAmount(this.amount)
+    );
   }
 
   constructor(private store: TransferStore) {
@@ -47,8 +53,11 @@ export class TransferModel {
             this,
             this.store.rootStore.profileStore.baseAsset
           );
-          this.amountInBaseCurrency =
-            resp.Converted[0] && resp.Converted[0].To.Amount;
+          // FIXME: user input should be debounced instead of double-checked
+          if (!!this.amount) {
+            this.amountInBaseCurrency =
+              resp.Converted[0] && resp.Converted[0].To.Amount;
+          }
         } else {
           this.amountInBaseCurrency = 0;
         }
@@ -70,7 +79,7 @@ export class TransferModel {
 
   @action
   setAmount = (amount: number) => {
-    this.amount = amount;
+    this.amount = Number(amount);
   };
 
   @action
@@ -85,6 +94,13 @@ export class TransferModel {
   };
 
   cancel = () => this.store.cancelTransfer(this);
+
+  hasEnoughAmount = (amount: number) => {
+    const transferrableBalance = this.from.balances.find(
+      b => b.assetId === this.asset
+    );
+    return transferrableBalance && transferrableBalance.balance >= amount;
+  };
 }
 
 export default TransferModel;

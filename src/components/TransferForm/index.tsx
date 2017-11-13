@@ -17,6 +17,7 @@ const TextMask = require('react-text-mask').default;
 const numberMask = createNumberMask({
   allowDecimal: true,
   decimalLimit: 8,
+  includeThousandsSeparator: false,
   prefix: '',
   suffix: ''
 });
@@ -129,13 +130,6 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 <div className="input-group-addon addon-text">
                   {transfer.asset}
                 </div>
-                {/* <input
-                  id="tr_amount"
-                  type="number"
-                  className="form-control"
-                  value={transfer.amount}
-                  onChange={handleChangeAmount}
-                  /> */}
                 <TextMask
                   id="tr_amount"
                   mask={numberMask}
