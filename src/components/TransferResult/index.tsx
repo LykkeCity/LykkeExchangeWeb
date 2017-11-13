@@ -55,4 +55,22 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
   );
 };
 
+export const TransferFail: React.SFC<RouteComponentProps<any>> = ({
+  location: {state: {reason}}
+}) => {
+  return (
+    <div className="transfer-result">
+      <Icon type="close-circle" style={{color: 'red', fontSize: '64px'}} />
+      <div className="transfer-result__desc">
+        Your transfer transaction has been {reason}.
+      </div>
+      <div className="transfer-result__button">
+        <Link to={ROUTE_WALLETS} className="btn btn--primary">
+          Go back to wallets
+        </Link>
+      </div>
+    </div>
+  );
+};
+
 export default inject(STORE_ROOT)(observer(TransferResult));

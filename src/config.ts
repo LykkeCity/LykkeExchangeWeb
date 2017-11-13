@@ -12,5 +12,6 @@ export const config = {
       logout: '/connect/logout',
       token: '/connect/token'
     }
-  }
+  },
+  operationIdleTime: Number(process.env.REACT_APP_OPERATION_IDLE_TIME)
 };

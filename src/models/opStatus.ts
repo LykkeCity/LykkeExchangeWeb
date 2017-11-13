@@ -1,7 +1,9 @@
 export enum OpStatus {
   Active = 'Active',
   Created = 'Created',
-  Completed = 'Completed'
+  Completed = 'Completed',
+  Confirmed = 'Confirmed',
+  Canceled = 'Canceled'
 }
 
 export default OpStatus;

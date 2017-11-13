@@ -4,11 +4,15 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {loadable} from '../../components/hoc/loadable';
 import {NoMatch} from '../../components/NoMatch/index';
-import {TransferResult} from '../../components/TransferResult/index';
+import {
+  TransferFail,
+  TransferResult
+} from '../../components/TransferResult/index';
 import {
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
+  ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS,
   ROUTE_WALLETS,
   ROUTE_WALLETS_PRIVATE
@@ -53,6 +57,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
           />
           <Route path={ROUTE_TRANSFER} component={asLoading(TransferPage)} />
           <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
+          <Route path={ROUTE_TRANSFER_FAIL} component={TransferFail} />
           <Route component={NoMatch} />
         </Switch>
       </div>

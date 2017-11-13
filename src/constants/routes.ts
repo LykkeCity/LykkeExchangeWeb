@@ -11,5 +11,6 @@ export const ROUTE_TRANSFER_FROM = (walletId: string) =>
 export const ROUTE_TRANSFER_TO = (walletId: string) =>
   `${ROUTE_TRANSFER_BASE}/to/${walletId}`;
 export const ROUTE_TRANSFER_SUCCESS = `${ROUTE_TRANSFER_BASE}/success`;
+export const ROUTE_TRANSFER_FAIL = `${ROUTE_TRANSFER_BASE}/fail`;
 
 export const ROUTE_AUTH = '/auth';

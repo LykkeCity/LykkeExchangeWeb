@@ -6,7 +6,11 @@ import {RootStoreProps} from '../../App';
 import {NumberFormat} from '../../components/NumberFormat';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
-import {ROUTE_TRANSFER_SUCCESS} from '../../constants/routes';
+import {config} from '../../config';
+import {
+  ROUTE_TRANSFER_FAIL,
+  ROUTE_TRANSFER_SUCCESS
+} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {OpStatus, TransferModel} from '../../models';
 import './style.css';
@@ -67,20 +71,57 @@ export class TransferPage extends React.Component<TransferPageProps> {
   }
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
+    let k = 0;
+    const timeout = 1000;
     const poll = () => {
+      k = k + 1;
+      const operationIsTooLong = k > 10;
+      const fromConfirmedToCompletedIsTooLong =
+        k * timeout > (config.operationIdleTime || 5 * timeout);
       setTimeout(async () => {
         const op = await this.transferStore.fetchOperationDetails(transfer);
-        if (op.Status !== OpStatus.Completed) {
-          poll();
-        } else {
-          const {amount, asset} = transfer;
-          this.transferStore.finishTransfer(transfer);
-          this.uiStore.closeQrWindow();
-          this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
+        const {amount, asset} = transfer;
+        switch (op.Status) {
+          case OpStatus.Completed:
+            this.transferStore.finishTransfer(transfer);
+            this.uiStore.closeQrWindow();
+            this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
+            break;
+          case OpStatus.Canceled:
+            this.transferStore.resetCurrentTransfer();
+            this.uiStore.closeQrWindow();
+            this.props.history.replace(ROUTE_TRANSFER_FAIL, {
+              reason: 'canceled'
+            });
+            break;
+          case OpStatus.Confirmed:
+            if (fromConfirmedToCompletedIsTooLong) {
+              this.resetAndFail('idled', false);
+            } else {
+              poll();
+            }
+          default:
+            if (operationIsTooLong) {
+              this.resetAndFail('failed');
+            } else {
+              poll();
+            }
+            break;
         }
-      }, 3000);
+      }, timeout);
     };
     poll();
+  };
+
+  private resetAndFail = (reason: string, shouldCancel: boolean = true) => {
+    if (shouldCancel) {
+      this.transferStore.newTransfer.cancel();
+    }
+    this.transferStore.resetCurrentTransfer();
+    this.uiStore.closeQrWindow();
+    this.props.history.replace(ROUTE_TRANSFER_FAIL, {
+      reason
+    });
   };
 }
 
