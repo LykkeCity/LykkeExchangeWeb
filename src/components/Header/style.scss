@@ -1038,9 +1038,7 @@
         @include rem(height, $submenu_height);
         @include rem(min-height, $submenu_height);
         @include rem(max-height, $submenu_height);
-        @include rem(width, $submenu_width);
         @include rem(min-width, $submenu_width);
-        @include rem(max-width, $submenu_width);
         overflow-y: auto;
 
         &__item {
