@@ -72,12 +72,13 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
     let k = 0;
+    let j = 0;
     const timeout = 1000;
     const poll = () => {
       k = k + 1;
-      const operationIsTooLong = k > 10;
+      const operationIsTooLong = k > 30;
       const fromConfirmedToCompletedIsTooLong =
-        k * timeout > (config.operationIdleTime || 5 * timeout);
+        j * timeout > (config.operationIdleTime || 5 * timeout);
       setTimeout(async () => {
         const op = await this.transferStore.fetchOperationDetails(transfer);
         const {amount, asset} = transfer;
@@ -95,6 +96,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
             });
             break;
           case OpStatus.Confirmed:
+            j = j + 1;
             if (fromConfirmedToCompletedIsTooLong) {
               this.resetAndFail('idled', false);
             } else {
