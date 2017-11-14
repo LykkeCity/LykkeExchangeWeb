@@ -3,7 +3,8 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {NumberFormat} from '../../components/NumberFormat';
+import {asAssetBalance} from '../../components/hoc/assetBalance';
+// import {NumberFormat} from '../../components/NumberFormat';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {config} from '../../config';
@@ -14,6 +15,7 @@ import {
 import {STORE_ROOT} from '../../constants/stores';
 import {OpStatus, TransferModel} from '../../models';
 import './style.css';
+import {NumberFormat} from '../../components/NumberFormat/index';
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
@@ -21,6 +23,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly uiStore = this.props.rootStore!.uiStore;
+  readonly assetStore = this.props.rootStore!.assetStore;
 
   componentDidMount() {
     const {walletId, dest} = this.props.match.params;
@@ -42,12 +45,16 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   render() {
     const {newTransfer} = this.transferStore;
+    const asset = this.assetStore.getById(newTransfer.asset);
     return (
       <div className="container">
         <div className="transfer">
           <h1>Transfer</h1>
           <h2>
-            <NumberFormat value={newTransfer.amount} /> {newTransfer.asset}
+            {(asset && asAssetBalance(asset, newTransfer.amount)) || (
+              <NumberFormat value={0} />
+            )}{' '}
+            {newTransfer.asset}
           </h2>
           <p className="transfer__text">
             To transfer any asset to other wallet please fill in the form.

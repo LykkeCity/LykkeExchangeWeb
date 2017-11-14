@@ -9,13 +9,14 @@ import {
 import {RootStore} from '.';
 import {ConverterApi, WalletApi} from '../api';
 import {WalletModel, WalletType} from '../models';
+import {sum} from '../utils/math';
 
 export class WalletStore {
   @observable wallets: WalletModel[] = [];
 
   @computed
   get totalBalance() {
-    return this.wallets.reduce((acc, curr) => (acc += curr.totalBalance), 0);
+    return this.wallets.map(w => w.totalBalance).reduce(sum, 0);
   }
 
   constructor(
