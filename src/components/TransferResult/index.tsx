@@ -21,31 +21,6 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
       <div className="transfer-result__amount">
         {amount} {asset}
       </div>
-      {
-        // TODO
-      }
-      {/* <div className="transfer-result__actions">
-        <div className="actions_list">
-          <div className="actions_list__item">
-            <button type="button" className="action_link">
-              <i className="icon icon--details" />
-              View details
-            </button>
-          </div>
-          <div className="actions_list__item">
-            <button type="button" className="action_link">
-              <i className="icon icon--repeat" />
-              Repeat operation
-            </button>
-          </div>
-          <div className="actions_list__item">
-            <button type="button" className="action_link">
-              <i className="icon icon--save_template" />
-              Save to templates
-            </button>
-          </div>
-        </div>
-      </div> */}
       <div className="transfer-result__button">
         <Link to={ROUTE_WALLETS} className="btn btn--primary">
           Go back to wallets
