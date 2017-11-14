@@ -4,7 +4,7 @@ import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {asAssetBalance} from '../../components/hoc/assetBalance';
-// import {NumberFormat} from '../../components/NumberFormat';
+import {NumberFormat} from '../../components/NumberFormat/index';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
 import {config} from '../../config';
@@ -15,7 +15,6 @@ import {
 import {STORE_ROOT} from '../../constants/stores';
 import {OpStatus, TransferModel} from '../../models';
 import './style.css';
-import {NumberFormat} from '../../components/NumberFormat/index';
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
