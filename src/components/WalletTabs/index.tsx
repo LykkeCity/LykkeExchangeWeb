@@ -48,23 +48,22 @@ export const WalletTabs = (props: any) => (
     <TabPane to={ROUTE_WALLETS_PRIVATE}>
       <div className="tab__pane row">
         <div className="col-sm-12" style={{textAlign: 'left'}}>
-          Trading wallet is driven by LykkeWallet app. You can not make any
-          transactions with your Trading Wallet without having signature on your
-          mobile device. Trading Wallet is secured with 2-of-2 multisignature
-          protection. One key is controled by Lykke and another one is located
-          on your mobile device. Please keep your 12 words seed private key
-          backup safely.
+          Trading wallet is driven by LykkeWallet app. You can confirm a Trading
+          Wallet transaction only by signing it on your mobile device. Trading
+          Wallet is secured with 2-of-2 multisignature protection. One key is
+          controlled by Lykke and another one is located on your mobile device.
+          Please keep your 12 words seed private key backup safely.
         </div>
       </div>
     </TabPane>
     <TabPane to={ROUTE_WALLETS_HFT}>
       <div className="tab__pane row">
         <div className="col-sm-8">
-          API Wallet allows you to have the fastest interface for trading. You
-          may have multiple API wallets. Funds deposited into API wallet are
-          under Lykke custodian. API is secured with API Key. Please keep it
-          safe. To be able to withdraw funds it must be transfered into Trading
-          Wallet first.
+          API Wallet offers you a faster trading interface. You can have
+          multiple API wallets. Funds deposited to API wallet are under Lykke
+          custodian. The API is secured with an API Key. Please keep the key
+          safe. To withdraw the funds from your API wallet you need to transfer
+          them to your Trading Wallet first.
         </div>
         <div className="col-sm-4">
           <button
