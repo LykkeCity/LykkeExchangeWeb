@@ -13,6 +13,7 @@ interface TransferQrWindowProps extends ModalProps {
   showQrWindow?: boolean;
   closeQrWindow?: any;
   history?: any;
+  transferStore?: any;
 }
 
 export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
@@ -21,11 +22,12 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   showQrWindow,
   closeQrWindow,
   transfer,
+  transferStore,
   ...rest
 }) => {
   const handleCancelTransfer = async () => {
     try {
-      await transfer!.cancel();
+      await transferStore.newTransfer.cancel();
     } finally {
       resetCurrentTransfer();
       closeQrWindow();
@@ -60,7 +62,8 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       </p>
       <div className="transfer-qr__img">
         <img
-          src={`//lykke-qr.azurewebsites.net/QR/${transfer!.asBase64}.gif`}
+          src={`//lykke-qr.azurewebsites.net/QR/${transferStore.newTransfer
+            .asBase64}.gif`}
           alt="qr"
           height={160}
           width={160}
@@ -75,6 +78,7 @@ export default withRouter(
     closeQrWindow: stores.rootStore!.uiStore.closeQrWindow,
     resetCurrentTransfer: stores.rootStore!.transferStore.resetCurrentTransfer,
     showQrWindow: stores.rootStore!.uiStore.showQrWindow,
-    transfer: stores.rootStore!.transferStore.newTransfer
+    transfer: stores.rootStore!.transferStore.newTransfer,
+    transferStore: stores.rootStore!.transferStore
   }))(observer(TransferQrWindow))
 );

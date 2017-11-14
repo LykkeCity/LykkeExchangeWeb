@@ -93,7 +93,7 @@ export class TransferModel {
     }
   };
 
-  cancel = () => this.store.cancelTransfer(this);
+  cancel = async () => this.store.cancelTransfer(this);
 
   hasEnoughAmount = (amount: number) => {
     const transferrableBalance = this.from.balances.find(

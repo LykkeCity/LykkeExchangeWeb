@@ -27,27 +27,18 @@ export class TransferPage extends React.Component<TransferPageProps> {
     const wallet = this.walletStore.findWalletById(walletId);
 
     if (!!wallet) {
-      if (dest === 'from') {
-        this.transferStore.newTransfer.setWallet(wallet, dest);
-        this.transferStore.newTransfer.setWallet(
-          this.walletStore.createWallet(),
-          'to'
-        );
-      } else {
-        this.transferStore.newTransfer.setWallet(wallet, dest);
-        this.transferStore.newTransfer.setWallet(
-          this.walletStore.createWallet(),
-          'from'
-        );
-      }
+      this.transferStore.newTransfer.setWallet(wallet, dest);
     } else {
-      this.transferStore.resetCurrentTransfer();
+      ['from', 'to'].forEach((x: 'from' | 'to') =>
+        this.transferStore.newTransfer.setWallet(
+          this.walletStore.createWallet(),
+          x
+        )
+      );
     }
 
     window.scrollTo(0, 0);
   }
-
-  // componentWillUnmount() {}
 
   render() {
     const {newTransfer} = this.transferStore;
@@ -96,11 +87,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
             break;
           case OpStatus.Canceled:
             if (this.transferStore.newTransfer.amount > 0) {
-              this.transferStore.resetCurrentTransfer();
-              this.uiStore.closeQrWindow();
-              this.props.history.replace(ROUTE_TRANSFER_FAIL, {
-                reason: 'canceled'
-              });
+              this.resetAndFail('canceled', false);
             }
             break;
           case OpStatus.Confirmed:
