@@ -1,10 +1,6 @@
-import classnames from 'classnames';
-import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Footer from './components/Footer';
-import Header from './components/Header';
 import ProtectedRoute from './components/ProtectedRoute/index';
 import {ROUTE_AUTH, ROUTE_ROOT} from './constants/routes';
 import {STORE_ROOT} from './constants/stores';
@@ -19,42 +15,13 @@ export interface RootStoreProps {
 }
 
 class App extends React.Component<RootStoreProps> {
-  @computed
-  private get classes() {
-    return {
-      app: true,
-      'app--overlayed': this.props.rootStore!.uiStore.overlayed
-    };
-  }
-
   render() {
     return (
       <Router>
-        <div
-          className={classnames(this.classes)}
-          // tslint:disable-next-line:jsx-no-lambda
-          onClick={e => {
-            const {
-              closeSidebar,
-              toggleBaseAssetPicker,
-              showBaseCurrencyPicker
-            } = this.props.rootStore!.uiStore;
-            closeSidebar();
-            if (
-              e.target !== document.getElementById('baseAsset') &&
-              showBaseCurrencyPicker
-            ) {
-              toggleBaseAssetPicker();
-            }
-          }}
-        >
-          <Header />
-          <Switch>
-            <Route path={ROUTE_AUTH} component={AuthPage} />
-            <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
-          </Switch>
-          <Footer />
-        </div>
+        <Switch>
+          <Route path={ROUTE_AUTH} component={AuthPage} />
+          <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
+        </Switch>
       </Router>
     );
   }
