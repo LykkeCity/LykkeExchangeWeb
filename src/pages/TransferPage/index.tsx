@@ -7,7 +7,6 @@ import {asAssetBalance} from '../../components/hoc/assetBalance';
 import {NumberFormat} from '../../components/NumberFormat/index';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
-import {config} from '../../config';
 import {
   ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS
