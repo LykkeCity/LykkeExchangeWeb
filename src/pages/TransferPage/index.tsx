@@ -80,7 +80,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
         return;
       }
       k = k + 1;
-      const operationIsTooLong = k > 30;
+      const operationIsTooLong = k > 120;
       const fromConfirmedToCompletedIsTooLong =
         j * timeout > (config.operationIdleTime || 5 * timeout);
       setTimeout(async () => {
