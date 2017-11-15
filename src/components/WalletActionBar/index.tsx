@@ -1,13 +1,12 @@
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {MouseEventHandler} from 'react';
+import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
-import {copyTextToClipboard} from '../../utils/index';
 import './style.css';
 
 interface WalletActionBarProps extends RootStoreProps {
@@ -46,22 +45,21 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                 {this.state.message}
               </small>
             )}
-            <a
-              onClick={this.handleClickApiKey}
-              title="Click to copy your API Key"
+            <CopyToClipboard
+              text={this.props.wallet.apiKey}
+              onCopy={this.handleCopyApiKey}
             >
-              API Key
-            </a>
+              <a title="Click to copy your API Key">API Key</a>
+            </CopyToClipboard>
           </div>
         )}
       </div>
     );
   }
 
-  private handleClickApiKey: MouseEventHandler<any> = e => {
-    const copyResult = copyTextToClipboard(this.props.wallet.apiKey);
-    if (copyResult) {
-      this.setState({message: 'API key copied to clipboard'});
+  private handleCopyApiKey = (text: string) => {
+    if (!!text) {
+      this.setState({message: 'Copied!'});
       setTimeout(() => {
         this.setState({message: ''});
       }, 2000);
