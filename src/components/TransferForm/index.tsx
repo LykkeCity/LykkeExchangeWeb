@@ -14,18 +14,33 @@ import './style.css';
 
 // tslint:disable-next-line:no-var-requires
 const TextMask = require('react-text-mask').default;
-const numberMask = createNumberMask({
-  allowDecimal: true,
-  allowLeadingZeroes: true,
-  decimalLimit: 8,
-  includeThousandsSeparator: false,
-  prefix: '',
-  suffix: ''
-});
 
 interface TransferFormProps extends RootStoreProps {
   onTransfer?: (transfer: TransferModel) => any;
 }
+
+export const AmountInput = (
+  transfer: TransferModel,
+  handleChangeAmount: (e: any) => void
+) => {
+  const numberMask = createNumberMask({
+    allowDecimal: true,
+    allowLeadingZeroes: true,
+    decimalLimit: transfer.asset ? transfer.asset.accuracy : 8,
+    includeThousandsSeparator: false,
+    prefix: '',
+    suffix: ''
+  });
+  return (
+    <TextMask
+      id="tr_amount"
+      mask={numberMask}
+      className="form-control"
+      value={transfer.amount || ''}
+      onChange={handleChangeAmount}
+    />
+  );
+};
 
 export const TransferForm: React.SFC<TransferFormProps> = ({
   rootStore,
@@ -137,13 +152,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 <div className="input-group-addon addon-text">
                   {transfer.asset && transfer.asset.name}
                 </div>
-                <TextMask
-                  id="tr_amount"
-                  mask={numberMask}
-                  className="form-control"
-                  value={transfer.amount || ''}
-                  onChange={handleChangeAmount}
-                />
+                {AmountInput(transfer, handleChangeAmount)}
               </div>
             </div>
           </div>
