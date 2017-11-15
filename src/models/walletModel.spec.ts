@@ -1,6 +1,6 @@
 import {WalletApi} from '../api/index';
 import {RootStore, WalletStore} from '../stores/index';
-import {WalletModel} from './index';
+import {AssetModel, WalletModel} from './index';
 
 const rootStore = new RootStore();
 const mockConverter = jest.fn(() =>
@@ -28,7 +28,7 @@ const walletStore = new WalletStore(rootStore, new MockApi(), {
 } as any);
 const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 rootStore.assetStore.getById = jest.fn(() => ({
-  id: '1',
+  id: 'LKK',
   name: 'LKK',
   // tslint:disable-next-line:object-literal-sort-keys
   category: 'Lykke'
@@ -143,7 +143,7 @@ describe('wallet model', () => {
       const wallet = walletStore.createWallet();
       wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
 
-      wallet.withdraw(10, 'LKK');
+      wallet.withdraw(10, new AssetModel({id: 'LKK', name: 'LKK'}));
 
       expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(90);
     });
@@ -154,7 +154,7 @@ describe('wallet model', () => {
       const wallet = walletStore.createWallet();
       wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
 
-      wallet.deposit(10, 'LKK');
+      wallet.deposit(10, new AssetModel({id: 'LKK', name: 'LKK'}));
 
       expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(110);
     });
@@ -163,7 +163,7 @@ describe('wallet model', () => {
       const wallet = walletStore.createWallet();
       wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
 
-      wallet.deposit(1, 'BTC');
+      wallet.deposit(1, new AssetModel({id: 'BTC', name: 'BTC'}));
 
       expect(wallet.balances.find(b => b.assetId === 'BTC')!.balance).toBe(1);
     });
@@ -172,7 +172,7 @@ describe('wallet model', () => {
       const wallet = walletStore.createWallet();
       wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
 
-      wallet.deposit(1, 'BTC');
+      wallet.deposit(1, new AssetModel({id: 'LKK2', name: 'LKK2'}));
 
       expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(100);
     });

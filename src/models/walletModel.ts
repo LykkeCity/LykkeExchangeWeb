@@ -1,5 +1,5 @@
 import {action, computed, observable, reaction} from 'mobx';
-import {BalanceModel, WalletType} from '.';
+import {AssetModel, BalanceModel, WalletType} from '.';
 import {WalletStore} from '../stores';
 import {nextId} from '../utils';
 import {sum} from '../utils/math';
@@ -80,10 +80,10 @@ export class WalletModel {
   };
 
   @action
-  deposit = (balance: number, assetId: string) => {
+  deposit = (balance: number, asset: AssetModel) => {
     const {createBalance} = this.store.rootStore.balanceStore;
     const incomingBalance = createBalance();
-    incomingBalance.assetId = assetId;
+    incomingBalance.assetId = asset.id;
     incomingBalance.balance = balance;
 
     const currBalance = this.balances.find(
@@ -96,8 +96,8 @@ export class WalletModel {
     }
   };
   @action
-  withdraw = (amount: number, assetId: string) => {
-    const balance = this.balances.find(b => b.assetId === assetId);
+  withdraw = (amount: number, asset: AssetModel) => {
+    const balance = this.balances.find(b => b.assetId === asset.id);
     if (!!balance) {
       balance.balance -= amount;
     }

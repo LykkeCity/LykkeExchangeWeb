@@ -1,5 +1,5 @@
 import {RootStore} from '../stores';
-import {TransferModel} from './index';
+import {AssetModel, TransferModel} from './index';
 
 const rootStore = new RootStore();
 const {transferStore, walletStore} = rootStore;
@@ -26,13 +26,13 @@ describe('transfer model', () => {
     const sut = transferStore.createTransfer();
     sut.update({
       amount: 100,
-      asset: 'LKK',
+      asset: new AssetModel({id: 'LKK', name: 'LKK'}),
       from: walletStore.createWallet({Id: 1})
     });
 
     expect(sut.amount).toBe(100);
     expect(sut.from.id).toBe(1);
-    expect(sut.asset).toBe('LKK');
+    expect(sut.asset.id).toBe('LKK');
   });
 
   it('should call transfer method', () => {
@@ -42,7 +42,7 @@ describe('transfer model', () => {
       to: walletStore.createWallet(),
       // tslint:disable-next-line:object-literal-sort-keys
       amount: 10,
-      asset: 'LKK'
+      asset: new AssetModel({id: '1', name: 'LKK'})
     });
     sut.hasEnoughAmount = jest.fn(() => true);
     transferStore.startTransfer = jest.fn();
@@ -71,7 +71,7 @@ describe('transfer model', () => {
         to: walletStore.createWallet(),
         // tslint:disable-next-line:object-literal-sort-keys
         amount: 0,
-        asset: 'LKK'
+        asset: new AssetModel({name: 'LKK'})
       });
       const transfer2 = transferStore.createTransfer();
       transfer2.update({
@@ -79,7 +79,7 @@ describe('transfer model', () => {
         to: walletStore.createWallet(),
         // tslint:disable-next-line:object-literal-sort-keys
         amount: 10,
-        asset: ''
+        asset: new AssetModel({name: ''})
       });
 
       expect(transfer.canTransfer).toBe(false);
@@ -92,7 +92,7 @@ describe('transfer model', () => {
         to: walletStore.createWallet(),
         // tslint:disable-next-line:object-literal-sort-keys
         amount: 10,
-        asset: 'LKK'
+        asset: new AssetModel({name: 'LKK'})
       });
       transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
 

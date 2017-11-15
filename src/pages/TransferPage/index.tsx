@@ -44,16 +44,18 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   render() {
     const {newTransfer} = this.transferStore;
-    const asset = this.assetStore.getById(newTransfer.asset);
     return (
       <div className="container">
         <div className="transfer">
           <h1>Transfer</h1>
           <h2>
-            {(asset && asAssetBalance(asset, newTransfer.amount)) || (
-              <NumberFormat value={0} />
-            )}{' '}
-            {newTransfer.asset}
+            {!!newTransfer.asset && (
+              <span>
+                {asAssetBalance(newTransfer.asset, newTransfer.amount)}{' '}
+                {newTransfer.asset.name}
+              </span>
+            )}
+            {!!newTransfer.asset || <NumberFormat value={0} />}
           </h2>
           <p className="transfer__text">
             To transfer any asset to other wallet please fill in the form.
@@ -89,7 +91,10 @@ export class TransferPage extends React.Component<TransferPageProps> {
             this.transferStore.finishTransfer(transfer);
             await this.walletStore.fetchWallets();
             this.uiStore.closeQrWindow();
-            this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {amount, asset});
+            this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {
+              amount,
+              asset: asset.name
+            });
             break;
           case OpStatus.Canceled:
             if (this.transferStore.newTransfer.amount > 0) {

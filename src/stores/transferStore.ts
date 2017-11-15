@@ -55,13 +55,13 @@ export class TransferStore {
   };
 
   convertToBaseCurrency = (transfer: TransferModel, baseCurrency: string) => {
-    if (!this.conversionIsRequired(transfer.asset, baseCurrency)) {
+    if (!this.conversionIsRequired(transfer.asset.id, baseCurrency)) {
       return {Converted: [{To: {Amount: transfer.amount}}]};
     }
 
     const balance = this.rootStore.balanceStore.createBalance();
     balance.balance = transfer.amount;
-    balance.assetId = transfer.asset;
+    balance.assetId = transfer.asset.id;
 
     return this.converter!.convertToBaseAsset([balance], baseCurrency);
   };

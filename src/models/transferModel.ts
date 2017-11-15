@@ -1,6 +1,6 @@
 import {action, computed, observable, reaction} from 'mobx';
 import * as uuid from 'uuid';
-import {WalletModel} from '.';
+import {AssetModel, WalletModel} from '.';
 import {TransferStore} from '../stores';
 
 export class TransferModel {
@@ -8,7 +8,7 @@ export class TransferModel {
   @observable from: WalletModel;
   @observable to: WalletModel;
   @observable amount: number = 0;
-  @observable asset: string = '';
+  @observable asset: AssetModel;
 
   @observable amountInBaseCurrency: number;
 
@@ -16,7 +16,7 @@ export class TransferModel {
   get asJson() {
     return {
       Amount: this.amount,
-      AssetId: this.asset,
+      AssetId: this.asset.id,
       SourceWalletId: this.from.id,
       WalletId: this.to.id
     };
@@ -46,7 +46,7 @@ export class TransferModel {
     this.to = createWallet();
 
     reaction(
-      () => this.amount + this.asset,
+      () => ({amount: this.amount, asset: this.asset}),
       async () => {
         if (!!this.amount && !!this.asset) {
           const resp = await this.store.convertToBaseCurrency(
@@ -83,8 +83,8 @@ export class TransferModel {
   };
 
   @action
-  setAsset = (assetId: string) => {
-    this.asset = assetId;
+  setAsset = (asset: AssetModel) => {
+    this.asset = asset;
   };
 
   sendTransfer = async () => {
@@ -97,7 +97,7 @@ export class TransferModel {
 
   hasEnoughAmount = (amount: number) => {
     const transferrableBalance = this.from.balances.find(
-      b => b.assetId === this.asset
+      b => b.assetId === this.asset.id
     );
     return transferrableBalance && transferrableBalance.balance >= amount;
   };

@@ -5,8 +5,8 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {BalanceModel, TransferModel, WalletModel} from '../../models';
-import {asBalance} from '../hoc/assetBalance';
+import {TransferModel, WalletModel} from '../../models';
+import {asAssetBalance} from '../hoc/assetBalance';
 import {NumberFormat} from '../NumberFormat';
 import Select from '../Select';
 import WalletSelect from '../WalletSelect';
@@ -45,7 +45,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     transfer.setWallet(option as WalletModel, side);
   };
 
-  const handleChangeAsset = (option: any) => transfer.setAsset(option.assetId);
+  const handleChangeAsset = (option: any) => transfer.setAsset(option.asset);
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -82,22 +82,27 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             </div>
             <div className="col-sm-8">
               <Select
-                options={transfer.from.balances.map(x => x)}
+                options={transfer.from.balances.map(x => ({
+                  asset: x.asset,
+                  assetId: x.asset.id,
+                  assetName: x.asset.name,
+                  balance: x.balance
+                }))}
                 // tslint:disable-next-line:jsx-no-lambda
-                optionRenderer={(balance: BalanceModel) => (
+                optionRenderer={(option: any) => (
                   <div className="option">
-                    <div>{balance.assetId}</div>
+                    <div>{option.asset.name}</div>
                     <div>
                       <small style={{color: 'gray'}}>
-                        {asBalance(balance)}
+                        {asAssetBalance(option.asset, option.balance)}
                       </small>
                     </div>
                   </div>
                 )}
+                labelKey="assetName"
                 valueKey="assetId"
-                labelKey="assetId"
                 onChange={handleChangeAsset}
-                value={transfer.asset}
+                value={!!transfer.asset && transfer.asset.id}
                 clearable={false}
               />
             </div>
@@ -129,7 +134,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             <div className="col-sm-8">
               <div className="input-group">
                 <div className="input-group-addon addon-text">
-                  {transfer.asset}
+                  {transfer.asset && transfer.asset.name}
                 </div>
                 <TextMask
                   id="tr_amount"

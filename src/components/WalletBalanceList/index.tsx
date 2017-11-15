@@ -65,14 +65,14 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       <div className="issuer">
                         <div className="issuer__img">
                           <img
-                            src={assetIconUrl(b.assetId)}
+                            src={assetIconUrl(b.asset.name)}
                             alt="asset"
                             width={48}
                             height={48}
                           />
                         </div>
                         <div className="issuer__content">
-                          <div className="issuer__name">{b.assetId}</div>
+                          <div className="issuer__name">{b.asset.name}</div>
                         </div>
                       </div>
                     </td>
@@ -81,7 +81,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {b.baseAsset!.name}
                     </td>
                     <td className="_amount">
-                      {asBalance(b)} {b.assetId}
+                      {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
                       <Dropdown

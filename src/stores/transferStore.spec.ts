@@ -1,5 +1,5 @@
 import {RootStore, TransferStore} from '.';
-import {TransferModel} from '../models';
+import {AssetModel, TransferModel} from '../models';
 
 const rootStore = new RootStore();
 const mockTransferApi = {
@@ -19,7 +19,7 @@ rootStore.assetStore.getById = jest.fn();
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
 rootStore.assetStore.getById = jest.fn(() => ({
-  id: '1',
+  id: 'LKK',
   name: 'LKK',
   // tslint:disable-next-line:object-literal-sort-keys
   category: 'Lykke'
@@ -41,7 +41,7 @@ const createValidTransfer = (transfer: TransferModel) => {
   transfer.setWallet(sourceWallet, 'from');
   transfer.setWallet(destWallet, 'to');
   transfer.setAmount(100);
-  transfer.setAsset('LKK');
+  transfer.setAsset(new AssetModel({id: 'LKK', name: 'LKK'}));
   return transfer;
 };
 
@@ -90,12 +90,12 @@ describe('transfer store', () => {
   });
 
   it('should not convert if transfer currency is the same as base one', () => {
-    const transferCurrency = 'TEST';
-    const baseCurrency = 'TEST';
+    const transferCurrency = new AssetModel({id: '1', name: 'TEST'});
+    const baseCurrency = new AssetModel({id: '1', name: 'TEST'});
 
     const isRequired = transferStore.conversionIsRequired(
-      transferCurrency,
-      baseCurrency
+      transferCurrency.id,
+      baseCurrency.id
     );
 
     expect(isRequired).toBeFalsy();
@@ -115,7 +115,7 @@ describe('transfer store', () => {
 
   it('should not request conversion api if no conversion is required', () => {
     const transferModel = new TransferModel(transferStore);
-    transferModel.asset = 'TEST';
+    transferModel.asset = new AssetModel({id: 'TEST', name: 'TEST'});
     const baseCurrency = 'TEST';
 
     transferStore.convertToBaseCurrency(transferModel, baseCurrency);
@@ -125,7 +125,7 @@ describe('transfer store', () => {
 
   it('should request conversion api if conversion is required', () => {
     const transferModel = new TransferModel(transferStore);
-    transferModel.asset = 'TEST 1';
+    transferModel.asset = new AssetModel({id: '1', name: 'TEST 1'});
     const baseCurrency = 'TEST 2';
 
     transferStore.convertToBaseCurrency(transferModel, baseCurrency);
@@ -154,7 +154,7 @@ describe('transfer store', () => {
 
       transferStore.resetCurrentTransfer();
 
-      expect(transferStore.newTransfer.asset).toBe('');
+      // expect(transferStore.newTransfer.asset).toBe(new AssetModel({}));
       expect(transferStore.newTransfer.amount).toBe(0);
       expect(transferStore.newTransfer).not.toEqual(oldTransfer);
       expect(transferStore.newTransfer.canTransfer).toBe(false);
@@ -198,7 +198,7 @@ describe('transfer store', () => {
 
     it('should not call api when transfer is not valid', () => {
       transferStore.startTransfer = jest.fn();
-      sut.asset = '';
+      sut.asset = new AssetModel({id: '1'});
 
       sut.sendTransfer();
 
