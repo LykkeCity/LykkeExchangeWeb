@@ -215,16 +215,7 @@
   }
 
   @media all and (max-width: $screen-landscape) {
-    height: 132px;
     padding-top: 80px;
-    overflow: hidden;
-
-    &__inner {
-      overflow: hidden;
-      overflow-x: auto;
-
-      @include rem(height, 85px);
-    }
 
     &.nav_up {
       @include translate(0, -80px);
@@ -232,8 +223,12 @@
   }
 
   @media all and (max-width: $screen-mobile) {
-    padding-top: 60px;
-    height: 105px;
+    padding-top: 56px;
+
+    .nav_list__item {
+      margin-right: 0;
+      font-size: 10px;
+    }
 
     &.nav_up {
       @include translate(0, -60px);
@@ -883,10 +878,6 @@
   @include rem(margin-left, -5px);
   @include rem(padding-top, 12px);
   @include transition(opacity $transition-default, visibility $transition-default);
-
-  @media all and (max-width: $screen-landscape) {
-    display: none;
-  }
 }
 
 .submenu_list {
@@ -991,7 +982,7 @@
   position: relative;
 
   @include rem(font-size, 16px);
-  @include rem(margin-top, 15px);
+  @include rem(margin-top, 10px);
 
   &:before {
     font-family: icon, sans-serif;
@@ -1006,6 +997,14 @@
     @include rem(margin-top, -10px);
     @include rem(right, -5px);
     @include rem(font-size, 20px);
+  }
+
+  .nav_list__item {
+    margin-right: 0;
+
+    > a {
+      @include rem(padding-right, 15px);
+    }
   }
 
   .icon,
@@ -1075,9 +1074,8 @@
     display: block;
     width: 100%;
     height: 100%;
-
-    @include rem(padding, 4px);
-    @include rem(margin-right, -4px);
+    user-select: none;
+    padding: 0;
   }
 
   &__value {

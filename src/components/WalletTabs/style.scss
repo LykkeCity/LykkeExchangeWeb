@@ -1,10 +1,8 @@
 @import '../../styles/utils';
 
 .wallet-tabs {
-  @include rem(margin, 0 20px);
-
   @media all and (min-width: $screen-tablet + 1) {
-    @include rem(margin, 0 100px);
+    @include rem(margin, 0 80px);
   }
 }
 
@@ -19,7 +17,8 @@
   line-height: normal;
   padding: 0;
   border-bottom: 2px solid transparent;
-  margin-bottom: -5px;
+  margin-bottom: -1px;
+  font-weight: $fw-semi;
 
   @include rem(font-size, 18px);
   @include transition(all 0.3s ease);
@@ -48,7 +47,6 @@
   &--active {
     border-color: $primary;
     color: $text;
-    font-weight: $fw-semi;
 
     .tab__link {
       color: $text;
