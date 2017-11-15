@@ -7,7 +7,7 @@ import {NumberFormat} from '../NumberFormat';
 export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {
     uiStore: {showBaseCurrencyPicker, toggleBaseAssetPicker},
-    profileStore: {setBaseAsset, baseAsset},
+    profileStore: {setBaseAsset, baseAssetAsModel},
     assetStore: {baseAssets},
     walletStore: {totalBalance}
   } = rootStore!;
@@ -26,7 +26,7 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
         </div>
         <div className="header_nav_balance__currency nav_list__item">
           <a id="baseAsset" onClick={toggleBaseAssetPicker}>
-            {baseAsset}
+            {!!baseAssetAsModel && baseAssetAsModel!.name}
           </a>
           <menu
             className="submenu"

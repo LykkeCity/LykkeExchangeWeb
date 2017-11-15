@@ -34,7 +34,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   const {
     transferStore: {newTransfer: transfer},
     walletStore,
-    uiStore: {toggleQrWindow}
+    uiStore: {toggleQrWindow},
+    profileStore: {baseAssetAsModel}
   } = rootStore!;
 
   const handleChangeAmount = (e: any) => {
@@ -153,7 +154,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             <div className="col-sm-8 col-sm-offset-4">
               <div className="text-muted">
                 = <NumberFormat value={transfer.amountInBaseCurrency} />{' '}
-                {rootStore!.profileStore.baseAsset}
+                {!!baseAssetAsModel && baseAssetAsModel.name}
               </div>
             </div>
           </div>

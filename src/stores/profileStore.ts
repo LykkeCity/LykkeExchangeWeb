@@ -17,7 +17,12 @@ const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
   @observable baseAsset: string = baseCurrencyStorage.get() || 'LKK';
-  @observable baseAssetAsModel: AssetModel;
+
+  @computed
+  get baseAssetAsModel() {
+    return this.rootStore.assetStore.getById(this.baseAsset);
+  }
+
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -44,7 +49,7 @@ export class ProfileStore {
   @action
   setBaseAsset = async (asset: AssetModel) => {
     this.baseAsset = asset.name;
-    this.baseAssetAsModel = asset;
+    // this.baseAssetAsModel = asset;
   };
 
   fetchBaseAsset = async () => {
