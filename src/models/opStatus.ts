@@ -3,7 +3,8 @@ export enum OpStatus {
   Created = 'Created',
   Completed = 'Completed',
   Confirmed = 'Confirmed',
-  Canceled = 'Canceled'
+  Canceled = 'Canceled',
+  Failed = 'Failed'
 }
 
 export default OpStatus;

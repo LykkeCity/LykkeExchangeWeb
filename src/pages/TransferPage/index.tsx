@@ -73,7 +73,6 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
     let k = 0;
-    let j = 0;
     const timeout = 1000;
     const poll = () => {
       if (this.transferStore.newTransfer.amount === 0) {
@@ -81,12 +80,11 @@ export class TransferPage extends React.Component<TransferPageProps> {
       }
       k = k + 1;
       const operationIsTooLong = k > 120;
-      const fromConfirmedToCompletedIsTooLong =
-        j * timeout > (config.operationIdleTime || 5 * timeout);
       setTimeout(async () => {
         const op = await this.transferStore.fetchOperationDetails(transfer);
         const {amount, asset} = transfer;
         switch (op.Status) {
+          case OpStatus.Confirmed:
           case OpStatus.Completed:
             this.transferStore.finishTransfer(transfer);
             await this.walletStore.fetchWallets();
@@ -101,13 +99,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
               this.resetAndFail('canceled', false);
             }
             break;
-          case OpStatus.Confirmed:
-            j = j + 1;
-            if (fromConfirmedToCompletedIsTooLong) {
-              this.resetAndFail('idled', false);
-            } else {
-              poll();
-            }
+          case OpStatus.Failed:
+            this.resetAndFail('failed', false);
+            break;
           default:
             if (operationIsTooLong) {
               this.resetAndFail('failed');
