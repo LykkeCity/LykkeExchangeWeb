@@ -2,7 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {NumberFormat} from '../NumberFormat';
+import {asAssetBalance} from '../hoc/assetBalance';
 
 export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {
@@ -22,7 +22,7 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
       <div className="dropdown_control">
         <i className="icon icon--finance_alt" />
         <div className="header_nav_balance__value">
-          <NumberFormat value={totalBalance} />
+          {!!baseAssetAsModel && asAssetBalance(baseAssetAsModel, totalBalance)}
         </div>
         <div className="header_nav_balance__currency nav_list__item">
           <a id="baseAsset" onClick={toggleBaseAssetPicker}>

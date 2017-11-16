@@ -7,7 +7,6 @@ import {asAssetBalance} from '../../components/hoc/assetBalance';
 import {NumberFormat} from '../../components/NumberFormat/index';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
-import {config} from '../../config';
 import {
   ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS
@@ -73,20 +72,18 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
     let k = 0;
-    let j = 0;
     const timeout = 1000;
     const poll = () => {
       if (this.transferStore.newTransfer.amount === 0) {
         return;
       }
       k = k + 1;
-      const operationIsTooLong = k > 30;
-      const fromConfirmedToCompletedIsTooLong =
-        j * timeout > (config.operationIdleTime || 5 * timeout);
+      const operationIsTooLong = k > 120;
       setTimeout(async () => {
         const op = await this.transferStore.fetchOperationDetails(transfer);
         const {amount, asset} = transfer;
         switch (op.Status) {
+          case OpStatus.Confirmed:
           case OpStatus.Completed:
             this.transferStore.finishTransfer(transfer);
             await this.walletStore.fetchWallets();
@@ -98,16 +95,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
             break;
           case OpStatus.Canceled:
             if (this.transferStore.newTransfer.amount > 0) {
-              this.resetAndFail('canceled', false);
+              this.resetAndFail('was canceled', false);
             }
             break;
-          case OpStatus.Confirmed:
-            j = j + 1;
-            if (fromConfirmedToCompletedIsTooLong) {
-              this.resetAndFail('idled', false);
-            } else {
-              poll();
-            }
+          case OpStatus.Failed:
+            this.resetAndFail('failed', false);
+            break;
           default:
             if (operationIsTooLong) {
               this.resetAndFail('failed');

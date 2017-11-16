@@ -15,8 +15,7 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
         style={{color: 'limegreen', fontSize: '64px'}}
       />
       <div className="transfer-result__desc">
-        Your transfer transaction has been successfully broadcasted. We will
-        notify you when it will be confirmed.
+        Your transaction request has been successfully sent
       </div>
       <div className="transfer-result__amount">
         {amount} {asset}
@@ -36,9 +35,7 @@ export const TransferFail: React.SFC<RouteComponentProps<any>> = ({
   return (
     <div className="transfer-result">
       <Icon type="close-circle" style={{color: 'red', fontSize: '64px'}} />
-      <div className="transfer-result__desc">
-        Your transfer transaction has been {reason}.
-      </div>
+      <div className="transfer-result__desc">Your transaction {reason}</div>
       <div className="transfer-result__button">
         <Link to={ROUTE_WALLETS} className="btn btn--primary">
           Go back to wallets

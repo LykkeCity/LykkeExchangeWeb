@@ -70,7 +70,7 @@ export class AuthStore {
         this.token = null;
         authStorage.clear();
       });
-    }, 1000);
+    }, 2000);
   };
 
   getAccessToken = () => {

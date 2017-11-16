@@ -1,6 +1,7 @@
 import Modal from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
@@ -14,6 +15,8 @@ interface GenerateWalletKeyFormProps extends RootStoreProps {
 export class GenerateWalletKeyForm extends React.Component<
   GenerateWalletKeyFormProps
 > {
+  state = {message: ''};
+
   render() {
     return (
       <div className="form-item">
@@ -42,14 +45,28 @@ export class GenerateWalletKeyForm extends React.Component<
                 <i className="icon icon--key" />
               </button>
             </div>
-            <div className="asset_link__action">
-              <button
-                className="btn btn--icon"
-                type="button"
-                onClick={this.handleCopyKey}
+            <div style={{position: 'relative'}} className="asset_link__action">
+              <CopyToClipboard
+                text={this.props.wallet.apiKey}
+                onCopy={this.handleCopyKey}
               >
-                <i className="icon icon--copy_thin" />
-              </button>
+                <button className="btn btn--icon" type="button">
+                  <i className="icon icon--copy_thin" />
+                </button>
+              </CopyToClipboard>
+              {!!this.state.message && (
+                <small
+                  style={{
+                    color: 'green',
+                    fontWeight: 'normal',
+                    position: 'absolute',
+                    right: '1em',
+                    top: '3em'
+                  }}
+                >
+                  {this.state.message}
+                </small>
+              )}
             </div>
           </div>
         </div>
@@ -94,14 +111,12 @@ export class GenerateWalletKeyForm extends React.Component<
     this.props.rootStore!.walletStore.regenerateApiKey(this.props.wallet);
   };
 
-  private readonly handleCopyKey = () => {
-    try {
-      const input = document.getElementById(WALLET_KEY_INPUT);
-      (input as HTMLInputElement).select();
-      document.execCommand('copy');
-    } catch (err) {
-      // tslint:disable-next-line:no-console
-      console.error('Unable to copy');
+  private readonly handleCopyKey = (text: string) => {
+    if (!!text) {
+      this.setState({message: 'Copied!'});
+      setTimeout(() => {
+        this.setState({message: ''});
+      }, 2000);
     }
   };
 }
