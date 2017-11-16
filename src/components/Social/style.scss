@@ -1,0 +1,135 @@
+@import '../../styles/utils';
+
+.social {
+  &__item {
+    text-decoration: none !important;
+
+    @include rem(margin-right, 40px);
+
+    &:last-child {
+      margin-right: 0;
+    }
+    &:hover {
+      color: $secondary;
+    }
+  }
+
+  &--header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    white-space: normal;
+
+    @include rem(padding, 0 30px);
+    @include rem(bottom, 20px);
+  }
+
+  &--simple {
+    > li {
+      display: inline-block;
+
+      @include rem(margin-right, 50px);
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      > a {
+        color: #8c94a0;
+        display: block;
+        text-align: center;
+
+        @include rem(height, 60px);
+        @include rem(width, 60px);
+        @include rem(line-height, 55px);
+
+        &:hover {
+          color: rgba($secondary, 1);
+        }
+      }
+    }
+  }
+
+  &--footer,
+  &--header {
+    @include rem(padding, 5px 0);
+
+    .icon {
+      margin-right: 0;
+    }
+
+    > li {
+      display: inline-block;
+      vertical-align: middle;
+
+      @include rem(font-size, 20px);
+      @include rem(margin-left, 28px);
+
+      &:first-child {
+        margin-left: 0;
+      }
+
+      > a {
+        color: $secondary;
+        display: inline-block;
+        vertical-align: middle;
+        opacity: .6;
+
+        @include rem(padding, 8px);
+
+        &:hover {
+          color: rgba($secondary, 1);
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
+.sharing {
+  margin-bottom: 44px;
+
+  &__link {
+    border-radius: 100px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    display: inline-block;
+    vertical-align: top;
+
+    .icon {
+      font-size: 40px;
+      color: #fff;
+    }
+
+    &--fb {
+      background: #3C5A98;
+    }
+
+    &--tw {
+      background: #2AA9E0;
+    }
+
+    &:hover {
+      opacity: .9;
+    }
+  }
+}
+
+.social_share {
+  text-align: center;
+
+  @include rem(margin-bottom, 60px);
+
+  &__text {
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.5;
+    color: rgba($secondary, .6);
+
+    @include rem(font-size, 16px);
+    @include rem(margin-bottom, 23px);
+  }
+}

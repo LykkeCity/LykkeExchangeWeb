@@ -1,0 +1,54 @@
+@import '../../styles/utils';
+
+.transfer {
+  color: $text;
+  width: 570px;
+  max-width: 100%;
+
+  @include rem(margin, 0 auto);
+
+  h1 {
+    font-weight: $fw-semi;
+    text-align: center;
+
+    @include rem(margin-bottom, 11px);
+    @include rem(font-size, 40px);
+  }
+
+  h2 {
+    font-weight: $fw-light;
+    text-align: center;
+
+    @include rem(font-size, 36px);
+    @include rem(margin-bottom, 28px);
+  }
+
+  &__text {
+    text-align: left;
+    color: $secondary;
+
+    @include rem(font-size, 16px);
+
+    &--center {
+      text-align: center;
+    }
+  }
+
+  &__actions {
+    text-align: center;
+
+    @include rem(font-size, 18px);
+    @include rem(margin-bottom, 80px);
+
+    input[type='submit'] {
+      width: 370px;
+      max-width: 100%;
+
+      @include rem(margin-bottom, 8px);
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
+  }
+}

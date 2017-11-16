@@ -1,0 +1,66 @@
+@import 'styles/vendor/bootstrap-custom.min.scss';
+@import 'styles/components/fonts';
+@import 'styles/components/icons';
+@import 'styles/utils';
+
+@import '../node_modules/LykkeFramework/assets/scss/common/general';
+@import '../node_modules/LykkeFramework/assets/scss/common/typo';
+@import '../node_modules/LykkeFramework/assets/scss/common/helpers';
+@import '../node_modules/LykkeFramework/assets/scss/partials/form';
+@import '../node_modules/LykkeFramework/assets/scss/partials/btn';
+@import '../node_modules/LykkeFramework/assets/scss/partials/assets';
+@import '../node_modules/LykkeFramework/assets/scss/responsive';
+
+@import 'styles/components/asset_list';
+@import 'styles/components/action_link';
+@import 'styles/components/forms';
+
+.app__shell {
+  @include rem(padding, 20px 0);
+  @include rem(margin-bottom, 50px);
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding, 50px 0);
+    @include rem(margin-bottom, 100px);
+  }
+}
+
+.app--overlayed {
+  filter: blur(5px);
+}
+
+body {
+  padding-bottom: 862px;
+
+  @media all and (min-width: $screen-mobile + 1) {
+    padding-bottom: 778px;
+  }
+
+  @media all and (min-width: $screen-landscape + 1) {
+    padding-bottom: 643px;
+  }
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding-bottom, 419px);
+  }
+}
+
+.form-control {
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+textarea.form-control {
+  border-color: $gray-25;
+
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+.text--truncate {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}

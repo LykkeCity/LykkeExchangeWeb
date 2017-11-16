@@ -1,0 +1,211 @@
+@import '../../../styles/utils';
+
+.block_subscribe {
+  h5 {
+    line-height: 1.5;
+    font-size: 16px;
+
+    @include rem(margin-bottom, 5px);
+  }
+
+  .hint {
+    line-height: 1.43;
+    color: #8c94a0;
+
+    @include rem(font-size, 14px);
+  }
+
+  .form {
+    @include rem(margin-top, 10px);
+  }
+
+  .form-group {
+    max-width: 322px;
+    position: relative;
+
+    @include rem(padding-right, 50px);
+  }
+
+  .btn {
+    position: absolute;
+    right: 0;
+    top: 0;
+    line-height: 1.7em;
+
+    @include rem(font-size, 14px);
+
+    .icon {
+      position: relative;
+      top: 0;
+    }
+
+    &.btn--circle {
+      line-height: normal;
+
+      @include rem(min-width, 40px);
+      @include rem(height, 40px);
+      @include rem(padding, 5px);
+    }
+  }
+
+  .form-control {
+    @include rem(height, 40px);
+    @include rem(font-size, 14px);
+    @include rem(padding, 10px 20px);
+
+    line-height: 1.71;
+  }
+
+  .input-group {
+    .icon {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      margin-right: 0;
+      color: #b2b8bf;
+
+      @include translate(0, -50%);
+      @include rem(font-size, 26px);
+      @include rem(padding, 7px 10px);
+
+      + .form-control {
+        @include rem(padding-left, 44px);
+      }
+    }
+  }
+
+  &--accent {
+    text-align: center;
+    margin-bottom: 0;
+
+    .block_subscribe__icon {
+      display: block;
+      margin: 0;
+
+      @include rem(margin-bottom, 20px);
+    }
+
+    .block_subscribe__title {
+      line-height: 1.67;
+
+      @include rem(font-size, 21px);
+      @include rem(margin-bottom, 2px);
+    }
+
+    .hint.hint {
+      line-height: 1.67;
+
+      @include rem(font-size, 18px);
+      @include rem(margin-bottom, 10px);
+    }
+
+    .input-group .icon + .form-control {
+      @include rem(padding-left, 47px);
+    }
+
+    .form-group {
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 370px;
+      margin-bottom: 0;
+
+      @include rem(padding-right, 65px);
+    }
+
+    .form {
+      @include rem(margin-top, 24px);
+    }
+
+    .form-control {
+      @include rem(height, 50px);
+      @include rem(font-size, 16px);
+    }
+
+    .btn--circle {
+      @include rem(min-width, 50px);
+      @include rem(height, 50px);
+    }
+  }
+
+  @media all and (max-width: $screen-tablet) {
+    margin-bottom: 35px;
+    text-align: left;
+
+    .hint {
+      margin-bottom: 20px;
+    }
+
+    &--accent {
+      text-align: center;
+      margin-bottom: 0;
+    }
+  }
+
+  @media all and (max-width: $screen-landscape) {
+    &__icon {
+      img {
+        width: 24px;
+        height: auto;
+      }
+    }
+
+    &--accent {
+      .block_subscribe__icon {
+        margin-bottom: 14px;
+      }
+
+      .block_subscribe__title {
+        font-size: 17px;
+        line-height: 1.41;
+      }
+
+      .hint.hint {
+        margin-bottom: 6px;
+      }
+
+      .form {
+        margin-top: 16px;
+      }
+    }
+  }
+
+  @media all and (max-width: $screen-mobile) {
+    &__title {
+      .footer & {
+        font-size: 14px;
+        margin-bottom: 4px;
+      }
+    }
+
+    .form-group {
+      max-width: none;
+      padding-right: 50px;
+    }
+
+    .btn--circle {
+      width: 40px;
+      height: 40px;
+    }
+
+    .input-group {
+      margin-bottom: 15px;
+
+      .icon {
+        font-size: 24px;
+        left: 2px;
+
+        + .form-control {
+          padding-left: 42px;
+        }
+      }
+    }
+
+    .form-control {
+      height: 40px;
+      padding-top: 5px;
+      padding-bottom: 5px;
+      font-size: 13px;
+      margin-bottom: 0;
+    }
+  }
+}

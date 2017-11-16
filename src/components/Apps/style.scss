@@ -1,0 +1,86 @@
+@import '../../styles/utils';
+
+.apps {
+  font-size: 0;
+  text-align: center;
+
+  .apps_apple,
+  .apps_google {
+    display: inline-block;
+    vertical-align: middle;
+
+    @include rem(margin-bottom, 10px);
+    @include rem(padding, 0 10px);
+
+    a {
+      display: block;
+
+      &:hover {
+        @include scale(1.01);
+      }
+    }
+  }
+
+  .apps_apple {
+    margin-right: 0;
+  }
+
+  &--left,
+  &--small {
+    text-align: left;
+
+    .apps_apple,
+    .apps_google {
+      padding: 0;
+
+      @include rem(margin-right, 16px);
+    }
+  }
+
+  &--small {
+    .apps_apple,
+    .apps_google {
+      @include rem(margin-right, 12px);
+
+      img {
+        width: 140px;
+      }
+    }
+  }
+
+  @media (max-width: $screen-landscape) {
+    padding: 0;
+
+    .apps_apple, .apps_google {
+      margin: 0;
+    }
+
+    img {
+      width: 160px;
+      max-width: 100%;
+    }
+
+    &--small {
+      text-align: center;
+      margin-left: -5px;
+      margin-right: -5px;
+
+      .apps_apple,
+      .apps_google {
+        margin: 0;
+        padding: 0 5px;
+        max-width: 50%;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+  }
+
+  @media (max-width: $screen-mobile) {
+    .apps_apple, .apps_google {
+      max-width: 50%;
+    }
+  }
+}

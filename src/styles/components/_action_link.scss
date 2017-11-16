@@ -1,0 +1,48 @@
+a.action_link,
+button.action_link {
+  &:hover {
+    color: $secondary;
+
+    img {
+      opacity: 1;
+    }
+  }
+}
+
+.action_link {
+  display: inline-block;
+  vertical-align: middle;
+  border: 0;
+  background: transparent;
+  outline: none !important;
+  color: rgba($secondary, 0.6);
+
+  @include transition(color 0.2s ease);
+  @include rem(padding, 8px 10px);
+  @include rem(font-size, 16px);
+
+  .icon {
+    @include rem(font-size, 24px);
+  }
+}
+
+.actions_list {
+  &__item {
+    display: inline-block;
+    vertical-align: top;
+
+    @include rem(margin-right, 5px);
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @media all and (max-width: $screen-mobile) {
+    &__item {
+      margin-bottom: 10px;
+      display: block;
+      margin-right: 0;
+    }
+  }
+}

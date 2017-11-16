@@ -1,0 +1,44 @@
+.form-control {
+  @include rem(padding-left, 20px);
+  @include rem(padding-right, 20px);
+
+  &--error {
+    border-color: $red;
+  }
+
+  &:focus {
+    border-color: $gray-light;
+  }
+}
+
+.label_error {
+  color: $red;
+
+  @include rem(margin-top, 5px);
+  @include rem(font-size, 14px);
+}
+
+.btn-block + .btn-block {
+  margin-left: 0;
+}
+
+.input-group-addon {
+}
+
+.addon-text {
+  cursor: default !important;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.inline-form {
+  .control-label {
+    color: $text;
+    font-weight: $fw-semi;
+
+    @include rem(font-size, 18px);
+    @include rem(margin-top, 14px);
+  }
+}

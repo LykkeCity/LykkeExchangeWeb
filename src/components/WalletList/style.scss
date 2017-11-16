@@ -1,0 +1,156 @@
+@import '../../styles/utils';
+
+.wallet_list {
+  text-align: left;
+}
+
+.wallet {
+  border-radius: 8px;
+  transition: all $transition-default;
+
+  @include rem(padding, 0 20px);
+  @include rem(margin-bottom, 24px);
+
+  &__inner {
+    border-bottom: 1px solid $border-alt;
+    transition: border-color $transition-default;
+
+    @include rem(padding, 45px 0);
+  }
+
+  &__title {
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    color: $text;
+
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 15px);
+
+    i.icon {
+      color: #d8d8d8;
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
+      transition: color $transition-default;
+
+      @include rem(padding, 5px);
+      @include rem(font-size, 20px);
+      @include rem(margin-left, 10px);
+
+      &:hover {
+        color: rgba($secondary, 0.8);
+      }
+    }
+  }
+
+  &__desc {
+    line-height: 1.56;
+    color: rgba($secondary, 0.8);
+
+    @include rem(font-size, 16px);
+  }
+
+  &__total,
+  &__info {
+    @include rem(margin-bottom, 10px);
+  }
+
+  &__info {
+    @include rem(padding-right, 40px);
+  }
+
+  &__total-balance {
+    line-height: 1.85;
+    color: rgba($secondary, 0.6);
+    text-transform: uppercase;
+    text-align: right;
+
+    @include rem(font-size, 13px);
+    @include rem(letter-spacing, 2.4px);
+    @include rem(margin-top, 5px);
+    @include rem(margin-bottom, 8px);
+
+    @media all and (max-width: $screen-tablet) {
+      text-align: left;
+    }
+  }
+
+  &__total-balance-value {
+    font-weight: $fw-light;
+    line-height: 1.11;
+    text-align: right;
+    color: $text;
+
+    @include rem(margin-bottom, 8px);
+    @include rem(font-size, 36px);
+
+    @media all and (max-width: $screen-tablet) {
+      text-align: left;
+    }
+  }
+
+  &__figure {
+    line-height: 1.5;
+    color: $secondary;
+
+    @include rem(margin-right, 5px);
+    @include rem(font-size, 16px);
+  }
+
+  &__figure-val {
+    line-height: 1.5;
+    color: rgba($secondary, 0.6);
+
+    @include rem(font-size, 16px);
+
+    &--green {
+      color: $green;
+    }
+
+    &--red {
+      color: $red;
+    }
+  }
+
+  &__balances {
+    @include rem(padding-top, 35px);
+
+    h3 {
+      @include rem(margin-bottom, 10px);
+
+      small {
+        color: $gray-dark;
+
+        @include rem(font-size, 16px);
+        @include rem(margin-left, 10px);
+      }
+    }
+  }
+
+  &__expanded {
+    @include rem(margin-top, 20px);
+  }
+
+  @media all and (min-width: $screen-landscape + 1) {
+    min-height: 245px;
+
+    &__inner {
+      min-height: 245px;
+    }
+  }
+
+  @media all and (min-width: $screen-tablet + 1) {
+    @include rem(padding, 0 100px);
+
+    &:hover,
+    &--expanded {
+      background-color: $white;
+      box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
+        0 2px 6px 0 rgba(63, 77, 96, 0.1);
+
+      .wallet__inner {
+        border-bottom-color: transparent;
+      }
+    }
+  }
+}
