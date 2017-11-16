@@ -2,6 +2,7 @@
 
 .wallet_list {
   text-align: left;
+  margin-top: -1px;
 }
 
 .wallet {
@@ -9,7 +10,6 @@
   transition: all $transition-default;
 
   @include rem(padding, 0 20px);
-  @include rem(margin-bottom, 24px);
 
   &__inner {
     border-bottom: 1px solid $border-alt;
@@ -131,16 +131,19 @@
     @include rem(margin-top, 20px);
   }
 
-  @media all and (min-width: $screen-landscape + 1) {
-    min-height: 245px;
-
+  @media all and (max-width: $screen-tablet) {
     &__inner {
-      min-height: 245px;
+      @include rem(padding, 30px 0);
+    }
+
+    &__info {
+      padding-right: 0;
     }
   }
 
   @media all and (min-width: $screen-tablet + 1) {
     @include rem(padding, 0 100px);
+    @include rem(margin-bottom, 24px);
 
     &:hover,
     &--expanded {

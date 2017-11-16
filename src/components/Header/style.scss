@@ -871,7 +871,6 @@
   top: 100%;
   opacity: 0;
   visibility: hidden;
-  pointer-events: none;
   min-width: 110%;
 
   @include reset-list-style;
@@ -1026,6 +1025,8 @@
 
     > a {
       padding-left: 0;
+
+      @include rem(min-height, 38px);
     }
 
     .submenu {

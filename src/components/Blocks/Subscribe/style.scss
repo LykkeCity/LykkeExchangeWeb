@@ -41,9 +41,10 @@
 
     &.btn--circle {
       line-height: normal;
+      height: 40px;
+      width: 40px;
+      min-width: 0;
 
-      @include rem(min-width, 40px);
-      @include rem(height, 40px);
       @include rem(padding, 5px);
     }
   }
