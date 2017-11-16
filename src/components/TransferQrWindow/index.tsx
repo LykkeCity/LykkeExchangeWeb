@@ -38,7 +38,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   return (
     <Modal
       visible={showQrWindow}
-      title="Address"
+      title="Confirm the transfer"
       // tslint:disable-next-line:jsx-no-lambda
       onCancel={() => {
         return;
@@ -58,7 +58,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       {...rest}
     >
       <p className="transfer-qr__desc">
-        Please use your LykkeWallet app to confirm the transfer:
+        Scan the QR code with your Lykke Wallet
       </p>
       <div className="transfer-qr__img">
         <img

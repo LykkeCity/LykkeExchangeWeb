@@ -95,7 +95,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
             break;
           case OpStatus.Canceled:
             if (this.transferStore.newTransfer.amount > 0) {
-              this.resetAndFail('canceled', false);
+              this.resetAndFail('was canceled', false);
             }
             break;
           case OpStatus.Failed:
