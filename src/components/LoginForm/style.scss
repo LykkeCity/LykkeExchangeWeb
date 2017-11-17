@@ -59,8 +59,13 @@
       }
     }
 
-    .has-success .input-group-addon {
-      background: inherit;
+    .has-success {
+      .input-group-addon {
+        background: inherit;
+      }
+      .form-control {
+        border: 1px solid #cfd2d7;
+      }
     }
 
     .ant-form-explain {
