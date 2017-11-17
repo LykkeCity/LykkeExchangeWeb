@@ -46,6 +46,10 @@ body {
 }
 
 .form-control {
+  &:hover {
+    border-color: $gray-25;
+  }
+
   &:focus {
     border-color: $gray-light;
   }
