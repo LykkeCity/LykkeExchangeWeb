@@ -27,6 +27,15 @@ export class LoginForm extends React.Component<LoginFormProps> {
     });
   };
 
+  handleSignup = (e: any) => {
+    e.preventDefault();
+    this.props.form.validateFields((err: any, values: any) => {
+      if (!err) {
+        this.authStore.signup(values.email, values.password);
+      }
+    });
+  };
+
   render() {
     const {getFieldDecorator} = this.props.form;
     return !!this.authStore.token ? (
@@ -63,6 +72,9 @@ export class LoginForm extends React.Component<LoginFormProps> {
           >
             Sign in
           </Button>
+        </FormItem>
+        <FormItem>
+          <a onClick={this.handleSignup}>Sign up</a>
         </FormItem>
       </Form>
     );

@@ -34,6 +34,15 @@ export class AuthStore {
     this.token = resp.AccessToken;
   };
 
+  signup = async (username: string, password: string) => {
+    const resp = await this.api!.signup(username, password);
+    runInAction(() => {
+      this.rootStore.profileStore.firstName = resp.PersonalData.FirstName;
+      this.rootStore.profileStore.lastName = resp.PersonalData.LastName;
+      this.token = resp.Token;
+    });
+  };
+
   auth = async (code: string) => {
     const authContext = await this.fetchBearerToken(code);
     authStorage.set(JSON.stringify(authContext));
