@@ -1,19 +1,38 @@
 @import '../../styles/utils';
 
 .login {
-  @include rem(margin, 100px);
   text-align: center;
+
+  @include rem(padding, 100px 0);
+
+  .header_logo {
+    @include rem(margin-bottom, 34px);
+
+    img {
+      @include rem(height, 60px);
+    }
+
+    &__title {
+      @include rem(font-size, 36px);
+    }
+  }
 }
 
 .login-form {
-  @include rem(padding, 30px);
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+
+  @include rem(width, 430px);
+  @include rem(padding, 0 30px);
 
   .ant-form-item {
-    @include rem(padding, 10px 20px);
+    padding: 0;
+
+    @include rem(margin-bottom, 25px);
 
     input {
-      @include rem(width, 370px);
-      @include rem(padding, 20px);
+      width: 100%;
     }
 
     button {
@@ -22,11 +41,41 @@
       @include rem(padding, 10px 0);
     }
 
-    .ant-form-explain {
-      color: red;
-      @include rem(font-size, 12px);
-      @include rem(margin, 10px 0 0 60px);
-      text-align: left;
+    .ant-form-item-control {
+      position: relative;
     }
+
+    .input-group-addon {
+      left: 4px;
+      right: auto;
+      z-index: 10;
+      color: #b2b8bf;
+
+      @include rem(font-size, 24px);
+      @include rem(line-height, 20px);
+
+      + .form-control {
+        @include rem(padding-left, 52px);
+      }
+    }
+
+    .ant-form-explain {
+      color: #ff3e2e;
+      text-align: left;
+
+      @include rem(font-size, 12px);
+      @include rem(margin, 10px 0 0 0);
+    }
+  }
+}
+
+.has-error {
+  .form-control {
+    border-color: #ff3e2e !important;
+  }
+
+  .input-group-addon {
+    background-color: transparent !important;
+    color: #ff3e2e !important;
   }
 }

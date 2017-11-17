@@ -34,14 +34,26 @@ export class LoginForm extends React.Component<LoginFormProps> {
     ) : (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
+          <span className="input-group-addon">
+            <i className="icon icon--email" />
+          </span>
           {getFieldDecorator('email', {
             rules: [{required: true, message: 'Please input your email!'}]
-          })(<Input placeholder="Email address" />)}
+          })(<Input placeholder="Email address" className="form-control" />)}
         </FormItem>
         <FormItem>
+          <span className="input-group-addon">
+            <i className="icon icon--lock" />
+          </span>
           {getFieldDecorator('password', {
             rules: [{required: true, message: 'Please input your password!'}]
-          })(<Input type="password" placeholder="Password" />)}
+          })(
+            <Input
+              type="password"
+              placeholder="Password"
+              className="form-control"
+            />
+          )}
         </FormItem>
         <FormItem>
           <Button
