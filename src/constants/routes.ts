@@ -14,3 +14,4 @@ export const ROUTE_TRANSFER_SUCCESS = `${ROUTE_TRANSFER_BASE}/success`;
 export const ROUTE_TRANSFER_FAIL = `${ROUTE_TRANSFER_BASE}/fail`;
 
 export const ROUTE_AUTH = '/auth';
+export const ROUTE_LOGIN = '/login';

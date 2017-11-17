@@ -1,10 +1,11 @@
-import {Icon} from 'antd';
 import Button from 'antd/lib/button/button';
 import Form from 'antd/lib/form/Form';
 import Input from 'antd/lib/input/Input';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {Redirect} from 'react-router';
 import {RootStoreProps} from '../../App';
+import {ROUTE_ROOT} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
@@ -17,41 +18,39 @@ const FormItem = Form.Item;
 export class LoginForm extends React.Component<LoginFormProps> {
   readonly authStore = this.props.rootStore!.authStore;
 
-  handleSubmit = async (e: any) => {
+  handleSubmit = (e: any) => {
     e.preventDefault();
+    this.props.form.validateFields((err: any, values: any) => {
+      if (!err) {
+        this.authStore.login(values.email, values.password);
+      }
+    });
   };
 
   render() {
     const {getFieldDecorator} = this.props.form;
-    return (
+    return !!this.authStore.token ? (
+      <Redirect to={ROUTE_ROOT} />
+    ) : (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <FormItem>
           {getFieldDecorator('email', {
             rules: [{required: true, message: 'Please input your email!'}]
-          })(
-            <Input prefix={<Icon type="mail" />} placeholder="Email address" />
-          )}
+          })(<Input placeholder="Email address" />)}
         </FormItem>
         <FormItem>
           {getFieldDecorator('password', {
             rules: [{required: true, message: 'Please input your password!'}]
-          })(
-            <Input
-              prefix={<Icon type="lock" />}
-              type="password"
-              placeholder="Password"
-            />
-          )}
+          })(<Input type="password" placeholder="Password" />)}
         </FormItem>
         <FormItem>
           <Button
             type="primary"
             htmlType="submit"
-            className="login-form-button"
+            className="btn btn--primary btn-sm"
           >
             Sign in
           </Button>
-          <Button className="login-form-button">Sign up</Button>
         </FormItem>
       </Form>
     );

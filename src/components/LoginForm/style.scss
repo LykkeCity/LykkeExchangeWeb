@@ -1,9 +1,32 @@
+@import '../../styles/utils';
+
+.login {
+  @include rem(margin, 100px);
+  text-align: center;
+}
+
 .login-form {
-  max-width: 300px;
-}
-.login-form-forgot {
-  float: right;
-}
-.login-form-button {
-  width: 100%;
+  @include rem(padding, 30px);
+
+  .ant-form-item {
+    @include rem(padding, 10px 20px);
+
+    input {
+      @include rem(width, 370px);
+      @include rem(padding, 20px);
+    }
+
+    button {
+      @include rem(width, 370px);
+      @include rem(height, 50px);
+      @include rem(padding, 10px 0);
+    }
+
+    .ant-form-explain {
+      color: red;
+      @include rem(font-size, 12px);
+      @include rem(margin, 10px 0 0 60px);
+      text-align: left;
+    }
+  }
 }

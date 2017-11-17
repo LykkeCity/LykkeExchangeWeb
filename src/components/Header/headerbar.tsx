@@ -1,6 +1,8 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {ROUTE_LOGIN} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import Logo from '../Logo';
 import HeaderSearch from './headerSearch';
@@ -35,18 +37,12 @@ export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
           {!authStore.isAuthenticated && (
             <div className="header_actions__login header_login pull-right">
               <div className="header_user dropdown__control">
-                <a href={authStore.getConnectUrl()}>
+                <Link to={ROUTE_LOGIN}>
                   <div className="header_login__title">Sign in</div>
-                </a>
+                </Link>
               </div>
             </div>
           )}
-
-          {/* <div className="header_actions__search pull-right">
-            <button className="btn btn--icon btn_open_search" type="button">
-              <i className="icon icon--search" />
-            </button>
-          </div> */}
         </div>
 
         <HeaderSearch />

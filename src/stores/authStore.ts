@@ -29,6 +29,11 @@ export class AuthStore {
     );
   }
 
+  login = async (username: string, password: string) => {
+    const resp = await this.api!.login(username, password);
+    this.token = resp.AccessToken;
+  };
+
   auth = async (code: string) => {
     const authContext = await this.fetchBearerToken(code);
     authStorage.set(JSON.stringify(authContext));
@@ -59,18 +64,10 @@ export class AuthStore {
   getLogoutUrl = () => `${config.auth.url}${config.auth.apiUrls.logout}`;
 
   logout = async () => {
-    const logoutwindow = window.open(
-      `${config.auth.url}${config.auth.apiUrls.logout}`,
-      'logoutWindow',
-      'scrollbars=no,resizable=no,status=no,location=no,toolbar=no,menubar=no,width=600,height=300,left=100,top=100'
-    );
-    await setTimeout(() => {
-      logoutwindow.close();
-      runInAction(() => {
-        this.token = null;
-        authStorage.clear();
-      });
-    }, 2000);
+    runInAction(() => {
+      this.token = null;
+      authStorage.clear();
+    });
   };
 
   getAccessToken = () => {
@@ -83,5 +80,8 @@ export class AuthStore {
     return !!this.token;
   }
 
-  redirectToAuthServer = () => location.replace(this.getConnectUrl());
+  redirectToAuthServer = () => {
+    tokenStorage.clear();
+    location.replace(`//${location.hostname}:${location.port}/login`);
+  };
 }

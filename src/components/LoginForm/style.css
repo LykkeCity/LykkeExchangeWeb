@@ -1,8 +1,36 @@
+.login {
+  margin: 100px;
+  margin: 6.25rem;
+  text-align: center;
+}
+
 .login-form {
-  max-width: 300px; }
-
-.login-form-forgot {
-  float: right; }
-
-.login-form-button {
-  width: 100%; }
+  padding: 30px;
+  padding: 1.875rem;
+}
+.login-form .ant-form-item {
+  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
+}
+.login-form .ant-form-item input {
+  width: 370px;
+  width: 23.125rem;
+  padding: 20px;
+  padding: 1.25rem;
+}
+.login-form .ant-form-item button {
+  width: 370px;
+  width: 23.125rem;
+  height: 50px;
+  height: 3.125rem;
+  padding: 10px 0;
+  padding: 0.625rem 0;
+}
+.login-form .ant-form-item .ant-form-explain {
+  color: red;
+  font-size: 12px;
+  font-size: 0.75rem;
+  margin: 10px 0 0 60px;
+  margin: 0.625rem 0 0 3.75rem;
+  text-align: left;
+}

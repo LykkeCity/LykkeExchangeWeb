@@ -7,6 +7,16 @@ export interface AuthApi {
 }
 
 export class RestAuthApi extends RestApi implements AuthApi {
+  login = (username: string, password: string) =>
+    this.apiWretch
+      .url('/client/auth')
+      .json({
+        Email: username,
+        Password: password
+      })
+      .post()
+      .json();
+
   fetchSessionToken = (clientId: string, token: string) =>
     this.authBearerWretch()
       .headers({
