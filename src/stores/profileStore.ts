@@ -28,7 +28,7 @@ export class ProfileStore {
 
   @computed
   get fullName() {
-    return `${this.firstName} ${this.lastName || ''}`;
+    return `${this.firstName || ''} ${this.lastName || ''}`;
   }
 
   constructor(private readonly rootStore: RootStore, private api?: ProfileApi) {
@@ -49,7 +49,6 @@ export class ProfileStore {
   @action
   setBaseAsset = async (asset: AssetModel) => {
     this.baseAsset = asset.name;
-    // this.baseAssetAsModel = asset;
   };
 
   fetchBaseAsset = async () => {
@@ -59,14 +58,11 @@ export class ProfileStore {
     });
   };
 
-  fetchFirstName = async () => {
-    const {authStore: {getAccessToken}} = this.rootStore!;
-    const resp = await this.api!.getUserName(
-      getAccessToken(),
-      this.rootStore.authStore.redirectToAuthServer
-    );
+  fetchUserInfo = async () => {
+    const resp = await this.api!.getUserName();
     if (!!resp) {
-      extendObservable(this, resp);
+      const {FirstName: firstName, LastName: lastName} = resp;
+      extendObservable(this, {firstName, lastName});
     }
   };
 }
