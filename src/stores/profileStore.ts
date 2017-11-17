@@ -59,14 +59,11 @@ export class ProfileStore {
     });
   };
 
-  fetchFirstName = async () => {
-    const {authStore: {getAccessToken}} = this.rootStore!;
-    const resp = await this.api!.getUserName(
-      getAccessToken(),
-      this.rootStore.authStore.redirectToAuthServer
-    );
+  fetchUserInfo = async () => {
+    const resp = await this.api!.getUserName();
     if (!!resp) {
-      extendObservable(this, resp);
+      const {FirstName: firstName, LastName: lastName} = resp;
+      extendObservable(this, {firstName, lastName});
     }
   };
 }
