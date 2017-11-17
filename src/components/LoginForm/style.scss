@@ -59,6 +59,10 @@
       }
     }
 
+    .has-success .input-group-addon {
+      background: inherit;
+    }
+
     .ant-form-explain {
       color: #ff3e2e;
       text-align: left;
