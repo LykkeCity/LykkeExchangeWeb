@@ -1,6 +1,8 @@
 import * as classNames from 'classnames';
+import {inject} from 'mobx-react';
 import * as React from 'react';
 import {Link, Route, withRouter} from 'react-router-dom';
+import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER_BASE, ROUTE_WALLETS} from '../../constants/routes';
 import Balance from './balance';
 
@@ -26,20 +28,28 @@ const NavLink: React.SFC<NavLinkProps> = ({label, to}) => (
   />
 );
 
-export const NavBar = ({match}: any) => (
-  <div className="header_nav_container">
-    <nav className="header_nav">
-      <div className="header_nav__inner">
-        <div className="container">
-          <ul className="header_nav__list nav_list">
-            <NavLink to={ROUTE_WALLETS} label="Wallets" />
-            <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
-          </ul>
-          <Balance />
-        </div>
+export const NavBar = ({match, isAuthenticated}: any) => {
+  return (
+    isAuthenticated && (
+      <div className="header_nav_container">
+        <nav className="header_nav">
+          <div className="header_nav__inner">
+            <div className="container">
+              <ul className="header_nav__list nav_list">
+                <NavLink to={ROUTE_WALLETS} label="Wallets" />
+                <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
+              </ul>
+              <Balance />
+            </div>
+          </div>
+        </nav>
       </div>
-    </nav>
-  </div>
-);
+    )
+  );
+};
 
-export default withRouter(NavBar);
+export default withRouter(
+  inject(({rootStore}: RootStoreProps) => ({
+    isAuthenticated: rootStore!.authStore.isAuthenticated
+  }))(NavBar)
+);

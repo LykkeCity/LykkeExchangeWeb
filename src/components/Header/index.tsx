@@ -4,10 +4,12 @@ import HeaderBar from './headerbar';
 import NavBar from './navbar';
 import './style.css';
 
-export default () => (
+export const Header = () => (
   <div>
     <SideBar />
     <HeaderBar />
     <NavBar />
   </div>
 );
+
+export default Header;

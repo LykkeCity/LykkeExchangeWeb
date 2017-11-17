@@ -45,6 +45,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     this.assetStore
       .fetchCategories()
       .then(() => this.assetStore.fetchAssets())
+      .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.uiStore.finishRequest());

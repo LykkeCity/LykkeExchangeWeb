@@ -1,12 +1,11 @@
 import {RestApi} from '.';
-import {config} from '../config';
 import {RootStore} from '../stores/index';
 import {ApiResponse} from './types';
 
 export interface ProfileApi {
   fetchBaseAsset: () => ApiResponse<any>;
   updateBaseAsset: (baseCurrency: string) => ApiResponse<any>;
-  getUserName: (token: string, cb?: any) => ApiResponse<any>;
+  getUserName: () => ApiResponse<any>;
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
@@ -22,11 +21,10 @@ export class RestProfileApi extends RestApi implements ProfileApi {
       .json({BaseAsssetId: baseCurrency})
       .post();
 
-  getUserName = (token: string, cb?: any) =>
-    this.authBearerWretch()
-      .url(config.auth.apiUrls.info)
+  getUserName = () =>
+    this.apiBearerWretch()
+      .url('/client/userInfo')
       .get()
-      .badRequest(cb)
       .json();
 }
 

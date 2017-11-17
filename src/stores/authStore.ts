@@ -29,10 +29,11 @@ export class AuthStore {
     );
   }
 
-  login = async (username: string, password: string) => {
-    const resp = await this.api!.login(username, password);
-    this.token = resp.AccessToken;
-  };
+  login = (username: string, password: string) =>
+    this.api!.login(username, password);
+
+  signup = async (username: string, password: string) =>
+    this.api!.signup(username, password);
 
   auth = async (code: string) => {
     const authContext = await this.fetchBearerToken(code);

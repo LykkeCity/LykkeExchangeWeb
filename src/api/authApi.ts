@@ -17,6 +17,17 @@ export class RestAuthApi extends RestApi implements AuthApi {
       .post()
       .json();
 
+  signup = (username: string, password: string) =>
+    this.apiWretch
+      .url('/client/register')
+      .json({
+        Email: username,
+        Hint: '',
+        Password: password
+      })
+      .post()
+      .json();
+
   fetchSessionToken = (clientId: string, token: string) =>
     this.authBearerWretch()
       .headers({
