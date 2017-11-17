@@ -54,19 +54,19 @@ export class WalletForm extends React.Component<WalletFormProps> {
         </div>
         <div className="drawer__footer">
           <button
-            className="btn btn--flat"
-            type="button"
-            onClick={this.props.onCancel}
-          >
-            Cancel and close
-          </button>
-          <button
-            className="btn btn--primary"
+            className="btn btn--primary pull-right"
             type="button"
             onClick={this.handleSubmit}
             disabled={!this.props.wallet.isValid}
           >
             Generate API Key
+          </button>
+          <button
+            className="btn btn--flat"
+            type="button"
+            onClick={this.props.onCancel}
+          >
+            Cancel and close
           </button>
         </div>
       </form>

@@ -19,6 +19,12 @@
     border-top: 0 !important;
   }
 
+  &__breadcrumbs {
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
   &__body {
     background: $white;
     height: 100%;
@@ -27,6 +33,7 @@
     bottom: 0;
     z-index: 112;
     width: 0;
+    max-width: 100%;
     transform: translate3d(100%, 0, 0);
 
     @include rem(width, 550px);
@@ -48,7 +55,14 @@
   }
 
   &__content {
+    overflow: auto;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
     @include rem(padding, 58px 40px);
+    @include rem(top, 60px);
 
     .ant-form-item,
     .form-item {
@@ -98,8 +112,12 @@
 
     @include rem(margin-top, 60px);
 
-    .btn--primary {
-      @include rem(min-width, 260px);
+    .btn {
+      @include rem(margin-bottom, 10px);
+
+      &--primary {
+        @include rem(min-width, 260px);
+      }
     }
 
     .ant-btn {
@@ -141,6 +159,24 @@
 
     .drawer__body {
       @include animation(slideIn 0.3s ease 0.05s forwards);
+    }
+  }
+
+  @media all and (max-height: $screen-tablet) {
+    &__content {
+      @include rem(padding-top, 30px);
+      @include rem(padding-bottom, 30px);
+    }
+  }
+
+  @media all and (max-width: $screen-mobile) {
+    &__footer {
+      margin-top: 30px;
+
+      .btn {
+        width: 100%;
+        float: none;
+      }
     }
   }
 }
@@ -198,9 +234,16 @@
   }
 }
 
+.ant-modal {
+  top: 50%;
+  margin-top: -150px !important;
+}
+
 .ant-modal-content {
   width: 370px;
+  max-width: 100%;
   background: $white;
+  margin: 0 auto;
 
   @include rem(padding, 41px 40px 34px);
 

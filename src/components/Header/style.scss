@@ -1026,6 +1026,8 @@
 
     > a {
       padding-left: 0;
+
+      @include rem(min-height, 38px);
     }
 
     .submenu {
