@@ -22,7 +22,7 @@ export class BalanceStore {
       } else {
         // tslint:disable-next-line:no-console
         console.warn(
-          '[LW] Cannot find an asset in referential data',
+          '[LW] Cannot find an asset in reference data',
           dto.AssetId
         );
       }
