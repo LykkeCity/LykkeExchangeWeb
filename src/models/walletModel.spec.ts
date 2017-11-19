@@ -141,7 +141,7 @@ describe('wallet model', () => {
   describe('withdraw', () => {
     it('should withdraw specified amount from wallet', () => {
       const wallet = walletStore.createWallet();
-      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100, Reserved: 0}]);
 
       wallet.withdraw(10, new AssetModel({id: 'LKK', name: 'LKK'}));
 
@@ -152,7 +152,7 @@ describe('wallet model', () => {
   describe('deposit', () => {
     it('should deposit dest wallet by amount specified', () => {
       const wallet = walletStore.createWallet();
-      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100, Reserved: 0}]);
 
       wallet.deposit(10, new AssetModel({id: 'LKK', name: 'LKK'}));
 
@@ -170,7 +170,7 @@ describe('wallet model', () => {
 
     it('should not change other balances when deposit', () => {
       const wallet = walletStore.createWallet();
-      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100, Reserved: 0}]);
 
       wallet.deposit(1, new AssetModel({id: 'LKK2', name: 'LKK2'}));
 

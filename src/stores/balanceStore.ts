@@ -18,7 +18,7 @@ export class BalanceStore {
       const asset = this.rootStore.assetStore.getById(dto.AssetId);
       balance.asset = asset!;
       balance.assetId = asset!.id;
-      balance.balance = dto.Balance;
+      balance.balance = dto.Balance - dto.Reserved;
     }
     return balance;
   };
