@@ -76,7 +76,9 @@ export class WalletModel {
   @action
   setBalances = (dto: any[]) => {
     const {createBalance} = this.store.rootStore.balanceStore;
-    this.balances = dto.map(createBalance);
+    this.balances = dto
+      .map(createBalance)
+      .filter(b => !!b.asset && !!b.asset.id)!;
   };
 
   @action
