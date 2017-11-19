@@ -109,27 +109,6 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   </div>
                 </a>
               </li>
-
-              <li className="main_projects_list__item">
-                <a href="" target="_blank" className="main_projects_list__link">
-                  <div className="main_projects_list__img">
-                    <img
-                      src={`${process.env
-                        .PUBLIC_URL}/images/issuer_portal_logo.svg`}
-                      alt="issuer_portal_logo"
-                      width="50"
-                    />
-                  </div>
-                  <div className="main_projects_list__content">
-                    <div className="main_projects_list__title">
-                      Issuer<span>Portal</span>
-                    </div>
-                    <div className="main_projects_list__text">
-                      Create and manage your digital assets
-                    </div>
-                  </div>
-                </a>
-              </li>
             </ul>
           </div>
 
