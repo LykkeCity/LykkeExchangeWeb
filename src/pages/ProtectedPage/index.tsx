@@ -89,9 +89,8 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   }
 
   private handleOutsideClick = (e: React.MouseEvent<any>) => {
-    const {closeSidebar, toggleBaseAssetPicker, showBaseCurrencyPicker} = this
-      .props.rootStore!.uiStore;
-    closeSidebar();
+    const {toggleBaseAssetPicker, showBaseCurrencyPicker} = this.props
+      .rootStore!.uiStore;
     const isBaseAssetTarget = e.target !== document.getElementById('baseAsset');
     if (isBaseAssetTarget && showBaseCurrencyPicker) {
       toggleBaseAssetPicker();

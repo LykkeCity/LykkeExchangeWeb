@@ -16,6 +16,7 @@ interface LoginFormProps extends RootStoreProps {
 
 interface LoginFormState extends RootStoreProps {
   errors: any;
+  loading: boolean;
 }
 
 const FormItem = Form.Item;
@@ -23,13 +24,15 @@ const FormItem = Form.Item;
 export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   readonly authStore = this.props.rootStore!.authStore;
   state: LoginFormState = {
-    errors: ''
+    errors: '',
+    loading: false
   };
 
   handleSubmit = (e: any) => {
     e.preventDefault();
     this.props.form.validateFields((err: any, values: any) => {
       if (!err) {
+        this.setState({loading: true});
         this.authStore
           .login(values.email, values.password)
           .then(resp => {
@@ -43,7 +46,8 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             setTimeout(() => {
               this.setState({errors: undefined});
             }, 3000);
-          });
+          })
+          .then(() => this.setState({loading: false}));
       }
     });
   };
@@ -110,6 +114,7 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
           <Button
             type="primary"
             htmlType="submit"
+            loading={this.state.loading}
             className="btn btn--primary btn-sm"
           >
             Sign in

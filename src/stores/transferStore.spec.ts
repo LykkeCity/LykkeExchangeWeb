@@ -30,13 +30,13 @@ const createValidTransfer = (transfer: TransferModel) => {
     Id: 1,
     Name: 'w1',
     // tslint:disable-next-line:object-literal-sort-keys
-    Balances: [{AssetId: 'LKK', Balance: 100}]
+    Balances: [{AssetId: 'LKK', Balance: 100, Reserved: 0}]
   });
   const destWallet = createWallet({
     Id: 2,
     Name: 'w2',
     // tslint:disable-next-line:object-literal-sort-keys
-    Balances: [{AssetId: 'LKK', Balance: 100}]
+    Balances: [{AssetId: 'LKK', Balance: 100, Reserved: 0}]
   });
   transfer.setWallet(sourceWallet, 'from');
   transfer.setWallet(destWallet, 'to');

@@ -50,20 +50,41 @@ describe('wallet model', () => {
     expect(w.totalBalance).toBeDefined();
   });
 
-  it('should set empty balances when passed an empty dto array', () => {
-    // arrange
-    const count = 3;
+  describe('set balances', () => {
+    it('should set empty balances when passed an empty dto array', () => {
+      // arrange
+      const count = 3;
 
-    // act
-    walletSut.setBalances(
-      Array(count).fill({
-        AssetId: 'EUR',
-        Balance: 100
-      })
-    );
-    walletSut.setBalances([]);
+      // act
+      walletSut.setBalances(
+        Array(count).fill({
+          AssetId: 'EUR',
+          Balance: 100
+        })
+      );
+      walletSut.setBalances([]);
 
-    expect(walletSut.balances.length).toBe(0);
+      expect(walletSut.balances.length).toBe(0);
+    });
+
+    it('should not add unknown assets to balance list', () => {
+      walletSut.balances = [];
+      const prev = {...rootStore.assetStore}.getById;
+      rootStore.assetStore.getById = jest.fn(() => undefined);
+
+      // act
+      walletSut.setBalances([
+        {
+          AssetId: 'XYZ',
+          Balance: 100
+        }
+      ]);
+
+      expect(walletSut.balances.length).toBe(0);
+      expect(walletSut.balances.map(b => b.asset.id)).not.toContain('XYZ');
+
+      rootStore.assetStore.getById = prev;
+    });
   });
 
   it('should not call converter for empty balances', () => {
@@ -141,7 +162,7 @@ describe('wallet model', () => {
   describe('withdraw', () => {
     it('should withdraw specified amount from wallet', () => {
       const wallet = walletStore.createWallet();
-      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100, Reserved: 0}]);
 
       wallet.withdraw(10, new AssetModel({id: 'LKK', name: 'LKK'}));
 
@@ -152,7 +173,7 @@ describe('wallet model', () => {
   describe('deposit', () => {
     it('should deposit dest wallet by amount specified', () => {
       const wallet = walletStore.createWallet();
-      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100, Reserved: 0}]);
 
       wallet.deposit(10, new AssetModel({id: 'LKK', name: 'LKK'}));
 
@@ -170,7 +191,7 @@ describe('wallet model', () => {
 
     it('should not change other balances when deposit', () => {
       const wallet = walletStore.createWallet();
-      wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+      wallet.setBalances([{AssetId: 'LKK', Balance: 100, Reserved: 0}]);
 
       wallet.deposit(1, new AssetModel({id: 'LKK2', name: 'LKK2'}));
 

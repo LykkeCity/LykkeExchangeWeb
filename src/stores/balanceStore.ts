@@ -16,9 +16,17 @@ export class BalanceStore {
     const balance = new BalanceModel(this);
     if (!!dto) {
       const asset = this.rootStore.assetStore.getById(dto.AssetId);
-      balance.asset = asset!;
-      balance.assetId = asset!.id;
-      balance.balance = dto.Balance;
+      if (asset) {
+        balance.asset = asset!;
+        balance.assetId = asset!.id;
+      } else {
+        // tslint:disable-next-line:no-console
+        console.warn(
+          '[LW] Cannot find an asset in reference data',
+          dto.AssetId
+        );
+      }
+      balance.balance = dto.Balance - (dto.Reserved || 0);
     }
     return balance;
   };
