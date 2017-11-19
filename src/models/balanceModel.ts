@@ -9,8 +9,14 @@ export class BalanceModel {
 
   @computed
   get baseAsset() {
-    const {profileStore: {baseAsset}, assetStore} = this.store.rootStore;
-    return assetStore.getById(baseAsset);
+    const {
+      profileStore: {baseAsset: baseAssetId},
+      assetStore
+    } = this.store.rootStore;
+    const baseAsset =
+      assetStore.getById(baseAssetId) ||
+      assetStore.baseAssets.find(x => x.name === baseAssetId); // FIXME: should just lookup by id
+    return baseAsset;
   }
   @observable balanceInBaseAsset: number = 0;
 

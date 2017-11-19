@@ -14,12 +14,14 @@ export class RestTransferApi extends RestApi implements TransferApi {
       .url(`/operations/transfer/${transfer.id}`)
       .json(transfer.asJson)
       .post()
+      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .text();
 
   cancelTransfer = (transfer: TransferModel) =>
     this.apiBearerWretch()
       .url(`/operations/cancel/${transfer.id}`)
       .post()
+      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .res();
 
   fetchOperationDetails = (transfer: TransferModel) =>

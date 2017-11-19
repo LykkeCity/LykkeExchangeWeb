@@ -8,7 +8,6 @@ import {
 } from 'mobx';
 import {ProfileApi} from '../api/profileApi';
 import {AssetModel} from '../models/index';
-import {seq} from '../utils';
 import {StorageUtils} from '../utils/index';
 import {RootStore} from './index';
 
@@ -20,7 +19,11 @@ export class ProfileStore {
 
   @computed
   get baseAssetAsModel() {
-    return this.rootStore.assetStore.getById(this.baseAsset);
+    const {assetStore} = this.rootStore;
+    return (
+      assetStore.getById(this.baseAsset) ||
+      assetStore.baseAssets.find(x => x.name === this.baseAsset) // FIXME: should just lookup by id
+    );
   }
 
   @observable firstName: string = '';
@@ -38,7 +41,8 @@ export class ProfileStore {
       baseCurrency => {
         if (!!baseCurrency) {
           walletStore.convertBalances();
-          seq(baseCurrencyStorage.set, this.api!.updateBaseAsset)(baseCurrency);
+          baseCurrencyStorage.set(baseCurrency);
+          this.api!.updateBaseAsset(baseCurrency);
         } else {
           baseCurrencyStorage.clear();
         }

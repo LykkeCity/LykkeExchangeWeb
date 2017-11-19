@@ -1,5 +1,4 @@
 import {RestApi} from '.';
-import {RootStore} from '../stores/index';
 import {ApiResponse} from './types';
 
 export interface ProfileApi {
@@ -9,22 +8,21 @@ export interface ProfileApi {
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
-  constructor(rootStore: RootStore) {
-    super(rootStore);
-  }
-
   fetchBaseAsset = () => this.get('/assets/baseAsset');
 
   updateBaseAsset = (baseCurrency: string) =>
     this.apiBearerWretch()
       .url('/assets/baseAsset')
       .json({BaseAsssetId: baseCurrency})
-      .post();
+      .post()
+      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
+      .res();
 
   getUserName = () =>
     this.apiBearerWretch()
       .url('/client/userInfo')
       .get()
+      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .json();
 }
 

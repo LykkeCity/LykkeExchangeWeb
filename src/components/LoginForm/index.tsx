@@ -42,12 +42,14 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
             });
           })
           .catch(error => {
-            this.setState({errors: JSON.parse(error.message)});
+            this.setState({
+              errors: JSON.parse(error.message),
+              loading: false
+            });
             setTimeout(() => {
               this.setState({errors: undefined});
             }, 3000);
-          })
-          .then(() => this.setState({loading: false}));
+          });
       }
     });
   };

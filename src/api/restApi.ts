@@ -17,7 +17,7 @@ export class RestApi {
   protected getAuth = this._get(() => this.authBearerWretch());
   protected postAuth = this._post(() => this.authBearerWretch());
 
-  constructor(private rootStore: RootStore) {}
+  constructor(protected rootStore: RootStore) {}
 
   protected apiBearerWretch() {
     return this.apiWretch.auth(`Bearer ${this.rootStore.authStore.token}`);
