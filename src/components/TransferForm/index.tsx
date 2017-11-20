@@ -102,7 +102,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                   asset: x.asset,
                   assetId: x.asset.id,
                   assetName: x.asset.name,
-                  balance: x.balance
+                  balance: x.balance,
+                  balanceAvailable: x.availableBalance
                 }))}
                 // tslint:disable-next-line:jsx-no-lambda
                 optionRenderer={(option: any) => (
@@ -110,7 +111,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     <div>{option.asset.name}</div>
                     <div>
                       <small style={{color: 'gray'}}>
-                        {asAssetBalance(option.asset, option.balance)}
+                        {asAssetBalance(option.asset, option.balanceAvailable)}
                       </small>
                     </div>
                   </div>

@@ -62,9 +62,11 @@ describe('transfer model', () => {
     it('should provide canTransfer method', () => {
       expect(transfer.canTransfer).toBeDefined();
     });
+
     it('should return false on blank transfer', () => {
       expect(transfer.canTransfer).toBe(false);
     });
+
     it('should return false when some of the fields are empty', () => {
       transfer.update({
         from: walletStore.createWallet(),
@@ -97,6 +99,63 @@ describe('transfer model', () => {
       transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
 
       expect(transfer.canTransfer).toBe(true);
+    });
+
+    describe('can transfer w/ amount given', () => {
+      const assetId = 'LKK';
+
+      beforeEach(() => {
+        rootStore.assetStore.getById = jest.fn(() => ({
+          id: assetId,
+          name: assetId
+        }));
+        transfer.setWallet(walletStore.createWallet(), 'to');
+        transfer.setAsset(new AssetModel({id: assetId, name: assetId}));
+      });
+
+      it('should return false if desired amount less than available balance', () => {
+        const sourceWallet = walletStore.createWallet();
+        sourceWallet.setBalances([
+          {AssetId: assetId, Balance: 100, Reserved: 100}
+        ]);
+
+        transfer.setWallet(sourceWallet, 'from');
+        transfer.setAmount(1);
+
+        expect(transfer.canTransfer).toBe(false);
+      });
+
+      it('should return true if desired amount greater than or equal to available balance', () => {
+        const sourceWallet = walletStore.createWallet();
+        sourceWallet.setBalances([
+          {AssetId: assetId, Balance: 100, Reserved: 90}
+        ]);
+
+        transfer.setWallet(sourceWallet, 'from');
+        transfer.setAmount(5);
+
+        expect(transfer.canTransfer).toBe(true);
+      });
+
+      it('should return true if reserved is not provided and balance gt amount', () => {
+        const sourceWallet = walletStore.createWallet();
+        sourceWallet.setBalances([{AssetId: assetId, Balance: 100}]);
+
+        transfer.setWallet(sourceWallet, 'from');
+        transfer.setAmount(99);
+
+        expect(transfer.canTransfer).toBe(true);
+      });
+
+      it('should return false if reserved is not provided and balance lt amount', () => {
+        const sourceWallet = walletStore.createWallet();
+        sourceWallet.setBalances([{AssetId: assetId, Balance: 100}]);
+
+        transfer.setWallet(sourceWallet, 'from');
+        transfer.setAmount(500);
+
+        expect(transfer.canTransfer).toBe(false);
+      });
     });
   });
 });

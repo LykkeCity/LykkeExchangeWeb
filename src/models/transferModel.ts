@@ -99,7 +99,10 @@ export class TransferModel {
     const transferrableBalance = this.from.balances.find(
       b => b.assetId === this.asset.id
     );
-    return transferrableBalance && transferrableBalance.balance >= amount;
+
+    return (
+      transferrableBalance && transferrableBalance.availableBalance >= amount
+    );
   };
 }
 

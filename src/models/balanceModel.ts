@@ -1,4 +1,4 @@
-import {computed, extendObservable, observable} from 'mobx';
+import {computed, observable} from 'mobx';
 import {BalanceStore} from '../stores/index';
 import {AssetModel} from './index';
 
@@ -6,6 +6,12 @@ export class BalanceModel {
   assetId: string = '';
   asset: AssetModel;
   @observable balance: number = 0;
+  @observable reserved: number = 0;
+
+  @computed
+  get availableBalance() {
+    return this.balance - this.reserved;
+  }
 
   @computed
   get baseAsset() {
@@ -32,13 +38,5 @@ export class BalanceModel {
 
   constructor(store: BalanceStore, json?: any) {
     this.store = store;
-    this.updateFromJson(json);
   }
-
-  private readonly updateFromJson = (dto: any) => {
-    if (!!dto) {
-      const {AssetId: assetId, Balance: balance} = dto;
-      extendObservable(this, {assetId, balance});
-    }
-  };
 }

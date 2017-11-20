@@ -26,7 +26,8 @@ export class BalanceStore {
           dto.AssetId
         );
       }
-      balance.balance = dto.Balance - (dto.Reserved || 0);
+      balance.balance = dto.Balance;
+      balance.reserved = dto.Reserved || 0;
     }
     return balance;
   };
