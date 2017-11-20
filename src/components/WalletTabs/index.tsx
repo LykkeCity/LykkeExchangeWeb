@@ -70,7 +70,9 @@ export const WalletTabs = (props: any) => (
               multiple API wallets. Funds deposited to API wallet are under
               Lykke custodian. The API is secured with an API Key. Please keep
               the key safe. To withdraw the funds from your API wallet you need
-              to transfer them to your Trading Wallet first.
+              to transfer them to your Trading Wallet first. There are the
+              following fees for your API wallets: Maker fee 0.10%, Taker fee
+              0.19%
             </p>
           </div>
           <div className="col-sm-4 text-right">
