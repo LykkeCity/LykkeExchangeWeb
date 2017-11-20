@@ -52,7 +52,7 @@ export class ProfileStore {
 
   @action
   setBaseAsset = async (asset: AssetModel) => {
-    this.baseAsset = asset.name;
+    this.baseAsset = asset.id;
   };
 
   fetchBaseAsset = async () => {
