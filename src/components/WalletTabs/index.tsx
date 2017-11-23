@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_PRIVATE} from '../../constants/routes';
+import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import './style.css';
 
 interface TabLinkProps {
@@ -42,10 +42,10 @@ const TabPane: React.SFC<TabPaneProps> = ({to, children}) => (
 export const WalletTabs = (props: any) => (
   <div className="wallet-tabs">
     <div className="tabs">
-      <TabLink label="Trading" to={ROUTE_WALLETS_PRIVATE} />
+      <TabLink label="Trading" to={ROUTE_WALLETS_TRADING} />
       <TabLink label="API Wallets" to={ROUTE_WALLETS_HFT} />
     </div>
-    <TabPane to={ROUTE_WALLETS_PRIVATE}>
+    <TabPane to={ROUTE_WALLETS_TRADING}>
       <div className="tab__pane">
         <div className="row">
           <div className="col-sm-12">
@@ -70,9 +70,14 @@ export const WalletTabs = (props: any) => (
               multiple API wallets. Funds deposited to API wallet are under
               Lykke custodian. The API is secured with an API Key. Please keep
               the key safe. To withdraw the funds from your API wallet you need
-              to transfer them to your Trading Wallet first. There are the
-              following fees for your API wallets: Maker fee 0.10%, Taker fee
-              0.19%
+              to transfer them to your Trading Wallet first. Please check fees
+              that apply for the trading through the API at the following
+              link:&nbsp;<a
+                href="https://lykke.com/trading-conditions"
+                target="_blank"
+              >
+                {'https://lykke.com/trading-conditions'}
+              </a>
             </p>
           </div>
           <div className="col-sm-4 text-right">

@@ -20,7 +20,7 @@ import {
   ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS,
   ROUTE_WALLETS,
-  ROUTE_WALLETS_PRIVATE
+  ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
@@ -64,12 +64,12 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             <Redirect
               exact={true}
               path={ROUTE_ROOT}
-              to={ROUTE_WALLETS_PRIVATE}
+              to={ROUTE_WALLETS_TRADING}
             />
             <Redirect
               exact={true}
               path={ROUTE_WALLETS}
-              to={ROUTE_WALLETS_PRIVATE}
+              to={ROUTE_WALLETS_TRADING}
             />
             <Route path={ROUTE_WALLETS} component={asLoading(WalletPage)} />
             <Route
