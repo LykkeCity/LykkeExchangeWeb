@@ -15,7 +15,7 @@ const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
 const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
-  @observable baseAsset: string = baseCurrencyStorage.get() || 'LKK';
+  @observable baseAsset: string = baseCurrencyStorage.get() || 'USD';
 
   @computed
   get baseAssetAsModel() {
@@ -38,11 +38,11 @@ export class ProfileStore {
     const {walletStore} = this.rootStore;
     reaction(
       () => this.baseAsset,
-      baseCurrency => {
-        if (!!baseCurrency) {
+      baseAsset => {
+        if (!!baseAsset) {
           walletStore.convertBalances();
-          baseCurrencyStorage.set(baseCurrency);
-          this.api!.updateBaseAsset(baseCurrency);
+          baseCurrencyStorage.set(baseAsset);
+          this.api!.updateBaseAsset(baseAsset);
         } else {
           baseCurrencyStorage.clear();
         }

@@ -21,7 +21,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
               <i className="icon icon--close" />
             </button>
             <div className="header_logo">
-              <a href="/">
+              <a href="https://www.lykke.com/">
                 <img
                   className="header_logo__img"
                   src={`${process.env.PUBLIC_URL}/images/lykke_new.svg`}
@@ -36,7 +36,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
             <ul className="main_projects_list">
               <li className="main_projects_list__item">
                 <a
-                  href="https://www.lykke.com/"
+                  href="https://wallet.lykke.com/"
                   target="_blank"
                   className="main_projects_list__link"
                 >
