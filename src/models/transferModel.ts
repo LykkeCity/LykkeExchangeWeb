@@ -31,9 +31,12 @@ export class TransferModel {
   get canTransfer() {
     return (
       !!this.from &&
+      !!this.from.id &&
       !!this.to &&
+      !!this.to.id &&
       !!this.amount &&
       !!this.asset &&
+      !!this.asset.id &&
       !!this.hasEnoughAmount(this.amount)
     );
   }

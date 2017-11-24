@@ -38,8 +38,8 @@ describe('transfer model', () => {
   it('should call transfer method', () => {
     const sut = transferStore.createTransfer();
     sut.update({
-      from: walletStore.createWallet(),
-      to: walletStore.createWallet(),
+      from: walletStore.createWallet({Id: 'src'}),
+      to: walletStore.createWallet({Id: 'dest'}),
       // tslint:disable-next-line:object-literal-sort-keys
       amount: 10,
       asset: new AssetModel({id: '1', name: 'LKK'})
@@ -90,6 +90,19 @@ describe('transfer model', () => {
 
     it('should return true when all fields are not empty', () => {
       transfer.update({
+        from: walletStore.createWallet({Id: '1'}),
+        to: walletStore.createWallet({Id: '2'}),
+        // tslint:disable-next-line:object-literal-sort-keys
+        amount: 10,
+        asset: new AssetModel({id: 'LKK', name: 'LKK'})
+      });
+      transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
+
+      expect(transfer.canTransfer).toBe(true);
+    });
+
+    it('should be false when source wallet id is not presented', () => {
+      transfer.update({
         from: walletStore.createWallet(),
         to: walletStore.createWallet(),
         // tslint:disable-next-line:object-literal-sort-keys
@@ -98,7 +111,33 @@ describe('transfer model', () => {
       });
       transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
 
-      expect(transfer.canTransfer).toBe(true);
+      expect(transfer.canTransfer).toBe(false);
+    });
+
+    it('should be false when target wallet id is not presented', () => {
+      transfer.update({
+        from: walletStore.createWallet(),
+        to: walletStore.createWallet(),
+        // tslint:disable-next-line:object-literal-sort-keys
+        amount: 10,
+        asset: new AssetModel({name: 'LKK'})
+      });
+      transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
+
+      expect(transfer.canTransfer).toBe(false);
+    });
+
+    it('should be false when asset or asset id is not presented', () => {
+      transfer.update({
+        from: walletStore.createWallet({Id: 'src'}),
+        to: walletStore.createWallet({Id: 'dest'}),
+        // tslint:disable-next-line:object-literal-sort-keys
+        amount: 10,
+        asset: new AssetModel({})
+      });
+      transfer.hasEnoughAmount = jest.fn(() => true); // TODO: to implement properly
+
+      expect(transfer.canTransfer).toBe(false);
     });
 
     describe('can transfer w/ amount given', () => {
@@ -109,12 +148,12 @@ describe('transfer model', () => {
           id: assetId,
           name: assetId
         }));
-        transfer.setWallet(walletStore.createWallet(), 'to');
+        transfer.setWallet(walletStore.createWallet({Id: 'dest'}), 'to');
         transfer.setAsset(new AssetModel({id: assetId, name: assetId}));
       });
 
       it('should return false if desired amount less than available balance', () => {
-        const sourceWallet = walletStore.createWallet();
+        const sourceWallet = walletStore.createWallet({Id: 'src'});
         sourceWallet.setBalances([
           {AssetId: assetId, Balance: 100, Reserved: 100}
         ]);
@@ -126,7 +165,7 @@ describe('transfer model', () => {
       });
 
       it('should return true if desired amount greater than or equal to available balance', () => {
-        const sourceWallet = walletStore.createWallet();
+        const sourceWallet = walletStore.createWallet({Id: 'src'});
         sourceWallet.setBalances([
           {AssetId: assetId, Balance: 100, Reserved: 90}
         ]);
@@ -138,7 +177,7 @@ describe('transfer model', () => {
       });
 
       it('should return true if reserved is not provided and balance gt amount', () => {
-        const sourceWallet = walletStore.createWallet();
+        const sourceWallet = walletStore.createWallet({Id: 'src'});
         sourceWallet.setBalances([{AssetId: assetId, Balance: 100}]);
 
         transfer.setWallet(sourceWallet, 'from');
@@ -148,7 +187,7 @@ describe('transfer model', () => {
       });
 
       it('should return false if reserved is not provided and balance lt amount', () => {
-        const sourceWallet = walletStore.createWallet();
+        const sourceWallet = walletStore.createWallet({Id: 'src'});
         sourceWallet.setBalances([{AssetId: assetId, Balance: 100}]);
 
         transfer.setWallet(sourceWallet, 'from');

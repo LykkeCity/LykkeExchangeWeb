@@ -9,6 +9,7 @@ export class UiStore {
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
+  @observable transferError: string;
 
   @observable pendingRequestsCount: number = 0;
   @computed

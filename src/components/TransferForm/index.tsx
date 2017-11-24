@@ -49,6 +49,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   const {
     transferStore: {newTransfer: transfer},
     walletStore,
+    uiStore,
     uiStore: {toggleQrWindow},
     profileStore: {baseAssetAsModel}
   } = rootStore!;
@@ -65,9 +66,17 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    toggleQrWindow();
-    await transfer.sendTransfer();
-    onTransfer(transfer);
+    try {
+      await transfer.sendTransfer();
+      toggleQrWindow();
+      onTransfer(transfer);
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      uiStore.transferError = 'There is an error processing your request';
+      setTimeout(() => {
+        uiStore.transferError = '';
+      }, 3000);
+    }
   };
 
   return (
@@ -169,6 +178,11 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             </div>
           </div>
         </div>
+        {!!uiStore.transferError && (
+          <div style={{color: 'red', textAlign: 'center'}}>
+            {uiStore.transferError}
+          </div>
+        )}
       </div>
       <div className="transfer__actions">
         <input
