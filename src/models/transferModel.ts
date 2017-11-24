@@ -34,6 +34,7 @@ export class TransferModel {
       !!this.from.id &&
       !!this.to &&
       !!this.to.id &&
+      this.from.id !== this.to.id &&
       !!this.amount &&
       !!this.asset &&
       !!this.asset.id &&

@@ -176,6 +176,19 @@ describe('transfer model', () => {
         expect(transfer.canTransfer).toBe(true);
       });
 
+      it('should return false if enough amount but source and dest wallets are the same', () => {
+        const sourceWallet = walletStore.createWallet({Id: 'src'});
+        sourceWallet.setBalances([
+          {AssetId: assetId, Balance: 100, Reserved: 90}
+        ]);
+
+        transfer.setWallet(sourceWallet, 'from');
+        transfer.setWallet(sourceWallet, 'to');
+        transfer.setAmount(5);
+
+        expect(transfer.canTransfer).toBe(false);
+      });
+
       it('should return true if reserved is not provided and balance gt amount', () => {
         const sourceWallet = walletStore.createWallet({Id: 'src'});
         sourceWallet.setBalances([{AssetId: assetId, Balance: 100}]);

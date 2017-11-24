@@ -67,11 +67,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      await transfer.sendTransfer();
-      toggleQrWindow();
-      onTransfer(transfer);
+      const id = await transfer.sendTransfer();
+      if (!!id) {
+        toggleQrWindow();
+        onTransfer(transfer);
+      }
     } catch (error) {
-      // tslint:disable-next-line:no-console
       uiStore.transferError = 'There is an error processing your request';
       setTimeout(() => {
         uiStore.transferError = '';
