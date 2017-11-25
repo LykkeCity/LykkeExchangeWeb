@@ -1,3 +1,4 @@
+import hasha from 'hasha';
 import {computed, observable, reaction, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
@@ -30,10 +31,10 @@ export class AuthStore {
   }
 
   login = (username: string, password: string) =>
-    this.api!.login(username, password);
+    this.api!.login(username, hasha(password, {algorithm: 'sha256'}));
 
   signup = async (username: string, password: string) =>
-    this.api!.signup(username, password);
+    this.api!.signup(username, hasha(password, {algorithm: 'sha256'}));
 
   auth = async (code: string) => {
     const authContext = await this.fetchBearerToken(code);
