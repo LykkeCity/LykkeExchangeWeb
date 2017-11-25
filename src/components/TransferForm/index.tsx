@@ -59,7 +59,11 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   };
 
   const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
-    transfer.setWallet(option as WalletModel, side);
+    const wallet = option as WalletModel;
+    if (side === 'from' && wallet.id === transfer.to.id) {
+      transfer.to = walletStore.createWallet();
+    }
+    transfer.setWallet(wallet, side);
   };
 
   const handleChangeAsset = (option: any) => transfer.setAsset(option.asset);
@@ -73,7 +77,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
         onTransfer(transfer);
       }
     } catch (error) {
-      uiStore.transferError = 'There is an error processing your request';
+      uiStore.transferError = 'Something went wrong';
       setTimeout(() => {
         uiStore.transferError = '';
       }, 3000);

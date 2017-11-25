@@ -93,7 +93,7 @@ export class TransferModel {
 
   sendTransfer = async () => {
     if (this.canTransfer) {
-      await this.store.startTransfer(this);
+      return await this.store.startTransfer(this);
     }
   };
 
