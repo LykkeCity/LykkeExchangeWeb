@@ -1,4 +1,3 @@
-import hasha from 'hasha';
 import {computed, observable, reaction, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
@@ -11,6 +10,9 @@ const OAUTH_KEY = 'lww-oauth';
 
 const tokenStorage = StorageUtils.withKey(TOKEN_KEY);
 const authStorage = StorageUtils.withKey(OAUTH_KEY);
+
+// tslint:disable-next-line:no-var-requires
+const shajs = require('sha.js');
 
 export class AuthStore {
   readonly rootStore: RootStore;
@@ -31,10 +33,20 @@ export class AuthStore {
   }
 
   login = (username: string, password: string) =>
-    this.api!.login(username, hasha(password, {algorithm: 'sha256'}));
+    this.api!.login(
+      username,
+      shajs('sha256')
+        .update(password)
+        .digest('hex')
+    );
 
   signup = async (username: string, password: string) =>
-    this.api!.signup(username, hasha(password, {algorithm: 'sha256'}));
+    this.api!.signup(
+      username,
+      shajs('sha256')
+        .update(password)
+        .digest('hex')
+    );
 
   auth = async (code: string) => {
     const authContext = await this.fetchBearerToken(code);
