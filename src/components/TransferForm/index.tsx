@@ -60,13 +60,23 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
 
   const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
     const wallet = option as WalletModel;
+
+    if (!wallet) {
+      return;
+    }
+
     if (side === 'from' && wallet.id === transfer.to.id) {
       transfer.to = walletStore.createWallet();
     }
     transfer.setWallet(wallet, side);
   };
 
-  const handleChangeAsset = (option: any) => transfer.setAsset(option.asset);
+  const handleChangeAsset = (option: any) => {
+    if (!option) {
+      return;
+    }
+    transfer.setAsset(option.asset);
+  };
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
