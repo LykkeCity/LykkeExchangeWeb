@@ -2,7 +2,7 @@ import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
-import {Link} from 'react-router-dom';
+import {NavLink} from '../Header/navbar';
 import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -20,12 +20,18 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     const {wallet} = this.props;
     return (
       <div className="wallet-action-bar">
-        <div className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
-        </div>
-        <div className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Withdraw</Link>
-        </div>
+        <ul>
+          <NavLink
+            to={ROUTE_TRANSFER_TO(wallet.id)}
+            label="Deposit"
+            className="wallet-action-bar__item"
+          />
+          <NavLink
+            to={ROUTE_TRANSFER_FROM(wallet.id)}
+            label="Withdraw"
+            className="wallet-action-bar__item"
+          />
+        </ul>
         {wallet.apiKey && (
           <div
             className={classNames(
