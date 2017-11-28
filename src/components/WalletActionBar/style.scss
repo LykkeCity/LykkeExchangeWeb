@@ -5,6 +5,7 @@
   font-weight: $fw-semi;
 
   @include clearfix;
+  @include rem(padding, 30px 0);
   @include rem(font-size, 16px);
 
   &__item {
@@ -13,10 +14,7 @@
     float: left;
     letter-spacing: 1.6px;
 
-    @include rem(padding, 30px 20px);
-    &:first-child {
-      @include rem(padding-left, 0);
-    }
+    @include rem(margin-right, 40px);
 
     &--active {
       color: $primary;
@@ -28,11 +26,8 @@
 
     a {
       color: $text;
-    }
 
-    &:hover {
-      cursor: pointer;
-      & > a {
+      &:hover {
         color: $primary;
       }
     }
