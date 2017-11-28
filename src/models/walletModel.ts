@@ -15,6 +15,8 @@ export class WalletModel {
   @observable apiKey = '';
   @observable type: WalletType;
 
+  @observable updating: boolean = false;
+
   @computed
   get totalBalance() {
     return this.balances.map(b => b.balanceInBaseAsset).reduce(sum, 0);
@@ -112,6 +114,12 @@ export class WalletModel {
       const restWallets = this.store.getWalletsExceptOne(this);
       restWallets.forEach(w => (w.collapsed = true));
     }
+  };
+
+  save = async () => {
+    this.updating = true; // TODO: decorator should be here
+    await this.store.updateWallet(this);
+    this.updating = false;
   };
 }
 

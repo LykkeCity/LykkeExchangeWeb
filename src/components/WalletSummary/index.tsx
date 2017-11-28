@@ -1,15 +1,27 @@
 import classnames from 'classnames';
 import * as classNames from 'classnames';
-import {observer} from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
-import WalletTotalBalance from '../WalletTotalBalance/index';
+import {RootStore, UiStore, WalletStore} from '../../stores';
+import WalletTotalBalance from '../WalletTotalBalance';
 
-interface WalletSummaryProps {
-  wallet: WalletModel;
+export interface WalletActions {
+  onEditWallet?: (w: WalletModel) => void;
 }
 
-export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
+interface WalletSummaryProps extends WalletActions {
+  wallet: WalletModel;
+  walletStore?: WalletStore;
+  uiStore?: UiStore;
+}
+
+export const WalletSummary: React.SFC<WalletSummaryProps> = ({
+  wallet,
+  walletStore,
+  uiStore,
+  onEditWallet
+}) => (
   <div>
     <div className="row">
       <div className="col-sm-7">
@@ -18,6 +30,15 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
             onClick={wallet.toggleCollapse}
             className={classNames('wallet__title', 'text--truncate')}
           >
+            <i
+              style={{position: 'absolute', left: '-30px', top: '10px'}}
+              className={classnames('icon', 'icon--save_template')}
+              // tslint:disable-next-line:jsx-no-lambda
+              onClick={() => {
+                walletStore!.selectedWallet = wallet;
+                uiStore!.toggleWalletDrawer();
+              }}
+            />
             {wallet.title}
             <i
               className={classnames(
@@ -38,4 +59,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
   </div>
 );
 
-export default observer(WalletSummary);
+export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  uiStore: rootStore.uiStore,
+  walletStore: rootStore.walletStore
+}))(observer(WalletSummary));

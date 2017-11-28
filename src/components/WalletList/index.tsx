@@ -6,13 +6,16 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import WalletActionBar from '../WalletActionBar';
 import WalletBalanceList from '../WalletBalanceList';
-import WalletSummary from '../WalletSummary';
+import WalletSummary, {WalletActions} from '../WalletSummary';
 import './style.css';
 
-type WalletListProps = RootStoreProps & RouteComponentProps<any>;
+type WalletListProps = RootStoreProps &
+  WalletActions &
+  RouteComponentProps<any>;
 
 export const WalletList: React.SFC<WalletListProps> = ({
   rootStore,
+  onEditWallet,
   match: {params: {type}}
 }) => (
   <div className="wallet_list">
@@ -25,7 +28,7 @@ export const WalletList: React.SFC<WalletListProps> = ({
         className={classnames('wallet', {'wallet--expanded': w.expanded})}
       >
         <div className="wallet__inner">
-          <WalletSummary wallet={w} />
+          <WalletSummary wallet={w} onEditWallet={onEditWallet} />
           {w.expanded && (
             <div className="wallet__expanded">
               <div key={WalletActionBar.name}>

@@ -4,7 +4,7 @@ import {RootStore} from '.';
 export class UiStore {
   readonly rootStore: RootStore;
 
-  @observable showCreateWalletDrawer: boolean = false;
+  @observable showWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
@@ -25,7 +25,7 @@ export class UiStore {
   @computed
   get overlayed() {
     return (
-      this.showCreateWalletDrawer ||
+      this.showWalletDrawer ||
       this.showConfirmRegenerateKey ||
       this.showQrWindow ||
       this.showSidebar
@@ -51,8 +51,8 @@ export class UiStore {
   };
   readonly clearPendingRequests = () => (this.pendingRequestsCount = 0);
 
-  readonly toggleCreateWalletDrawer = () => {
-    this.showCreateWalletDrawer = !this.showCreateWalletDrawer;
+  readonly toggleWalletDrawer = () => {
+    this.showWalletDrawer = !this.showWalletDrawer;
   };
 
   readonly toggleConfirmRegenerateKey = () => {

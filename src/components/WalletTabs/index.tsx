@@ -97,6 +97,6 @@ export const WalletTabs = (props: any) => (
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
-    onCreateNewWallet: rootStore!.uiStore.toggleCreateWalletDrawer
+    onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer
   }))(observer(WalletTabs))
 );
