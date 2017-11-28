@@ -118,8 +118,14 @@ export class WalletModel {
 
   save = async () => {
     this.updating = true; // TODO: decorator should be here
-    await this.store.updateWallet(this);
-    this.updating = false;
+    try {
+      await this.store.updateWallet(this);
+      return Promise.resolve();
+    } catch (error) {
+      return Promise.reject(error);
+    } finally {
+      this.updating = false;
+    }
   };
 }
 

@@ -10,6 +10,7 @@ export class UiStore {
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
   @observable transferError: string;
+  @observable apiError: string;
 
   @observable pendingRequestsCount: number = 0;
   @computed

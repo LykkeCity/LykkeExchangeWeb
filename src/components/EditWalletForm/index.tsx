@@ -1,4 +1,5 @@
 import * as classNames from 'classnames';
+import {extendObservable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models/index';
@@ -59,7 +60,7 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
         type="button"
         // tslint:disable-next-line:jsx-no-lambda
         onClick={() => onSave && onSave(wallet!)}
-        disabled={pending}
+        disabled={pending || !wallet!.title}
       >
         Save change
       </button>
@@ -72,12 +73,27 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
 
 export default inject(
   ({rootStore: {walletStore, uiStore}}: {rootStore: RootStore}) => ({
-    onCancel: () => {
-      walletStore.selectedWallet = null as any;
+    errors: uiStore.apiError,
+    onCancel: async () => {
+      const {
+        findWalletById,
+        fetchWalletById,
+        selectedWallet: {id}
+      } = walletStore;
+      extendObservable(findWalletById(id)!, {
+        title: (await fetchWalletById(id)).title
+      });
+      uiStore.apiError = '';
+      walletStore.selectedWallet = null!;
       uiStore.toggleWalletDrawer();
     },
-    onSave: (wallet: WalletModel) => {
-      wallet.save().then(() => uiStore.toggleWalletDrawer());
+    onSave: async (wallet: WalletModel) => {
+      try {
+        await wallet.save();
+        uiStore.toggleWalletDrawer();
+      } catch (error) {
+        uiStore.apiError = error.message;
+      }
     },
     pending: walletStore.selectedWallet.updating,
     wallet: walletStore.selectedWallet
