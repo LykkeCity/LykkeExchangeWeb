@@ -22,6 +22,7 @@
     font-weight: $fw-semi;
     line-height: 1.25;
     color: $text;
+    cursor: pointer;
 
     @include rem(font-size, 40px);
     @include rem(margin-bottom, 15px);

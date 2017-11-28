@@ -81,6 +81,7 @@ export class AuthStore {
     runInAction(() => {
       this.token = null;
       authStorage.clear();
+      this.rootStore.reset();
     });
   };
 

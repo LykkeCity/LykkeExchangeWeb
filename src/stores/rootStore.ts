@@ -18,25 +18,46 @@ import {
 } from '../api';
 
 export class RootStore {
-  readonly authStore: AuthStore;
-  readonly walletStore: WalletStore;
-  readonly balanceStore: BalanceStore;
-  readonly uiStore: UiStore;
-  readonly transferStore: TransferStore;
-  readonly profileStore: ProfileStore;
-  readonly assetStore: AssetStore;
+  authStore: AuthStore;
+  walletStore: WalletStore;
+  balanceStore: BalanceStore;
+  uiStore: UiStore;
+  transferStore: TransferStore;
+  profileStore: ProfileStore;
+  assetStore: AssetStore;
+
+  converter = new ConverterApi(this);
 
   constructor() {
     this.assetStore = new AssetStore(this, new AssetApi(this));
     this.authStore = new AuthStore(this, new AuthApi(this));
-    const converter = new ConverterApi(this);
-    this.walletStore = new WalletStore(this, new WalletApi(this), converter);
+    this.walletStore = new WalletStore(
+      this,
+      new WalletApi(this),
+      this.converter
+    );
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(
       this,
       new TransferApi(this),
-      converter
+      this.converter
+    );
+    this.profileStore = new ProfileStore(this, new ProfileApi(this));
+  }
+
+  reset() {
+    this.walletStore = new WalletStore(
+      this,
+      new WalletApi(this),
+      this.converter
+    );
+    this.balanceStore = new BalanceStore(this, new BalanceApi(this));
+    this.uiStore = new UiStore(this);
+    this.transferStore = new TransferStore(
+      this,
+      new TransferApi(this),
+      this.converter
     );
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
   }

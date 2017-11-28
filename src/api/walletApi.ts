@@ -1,4 +1,5 @@
 import {RestApi} from '.';
+import {WalletModel} from '../models/index';
 import {RootStore} from '../stores/index';
 import {ApiResponse} from './types';
 
@@ -25,6 +26,12 @@ export class RestWalletApi extends RestApi implements WalletApi {
 
   regenerateApiKey = (id: string) =>
     this.put(`/hft/${id}/regenerateKey`, undefined);
+
+  updateWallet = (wallet: WalletModel) =>
+    this.put(`/wallets/${wallet.id}`, {
+      Description: wallet.desc,
+      Name: wallet.title
+    });
 }
 
 export default RestWalletApi;
