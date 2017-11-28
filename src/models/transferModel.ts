@@ -10,6 +10,8 @@ export class TransferModel {
   @observable amount: number = 0;
   @observable asset: AssetModel;
 
+  @observable isUpdating: boolean = false;
+
   @observable amountInBaseCurrency: number;
 
   @computed

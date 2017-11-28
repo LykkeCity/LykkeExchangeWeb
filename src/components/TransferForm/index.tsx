@@ -81,6 +81,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
+      transfer.isUpdating = true;
       const id = await transfer.sendTransfer();
       if (!!id) {
         toggleQrWindow();
@@ -91,6 +92,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       setTimeout(() => {
         uiStore.transferError = '';
       }, 3000);
+    } finally {
+      transfer.isUpdating = false;
     }
   };
 
@@ -204,7 +207,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           type="submit"
           value="Submit"
           className="btn btn--primary"
-          disabled={!transfer.canTransfer}
+          disabled={!transfer.canTransfer || transfer.isUpdating}
           onClick={handleSubmit}
         />
         <Link to={ROUTE_WALLETS} className="btn btn--flat">
