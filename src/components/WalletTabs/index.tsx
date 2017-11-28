@@ -70,13 +70,14 @@ export const WalletTabs = (props: any) => (
               multiple API wallets. Funds deposited to API wallet are under
               Lykke custodian. The API is secured with an API Key. Please keep
               the key safe. To withdraw the funds from your API wallet you need
-              to transfer them to your Trading Wallet first. Please check fees
-              that apply for the trading through the API at the following
-              link:&nbsp;<a
-                href="https://lykke.com/trading-conditions"
+              to transfer them to your Trading Wallet first.
+            </p>
+            <p style={{marginTop: '10px'}} className="hint text-left">
+              Read more about using API here&nbsp;<a
+                href="https://www.lykke.com/lykke_api"
                 target="_blank"
               >
-                {'https://lykke.com/trading-conditions'}
+                {'https://www.lykke.com/lykke_api'}
               </a>
             </p>
           </div>
@@ -96,6 +97,6 @@ export const WalletTabs = (props: any) => (
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
-    onCreateNewWallet: rootStore!.uiStore.toggleCreateWalletDrawer
+    onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer
   }))(observer(WalletTabs))
 );

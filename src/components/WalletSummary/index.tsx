@@ -1,15 +1,23 @@
 import classnames from 'classnames';
 import * as classNames from 'classnames';
-import {observer} from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
-import WalletTotalBalance from '../WalletTotalBalance/index';
+import {RootStore} from '../../stores';
+import WalletTotalBalance from '../WalletTotalBalance';
 
-interface WalletSummaryProps {
+export interface WalletActions {
+  onEditWallet?: (w: WalletModel) => void;
+}
+
+interface WalletSummaryProps extends WalletActions {
   wallet: WalletModel;
 }
 
-export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
+export const WalletSummary: React.SFC<WalletSummaryProps> = ({
+  wallet,
+  onEditWallet
+}) => (
   <div>
     <div className="row">
       <div className="col-sm-7">
@@ -18,6 +26,15 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
             onClick={wallet.toggleCollapse}
             className={classNames('wallet__title', 'text--truncate')}
           >
+            <i
+              style={{position: 'absolute', left: '-30px', top: '10px'}}
+              className={classnames('icon', 'icon--edit')}
+              // tslint:disable-next-line:jsx-no-lambda
+              onClick={e => {
+                e.stopPropagation();
+                onEditWallet!(wallet);
+              }}
+            />
             {wallet.title}
             <i
               className={classnames(
@@ -38,4 +55,9 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({wallet}) => (
   </div>
 );
 
-export default observer(WalletSummary);
+export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  onEditWallet: (wallet: WalletModel) => {
+    rootStore.walletStore.selectedWallet = wallet;
+    rootStore.uiStore.toggleWalletDrawer();
+  }
+}))(observer(WalletSummary));

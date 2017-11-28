@@ -8,6 +8,10 @@ import Logo from '../../components/Logo';
 import {STORE_ROOT} from '../../constants/stores';
 
 export class LoginPage extends React.Component<RootStoreProps> {
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   render() {
     return (
       <div>

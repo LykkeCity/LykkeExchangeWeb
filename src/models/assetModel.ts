@@ -6,6 +6,8 @@ export class AssetModel {
 
   isBase: boolean = false;
 
+  iconUrl: string;
+
   constructor(asset: Partial<AssetModel>) {
     Object.assign(this, asset);
   }

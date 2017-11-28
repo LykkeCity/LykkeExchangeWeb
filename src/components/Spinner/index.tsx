@@ -1,8 +1,10 @@
-import Spin from 'antd/lib/spin';
 import * as React from 'react';
+import './style.css';
 
 export default () => (
-  <div style={{textAlign: 'center', margin: '50px auto'}}>
-    <Spin size="large" />
+  <div className="spinner_container">
+    <div className="spinner">
+      <div className="spinner__inside" />
+    </div>
   </div>
 );
