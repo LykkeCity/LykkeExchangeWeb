@@ -1,8 +1,18 @@
 @import '../../styles/utils';
 
+.ant-modal-wrap {
+  display: flex;
+  align-items: center;
+}
+
 .transfer-qr {
   @include rem(padding, 10px);
   width: 370px !important;
+
+  & + .ant-modal {
+    top: 0 !important;
+    margin-top: 0 !important;
+  }
 
   .ant-modal-content {
     width: 370px;

@@ -28,7 +28,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
           >
             <i
               style={{position: 'absolute', left: '-30px', top: '10px'}}
-              className={classnames('icon', 'icon--save_template')}
+              className={classnames('icon', 'icon--edit')}
               // tslint:disable-next-line:jsx-no-lambda
               onClick={e => {
                 e.stopPropagation();
