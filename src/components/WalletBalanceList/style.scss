@@ -133,14 +133,17 @@
   @include rem(font-size, 1rem);
   @include rem(padding, 10px);
   div {
-    @include rem(padding, 10px);
     @include rem(margin, 5px 0);
 
-    &:hover {
-      background: $gray-5;
-    }
-
     a {
+      display: block;
+      width: 100%;
+      @include rem(padding, 10px);
+
+      &:hover {
+        background: $gray-5;
+      }
+
       color: $text;
       text-transform: uppercase;
     }
