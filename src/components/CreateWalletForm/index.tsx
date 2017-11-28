@@ -57,7 +57,9 @@ export class WalletForm extends React.Component<WalletFormProps> {
             className="btn btn--primary pull-right"
             type="button"
             onClick={this.handleSubmit}
-            disabled={!this.props.wallet.isValid}
+            disabled={
+              !this.props.wallet.isValid || this.props.wallet.isUpdating
+            }
           >
             Generate API Key
           </button>

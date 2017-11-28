@@ -51,6 +51,8 @@ export class WalletModel {
     return !!this.title.trim();
   }
 
+  @observable isUpdating: boolean = false;
+
   constructor(private readonly store: WalletStore, dto?: any) {
     this.updateFromJson(dto);
     reaction(
