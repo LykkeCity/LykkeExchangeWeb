@@ -2,11 +2,11 @@ import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
-import {NavLink} from '../Header/navbar';
 import {RootStoreProps} from '../../App';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
+import {NavLink} from '../Header/navbar';
 import './style.css';
 
 interface WalletActionBarProps extends RootStoreProps {
