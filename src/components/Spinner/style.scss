@@ -1,0 +1,62 @@
+@import '../../styles/utils';
+
+.spinner_container {
+  padding: 40px;
+}
+.spinner {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  position: relative;
+  margin: 0 auto;
+  overflow: hidden;
+  animation: spin 1s linear infinite;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    height: 95%;
+    background: #ffffff;
+    border-radius: 50%;
+  }
+
+  &__inside {
+    width: 100%;
+    height: 50%;
+    position: absolute;
+    margin-top: 50%;
+    background: linear-gradient(90deg, #532d53, #b29fb4);
+    background: $primary !important; /* Old browsers */
+    background: -moz-linear-gradient(
+      90deg,
+      #ff9100 0%,
+      #ff0029 50%,
+      #ab00ff 100%
+    ) !important; /* FF3.6-15 */
+    background: -webkit-linear-gradient(
+      90deg,
+      #ff9100 0%,
+      #ff0029 50%,
+      #ab00ff 100%
+    ) !important; /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(
+      90deg,
+      #ff9100 0%,
+      #ff0029 50%,
+      #ab00ff 100%
+    ) !important; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
