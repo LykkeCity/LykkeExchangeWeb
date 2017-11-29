@@ -14,8 +14,6 @@
     float: left;
     letter-spacing: 1.6px;
 
-    @include rem(margin-right, 40px);
-
     &--active {
       color: $primary;
 
@@ -24,7 +22,13 @@
       }
     }
 
+    &:first-child {
+      @include rem(margin-left, -20px);
+    }
+
     a {
+      @include rem(padding, 30px 20px);
+
       color: $text;
 
       &:hover {
