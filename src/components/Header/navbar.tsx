@@ -14,15 +14,14 @@ const classes = (className: string, active: boolean) => {
 interface NavLinkProps {
   to: string;
   label: string;
-  className: string;
 }
 
-export const NavLink: React.SFC<NavLinkProps> = ({label, to, className}) => (
+const NavLink: React.SFC<NavLinkProps> = ({label, to}) => (
   <Route
     path={to}
     // tslint:disable-next-line:jsx-no-lambda
     children={({match}) => (
-      <li className={classes(className, !!match)}>
+      <li className={classes('nav_list__item', !!match)}>
         <Link to={to}>{label}</Link>
       </li>
     )}
@@ -37,16 +36,8 @@ export const NavBar = ({match, isAuthenticated}: any) => {
           <div className="header_nav__inner">
             <div className="container">
               <ul className="header_nav__list nav_list">
-                <NavLink
-                  to={ROUTE_WALLETS}
-                  label="Wallets"
-                  className="nav_list__item"
-                />
-                <NavLink
-                  to={ROUTE_TRANSFER_BASE}
-                  label="Transfer"
-                  className="nav_list__item"
-                />
+                <NavLink to={ROUTE_WALLETS} label="Wallets" />
+                <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
               </ul>
               <Balance />
             </div>
