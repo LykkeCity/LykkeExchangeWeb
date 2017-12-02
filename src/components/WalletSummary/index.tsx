@@ -29,7 +29,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
             {wallet.isTrading ? null : (
               <i
                 style={{position: 'absolute', left: '-30px', top: '10px'}}
-                className={classnames('icon', 'icon--edit')}
+                className={classnames('icon', 'icon--edit_alt')}
                 // tslint:disable-next-line:jsx-no-lambda
                 onClick={e => {
                   e.stopPropagation();
