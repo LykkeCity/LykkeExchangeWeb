@@ -71,17 +71,23 @@ export class WalletStore {
 
   createApiWallet = async (wallet: WalletModel) => {
     const {title, desc} = wallet;
-    wallet.isUpdating = true;
-    const dto = await this.api!.createApiWallet(title, desc);
-    wallet.isUpdating = false;
-    const newWallet = this.createWallet({
-      ApiKey: dto.ApiKey,
-      Id: dto.WalletId
-    });
-    this.addWallet(
-      extendObservable(newWallet, {title, desc, type: WalletType.Trusted})
-    );
-    return newWallet;
+    wallet.updating = true;
+    try {
+      const dto = await this.api!.createApiWallet(title, desc);
+      const newWallet = this.createWallet({
+        ApiKey: dto.ApiKey,
+        Id: dto.WalletId
+      });
+      this.addWallet(
+        extendObservable(newWallet, {title, desc, type: WalletType.Trusted})
+      );
+      return Promise.resolve(newWallet);
+    } catch (error) {
+      this.rootStore.uiStore.apiError = error;
+      return Promise.reject(error);
+    } finally {
+      wallet.updating = true;
+    }
   };
 
   findWalletById = (id: string) => this.wallets.find(w => w.id === id);
