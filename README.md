@@ -40,3 +40,7 @@ The build is minified and the filenames include the hashes.<br>
 Now app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
+
+#### `yarn test-e2e-build`
+
+Run application localy from `build` at port 3099 and run end-to-end tests.

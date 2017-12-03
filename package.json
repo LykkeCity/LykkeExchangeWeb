@@ -29,9 +29,10 @@
     "start-ts": "react-scripts-ts start",
     "start": "npm-run-all -p watch-css start-ts",
     "build": "npm run build-css && react-scripts-ts build",
+    "serve-build": "forever start -s ./node_modules/.bin/http-server ./build -s -p 3099",
     "test": "react-scripts-ts test --env=jsdom",
-    "test-e2e": "npm run wdio",
-    "test-e2e-build": "npm run build && npm run wdio wdio.build.conf.js",
+    "test-e2e": "yarn run wdio",
+    "test-e2e-build": "yarn run serve-build && yarn run wdio wdio.build.conf.js",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {

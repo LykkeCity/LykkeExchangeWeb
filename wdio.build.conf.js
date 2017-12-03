@@ -1,9 +1,10 @@
 const wdioConfig = require('./wdio.conf.js');
 
 wdioConfig.config.capabilities = [{
-    browserName: 'phantomjs',
+    browserName: 'chrome', //phantomjs
 }];
-wdioConfig.config.baseUrl = 'http://127.0.0.1:8080/';
-wdioConfig.config.services = ['phantomjs'];
+wdioConfig.config.baseUrl = 'http://localhost:3099/';
+wdioConfig.config.services = ['selenium-standalone']; //phantomjs
+wdioConfig.config.reporters = ['dot'];
 
 exports.config = wdioConfig.config;
