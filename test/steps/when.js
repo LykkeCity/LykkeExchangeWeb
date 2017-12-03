@@ -15,6 +15,7 @@ import selectOption from '../support/action/selectOption';
 import selectOptionByIndex from '../support/action/selectOptionByIndex';
 import setCookie from '../support/action/setCookie';
 import setInputField from '../support/action/setInputField';
+import setEnvInputField from '../support/action/setEnvInputField';
 import setPromptText from '../support/action/setPromptText';
 import submitForm from '../support/action/submitForm';
 
@@ -28,6 +29,11 @@ defineSupportCode(({ When }) => {
     When(
         /^I (add|set) "([^"]*)?" to the inputfield "([^"]*)?"$/,
         setInputField
+    );
+
+    When(
+        /^I (add|set) env "([^"]*)?" to the inputfield "([^"]*)?"$/,
+        setEnvInputField
     );
 
     When(
