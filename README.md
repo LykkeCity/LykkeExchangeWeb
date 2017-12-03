@@ -28,6 +28,10 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.
 
+#### `yarn test-e2e`
+
+Run all BDD end-to-end test features with [Cucumber Boilerplate](https://github.com/webdriverio/cucumber-boilerplate).
+
 #### `yarn build`
 
 Builds the app for production to the `build` folder.
