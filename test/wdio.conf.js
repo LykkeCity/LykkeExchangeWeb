@@ -10,7 +10,7 @@ exports.config = {
     // `wdio` will be called from there.
     //
     specs: [
-        './features/**/*.feature',
+        './test/**/*.feature',
     ],
     // Patterns to exclude.
     exclude: [
@@ -149,9 +149,9 @@ exports.config = {
         profile: [],
         // <string[]> (file/dir) require files before executing features
         require: [
-            './features/steps/given.js',
-            './features/steps/then.js',
-            './features/steps/when.js',
+            './test/steps/given.js',
+            './test/steps/then.js',
+            './test/steps/when.js',
         ],
         // <string> specify a custom snippet syntax
         snippetSyntax: undefined,
