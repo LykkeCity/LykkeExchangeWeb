@@ -9,6 +9,9 @@ import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
 
+const ASSET_DEFAULT_ICON_URL = `${process.env
+  .PUBLIC_URL}/images/assets/asset_default.jpg`;
+
 interface WalletBalanceListProps {
   wallet: WalletModel;
 }
@@ -47,7 +50,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       <div className="issuer">
                         <div className="issuer__img">
                           <img
-                            src={b.asset.iconUrl}
+                            src={b.asset.iconUrl || ASSET_DEFAULT_ICON_URL}
                             alt="asset"
                             width={48}
                             height={48}
