@@ -26,15 +26,17 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
             onClick={wallet.toggleCollapse}
             className={classNames('wallet__title', 'text--truncate')}
           >
-            <i
-              style={{position: 'absolute', left: '-30px', top: '10px'}}
-              className={classnames('icon', 'icon--edit')}
-              // tslint:disable-next-line:jsx-no-lambda
-              onClick={e => {
-                e.stopPropagation();
-                onEditWallet!(wallet);
-              }}
-            />
+            {wallet.isTrading ? null : (
+              <i
+                style={{position: 'absolute', left: '-30px', top: '10px'}}
+                className={classnames('icon', 'icon--edit_alt')}
+                // tslint:disable-next-line:jsx-no-lambda
+                onClick={e => {
+                  e.stopPropagation();
+                  onEditWallet!(wallet);
+                }}
+              />
+            )}
             {wallet.title}
             <i
               className={classnames(
