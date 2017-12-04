@@ -21,14 +21,13 @@ type MyWalletSelectProps = RootStoreProps & SelectProps;
 
 export class WalletSelect extends React.Component<MyWalletSelectProps> {
   render() {
+    const baseAsset = this.props.rootStore!.profileStore.baseAssetAsModel;
     return (
       <Select
         valueKey="id"
         labelKey="title"
         clearable={false}
-        optionRenderer={optionRenderer(
-          this.props.rootStore!.profileStore.baseAsset
-        )}
+        optionRenderer={baseAsset && optionRenderer(baseAsset.name)}
         {...this.props}
       />
     );
