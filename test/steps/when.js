@@ -1,23 +1,23 @@
 import { defineSupportCode } from 'cucumber';
 
-import clearInputField from '../support/action/clearInputField';
-import clickElement from '../support/action/clickElement';
-import closeLastOpenedWindow from '../support/action/closeLastOpenedWindow';
-import deleteCookie from '../support/action/deleteCookie';
-import dragElement from '../support/action/dragElement';
-import focusLastOpenedWindow from '../support/action/focusLastOpenedWindow';
-import handleModal from '../support/action/handleModal';
-import moveToElement from '../support/action/moveToElement';
-import pause from '../support/action/pause';
-import pressButton from '../support/action/pressButton';
-import scroll from '../support/action/scroll';
-import selectOption from '../support/action/selectOption';
-import selectOptionByIndex from '../support/action/selectOptionByIndex';
-import setCookie from '../support/action/setCookie';
-import setInputField from '../support/action/setInputField';
+import clearInputField from 'cucumber-boilerplate/src/support/action/clearInputField';
+import clickElement from 'cucumber-boilerplate/src/support/action/clickElement';
+import closeLastOpenedWindow from 'cucumber-boilerplate/src/support/action/closeLastOpenedWindow';
+import deleteCookie from 'cucumber-boilerplate/src/support/action/deleteCookie';
+import dragElement from 'cucumber-boilerplate/src/support/action/dragElement';
+import focusLastOpenedWindow from 'cucumber-boilerplate/src/support/action/focusLastOpenedWindow';
+import handleModal from 'cucumber-boilerplate/src/support/action/handleModal';
+import moveToElement from 'cucumber-boilerplate/src/support/action/moveToElement';
+import pause from 'cucumber-boilerplate/src/support/action/pause';
+import pressButton from 'cucumber-boilerplate/src/support/action/pressButton';
+import scroll from 'cucumber-boilerplate/src/support/action/scroll';
+import selectOption from 'cucumber-boilerplate/src/support/action/selectOption';
+import selectOptionByIndex from 'cucumber-boilerplate/src/support/action/selectOptionByIndex';
+import setCookie from 'cucumber-boilerplate/src/support/action/setCookie';
+import setInputField from 'cucumber-boilerplate/src/support/action/setInputField';
 import setEnvInputField from '../support/action/setEnvInputField';
-import setPromptText from '../support/action/setPromptText';
-import submitForm from '../support/action/submitForm';
+import setPromptText from 'cucumber-boilerplate/src/support/action/setPromptText';
+import submitForm from 'cucumber-boilerplate/src/support/action/submitForm';
 
 
 defineSupportCode(({ When }) => {

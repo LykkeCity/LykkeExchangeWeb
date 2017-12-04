@@ -1,25 +1,25 @@
 import { defineSupportCode } from 'cucumber';
 
-import checkContainsAnyText from '../support/check/checkContainsAnyText';
-import checkIsEmpty from '../support/check/checkIsEmpty';
-import checkContainsText from '../support/check/checkContainsText';
-import checkCookieContent from '../support/check/checkCookieContent';
-import checkCookieExists from '../support/check/checkCookieExists';
-import checkDimension from '../support/check/checkDimension';
-import checkElementExists from '../support/check/checkElementExists';
-import checkEqualsText from '../support/check/checkEqualsText';
-import checkModal from '../support/check/checkModal';
-import checkOffset from '../support/check/checkOffset';
-import checkProperty from '../support/check/checkProperty';
-import checkSelected from '../support/check/checkSelected';
-import checkTitle from '../support/check/checkTitle';
-import checkUrl from '../support/check/checkURL';
-import closeAllButFirstTab from '../support/action/closeAllButFirstTab';
-import compareText from '../support/check/compareText';
-import isEnabled from '../support/check/isEnabled';
-import isVisible from '../support/check/isVisible';
-import openWebsite from '../support/action/openWebsite';
-import resizeScreenSize from '../support/action/resizeScreenSize';
+import checkContainsAnyText from 'cucumber-boilerplate/src/support/check/checkContainsAnyText';
+import checkIsEmpty from 'cucumber-boilerplate/src/support/check/checkIsEmpty';
+import checkContainsText from 'cucumber-boilerplate/src/support/check/checkContainsText';
+import checkCookieContent from 'cucumber-boilerplate/src/support/check/checkCookieContent';
+import checkCookieExists from 'cucumber-boilerplate/src/support/check/checkCookieExists';
+import checkDimension from 'cucumber-boilerplate/src/support/check/checkDimension';
+import checkElementExists from 'cucumber-boilerplate/src/support/check/checkElementExists';
+import checkEqualsText from 'cucumber-boilerplate/src/support/check/checkEqualsText';
+import checkModal from 'cucumber-boilerplate/src/support/check/checkModal';
+import checkOffset from 'cucumber-boilerplate/src/support/check/checkOffset';
+import checkProperty from 'cucumber-boilerplate/src/support/check/checkProperty';
+import checkSelected from 'cucumber-boilerplate/src/support/check/checkSelected';
+import checkTitle from 'cucumber-boilerplate/src/support/check/checkTitle';
+import checkUrl from 'cucumber-boilerplate/src/support/check/checkURL';
+import closeAllButFirstTab from 'cucumber-boilerplate/src/support/action/closeAllButFirstTab';
+import compareText from 'cucumber-boilerplate/src/support/check/compareText';
+import isEnabled from 'cucumber-boilerplate/src/support/check/isEnabled';
+import isVisible from 'cucumber-boilerplate/src/support/check/isVisible';
+import openWebsite from 'cucumber-boilerplate/src/support/action/openWebsite';
+import resizeScreenSize from 'cucumber-boilerplate/src/support/action/resizeScreenSize';
 
 
 defineSupportCode(({ Given }) => {

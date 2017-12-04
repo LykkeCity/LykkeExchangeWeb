@@ -1,34 +1,34 @@
 import { defineSupportCode } from 'cucumber';
 
-import checkClass from '../support/check/checkClass';
-import checkContainsAnyText from '../support/check/checkContainsAnyText';
-import checkIsEmpty from '../support/check/checkIsEmpty';
-import checkContainsText from '../support/check/checkContainsText';
-import checkCookieContent from '../support/check/checkCookieContent';
-import checkCookieExists from '../support/check/checkCookieExists';
-import checkDimension from '../support/check/checkDimension';
-import checkEqualsText from '../support/check/checkEqualsText';
-import checkFocus from '../support/check/checkFocus';
-import checkInURLPath from '../support/check/checkInURLPath';
+import checkClass from 'cucumber-boilerplate/src/support/check/checkClass';
+import checkContainsAnyText from 'cucumber-boilerplate/src/support/check/checkContainsAnyText';
+import checkIsEmpty from 'cucumber-boilerplate/src/support/check/checkIsEmpty';
+import checkContainsText from 'cucumber-boilerplate/src/support/check/checkContainsText';
+import checkCookieContent from 'cucumber-boilerplate/src/support/check/checkCookieContent';
+import checkCookieExists from 'cucumber-boilerplate/src/support/check/checkCookieExists';
+import checkDimension from 'cucumber-boilerplate/src/support/check/checkDimension';
+import checkEqualsText from 'cucumber-boilerplate/src/support/check/checkEqualsText';
+import checkFocus from 'cucumber-boilerplate/src/support/check/checkFocus';
+import checkInURLPath from 'cucumber-boilerplate/src/support/check/checkInURLPath';
 import checkIsOpenedInNewWindow from
-    '../support/check/checkIsOpenedInNewWindow';
-import checkModal from '../support/check/checkModal';
-import checkModalText from '../support/check/checkModalText';
-import checkNewWindow from '../support/check/checkNewWindow';
-import checkOffset from '../support/check/checkOffset';
-import checkProperty from '../support/check/checkProperty';
-import checkSelected from '../support/check/checkSelected';
-import checkTitle from '../support/check/checkTitle';
-import checkURL from '../support/check/checkURL';
-import checkURLPath from '../support/check/checkURLPath';
-import checkWithinViewport from '../support/check/checkWithinViewport';
-import compareText from '../support/check/compareText';
-import isEnabled from '../support/check/isEnabled';
-import isExisting from '../support/check/isExisting';
-import isVisible from '../support/check/isVisible';
-import waitFor from '../support/action/waitFor';
-import waitForVisible from '../support/action/waitForVisible';
-import checkIfElementExists from '../support/lib/checkIfElementExists';
+    'cucumber-boilerplate/src/support/check/checkIsOpenedInNewWindow';
+import checkModal from 'cucumber-boilerplate/src/support/check/checkModal';
+import checkModalText from 'cucumber-boilerplate/src/support/check/checkModalText';
+import checkNewWindow from 'cucumber-boilerplate/src/support/check/checkNewWindow';
+import checkOffset from 'cucumber-boilerplate/src/support/check/checkOffset';
+import checkProperty from 'cucumber-boilerplate/src/support/check/checkProperty';
+import checkSelected from 'cucumber-boilerplate/src/support/check/checkSelected';
+import checkTitle from 'cucumber-boilerplate/src/support/check/checkTitle';
+import checkURL from 'cucumber-boilerplate/src/support/check/checkURL';
+import checkURLPath from 'cucumber-boilerplate/src/support/check/checkURLPath';
+import checkWithinViewport from 'cucumber-boilerplate/src/support/check/checkWithinViewport';
+import compareText from 'cucumber-boilerplate/src/support/check/compareText';
+import isEnabled from 'cucumber-boilerplate/src/support/check/isEnabled';
+import isExisting from 'cucumber-boilerplate/src/support/check/isExisting';
+import isVisible from 'cucumber-boilerplate/src/support/check/isVisible';
+import waitFor from 'cucumber-boilerplate/src/support/action/waitFor';
+import waitForVisible from 'cucumber-boilerplate/src/support/action/waitForVisible';
+import checkIfElementExists from 'cucumber-boilerplate/src/support/lib/checkIfElementExists';
 
 
 defineSupportCode(({ Then }) => {
