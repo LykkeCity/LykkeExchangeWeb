@@ -46,9 +46,7 @@ const lang =
   (window.navigator as any).userLanguage ||
   window.navigator.language;
 
-if (knownLocales.some(x => x === lang)) {
-  numeral.locale(lang);
-}
+numeral.locale(knownLocales.find(x => x.toLowerCase() === lang.toLowerCase()));
 
 interface NumberFormatProps {
   value: number;
