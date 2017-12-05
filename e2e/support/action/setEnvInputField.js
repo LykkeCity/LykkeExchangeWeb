@@ -1,4 +1,4 @@
-import checkIfElementExists from '../lib/checkIfElementExists';
+import checkIfElementExists from '../../cucumber-boilerplate/src/support/lib/checkIfElementExists';
 
 /**
  * Set the value of the given input field to a new value or add a value to the
