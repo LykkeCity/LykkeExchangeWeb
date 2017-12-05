@@ -65,7 +65,12 @@ export class WalletPage extends React.Component<RootStoreProps> {
               onNext={this.handleCreateWallet}
               index={2}
             >
-              <GenerateWalletKeyForm wallet={this.wallet} />
+              <GenerateWalletKeyForm
+                wallet={this.wallet}
+                isShowConfirm={this.uiStore.showConfirmRegenerateKey}
+                onToggleConfirm={this.uiStore.toggleConfirmRegenerateKey}
+                onRegenerateApiKey={this.walletStore.regenerateApiKey}
+              />
               <div className="drawer__footer">
                 <button
                   className="btn btn--primary"
