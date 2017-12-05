@@ -10,7 +10,7 @@ exports.config = {
     // `wdio` will be called from there.
     //
     specs: [
-        './e2e/tests/**/*.feature',
+        '../tests/**/*.feature',
     ],
     // Patterns to exclude.
     exclude: [
@@ -149,12 +149,12 @@ exports.config = {
         profile: [],
         // <string[]> (file/dir) require files before executing features
         require: [
-            './e2e/steps/given.js',
-            './e2e/steps/then.js',
-            './e2e/steps/when.js',
-            './e2e/cucumber-boilerplate/src/steps/given.js',
-            './e2e/cucumber-boilerplate/src/steps/then.js',
-            './e2e/cucumber-boilerplate/src/steps/when.js',
+            '../steps/given.js',
+            '../steps/then.js',
+            '../steps/when.js',
+            './src/steps/given.js',
+            './src/steps/then.js',
+            './src/steps/when.js',
         ],
         // <string> specify a custom snippet syntax
         snippetSyntax: undefined,

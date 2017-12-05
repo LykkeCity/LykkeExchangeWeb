@@ -29,10 +29,10 @@
     "start": "npm-run-all -p watch-css start-ts",
     "build": "npm run build-css && react-scripts-ts build",
     "serve-build": "forever start -s ./node_modules/.bin/http-server ./build -s -p 3099",
-    "e2e-setup": "cd e2e && git clone https://github.com/webdriverio/cucumber-boilerplate",
+    "e2e-setup": "cd e2e && git clone https://github.com/webdriverio/cucumber-boilerplate && cd cucumber-boilerplate && yarn install",
     "test": "react-scripts-ts test --env=jsdom",
-    "test-e2e": "yarn run wdio ./e2e/wdio.dev.conf.js",
-    "test-e2e-build": "yarn run serve-build && yarn run wdio ./e2e/wdio.build.conf.js",
+    "test-e2e": "cd e2e/cucumber-boilerplate && yarn run wdio ../wdio.dev.conf.js",
+    "test-e2e-build": "cd e2e/cucumber-boilerplate && yarn run serve-build && yarn run wdio ../wdio.build.conf.js",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
