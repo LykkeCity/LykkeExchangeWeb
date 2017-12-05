@@ -35,6 +35,8 @@
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
+    "babel-preset-es2015": "^6.24.1",
+    "webdriverio": "^4.9.11",
     "@types/classnames": "^2.2.3",
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
@@ -45,7 +47,6 @@
     "@types/react-select": "^1.0.59",
     "@types/uuid": "^3.4.3",
     "LykkeFramework": "^0.3.40",
-    "babel-preset-es2015": "^6.24.1",
     "chai": "^4.1.2",
     "compass-mixins": "0.12.10",
     "forever": "^0.15.3",
@@ -59,9 +60,7 @@
     "wdio-cucumber-framework": "^1.0.2",
     "wdio-phantomjs-service": "^0.2.2",
     "wdio-selenium-standalone-service": "^0.0.9",
-    "wdio-spec-reporter": "^0.1.3",
-    "webdriverio": "^4.9.11",
-    "cucumber-boilerplate": "https://github.com/webdriverio/cucumber-boilerplate"
+    "wdio-spec-reporter": "^0.1.3"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx,js,jsx,json,css,scss,sass}": [
