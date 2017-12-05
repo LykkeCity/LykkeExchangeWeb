@@ -28,3 +28,6 @@ src/**/*.css
 
 .vscode/**/*.*
 !.vscode/launch.json
+
+# e2e failed test screenshots
+/errorShots

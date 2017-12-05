@@ -36,3 +36,15 @@ The build is minified and the filenames include the hashes.<br>
 Now app is ready to be deployed!
 
 See the section about [deployment](#deployment) for more information.
+
+#### `yarn e2e-setup`
+
+Install [Cucumber Boilerplate](https://github.com/webdriverio/cucumber-boilerplate).
+
+#### `yarn test-e2e`
+
+Run all BDD end-to-end test features with [Cucumber Boilerplate](https://github.com/webdriverio/cucumber-boilerplate).
+
+#### `yarn test-e2e-build`
+
+Run application localy from `build` at port 3099 and run end-to-end tests.
