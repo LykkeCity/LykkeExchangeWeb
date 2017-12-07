@@ -1,3 +1,4 @@
+import Dropdown from 'antd/lib/dropdown/dropdown';
 import Modal from 'antd/lib/modal/Modal';
 import {observer} from 'mobx-react';
 import * as React from 'react';
@@ -41,13 +42,27 @@ export class GenerateWalletKeyForm extends React.Component<
               </div>
             </div>
             <div className="asset_link__action">
-              <button
-                className="btn btn--icon"
-                type="button"
-                onClick={this.onToggleConfirm}
+              <Dropdown
+                overlay={
+                  <div className="asset-menu">
+                    <div>
+                      <a onClick={this.onToggleConfirm}>
+                        Regenerate a new API key
+                      </a>
+                    </div>
+                  </div>
+                }
+                trigger={['hover']}
+                placement="bottomCenter"
               >
-                <i className="icon icon--key" />
-              </button>
+                <button
+                  className="btn btn--icon"
+                  type="button"
+                  onClick={this.onToggleConfirm}
+                >
+                  <i className="icon icon--key" />
+                </button>
+              </Dropdown>
             </div>
             <div style={{position: 'relative'}} className="asset_link__action">
               <CopyToClipboard
