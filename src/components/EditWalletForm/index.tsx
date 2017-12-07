@@ -4,6 +4,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models/index';
 import {RootStore} from '../../stores/index';
+import {GenerateWalletKeyForm} from '../GenerateWalletKeyForm/index';
 
 interface EditWalletFormProps {
   wallet?: WalletModel;
@@ -11,6 +12,9 @@ interface EditWalletFormProps {
   onSave?: (w: WalletModel) => void;
   onCancel?: () => void;
   pending?: boolean;
+  showConfirmRegenerateKey?: boolean;
+  toggleConfirmRegenerateKey?: () => void;
+  regenerateApiKey?: (w: WalletModel) => void;
 }
 
 export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
@@ -18,6 +22,9 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
   errors,
   onCancel,
   onSave,
+  showConfirmRegenerateKey = false,
+  toggleConfirmRegenerateKey,
+  regenerateApiKey,
   pending = false
 }) => (
   <form>
@@ -54,6 +61,16 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
         value={wallet!.desc}
       />
     </div>
+    {wallet && toggleConfirmRegenerateKey && regenerateApiKey ? (
+      <div className="form-group form-group__generate-wallet-key-form">
+        <GenerateWalletKeyForm
+          wallet={wallet}
+          isShowConfirm={showConfirmRegenerateKey}
+          onToggleConfirm={toggleConfirmRegenerateKey}
+          onRegenerateApiKey={regenerateApiKey}
+        />
+      </div>
+    ) : null}
     <div className="drawer__footer">
       <button
         className="btn btn--primary pull-right"
@@ -95,7 +112,12 @@ export default inject(
         uiStore.apiError = error.message;
       }
     },
-    pending: walletStore.selectedWallet.updating,
+    pending: walletStore.selectedWallet
+      ? walletStore.selectedWallet.updating
+      : false,
+    regenerateApiKey: walletStore.regenerateApiKey,
+    showConfirmRegenerateKey: uiStore.showConfirmRegenerateKey,
+    toggleConfirmRegenerateKey: uiStore.toggleConfirmRegenerateKey,
     wallet: walletStore.selectedWallet
   })
 )(observer(EditWalletForm));

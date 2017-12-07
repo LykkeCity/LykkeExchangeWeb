@@ -64,6 +64,12 @@
     @include rem(padding, 58px 40px);
     @include rem(top, 60px);
 
+    .form-group {
+      &__generate-wallet-key-form {
+        margin-top: 40px;
+      }
+    }
+
     .ant-form-item,
     .form-item {
       color: $secondary;

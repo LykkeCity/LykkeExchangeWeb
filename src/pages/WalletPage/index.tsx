@@ -39,7 +39,12 @@ export class WalletPage extends React.Component<RootStoreProps> {
           path={`${ROUTE_WALLETS}/:type`}
           component={WalletList}
         />
-        <Drawer title="New API Wallet" show={this.uiStore.showWalletDrawer}>
+        <Drawer
+          title="New API Wallet"
+          show={
+            this.uiStore.showWalletDrawer && !this.walletStore.selectedWallet
+          }
+        >
           <div className="drawer__title">
             <h2>New Wallet</h2>
             <h3>API Wallet</h3>
@@ -65,7 +70,12 @@ export class WalletPage extends React.Component<RootStoreProps> {
               onNext={this.handleCreateWallet}
               index={2}
             >
-              <GenerateWalletKeyForm wallet={this.wallet} />
+              <GenerateWalletKeyForm
+                wallet={this.wallet}
+                isShowConfirm={this.uiStore.showConfirmRegenerateKey}
+                onToggleConfirm={this.uiStore.toggleConfirmRegenerateKey}
+                onRegenerateApiKey={this.walletStore.regenerateApiKey}
+              />
               <div className="drawer__footer">
                 <button
                   className="btn btn--primary"
@@ -78,7 +88,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
             </WizardStep>
           </Wizard>
         </Drawer>
-        <EditWalletDrawer />
+        {this.walletStore.selectedWallet ? <EditWalletDrawer /> : null}
       </div>
     );
   }
