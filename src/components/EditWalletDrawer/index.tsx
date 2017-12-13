@@ -35,6 +35,6 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
   );
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
-  show: rootStore.uiStore.showWalletDrawer,
+  show: rootStore.uiStore.showEditWalletDrawer,
   wallet: rootStore.walletStore.selectedWallet
 }))(observer(EditWalletDrawer));
