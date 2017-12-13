@@ -80,17 +80,19 @@ export default inject(
         fetchWalletById,
         selectedWallet: {id}
       } = walletStore;
+      const oldWallet = await fetchWalletById(id);
       extendObservable(findWalletById(id)!, {
-        title: (await fetchWalletById(id)).title
+        desc: oldWallet.desc,
+        title: oldWallet.title
       });
       uiStore.apiError = '';
       walletStore.selectedWallet = null!;
-      uiStore.toggleWalletDrawer();
+      uiStore.toggleEditWalletDrawer();
     },
     onSave: async (wallet: WalletModel) => {
       try {
         await wallet.save();
-        uiStore.toggleWalletDrawer();
+        uiStore.toggleEditWalletDrawer();
       } catch (error) {
         uiStore.apiError = error.message;
       }

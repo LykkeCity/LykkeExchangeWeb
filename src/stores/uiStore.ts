@@ -5,6 +5,7 @@ export class UiStore {
   readonly rootStore: RootStore;
 
   @observable showWalletDrawer: boolean = false;
+  @observable showEditWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
@@ -27,6 +28,7 @@ export class UiStore {
   get overlayed() {
     return (
       this.showWalletDrawer ||
+      this.showEditWalletDrawer ||
       this.showConfirmRegenerateKey ||
       this.showQrWindow ||
       this.showSidebar
@@ -54,6 +56,10 @@ export class UiStore {
 
   readonly toggleWalletDrawer = () => {
     this.showWalletDrawer = !this.showWalletDrawer;
+  };
+
+  readonly toggleEditWalletDrawer = () => {
+    this.showEditWalletDrawer = !this.showEditWalletDrawer;
   };
 
   readonly toggleConfirmRegenerateKey = () => {
