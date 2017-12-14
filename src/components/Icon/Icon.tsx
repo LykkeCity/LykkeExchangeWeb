@@ -12,7 +12,7 @@ const StyledIcon = styled.i`
 `;
 
 const Icon = ({name, color}: IconProps) => (
-  <StyledIcon color={color} className={`icon icon-${name}`} />
+  <StyledIcon color={color} className={`icon icon--${name}`} />
 );
 
 export default Icon;

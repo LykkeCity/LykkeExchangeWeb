@@ -29,7 +29,7 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
             // tslint:disable-next-line:jsx-no-lambda
             onClick={() => onRemoveWallet && onRemoveWallet(wallet!)}
           >
-            <Icon name="delete" color="#8c94a0" />
+            <Icon name="recycle" />
             Delete wallet
           </Link>
         </div>
