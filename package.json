@@ -17,6 +17,7 @@
     "react-select": "^1.0.0-rc.10",
     "react-text-mask": "^5.0.2",
     "sha.js": "^2.4.9",
+    "styled-components": "^2.2.4",
     "text-mask-addons": "^3.7.1",
     "uuid": "^3.1.0",
     "wretch": "^1.0.0"
