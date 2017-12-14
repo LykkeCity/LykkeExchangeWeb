@@ -7,6 +7,7 @@ export class UiStore {
   @observable showWalletDrawer: boolean = false;
   @observable showEditWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
+  @observable showConfirmRemoveWallet: boolean = false;
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
@@ -64,6 +65,10 @@ export class UiStore {
 
   readonly toggleConfirmRegenerateKey = () => {
     this.showConfirmRegenerateKey = !this.showConfirmRegenerateKey;
+  };
+
+  readonly toggleConfirmRemoveWallet = () => {
+    this.showConfirmRemoveWallet = !this.showConfirmRemoveWallet;
   };
 
   readonly toggleQrWindow = () => (this.showQrWindow = !this.showQrWindow);
