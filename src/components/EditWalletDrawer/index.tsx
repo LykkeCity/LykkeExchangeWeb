@@ -4,6 +4,8 @@ import {WalletModel} from '../../models';
 import {RootStore} from '../../stores';
 import Drawer from '../Drawer';
 import EditWalletForm from '../EditWalletForm/index';
+import {Icon} from '../Icon/index';
+import {Link} from '../Link/index';
 import {Wizard, WizardStep} from '../Wizard';
 
 interface EditWalletDrawerProps {
@@ -23,12 +25,13 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
         <h2>{wallet.title}</h2>
         <h3>API Wallet</h3>
         <div className="pull-right">
-          <a
+          <Link
             // tslint:disable-next-line:jsx-no-lambda
             onClick={() => onRemoveWallet && onRemoveWallet(wallet!)}
           >
-            Remove
-          </a>
+            <Icon name="delete" color="#8c94a0" />
+            Delete wallet
+          </Link>
         </div>
       </div>
       <Wizard activeIndex={1}>
