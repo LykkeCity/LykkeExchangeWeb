@@ -9,10 +9,12 @@ import {Wizard, WizardStep} from '../Wizard';
 interface EditWalletDrawerProps {
   wallet?: WalletModel;
   show?: boolean;
+  onRemoveWallet?: (w: WalletModel) => void;
 }
 
 export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
   wallet = null,
+  onRemoveWallet,
   show = false
 }) =>
   wallet && (
@@ -20,6 +22,14 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
       <div className="drawer__title">
         <h2>{wallet.title}</h2>
         <h3>API Wallet</h3>
+        <div className="pull-right">
+          <a
+            // tslint:disable-next-line:jsx-no-lambda
+            onClick={() => onRemoveWallet && onRemoveWallet(wallet!)}
+          >
+            Remove
+          </a>
+        </div>
       </div>
       <Wizard activeIndex={1}>
         <WizardStep
@@ -34,7 +44,17 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
     </Drawer>
   );
 
-export default inject(({rootStore}: {rootStore: RootStore}) => ({
-  show: rootStore.uiStore.showEditWalletDrawer,
-  wallet: rootStore.walletStore.selectedWallet
-}))(observer(EditWalletDrawer));
+export default inject(
+  ({rootStore: {walletStore, uiStore}}: {rootStore: RootStore}) => ({
+    onRemoveWallet: async (wallet: WalletModel) => {
+      try {
+        await walletStore.removeApiWallet(wallet);
+        uiStore.toggleEditWalletDrawer();
+      } catch (error) {
+        uiStore.apiError = error.message;
+      }
+    },
+    show: uiStore.showEditWalletDrawer,
+    wallet: walletStore.selectedWallet
+  })
+)(observer(EditWalletDrawer));
