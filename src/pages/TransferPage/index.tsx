@@ -48,17 +48,18 @@ export class TransferPage extends React.Component<TransferPageProps> {
         <div className="transfer">
           <h1>Transfer</h1>
           <h2>
-            {!!newTransfer.asset && (
-              <span>
-                {asAssetBalance(
-                  newTransfer.asset,
-                  newTransfer.from.balances.find(
-                    b => b.assetId === newTransfer.asset.id
-                  )!.balance
-                )}{' '}
-                {newTransfer.asset.name}
-              </span>
-            )}
+            {!!newTransfer.asset &&
+              !!newTransfer.from.id && (
+                <span>
+                  {asAssetBalance(
+                    newTransfer.asset,
+                    newTransfer.from.balances.find(
+                      b => b.assetId === newTransfer.asset.id
+                    )!.balance
+                  )}{' '}
+                  {newTransfer.asset.name}
+                </span>
+              )}
             {!!newTransfer.asset || <NumberFormat value={0} />}
           </h2>
           <p className="transfer__text">
