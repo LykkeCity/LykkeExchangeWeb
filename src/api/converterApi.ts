@@ -16,7 +16,7 @@ export class RestConverterApi extends RestApi implements ConverterApi {
       .json({
         AssetsFrom: balances.map(b => b.asJson),
         BaseAssetId: baseCurrency,
-        OrderAction: DirectionModel.Buy
+        OrderAction: DirectionModel.Sell
       })
       .post()
       .json();
