@@ -1,23 +1,28 @@
+import Dropdown from 'antd/lib/dropdown/dropdown';
 import Modal from 'antd/lib/modal/Modal';
-import {inject, observer} from 'mobx-react';
+import {observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
-import {RootStoreProps} from '../../App';
-import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 
 const WALLET_KEY_INPUT = 'walletKey';
 
-interface GenerateWalletKeyFormProps extends RootStoreProps {
+interface GenerateWalletKeyFormProps {
   wallet: WalletModel;
+  isShowConfirm: boolean;
+  onToggleConfirm: () => void;
+  onRegenerateApiKey: (w: WalletModel) => void;
 }
 
 export class GenerateWalletKeyForm extends React.Component<
   GenerateWalletKeyFormProps
 > {
   state = {message: ''};
+  private readonly onToggleConfirm = this.props.onToggleConfirm;
+  private readonly onRegenerateApiKey = this.props.onRegenerateApiKey;
 
   render() {
+    const {isShowConfirm} = this.props;
     return (
       <div className="form-item">
         <div className="asset_link_list">
@@ -37,13 +42,27 @@ export class GenerateWalletKeyForm extends React.Component<
               </div>
             </div>
             <div className="asset_link__action">
-              <button
-                className="btn btn--icon"
-                type="button"
-                onClick={this.toggleConfirm}
+              <Dropdown
+                overlay={
+                  <div className="asset-menu">
+                    <div>
+                      <a onClick={this.onToggleConfirm}>
+                        Regenerate a new API key
+                      </a>
+                    </div>
+                  </div>
+                }
+                trigger={['hover']}
+                placement="bottomCenter"
               >
-                <i className="icon icon--key" />
-              </button>
+                <button
+                  className="btn btn--icon"
+                  type="button"
+                  onClick={this.onToggleConfirm}
+                >
+                  <i className="icon icon--key" />
+                </button>
+              </Dropdown>
             </div>
             <div style={{position: 'relative'}} className="asset_link__action">
               <CopyToClipboard
@@ -71,16 +90,16 @@ export class GenerateWalletKeyForm extends React.Component<
           </div>
         </div>
         <Modal
-          visible={this.props.rootStore!.uiStore.showConfirmRegenerateKey}
+          visible={isShowConfirm}
           title="Regenerate API key?"
-          onOk={this.toggleConfirm}
-          onCancel={this.toggleConfirm}
+          onOk={this.onToggleConfirm}
+          onCancel={this.onToggleConfirm}
           footer={[
             <button
               key="back"
               type="button"
               className="btn btn--primary btn-block"
-              onClick={this.toggleConfirm}
+              onClick={this.onToggleConfirm}
             >
               No, back to wallet
             </button>,
@@ -103,12 +122,9 @@ export class GenerateWalletKeyForm extends React.Component<
     );
   }
 
-  private toggleConfirm = () =>
-    this.props.rootStore!.uiStore.toggleConfirmRegenerateKey();
-
-  private handleRegenerateKey = () => {
-    this.toggleConfirm();
-    this.props.rootStore!.walletStore.regenerateApiKey(this.props.wallet);
+  private handleRegenerateKey = (event: React.MouseEvent<any>) => {
+    this.onToggleConfirm();
+    this.onRegenerateApiKey(this.props.wallet);
   };
 
   private readonly handleCopyKey = (text: string) => {
@@ -121,4 +137,4 @@ export class GenerateWalletKeyForm extends React.Component<
   };
 }
 
-export default inject(STORE_ROOT)(observer(GenerateWalletKeyForm));
+export default observer(GenerateWalletKeyForm);
