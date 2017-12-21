@@ -11,7 +11,7 @@ interface GroupedBalances {
 export class WalletModel {
   @observable id = '';
   @observable title = '';
-  @observable desc = 'No description';
+  @observable desc = '';
   @observable apiKey = '';
   @observable type: WalletType;
 

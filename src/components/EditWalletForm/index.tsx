@@ -36,8 +36,6 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
         value={wallet!.title}
         // tslint:disable-next-line:jsx-no-lambda
         onChange={e => (wallet!.title = e.currentTarget.value)}
-        autoFocus={true}
-        onBlur={null as any}
       />
       {errors && <div className="label_error">{errors}</div>}
     </div>

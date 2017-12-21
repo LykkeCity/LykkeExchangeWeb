@@ -14,6 +14,7 @@ interface WalletFormProps {
 
 export class WalletForm extends React.Component<WalletFormProps> {
   @observable hasErrors = false;
+  @observable isDirty = false;
 
   render() {
     return (
@@ -74,6 +75,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
   }
 
   private handleChangeName: React.ChangeEventHandler<HTMLInputElement> = e => {
+    this.isDirty = true;
     this.props.onChangeName(e);
     this.validateForm();
   };
@@ -90,7 +92,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
   };
 
   private validateForm = () => {
-    this.hasErrors = !this.props.wallet.isValid;
+    this.hasErrors = this.isDirty && !this.props.wallet.isValid;
   };
 }
 
