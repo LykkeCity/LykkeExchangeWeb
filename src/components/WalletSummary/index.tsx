@@ -28,7 +28,6 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
           >
             {wallet.isTrading ? null : (
               <i
-                style={{position: 'absolute', left: '-35px', top: '10px'}}
                 className={classnames('icon', 'icon--edit_alt')}
                 // tslint:disable-next-line:jsx-no-lambda
                 onClick={e => {
@@ -47,7 +46,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               )}
             />
           </h2>
-          <div className="wallet__desc">{wallet.desc}</div>
+          <div className="wallet__desc">{wallet.desc || 'No description'}</div>
         </div>
       </div>
       <div className="col-sm-5">

@@ -7,7 +7,6 @@ import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransferModel, WalletModel} from '../../models';
 import {asAssetBalance} from '../hoc/assetBalance';
-import {NumberFormat} from '../NumberFormat';
 import Select from '../Select';
 import WalletSelect from '../WalletSelect';
 import './style.css';
@@ -187,7 +186,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           <div className="row">
             <div className="col-sm-8 col-sm-offset-4">
               <div className="text-muted">
-                = <NumberFormat value={transfer.amountInBaseCurrency} />{' '}
+                ={' '}
+                {!!baseAssetAsModel &&
+                  asAssetBalance(
+                    baseAssetAsModel,
+                    transfer.amountInBaseCurrency
+                  )}{' '}
                 {!!baseAssetAsModel && baseAssetAsModel.name}
               </div>
             </div>
