@@ -38,11 +38,15 @@ export default () => (
               </li>
               <li className="middot">&middot;</li>
               <li>
-                <a href="">Privacy Policy</a>
+                <a href="https://www.lykke.com/privacy_policy" target="_blank">
+                  Privacy Policy
+                </a>
               </li>
               <li className="middot">&middot;</li>
               <li>
-                <a href="">Terms of Use</a>
+                <a href="https://www.lykke.com/terms_of_use" target="_blank">
+                  Terms of Use
+                </a>
               </li>
             </ul>
           </div>
