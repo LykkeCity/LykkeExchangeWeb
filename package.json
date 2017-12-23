@@ -41,6 +41,7 @@
     "@types/react-router-dom": "^4.0.8",
     "@types/react-select": "^1.0.59",
     "@types/uuid": "^3.4.3",
+    "@types/webpack-env": "^1.13.3",
     "LykkeFramework": "^0.3.40",
     "compass-mixins": "0.12.10",
     "husky": "^0.14.3",
