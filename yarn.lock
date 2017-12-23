@@ -66,6 +66,10 @@
   dependencies:
     "@types/node" "*"
 
+"@types/webpack-env@^1.13.3":
+  version "1.13.3"
+  resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.3.tgz#0ecbe70f87341767793774d3683b51aa3246434c"
+
 LykkeFramework@^0.3.40:
   version "0.3.46"
   resolved "https://registry.yarnpkg.com/LykkeFramework/-/LykkeFramework-0.3.46.tgz#80513e11113a218ab4fe4f533818204c8d63703a"
