@@ -9,7 +9,7 @@ const linkStyle = `
   cursor: pointer;
   display: block;
   width: 100%;
-  padding: ${rem(15)} !important;
+  padding: ${rem('15px')} !important;
   border-radius: 4px;
 
   &:hover {
