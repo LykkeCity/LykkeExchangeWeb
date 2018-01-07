@@ -1,11 +1,24 @@
-import classnames from 'classnames';
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
 import {RootStore} from '../../stores';
-import {Icon} from '../Icon';
+import {Icon, IconButton} from '../Icon';
+import styled from '../styled';
 import WalletTotalBalance from '../WalletTotalBalance';
+
+const StyledEditIconButton = styled(IconButton)`
+  position: absolute;
+  left: -35px;
+
+  @media all and (max-width: ${props => props.theme.screenTablet}) {
+    left: -30px;
+  }
+
+  @media all and (max-width: ${props => props.theme.screenMobile}) {
+    left: -20px;
+  }
+`;
 
 export interface WalletActions {
   onEditWallet?: (w: WalletModel) => void;
@@ -28,9 +41,8 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
             className={classNames('wallet__title', 'text--truncate')}
           >
             {wallet.isTrading ? null : (
-              <i
-                style={{position: 'absolute', left: '-35px', top: '10px'}}
-                className={classnames('icon', 'icon--edit_alt')}
+              <StyledEditIconButton
+                name="edit_alt"
                 // tslint:disable-next-line:jsx-no-lambda
                 onClick={e => {
                   e.stopPropagation();
