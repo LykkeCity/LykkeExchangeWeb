@@ -1,10 +1,16 @@
 import * as React from 'react';
 import styled from '../styled';
 
-const StyledOverlay = styled.div`
+const StyledOverlayContainer = styled.div`
   position: absolute;
   z-index: 1;
+  min-width: 120px;
   text-align: left;
+
+  @media (max-width: ${props => props.theme.screenTablet}) {
+    right: 0;
+    margin-right: 15px;
+  }
 `;
 
 export enum DROPDOWN_TRIGGER {
@@ -14,8 +20,7 @@ export enum DROPDOWN_TRIGGER {
 
 export enum DEFAULT_PROPS {
   mouseEnterDelay = 0.15,
-  mouseLeaveDelay = 0.1,
-  placement = 'bottomLeft'
+  mouseLeaveDelay = 0.1
 }
 
 type EventType = DROPDOWN_TRIGGER.CLICK | DROPDOWN_TRIGGER.HOVER;
@@ -24,13 +29,6 @@ export interface DropDownProps {
   trigger?: EventType[];
   overlay: React.ReactNode;
   className?: string;
-  placement?:
-    | 'topLeft'
-    | 'topCenter'
-    | 'topRight'
-    | 'bottomLeft'
-    | 'bottomCenter'
-    | 'bottomRight';
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
 }
@@ -135,7 +133,7 @@ export default class Dropdown extends React.Component<DropDownProps, any> {
       <div>
         {trigger}
         {isTriggerHovered || isOverlayHovered ? (
-          <StyledOverlay>{overlayWithEvents}</StyledOverlay>
+          <StyledOverlayContainer>{overlayWithEvents}</StyledOverlayContainer>
         ) : null}
       </div>
     );

@@ -20,7 +20,6 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
           </DropdownOverlay>
         }
         trigger={[DROPDOWN_TRIGGER.HOVER]}
-        placement="bottomRight"
       >
         <div className="header_user dropdown__control">
           <div className="header_user__img">

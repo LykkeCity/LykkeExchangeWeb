@@ -84,7 +84,6 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                           </DropdownOverlay>
                         }
                         trigger={[DROPDOWN_TRIGGER.CLICK]}
-                        placement="bottomRight"
                       >
                         <IconButton name="actions" />
                       </Dropdown>
