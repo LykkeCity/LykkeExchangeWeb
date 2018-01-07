@@ -73,11 +73,12 @@ export default inject(
   ({rootStore: {walletStore, uiStore}}: {rootStore: RootStore}) => ({
     errors: uiStore.apiError,
     onCancel: async () => {
-      const {
-        findWalletById,
-        fetchWalletById,
-        selectedWallet: {id}
-      } = walletStore;
+      const {selectedWallet} = walletStore;
+      if (!selectedWallet) {
+        throw new Error('Wallet not selected');
+      }
+      const {findWalletById, fetchWalletById} = walletStore;
+      const {id} = selectedWallet;
       const oldWallet = await fetchWalletById(id);
       extendObservable(findWalletById(id)!, {
         desc: oldWallet.desc,
@@ -85,17 +86,17 @@ export default inject(
       });
       uiStore.apiError = '';
       walletStore.selectedWallet = null!;
-      uiStore.toggleEditWalletDrawer();
+      uiStore.toggleWalletDrawer();
     },
     onSave: async (wallet: WalletModel) => {
       try {
         await wallet.save();
-        uiStore.toggleEditWalletDrawer();
+        uiStore.toggleWalletDrawer();
       } catch (error) {
         uiStore.apiError = error.message;
       }
     },
-    pending: walletStore.selectedWallet.updating,
+    pending: walletStore.selectedWallet && walletStore.selectedWallet.updating,
     wallet: walletStore.selectedWallet
   })
 )(observer(EditWalletForm));
