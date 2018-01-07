@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
 import {RootStore} from '../../stores';
-import {Icon, IconButton} from '../Icon';
+import {IconButton, OpenIcon} from '../Icon';
 import styled from '../styled';
 import WalletTotalBalance from '../WalletTotalBalance';
 
@@ -51,9 +51,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
             {wallet.title}
-            <Icon
-              name={wallet.expanded ? 'chevron-thin-up' : 'chevron-thin-down'}
-            />
+            <OpenIcon isOpen={wallet.expanded} />
           </h2>
           <div className="wallet__desc">{wallet.desc || 'No description'}</div>
         </div>

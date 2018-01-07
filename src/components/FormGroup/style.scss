@@ -9,8 +9,7 @@
     @include rem(font-size, 18px);
     font-weight: 600;
   }
-  .form__input,
-  .form__select {
+  .form__input {
     width: 370px;
     height: 50px;
     @include rem(padding, 13px 20px);
@@ -18,15 +17,6 @@
     text-align: left;
     color: #3f4d60;
   }
-  .form__select {
-    @include rem(padding, 7px 0);
-  }
-}
-
-.option {
-  align-items: center;
-  display: flex;
-  justify-content: space-between;
 }
 
 .Select-menu-outer {

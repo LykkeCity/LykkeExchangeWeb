@@ -43,6 +43,16 @@ export class WalletStore {
   }
 
   @computed
+  get tradingWalletsWithAssets() {
+    return this.walletsWithAssets.filter(w => w.isTrading);
+  }
+
+  @computed
+  get trustedWalletsWithAssets() {
+    return this.walletsWithAssets.filter(w => w.isTrusted);
+  }
+
+  @computed
   get apiWallets() {
     return this.wallets.filter(
       w => w.type === WalletType.Trusted && !!w.apiKey
@@ -56,6 +66,12 @@ export class WalletStore {
 
   getWalletsExceptOne = (wallet: WalletModel) =>
     this.wallets.filter(w => w.id !== wallet.id);
+
+  getTradingWalletsExceptOne = (wallet: WalletModel) =>
+    this.getWalletsExceptOne(wallet).filter(w => w.isTrading);
+
+  getTrustedWalletsExceptOne = (wallet: WalletModel) =>
+    this.getWalletsExceptOne(wallet).filter(w => w.isTrusted);
 
   createWallet = (dto?: any) => new WalletModel(this, dto);
 
