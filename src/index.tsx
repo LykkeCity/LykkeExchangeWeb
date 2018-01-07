@@ -5,8 +5,6 @@ import * as ReactDOM from 'react-dom';
 import App from './App';
 import {RootStore} from './stores';
 
-export const rootElement = document.getElementById('root');
-
 if (process.env.NODE_ENV === 'production') {
   runProduction();
 } else {
@@ -44,6 +42,7 @@ function runDevelopment() {
 }
 
 function renderApp(rootStore: any) {
+  const rootElement = document.getElementById('root');
   ReactDOM.render(
     <Provider rootStore={rootStore}>
       <App />

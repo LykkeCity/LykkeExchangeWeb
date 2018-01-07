@@ -1,6 +1,4 @@
-import Button from 'antd/lib/button/button';
-import Form from 'antd/lib/form/Form';
-import Input from 'antd/lib/input/Input';
+import {Field, Form, Formik, FormikProps} from 'formik';
 import {runInAction} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
@@ -8,10 +6,13 @@ import {Redirect} from 'react-router';
 import {RootStoreProps} from '../../App';
 import {ROUTE_ROOT} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import Button from '../Button';
+import FormItem from '../FormItem';
+import {Icon} from '../Icon';
 import './style.css';
 
 interface LoginFormProps extends RootStoreProps {
-  form: any;
+  form?: any;
 }
 
 interface LoginFormState extends RootStoreProps {
@@ -19,7 +20,10 @@ interface LoginFormState extends RootStoreProps {
   loading: boolean;
 }
 
-const FormItem = Form.Item;
+interface LoginFormValues {
+  email: string;
+  password: string;
+}
 
 export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   readonly authStore = this.props.rootStore!.authStore;
@@ -28,109 +32,137 @@ export class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
     loading: false
   };
 
-  handleSubmit = (e: any) => {
-    e.preventDefault();
-    this.props.form.validateFields((err: any, values: any) => {
-      if (!err) {
-        this.setState({loading: true});
-        this.authStore
-          .login(values.email, values.password)
-          .then(resp => {
-            const {authStore} = this.props.rootStore!;
-            runInAction(() => {
-              authStore.token = resp.AccessToken;
-            });
-          })
-          .catch(error => {
-            this.setState({
-              errors: JSON.parse(error.message),
-              loading: false
-            });
-            setTimeout(() => {
-              this.setState({errors: undefined});
-            }, 3000);
-          });
-      }
-    });
+  handleSubmit = (values: LoginFormValues, actions: any) => {
+    actions.setSubmitting(true);
+    this.authStore
+      .login(values.email, values.password)
+      .then(resp => {
+        actions.setSubmitting(false);
+        const {authStore} = this.props.rootStore!;
+        runInAction(() => {
+          authStore.token = resp.AccessToken;
+        });
+      })
+      .catch(error => {
+        actions.setSubmitting(false);
+        actions.setErrors(JSON.parse(error.message));
+        setTimeout(() => {
+          actions.setErrors(null);
+        }, 3000);
+      });
   };
 
-  handleSignup = (e: any) => {
+  handleSignup = (e: any, values: LoginFormValues) => {
     e.preventDefault();
-    this.props.form.validateFields((err: any, values: any) => {
-      if (!err) {
-        this.authStore
-          .signup(values.email, values.password)
-          .then(resp => {
-            const {profileStore, authStore} = this.props.rootStore!;
-            runInAction(() => {
-              profileStore.firstName = resp.PersonalData.FirstName;
-              profileStore.lastName = resp.PersonalData.LastName;
-              authStore.token = resp.Token;
-            });
-          })
-          .catch(error => {
-            this.setState({errors: JSON.parse(error.message)});
-            setTimeout(() => {
-              this.setState({errors: undefined});
-            }, 3000);
-          });
-      }
-    });
+    this.authStore
+      .signup(values.email, values.password)
+      .then(resp => {
+        const {profileStore, authStore} = this.props.rootStore!;
+        runInAction(() => {
+          profileStore.firstName = resp.PersonalData.FirstName;
+          profileStore.lastName = resp.PersonalData.LastName;
+          authStore.token = resp.Token;
+        });
+      })
+      .catch(error => {
+        this.setState({errors: JSON.parse(error.message)});
+        setTimeout(() => {
+          this.setState({errors: undefined});
+        }, 3000);
+      });
+  };
+
+  handleValidate = (values: LoginFormValues) => {
+    const errors: any = {};
+    if (!values.email) {
+      errors.email = 'Please input your email!';
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = 'Please input valid email!';
+    }
+    if (!values.password) {
+      errors.password = 'Please input your password!';
+    }
+    return errors;
   };
 
   render() {
-    const {getFieldDecorator} = this.props.form;
     return !!this.authStore.token ? (
       <Redirect to={ROUTE_ROOT} />
     ) : (
-      <Form onSubmit={this.handleSubmit} className="login-form">
-        <FormItem>
-          <span className="input-group-addon">
-            <i className="icon icon--email" />
-          </span>
-          {getFieldDecorator('email', {
-            rules: [{required: true, message: 'Please input your email!'}]
-          })(<Input placeholder="Email address" className="form-control" />)}
-        </FormItem>
-        <FormItem>
-          <span className="input-group-addon">
-            <i className="icon icon--lock" />
-          </span>
-          {getFieldDecorator('password', {
-            rules: [{required: true, message: 'Please input your password!'}]
-          })(
-            <Input
-              type="password"
-              placeholder="Password"
-              className="form-control"
-            />
-          )}
-          {!!this.state.errors &&
-            Object.keys(this.state.errors).map(x => (
-              <div key={x} className="ant-form-explain">
-                {this.state.errors[x]}
-              </div>
-            ))}
-        </FormItem>
-        <FormItem>
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={this.state.loading}
-            className="btn btn--primary btn-sm"
-          >
-            Sign in
-          </Button>
-        </FormItem>
-        <FormItem>
-          <a onClick={this.handleSignup}>Sign up</a>
-        </FormItem>
-      </Form>
+      <Formik
+        initialValues={{email: '', password: ''}}
+        validate={this.handleValidate}
+        onSubmit={this.handleSubmit}
+        // tslint:disable-next-line:jsx-no-lambda
+        render={({
+          values,
+          errors,
+          touched,
+          isSubmitting
+        }: FormikProps<LoginFormValues>) => (
+          <Form className="login-form">
+            <FormItem>
+              <span className="input-group-addon">
+                <Icon name="email" />
+              </span>
+              <Field
+                name="email"
+                type="text"
+                placeholder="Email address"
+                className="form-control"
+              />
+              {errors &&
+                errors.email &&
+                touched.email && (
+                  <div className="form-explain">{errors.email}</div>
+                )}
+            </FormItem>
+            <FormItem>
+              <span className="input-group-addon">
+                <Icon name="lock" />
+              </span>
+              <Field
+                name="password"
+                type="password"
+                placeholder="Password"
+                className="form-control"
+              />
+              {errors &&
+                errors.password &&
+                touched.password && (
+                  <div className="form-explain">{errors.password}</div>
+                )}
+              {!!errors &&
+                !errors.email &&
+                !errors.password &&
+                Object.keys(errors).map(x => (
+                  <div key={x} className="form-explain">
+                    {errors[x]}
+                  </div>
+                ))}
+            </FormItem>
+            <FormItem>
+              <Button type="submit" width={370} disabled={isSubmitting}>
+                Sign in
+              </Button>
+            </FormItem>
+            <FormItem>
+              <Button
+                shape="flat"
+                width={370}
+                onClick={event => this.handleSignup(event, values)}
+              >
+                Sign up
+              </Button>
+            </FormItem>
+          </Form>
+        )}
+      />
     );
   }
 }
 
-const WrappedNormalLoginForm = Form.create()(
-  inject(STORE_ROOT)(observer(LoginForm))
-);
+const WrappedNormalLoginForm = inject(STORE_ROOT)(observer(LoginForm));
 export default WrappedNormalLoginForm;

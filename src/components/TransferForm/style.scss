@@ -24,3 +24,9 @@
     }
   }
 }
+
+.transfer__actions {
+  a > button {
+    @include rem(margin-top, 10px);
+  }
+}

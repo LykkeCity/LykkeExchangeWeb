@@ -4,6 +4,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
 import {RootStore} from '../../stores';
+import {Icon} from '../Icon';
 import WalletTotalBalance from '../WalletTotalBalance';
 
 export interface WalletActions {
@@ -28,6 +29,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
           >
             {wallet.isTrading ? null : (
               <i
+                style={{position: 'absolute', left: '-35px', top: '10px'}}
                 className={classnames('icon', 'icon--edit_alt')}
                 // tslint:disable-next-line:jsx-no-lambda
                 onClick={e => {
@@ -37,13 +39,8 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
             {wallet.title}
-            <i
-              className={classnames(
-                'icon',
-                wallet.expanded
-                  ? 'icon--chevron-thin-up'
-                  : 'icon--chevron-thin-down'
-              )}
+            <Icon
+              name={wallet.expanded ? 'chevron-thin-up' : 'chevron-thin-down'}
             />
           </h2>
           <div className="wallet__desc">{wallet.desc || 'No description'}</div>
@@ -59,6 +56,6 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
   onEditWallet: (wallet: WalletModel) => {
     rootStore.walletStore.selectedWallet = wallet;
-    rootStore.uiStore.toggleEditWalletDrawer();
+    rootStore.uiStore.toggleWalletDrawer();
   }
 }))(observer(WalletSummary));

@@ -1,5 +1,6 @@
 import * as React from 'react';
-
+import Button from '../../Button';
+import Icon from '../../Icon';
 import './style.css';
 
 export default () => (
@@ -10,12 +11,16 @@ export default () => (
     <form className="form">
       <div className="form-group">
         <div className="input-group">
-          <i className="icon icon--email"/>
-          <input type="email" placeholder="E-mail address" className="form-control"/>
+          <Icon name="email" />
+          <input
+            type="email"
+            placeholder="E-mail address"
+            className="form-control"
+          />
         </div>
-        <button className="btn btn-sm btn--primary btn--circle" type="button">
-          <i className="icon icon--arrow-right-alt" />
-        </button>
+        <Button shape="circle">
+          <Icon name="arrow-right-alt" />
+        </Button>
       </div>
     </form>
   </div>

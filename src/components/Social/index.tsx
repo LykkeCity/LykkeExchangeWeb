@@ -1,6 +1,7 @@
 import * as classnames from 'classnames';
 import * as React from 'react';
 
+import {Icon} from '../Icon';
 import './style.css';
 
 const SOCIAL_CLASS_NAME = 'social';
@@ -17,7 +18,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--fb_simple" />
+        <Icon name="fb_simple" />
       </a>
     </li>
     <li>
@@ -26,7 +27,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--tw" />
+        <Icon name="tw" />
       </a>
     </li>
     <li>
@@ -35,7 +36,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--instagram" />
+        <Icon name="instagram" />
       </a>
     </li>
     <li>
@@ -44,7 +45,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--youtube" />
+        <Icon name="youtube" />
       </a>
     </li>
     <li>
@@ -53,7 +54,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--linkedin" />
+        <Icon name="linkedin" />
       </a>
     </li>
     <li>
@@ -62,7 +63,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--reddit" />
+        <Icon name="reddit" />
       </a>
     </li>
     <li>
@@ -71,7 +72,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--telegram" />
+        <Icon name="telegram" />
       </a>
     </li>
     <li>
@@ -80,7 +81,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <i className="icon icon--slack" />
+        <Icon name="slack" />
       </a>
     </li>
   </ul>

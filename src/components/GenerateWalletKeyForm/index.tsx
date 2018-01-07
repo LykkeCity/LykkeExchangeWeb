@@ -1,10 +1,12 @@
-import Modal from 'antd/lib/modal/Modal';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
+import {Button} from '../Button';
+import {IconButton} from '../Icon';
+import ModalDialog from '../ModalDialog';
 
 const WALLET_KEY_INPUT = 'walletKey';
 
@@ -37,22 +39,14 @@ export class GenerateWalletKeyForm extends React.Component<
               </div>
             </div>
             <div className="asset_link__action">
-              <button
-                className="btn btn--icon"
-                type="button"
-                onClick={this.toggleConfirm}
-              >
-                <i className="icon icon--key" />
-              </button>
+              <IconButton name="key" onClick={this.toggleConfirm} />
             </div>
             <div style={{position: 'relative'}} className="asset_link__action">
               <CopyToClipboard
                 text={this.props.wallet.apiKey}
                 onCopy={this.handleCopyKey}
               >
-                <button className="btn btn--icon" type="button">
-                  <i className="icon icon--copy_thin" />
-                </button>
+                <IconButton name="copy_thin" />
               </CopyToClipboard>
               {!!this.state.message && (
                 <small
@@ -70,27 +64,24 @@ export class GenerateWalletKeyForm extends React.Component<
             </div>
           </div>
         </div>
-        <Modal
+        <ModalDialog
           visible={this.props.rootStore!.uiStore.showConfirmRegenerateKey}
           title="Regenerate API key?"
           onOk={this.toggleConfirm}
           onCancel={this.toggleConfirm}
           footer={[
-            <button
-              key="back"
-              type="button"
-              className="btn btn--primary btn-block"
-              onClick={this.toggleConfirm}
-            >
+            <Button key="back" width={290} onClick={this.toggleConfirm}>
               No, back to wallet
-            </button>,
-            <button
+            </Button>,
+            <Button
               key="submit"
-              className="btn btn--flat btn-block"
+              shape="flat"
+              width={290}
+              type="submit"
               onClick={this.handleRegenerateKey}
             >
               Yes, change API key
-            </button>
+            </Button>
           ]}
           style={{margin: '0 auto'}}
         >
@@ -98,7 +89,7 @@ export class GenerateWalletKeyForm extends React.Component<
             <p>This action is irreversible!</p>
             <p>Previous API key will become invalid</p>
           </div>
-        </Modal>
+        </ModalDialog>
       </div>
     );
   }

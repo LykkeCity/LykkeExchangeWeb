@@ -1,12 +1,15 @@
-import Dropdown from 'antd/lib/dropdown/dropdown';
-import 'antd/lib/table/style/css';
 import {observer} from 'mobx-react';
 import * as React from 'react';
-import {Link} from 'react-router-dom';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
+import Dropdown, {
+  DROPDOWN_TRIGGER,
+  DropdownItem,
+  DropdownOverlay
+} from '../Dropdown';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
+import {IconButton} from '../Icon';
 import './style.css';
 
 const ASSET_DEFAULT_ICON_URL = `${process.env
@@ -71,25 +74,19 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     <td className="_action">
                       <Dropdown
                         overlay={
-                          <div className="asset-menu">
-                            <div>
-                              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                Deposit
-                              </Link>
-                            </div>
-                            <div>
-                              <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>
-                                Withdraw
-                              </Link>
-                            </div>
-                          </div>
+                          <DropdownOverlay>
+                            <DropdownItem to={ROUTE_TRANSFER_TO(wallet.id)}>
+                              Deposit
+                            </DropdownItem>
+                            <DropdownItem to={ROUTE_TRANSFER_FROM(wallet.id)}>
+                              Withdraw
+                            </DropdownItem>
+                          </DropdownOverlay>
                         }
-                        trigger={['click']}
-                        placement="bottomCenter"
+                        trigger={[DROPDOWN_TRIGGER.CLICK]}
+                        placement="bottomRight"
                       >
-                        <button type="button" className="btn btn--icon">
-                          <i className="icon icon--actions" />
-                        </button>
+                        <IconButton name="actions" />
                       </Dropdown>
                     </td>
                   </tr>
