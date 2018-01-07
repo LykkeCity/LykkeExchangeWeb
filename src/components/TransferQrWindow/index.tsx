@@ -53,7 +53,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
       {...rest}
     >
       <p>Scan the QR code with your Lykke Wallet</p>
-      <div>
+      <div style={{textAlign: 'center'}}>
         <img
           src={`//lykke-qr.azurewebsites.net/QR/${transferStore.newTransfer
             .asBase64}.gif`}
