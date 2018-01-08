@@ -209,28 +209,36 @@ describe('wallet model', () => {
       });
     });
     describe('with no availible balance', () => {
-      it('should be deletable', () => {
-        const wallet = walletStore.createWallet({Id: 46, Name: 'w'});
-        expect(wallet.isDeletable).toBeTruthy();
-      });
-      describe('trusted', () => {
-        it('should be deletable', () => {
-          const w = walletStore.createWallet({
-            Id: 47,
+      describe('with no id', () => {
+        it('should not be deletable', () => {
+          const wallet = walletStore.createWallet({
             Name: 'w',
             Type: WalletType.Trusted
           });
-          expect(w.isDeletable).toBeTruthy();
+          wallet.id = '';
+          expect(wallet.isDeletable).toBeFalsy();
         });
       });
-      describe('trading', () => {
-        it('should not be deletable', () => {
-          const w = walletStore.createWallet({
-            Id: 48,
-            Name: 'w',
-            Type: WalletType.Trading
+      describe('with id', () => {
+        describe('trusted', () => {
+          it('should be deletable', () => {
+            const w = walletStore.createWallet({
+              Id: 47,
+              Name: 'w',
+              Type: WalletType.Trusted
+            });
+            expect(w.isDeletable).toBeTruthy();
           });
-          expect(w.isDeletable).toBeFalsy();
+        });
+        describe('trading', () => {
+          it('should not be deletable', () => {
+            const w = walletStore.createWallet({
+              Id: 48,
+              Name: 'w',
+              Type: WalletType.Trading
+            });
+            expect(w.isDeletable).toBeFalsy();
+          });
         });
       });
     });

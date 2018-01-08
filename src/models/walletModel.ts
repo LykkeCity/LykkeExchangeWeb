@@ -29,8 +29,7 @@ export class WalletModel {
 
   @computed
   get isDeletable() {
-    // return !!this.id && !this.isTrading && !this.hasAvailableBalance;
-    return true;
+    return !!this.id && this.isTrusted && !this.hasAvailableBalance;
   }
 
   @observable balances: BalanceModel[] = [];
@@ -58,8 +57,8 @@ export class WalletModel {
   }
 
   @computed
-  get isValid() {
-    return !!this.title.trim();
+  get isTrusted() {
+    return this.type === WalletType.Trusted;
   }
 
   constructor(private readonly store: WalletStore, dto?: any) {
