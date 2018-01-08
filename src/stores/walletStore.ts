@@ -69,6 +69,11 @@ export class WalletStore {
     }
   };
 
+  @action
+  removeWallet = (wallet: WalletModel) => {
+    this.wallets = this.getWalletsExceptOne(wallet);
+  };
+
   createApiWallet = async (wallet: WalletModel) => {
     const {title, desc} = wallet;
     const dto = await this.api!.createApiWallet(title, desc);
@@ -80,6 +85,17 @@ export class WalletStore {
       extendObservable(newWallet, {title, desc, type: WalletType.Trusted})
     );
     return newWallet;
+  };
+
+  removeApiWallet = async (wallet: WalletModel) => {
+    const {id} = wallet;
+    try {
+      const result = await this.api!.removeApiWallet(id);
+      this.removeWallet(wallet);
+      return Promise.resolve(result);
+    } catch (reason) {
+      return Promise.reject(reason);
+    }
   };
 
   findWalletById = (id: string) => this.wallets.find(w => w.id === id);

@@ -22,6 +22,17 @@ export class WalletModel {
     return this.balances.map(b => b.balanceInBaseAsset).reduce(sum, 0);
   }
 
+  @computed
+  get hasAvailableBalance() {
+    return this.balances.map(b => b.availableBalance).reduce(sum, 0) > 0;
+  }
+
+  @computed
+  get isDeletable() {
+    // return !!this.id && !this.isTrading && !this.hasAvailableBalance;
+    return true;
+  }
+
   @observable balances: BalanceModel[] = [];
 
   @computed
