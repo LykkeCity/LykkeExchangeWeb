@@ -22,6 +22,16 @@ export class WalletModel {
     return this.balances.map(b => b.balanceInBaseAsset).reduce(sum, 0);
   }
 
+  @computed
+  get hasAvailableBalance() {
+    return this.balances.map(b => b.availableBalance).reduce(sum, 0) > 0;
+  }
+
+  @computed
+  get isDeletable() {
+    return !!this.id && this.isTrusted && !this.hasAvailableBalance;
+  }
+
   @observable balances: BalanceModel[] = [];
 
   @computed
@@ -47,8 +57,8 @@ export class WalletModel {
   }
 
   @computed
-  get isValid() {
-    return !!this.title.trim();
+  get isTrusted() {
+    return this.type === WalletType.Trusted;
   }
 
   constructor(private readonly store: WalletStore, dto?: any) {

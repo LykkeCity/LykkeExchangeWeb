@@ -5,8 +5,19 @@ const rootStore = new RootStore();
 const mockConverter = {
   convertToBaseCurrency: jest.fn(() => ({Converted: [{To: {Amount: 1}}]}))
 };
+const newId = () => Math.floor(Math.random() * 10);
+const newWalletApiKey = () => {
+  return {
+    ApiKey: `WALLET_API_KEY${newId()}`,
+    Id: newId()
+  };
+};
 const mockWalletApi = {
-  createApiWallet: jest.fn((name: string) => name)
+  createApiWallet: jest.fn((name: string) => newWalletApiKey()),
+  removeApiWallet: jest.fn((id: string) => Promise.resolve()),
+  removeNotExistingApiWallet: jest.fn((id: string) =>
+    Promise.reject({message: 'Wallet not exist'})
+  )
 };
 const walletStore = new WalletStore(
   rootStore,
@@ -40,6 +51,68 @@ describe('wallet store', () => {
       walletStore.createWallet({Name: '-foo'})
     );
     expect(wallets).toContainEqual(wallet);
+  });
+
+  describe('existingWallet', () => {
+    let wallet: WalletModel;
+
+    beforeEach(async () => {
+      walletStore.clearWallets();
+      const dto = newWalletApiKey();
+      wallet = walletStore.createWallet(dto);
+    });
+
+    it('add wallet should add it to list of wallets', () => {
+      walletStore.addWallet(wallet);
+      const {wallets} = walletStore;
+      expect(wallets).toContainEqual(wallet);
+    });
+
+    describe('removeWallet', () => {
+      it('should remove it from list of wallets', () => {
+        walletStore.removeWallet(wallet);
+        const {wallets} = walletStore;
+        expect(wallets).not.toContainEqual(wallet);
+      });
+    });
+
+    describe('removeApiWallet', () => {
+      it('should remove it from list of wallets', async () => {
+        const result = await walletStore.removeApiWallet(wallet);
+        expect(result).toEqual(undefined);
+        const {wallets} = walletStore;
+        expect(wallets).not.toContainEqual(wallet);
+      });
+    });
+  });
+
+  describe('not existingWallet', () => {
+    let wallet: WalletModel;
+
+    beforeEach(async () => {
+      walletStore.clearWallets();
+      const dto = newWalletApiKey();
+      wallet = new WalletModel(null!, dto);
+    });
+
+    describe('removeWallet', () => {
+      it('should not remove it from list of wallets', () => {
+        const {wallets} = walletStore;
+        walletStore.removeWallet(wallet);
+        expect(walletStore.wallets).toEqual(wallets);
+      });
+    });
+
+    describe('removeApiWallet', () => {
+      it('should not remove it from list of wallets', async () => {
+        walletStore.regenerateApiKey = mockWalletApi.removeNotExistingApiWallet;
+        const {wallets} = walletStore;
+
+        walletStore.removeApiWallet(wallet);
+
+        expect(walletStore.wallets).toEqual(wallets);
+      });
+    });
   });
 
   describe('allWalletsExceptOne', () => {

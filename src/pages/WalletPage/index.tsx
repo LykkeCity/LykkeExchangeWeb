@@ -6,9 +6,11 @@ import {RootStoreProps} from '../../App';
 import {Button} from '../../components/Button';
 import Drawer from '../../components/Drawer';
 import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
+import {IconButton} from '../../components/Icon';
+import {ModalDialog} from '../../components/ModalDialog';
 import WalletForm, {WalletFormValues} from '../../components/WalletForm';
 import WalletList from '../../components/WalletList';
-import WalletTabs from '../../components/WalletTabs/index';
+import WalletTabs from '../../components/WalletTabs';
 import Wizard, {WizardStep} from '../../components/Wizard';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -47,6 +49,17 @@ export class WalletPage extends React.Component<RootStoreProps> {
             <div className="drawer__title">
               <h2>{this.walletStore.selectedWallet.title}</h2>
               <h3>API Wallet</h3>
+              {this.walletStore.selectedWallet.isDeletable && (
+                <div className="pull-right">
+                  <IconButton
+                    size={'16px'}
+                    name="recycle"
+                    onClick={this.toggleConfirm}
+                  >
+                    Delete wallet
+                  </IconButton>
+                </div>
+              )}
             </div>
             <Wizard activeIndex={1}>
               <WizardStep
@@ -63,6 +76,31 @@ export class WalletPage extends React.Component<RootStoreProps> {
                 />
               </WizardStep>
             </Wizard>
+            <ModalDialog
+              visible={this.props.rootStore!.uiStore.showConfirmRemoveWallet}
+              title="Delete wallet"
+              onOk={this.toggleConfirm}
+              onCancel={this.toggleConfirm}
+              footer={[
+                <Button key="back" width={290} onClick={this.toggleConfirm}>
+                  No, back to wallet
+                </Button>,
+                <Button
+                  key="submit"
+                  shape="flat"
+                  width={290}
+                  type="submit"
+                  onClick={this.handleRemoveWallet}
+                >
+                  Yes, delete wallet
+                </Button>
+              ]}
+              style={{margin: '0 auto'}}
+            >
+              <div className="modal__text">
+                <p>Are you sure you want to delete the wallet?</p>
+              </div>
+            </ModalDialog>
           </Drawer>
         ) : (
           <Drawer title="New API Wallet" show={this.uiStore.showWalletDrawer}>
@@ -135,6 +173,24 @@ export class WalletPage extends React.Component<RootStoreProps> {
     wallet.desc = desc;
     const apiCall = wallet.save;
     const onSuccess = this.handleCancel;
+    await this.walletApiCall({wallet, apiCall, onSuccess});
+  };
+
+  private toggleConfirm = () =>
+    this.props.rootStore!.uiStore.toggleConfirmRemoveWallet &&
+    this.props.rootStore!.uiStore.toggleConfirmRemoveWallet();
+
+  private handleRemoveWallet = async () => {
+    this.toggleConfirm();
+    const wallet = this.walletStore.selectedWallet;
+    if (!wallet) {
+      throw new Error('Wallet not selected');
+    }
+    const apiCall = this.walletStore.removeApiWallet;
+    const onSuccess = () => {
+      this.props.rootStore!.uiStore.toggleWalletDrawer();
+      this.props.rootStore!.walletStore.selectedWallet = null!;
+    };
     await this.walletApiCall({wallet, apiCall, onSuccess});
   };
 

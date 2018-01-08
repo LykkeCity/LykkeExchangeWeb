@@ -7,15 +7,21 @@ const StyledButton = styled.button`
   border: none;
   background: none;
 
+  span {
+    color: ${props => props.theme.color.grayLight};
+  }
   .icon:before {
-    color: #b2b8bf !important;
+    color: ${props => props.theme.color.grayLight} !important;
   }
 
   &:hover,
   &:active,
   &:focus {
+    span {
+      color: ${props => props.theme.color.grayDark};
+    }
     .icon:before {
-      color: #3f4d60 !important;
+      color: ${props => props.theme.color.grayDark} !important;
     }
   }
 `;
@@ -25,11 +31,13 @@ interface IconButtonProps {
   size?: string;
   onClick?: React.EventHandler<any>;
   className?: string;
+  children?: any;
 }
 
 const IconButton = (props: IconButtonProps) => (
   <StyledButton onClick={props.onClick} className={props.className}>
     <Icon name={props.name} size={props.size} />
+    {!!props.children && <span>{props.children}</span>}
   </StyledButton>
 );
 

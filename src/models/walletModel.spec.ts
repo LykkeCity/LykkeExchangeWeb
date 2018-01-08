@@ -1,6 +1,6 @@
 import {WalletApi} from '../api/index';
 import {RootStore, WalletStore} from '../stores/index';
-import {AssetModel, WalletModel} from './index';
+import {AssetModel, WalletModel, WalletType} from './index';
 
 const rootStore = new RootStore();
 const mockConverter = jest.fn(() =>
@@ -196,6 +196,51 @@ describe('wallet model', () => {
       wallet.deposit(1, new AssetModel({id: 'LKK2', name: 'LKK2'}));
 
       expect(wallet.balances.find(b => b.assetId === 'LKK')!.balance).toBe(100);
+    });
+  });
+
+  describe('isDeletable', () => {
+    describe('with availible balance', () => {
+      it('should not be deletable', () => {
+        const wallet = walletStore.createWallet({Id: 45, Name: 'w'});
+        wallet.setBalances([{AssetId: 'LKK', Balance: 100}]);
+        expect(wallet.hasAvailableBalance).toBeTruthy();
+        expect(wallet.isDeletable).toBeFalsy();
+      });
+    });
+    describe('with no availible balance', () => {
+      describe('with no id', () => {
+        it('should not be deletable', () => {
+          const wallet = walletStore.createWallet({
+            Name: 'w',
+            Type: WalletType.Trusted
+          });
+          wallet.id = '';
+          expect(wallet.isDeletable).toBeFalsy();
+        });
+      });
+      describe('with id', () => {
+        describe('trusted', () => {
+          it('should be deletable', () => {
+            const w = walletStore.createWallet({
+              Id: 47,
+              Name: 'w',
+              Type: WalletType.Trusted
+            });
+            expect(w.isDeletable).toBeTruthy();
+          });
+        });
+        describe('trading', () => {
+          it('should not be deletable', () => {
+            const w = walletStore.createWallet({
+              Id: 48,
+              Name: 'w',
+              Type: WalletType.Trading
+            });
+            expect(w.isDeletable).toBeFalsy();
+          });
+        });
+      });
     });
   });
 });
