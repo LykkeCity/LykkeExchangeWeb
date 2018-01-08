@@ -71,7 +71,9 @@ export class WalletStore {
 
   createApiWallet = async (wallet: WalletModel) => {
     const {title, desc} = wallet;
+    wallet.updating = true;
     const dto = await this.api!.createApiWallet(title, desc);
+    wallet.updating = false;
     const newWallet = this.createWallet({
       ApiKey: dto.ApiKey,
       Id: dto.WalletId
