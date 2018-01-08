@@ -6,6 +6,7 @@ import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {WalletModel} from '../../models/index';
 import {Button} from '../Button/index';
+import GenerateWalletKeyForm from '../GenerateWalletKeyForm';
 
 interface WalletFormProps extends RootStoreProps {
   wallet: WalletModel;
@@ -74,6 +75,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
                 value={values.desc}
               />
             </div>
+            {!!wallet.apiKey && <GenerateWalletKeyForm wallet={wallet} />}
             <div className="drawer__footer">
               <Button
                 type="submit"
