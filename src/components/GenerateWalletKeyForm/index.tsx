@@ -5,6 +5,11 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
 import {Button} from '../Button';
+import Dropdown, {
+  DROPDOWN_TRIGGER,
+  DropdownItem,
+  DropdownOverlay
+} from '../Dropdown';
 import {IconButton} from '../Icon';
 import ModalDialog from '../ModalDialog';
 
@@ -14,7 +19,7 @@ interface GenerateWalletKeyFormProps extends RootStoreProps {
   wallet: WalletModel;
 }
 
-export class GenerateWalletKeyForm extends React.Component<
+class GenerateWalletKeyForm extends React.Component<
   GenerateWalletKeyFormProps
 > {
   state = {message: ''};
@@ -39,7 +44,20 @@ export class GenerateWalletKeyForm extends React.Component<
               </div>
             </div>
             <div className="asset_link__action">
-              <IconButton name="key" onClick={this.toggleConfirm} />
+              <Dropdown
+                overlay={
+                  <DropdownOverlay>
+                    <DropdownItem onClick={this.toggleConfirm}>
+                      Regenerate a new API key
+                    </DropdownItem>
+                  </DropdownOverlay>
+                }
+                trigger={[DROPDOWN_TRIGGER.HOVER]}
+              >
+                <div>
+                  <IconButton name="key" onClick={this.toggleConfirm} />
+                </div>
+              </Dropdown>
             </div>
             <div style={{position: 'relative'}} className="asset_link__action">
               <CopyToClipboard
