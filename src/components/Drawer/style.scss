@@ -43,6 +43,7 @@
     @include rem(margin-bottom, 30px);
 
     h2 {
+      @include rem(height, 50px);
       margin-bottom: 0;
     }
 
