@@ -58,7 +58,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
                 <WalletForm
                   wallet={this.walletStore.selectedWallet}
                   submitLabel="Save change"
-                  onSubmit={this.handleSave}
+                  onSubmit={this.handleEditSubmit}
                   onCancel={this.handleCancel}
                 />
               </WizardStep>
@@ -74,20 +74,20 @@ export class WalletPage extends React.Component<RootStoreProps> {
               <WizardStep
                 title="Name of wallet"
                 onCancel={this.handleCancel}
-                onNext={this.handleCreate}
+                onNext={this.handleCreateSubmit}
                 index={1}
               >
                 <WalletForm
                   wallet={this.wallet}
                   submitLabel="Generate API Key"
-                  onSubmit={this.handleCreate}
+                  onSubmit={this.handleCreateSubmit}
                   onCancel={this.handleCancel}
                 />
               </WizardStep>
               <WizardStep
                 title="Generate API key"
                 onCancel={this.handleCancel}
-                onNext={this.handleCreate}
+                onNext={this.handleCreateSubmit}
                 index={2}
               >
                 <GenerateWalletKeyForm wallet={this.wallet} />
@@ -114,7 +114,10 @@ export class WalletPage extends React.Component<RootStoreProps> {
     this.walletStore.selectedWallet = null;
   };
 
-  private readonly handleCreate = async ({title, desc}: WalletFormValues) => {
+  private readonly handleCreateSubmit = async ({
+    title,
+    desc
+  }: WalletFormValues) => {
     const wallet = this.wallet;
     wallet.title = title;
     wallet.desc = desc;
@@ -126,7 +129,10 @@ export class WalletPage extends React.Component<RootStoreProps> {
     await this.walletApiCall({wallet, apiCall, onSuccess});
   };
 
-  private readonly handleSave = async ({title, desc}: WalletFormValues) => {
+  private readonly handleEditSubmit = async ({
+    title,
+    desc
+  }: WalletFormValues) => {
     const wallet = this.walletStore.selectedWallet;
     if (!wallet) {
       throw new Error('Wallet is not selected');

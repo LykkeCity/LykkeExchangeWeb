@@ -18,13 +18,15 @@ interface WalletFormProps extends RootStoreProps {
 export interface WalletFormValues {
   title: string;
   desc: string;
+  apiKey: string;
 }
 
 export class WalletForm extends React.Component<WalletFormProps> {
+  state = {isSubmitting: false, isApiKeyUpdated: false};
   @observable hasErrors = false;
 
   render() {
-    const {wallet, onCancel, onSubmit, submitLabel} = this.props;
+    const {wallet, onCancel, submitLabel} = this.props;
 
     return (
       <Formik
@@ -33,14 +35,13 @@ export class WalletForm extends React.Component<WalletFormProps> {
           title: wallet.title
         }}
         validate={this.validateForm}
-        onSubmit={onSubmit}
+        onSubmit={this.handleSubmit}
         // tslint:disable-next-line:jsx-no-lambda
         render={({
           values,
           errors,
           touched,
-          handleChange,
-          isSubmitting
+          handleChange
         }: FormikProps<WalletFormValues>) => (
           <Form>
             <div className="form-group">
@@ -75,18 +76,25 @@ export class WalletForm extends React.Component<WalletFormProps> {
                 value={values.desc}
               />
             </div>
+            <Field type="hidden" name="apiKey" />
             {!!wallet.apiKey && <GenerateWalletKeyForm wallet={wallet} />}
             <div className="drawer__footer">
               <Button
-                type="submit"
+                type="button"
+                onClick={() => this.handleSave(values)}
                 className="pull-right"
                 disabled={
-                  (errors && errors.title && touched.title) || isSubmitting
+                  (errors && errors.title && touched.title) ||
+                  this.state.isSubmitting
                 }
               >
                 {submitLabel}
               </Button>
-              <Button shape="flat" onClick={onCancel}>
+              <Button
+                shape="flat"
+                onClick={onCancel}
+                disabled={this.state.isApiKeyUpdated}
+              >
                 Cancel and close
               </Button>
             </div>
@@ -95,6 +103,21 @@ export class WalletForm extends React.Component<WalletFormProps> {
       />
     );
   }
+
+  private handleSubmit = async (values: WalletFormValues) => {
+    this.setState({
+      isApiKeyUpdated: values.apiKey !== this.props.wallet.apiKey
+    });
+  };
+
+  private handleSave = async (values: WalletFormValues) => {
+    this.setState({isSubmitting: true});
+    try {
+      await this.props.onSubmit(values);
+    } finally {
+      this.setState({isSubmitting: false});
+    }
+  };
 
   private validateForm = (values: WalletFormValues) => {
     const errors: any = {};
