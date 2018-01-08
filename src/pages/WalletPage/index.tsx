@@ -42,7 +42,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
           path={`${ROUTE_WALLETS}/:type`}
           component={WalletList}
         />
-        {this.walletStore.selectedWallet ? (
+        {!!this.walletStore.selectedWallet ? (
           <Drawer title="Edit Wallet" show={this.uiStore.showWalletDrawer}>
             <div className="drawer__title">
               <h2>{this.walletStore.selectedWallet.title}</h2>
@@ -59,7 +59,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
                   wallet={this.walletStore.selectedWallet}
                   submitLabel="Save change"
                   onSubmit={this.handleSave}
-                  onCancel={this.uiStore.toggleWalletDrawer}
+                  onCancel={this.handleCancel}
                 />
               </WizardStep>
             </Wizard>
@@ -73,7 +73,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
             <Wizard activeIndex={this.activeStep}>
               <WizardStep
                 title="Name of wallet"
-                onCancel={this.uiStore.toggleWalletDrawer}
+                onCancel={this.handleCancel}
                 onNext={this.handleCreate}
                 index={1}
               >
@@ -86,7 +86,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
               </WizardStep>
               <WizardStep
                 title="Generate API key"
-                onCancel={this.uiStore.toggleWalletDrawer}
+                onCancel={this.handleCancel}
                 onNext={this.handleCreate}
                 index={2}
               >
