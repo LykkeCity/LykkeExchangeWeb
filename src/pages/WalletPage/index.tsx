@@ -49,7 +49,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
             <div className="drawer__title">
               <h2>{this.walletStore.selectedWallet.title}</h2>
               <h3>API Wallet</h3>
-              {this.wallet.isDeletable && (
+              {this.walletStore.selectedWallet.isDeletable && (
                 <div className="pull-right">
                   <IconButton
                     size={'16px'}
