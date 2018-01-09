@@ -9,8 +9,23 @@ import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
 
-const ASSET_DEFAULT_ICON_URL = `${process.env
-  .PUBLIC_URL}/images/assets/asset_default.jpg`;
+const assetIcon = {
+  BTC: 'bitcoin.png',
+  ETH: 'icon-eth.svg',
+  LKK: 'icon-lkk.svg',
+  LKK1Y: 'icon-lkk-1-y.svg',
+  SLR: 'icon-slr.svg',
+  TIME: 'icon-time.svg',
+  TREE: 'icon-tree.svg',
+  // tslint:disable-next-line:object-literal-sort-keys
+  EUR: 'eur-lykke.png',
+  USD: 'usd-lykke.png',
+  CHF: 'franc-lykke.png'
+};
+
+const assetIconUrl = (asset: string) =>
+  `${process.env.PUBLIC_URL}/images/assets/${assetIcon[asset.toUpperCase()] ||
+    'asset_default.jpg'}`;
 
 interface WalletBalanceListProps {
   wallet: WalletModel;
@@ -50,7 +65,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       <div className="issuer">
                         <div className="issuer__img">
                           <img
-                            src={b.asset.iconUrl || ASSET_DEFAULT_ICON_URL}
+                            src={assetIconUrl(b.asset.name)}
                             alt="asset"
                             width={48}
                             height={48}
