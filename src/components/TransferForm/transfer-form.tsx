@@ -60,7 +60,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       transfer.to = walletStore.createWallet();
     }
     transfer.setWallet(wallet, side);
-    setFieldValue(side, wallet);
+    setFieldValue(side, wallet.id);
   };
 
   const handleChangeAsset = (setFieldValue: SetFieldValue) => (option: any) => {
@@ -68,7 +68,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       return;
     }
     transfer.setAsset(option.asset);
-    setFieldValue('asset', option.asset);
+    setFieldValue('asset', option.asset.id);
   };
 
   const handleSubmit = async (values: TransferFormValues) => {
@@ -92,9 +92,9 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     <Formik
       initialValues={{
         amount: transfer.amount,
-        asset: transfer.asset,
-        from: transfer.from.id,
-        to: transfer.to.id
+        asset: !!transfer.asset && transfer.asset.id,
+        from: !!transfer.from && transfer.from.id,
+        to: !!transfer.to && transfer.to.id
       }}
       onSubmit={handleSubmit}
       render={({
@@ -119,7 +119,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     component={Select}
                     name="from"
                     className="form__select"
-                    value={!!values.from && values.from.id}
+                    value={!!transfer.from && transfer.from.id}
                     onChange={handleChangeWallet('from', setFieldValue)}
                     valueKey="id"
                     labelKey="title"
@@ -149,7 +149,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     labelKey="assetName"
                     valueKey="assetId"
                     onChange={handleChangeAsset(setFieldValue)}
-                    value={!!values.asset && values.asset.id}
+                    value={!!transfer.asset && transfer.asset.id}
                     clearable={false}
                   />
                 </div>
@@ -167,7 +167,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     component={Select}
                     name="to"
                     className="form__select"
-                    value={!!values.to && values.to.id}
+                    value={!!transfer.to && transfer.to.id}
                     onChange={handleChangeWallet('to', setFieldValue)}
                     valueKey="id"
                     labelKey="title"
@@ -190,7 +190,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 <div className="col-sm-8">
                   <div className="input-group">
                     <div className="input-group-addon addon-text">
-                      {values.asset && values.asset.name}
+                      {!!transfer.asset && transfer.asset.name}
                     </div>
                     {AmountInput(transfer, handleChangeAmount(setFieldValue))}
                   </div>
