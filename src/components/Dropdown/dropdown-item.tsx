@@ -20,7 +20,6 @@ const linkStyle = `
   }
 
   color: #333333;
-  text-transform: uppercase;
 `;
 
 const StyledLink = styled(Link)`

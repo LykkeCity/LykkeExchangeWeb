@@ -74,7 +74,11 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     <td className="_action">
                       <Dropdown
                         overlay={
-                          <DropdownOverlay>
+                          <DropdownOverlay
+                            style={{
+                              textTransform: 'uppercase'
+                            }}
+                          >
                             <DropdownItem to={ROUTE_TRANSFER_TO(wallet.id)}>
                               Deposit
                             </DropdownItem>
