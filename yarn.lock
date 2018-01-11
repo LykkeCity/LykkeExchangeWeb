@@ -898,7 +898,7 @@ clap@^1.0.9:
   dependencies:
     chalk "^1.1.3"
 
-classnames@^2.2.4, classnames@^2.2.5:
+classnames@^2.1.2, classnames@^2.2.4, classnames@^2.2.5:
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
 
@@ -4946,6 +4946,13 @@ react-select@^1.0.0-rc.10:
     classnames "^2.2.4"
     prop-types "^15.5.8"
     react-input-autosize "^2.0.1"
+
+react-simple-dropdown@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-simple-dropdown/-/react-simple-dropdown-3.2.0.tgz#9867916aa677b9820e07e140252eeee829d01372"
+  dependencies:
+    classnames "^2.1.2"
+    prop-types "^15.5.8"
 
 react-text-mask@^5.0.2:
   version "5.0.2"
