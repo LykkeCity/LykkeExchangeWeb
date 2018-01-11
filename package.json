@@ -5,6 +5,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "formik": "^0.10.5",
+    "lodash": "^4.17.4",
     "mobx": "^3.3.0",
     "mobx-react": "^4.3.2",
     "numeral": "^2.0.6",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@types/classnames": "^2.2.3",
     "@types/jest": "^21.1.1",
+    "@types/lodash": "^4.14.92",
     "@types/node": "^8.0.31",
     "@types/numeral": "^0.0.22",
     "@types/prop-types": "^15.5.2",
@@ -53,7 +55,6 @@
     "husky": "^0.14.3",
     "lint-staged": "^4.2.3",
     "mobx-persist": "^0.4.1",
-    "node-sass-chokidar": "^0.0.3",
     "npm-run-all": "^4.1.1",
     "prettier": "^1.7.0",
     "tslint-config-prettier": "^1.6.0"
