@@ -35,15 +35,22 @@ export interface DropDownProps {
 
 export default class Dropdown extends React.Component<DropDownProps, any> {
   static defaultProps = DEFAULT_PROPS;
+  enterDelay: number;
+  leaveDelay: number;
 
   constructor(props: DropDownProps) {
     super(props);
-    this.state = {isTriggerHovered: false, isOverlayHovered: false};
+    this.state = {
+      isTriggerHovered: false, 
+      isOverlayHovered: false
+    };
     this.handleTriggerMouseOver = this.handleTriggerMouseOver.bind(this);
     this.handleTriggerClick = this.handleTriggerClick.bind(this);
     this.handleTriggerMouseLeave = this.handleTriggerMouseLeave.bind(this);
     this.handleOverlayMouseOver = this.handleOverlayMouseOver.bind(this);
     this.handleOverlayMouseLeave = this.handleOverlayMouseLeave.bind(this);
+    this.enterDelay = 1000 * (this.props.mouseEnterDelay || DEFAULT_PROPS.mouseEnterDelay);
+    this.leaveDelay = 1000 * (this.props.mouseLeaveDelay || DEFAULT_PROPS.mouseLeaveDelay);
   }
 
   handleTriggerClick() {
@@ -71,15 +78,11 @@ export default class Dropdown extends React.Component<DropDownProps, any> {
   }
 
   delayedOpen() {
-    const delay =
-      1000 * (this.props.mouseEnterDelay || DEFAULT_PROPS.mouseEnterDelay);
-    setTimeout(() => this.open(), delay);
+    setTimeout(() => this.open(), this.enterDelay);
   }
 
   delayedClose() {
-    const delay =
-      1000 * (this.props.mouseEnterDelay || DEFAULT_PROPS.mouseLeaveDelay);
-    setTimeout(() => this.close(), delay);
+    setTimeout(() => this.close(), this.leaveDelay);
   }
 
   toggle() {
