@@ -2,20 +2,22 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {WalletModel} from '../../models/index';
-import {NumberFormat} from '../NumberFormat';
+import {AssetModel, WalletModel} from '../../models/index';
+import {asAssetBalance} from '../hoc/assetBalance';
 import {Select, SelectProps} from '../Select';
 
-const optionRenderer = (baseCurrency: string) => (wallet: WalletModel) => (
-  <div className="option">
-    <div>{wallet.title}</div>
-    <div>
-      <small style={{color: 'gray'}}>
-        <NumberFormat value={wallet.totalBalance} />&nbsp;{baseCurrency}
-      </small>
+const optionRenderer = (baseAsset: AssetModel) => (wallet: WalletModel) => {
+  return (
+    <div className="option">
+      <div>{wallet.title}</div>
+      <div>
+        <small style={{color: 'gray'}}>
+          {asAssetBalance(baseAsset, wallet.totalBalance)} {baseAsset.name}
+        </small>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 type MyWalletSelectProps = RootStoreProps & SelectProps;
 
@@ -27,7 +29,7 @@ export class WalletSelect extends React.Component<MyWalletSelectProps> {
         valueKey="id"
         labelKey="title"
         clearable={false}
-        optionRenderer={baseAsset && optionRenderer(baseAsset.name)}
+        optionRenderer={baseAsset && optionRenderer(baseAsset)}
         {...this.props}
       />
     );
