@@ -53,7 +53,6 @@ export interface ThemeInterface {
 const base = {
   color: {
     primary: '#0DA7FC',
-    // tslint:disable-next-line:object-literal-sort-keys
     green: '#13B72A',
     violet: '#ab00ff',
     red: '#FF3E2E',
@@ -76,7 +75,6 @@ const base = {
   borderRadius: '4px',
 
   boxShadowValue: '0 8px 40px 0',
-  // tslint:disable-next-line:object-literal-sort-keys
   boxShadowPopup:
     '0 5px 5px 0 rgba(63,77,96,0.05), 0 8px 50px 0 rgba(63,77,96,0.40)',
 
@@ -108,5 +106,9 @@ const theme: ThemeInterface = {
   color: {...base.color, mask: `rgba(${base.color.secondary}, .35)`},
   transitionAll: `all ${base.transitionDefault}`
 };
+
+export interface Theme {
+  theme?: ThemeInterface;
+}
 
 export default theme;

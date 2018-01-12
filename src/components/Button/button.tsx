@@ -2,6 +2,7 @@ import {borderRadius, rem} from 'polished';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import {Theme} from '../theme';
 
 export type ButtonType = 'button' | 'submit';
 export type ButtonShape = 'default' | 'circle' | 'flat';
@@ -25,11 +26,11 @@ const buttonPadding = {
 };
 
 const StyledButton = styled.button`
-  font-weight: 600;
+  font-weight: ${({theme}: Theme) => theme!.fwSemi};
   font-size: ${(props: ButtonProps) =>
     props.size ? fontSize[props.size] : fontSize.default};
-  background: ${props => props.theme.color.primary};
-  color: ${props => props.theme.color.white};
+  background: ${({theme}: Theme) => theme!.color.primary};
+  color: ${({theme}: Theme) => theme!.color.white};
   cursor: pointer;
   letter-spacing: 0;
   position: relative;
@@ -56,12 +57,12 @@ const StyledButton = styled.button`
   outline-style: none;
 
   &:not([disabled]):hover {
-    background: ${props => props.theme.color.active};
+    background: ${({theme}: Theme) => theme!.color.active};
   }
 
   &[disabled] {
     cursor: not-allowed;
-    background: ${props => props.theme.color.disabled} !important;
+    background: ${({theme}: Theme) => theme!.color.disabled} !important;
     color: rgba(63, 77, 96, 0.3) !important;
     opacity: 1;
   }
@@ -73,7 +74,7 @@ const StyledButton = styled.button`
     margin-right: 0;
   }
 
-  @media (max-width: ${props => props.theme.screenDesktop}) {
+  @media (max-width: ${({theme}: Theme) => theme!.screenDesktop}) {
     min-width: ${props => (props.width ? '100%' : 'inherit')};
   }
 `;
@@ -102,10 +103,10 @@ const flatButtonPadding = {
 
 const StyledFlatButton = styled(StyledButton)`
   background: transparent !important;
-  color: ${props => props.theme.color.primary} !important;
+  color: ${({theme}: Theme) => theme!.color.primary} !important;
 
   &:not([disabled]):hover {
-    color: ${props => props.theme.color.active} !important;
+    color: ${({theme}: Theme) => theme!.color.active} !important;
   }
 
   padding: ${(props: ButtonProps) =>

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import {Icon} from '../Icon/index';
+import {Theme} from '../theme';
 
 const StyledButton = styled.button`
   padding: 0 !important;
@@ -8,14 +9,14 @@ const StyledButton = styled.button`
   background: none;
 
   .icon:before {
-    color: #b2b8bf !important;
+    color: ${({theme}: Theme) => theme!.color.grayLight} !important;
   }
 
   &:hover,
   &:active,
   &:focus {
     .icon:before {
-      color: #3f4d60 !important;
+      color: ${({theme}: Theme) => theme!.color.secondary} !important;
     }
   }
 `;
