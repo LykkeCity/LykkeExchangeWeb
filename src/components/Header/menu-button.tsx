@@ -2,6 +2,7 @@ import {rem} from 'polished';
 import React from 'react';
 import {Button} from '../Button';
 import styled from '../styled';
+import {Theme} from '../theme';
 
 const StyledButton = styled(Button)`
     position: relative;
@@ -14,8 +15,8 @@ const StyledButton = styled(Button)`
     span {
       content: '';
       position: absolute;
-      border-radius: ${props => props.theme.borderRadius};
-      background: ${props => props.theme.color.grayDark};
+      border-radius: ${({theme}: Theme) => theme!.borderRadius};
+      background: ${({theme}: Theme) => theme!.color.grayDark};
       left: 0;
       right: 0;
       margin-left: auto;
@@ -23,7 +24,7 @@ const StyledButton = styled(Button)`
       width: 18px;
       height: 2px;
 
-      transition: background ${props => props.theme.transitionDefault};
+      transition: background ${({theme}: Theme) => theme!.transitionDefault};
     }
 
     &:after {
@@ -38,7 +39,7 @@ const StyledButton = styled(Button)`
       &:after,
       &:before,
       span {
-        background: ${props => props.theme.color.secondary};
+        background: ${({theme}: Theme) => theme!.color.secondary};
       }
     }
   }
@@ -51,7 +52,7 @@ const StyledContainer = styled.div`
   margin-left: ${rem('-5px')};
   margin-right: ${rem('15px')};
 
-  @media all and (max-width: ${props => props.theme.screenMobile}) {
+  @media all and (max-width: ${({theme}: Theme) => theme!.screenMobile}) {
     margin-top: 2px;
   }
 `;

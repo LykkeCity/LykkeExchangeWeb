@@ -5,17 +5,18 @@ import {WalletModel} from '../../models';
 import {RootStore} from '../../stores';
 import {Icon, IconButton} from '../Icon';
 import styled from '../styled';
+import {Theme} from '../theme';
 import WalletTotalBalance from '../WalletTotalBalance';
 
 const StyledEditIconButton = styled(IconButton)`
   position: absolute;
   left: -35px;
 
-  @media all and (max-width: ${props => props.theme.screenTablet}) {
+  @media all and (max-width: ${({theme}: Theme) => theme!.screenTablet}) {
     left: -30px;
   }
 
-  @media all and (max-width: ${props => props.theme.screenMobile}) {
+  @media all and (max-width: ${({theme}: Theme) => theme!.screenMobile}) {
     left: -20px;
   }
 `;
