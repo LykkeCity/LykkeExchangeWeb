@@ -1,3 +1,6 @@
+// tslint:disable-next-line:no-reference
+/// <reference path="./index.d.ts" />
+
 import {create, persist} from 'mobx-persist';
 import {Provider} from 'mobx-react';
 import * as React from 'react';

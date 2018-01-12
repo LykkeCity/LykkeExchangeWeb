@@ -1,6 +1,3 @@
-// tslint:disable-next-line:no-reference
-/// <reference path="index.d.ts" />
-
 import warning from 'warning';
 
 const warned: {[msg: string]: boolean} = {};
