@@ -3,13 +3,10 @@ import * as React from 'react';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
-import Dropdown, {
-  DROPDOWN_TRIGGER,
-  DropdownItem,
-  DropdownOverlay
-} from '../Dropdown';
+import Dropdown, {DropdownItem} from '../Dropdown';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import {IconButton} from '../Icon';
+import styled from '../styled';
 import './style.css';
 
 const ASSET_DEFAULT_ICON_URL = `${process.env
@@ -18,6 +15,10 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
 interface WalletBalanceListProps {
   wallet: WalletModel;
 }
+
+const Uppercase = styled.div`
+  text-transform: uppercase;
+`;
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet
@@ -73,21 +74,17 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     </td>
                     <td className="_action">
                       <Dropdown
-                        overlay={
-                          <DropdownOverlay
-                            style={{
-                              textTransform: 'uppercase'
-                            }}
-                          >
+                        content={
+                          <Uppercase>
                             <DropdownItem to={ROUTE_TRANSFER_TO(wallet.id)}>
                               Deposit
                             </DropdownItem>
                             <DropdownItem to={ROUTE_TRANSFER_FROM(wallet.id)}>
                               Withdraw
                             </DropdownItem>
-                          </DropdownOverlay>
+                          </Uppercase>
                         }
-                        trigger={[DROPDOWN_TRIGGER.CLICK]}
+                        isOnClick={true}
                       >
                         <IconButton name="actions" />
                       </Dropdown>

@@ -2,11 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import Dropdown, {
-  DROPDOWN_TRIGGER,
-  DropdownItem,
-  DropdownOverlay
-} from '../Dropdown';
+import Dropdown, {DropdownItem} from '../Dropdown';
 
 export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {authStore, profileStore} = rootStore!;
@@ -14,12 +10,9 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
   return (
     <div className="header__actions header_actions__login header_login pull-right">
       <Dropdown
-        overlay={
-          <DropdownOverlay>
-            <DropdownItem onClick={authStore.logout}>Sign out</DropdownItem>
-          </DropdownOverlay>
+        content={
+          <DropdownItem onClick={authStore.logout}>Sign out</DropdownItem>
         }
-        trigger={[DROPDOWN_TRIGGER.HOVER]}
       >
         <div className="header_user dropdown__control">
           <div className="header_user__img">
