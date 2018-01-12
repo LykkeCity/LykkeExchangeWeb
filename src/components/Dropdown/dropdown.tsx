@@ -30,29 +30,36 @@ export default class Dropdown extends React.Component<
   static defaultProps = DEFAULT_PROPS;
   state = {isOpened: false};
 
-  open = () => this.setState({isOpened: true});
-  close = () => this.setState({isOpened: false});
+  open = debounce(
+    () => this.setState({isOpened: true}),
+    this.props.mouseEnterDelay
+  );
+  close = debounce(
+    () => this.setState({isOpened: false}),
+    this.props.mouseLeaveDelay
+  );
 
   render() {
-    const {
-      content,
-      children,
-      className,
-      mouseEnterDelay,
-      mouseLeaveDelay,
-      isOnClick
-    } = this.props;
+    const {content, children, className, isOnClick} = this.props;
 
     const isOnMouseOver = this.props.isOnMouseOver || !isOnClick;
+
+    const moveHandlers = isOnMouseOver && {
+      onMouseOver: this.open,
+      onMouseEnter: this.open,
+      onMouseLeave: this.close
+    };
+
+    const clickHandlers = isOnClick && {
+      onShow: this.open,
+      onHide: this.close
+    };
 
     return (
       <SimpleDropdown
         className={className}
-        onMouseOver={isOnMouseOver && debounce(this.open, mouseEnterDelay)}
-        onMouseEnter={isOnMouseOver && debounce(this.open, mouseEnterDelay)}
-        onMouseLeave={isOnMouseOver && debounce(this.close, mouseLeaveDelay)}
-        onShow={isOnClick && debounce(this.open, mouseEnterDelay)}
-        onHide={isOnClick && debounce(this.close, mouseLeaveDelay)}
+        {...moveHandlers}
+        {...clickHandlers}
       >
         <DropdownTrigger>{children}</DropdownTrigger>
         <DropdownContent>
