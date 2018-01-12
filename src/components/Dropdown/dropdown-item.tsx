@@ -2,34 +2,26 @@ import {rem} from 'polished';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import styled from 'styled-components';
+import {Theme} from '../theme';
 
-const StyledDropdownItem = styled.div``;
+const StyledDropdownItem = styled.div`
+  & > a,
+  & > span {
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    padding: ${rem('15px')} !important;
+    border-radius: ${({theme}: Theme) => theme!.borderRadius};
 
-const linkStyle = `
-  cursor: pointer;
-  display: block;
-  width: 100%;
-  padding: ${rem('15px')} !important;
-  border-radius: 4px;
+    &:hover {
+      background: ${({theme}: Theme) => theme!.color.gray5};
+    }
+    &:focus {
+      text-decoration: none;
+    }
 
-  &:hover {
-    background: #f5f6f7;
+    color: ${({theme}: Theme) => theme!.color.text};
   }
-  &:focus {
-    text-decoration: none;
-  }
-
-  color: #333333;
-`;
-
-const StyledLink = styled(Link)`
-  ${linkStyle};
-`;
-const StyledA = styled.a`
-  ${linkStyle};
-`;
-const StyledSpan = styled.span`
-  ${linkStyle};
 `;
 
 interface DropdownItemProps {
@@ -39,17 +31,17 @@ interface DropdownItemProps {
 }
 
 const DropdownItem = ({to, children, onClick}: DropdownItemProps) => {
-  const link = () => {
-    if (to) {
-      return <StyledLink to={to}>{children}</StyledLink>;
-    } else if (onClick) {
-      return <StyledA {...{onClick}}>{children}</StyledA>;
-    } else {
-      return <StyledSpan>{children}</StyledSpan>;
-    }
-  };
+  let component: JSX.Element;
 
-  return <StyledDropdownItem {...{children: link()}} />;
+  if (to) {
+    component = <Link to={to}>{children}</Link>;
+  } else if (onClick) {
+    component = <a onClick={onClick}>{children}</a>;
+  } else {
+    component = <span>{children}</span>;
+  }
+
+  return <StyledDropdownItem>{component}</StyledDropdownItem>;
 };
 
 export default DropdownItem;
