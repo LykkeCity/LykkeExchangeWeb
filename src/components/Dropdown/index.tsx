@@ -1,5 +1,4 @@
 import Dropdown from './dropdown';
-export {DROPDOWN_TRIGGER} from './dropdown';
 export {default as DropdownOverlay} from './dropdown-overlay';
 export {default as DropdownItem} from './dropdown-item';
 

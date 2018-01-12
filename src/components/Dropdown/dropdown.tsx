@@ -1,31 +1,29 @@
 import {debounce} from 'lodash';
 import * as React from 'react';
-import Dropdown, {
+import SimpleDropdown, {
   DropdownContent,
   DropdownTrigger
 } from 'react-simple-dropdown';
+import {DropdownOverlay} from './index';
 
-export enum DROPDOWN_TRIGGER {
-  CLICK = 'click',
-  HOVER = 'hover'
-}
-
-const DEFAULT_PROPS = {
-  mouseEnterDelay: 150,
-  mouseLeaveDelay: 150 // should be more or equal mouseEnterDelay
-};
-
-type EventType = DROPDOWN_TRIGGER.CLICK | DROPDOWN_TRIGGER.HOVER;
-
-export interface DropDownProps {
-  trigger?: EventType[];
-  overlay: React.ReactNode;
-  className?: string;
+interface DropDownDefaultProps {
   mouseEnterDelay?: number;
   mouseLeaveDelay?: number;
 }
 
-export default class Dropdown2 extends React.Component<
+const DEFAULT_PROPS: DropDownDefaultProps = {
+  mouseEnterDelay: 150,
+  mouseLeaveDelay: 150 // should be more or equal mouseEnterDelay
+};
+
+export interface DropDownProps extends DropDownDefaultProps {
+  className?: string;
+  content: React.ReactNode;
+  isOnClick?: boolean;
+  isOnMouseOver?: boolean;
+}
+
+export default class Dropdown extends React.Component<
   DropDownProps,
   {isOpened: boolean}
 > {
@@ -35,42 +33,32 @@ export default class Dropdown2 extends React.Component<
   open = () => this.setState({isOpened: true});
   close = () => this.setState({isOpened: false});
 
-  get isClicked() {
-    return this.isEventType(DROPDOWN_TRIGGER.CLICK);
-  }
-  get isHovered() {
-    return this.isEventType(DROPDOWN_TRIGGER.HOVER);
-  }
-
-  isEventType(eventType: EventType) {
-    const {trigger = []} = this.props;
-    const found = trigger.filter(
-      triggerEventType => triggerEventType === eventType
-    );
-    return found.length > 0;
-  }
-
   render() {
     const {
-      overlay,
+      content,
       children,
       className,
       mouseEnterDelay,
-      mouseLeaveDelay
+      mouseLeaveDelay,
+      isOnClick
     } = this.props;
 
+    const isOnMouseOver = this.props.isOnMouseOver || !isOnClick;
+
     return (
-      <Dropdown
+      <SimpleDropdown
         className={className}
-        onMouseOver={this.isHovered && debounce(this.open, mouseEnterDelay)}
-        onMouseEnter={this.isHovered && debounce(this.open, mouseEnterDelay)}
-        onMouseLeave={this.isHovered && debounce(this.close, mouseLeaveDelay)}
-        onShow={this.isClicked && debounce(this.open, mouseEnterDelay)}
-        onHide={this.isClicked && debounce(this.close, mouseLeaveDelay)}
+        onMouseOver={isOnMouseOver && debounce(this.open, mouseEnterDelay)}
+        onMouseEnter={isOnMouseOver && debounce(this.open, mouseEnterDelay)}
+        onMouseLeave={isOnMouseOver && debounce(this.close, mouseLeaveDelay)}
+        onShow={isOnClick && debounce(this.open, mouseEnterDelay)}
+        onHide={isOnClick && debounce(this.close, mouseLeaveDelay)}
       >
         <DropdownTrigger>{children}</DropdownTrigger>
-        <DropdownContent>{this.state.isOpened && overlay}</DropdownContent>
-      </Dropdown>
+        <DropdownContent>
+          {this.state.isOpened && <DropdownOverlay>{content}</DropdownOverlay>}
+        </DropdownContent>
+      </SimpleDropdown>
     );
   }
 }
