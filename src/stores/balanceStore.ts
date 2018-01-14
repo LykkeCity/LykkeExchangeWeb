@@ -26,8 +26,16 @@ export class BalanceStore {
           dto.AssetId
         );
       }
+      this.updateBalance(balance, dto);
+    }
+    return balance;
+  };
+
+  updateBalance = (balance: BalanceModel, dto?: any) => {
+    if (!!dto) {
       balance.balance = Number(dto.Balance);
       balance.reserved = Number(dto.Reserved || 0);
+      return balance;
     }
     return balance;
   };

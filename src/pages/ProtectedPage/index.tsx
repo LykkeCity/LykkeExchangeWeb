@@ -9,6 +9,8 @@ import Header from '../../components/Header';
 import {loadable} from '../../components/hoc/loadable';
 import {NoMatch} from '../../components/NoMatch/index';
 
+const WALLETS_UPDATE_INTERVAL_MS = 10000;
+
 import {
   TransferFail,
   TransferResult
@@ -27,6 +29,8 @@ import {WalletPage} from '../../pages/index';
 import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<RootStoreProps> {
+  walletsBalancesTimer: any;
+
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
@@ -40,6 +44,17 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     };
   }
 
+  updateWalletsBalances = async () => {
+    await this.walletStore.updateWalletsBalances();
+  };
+
+  intervalFetchWalletsBalances() {
+    this.walletsBalancesTimer = setInterval(
+      () => this.updateWalletsBalances(),
+      WALLETS_UPDATE_INTERVAL_MS
+    );
+  }
+
   componentDidMount() {
     this.uiStore.startRequest();
     this.assetStore
@@ -47,8 +62,13 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
       .then(() => this.assetStore.fetchAssets())
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
+      .then(() => this.intervalFetchWalletsBalances())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.uiStore.finishRequest());
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.walletsBalancesTimer);
   }
 
   render() {

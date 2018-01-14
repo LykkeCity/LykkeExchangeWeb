@@ -84,6 +84,18 @@ export class WalletModel {
   };
 
   @action
+  updateBalances = (dtos: any[]) => {
+    const {updateBalance} = this.store.rootStore.balanceStore;
+    dtos.forEach(dto => {
+      this.balances.forEach(balance => {
+        if (balance.assetId === dto.AssetId) {
+          balance = updateBalance(balance, dto);
+        }
+      });
+    });
+  };
+
+  @action
   deposit = (balance: number, asset: AssetModel) => {
     const {createBalance} = this.store.rootStore.balanceStore;
     const incomingBalance = createBalance();
