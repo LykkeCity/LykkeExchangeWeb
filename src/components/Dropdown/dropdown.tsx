@@ -45,14 +45,14 @@ export default class Dropdown extends React.Component<
     const isOnMouseOver = this.props.isOnMouseOver || !isOnClick;
 
     const moveHandlers = isOnMouseOver && {
-      onMouseOver: this.open,
       onMouseEnter: this.open,
-      onMouseLeave: this.close
+      onMouseLeave: this.close,
+      onMouseOver: this.open
     };
 
     const clickHandlers = isOnClick && {
-      onShow: this.open,
-      onHide: this.close
+      onHide: this.close,
+      onShow: this.open
     };
 
     return (
