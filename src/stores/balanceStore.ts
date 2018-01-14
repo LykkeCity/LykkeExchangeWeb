@@ -32,6 +32,15 @@ export class BalanceStore {
     return balance;
   };
 
+  updateBalance = (balance: BalanceModel, dto?: any) => {
+    if (!!dto) {
+      balance.balance = Number(dto.Balance);
+      balance.reserved = Number(dto.Reserved || 0);
+      return balance;
+    }
+    return balance;
+  };
+
   fetchAll = async () => await this.api!.fetchAll();
 
   fetchById = async (assetId: string) => {

@@ -44,14 +44,13 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
     };
   }
 
-  updateWallets = async () => {
-    await this.walletStore.fetchWallets();
+  updateWalletsBalances = async () => {
+    await this.walletStore.updateWalletsBalances();
   };
 
-  intervalUpdateWallets() {
-    this.updateWallets();
+  intervalFetchWalletsBalances() {
     this.walletsTimer = setInterval(
-      this.updateWallets,
+      () => this.updateWalletsBalances(),
       WALLETS_UPDATE_INTERVAL_MS
     );
   }
@@ -62,7 +61,8 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
       .fetchCategories()
       .then(() => this.assetStore.fetchAssets())
       .then(() => this.profileStore.fetchUserInfo())
-      .then(() => this.intervalUpdateWallets())
+      .then(() => this.walletStore.fetchWallets())
+      .then(() => this.intervalFetchWalletsBalances())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.uiStore.finishRequest());
   }
