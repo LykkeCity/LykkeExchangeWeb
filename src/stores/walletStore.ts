@@ -97,6 +97,15 @@ export class WalletStore {
     });
   };
 
+  updateWalletsBalances = async () => {
+    const balances = await this.rootStore.balanceStore.fetchAll();
+    runInAction(() => {
+      this.wallets.forEach(w => {
+        w.updateBalances(balances.find((b: any) => b.Id === w.id).Balances);
+      });
+    });
+  };
+
   fetchWalletById = async (id: string) => {
     const dto = await this.api!.fetchById(id);
     return this.createWallet(dto);
