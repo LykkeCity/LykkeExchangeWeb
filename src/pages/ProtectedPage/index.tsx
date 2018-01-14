@@ -29,7 +29,7 @@ import {WalletPage} from '../../pages/index';
 import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<RootStoreProps> {
-  walletsTimer: any;
+  walletsBalancesTimer: any;
 
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
@@ -49,7 +49,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   };
 
   intervalFetchWalletsBalances() {
-    this.walletsTimer = setInterval(
+    this.walletsBalancesTimer = setInterval(
       () => this.updateWalletsBalances(),
       WALLETS_UPDATE_INTERVAL_MS
     );
@@ -68,7 +68,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   }
 
   componentWillUnmount() {
-    clearInterval(this.walletsTimer);
+    clearInterval(this.walletsBalancesTimer);
   }
 
   render() {
