@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Icon} from '../Icon';
 import './style.css';
 
 export default () => (
@@ -6,7 +7,7 @@ export default () => (
     <span>Templates (2)</span>
     <span>Recent transfers</span>
     <a href="#" className="pull-right">
-      <i className="icon icon--star_stroke" /> Add to favorites
+      <Icon name="star_stroke" /> Add to favorites
     </a>
   </div>
 );

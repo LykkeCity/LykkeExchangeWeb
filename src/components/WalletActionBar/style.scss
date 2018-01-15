@@ -43,24 +43,4 @@
       }
     }
   }
-
-  &__button.btn {
-    float: right;
-    background-color: $primary;
-    color: $white;
-    border: none;
-    border-radius: 100px;
-    line-height: normal;
-    height: auto;
-
-    @include rem(margin, -8px 0);
-
-    .icon {
-      position: relative;
-      top: -1px;
-
-      @include rem(font-size, 20px);
-      @include rem(margin, -10px 0 -10px -10px);
-    }
-  }
 }
