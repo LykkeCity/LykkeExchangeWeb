@@ -1,8 +1,9 @@
 import * as React from 'react';
 import {AssetModel, BalanceModel} from '../../models';
 import {asAssetBalance} from '../hoc/assetBalance';
+import {SelectItem} from '../Select';
 
-interface AssetOption {
+interface AssetOptionProps {
   asset: AssetModel;
   assetId: string;
   assetName: string;
@@ -18,15 +19,10 @@ export const assetsOptionsMap = (b: BalanceModel) => ({
   balanceAvailable: b.availableBalance
 });
 
-export const AssetOption = ({asset, balanceAvailable}: AssetOption) => (
-  <div className="option">
-    <div>{asset.name}</div>
-    <div>
-      <small style={{color: 'gray'}}>
-        {asAssetBalance(asset, balanceAvailable)}
-      </small>
-    </div>
-  </div>
+export const AssetOption = ({asset, balanceAvailable}: AssetOptionProps) => (
+  <SelectItem name={asset.name}>
+    {asAssetBalance(asset, balanceAvailable)}
+  </SelectItem>
 );
 
 export default AssetOption;

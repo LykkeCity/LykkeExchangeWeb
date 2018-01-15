@@ -13,6 +13,12 @@ import {Select} from '../Select/index';
 import {AmountInput} from './amount-input';
 import {AssetOption, assetsOptionsMap} from './asset-option';
 import './style.css';
+import {WalletValue} from './wallet-value';
+
+const WALLET_TYPE = {
+  TRADING: 'Trading Wallet',
+  TRUSTED: 'Private Wallet'
+};
 
 interface TransferFormProps extends RootStoreProps {
   onTransfer?: (transfer: TransferModel) => any;
@@ -88,6 +94,20 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
 
   const baseAsset = profileStore.baseAssetAsModel;
 
+  const fromWalletOptions = [
+    {title: WALLET_TYPE.TRADING, disabled: true},
+    ...walletStore.tradingWalletsWithAssets,
+    {title: WALLET_TYPE.TRUSTED, disabled: true},
+    ...walletStore.trustedWalletsWithAssets
+  ];
+
+  const toWalletOptions = [
+    {title: WALLET_TYPE.TRADING, disabled: true},
+    ...walletStore.getTradingWalletsExceptOne(transfer.from),
+    {title: WALLET_TYPE.TRUSTED, disabled: true},
+    ...walletStore.getTrustedWalletsExceptOne(transfer.from)
+  ];
+
   return (
     <Formik
       initialValues={{
@@ -118,15 +138,17 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                   <Field
                     component={Select}
                     name="from"
-                    className="form__select"
                     value={!!transfer.from && transfer.from.id}
                     onChange={handleChangeWallet('from', setFieldValue)}
                     valueKey="id"
                     labelKey="title"
                     clearable={false}
-                    options={walletStore.walletsWithAssets}
+                    options={fromWalletOptions}
                     optionRenderer={
                       baseAsset && WalletOption({currency: baseAsset.name})
+                    }
+                    valueRenderer={
+                      baseAsset && WalletValue({currency: baseAsset.name})
                     }
                   />
                 </div>
@@ -166,15 +188,17 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                   <Field
                     component={Select}
                     name="to"
-                    className="form__select"
                     value={!!transfer.to && transfer.to.id}
                     onChange={handleChangeWallet('to', setFieldValue)}
                     valueKey="id"
                     labelKey="title"
                     clearable={false}
-                    options={walletStore.getWalletsExceptOne(transfer.from)}
+                    options={toWalletOptions}
                     optionRenderer={
                       baseAsset && WalletOption({currency: baseAsset.name})
+                    }
+                    valueRenderer={
+                      baseAsset && WalletValue({currency: baseAsset.name})
                     }
                   />
                 </div>

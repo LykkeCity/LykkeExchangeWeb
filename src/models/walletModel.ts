@@ -47,8 +47,8 @@ export class WalletModel {
   }
 
   @computed
-  get isValid() {
-    return !!this.title.trim();
+  get isTrusted() {
+    return this.type === WalletType.Trusted;
   }
 
   constructor(private readonly store: WalletStore, dto?: any) {
