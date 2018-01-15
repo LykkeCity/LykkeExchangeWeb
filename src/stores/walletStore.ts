@@ -13,7 +13,7 @@ import {sum} from '../utils/math';
 
 export class WalletStore {
   @observable wallets: WalletModel[] = [];
-  @observable selectedWallet: WalletModel;
+  @observable selectedWallet: WalletModel | null;
 
   @computed
   get totalBalance() {

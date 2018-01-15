@@ -1,12 +1,12 @@
-import Dropdown from 'antd/lib/dropdown/dropdown';
-import 'antd/lib/table/style/css';
 import {observer} from 'mobx-react';
 import * as React from 'react';
-import {Link} from 'react-router-dom';
 import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
+import Dropdown, {DropdownItem} from '../Dropdown';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
+import {IconButton} from '../Icon';
+import styled from '../styled';
 import './style.css';
 
 const assetIcon = {
@@ -30,6 +30,10 @@ const assetIconUrl = (asset: string) =>
 interface WalletBalanceListProps {
   wallet: WalletModel;
 }
+
+const Uppercase = styled.div`
+  text-transform: uppercase;
+`;
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet
@@ -85,26 +89,19 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     </td>
                     <td className="_action">
                       <Dropdown
-                        overlay={
-                          <div className="asset-menu">
-                            <div>
-                              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                Deposit
-                              </Link>
-                            </div>
-                            <div>
-                              <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>
-                                Withdraw
-                              </Link>
-                            </div>
-                          </div>
+                        content={
+                          <Uppercase>
+                            <DropdownItem to={ROUTE_TRANSFER_TO(wallet.id)}>
+                              Deposit
+                            </DropdownItem>
+                            <DropdownItem to={ROUTE_TRANSFER_FROM(wallet.id)}>
+                              Withdraw
+                            </DropdownItem>
+                          </Uppercase>
                         }
-                        trigger={['click']}
-                        placement="bottomCenter"
+                        isOnClick={true}
                       >
-                        <button type="button" className="btn btn--icon">
-                          <i className="icon icon--actions" />
-                        </button>
+                        <IconButton name="actions" />
                       </Dropdown>
                     </td>
                   </tr>

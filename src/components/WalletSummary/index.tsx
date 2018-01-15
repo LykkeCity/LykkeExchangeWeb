@@ -1,10 +1,25 @@
-import classnames from 'classnames';
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {WalletModel} from '../../models';
 import {RootStore} from '../../stores';
+import {Icon, IconButton} from '../Icon';
+import styled from '../styled';
+import {Theme} from '../theme';
 import WalletTotalBalance from '../WalletTotalBalance';
+
+const StyledEditIconButton = styled(IconButton)`
+  position: absolute;
+  left: -35px;
+
+  @media all and (max-width: ${({theme}: Theme) => theme!.screenTablet}) {
+    left: -30px;
+  }
+
+  @media all and (max-width: ${({theme}: Theme) => theme!.screenMobile}) {
+    left: -20px;
+  }
+`;
 
 export interface WalletActions {
   onEditWallet?: (w: WalletModel) => void;
@@ -27,8 +42,8 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
             className={classNames('wallet__title', 'text--truncate')}
           >
             {wallet.isTrading ? null : (
-              <i
-                className={classnames('icon', 'icon--edit_alt')}
+              <StyledEditIconButton
+                name="edit_alt"
                 // tslint:disable-next-line:jsx-no-lambda
                 onClick={e => {
                   e.stopPropagation();
@@ -37,13 +52,8 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
             {wallet.title}
-            <i
-              className={classnames(
-                'icon',
-                wallet.expanded
-                  ? 'icon--chevron-thin-up'
-                  : 'icon--chevron-thin-down'
-              )}
+            <Icon
+              name={wallet.expanded ? 'chevron-thin-up' : 'chevron-thin-down'}
             />
           </h2>
           <div className="wallet__desc">{wallet.desc || 'No description'}</div>
@@ -59,6 +69,6 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
   onEditWallet: (wallet: WalletModel) => {
     rootStore.walletStore.selectedWallet = wallet;
-    rootStore.uiStore.toggleEditWalletDrawer();
+    rootStore.uiStore.toggleWalletDrawer();
   }
 }))(observer(WalletSummary));

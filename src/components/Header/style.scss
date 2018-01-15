@@ -27,15 +27,9 @@
     max-width: 1170px + 30px;
   }
 
-  &__menu_button,
   &__logo {
     display: inline-block;
     vertical-align: middle;
-  }
-
-  &__menu_button {
-    @include rem(margin-left, -5px);
-    @include rem(margin-right, 15px);
   }
 
   &__logo {
@@ -66,10 +60,6 @@
 
     &.nav_up {
       @include translate(0, -58px);
-    }
-
-    &__menu_button {
-      margin-top: 2px;
     }
 
     &__logo {
@@ -115,45 +105,6 @@
   }
 }
 
-.btn_menu {
-  position: relative;
-  width: 30px;
-  height: 30px;
-
-  &:after,
-  &:before,
-  span {
-    content: '';
-    position: absolute;
-    border-radius: $border-radius;
-    background: $gray-dark;
-    left: 0;
-    right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    width: 18px;
-    height: 2px;
-
-    @include transition(background $transition-default);
-  }
-
-  &:after {
-    margin-top: -5px;
-  }
-
-  &:before {
-    margin-top: 5px;
-  }
-
-  &:hover {
-    &:after,
-    &:before,
-    span {
-      background: $secondary;
-    }
-  }
-}
-
 .header_nav_container {
   @include rem(height, 60px);
 }
@@ -169,14 +120,6 @@
 
   @include transition(transform $transition-default, top $transition-default);
   @include rem(padding-top, 91px);
-
-  .btn {
-    @include rem(margin, 10px 0 0);
-  }
-
-  .btn_create_project {
-    @include rem(margin, 20px 0 0);
-  }
 
   &__list {
     float: left;
@@ -338,15 +281,10 @@
       white-space: nowrap;
     }
 
-    .btn,
     .nav_list {
       float: none !important;
       display: inline-block;
       vertical-align: middle;
-    }
-
-    .btn {
-      margin-right: 15px;
     }
   }
 }
@@ -361,10 +299,6 @@
     position: relative;
 
     @include rem(margin-left, 15px);
-
-    > .btn--icon {
-      @include rem(padding, 10px);
-    }
   }
 
   &__logout {
@@ -394,20 +328,6 @@
 
       &:hover {
         color: rgba($secondary, 0.8);
-      }
-    }
-  }
-
-  @media all and (max-width: $screen-landscape) {
-    .btn--icon .icon {
-      font-size: 20px;
-    }
-
-    &__logout {
-      .btn--icon .icon {
-        font-size: 18px;
-        position: relative;
-        top: 1px;
       }
     }
   }
@@ -470,25 +390,6 @@
   }
 }
 
-.btn.btn_create_project {
-  min-width: 0;
-  text-align: center;
-
-  @include rem(width, 24px);
-  @include rem(height, 24px);
-  @include rem(font-size, 33px);
-  @include rem(padding, 0);
-  @include rem(line-height, 22px);
-
-  .icon {
-    margin-right: 0;
-  }
-
-  &:hover {
-    @include scale(1.2);
-  }
-}
-
 .sidebar_menu {
   position: fixed;
   z-index: 115;
@@ -522,10 +423,6 @@
 
     @include rem(padding, 25px 0);
     @include rem(margin, 0 28px);
-
-    .btn {
-      display: none;
-    }
 
     .header_logo__img {
       margin-right: 0;
@@ -635,20 +532,6 @@
       margin: 0 0 0 12px;
       padding: 15px 0;
       right: 12px;
-
-      .btn {
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 50%;
-        margin-top: -14px;
-
-        .icon {
-          position: relative;
-          top: 1px;
-          font-size: 24px;
-        }
-      }
     }
 
     .header_logo {
@@ -804,6 +687,9 @@
   @include rem(padding, 25px 0);
 
   .form-control {
+    @media all and (max-width: $screen-mobile) {
+      padding-top: 0;
+    }
     border: 0;
     border-radius: 0;
 
@@ -811,7 +697,7 @@
     @include rem(padding-left, 35px);
   }
 
-  &__btn {
+  &__icon {
     position: absolute !important;
     left: 0;
     top: 50%;
@@ -825,23 +711,10 @@
 
   &__buttons {
     float: right;
-
-    .btn--icon {
-      color: #cfd2d7;
-
-      @include rem(padding, 7px 6px);
-      @include rem(margin-right, -6px);
-    }
   }
 
   &__inner {
     position: relative;
-  }
-
-  .btn--icon {
-    .icon {
-      font-size: 20px;
-    }
   }
 
   &--show {
@@ -855,7 +728,7 @@
   }
 
   @media all and (max-width: $screen-landscape) {
-    &__btn {
+    &__icon {
       @include rem(margin-top, -16px);
     }
 

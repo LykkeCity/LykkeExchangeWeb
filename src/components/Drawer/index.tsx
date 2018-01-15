@@ -2,6 +2,7 @@ import * as classNames from 'classnames';
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {Icon} from '../Icon';
 import './style.css';
 
 interface DrawerProps {
@@ -22,7 +23,7 @@ export class Drawer extends React.Component<DrawerProps> {
         <div className="drawer__body">
           <div className="drawer__breadcrumbs breadcrumbs">
             <strong className="breadcrumbs_item">Summary</strong>
-            <i className="icon icon--chevron-thin-right" />
+            <Icon name="chevron-thin-right" size="10px" />
             <span className="breadcrumbs_item breadcrumbs_item--current">
               {this.props.title}
             </span>

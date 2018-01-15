@@ -5,6 +5,7 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_LOGIN} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import Logo from '../Logo';
+import {MenuButton} from './';
 import HeaderSearch from './headerSearch';
 import UserInfo from './userInfo';
 
@@ -20,15 +21,7 @@ export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
     <div className="header_container">
       <header className="header">
         <div className="container">
-          <div className="header__menu_button">
-            <button
-              className="btn btn_menu btn--icon"
-              type="button"
-              onClick={handleToggleSidebar}
-            >
-              <span />
-            </button>
-          </div>
+          <MenuButton onToggle={handleToggleSidebar} />
 
           <Logo />
 

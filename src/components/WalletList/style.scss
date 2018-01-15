@@ -42,20 +42,6 @@
         color: rgba($secondary, 0.8);
       }
     }
-
-    i.icon.icon--edit_alt {
-      position: absolute;
-      left: -35px;
-      top: 13px;
-
-      @media all and (max-width: $screen-tablet) {
-        left: -30px;
-      }
-
-      @media all and (max-width: $screen-mobile) {
-        left: -20px;
-      }
-    }
   }
 
   &__desc {

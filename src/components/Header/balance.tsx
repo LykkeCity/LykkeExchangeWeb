@@ -3,6 +3,7 @@ import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {asAssetBalance} from '../hoc/assetBalance';
+import {Icon} from '../Icon';
 
 export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {
@@ -20,7 +21,7 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
   return (
     <div className="header_nav_balance pull-right">
       <div className="dropdown_control">
-        <i className="icon icon--finance_alt" />
+        <Icon name="finance" size={'21px'} />
         <div className="header_nav_balance__value">
           {!!baseAssetAsModel && asAssetBalance(baseAssetAsModel, totalBalance)}
         </div>
