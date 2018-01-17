@@ -4,6 +4,7 @@ import * as React from 'react';
 import {createPortal} from 'react-dom';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
+import {Icon, IconButton} from '../Icon';
 
 export class Sidebar extends React.Component<RootStoreProps> {
   private uiStore = this.props.rootStore!.uiStore;
@@ -17,9 +18,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
       >
         <div className="sidebar_menu__inner">
           <div className="sidebar_menu__header">
-            <button className="btn btn--icon btn_close_menu">
-              <i className="icon icon--close" />
-            </button>
+            <IconButton
+              name="close"
+              className="pull-right"
+              onClick={this.uiStore.closeSidebar}
+            />
             <div className="header_logo">
               <a href="https://www.lykke.com/">
                 <img
@@ -120,7 +123,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--fb_simple" />
+                  <Icon name="fb_simple" />
                   <span> Facebook</span>
                 </a>
               </li>
@@ -130,7 +133,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--tw" />
+                  <Icon name="tw" />
                   <span> Twitter</span>
                 </a>
               </li>
@@ -140,7 +143,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--instagram" />
+                  <Icon name="instagram" />
                   <span> Instagram</span>
                 </a>
               </li>
@@ -150,7 +153,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--youtube" />
+                  <Icon name="youtube" />
                   <span> Youtube</span>
                 </a>
               </li>
@@ -160,7 +163,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--linkedin" />
+                  <Icon name="linkedin" />
                   <span> Linkedin</span>
                 </a>
               </li>
@@ -170,7 +173,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--reddit" />
+                  <Icon name="reddit" />
                   <span> Reddit</span>
                 </a>
               </li>
@@ -180,7 +183,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--telegram" />
+                  <Icon name="telegram" />
                   <span> Telegram</span>
                 </a>
               </li>
@@ -190,7 +193,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <i className="icon icon--slack" />
+                  <Icon name="slack" />
                   <span> Slack</span>
                 </a>
               </li>

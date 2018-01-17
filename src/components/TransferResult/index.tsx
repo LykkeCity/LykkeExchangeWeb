@@ -1,19 +1,17 @@
-import {Icon} from 'antd';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Link, RouteComponentProps} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router-dom';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import Button from '../Button';
+import Icon from '../Icon';
 import './style.css';
 
 export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
   const {amount, asset} = props.location.state;
   return (
     <div className="transfer-result">
-      <Icon
-        type="check-circle"
-        style={{color: 'limegreen', fontSize: '64px'}}
-      />
+      <Icon name="check-circle" color="limegreen" size="64px" />
       <div className="transfer-result__desc">
         Your transaction request has been successfully sent
       </div>
@@ -21,9 +19,7 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
         {amount} {asset}
       </div>
       <div className="transfer-result__button">
-        <Link to={ROUTE_WALLETS} className="btn btn--primary">
-          Go back to wallets
-        </Link>
+        <Button to={ROUTE_WALLETS}>Go back to wallets</Button>
       </div>
     </div>
   );
@@ -34,12 +30,10 @@ export const TransferFail: React.SFC<RouteComponentProps<any>> = ({
 }) => {
   return (
     <div className="transfer-result">
-      <Icon type="close-circle" style={{color: 'red', fontSize: '64px'}} />
+      <Icon name="close-circle" color="red" size="64px" />
       <div className="transfer-result__desc">Your transaction {reason}</div>
       <div className="transfer-result__button">
-        <Link to={ROUTE_WALLETS} className="btn btn--primary">
-          Go back to wallets
-        </Link>
+        <Button to={ROUTE_WALLETS}>Go back to wallets</Button>
       </div>
     </div>
   );

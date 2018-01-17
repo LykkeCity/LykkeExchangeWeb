@@ -4,6 +4,8 @@ import * as React from 'react';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
+import {Button} from '../Button';
+import {Icon} from '../Icon';
 import './style.css';
 
 interface TabLinkProps {
@@ -82,12 +84,9 @@ export const WalletTabs = (props: any) => (
             </p>
           </div>
           <div className="col-sm-4 text-right">
-            <button
-              className="btn btn--primary btn-sm"
-              onClick={props.onCreateNewWallet}
-            >
-              <i className="icon icon--add" /> New Wallet
-            </button>
+            <Button size="small" onClick={props.onCreateNewWallet}>
+              <Icon name="add" /> New Wallet
+            </Button>
           </div>
         </div>
       </div>
@@ -97,6 +96,9 @@ export const WalletTabs = (props: any) => (
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
-    onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer
+    onCreateNewWallet: () => {
+      rootStore!.uiStore.toggleWalletDrawer();
+      rootStore!.walletStore.selectedWallet = null;
+    }
   }))(observer(WalletTabs))
 );

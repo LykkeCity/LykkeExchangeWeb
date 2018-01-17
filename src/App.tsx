@@ -2,6 +2,8 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute/index';
+import {ThemeProvider} from './components/styled';
+import theme from './components/theme';
 import {ROUTE_LOGIN, ROUTE_ROOT} from './constants/routes';
 import {STORE_ROOT} from './constants/stores';
 import LoginPage from './pages/LoginPage/index';
@@ -18,12 +20,14 @@ class App extends React.Component<RootStoreProps> {
   render() {
     return (
       <Router>
-        <div onClick={this.handleOutsideClick}>
-          <Switch>
-            <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
-            <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
-          </Switch>
-        </div>
+        <ThemeProvider theme={theme}>
+          <div onClick={this.handleOutsideClick}>
+            <Switch>
+              <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
+              <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
+            </Switch>
+          </div>
+        </ThemeProvider>
       </Router>
     );
   }

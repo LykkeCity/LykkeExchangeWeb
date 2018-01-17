@@ -26,23 +26,13 @@
   @include rem(width, 430px);
   @include rem(padding, 0 30px);
 
-  .ant-form-item {
+  .form-group {
     padding: 0;
 
     @include rem(margin-bottom, 25px);
 
     input {
       width: 100%;
-    }
-
-    button {
-      @include rem(width, 370px);
-      @include rem(height, 50px);
-      @include rem(padding, 10px 0);
-    }
-
-    .ant-form-item-control {
-      position: relative;
     }
 
     .input-group-addon {
@@ -68,7 +58,7 @@
       }
     }
 
-    .ant-form-explain {
+    .form-explain {
       color: #ff3e2e;
       text-align: left;
 
