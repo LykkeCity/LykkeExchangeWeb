@@ -1,4 +1,6 @@
+import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
+import {computed} from 'mobx/lib/mobx';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import Footer from '../../components/Footer';
@@ -8,13 +10,20 @@ import Logo from '../../components/Logo';
 import {STORE_ROOT} from '../../constants/stores';
 
 export class LoginPage extends React.Component<RootStoreProps> {
+  @computed
+  private get classes() {
+    return {
+      'app--overlayed': this.props.rootStore!.uiStore.overlayed
+    };
+  }
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
 
   render() {
     return (
-      <div>
+      <div className={classNames(this.classes)}>
         <Header />
         <div className="login">
           <Logo />
