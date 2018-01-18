@@ -467,6 +467,10 @@
 
       @include rem(width, 20px);
       @include rem(margin-right, 15px);
+
+      @media all and (max-width: $screen-mobile) {
+        @include rem(width, 24px);
+      }
     }
   }
 
