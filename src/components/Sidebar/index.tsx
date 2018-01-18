@@ -2,9 +2,22 @@ import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
+import styled from 'styled-components';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {Icon, IconButton} from '../Icon';
+import {Theme} from '../theme';
+
+const StyledIconButton = styled(IconButton)`
+  display: none;
+  @media (max-width: ${({theme}: Theme) => theme!.screenMobile}) {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin: -9px 3px;
+  }
+`;
 
 export class Sidebar extends React.Component<RootStoreProps> {
   private uiStore = this.props.rootStore!.uiStore;
@@ -18,9 +31,9 @@ export class Sidebar extends React.Component<RootStoreProps> {
       >
         <div className="sidebar_menu__inner">
           <div className="sidebar_menu__header">
-            <IconButton
+            <StyledIconButton
               name="close"
-              className="pull-right"
+              size="32px"
               onClick={this.uiStore.closeSidebar}
             />
             <div className="header_logo">
