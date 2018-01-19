@@ -17,11 +17,18 @@ export interface RootStoreProps {
 }
 
 class App extends React.Component<RootStoreProps> {
+  toggleBodyOverlay() {
+    this.props.rootStore!.uiStore.overlayed
+      ? document.body.classList.add('body--overlayed')
+      : document.body.classList.remove('body--overlayed');
+  }
+
   render() {
+    this.toggleBodyOverlay();
     return (
       <Router>
         <ThemeProvider theme={theme}>
-          <div onClick={this.handleOutsideClick}>
+          <div className="app" onClick={this.handleOutsideClick}>
             <Switch>
               <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
               <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />

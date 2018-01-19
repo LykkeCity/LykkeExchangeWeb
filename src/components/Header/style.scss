@@ -620,15 +620,11 @@
   }
 }
 
-.body--menu_opened {
+.body--overlayed {
   overflow: hidden;
 
   @media all and (min-width: $screen-mobile + 1) {
-    article,
-    header,
-    footer,
-    nav.header_nav,
-    .site_nav {
+    .app {
       -webkit-filter: blur(5px);
       filter: blur(5px);
     }
