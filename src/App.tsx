@@ -1,6 +1,7 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import {AppContainer} from './components/AppContainer';
 import ProtectedRoute from './components/ProtectedRoute/index';
 import {ThemeProvider} from './components/styled';
 import theme from './components/theme';
@@ -17,23 +18,19 @@ export interface RootStoreProps {
 }
 
 class App extends React.Component<RootStoreProps> {
-  toggleBodyOverlay() {
-    this.props.rootStore!.uiStore.overlayed
-      ? document.body.classList.add('body--overlayed')
-      : document.body.classList.remove('body--overlayed');
-  }
-
   render() {
-    this.toggleBodyOverlay();
     return (
       <Router>
         <ThemeProvider theme={theme}>
-          <div className="app" onClick={this.handleOutsideClick}>
+          <AppContainer
+            isOverlayed={this.props.rootStore!.uiStore.overlayed}
+            onClick={this.handleOutsideClick}
+          >
             <Switch>
               <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
               <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
             </Switch>
-          </div>
+          </AppContainer>
         </ThemeProvider>
       </Router>
     );
