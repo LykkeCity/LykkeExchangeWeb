@@ -620,6 +620,30 @@
   }
 }
 
+.body--menu_opened {
+  overflow: hidden;
+
+  @media all and (min-width: $screen-mobile + 1) {
+    article,
+    header,
+    footer,
+    nav.header_nav,
+    .site_nav {
+      -webkit-filter: blur(5px);
+      filter: blur(5px);
+    }
+
+    .menu_overlay {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+
+  @media all and (max-width: $screen-mobile) {
+    position: fixed;
+  }
+}
+
 .body--search_showed {
   @media all and (max-width: $screen-mobile) {
     article,
