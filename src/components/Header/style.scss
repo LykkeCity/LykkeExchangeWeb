@@ -624,11 +624,6 @@
   overflow: hidden;
 
   @media all and (min-width: $screen-mobile + 1) {
-    .app {
-      -webkit-filter: blur(5px);
-      filter: blur(5px);
-    }
-
     .menu_overlay {
       visibility: visible;
       opacity: 1;

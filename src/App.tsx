@@ -18,7 +18,14 @@ export interface RootStoreProps {
 }
 
 class App extends React.Component<RootStoreProps> {
+  toggleBodyOverlayed(isOn: boolean) {
+    isOn
+      ? document.body.classList.add('body--overlayed')
+      : document.body.classList.remove('body--overlayed');
+  }
+
   render() {
+    this.toggleBodyOverlayed(this.props.rootStore!.uiStore.overlayed);
     return (
       <Router>
         <ThemeProvider theme={theme}>
