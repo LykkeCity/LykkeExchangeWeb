@@ -2,9 +2,22 @@ import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {createPortal} from 'react-dom';
+import styled from 'styled-components';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {Icon, IconButton} from '../Icon';
+import {Theme} from '../theme';
+
+const StyledIconButton = styled(IconButton)`
+  display: none;
+  @media (max-width: ${({theme}: Theme) => theme!.screenMobile}) {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin: -9px 3px;
+  }
+`;
 
 export class Sidebar extends React.Component<RootStoreProps> {
   private uiStore = this.props.rootStore!.uiStore;
@@ -18,9 +31,9 @@ export class Sidebar extends React.Component<RootStoreProps> {
       >
         <div className="sidebar_menu__inner">
           <div className="sidebar_menu__header">
-            <IconButton
+            <StyledIconButton
               name="close"
-              className="pull-right"
+              size="32px"
               onClick={this.uiStore.closeSidebar}
             />
             <div className="header_logo">
@@ -123,7 +136,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="fb_simple" />
+                  <Icon name="fb_simple" size="20px" />
                   <span> Facebook</span>
                 </a>
               </li>
@@ -133,7 +146,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="tw" />
+                  <Icon name="tw" size="20px" />
                   <span> Twitter</span>
                 </a>
               </li>
@@ -143,7 +156,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="instagram" />
+                  <Icon name="instagram" size="20px" />
                   <span> Instagram</span>
                 </a>
               </li>
@@ -153,7 +166,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="youtube" />
+                  <Icon name="youtube" size="20px" />
                   <span> Youtube</span>
                 </a>
               </li>
@@ -163,7 +176,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="linkedin" />
+                  <Icon name="linkedin" size="20px" />
                   <span> Linkedin</span>
                 </a>
               </li>
@@ -173,7 +186,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="reddit" />
+                  <Icon name="reddit" size="20px" />
                   <span> Reddit</span>
                 </a>
               </li>
@@ -183,7 +196,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="telegram" />
+                  <Icon name="telegram" size="20px" />
                   <span> Telegram</span>
                 </a>
               </li>
@@ -193,7 +206,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="slack" />
+                  <Icon name="slack" size="20px" />
                   <span> Slack</span>
                 </a>
               </li>

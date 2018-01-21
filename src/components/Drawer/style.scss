@@ -71,18 +71,6 @@
     @include rem(margin-top, 60px);
   }
 
-  &__overlay {
-    position: fixed;
-    z-index: 110;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    opacity: 0.5;
-    -webkit-backdrop-filter: blur(5px);
-    background-color: $gray-25;
-  }
-
   &--show {
     @include transform(translate(0, 0));
 

@@ -1,5 +1,3 @@
-import * as classNames from 'classnames';
-import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
@@ -32,14 +30,6 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly assetStore = this.props.rootStore!.assetStore;
 
-  @computed
-  private get classes() {
-    return {
-      app: true,
-      'app--overlayed': this.props.rootStore!.uiStore.overlayed
-    };
-  }
-
   componentDidMount() {
     this.uiStore.startRequest();
     this.assetStore
@@ -54,10 +44,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   render() {
     const asLoading = loadable(this.uiStore.hasPendingRequests);
     return (
-      <div
-        className={classNames(this.classes)}
-        onClick={this.handleOutsideClick}
-      >
+      <div onClick={this.handleOutsideClick}>
         <Header />
         <div className="app__shell">
           <Switch>

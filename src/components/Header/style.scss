@@ -467,6 +467,10 @@
 
       @include rem(width, 20px);
       @include rem(margin-right, 15px);
+
+      @media all and (max-width: $screen-mobile) {
+        @include rem(width, 24px);
+      }
     }
   }
 
@@ -616,61 +620,11 @@
   }
 }
 
-.body--menu_opened {
+.body--overlayed {
   overflow: hidden;
-
-  @media all and (min-width: $screen-mobile + 1) {
-    article,
-    header,
-    footer,
-    nav.header_nav,
-    .site_nav {
-      -webkit-filter: blur(5px);
-      filter: blur(5px);
-    }
-
-    .menu_overlay {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
 
   @media all and (max-width: $screen-mobile) {
     position: fixed;
-  }
-}
-
-.body--search_showed {
-  @media all and (max-width: $screen-mobile) {
-    article,
-    footer,
-    nav.header_nav,
-    .site_nav {
-      -webkit-filter: blur(5px);
-      filter: blur(5px);
-    }
-
-    .menu_overlay {
-      visibility: visible;
-      opacity: 1;
-      z-index: 110;
-    }
-  }
-}
-
-.menu_overlay {
-  position: fixed;
-  z-index: 114;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  visibility: hidden;
-  opacity: 0;
-  background: rgba(#cfd2d7, 0.5);
-
-  @media all and (min-width: $screen-mobile + 1) {
-    @include transition(all $transition-default);
   }
 }
 
