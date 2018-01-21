@@ -7,21 +7,25 @@ interface AppContainerProps {
   onClick: (e: React.MouseEvent<any>) => void;
 }
 
-const AppContainer: React.SFC<AppContainerProps> = props => {
-  const {isOverlayed, children} = props;
-  return (
-    <div {...props}>
-      {isOverlayed && <SidebarOverlay />}
-      {children}
-    </div>
-  );
-};
+const Container: React.SFC<AppContainerProps> = ({isOverlayed, ...rest}) => (
+  <div {...rest} />
+);
 
 const blur = (isOn: boolean) => (isOn ? 'blur(5px)' : '');
 
-const StyledAppContainer = styled(AppContainer)`
+const StyledContainer = styled(Container)`
   -webkit-filter: ${({isOverlayed}: AppContainerProps) => blur(isOverlayed)};
   filter: ${({isOverlayed}: AppContainerProps) => blur(isOverlayed)};
 `;
 
-export default StyledAppContainer;
+const AppContainer: React.SFC<AppContainerProps> = props => {
+  const {isOverlayed, children} = props;
+  return (
+    <StyledContainer {...props}>
+      {isOverlayed && <SidebarOverlay />}
+      {children}
+    </StyledContainer>
+  );
+};
+
+export default AppContainer;
