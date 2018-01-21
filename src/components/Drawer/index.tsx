@@ -30,7 +30,6 @@ export class Drawer extends React.Component<DrawerProps> {
           </div>
           <div className="drawer__content">{this.props.children}</div>
         </div>
-        <div className="drawer__overlay">&nbsp;</div>
       </div>,
       document.body
     );
