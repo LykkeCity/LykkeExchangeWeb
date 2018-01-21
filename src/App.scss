@@ -68,3 +68,8 @@ textarea.form-control {
 .hint {
   color: rgba($secondary, 0.8);
 }
+
+// Place Support button under Sidebar
+.zEWidget-launcher {
+  z-index: 20 !important;
+}
