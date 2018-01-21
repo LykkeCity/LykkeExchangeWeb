@@ -1,7 +1,7 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import {AppContainer, MenuOverlay} from './components/AppContainer';
+import {AppContainer} from './components/AppContainer';
 import ProtectedRoute from './components/ProtectedRoute/index';
 import {ThemeProvider} from './components/styled';
 import theme from './components/theme';
@@ -34,7 +34,6 @@ class App extends React.Component<RootStoreProps> {
             isOverlayed={isOverlayed}
             onClick={this.handleOutsideClick}
           >
-            {isOverlayed && <MenuOverlay />}
             <Switch>
               <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
               <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
