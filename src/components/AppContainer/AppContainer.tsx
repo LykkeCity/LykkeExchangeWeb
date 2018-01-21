@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import {MenuOverlay} from './';
+import {SidebarOverlay} from './';
 
 interface AppContainerProps {
   isOverlayed: boolean;
@@ -11,7 +11,7 @@ const AppContainer: React.SFC<AppContainerProps> = props => {
   const {isOverlayed, children} = props;
   return (
     <div {...props}>
-      {isOverlayed && <MenuOverlay />}
+      {isOverlayed && <SidebarOverlay />}
       {children}
     </div>
   );

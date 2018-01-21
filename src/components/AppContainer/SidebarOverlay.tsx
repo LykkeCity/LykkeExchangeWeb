@@ -2,7 +2,7 @@ import {parseToRgb, rgba} from 'polished';
 import styled from 'styled-components';
 import {Theme} from '../theme';
 
-const StyledDiv = styled.aside`
+const StyledOverlay = styled.div`
   position: fixed;
   z-index: 114;
   left: 0;
@@ -19,4 +19,4 @@ const StyledDiv = styled.aside`
   }
 `;
 
-export default StyledDiv;
+export default StyledOverlay;
