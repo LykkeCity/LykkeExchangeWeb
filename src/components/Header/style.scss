@@ -623,31 +623,8 @@
 .body--overlayed {
   overflow: hidden;
 
-  @media all and (min-width: $screen-mobile + 1) {
-    .menu_overlay {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-
   @media all and (max-width: $screen-mobile) {
     position: fixed;
-  }
-}
-
-.menu_overlay {
-  position: fixed;
-  z-index: 114;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  visibility: hidden;
-  opacity: 0;
-  background: rgba(#cfd2d7, 0.5);
-
-  @media all and (min-width: $screen-mobile + 1) {
-    @include transition(all $transition-default);
   }
 }
 

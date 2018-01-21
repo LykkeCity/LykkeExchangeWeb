@@ -7,7 +7,6 @@ export {default as MenuButton} from './menuButton';
 
 export const Header = () => (
   <div>
-    <aside className="menu_overlay" />
     <SideBar />
     <HeaderBar />
     <NavBar />
