@@ -10,7 +10,7 @@ export const asAssetBalance = (asset: AssetModel, balance: number) => {
 
 export const asBalance = (balance: BalanceModel) => {
   const format = formatWithAccuracy(balance.asset.accuracy);
-  return <NumberFormat value={balance.balance} format={format} />;
+  return <NumberFormat value={balance.availableBalance} format={format} />;
 };
 
 export default asBalance;

@@ -125,7 +125,7 @@ export class WalletStore {
           );
           b.balanceInBaseAsset =
             b.assetId === baseAsset
-              ? b.balance
+              ? b.availableBalance
               : (convertedAmount && convertedAmount.balance) || 0;
         });
       });
