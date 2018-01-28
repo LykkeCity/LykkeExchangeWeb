@@ -32,6 +32,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
           title: wallet.title
         }}
         validate={this.validateForm}
+        validateOnBlur={false}
         onSubmit={onSubmit}
         // tslint:disable-next-line:jsx-no-lambda
         render={({
@@ -53,7 +54,6 @@ export class WalletForm extends React.Component<WalletFormProps> {
                 className={classNames('form-control', {
                   'form-control--error': errors && errors.title && touched.title
                 })}
-                required={true}
                 autoFocus={true}
               />
               {errors &&

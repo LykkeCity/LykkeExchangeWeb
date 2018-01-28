@@ -18,7 +18,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="fb_simple" />
+        <Icon name="fb_simple" size="18px" />
       </a>
     </li>
     <li>
@@ -27,7 +27,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="tw" />
+        <Icon name="tw" size="18px" />
       </a>
     </li>
     <li>
@@ -36,7 +36,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="instagram" />
+        <Icon name="instagram" size="18px" />
       </a>
     </li>
     <li>
@@ -45,7 +45,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="youtube" />
+        <Icon name="youtube" size="18px" />
       </a>
     </li>
     <li>
@@ -54,7 +54,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="linkedin" />
+        <Icon name="linkedin" size="18px" />
       </a>
     </li>
     <li>
@@ -63,7 +63,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="reddit" />
+        <Icon name="reddit" size="18px" />
       </a>
     </li>
     <li>
@@ -72,7 +72,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="telegram" />
+        <Icon name="telegram" size="18px" />
       </a>
     </li>
     <li>
@@ -81,7 +81,7 @@ export default ({theme}: any) => (
         target="_blank"
         className="social__item"
       >
-        <Icon name="slack" />
+        <Icon name="slack" size="18px" />
       </a>
     </li>
   </ul>

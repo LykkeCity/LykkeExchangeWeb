@@ -111,7 +111,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
 
   private readonly handleCancel = () => {
     this.uiStore.toggleWalletDrawer();
-    this.walletStore.selectedWallet = null;
+    this.walletStore.deselectWallet();
   };
 
   private readonly handleCreate = async ({title, desc}: WalletFormValues) => {

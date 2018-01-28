@@ -8,7 +8,7 @@ const StyledButton = styled(Button)`
     position: relative;
     width: 30px;
     height: 30px;
-    padding: 0;
+    padding: 3.5px;
 
     &:after,
     &:before,

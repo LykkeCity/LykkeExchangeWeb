@@ -11,7 +11,7 @@ const DropdownOverlay = styled.div`
 
   position: absolute;
   z-index: 1;
-  min-width: 120px;
+  white-space: nowrap;
   text-align: left;
 
   @media (max-width: ${({theme}: Theme) => theme!.screenTablet}) {

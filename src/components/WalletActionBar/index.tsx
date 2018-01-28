@@ -49,7 +49,9 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               text={this.props.wallet.apiKey}
               onCopy={this.handleCopyApiKey}
             >
-              <a title="Click to copy your API Key">API Key</a>
+              <a title="Click to copy your API Key" href="">
+                API Key
+              </a>
             </CopyToClipboard>
           </div>
         )}

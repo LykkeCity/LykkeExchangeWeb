@@ -4,6 +4,7 @@ import {Icon} from '../Icon/index';
 import {Theme} from '../theme';
 
 const StyledButton = styled.button`
+  cursor: pointer;
   padding: 0 !important;
   border: none;
   background: none;

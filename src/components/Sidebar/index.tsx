@@ -5,6 +5,7 @@ import {createPortal} from 'react-dom';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {Icon, IconButton} from '../Icon';
+import theme from '../theme';
 
 export class Sidebar extends React.Component<RootStoreProps> {
   private uiStore = this.props.rootStore!.uiStore;
@@ -123,7 +124,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="fb_simple" />
+                  <Icon
+                    name="fb_simple"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Facebook</span>
                 </a>
               </li>
@@ -133,7 +138,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="tw" />
+                  <Icon
+                    name="tw"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Twitter</span>
                 </a>
               </li>
@@ -143,7 +152,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="instagram" />
+                  <Icon
+                    name="instagram"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Instagram</span>
                 </a>
               </li>
@@ -153,7 +166,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="youtube" />
+                  <Icon
+                    name="youtube"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Youtube</span>
                 </a>
               </li>
@@ -163,7 +180,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="linkedin" />
+                  <Icon
+                    name="linkedin"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Linkedin</span>
                 </a>
               </li>
@@ -173,7 +194,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="reddit" />
+                  <Icon
+                    name="reddit"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Reddit</span>
                 </a>
               </li>
@@ -183,7 +208,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="telegram" />
+                  <Icon
+                    name="telegram"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Telegram</span>
                 </a>
               </li>
@@ -193,7 +222,11 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   target="_blank"
                   className="social__item"
                 >
-                  <Icon name="slack" />
+                  <Icon
+                    name="slack"
+                    size="20px"
+                    color={theme.color.socialButton}
+                  />
                   <span> Slack</span>
                 </a>
               </li>

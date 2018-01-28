@@ -7,6 +7,7 @@ import {Theme} from '../theme';
 const StyledDropdownItem = styled.div`
   & > a,
   & > span {
+    font-size: ${rem('16px')};
     cursor: pointer;
     display: block;
     width: 100%;

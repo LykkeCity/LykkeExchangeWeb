@@ -133,6 +133,8 @@ export class WalletStore {
   };
 
   updateWallet = (wallet: WalletModel) => this.api!.updateWallet(wallet);
+  selectWallet = (wallet: WalletModel) => (this.selectedWallet = wallet);
+  deselectWallet = () => (this.selectedWallet = null);
 }
 
 export default WalletStore;

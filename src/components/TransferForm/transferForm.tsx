@@ -94,6 +94,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     <Formik
       initialValues={{
         amount: transfer.amount,
+        amountInBaseCurrency: transfer.amountInBaseCurrency,
         asset: !!transfer.asset && transfer.asset.id,
         from: !!transfer.from && transfer.from.id,
         to: !!transfer.to && transfer.to.id
@@ -204,7 +205,10 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
               <div className="row">
                 <div className="col-sm-8 col-sm-offset-4">
                   <div className="text-muted">
-                    = <NumberFormat
+                    ={' '}
+                    <Field
+                      component={NumberFormat}
+                      name="amountInBaseCurrency"
                       value={transfer.amountInBaseCurrency}
                     />{' '}
                     {!!baseAssetAsModel && baseAssetAsModel.name}

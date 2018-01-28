@@ -68,7 +68,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
   onEditWallet: (wallet: WalletModel) => {
-    rootStore.walletStore.selectedWallet = wallet;
+    rootStore.walletStore.selectWallet(wallet);
     rootStore.uiStore.toggleWalletDrawer();
   }
 }))(observer(WalletSummary));

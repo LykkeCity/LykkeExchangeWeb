@@ -1,3 +1,5 @@
+import {parseToRgb, rgba} from 'polished';
+
 export interface ThemeInterface {
   color: {
     primary: string;
@@ -19,6 +21,7 @@ export interface ThemeInterface {
     border: string;
     disabled: string;
     mask: string;
+    socialButton: string;
   };
 
   borderRadius: string;
@@ -102,10 +105,20 @@ const base = {
   screenDesktop: '1199px'
 };
 
+const maskColor = rgba({...parseToRgb(base.color.secondary), alpha: 0.35});
+const socialButtonColor = rgba({
+  ...parseToRgb(base.color.secondary),
+  alpha: 0.8
+});
+
 const theme: ThemeInterface = {
   ...base,
   boxShadowModal: `${base.boxShadowValue} rgba(140,147,160,0.60)`,
-  color: {...base.color, mask: `rgba(${base.color.secondary}, .35)`},
+  color: {
+    ...base.color,
+    mask: maskColor,
+    socialButton: socialButtonColor
+  },
   transitionAll: `all ${base.transitionDefault}`
 };
 

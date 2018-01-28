@@ -98,7 +98,7 @@ export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
     onCreateNewWallet: () => {
       rootStore!.uiStore.toggleWalletDrawer();
-      rootStore!.walletStore.selectedWallet = null;
+      rootStore!.walletStore.deselectWallet();
     }
   }))(observer(WalletTabs))
 );
