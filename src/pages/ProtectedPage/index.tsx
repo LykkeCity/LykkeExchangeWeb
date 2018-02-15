@@ -14,6 +14,9 @@ import {
   TransferResult
 } from '../../components/TransferResult/index';
 import {
+  ROUTE_AFFILIATE,
+  ROUTE_AFFILIATE_DETAILS,
+  ROUTE_AFFILIATE_STATISTICS,
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
@@ -24,6 +27,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
+import AffiliatePage from '../AffiliatePage/index';
 import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<RootStoreProps> {
@@ -80,6 +84,20 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             <Route path={ROUTE_TRANSFER} component={asLoading(TransferPage)} />
             <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
             <Route path={ROUTE_TRANSFER_FAIL} component={TransferFail} />
+            <Redirect
+              exact={true}
+              path={ROUTE_ROOT}
+              to={ROUTE_AFFILIATE_DETAILS}
+            />
+            <Redirect
+              exact={true}
+              path={ROUTE_WALLETS}
+              to={ROUTE_AFFILIATE_STATISTICS}
+            />
+            <Route
+              path={ROUTE_AFFILIATE}
+              component={asLoading(AffiliatePage)}
+            />
             <Route component={NoMatch} />
           </Switch>
         </div>

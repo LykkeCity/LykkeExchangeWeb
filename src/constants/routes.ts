@@ -13,5 +13,9 @@ export const ROUTE_TRANSFER_TO = (walletId: string) =>
 export const ROUTE_TRANSFER_SUCCESS = `${ROUTE_TRANSFER_BASE}/success`;
 export const ROUTE_TRANSFER_FAIL = `${ROUTE_TRANSFER_BASE}/fail`;
 
+export const ROUTE_AFFILIATE = '/affiliate';
+export const ROUTE_AFFILIATE_STATISTICS = `${ROUTE_AFFILIATE}/statistics`;
+export const ROUTE_AFFILIATE_DETAILS = `${ROUTE_AFFILIATE}/details`;
+
 export const ROUTE_AUTH = '/auth';
 export const ROUTE_LOGIN = '/login';

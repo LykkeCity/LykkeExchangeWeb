@@ -3,7 +3,11 @@ import {inject} from 'mobx-react';
 import * as React from 'react';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_TRANSFER_BASE, ROUTE_WALLETS} from '../../constants/routes';
+import {
+  ROUTE_AFFILIATE,
+  ROUTE_TRANSFER_BASE,
+  ROUTE_WALLETS
+} from '../../constants/routes';
 import Balance from './balance';
 
 const classes = (className: string, active: boolean) => {
@@ -38,6 +42,7 @@ export const NavBar = ({match, isAuthenticated}: any) => {
               <ul className="header_nav__list nav_list">
                 <NavLink to={ROUTE_WALLETS} label="Wallets" />
                 <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
+                <NavLink to={ROUTE_AFFILIATE} label="Affiliate Program" />
               </ul>
               <Balance />
             </div>
