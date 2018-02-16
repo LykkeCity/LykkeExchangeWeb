@@ -215,6 +215,13 @@ p.lead {
 .share_form {
   @include rem(margin-top, 15px);
 
+  .btn_copy > i {
+    transition: transform 0.1s ease;
+    &:active {
+      transform: scale(1.5);
+    }
+  }
+
   .control-label {
     font-weight: $fw-semi;
     line-height: 1.56;
