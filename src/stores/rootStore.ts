@@ -1,4 +1,5 @@
 import {
+  AffiliateStore,
   AssetStore,
   AuthStore,
   BalanceStore,
@@ -18,6 +19,7 @@ import {
 } from '../api';
 
 export class RootStore {
+  affiliateStore: AffiliateStore;
   authStore: AuthStore;
   walletStore: WalletStore;
   balanceStore: BalanceStore;
@@ -29,6 +31,7 @@ export class RootStore {
   converter = new ConverterApi(this);
 
   constructor() {
+    this.affiliateStore = new AffiliateStore(this);
     this.assetStore = new AssetStore(this, new AssetApi(this));
     this.authStore = new AuthStore(this, new AuthApi(this));
     this.walletStore = new WalletStore(

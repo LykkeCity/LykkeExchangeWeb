@@ -35,6 +35,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly assetStore = this.props.rootStore!.assetStore;
+  private readonly affiliateStore = this.props.rootStore!.affiliateStore;
 
   @computed
   private get classes() {
@@ -86,13 +87,12 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
             <Route path={ROUTE_TRANSFER_FAIL} component={TransferFail} />
             <Redirect
               exact={true}
-              path={ROUTE_ROOT}
-              to={ROUTE_AFFILIATE_DETAILS}
-            />
-            <Redirect
-              exact={true}
-              path={ROUTE_WALLETS}
-              to={ROUTE_AFFILIATE_STATISTICS}
+              path={ROUTE_AFFILIATE}
+              to={
+                this.affiliateStore.isAgreed
+                  ? ROUTE_AFFILIATE_STATISTICS
+                  : ROUTE_AFFILIATE_DETAILS
+              }
             />
             <Route
               path={ROUTE_AFFILIATE}

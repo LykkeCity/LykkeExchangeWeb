@@ -1,0 +1,80 @@
+@import '../../styles/utils';
+
+.wallet-tabs {
+  @include rem(padding, 0 20px);
+
+  @media all and (min-width: $screen-tablet + 1) {
+    padding: 0;
+
+    @include rem(margin, -20px 100px 0);
+  }
+}
+
+.tabs {
+  border-bottom: 1px solid $border-alt;
+}
+
+.tab {
+  display: inline-block;
+  vertical-align: top;
+  color: rgba($secondary, 0.6);
+  line-height: normal;
+  padding: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+
+  @include rem(font-size, 18px);
+  @include transition(all 0.3s ease);
+
+  &:focus {
+    text-decoration: none;
+    color: rgba($secondary, 0.6);
+  }
+
+  &__link {
+    display: block;
+    color: rgba($secondary, 0.6);
+
+    @include rem(padding, 18px 30px);
+
+    &:hover {
+      color: rgba($secondary, 1);
+    }
+
+    &:focus {
+      text-decoration: none;
+      color: rgba($secondary, 0.6);
+    }
+  }
+
+  &--active {
+    border-color: $primary;
+    color: $text;
+
+    .tab__link {
+      color: $text;
+    }
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &__pane {
+    border-bottom: 1px solid $border-alt;
+
+    @include rem(padding, 30px 0);
+
+    p.hint {
+      @include rem(font-size, 16px);
+    }
+
+    @media all and (min-width: $screen-landscape + 1) {
+      @include rem(padding, 48px 0);
+
+      p.hint {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

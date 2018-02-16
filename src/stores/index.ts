@@ -1,4 +1,5 @@
 export * from './rootStore';
+export * from './affiliateStore';
 export * from './authStore';
 export * from './walletStore';
 export * from './balanceStore';
