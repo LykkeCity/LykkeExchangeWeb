@@ -1,1 +1,226 @@
+@import '../../styles/utils';
 
+ol.list_styled {
+  list-style: none;
+  padding-left: 0 !important;
+  line-height: 1.67;
+  padding-bottom: 1px;
+
+  @include rem(font-size, 18px);
+  @include rem(margin-bottom, 38px);
+
+  a {
+    font-weight: $fw-semi;
+  }
+
+  > li {
+    position: relative;
+    counter-increment: step-counter;
+
+    @include rem(padding-left, 44px);
+    @include rem(margin-bottom, 16px);
+
+    &:before {
+      content: counter(step-counter);
+      background-color: $text;
+      color: $white;
+      border-radius: 100px;
+      display: block;
+      text-align: center;
+      position: absolute;
+      left: 0;
+      font-weight: $fw-semi;
+
+      @include rem(width, 24px);
+      @include rem(height, 24px);
+      @include rem(line-height, 24px);
+      @include rem(font-size, 16px);
+      @include rem(top, 4px);
+    }
+  }
+
+  ul {
+    list-style-type: disc;
+
+    @include rem(padding, 10px 0 1px 20px);
+
+    li {
+      @include rem(margin-bottom, 16px);
+      @include rem(padding-left, 10px);
+    }
+  }
+
+  table {
+    @include rem(margin, 50px 0);
+  }
+}
+
+.tabs {
+  &--nav {
+    border-bottom: 0;
+
+    @include rem(margin-top, -20px);
+    @include rem(padding, 10px 0);
+
+    .tab {
+      line-height: 20px;
+      border-bottom: 0;
+      margin-bottom: 0;
+
+      @include rem(margin-right, 30px);
+
+      &__link {
+        padding-left: 0;
+        padding-right: 0;
+        color: #8c94a0;
+      }
+
+      &--active {
+        border-bottom: 0;
+        margin-bottom: 0;
+
+        .tab__link {
+          color: #111111;
+        }
+      }
+    }
+
+    @media all and (min-width: $screen-landscape + 1) {
+      @include rem(margin-top, -40px);
+    }
+  }
+}
+
+.table {
+  width: 100%;
+
+  .hint {
+    @include rem(font-size, 16px);
+  }
+
+  &--simple {
+    line-height: 1.67;
+    letter-spacing: 0.2px;
+
+    @include rem(font-size, 18px);
+
+    tr {
+      th {
+        font-weight: $fw-semi;
+        color: #111111;
+      }
+
+      th,
+      td {
+        @include rem(padding, 8px 10px 8px 0);
+      }
+
+      td {
+        color: #333333;
+        border-top: 1px solid $border-alt;
+      }
+    }
+  }
+}
+
+h3.subtitle {
+  line-height: 1.33;
+  font-weight: bold;
+  color: #111111;
+  font-family: $ff-alt;
+
+  @include rem(font-size, 30px);
+  @include rem(margin-bottom, 20px);
+}
+
+p.lead {
+  @include rem(margin-bottom, 40px);
+
+  + p.lead {
+    @include rem(margin-top, -20px);
+  }
+}
+
+.affiliate_info {
+  border-top: 1px solid $border-alt;
+  border-bottom: 1px solid $border-alt;
+
+  @include rem(margin, 58px 0);
+
+  &__item {
+    @include rem(margin, 30px 0);
+  }
+
+  &__title {
+    line-height: 1.88;
+    color: #657180;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-bottom, 2px);
+  }
+
+  &__value {
+    font-family: $ff-alt;
+    font-weight: bold;
+    line-height: 1.35;
+    color: #111111;
+
+    @include rem(font-size, 26px);
+  }
+}
+
+.share {
+  @include rem(padding, 0 10px);
+  @include rem(margin-top, 18px);
+
+  &_item {
+    color: #111;
+    font-weight: $fw-semi;
+
+    @include rem(font-size, 16px);
+    @include rem(padding, 4px);
+
+    .icon {
+      position: relative;
+
+      @include rem(margin-right, 10px);
+      @include rem(top, -2px);
+    }
+
+    &:hover {
+      color: #111;
+      opacity: 0.8;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0 !important;
+    margin: 0;
+
+    li {
+      display: inline-block;
+      vertical-align: middle;
+      padding: 0 !important;
+
+      @include rem(margin-right, 25px);
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+.share_form {
+  @include rem(margin-top, 15px);
+
+  .control-label {
+    font-weight: $fw-semi;
+    line-height: 1.56;
+    letter-spacing: normal;
+    color: #111111;
+
+    @include rem(font-size, 16px);
+  }
+}

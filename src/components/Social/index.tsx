@@ -75,6 +75,11 @@ export default ({theme}: any) => (
       </a>
     </li>
     <li>
+      <a href="https://t.me/LykkeDev" target="_blank" className="social__item">
+        <i className="icon icon--telegram_dev" />
+      </a>
+    </li>
+    <li>
       <a
         href="http://lykkecommunity.herokuapp.com"
         target="_blank"

@@ -1,0 +1,26 @@
+.page_header {
+  text-align: center;
+
+  @include rem(margin-bottom, 58px);
+}
+
+.section__title {
+  color: #111;
+
+  @include rem(margin-bottom, 20px);
+}
+
+.section_subtitle {
+  line-height: 1.33;
+  color: #657180;
+  font-family: $ff-alt;
+
+  @include rem(font-size, 30px);
+  @include rem(margin-bottom, 12px);
+}
+
+.block_subscribe h5,
+.block_subscribe .h5 {
+  font-family: $ff;
+  font-weight: $fw-semi;
+}

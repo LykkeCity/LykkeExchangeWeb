@@ -70,9 +70,9 @@
   version "1.13.3"
   resolved "https://registry.yarnpkg.com/@types/webpack-env/-/webpack-env-1.13.3.tgz#0ecbe70f87341767793774d3683b51aa3246434c"
 
-LykkeFramework@^0.3.40:
-  version "0.3.46"
-  resolved "https://registry.yarnpkg.com/LykkeFramework/-/LykkeFramework-0.3.46.tgz#80513e11113a218ab4fe4f533818204c8d63703a"
+LykkeFramework@^0.4.17:
+  version "0.4.17"
+  resolved "https://registry.yarnpkg.com/LykkeFramework/-/LykkeFramework-0.4.17.tgz#3368e4d7f38899eed5764a3bf7d7b3c293db0a17"
   dependencies:
     eonasdan-bootstrap-datetimepicker "git+https://github.com/Eonasdan/bootstrap-datetimepicker.git"
     jquery "1.12.4"

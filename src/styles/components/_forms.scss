@@ -9,6 +9,11 @@
   &:focus {
     border-color: $gray-light;
   }
+
+  &[readonly] {
+    border-color: #cfd2d7;
+    background-color: #fff;
+  }
 }
 
 .label_error {
@@ -22,7 +27,10 @@
   margin-left: 0;
 }
 
-.input-group-addon {
+.btn {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
 }
 
 .addon-text {
@@ -40,5 +48,24 @@
 
     @include rem(font-size, 18px);
     @include rem(margin-top, 14px);
+  }
+}
+
+.input-group-addon {
+  margin-right: 0;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+
+  @include rem(font-size, 24px);
+  @include rem(right, 8px);
+  @include rem(margin-top, -16px);
+
+  .icon {
+    @include rem(font-size, 24px);
+  }
+
+  + .form-control {
+    @include rem(padding-left, 50px);
   }
 }
