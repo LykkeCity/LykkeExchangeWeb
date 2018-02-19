@@ -1,17 +1,35 @@
+import * as H from 'history';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, withRouter} from 'react-router-dom';
-import {RootStoreProps} from '../../App';
 import {
   ROUTE_AFFILIATE_DETAILS,
   ROUTE_AFFILIATE_STATISTICS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import {AffiliateStore, RootStore} from '../../stores';
 import {TabLink, TabPane} from '../Tabs';
 import './style.css';
 
-export class AffiliateTabs extends React.Component<RootStoreProps> {
-  readonly affiliateStore = this.props.rootStore!.affiliateStore;
+export class AffiliateTabs extends React.Component<any> {
+  readonly affiliateStore: AffiliateStore;
+  readonly history: H.History;
+
+  constructor({
+    rootStore,
+    history
+  }: {
+    rootStore: RootStore;
+    history: H.History;
+  }) {
+    super();
+    this.affiliateStore = rootStore.affiliateStore;
+    this.history = history;
+  }
+
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
 
   render() {
     return (
@@ -91,7 +109,6 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                     <li>
                       Share your referral link with friends or place it on your
                       website.
-                      {/* TODO добавить правильный текст для шеринга, добавить копирование текста на клик по кнопке btn_copy */}
                       <form action="" className="share_form">
                         <div className="form-group">
                           <label className="control-label" htmlFor="code">
@@ -119,8 +136,14 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                             <ul className="rrssb-buttons clearfix">
                               <li className="rrssb-facebook">
                                 <a
-                                  href="https://www.facebook.com/sharer/sharer.php?u=https://www.lykke.com/?ref=dustin34ie8"
+                                  href={
+                                    'https://www.facebook.com/sharer/sharer.php?u=' +
+                                    this.affiliateStore.affiliateModel
+                                      .affiliateLink
+                                  }
                                   className="popup share_item"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                 >
                                   <span className="rrssb-icon">
                                     <i className="icon icon--fb_simple" />
@@ -130,8 +153,14 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                               </li>
                               <li className="rrssb-twitter">
                                 <a
-                                  href="https://twitter.com/intent/tweet?text=Lykke%20Share%20Text&nbsp;https://www.lykke.com/?ref=dustin34ie8"
+                                  href={
+                                    'https://twitter.com/intent/tweet?text=Lykke%20Share%20Text&nbsp;' +
+                                    this.affiliateStore.affiliateModel
+                                      .affiliateLink
+                                  }
                                   className="popup share_item"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                 >
                                   <span className="rrssb-icon">
                                     <i className="icon icon--tw" />
@@ -141,8 +170,15 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                               </li>
                               <li className="rrssb-linkedin">
                                 <a
-                                  href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://www.lykke.com/?ref=dustin34ie8&amp;title=Lykke%20Share%20Text&amp;summary=Lykke%20Share%20Summary"
+                                  href={
+                                    'http://www.linkedin.com/shareArticle?mini=true&amp;url=' +
+                                    this.affiliateStore.affiliateModel
+                                      .affiliateLink +
+                                    '&amp;title=Lykke%20Share%20Text&amp;summary=Lykke%20Share%20Summary'
+                                  }
                                   className="popup share_item"
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                 >
                                   <span className="rrssb-icon">
                                     <i className="icon icon--linkedin" />
@@ -152,7 +188,11 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                               </li>
                               <li className="rrssb-email">
                                 <a
-                                  href="mailto:?subject=Title%20&amp;body=https%3A%2F%2Flykke.com/?ref=dustin34ie8"
+                                  href={
+                                    'mailto:?subject=Title%20&amp;body=' +
+                                    this.affiliateStore.affiliateModel
+                                      .affiliateLink
+                                  }
                                   className="share_item"
                                 >
                                   <span className="rrssb-icon">
@@ -218,6 +258,7 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
               </div>
             </TabPane>
           )}
+
           <TabPane to={ROUTE_AFFILIATE_DETAILS}>
             <div className="row">
               <div className="col-md-6 automargin">
@@ -406,9 +447,10 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                         id="checkbox12"
                         className="radio__control"
                         checked={this.affiliateStore.checkAgreement}
-                        onChange={
-                          this.affiliateStore.handleChangeCheckedAgreement
-                        }
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onChange={() =>
+                          (this.affiliateStore.checkAgreement = !this
+                            .affiliateStore.checkAgreement)}
                       />
                       <label
                         htmlFor="checkbox12"
@@ -426,7 +468,7 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
                     <button
                       className="btn btn--primary btn-block"
                       disabled={!this.affiliateStore.checkAgreement}
-                      onClick={this.affiliateStore.onAgreeClicked}
+                      onClick={this.onAgreeClicked}
                     >
                       Agree and continue
                     </button>
@@ -441,6 +483,11 @@ export class AffiliateTabs extends React.Component<RootStoreProps> {
   }
 
   private onReadRulesClicked = () => window.scrollTo(0, 0);
+
+  private onAgreeClicked = () => {
+    this.affiliateStore.onAgreeClicked();
+    this.history.replace(ROUTE_AFFILIATE_STATISTICS);
+  };
 }
 
 export default withRouter(inject(STORE_ROOT)(observer(AffiliateTabs)));

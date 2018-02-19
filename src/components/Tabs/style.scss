@@ -1,15 +1,5 @@
 @import '../../styles/utils';
 
-.wallet-tabs {
-  @include rem(padding, 0 20px);
-
-  @media all and (min-width: $screen-tablet + 1) {
-    padding: 0;
-
-    @include rem(margin, -20px 100px 0);
-  }
-}
-
 .tabs {
   border-bottom: 1px solid $border-alt;
 }

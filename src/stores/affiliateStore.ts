@@ -1,6 +1,5 @@
 import {action, computed, observable} from 'mobx';
 import {RootStore} from '.';
-import {ROUTE_AFFILIATE_STATISTICS} from '../constants/routes';
 import {AffiliateModel} from '../models/affiliateModel';
 import {StorageUtils} from '../utils';
 
@@ -11,6 +10,7 @@ const agreeStorage = StorageUtils.withKey(AGREE_KEY);
 export class AffiliateStore {
   @observable checkAgreement: boolean = true;
   @observable affiliateModel: AffiliateModel;
+  @observable isAgreed: boolean = !!agreeStorage.get();
 
   constructor(readonly rootScore: RootStore) {
     // TODO: rework to API
@@ -20,26 +20,16 @@ export class AffiliateStore {
 
   createAffiliateModel = (dto?: any) => new AffiliateModel(dto);
 
+  @action
   onAgreeClicked = () => {
     agreeStorage.set(true);
-    const host = `//${location.hostname}:${location.port}`;
-    location.replace(`${host}${ROUTE_AFFILIATE_STATISTICS}`);
+    this.isAgreed = true;
   };
-
-  @computed
-  get isAgreed() {
-    return !!agreeStorage.get();
-  }
 
   @computed
   get isCheckedAgreement() {
     return this.checkAgreement;
   }
-
-  @action
-  handleChangeCheckedAgreement = () => {
-    this.checkAgreement = !this.checkAgreement;
-  };
 
   copyLinkToClipboard = () => {
     const ta = document.createElement('textarea');
