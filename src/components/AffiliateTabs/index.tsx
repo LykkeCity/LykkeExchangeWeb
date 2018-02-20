@@ -7,13 +7,14 @@ import {
   ROUTE_AFFILIATE_STATISTICS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {AffiliateStore, RootStore} from '../../stores';
+import {AffiliateStore, RootStore, UiStore} from '../../stores';
 import {TabLink, TabPane} from '../Tabs';
 import './style.css';
 
 export class AffiliateTabs extends React.Component<any> {
   readonly affiliateStore: AffiliateStore;
   readonly history: H.History;
+  readonly uiStore: UiStore;
 
   constructor({
     rootStore,
@@ -23,12 +24,18 @@ export class AffiliateTabs extends React.Component<any> {
     history: H.History;
   }) {
     super();
+    this.uiStore = rootStore.uiStore;
     this.affiliateStore = rootStore.affiliateStore;
     this.history = history;
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
+
+    if (this.affiliateStore.isAgreed && !this.affiliateStore.isLoaded) {
+      this.uiStore.startRequest();
+      this.affiliateStore.getData().then(() => this.uiStore.finishRequest(2));
+    }
   }
 
   render() {
@@ -64,20 +71,27 @@ export class AffiliateTabs extends React.Component<any> {
                         <div className="affiliate_info__title">
                           Refferal friends
                         </div>
-                        <div className="affiliate_info__value">24</div>
+                        <div className="affiliate_info__value">
+                          {this.affiliateStore.affiliateModel.referralsCount}
+                        </div>
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
                         <div className="affiliate_info__title">
                           Total turnover
                         </div>
-                        <div className="affiliate_info__value">3.2 BTC</div>
+                        <div className="affiliate_info__value">
+                          {
+                            this.affiliateStore.affiliateModel.totalTradeVolume
+                          }{' '}
+                          BTC
+                        </div>
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
                         <div className="affiliate_info__title">
                           Estimated balance
                         </div>
                         <div className="affiliate_info__value">
-                          0.00000004 BTC
+                          {this.affiliateStore.affiliateModel.totalBonus} BTC
                         </div>
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
