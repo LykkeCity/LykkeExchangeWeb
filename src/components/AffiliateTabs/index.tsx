@@ -8,6 +8,8 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AffiliateStore, RootStore, UiStore} from '../../stores';
+import {formatWithAccuracy} from '../../utils';
+import {NumberFormat} from '../NumberFormat';
 import {TabLink, TabPane} from '../Tabs';
 import './style.css';
 
@@ -34,7 +36,7 @@ export class AffiliateTabs extends React.Component<any> {
 
     if (this.affiliateStore.isAgreed && !this.affiliateStore.isLoaded) {
       this.uiStore.startRequest();
-      this.affiliateStore.getData().then(() => this.uiStore.finishRequest(2));
+      this.affiliateStore.getData().then(() => this.uiStore.finishRequest());
     }
   }
 
@@ -80,9 +82,18 @@ export class AffiliateTabs extends React.Component<any> {
                           Total turnover
                         </div>
                         <div className="affiliate_info__value">
-                          {
+                          {this.affiliateStore.affiliateModel.totalTradeVolume >
+                          0 ? (
+                            <NumberFormat
+                              value={
+                                this.affiliateStore.affiliateModel
+                                  .totalTradeVolume
+                              }
+                              format={formatWithAccuracy(8)}
+                            />
+                          ) : (
                             this.affiliateStore.affiliateModel.totalTradeVolume
-                          }{' '}
+                          )}{' '}
                           BTC
                         </div>
                       </div>
