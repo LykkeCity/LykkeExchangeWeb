@@ -15,8 +15,6 @@ export class AffiliateStore {
   isLoaded: boolean = false;
 
   constructor(readonly rootScore: RootStore, private api: AffiliateApi) {
-    // TODO: rework to API
-    // const dto = {affiliateLink: 'https://www.lykke.com/?ref=dustin34ie8'};
     this.affiliateModel = new AffiliateModel();
   }
 
@@ -55,7 +53,8 @@ export class AffiliateStore {
   private getLink = async () => {
     const resp = await this.api.fetchLink();
     if (resp) {
-      runInAction(() => this.udpateAffiliateModel(resp));
+      const dto = await resp.json();
+      runInAction(() => this.udpateAffiliateModel(dto));
     }
   };
 
