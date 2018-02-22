@@ -83,5 +83,6 @@ describe('format with accuracy', () => {
     expect(formatWithAccuracy(2)).toBe('0,0.[00]');
     expect(formatWithAccuracy(3)).toBe('0,0.[000]');
     expect(formatWithAccuracy(5)).toBe('0,0.[00000]');
+    expect(formatWithAccuracy(8)).toBe('0,0.[00000000]');
   });
 });

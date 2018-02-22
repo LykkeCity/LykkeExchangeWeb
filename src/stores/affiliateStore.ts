@@ -2,7 +2,7 @@ import {action, computed, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {AffiliateApi} from '../api/affiliateApi';
 import {AffiliateModel} from '../models';
-import {StorageUtils} from '../utils';
+import {copyTextToClipboard, StorageUtils} from '../utils';
 
 const AGREE_KEY = 'lw-affiliate-agree';
 
@@ -42,12 +42,7 @@ export class AffiliateStore {
   }
 
   copyLinkToClipboard = () => {
-    const ta = document.createElement('textarea');
-    ta.innerText = this.affiliateModel.affiliateLink;
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    ta.remove();
+    copyTextToClipboard(this.affiliateModel.affiliateLink);
   };
 
   private getLink = async () => {

@@ -17,6 +17,7 @@ export class AffiliateTabs extends React.Component<any> {
   readonly affiliateStore: AffiliateStore;
   readonly history: H.History;
   readonly uiStore: UiStore;
+  readonly formatAccuracy: number = 8;
 
   constructor({
     rootStore,
@@ -89,12 +90,12 @@ export class AffiliateTabs extends React.Component<any> {
                                 this.affiliateStore.affiliateModel
                                   .totalTradeVolume
                               }
-                              format={formatWithAccuracy(8)}
+                              format={formatWithAccuracy(this.formatAccuracy)}
                             />
                           ) : (
-                            this.affiliateStore.affiliateModel.totalTradeVolume
-                          )}{' '}
-                          BTC
+                            0
+                          )}
+                          &nbsp;BTC
                         </div>
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
@@ -102,7 +103,17 @@ export class AffiliateTabs extends React.Component<any> {
                           Estimated balance
                         </div>
                         <div className="affiliate_info__value">
-                          {this.affiliateStore.affiliateModel.totalBonus} BTC
+                          {this.affiliateStore.affiliateModel.totalBonus > 0 ? (
+                            <NumberFormat
+                              value={
+                                this.affiliateStore.affiliateModel.totalBonus
+                              }
+                              format={formatWithAccuracy(this.formatAccuracy)}
+                            />
+                          ) : (
+                            0
+                          )}
+                          &nbsp;BTC
                         </div>
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
