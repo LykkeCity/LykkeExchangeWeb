@@ -14,6 +14,7 @@
 @import 'styles/components/asset_list';
 @import 'styles/components/action_link';
 @import 'styles/components/forms';
+@import 'styles/components/headings';
 
 .app__shell {
   @include rem(padding, 20px 0);

@@ -1,4 +1,5 @@
 import {
+  AffiliateStore,
   AssetStore,
   AuthStore,
   BalanceStore,
@@ -16,8 +17,10 @@ import {
   TransferApi,
   WalletApi
 } from '../api';
+import RestAffiliateApi from '../api/affiliateApi';
 
 export class RootStore {
+  affiliateStore: AffiliateStore;
   authStore: AuthStore;
   walletStore: WalletStore;
   balanceStore: BalanceStore;
@@ -29,6 +32,7 @@ export class RootStore {
   converter = new ConverterApi(this);
 
   constructor() {
+    this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
     this.assetStore = new AssetStore(this, new AssetApi(this));
     this.authStore = new AuthStore(this, new AuthApi(this));
     this.walletStore = new WalletStore(
