@@ -324,11 +324,11 @@ export class AffiliateTabs extends React.Component<any> {
                       <li>arrive to the site through your affiliate link</li>
                       <li>register</li>
                       <li>
-                        make trades as a professional trader trough Lykke API or
-                        make trade against profesional trader which uses Lykke
-                        API . Trades for regular users are not subject of a
-                        commissions on Lykke exchange and will not be taken into
-                        account for affiliate revenue calculations.
+                        make trades as a API user through Lykke API or make
+                        trade against API user which uses Lykke API . Trades for
+                        regular users are not subject of a commissions on Lykke
+                        exchange and will not be taken into account for
+                        affiliate revenue calculations.
                       </li>
                     </ul>
                   </li>
@@ -337,43 +337,58 @@ export class AffiliateTabs extends React.Component<any> {
                   </li>
                   <li>
                     Get your reward — up to 50% of Lykke’s fee on all trade
-                    transactions made by referred users through Lykke’s API for
-                    proffesional traders.
+                    transactions made by referred users through webterminal or
+                    through Lykke’s API. At the expense of commissions formed
+                    revenue share fund. The fund is divided between the Lykke
+                    and the partner according to the following model:
                     <table className="table table--simple">
                       <tbody>
                         <tr>
                           <th>Maker</th>
                           <th>Taker</th>
-                          <th>Revenue share</th>
+                          <th>Partner's A share</th>
+                          <th>Partner's B share</th>
                         </tr>
                         <tr>
-                          <td>Client*</td>
-                          <td>vs client</td>
+                          <td>mobile client*</td>
+                          <td>vs mobile client</td>
                           <td>0%</td>
+                          <td>-</td>
                         </tr>
                         <tr>
-                          <td>Client*</td>
-                          <td>vs market maker</td>
+                          <td>mobile client*</td>
+                          <td>vs API or webterminal user **</td>
+                          <td>25%</td>
+                          <td>25%</td>
+                        </tr>
+                        <tr>
+                          <td>mobile client*</td>
+                          <td>vs API or webterminal user</td>
                           <td>50%</td>
+                          <td>-</td>
                         </tr>
                         <tr>
-                          <td>Client*</td>
-                          <td>vs market maker*</td>
-                          <td>25% + 25%</td>
-                        </tr>
-                        <tr>
-                          <td>Market maker*</td>
-                          <td>vs client</td>
+                          <td>API or webterminal user *</td>
+                          <td>vs mobile client</td>
                           <td>50%</td>
+                          <td>-</td>
                         </tr>
                         <tr>
-                          <td>Market maker*</td>
-                          <td>vs market maker*</td>
-                          <td>25% + 25%</td>
+                          <td>API or webterminal user *</td>
+                          <td>vs API or webterminal user **</td>
+                          <td>25%</td>
+                          <td>25%</td>
                         </tr>
                         <tr>
-                          <td colSpan={3}>
-                            <div className="hint">* Invited by a user</div>
+                          <td colSpan={4}>
+                            <div className="hint">* Invited by a partner A</div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td colSpan={4}>
+                            <div className="hint">
+                              ** Invited by a partner B
+                            </div>
                           </td>
                         </tr>
                       </tbody>
@@ -384,6 +399,10 @@ export class AffiliateTabs extends React.Component<any> {
                     The reward is added to your balance automatically once a day
                     for the sum earned 30 days ago. All fees are paid in
                     coins/tokens of original trades.
+                  </li>
+                  <li>
+                    Assets excluded from the referral program: LKK, LKK1Y,
+                    LKK2Y. Any trades in these assets will NOT be rewarded.
                   </li>
                   <li>
                     A visitor will be considered as your affiliate for 1 month.
@@ -447,7 +466,6 @@ export class AffiliateTabs extends React.Component<any> {
                     or other unlawful action;
                   </li>
                   <li>
-                    {' '}
                     any damage caused by the Program participant who was
                     referred by him/her;
                   </li>
@@ -457,6 +475,10 @@ export class AffiliateTabs extends React.Component<any> {
                 <ol className="list_styled">
                   <li>
                     to investigate any action which caused damage to Lykke;
+                  </li>
+                  <li>
+                    to change or cancel any stations of the user agreement at
+                    any time;
                   </li>
                   <li>
                     to cover any proved damage caused by the Program participant
