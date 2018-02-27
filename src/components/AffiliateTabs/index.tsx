@@ -121,11 +121,12 @@ export class AffiliateTabs extends React.Component<any> {
                           Revenue share
                         </div>
                         <div className="affiliate_info__value">
+                          up to 50%&nbsp;
                           <Link
                             to={ROUTE_AFFILIATE_DETAILS}
                             onClick={this.onReadRulesClicked}
                           >
-                            up to 50%
+                            <i className="icon icon--help_outline" />
                           </Link>
                         </div>
                       </div>
