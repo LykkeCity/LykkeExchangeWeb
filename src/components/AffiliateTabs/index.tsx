@@ -319,9 +319,11 @@ export class AffiliateTabs extends React.Component<any> {
                 <ol className="list_styled">
                   <li>
                     To participate in Lykke Affiliate Program (hereinafter - the
-                    “Program”), please read rules on this page.
+                    “Program”), please read the rules on this page.
                   </li>
-                  <li>Find and copy your referral link on affiliate page.</li>
+                  <li>
+                    Find and copy your referral link on the affiliate page.
+                  </li>
                   <li>
                     Share your referral link with friends or place it on your
                     website.
@@ -329,26 +331,27 @@ export class AffiliateTabs extends React.Component<any> {
                   <li>
                     You will earn revenue from the users who
                     <ul>
-                      <li>arrive to the site through your affiliate link</li>
+                      <li>follow your affiliate link to Lykke website</li>
                       <li>register</li>
                       <li>
-                        make trades as a API user through Lykke API or make
-                        trade against API user which uses Lykke API . Trades for
-                        regular users are not subject of a commissions on Lykke
-                        exchange and will not be taken into account for
-                        affiliate revenue calculations.
+                        trade through Lykke API or trade against someone who
+                        uses Lykke API. Trades between regular users are not
+                        subject of a commissions on Lykke exchange and will not
+                        be taken into account for affiliate revenue
+                        calculations.
                       </li>
                     </ul>
                   </li>
                   <li>
-                    Track statistics of the traffic you send on affiliate page.
+                    Track the statistics of your affiliates traffic on the
+                    affiliate page.
                   </li>
                   <li>
                     Get your reward — up to 50% of Lykke’s fee on all trade
-                    transactions made by referred users through webterminal or
-                    through Lykke’s API. At the expense of commissions formed
-                    revenue share fund. The fund is divided between the Lykke
-                    and the partner according to the following model:
+                    transactions made by your affiliates through Lykke Web
+                    Terminal or through Lykke API. The revenue received from
+                    commissions is divided between Lykke and the partner
+                    according to the following model:
                     <table className="table table--simple">
                       <tbody>
                         <tr>
@@ -365,37 +368,39 @@ export class AffiliateTabs extends React.Component<any> {
                         </tr>
                         <tr>
                           <td>mobile client*</td>
-                          <td>vs API or webterminal user **</td>
+                          <td>vs API or Web Terminal user **</td>
                           <td>25%</td>
                           <td>25%</td>
                         </tr>
                         <tr>
                           <td>mobile client*</td>
-                          <td>vs API or webterminal user</td>
+                          <td>vs API or Web Terminal user</td>
                           <td>50%</td>
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>API or webterminal user *</td>
+                          <td>API or Web Terminal user *</td>
                           <td>vs mobile client</td>
                           <td>50%</td>
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>API or webterminal user *</td>
-                          <td>vs API or webterminal user **</td>
+                          <td>API or Web Terminal user *</td>
+                          <td>vs API or Web Terminal user **</td>
                           <td>25%</td>
                           <td>25%</td>
                         </tr>
                         <tr>
                           <td colSpan={4}>
-                            <div className="hint">* Invited by a partner A</div>
+                            <div className="hint">
+                              * Invited by the partner A
+                            </div>
                           </td>
                         </tr>
                         <tr>
                           <td colSpan={4}>
                             <div className="hint">
-                              ** Invited by a partner B
+                              ** Invited by the partner B
                             </div>
                           </td>
                         </tr>
@@ -405,12 +410,13 @@ export class AffiliateTabs extends React.Component<any> {
 
                   <li>
                     The reward is added to your balance automatically once a day
-                    for the sum earned 30 days ago. All fees are paid in
-                    coins/tokens of original trades.
+                    for the sum earned 30 days ago. All fees are paid in the
+                    currency of the corresponding trade.
                   </li>
                   <li>
-                    Assets excluded from the referral program: LKK, LKK1Y,
-                    LKK2Y. Any trades in these assets will NOT be rewarded.
+                    The following assets are excluded from the affiliate
+                    program: LKK, LKK1Y, LKK2Y. Any trades in pairs with these
+                    assets will NOT be rewarded.
                   </li>
                   <li>
                     A visitor will be considered as your affiliate for 1 month.
@@ -418,7 +424,7 @@ export class AffiliateTabs extends React.Component<any> {
                   <li>
                     Commissions will be paid for two years from the user's
                     registration. Commission is based on the income the new user
-                    brings for Lykke (trading fees).
+                    brings Lykke (trading fees).
                   </li>
                   <li>
                     Any foul play, such as misleading advertising, is forbidden.
@@ -437,12 +443,11 @@ export class AffiliateTabs extends React.Component<any> {
                   <li>to use the Program in good faith and with due care;</li>
                   <li>
                     not to create sub-accounts on Lykke and become a
-                    self-referral;
+                    self-affiliate;
                   </li>
                   <li>
                     not to use any unsolicited bulk mail, email or messaging
-                    programs (”Spam”) for the purpose of attracting new referred
-                    users;
+                    programs (”Spam”) to attract new affiliates;
                   </li>
                   <li>
                     not to refer persons making fraud actions or any other
@@ -450,12 +455,12 @@ export class AffiliateTabs extends React.Component<any> {
                   </li>
                   <li>
                     to inform Lykke if he/she discovers that other participant
-                    makes fraud or other unlawful actions;
+                    practices or is involved in fraud or other unlawful actions;
                   </li>
                   <li>
                     to cover any Lykke damage caused by his/her fraud or other
-                    unlawful action, as well as damage caused by other Program
-                    participant who was referred by him/her;
+                    unlawful action, as well as damage caused by his/her
+                    affiliates;
                   </li>
                   <li>
                     bidding on branded keywords such as “Lykke.com”, “Lykke”,
@@ -470,13 +475,10 @@ export class AffiliateTabs extends React.Component<any> {
                 </h3>
                 <ol className="list_styled">
                   <li>
-                    any damages which Lykke suffered from his/her undue, fraud
-                    or other unlawful action;
+                    any damage which Lykke suffers from his/her undue,
+                    fraudulent or other unlawful action;
                   </li>
-                  <li>
-                    any damage caused by the Program participant who was
-                    referred by him/her;
-                  </li>
+                  <li>any damage caused by his/her affiliate;</li>
                 </ol>
 
                 <h3 className="subtitle">C. Lykke has the right:</h3>
@@ -485,22 +487,22 @@ export class AffiliateTabs extends React.Component<any> {
                     to investigate any action which caused damage to Lykke;
                   </li>
                   <li>
-                    to change or cancel any stations of the user agreement at
-                    any time;
+                    to change or to cancel any statements in the user agreement
+                    at any time;
                   </li>
                   <li>
                     to cover any proved damage caused by the Program participant
                     actions using his/her funds on the Platform;
                   </li>
                   <li>
-                    to disable any affiliate user at any given time. If you
+                    to disable any affiliate user at any given time. In case you
                     breach the terms, your affiliate program will be terminated.
                   </li>
                   <li>
-                    to revoke all Program rewards for violations of this Terms
-                    and Conditions, as well as for fraud, refunds, cancellations
-                    and chargebacks or a substantial change in business
-                    circumstances;
+                    to revoke all Program rewards in case of violation of this
+                    Terms and Conditions, as well as fraud, refunds,
+                    cancellations and chargebacks or a substantial change in
+                    business circumstances;
                   </li>
                 </ol>
 
