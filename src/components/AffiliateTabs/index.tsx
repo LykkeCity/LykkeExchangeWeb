@@ -100,7 +100,7 @@ export class AffiliateTabs extends React.Component<any> {
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
                         <div className="affiliate_info__title">
-                          Estimated balance
+                          Total revenue
                         </div>
                         <div className="affiliate_info__value">
                           {this.affiliateStore.affiliateModel.totalBonus > 0 ? (
@@ -118,9 +118,16 @@ export class AffiliateTabs extends React.Component<any> {
                       </div>
                       <div className="affiliate_info__item col-sm-6 col-md-3">
                         <div className="affiliate_info__title">
-                          Your revenue share
+                          Revenue share
                         </div>
-                        <div className="affiliate_info__value">50%</div>
+                        <div className="affiliate_info__value">
+                          <Link
+                            to={ROUTE_AFFILIATE_DETAILS}
+                            onClick={this.onReadRulesClicked}
+                          >
+                            up to 50%
+                          </Link>
+                        </div>
                       </div>
                     </div>
                   </div>
