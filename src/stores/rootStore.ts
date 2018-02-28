@@ -18,12 +18,15 @@ import {
   WalletApi
 } from '../api';
 import RestAffiliateApi from '../api/affiliateApi';
+import {RestFeaturesApi} from '../api/featuresApi';
+import {FeaturesStore} from './featuresStore';
 
 export class RootStore {
   affiliateStore: AffiliateStore;
   authStore: AuthStore;
   walletStore: WalletStore;
   balanceStore: BalanceStore;
+  featuresStore: FeaturesStore;
   uiStore: UiStore;
   transferStore: TransferStore;
   profileStore: ProfileStore;
@@ -41,6 +44,7 @@ export class RootStore {
       this.converter
     );
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
+    this.featuresStore = new FeaturesStore(new RestFeaturesApi(this));
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(
       this,

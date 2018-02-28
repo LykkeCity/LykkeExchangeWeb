@@ -1,13 +1,15 @@
 import * as H from 'history';
+import {autorun} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {
   ROUTE_AFFILIATE_DETAILS,
-  ROUTE_AFFILIATE_STATISTICS
+  ROUTE_AFFILIATE_STATISTICS,
+  ROUTE_ROOT
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {AffiliateStore, RootStore, UiStore} from '../../stores';
+import {AffiliateStore, FeaturesStore, RootStore, UiStore} from '../../stores';
 import {formatWithAccuracy} from '../../utils';
 import {NumberFormat} from '../NumberFormat';
 import {TabLink, TabPane} from '../Tabs';
@@ -15,6 +17,7 @@ import './style.css';
 
 export class AffiliateTabs extends React.Component<any> {
   readonly affiliateStore: AffiliateStore;
+  readonly featuresStore: FeaturesStore;
   readonly history: H.History;
   readonly uiStore: UiStore;
   readonly formatAccuracy: number = 8;
@@ -29,20 +32,33 @@ export class AffiliateTabs extends React.Component<any> {
     super();
     this.uiStore = rootStore.uiStore;
     this.affiliateStore = rootStore.affiliateStore;
+    this.featuresStore = rootStore.featuresStore;
     this.history = history;
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    if (this.affiliateStore.isAgreed && !this.affiliateStore.isLoaded) {
+    autorun(() => {
+      if (this.featuresStore.isLoaded && !this.featuresStore.hasAffiliate) {
+        this.history.replace(ROUTE_ROOT);
+      }
+    });
+
+    if (
+      this.featuresStore.hasAffiliate &&
+      this.affiliateStore.isAgreed &&
+      !this.affiliateStore.isLoaded
+    ) {
       this.uiStore.startRequest();
       this.affiliateStore.getData().then(() => this.uiStore.finishRequest());
     }
   }
 
   render() {
-    return (
+    return !this.featuresStore.hasAffiliate ? (
+      ''
+    ) : (
       <div>
         <div className="tabs tabs--nav">
           {this.affiliateStore.isAgreed && (
