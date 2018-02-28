@@ -471,7 +471,7 @@ export class AffiliateTabs extends React.Component<any> {
                 </ol>
 
                 <h3 className="subtitle">
-                  B. The Program participant liable for:
+                  B. The Program participant is liable for:
                 </h3>
                 <ol className="list_styled">
                   <li>
