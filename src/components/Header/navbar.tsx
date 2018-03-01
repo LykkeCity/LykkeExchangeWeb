@@ -9,7 +9,6 @@ import {
   ROUTE_TRANSFER_BASE,
   ROUTE_WALLETS
 } from '../../constants/routes';
-import {STORE_ROOT} from '../../constants/stores';
 import Balance from './balance';
 
 const classes = (className: string, active: boolean) => {
@@ -34,12 +33,7 @@ const NavLink: React.SFC<NavLinkProps> = ({label, to}) => (
   />
 );
 
-export const NavBar: React.SFC<RootStoreProps & any> = ({rootStore}) => {
-  const {
-    authStore: {isAuthenticated},
-    featuresStore: {hasAffiliate}
-  } = rootStore!;
-
+export const NavBar = ({match, isAuthenticated, hasAffiliate}: any) => {
   return (
     isAuthenticated && (
       <div className="header_nav_container">
@@ -62,4 +56,9 @@ export const NavBar: React.SFC<RootStoreProps & any> = ({rootStore}) => {
   );
 };
 
-export default withRouter(inject(STORE_ROOT)(NavBar));
+export default withRouter(
+  inject(({rootStore}: RootStoreProps) => ({
+    hasAffiliate: rootStore!.featuresStore.hasAffiliate,
+    isAuthenticated: rootStore!.authStore.isAuthenticated
+  }))(NavBar)
+);

@@ -1,5 +1,5 @@
 import * as H from 'history';
-import {autorun} from 'mobx';
+import {autorun, computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, withRouter} from 'react-router-dom';
@@ -21,6 +21,7 @@ export class AffiliateTabs extends React.Component<any> {
   readonly history: H.History;
   readonly uiStore: UiStore;
   readonly formatAccuracy: number = 8;
+  readonly isLoadData: boolean;
 
   constructor({
     rootStore,
@@ -34,31 +35,35 @@ export class AffiliateTabs extends React.Component<any> {
     this.affiliateStore = rootStore.affiliateStore;
     this.featuresStore = rootStore.featuresStore;
     this.history = history;
+    this.isLoadData =
+      this.featuresStore.hasAffiliate &&
+      this.affiliateStore.isAgreed &&
+      !this.affiliateStore.isLoaded;
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
 
     autorun(() => {
-      if (this.featuresStore.isLoaded && !this.featuresStore.hasAffiliate) {
+      if (this.isGoToRoot) {
+        // TODO: it's better to use injected router props for the history/location
         this.history.replace(ROUTE_ROOT);
       }
     });
 
-    if (
-      this.featuresStore.hasAffiliate &&
-      this.affiliateStore.isAgreed &&
-      !this.affiliateStore.isLoaded
-    ) {
+    if (this.isLoadData) {
       this.uiStore.startRequest();
       this.affiliateStore.getData().then(() => this.uiStore.finishRequest());
     }
   }
 
+  @computed
+  get isGoToRoot() {
+    return this.featuresStore.isLoaded && !this.featuresStore.hasAffiliate;
+  }
+
   render() {
-    return !this.featuresStore.hasAffiliate ? (
-      ''
-    ) : (
+    return !this.featuresStore.hasAffiliate ? null : (
       <div>
         <div className="tabs tabs--nav">
           {this.affiliateStore.isAgreed && (
