@@ -1,13 +1,15 @@
 import * as H from 'history';
+import {reaction} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {
   ROUTE_AFFILIATE_DETAILS,
-  ROUTE_AFFILIATE_STATISTICS
+  ROUTE_AFFILIATE_STATISTICS,
+  ROUTE_ROOT
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {AffiliateStore, RootStore, UiStore} from '../../stores';
+import {AffiliateStore, FeatureStore, RootStore, UiStore} from '../../stores';
 import {formatWithAccuracy} from '../../utils';
 import {NumberFormat} from '../NumberFormat';
 import {TabLink, TabPane} from '../Tabs';
@@ -15,6 +17,7 @@ import './style.css';
 
 export class AffiliateTabs extends React.Component<any> {
   readonly affiliateStore: AffiliateStore;
+  readonly featureStore: FeatureStore;
   readonly history: H.History;
   readonly uiStore: UiStore;
   readonly formatAccuracy: number = 8;
@@ -29,20 +32,31 @@ export class AffiliateTabs extends React.Component<any> {
     super();
     this.uiStore = rootStore.uiStore;
     this.affiliateStore = rootStore.affiliateStore;
+    this.featureStore = rootStore.featureStore;
     this.history = history;
+
+    reaction(
+      () => this.featureStore.isLoaded,
+      isLoaded => {
+        if (!this.featureStore.hasAffiliate) {
+          // TODO: it's better to use injected router props for the history/location
+          this.history.replace(ROUTE_ROOT);
+        }
+      }
+    );
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    if (this.affiliateStore.isAgreed && !this.affiliateStore.isLoaded) {
+    if (this.affiliateStore.isLoadData) {
       this.uiStore.startRequest();
       this.affiliateStore.getData().then(() => this.uiStore.finishRequest());
     }
   }
 
   render() {
-    return (
+    return !this.featureStore.hasAffiliate ? null : (
       <div>
         <div className="tabs tabs--nav">
           {this.affiliateStore.isAgreed && (

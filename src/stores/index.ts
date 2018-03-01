@@ -3,6 +3,7 @@ export * from './affiliateStore';
 export * from './authStore';
 export * from './walletStore';
 export * from './balanceStore';
+export * from './featuresStore';
 export * from './uiStore';
 export * from './transferStore';
 export * from './profileStore';

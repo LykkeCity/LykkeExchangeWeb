@@ -1,7 +1,8 @@
 import * as classNames from 'classnames';
 import {inject} from 'mobx-react';
 import * as React from 'react';
-import {Link, Route, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router';
+import {Link, Route} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_AFFILIATE,
@@ -32,7 +33,7 @@ const NavLink: React.SFC<NavLinkProps> = ({label, to}) => (
   />
 );
 
-export const NavBar = ({match, isAuthenticated}: any) => {
+export const NavBar = ({match, isAuthenticated, hasAffiliate}: any) => {
   return (
     isAuthenticated && (
       <div className="header_nav_container">
@@ -42,7 +43,9 @@ export const NavBar = ({match, isAuthenticated}: any) => {
               <ul className="header_nav__list nav_list">
                 <NavLink to={ROUTE_WALLETS} label="Wallets" />
                 <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
-                <NavLink to={ROUTE_AFFILIATE} label="Affiliate Program" />
+                {hasAffiliate && (
+                  <NavLink to={ROUTE_AFFILIATE} label="Affiliate Program" />
+                )}
               </ul>
               <Balance />
             </div>
@@ -55,6 +58,7 @@ export const NavBar = ({match, isAuthenticated}: any) => {
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
+    hasAffiliate: rootStore!.featureStore.hasAffiliate,
     isAuthenticated: rootStore!.authStore.isAuthenticated
   }))(NavBar)
 );
