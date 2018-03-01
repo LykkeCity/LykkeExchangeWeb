@@ -58,7 +58,7 @@ export const NavBar = ({match, isAuthenticated, hasAffiliate}: any) => {
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
-    hasAffiliate: rootStore!.featuresStore.hasAffiliate,
+    hasAffiliate: rootStore!.featureStore.hasAffiliate,
     isAuthenticated: rootStore!.authStore.isAuthenticated
   }))(NavBar)
 );

@@ -41,6 +41,15 @@ export class AffiliateStore {
     return this.checkAgreement;
   }
 
+  @computed
+  get isLoadData() {
+    return (
+      !this.isLoaded &&
+      this.isAgreed &&
+      this.rootScore.featureStore.hasAffiliate
+    );
+  }
+
   copyLinkToClipboard = () => {
     copyTextToClipboard(this.affiliateModel.affiliateLink);
   };

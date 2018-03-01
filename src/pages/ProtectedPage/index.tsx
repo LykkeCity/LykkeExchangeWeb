@@ -36,7 +36,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
-  private readonly featuresStore = this.props.rootStore!.featuresStore;
+  private readonly featureStore = this.props.rootStore!.featureStore;
 
   @computed
   private get classes() {
@@ -48,7 +48,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
 
   componentDidMount() {
     this.uiStore.startRequest();
-    this.featuresStore.getFeatures();
+    this.featureStore.getFeatures();
     this.assetStore
       .fetchCategories()
       .then(() => this.assetStore.fetchAssets())
