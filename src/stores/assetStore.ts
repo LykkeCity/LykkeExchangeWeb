@@ -26,6 +26,7 @@ export class AssetStore {
           DisplayId: name,
           CategoryId,
           Accuracy: accuracy,
+          IconUrl: iconUrl,
           IsBase
         }: any) => {
           const category = this.categories.find(x => x.Id === CategoryId) || {
@@ -34,6 +35,7 @@ export class AssetStore {
           const asset = new AssetModel({
             accuracy,
             category: category.Name,
+            iconUrl,
             id,
             name: name || Name
           });

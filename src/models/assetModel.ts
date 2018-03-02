@@ -3,6 +3,7 @@ export class AssetModel {
   name: string;
   category: string;
   accuracy: number;
+  iconUrl: string;
 
   isBase: boolean = false;
 
