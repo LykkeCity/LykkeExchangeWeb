@@ -68,6 +68,7 @@ export class RootStore {
       this.converter
     );
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
+    this.authStore.reset();
   }
 }
 

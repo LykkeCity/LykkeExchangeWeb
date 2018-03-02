@@ -4,6 +4,8 @@ export {AuthUtils};
 import * as StorageUtils from './storageUtils';
 export {StorageUtils};
 
+export {default as RandomString} from './randomString';
+
 let idx = 0;
 export const nextId = () => idx++;
 

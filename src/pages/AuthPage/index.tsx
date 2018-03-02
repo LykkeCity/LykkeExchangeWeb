@@ -11,12 +11,12 @@ export class AuthPage extends React.Component<AuthPageProps> {
   private readonly authStore = this.props.rootStore!.authStore;
 
   componentDidMount() {
-    const code = new URL(location.href).searchParams.get('code');
-    if (!!code) {
-      this.authStore
-        .auth(code)
-        .then(() => this.props.history.replace(ROUTE_ROOT));
-    }
+    const accessToken = new URL(location.href).hash.split('&')[3].split('=')[1];
+    const state = new URL(location.href).hash.split('&')[0].split('=')[1];
+
+    this.authStore
+      .fetchToken(accessToken, state)
+      .then(() => this.props.history.push(ROUTE_ROOT));
   }
 
   render() {
