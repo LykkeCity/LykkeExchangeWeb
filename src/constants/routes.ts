@@ -5,9 +5,9 @@ export const ROUTE_WALLETS_TRADING = '/wallets/trading';
 export const ROUTE_WALLETS_HFT = '/wallets/hft';
 
 export const ROUTE_TRANSFER_BASE = '/transfer';
-export const ROUTE_TRANSFER = `${ROUTE_TRANSFER_BASE}/:dest/:walletId`;
-export const ROUTE_TRANSFER_FROM = (walletId: string) =>
-  `${ROUTE_TRANSFER_BASE}/from/${walletId}`;
+export const ROUTE_TRANSFER = `${ROUTE_TRANSFER_BASE}/:dest/:walletId/:assetId?`;
+export const ROUTE_TRANSFER_FROM = (walletId: string, assetId = '') =>
+  `${ROUTE_TRANSFER_BASE}/from/${walletId}/${assetId}`;
 export const ROUTE_TRANSFER_TO = (walletId: string) =>
   `${ROUTE_TRANSFER_BASE}/to/${walletId}`;
 export const ROUTE_TRANSFER_SUCCESS = `${ROUTE_TRANSFER_BASE}/success`;
