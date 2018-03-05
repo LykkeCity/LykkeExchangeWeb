@@ -86,7 +86,7 @@ export class AffiliateTabs extends React.Component<any> {
                     <div className="row">
                       <div className="affiliate_info__item col-sm-6 col-md-3">
                         <div className="affiliate_info__title">
-                          Refferal friends
+                          Referral friends
                         </div>
                         <div className="affiliate_info__value">
                           {this.affiliateStore.affiliateModel.referralsCount}
@@ -196,8 +196,10 @@ export class AffiliateTabs extends React.Component<any> {
                                 <a
                                   href={
                                     'https://www.facebook.com/sharer/sharer.php?u=' +
-                                    this.affiliateStore.affiliateModel
-                                      .affiliateLink
+                                    encodeURIComponent(
+                                      this.affiliateStore.affiliateModel
+                                        .affiliateLink
+                                    )
                                   }
                                   className="popup share_item"
                                   target="_blank"
@@ -212,9 +214,11 @@ export class AffiliateTabs extends React.Component<any> {
                               <li className="rrssb-twitter">
                                 <a
                                   href={
-                                    'https://twitter.com/intent/tweet?text=Lykke%20Share%20Text&nbsp;' +
-                                    this.affiliateStore.affiliateModel
-                                      .affiliateLink
+                                    'https://twitter.com/intent/tweet?url=' +
+                                    encodeURIComponent(
+                                      this.affiliateStore.affiliateModel
+                                        .affiliateLink
+                                    )
                                   }
                                   className="popup share_item"
                                   target="_blank"
@@ -229,10 +233,11 @@ export class AffiliateTabs extends React.Component<any> {
                               <li className="rrssb-linkedin">
                                 <a
                                   href={
-                                    'http://www.linkedin.com/shareArticle?mini=true&amp;url=' +
-                                    this.affiliateStore.affiliateModel
-                                      .affiliateLink +
-                                    '&amp;title=Lykke%20Share%20Text&amp;summary=Lykke%20Share%20Summary'
+                                    'http://www.linkedin.com/shareArticle?mini=true&url=' +
+                                    encodeURIComponent(
+                                      this.affiliateStore.affiliateModel
+                                        .affiliateLink
+                                    )
                                   }
                                   className="popup share_item"
                                   target="_blank"
@@ -247,9 +252,11 @@ export class AffiliateTabs extends React.Component<any> {
                               <li className="rrssb-email">
                                 <a
                                   href={
-                                    'mailto:?subject=Title%20&amp;body=' +
-                                    this.affiliateStore.affiliateModel
-                                      .affiliateLink
+                                    'mailto:?subject=Lykke&body=' +
+                                    encodeURIComponent(
+                                      this.affiliateStore.affiliateModel
+                                        .affiliateLink
+                                    )
                                   }
                                   className="share_item"
                                 >
@@ -306,8 +313,7 @@ export class AffiliateTabs extends React.Component<any> {
                       forbidden.
                     </li>
                     <li>
-                      Withdraw your rewards directly to your payment card (VISA
-                      or MasterCard) or via bank transfer, according to
+                      Withdraw your reward via bank transfer, according to
                       withdrawal procedures and limits of Lykke exchange and
                       Lykke wallet.
                     </li>
@@ -485,7 +491,7 @@ export class AffiliateTabs extends React.Component<any> {
                 </ol>
 
                 <h3 className="subtitle">
-                  B. The Program participant is liable for:
+                  C. The Program participant is liable for:
                 </h3>
                 <ol className="list_styled">
                   <li>
@@ -495,7 +501,7 @@ export class AffiliateTabs extends React.Component<any> {
                   <li>any damage caused by his/her affiliate;</li>
                 </ol>
 
-                <h3 className="subtitle">C. Lykke has the right:</h3>
+                <h3 className="subtitle">D. Lykke has the right:</h3>
                 <ol className="list_styled">
                   <li>
                     to investigate any action which caused damage to Lykke;
