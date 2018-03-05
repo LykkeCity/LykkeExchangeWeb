@@ -1,18 +1,14 @@
-import {computed, observable, reaction, runInAction} from 'mobx';
+import {computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
-import {config} from '../config';
-import {queryStringFromObject} from '../utils/authUtils';
-import {StorageUtils} from '../utils/index';
+import {RandomString, StorageUtils} from '../utils/index';
 
 const TOKEN_KEY = 'lww-token';
-const OAUTH_KEY = 'lww-oauth';
+const STATE_KEY = 'lww-state';
 
+const randomString = RandomString();
 const tokenStorage = StorageUtils.withKey(TOKEN_KEY);
-const authStorage = StorageUtils.withKey(OAUTH_KEY);
-
-// tslint:disable-next-line:no-var-requires
-const shajs = require('sha.js');
+const stateStorage = StorageUtils.withKey(STATE_KEY);
 
 export class AuthStore {
   readonly rootStore: RootStore;
@@ -32,62 +28,51 @@ export class AuthStore {
     );
   }
 
-  login = (username: string, password: string) =>
-    this.api!.login(
-      username,
-      shajs('sha256')
-        .update(password)
-        .digest('hex')
+  catchUnauthorized = () => {
+    this.signOut();
+  };
+
+  fetchToken = async (accessToken: string, state: string) => {
+    if (state === stateStorage.get()) {
+      const {token} = await this.api!.fetchToken(accessToken);
+      this.token = token;
+      tokenStorage.set(token);
+      stateStorage.clear();
+      return Promise.resolve();
+    } else {
+      this.catchUnauthorized();
+    }
+  };
+
+  signIn = () => {
+    const {
+      REACT_APP_AUTH_URL: url,
+      REACT_APP_CLIENT_ID: clientId,
+      REACT_APP_CALLBACK_URL: callbackUrl
+    } = process.env;
+    const nonce = randomString.mixed(20);
+    const state = randomString.mixed(20);
+    stateStorage.set(state);
+
+    location.replace(
+      `${url}/connect/authorize?client_id=${clientId}&scope=profile email address&response_type=token&redirect_uri=${encodeURIComponent(
+        callbackUrl!
+      )}&nonce=${nonce}&state=${state}`
     );
+  };
 
-  signup = async (username: string, password: string) =>
-    this.api!.signup(
-      username,
-      shajs('sha256')
-        .update(password)
-        .digest('hex')
+  signOut = async () => {
+    this.rootStore.reset();
+    const {REACT_APP_AUTH_URL: url} = process.env;
+    location.replace(
+      `${url}/connect/logout?post_logout_redirect_uri=${encodeURIComponent(
+        location.origin
+      )}`
     );
-
-  auth = async (code: string) => {
-    const authContext = await this.fetchBearerToken(code);
-    authStorage.set(JSON.stringify(authContext));
-    const sessionToken = await this.fetchSessionToken();
-    runInAction(() => {
-      this.token = sessionToken.token;
-    });
   };
 
-  fetchSessionToken = () =>
-    this.api!.fetchSessionToken(config.auth.client_id!, this.getAccessToken());
-
-  fetchBearerToken = (code: string) =>
-    this.api!.fetchBearerToken(config.auth, code, config.auth.apiUrls.token);
-
-  getConnectUrl = () => {
-    const {client_id, redirect_uri} = config.auth;
-    const authorizePath = `${config.auth.apiUrls.auth}?${queryStringFromObject({
-      client_id,
-      redirect_uri,
-      response_type: 'code',
-      scope: config.auth.scope
-    })}`;
-
-    return `${config.auth.url}${authorizePath}`;
-  };
-
-  getLogoutUrl = () => `${config.auth.url}${config.auth.apiUrls.logout}`;
-
-  logout = async () => {
-    runInAction(() => {
-      this.token = null;
-      authStorage.clear();
-      this.rootStore.reset();
-    });
-  };
-
-  getAccessToken = () => {
-    const authContext = authStorage.get();
-    return authContext && JSON.parse(authContext).access_token;
+  reset = () => {
+    tokenStorage.clear();
   };
 
   @computed
@@ -97,6 +82,6 @@ export class AuthStore {
 
   redirectToAuthServer = () => {
     tokenStorage.clear();
-    location.replace(`//${location.hostname}:${location.port}/login`);
+    this.signIn();
   };
 }

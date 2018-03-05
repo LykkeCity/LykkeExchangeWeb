@@ -2,9 +2,9 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute/index';
-import {ROUTE_LOGIN, ROUTE_ROOT} from './constants/routes';
+import {ROUTE_AUTH, ROUTE_ROOT} from './constants/routes';
 import {STORE_ROOT} from './constants/stores';
-import LoginPage from './pages/LoginPage/index';
+import AuthPage from './pages/AuthPage/index';
 import ProtectedPage from './pages/ProtectedPage/index';
 import {RootStore} from './stores';
 
@@ -20,7 +20,7 @@ class App extends React.Component<RootStoreProps> {
       <Router>
         <div onClick={this.handleOutsideClick}>
           <Switch>
-            <Route exact={true} path={ROUTE_LOGIN} component={LoginPage} />
+            <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
             <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
           </Switch>
         </div>

@@ -12,3 +12,9 @@ export const queryStringFromObject = (obj: any, path?: string) =>
       return queryString;
     })
     .join('&');
+
+export const getAccessTokenFromUrl = (url: string) =>
+  new URL(url).hash.split('&')[3].split('=')[1];
+
+export const getStateFromUrl = (url: string) =>
+  new URL(url).hash.split('&')[0].split('=')[1];

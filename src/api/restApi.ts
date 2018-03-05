@@ -15,18 +15,10 @@ export class RestApi {
   protected post = this._post(() => this.apiBearerWretch());
   protected put = this._put(() => this.apiBearerWretch());
 
-  protected getAuth = this._get(() => this.authBearerWretch());
-  protected postAuth = this._post(() => this.authBearerWretch());
-
   constructor(protected rootStore: RootStore) {}
 
   protected apiBearerWretch() {
     return this.apiWretch.auth(`Bearer ${this.rootStore.authStore.token}`);
-  }
-  protected authBearerWretch() {
-    return this.authWretch.auth(
-      `Bearer ${this.rootStore.authStore.getAccessToken()}`
-    );
   }
 
   // tslint:disable-next-line:variable-name
