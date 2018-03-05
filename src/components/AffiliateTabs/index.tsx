@@ -450,9 +450,9 @@ export class AffiliateTabs extends React.Component<any> {
                     Any foul play, such as misleading advertising, is forbidden.
                   </li>
                   <li>
-                    Withdraw your rewards directly to your payment card (VISA or
-                    MasterCard) or via bank transfer, according to withdrawal
-                    procedures and limits of Lykke exchange and Lykke wallet.
+                    Withdraw your reward via bank transfer, according to
+                    withdrawal procedures and limits of Lykke exchange and Lykke
+                    wallet.
                   </li>
                 </ol>
 
