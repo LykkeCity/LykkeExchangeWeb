@@ -1,4 +1,8 @@
-import {queryStringFromObject} from './authUtils';
+import {
+  getAccessTokenFromUrl,
+  getStateFromUrl,
+  queryStringFromObject
+} from './authUtils';
 
 test('queryStringFromObject', () => {
   // tslint:disable-next-line:variable-name
@@ -20,4 +24,18 @@ test('queryStringFromObject', () => {
 
   expect(queryStringFromObject({foo: 'bar'})).toBe('foo=bar');
   expect(queryStringFromObject({foo: {foo: 'bar'}})).toBe('foo=foo%3Dbar');
+});
+
+test('getAccessTokenFromUrl', () => {
+  const url =
+    'http://localhost:3000/auth#state=foo&scope=email%20profile&token_type=Bearer&access_token=bar&expires_in=3600';
+
+  expect(getAccessTokenFromUrl(url)).toBe('bar');
+});
+
+test('getStateFromUrl', () => {
+  const url =
+    'http://localhost:3000/auth#state=foo&scope=email%20profile&token_type=Bearer&access_token=bar&expires_in=3600';
+
+  expect(getStateFromUrl(url)).toBe('foo');
 });
