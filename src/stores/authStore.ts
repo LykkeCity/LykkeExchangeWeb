@@ -47,7 +47,7 @@ export class AuthStore {
   signIn = () => {
     const {
       REACT_APP_AUTH_URL: url,
-      REACT_APP_ID: clientId,
+      REACT_APP_CLIENT_ID: clientId,
       REACT_APP_CALLBACK_URL: callbackUrl
     } = process.env;
     const nonce = randomString.mixed(20);

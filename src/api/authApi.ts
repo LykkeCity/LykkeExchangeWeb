@@ -10,7 +10,7 @@ export class RestAuthApi extends RestApi implements AuthApi {
     this.authWretch
       .headers({
         Authorization: `Bearer ${accessToken}`,
-        application_id: process.env.REACT_APP_ID
+        application_id: process.env.REACT_APP_CLIENT_ID
       })
       .url('/getlykkewallettoken')
       .get()
