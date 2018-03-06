@@ -93,7 +93,9 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                               </Link>
                             </div>
                             <div>
-                              <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>
+                              <Link
+                                to={ROUTE_TRANSFER_FROM(wallet.id, b.assetId)}
+                              >
                                 Withdraw
                               </Link>
                             </div>

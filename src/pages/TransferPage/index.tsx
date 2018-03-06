@@ -24,8 +24,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
 
   componentDidMount() {
-    const {walletId, dest} = this.props.match.params;
+    const {walletId, assetId, dest} = this.props.match.params;
     const wallet = this.walletStore.findWalletById(walletId);
+    const asset = assetId && this.assetStore.getById(assetId);
 
     if (!!wallet) {
       this.transferStore.newTransfer.setWallet(wallet, dest);
@@ -36,6 +37,10 @@ export class TransferPage extends React.Component<TransferPageProps> {
           x
         )
       );
+    }
+
+    if (!!asset) {
+      this.transferStore.newTransfer.setAsset(asset);
     }
 
     window.scrollTo(0, 0);
