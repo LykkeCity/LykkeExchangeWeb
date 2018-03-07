@@ -50,6 +50,11 @@ export class AffiliateStore {
     );
   }
 
+  @computed
+  get encodedAffiliateLink() {
+    return encodeURIComponent(this.affiliateModel.affiliateLink);
+  }
+
   copyLinkToClipboard = () => {
     copyTextToClipboard(this.affiliateModel.affiliateLink);
   };
