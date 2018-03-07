@@ -203,7 +203,7 @@ export class AffiliateTabs extends React.Component<any> {
                                   }
                                   className="popup share_item"
                                   target="_blank"
-                                  rel="noopener noreferrer"
+                                  /* facebook should autoclose tab itself */
                                 >
                                   <span className="rrssb-icon">
                                     <i className="icon icon--fb_simple" />
