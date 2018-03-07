@@ -196,10 +196,7 @@ export class AffiliateTabs extends React.Component<any> {
                                 <a
                                   href={
                                     'https://www.facebook.com/sharer/sharer.php?u=' +
-                                    encodeURIComponent(
-                                      this.affiliateStore.affiliateModel
-                                        .affiliateLink
-                                    )
+                                    this.affiliateStore.encodedAffiliateLink
                                   }
                                   className="popup share_item"
                                   target="_blank"
@@ -215,10 +212,7 @@ export class AffiliateTabs extends React.Component<any> {
                                 <a
                                   href={
                                     'https://twitter.com/intent/tweet?url=' +
-                                    encodeURIComponent(
-                                      this.affiliateStore.affiliateModel
-                                        .affiliateLink
-                                    )
+                                    this.affiliateStore.encodedAffiliateLink
                                   }
                                   className="popup share_item"
                                   target="_blank"
@@ -234,10 +228,7 @@ export class AffiliateTabs extends React.Component<any> {
                                 <a
                                   href={
                                     'http://www.linkedin.com/shareArticle?mini=true&url=' +
-                                    encodeURIComponent(
-                                      this.affiliateStore.affiliateModel
-                                        .affiliateLink
-                                    )
+                                    this.affiliateStore.encodedAffiliateLink
                                   }
                                   className="popup share_item"
                                   target="_blank"
@@ -253,10 +244,7 @@ export class AffiliateTabs extends React.Component<any> {
                                 <a
                                   href={
                                     'mailto:?subject=Lykke&body=' +
-                                    encodeURIComponent(
-                                      this.affiliateStore.affiliateModel
-                                        .affiliateLink
-                                    )
+                                    this.affiliateStore.encodedAffiliateLink
                                   }
                                   className="share_item"
                                 >
