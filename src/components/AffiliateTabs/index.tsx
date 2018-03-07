@@ -388,25 +388,25 @@ export class AffiliateTabs extends React.Component<any> {
                         </tr>
                         <tr>
                           <td>mobile client*</td>
-                          <td>vs API or Web Terminal user **</td>
+                          <td>vs API user **</td>
                           <td>25%</td>
                           <td>25%</td>
                         </tr>
                         <tr>
                           <td>mobile client*</td>
-                          <td>vs API or Web Terminal user</td>
+                          <td>vs API user</td>
                           <td>50%</td>
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>API or Web Terminal user *</td>
+                          <td>API user *</td>
                           <td>vs mobile client</td>
                           <td>50%</td>
                           <td>-</td>
                         </tr>
                         <tr>
-                          <td>API or Web Terminal user *</td>
-                          <td>vs API or Web Terminal user **</td>
+                          <td>API user *</td>
+                          <td>vs API user **</td>
                           <td>25%</td>
                           <td>25%</td>
                         </tr>
