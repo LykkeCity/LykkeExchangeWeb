@@ -2,47 +2,18 @@ import {Select} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {
-  BalanceModel,
-  TransferModel,
-  WalletModel,
-  WalletType
-} from '../../models';
+import {TransferModel, WalletModel} from '../../models';
+import {AmountInput} from '../AmountInput';
 import {asAssetBalance} from '../hoc/assetBalance';
 
 import './style.css';
 
-// tslint:disable-next-line:no-var-requires
-const TextMask = require('react-text-mask').default;
-
 interface TransferFormProps extends RootStoreProps {
   onTransfer?: (transfer: TransferModel) => any;
 }
-
-export const AmountInput = (
-  transfer: TransferModel,
-  handleChangeAmount: (e: any) => void
-) => {
-  const numberMask = createNumberMask({
-    allowDecimal: true,
-    decimalLimit: transfer.asset ? transfer.asset.accuracy : 8,
-    includeThousandsSeparator: false,
-    prefix: '',
-    suffix: ''
-  });
-  return (
-    <TextMask
-      id="tr_amount"
-      mask={numberMask}
-      className="form-control"
-      onChange={handleChangeAmount}
-    />
-  );
-};
 
 export const TransferForm: React.SFC<TransferFormProps> = ({
   rootStore,
@@ -306,7 +277,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 <div className="input-group-addon addon-text">
                   {transfer.asset && transfer.asset.name}
                 </div>
-                {AmountInput(transfer, handleChangeAmount)}
+                {AmountInput(
+                  handleChangeAmount,
+                  transfer.amount,
+                  'tr_name',
+                  transfer.asset ? transfer.asset.accuracy : 8
+                )}
               </div>
             </div>
           </div>
