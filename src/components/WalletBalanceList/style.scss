@@ -127,25 +127,10 @@
 }
 
 .asset-menu {
-  background: #fff;
-  border-radius: $border-radius;
-  box-shadow: 0 5px 5px rgba(63, 77, 96, 0.05), 0 0 20px rgba(63, 77, 96, 0.15);
-  @include rem(font-size, 1rem);
-  @include rem(padding, 10px);
-  div {
-    @include rem(margin, 5px 0);
+  .icon {
+    position: relative;
+    top: -2px;
 
-    a {
-      display: block;
-      width: 100%;
-      @include rem(padding, 10px);
-
-      &:hover {
-        background: $gray-5;
-      }
-
-      color: $text;
-      text-transform: uppercase;
-    }
+    @include rem(margin-right, 10px);
   }
 }
