@@ -1,0 +1,35 @@
+@import '../../styles/utils';
+
+.deposit-result {
+  text-align: center;
+  color: $text;
+  max-width: 100%;
+  padding: 2vh 0;
+
+  @include rem(width, 570px);
+  @include rem(margin, 30px auto);
+  @include rem(line-height, 1.43);
+
+  &__desc {
+    font-weight: $fw-semi;
+
+    @include rem(font-size, 28px);
+    @include rem(margin, 30px 0 20px);
+  }
+
+  &__amount {
+    font-weight: $fw-light;
+
+    @include rem(font-size, 36px);
+    @include rem(margin-bottom, 40px);
+  }
+
+  &__actions {
+    @include rem(margin-bottom, 40px 0 60px);
+  }
+
+  &__actions,
+  &__button {
+    text-align: center;
+  }
+}
