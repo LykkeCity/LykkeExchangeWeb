@@ -184,16 +184,6 @@ export class Sidebar extends React.Component<RootStoreProps> {
                   <span> Telegram</span>
                 </a>
               </li>
-              <li>
-                <a
-                  href="https://lykkecommunity.slack.com"
-                  target="_blank"
-                  className="social__item"
-                >
-                  <i className="icon icon--slack" />
-                  <span> Slack</span>
-                </a>
-              </li>
             </ul>
           </div>
         </div>

@@ -79,14 +79,5 @@ export default ({theme}: any) => (
         <i className="icon icon--telegram_dev" />
       </a>
     </li>
-    <li>
-      <a
-        href="http://lykkecommunity.herokuapp.com"
-        target="_blank"
-        className="social__item"
-      >
-        <i className="icon icon--slack" />
-      </a>
-    </li>
   </ul>
 );
