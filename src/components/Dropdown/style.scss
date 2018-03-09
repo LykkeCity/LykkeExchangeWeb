@@ -1,0 +1,80 @@
+@import '../../styles/utils';
+@import '../../../node_modules/LykkeFramework/assets/scss/common/helpers';
+@import '../../../node_modules/LykkeFramework/assets/scss/partials/dropdown';
+
+.dropdown {
+  &__nav {
+    @include rem('margin-top', 8px);
+    @include rem('padding', 5px);
+
+    &:after {
+      border: 0;
+    }
+
+    .dropdown-list {
+      > li {
+        border-bottom: 0;
+
+        > a:hover {
+          background: initial;
+        }
+      }
+
+      &__item {
+        border-radius: $border-radius;
+        color: $secondary;
+        letter-spacing: normal;
+        text-transform: none;
+
+        @include rem(font-size, 16px);
+        @include rem(line-height, 2.5);
+        @include rem(padding-bottom, 10px);
+        @include rem(padding-top, 10px);
+
+        &:hover {
+          background: $gray-5;
+        }
+
+        &_category {
+          color: $gray-dark;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+
+          &:hover {
+            background: inherit;
+          }
+
+          @include rem(font-size, 13px);
+          @include rem(line-height, 2.31);
+          @include rem(margin-left, 20px);
+          @include rem(padding-bottom, 5px);
+          @include rem(padding-top, 5px);
+        }
+      }
+    }
+
+    li a {
+      padding-top: 0;
+      padding-bottom: 0;
+    }
+  }
+
+  &_clickable {
+    .dropdown__control:hover + .dropdown__container {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+  }
+
+  &_open {
+    .dropdown__container,
+    .dropdown__control:hover + .dropdown__container {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+
+      @include transform(translate(0,0));
+    }
+  }
+}
