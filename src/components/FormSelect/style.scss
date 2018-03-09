@@ -1,0 +1,6 @@
+@import '../../styles/utils';
+
+.select:after {
+  content: '\E92B' !important;
+  color: rgba($secondary, 0.8) !important;
+}
