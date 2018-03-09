@@ -1,0 +1,50 @@
+@import '../../styles/utils';
+
+.deposit-credit-card {
+  max-width: 100%;
+  width: 570px;
+
+  @include rem(margin, 0 auto);
+
+  &__icons {
+    text-align: center;
+
+    @include rem(margin-bottom, 20px);
+
+    li {
+      display: inline;
+
+      @include rem(margin-left, 10px);
+      @include rem(margin-right, 10px);
+    }
+  }
+
+  &__title {
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 3px);
+    @include rem(margin-top, 39px);
+  }
+
+  &__subtitle {
+    color: $gray-dark;
+    font-weight: $fw-light;
+    letter-spacing: -0.3px;
+    line-height: 1.43;
+    text-align: center;
+
+    @include rem(font-size, 28px);
+    @include rem(margin-bottom, 27px);
+  }
+
+  &__description {
+    color: $secondary;
+    line-height: 1.5;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-bottom, 37px);
+  }
+}

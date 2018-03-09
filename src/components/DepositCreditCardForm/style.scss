@@ -1,0 +1,66 @@
+@import '../../styles/utils';
+
+.deposit-credit-card-form {
+  .separator {
+    border-top: 1px solid $border-alt;
+
+    @include rem(margin-bottom, 30px);
+    @include rem(margin-top, 30px);
+  }
+
+  input[type='number']::-webkit-outer-spin-button,
+  input[type='number']::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
+  .help-block {
+    line-height: 1.54;
+    margin-left: 0;
+
+    @include rem(font-size, 13px);
+    @include rem(margin-top, 6px);
+  }
+
+  .has-error {
+    .help-block {
+      color: $red;
+    }
+    .control-label {
+      color: $secondary;
+    }
+  }
+
+  .fee-label {
+    line-height: 1.5;
+
+    @include rem(margin-top, 13px);
+  }
+
+  &__links {
+    text-align: center;
+
+    @include rem(margin-top, 41px);
+  }
+
+  &__actions {
+    text-align: center;
+
+    @include rem(margin-top, 30px);
+
+    input[type='submit'] {
+      width: 370px;
+      max-width: 100%;
+
+      @include rem(margin-bottom, 24px);
+
+      &:disabled {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
