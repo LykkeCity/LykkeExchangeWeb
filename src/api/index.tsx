@@ -10,3 +10,7 @@ export {default as AssetApi} from './assetApi';
 export {default as AffiliateApi} from './affiliateApi';
 export {default as HistoryApi} from './historyApi';
 export {default as TransactionApi} from './transactionApi';
+
+export {default as RestApiv1} from './restApiv1';
+export {default as DepositCreditCardApi} from './depositCreditCardApi';
+export {default as AppSettingsApi} from './appSettingsApi';
