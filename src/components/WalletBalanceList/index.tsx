@@ -1,3 +1,9 @@
+import {observer} from 'mobx-react';
+import * as React from 'react';
+import {Link} from 'react-router-dom';
+import {ROUTE_DEPOSIT_CREDIT_CARD_TO} from '../../constants/routes';
+import {WalletModel} from '../../models/index';
+import {plural} from '../../utils';
 import {
   Dropdown,
   DropdownContainer,
@@ -96,16 +102,22 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                         </DropdownControl>
                         <DropdownContainer>
                           <DropdownList className="asset-menu">
-                            <DropdownListItem key="Deposit">
-                              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                Deposit
-                              </Link>
+                            <DropdownListItem isCategory={true}>
+                              Deposit
                             </DropdownListItem>
-                            <DropdownListItem key="Withdraw">
+                            <DropdownListItem>
                               <Link
-                                to={ROUTE_TRANSFER_FROM(wallet.id, b.assetId)}
+                                to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                  wallet.id,
+                                  b.assetId
+                                )}
                               >
-                                Withdraw
+                                <img
+                                  className="icon"
+                                  src={`${process.env
+                                    .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                />
+                                Credit Card
                               </Link>
                             </DropdownListItem>
                           </DropdownList>

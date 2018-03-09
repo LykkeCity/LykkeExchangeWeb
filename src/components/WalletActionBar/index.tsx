@@ -4,9 +4,19 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
+import {
+  ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_TRANSFER_FROM
+} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl,
+  DropdownList,
+  DropdownListItem
+} from '../Dropdown';
 import './style.css';
 
 interface WalletActionBarProps extends RootStoreProps {
@@ -21,7 +31,25 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     return (
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
+          <Dropdown>
+            <DropdownControl>
+              <a>Deposit</a>
+            </DropdownControl>
+            <DropdownContainer>
+              <DropdownList className="wallet-menu">
+                <DropdownListItem>
+                  <Link to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id)}>
+                    <img
+                      className="icon"
+                      src={`${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                    />
+                    Credit Card
+                  </Link>
+                </DropdownListItem>
+              </DropdownList>
+            </DropdownContainer>
+          </Dropdown>
         </div>
         <div className="wallet-action-bar__item">
           <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Withdraw</Link>
