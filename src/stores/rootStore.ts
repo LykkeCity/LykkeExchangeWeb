@@ -1,8 +1,10 @@
 import {
   AffiliateStore,
+  AppSettingsStore,
   AssetStore,
   AuthStore,
   BalanceStore,
+  DepositCreditCardStore,
   ProfileStore,
   TransactionStore,
   TransferStore,
@@ -10,11 +12,13 @@ import {
   WalletStore
 } from '.';
 import {
+  AppSettingsApi,
   AssetApi,
   AuthApi,
   BalanceApi,
   ConverterApi,
   HistoryApi,
+  DepositCreditCardApi,
   ProfileApi,
   TransactionApi,
   TransferApi,
@@ -26,6 +30,7 @@ import {FeatureStore} from './featuresStore';
 
 export class RootStore {
   affiliateStore: AffiliateStore;
+  appSettingsStore: AppSettingsStore;
   authStore: AuthStore;
   walletStore: WalletStore;
   balanceStore: BalanceStore;
@@ -35,6 +40,7 @@ export class RootStore {
   transferStore: TransferStore;
   profileStore: ProfileStore;
   assetStore: AssetStore;
+  depositCreditCardStore: DepositCreditCardStore;
 
   converter = new ConverterApi(this);
 
@@ -60,6 +66,14 @@ export class RootStore {
       new TransferApi(this),
       this.converter
     );
+    this.depositCreditCardStore = new DepositCreditCardStore(
+      this,
+      new DepositCreditCardApi(this)
+    );
+    this.appSettingsStore = new AppSettingsStore(
+      this,
+      new AppSettingsApi(this)
+    );
   }
 
   reset() {
@@ -79,6 +93,14 @@ export class RootStore {
       this,
       new TransferApi(this),
       this.converter
+    );
+    this.depositCreditCardStore = new DepositCreditCardStore(
+      this,
+      new DepositCreditCardApi(this)
+    );
+    this.appSettingsStore = new AppSettingsStore(
+      this,
+      new AppSettingsApi(this)
     );
     this.authStore.reset();
   }

@@ -9,3 +9,5 @@ export * from './transactionStore';
 export * from './transferStore';
 export * from './profileStore';
 export * from './assetStore';
+export * from './depositCreditCardStore';
+export * from './appSettingsStore';
