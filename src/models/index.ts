@@ -12,3 +12,5 @@ export * from './transactionStatus';
 export * from './assetModel';
 export * from './assetCategoryModel';
 export * from './transactionModel';
+export * from './depositCreditCardModel';
+export * from './appSettingsModel';
