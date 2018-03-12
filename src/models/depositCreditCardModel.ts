@@ -7,6 +7,7 @@ export class DepositCreditCardModel {
   @observable asset: AssetModel;
   @observable city: string = '';
   @observable country: string = '';
+  @observable depositOption: string = '';
   @observable email: string = '';
   @observable firstName: string = '';
   @observable lastName: string = '';
@@ -42,7 +43,7 @@ export class DepositCreditCardModel {
       AssetId: this.asset && this.asset.id,
       City: this.city,
       Country: this.country,
-      DepositOption: 'BankCard',
+      DepositOption: this.depositOption,
       Email: this.email,
       FirstName: this.firstName,
       LastName: this.lastName,
@@ -60,6 +61,7 @@ export const convertFieldName = (apiFieldName: string) =>
     AssetId: 'assetId',
     City: 'city',
     Country: 'country',
+    DepositOption: 'depositOption',
     Email: 'email',
     FirstName: 'firstName',
     LastName: 'lastName',

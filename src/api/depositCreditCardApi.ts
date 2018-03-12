@@ -6,6 +6,7 @@ export interface DepositCreditCardApi {
   fetchBankCardPaymentUrl: (
     deposit: DepositCreditCardModel
   ) => ApiResponse<any>;
+  fetchDepositDefaultValues: () => ApiResponse<any>;
 }
 
 export class RestDepositCreditCardApi extends RestApiv1
@@ -15,6 +16,14 @@ export class RestDepositCreditCardApi extends RestApiv1
       .url('/BankCardPaymentUrl')
       .json(deposit.asJson)
       .post()
+      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
+      .json();
+  };
+
+  fetchDepositDefaultValues = () => {
+    return this.apiBearerWretch()
+      .url('/BankCardPaymentUrlFormValues')
+      .get()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .json();
   };

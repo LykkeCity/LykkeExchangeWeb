@@ -48,6 +48,8 @@ export class ProtectedPage extends React.Component<
   private readonly featureStore = this.props.rootStore!.featureStore;
   private unlistenRouteChange: () => void;
   private readonly appSettingsStore = this.props.rootStore!.appSettingsStore;
+  private readonly depositCreditCardStore = this.props.rootStore!
+    .depositCreditCardStore;
 
   @computed
   private get classes() {
@@ -68,6 +70,7 @@ export class ProtectedPage extends React.Component<
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
+      .then(() => this.depositCreditCardStore.fetchDepositDefaultValues())
       .then(() => this.uiStore.finishRequest());
 
     this.unlistenRouteChange = this.props.history.listen(() => {
