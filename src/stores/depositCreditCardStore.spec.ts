@@ -2,7 +2,8 @@ import {DepositCreditCardStore, RootStore} from '.';
 
 const rootStore = new RootStore();
 const mockApi = {
-  fetchBankCardPaymentUrl: jest.fn()
+  fetchBankCardPaymentUrl: jest.fn(),
+  fetchDepositDefaultValues: jest.fn()
 };
 const depositCreditCardStore = new DepositCreditCardStore(rootStore, mockApi);
 
@@ -30,6 +31,23 @@ describe('deposit credit card store', () => {
     expect(depositCreditCardStore.newDeposit.amount).toBe(99);
     depositCreditCardStore.resetCurrentDeposit();
     expect(depositCreditCardStore.newDeposit.amount).toBe(0);
+  });
+
+  it('should populate new deposit with default values from API', async () => {
+    mockApi.fetchDepositDefaultValues = jest.fn(() => {
+      return {
+        Result: {
+          FirstName: 'foo'
+        }
+      };
+    });
+    expect(depositCreditCardStore.newDeposit.firstName).toBe('');
+    await depositCreditCardStore.fetchDepositDefaultValues();
+    expect(depositCreditCardStore.newDeposit.firstName).toBe('foo');
+    depositCreditCardStore.newDeposit.update({firstName: 'bar'});
+    expect(depositCreditCardStore.newDeposit.firstName).toBe('bar');
+    depositCreditCardStore.resetCurrentDeposit();
+    expect(depositCreditCardStore.newDeposit.firstName).toBe('foo');
   });
 
   it('should handle API 503 error', async () => {
