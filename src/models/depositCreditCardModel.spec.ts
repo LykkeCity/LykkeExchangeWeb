@@ -12,6 +12,7 @@ const deposit = new DepositCreditCardModel({
   asset: new AssetModel({id: 'USD'}),
   city: 'City',
   country: 'Country',
+  depositOption: 'BankCard',
   email: 'test@mail.com',
   firstName: 'John',
   lastName: 'Doe',
@@ -27,6 +28,7 @@ describe('convertFieldName', () => {
     expect(convertFieldName('AssetId')).toBe('assetId');
     expect(convertFieldName('City')).toBe('city');
     expect(convertFieldName('Country')).toBe('country');
+    expect(convertFieldName('DepositOption')).toBe('depositOption');
     expect(convertFieldName('Email')).toBe('email');
     expect(convertFieldName('FirstName')).toBe('firstName');
     expect(convertFieldName('LastName')).toBe('lastName');
@@ -43,14 +45,13 @@ describe('DepositCreditCardModel', () => {
     expect(deposit.asJson.AssetId).toBe(deposit.asset.id);
     expect(deposit.asJson.City).toBe(deposit.city);
     expect(deposit.asJson.Country).toBe(deposit.country);
+    expect(deposit.asJson.DepositOption).toBe(deposit.depositOption);
     expect(deposit.asJson.Email).toBe(deposit.email);
     expect(deposit.asJson.FirstName).toBe(deposit.firstName);
     expect(deposit.asJson.LastName).toBe(deposit.lastName);
     expect(deposit.asJson.Phone).toBe(deposit.phone);
     expect(deposit.asJson.WalletId).toBe(deposit.wallet.id);
     expect(deposit.asJson.Zip).toBe(deposit.zip);
-
-    expect(deposit.asJson.DepositOption).toBe('BankCard');
   });
 
   it('should update model', () => {
