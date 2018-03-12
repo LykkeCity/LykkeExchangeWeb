@@ -45,6 +45,8 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
   private readonly featureStore = this.props.rootStore!.featureStore;
   private readonly appSettingsStore = this.props.rootStore!.appSettingsStore;
+  private readonly depositCreditCardStore = this.props.rootStore!
+    .depositCreditCardStore;
 
   @computed
   private get classes() {
@@ -65,6 +67,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
+      .then(() => this.depositCreditCardStore.fetchDepositDefaultValues())
       .then(() => this.uiStore.finishRequest());
   }
 

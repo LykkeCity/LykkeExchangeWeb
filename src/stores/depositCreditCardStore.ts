@@ -5,6 +5,7 @@ import {ApiResponse} from '../api/types';
 import {convertFieldName, DepositCreditCardModel} from '../models/index';
 
 export class DepositCreditCardStore {
+  @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
   @observable gatewayUrls: {failUrl: string; okUrl: string; paymentUrl: string};
 
@@ -12,13 +13,14 @@ export class DepositCreditCardStore {
     readonly rootStore: RootStore,
     private api?: DepositCreditCardApi
   ) {
+    this.defaultDeposit = new DepositCreditCardModel();
     this.newDeposit = new DepositCreditCardModel();
     this.gatewayUrls = {failUrl: '', okUrl: '', paymentUrl: ''};
   }
 
   @action
   resetCurrentDeposit = () => {
-    this.newDeposit = new DepositCreditCardModel();
+    this.newDeposit.update(this.defaultDeposit);
     this.gatewayUrls = {failUrl: '', okUrl: '', paymentUrl: ''};
   };
 
@@ -50,6 +52,26 @@ export class DepositCreditCardStore {
       okUrl: response.Result.OkUrl,
       paymentUrl: response.Result.Url
     };
+  };
+
+  fetchDepositDefaultValues = async () => {
+    const response = await this.api!.fetchDepositDefaultValues();
+
+    if (response.Result) {
+      this.defaultDeposit = new DepositCreditCardModel({
+        address: response.Result.Address || '',
+        amount: response.Result.Amount || 0,
+        city: response.Result.City || '',
+        country: response.Result.Country || '',
+        depositOption: response.Result.DepositOption || '',
+        email: response.Result.Email || '',
+        firstName: response.Result.FirstName || '',
+        lastName: response.Result.LastName || '',
+        phone: response.Result.Phone || '',
+        zip: response.Result.Zip || ''
+      });
+      this.resetCurrentDeposit();
+    }
   };
 }
 
