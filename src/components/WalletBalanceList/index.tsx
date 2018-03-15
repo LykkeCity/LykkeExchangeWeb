@@ -1,7 +1,11 @@
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {ROUTE_DEPOSIT_CREDIT_CARD_TO} from '../../constants/routes';
+import {
+  ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_TRANSFER_FROM,
+  ROUTE_TRANSFER_TO
+} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
 import {
@@ -82,37 +86,63 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                         </DropdownControl>
                         <DropdownContainer>
                           <DropdownList className="asset-menu">
-                            <DropdownListItem isCategory={true}>
-                              Deposit
-                            </DropdownListItem>
-                            {b.asset.isBankDepositEnabled ? (
-                              <DropdownListItem>
-                                <Link
-                                  to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                    wallet.id,
-                                    b.assetId
-                                  )}
-                                >
-                                  <img
-                                    className="icon"
-                                    src={`${process.env
-                                      .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                  />
-                                  Credit Card
-                                </Link>
-                              </DropdownListItem>
-                            ) : (
-                              <DropdownListItem className="asset-menu__item_disabled">
-                                <a>
-                                  <img
-                                    className="icon"
-                                    src={`${process.env
-                                      .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                  />
-                                  Credit Card
-                                </a>
-                              </DropdownListItem>
-                            )}
+                            {wallet.isTrading
+                              ? [
+                                  <DropdownListItem
+                                    isCategory={true}
+                                    key="Deposit"
+                                  >
+                                    Deposit
+                                  </DropdownListItem>,
+                                  b.asset.isBankDepositEnabled ? (
+                                    <DropdownListItem key="Credit Card">
+                                      <Link
+                                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </Link>
+                                    </DropdownListItem>
+                                  ) : (
+                                    <DropdownListItem
+                                      className="asset-menu__item_disabled"
+                                      key="Credit Card"
+                                    >
+                                      <a>
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </a>
+                                    </DropdownListItem>
+                                  )
+                                ]
+                              : [
+                                  <DropdownListItem key="Deposit">
+                                    <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
+                                      Deposit
+                                    </Link>
+                                  </DropdownListItem>,
+                                  <DropdownListItem key="Withdraw">
+                                    <Link
+                                      to={ROUTE_TRANSFER_FROM(
+                                        wallet.id,
+                                        b.assetId
+                                      )}
+                                    >
+                                      Withdraw
+                                    </Link>
+                                  </DropdownListItem>
+                                ]}
                           </DropdownList>
                         </DropdownContainer>
                       </Dropdown>
