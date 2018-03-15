@@ -6,7 +6,8 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
-  ROUTE_TRANSFER_FROM
+  ROUTE_TRANSFER_FROM,
+  ROUTE_TRANSFER_TO
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
@@ -31,25 +32,31 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     return (
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
-          <Dropdown>
-            <DropdownControl>
-              <a>Deposit</a>
-            </DropdownControl>
-            <DropdownContainer>
-              <DropdownList className="wallet-menu">
-                <DropdownListItem>
-                  <Link to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id)}>
-                    <img
-                      className="icon"
-                      src={`${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                    />
-                    Credit Card
-                  </Link>
-                </DropdownListItem>
-              </DropdownList>
-            </DropdownContainer>
-          </Dropdown>
+          {wallet.isTrading ? (
+            <Dropdown>
+              <DropdownControl>
+                <a>Deposit</a>
+              </DropdownControl>
+              <DropdownContainer>
+                <DropdownList className="wallet-menu">
+                  <DropdownListItem>
+                    <Link to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id)}>
+                      <img
+                        className="icon"
+                        src={`${process.env
+                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                      />
+                      Credit Card
+                    </Link>
+                  </DropdownListItem>
+                </DropdownList>
+              </DropdownContainer>
+            </Dropdown>
+          ) : (
+            <div className="wallet-action-bar__item">
+              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
+            </div>
+          )}
         </div>
         <div className="wallet-action-bar__item">
           <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Withdraw</Link>
