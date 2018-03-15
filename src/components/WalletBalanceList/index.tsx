@@ -85,21 +85,34 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                             <DropdownListItem isCategory={true}>
                               Deposit
                             </DropdownListItem>
-                            <DropdownListItem>
-                              <Link
-                                to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                  wallet.id,
-                                  b.assetId
-                                )}
-                              >
-                                <img
-                                  className="icon"
-                                  src={`${process.env
-                                    .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                />
-                                Credit Card
-                              </Link>
-                            </DropdownListItem>
+                            {b.asset.isBankDepositEnabled ? (
+                              <DropdownListItem>
+                                <Link
+                                  to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                    wallet.id,
+                                    b.assetId
+                                  )}
+                                >
+                                  <img
+                                    className="icon"
+                                    src={`${process.env
+                                      .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                  />
+                                  Credit Card
+                                </Link>
+                              </DropdownListItem>
+                            ) : (
+                              <DropdownListItem className="asset-menu__item_disabled">
+                                <a>
+                                  <img
+                                    className="icon"
+                                    src={`${process.env
+                                      .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                  />
+                                  Credit Card
+                                </a>
+                              </DropdownListItem>
+                            )}
                           </DropdownList>
                         </DropdownContainer>
                       </Dropdown>
