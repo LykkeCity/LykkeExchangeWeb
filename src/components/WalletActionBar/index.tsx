@@ -25,9 +25,6 @@ interface WalletActionBarProps extends RootStoreProps {
   wallet: WalletModel;
 }
 
-const ASSET_DEFAULT_ICON_URL = `${process.env
-  .PUBLIC_URL}/images/assets/asset_default.jpg`;
-
 export class WalletActionBar extends React.Component<WalletActionBarProps> {
   state = {message: ''};
 
@@ -69,10 +66,6 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                                   a.id
                                 )}
                               >
-                                <img
-                                  className="icon asset-icon"
-                                  src={a.iconUrl || ASSET_DEFAULT_ICON_URL}
-                                />
                                 {a.name}
                               </Link>
                             </DropdownListItem>
