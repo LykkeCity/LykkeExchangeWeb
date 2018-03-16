@@ -306,6 +306,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       type="tel"
                       {...field}
                       className="form-control"
+                      disabled={true}
                     />
                     {form.errors[field.name] && (
                       <span className="help-block">
@@ -335,6 +336,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       type="email"
                       {...field}
                       className="form-control"
+                      disabled={true}
                     />
                     {form.errors[field.name] && (
                       <span className="help-block">
