@@ -66,8 +66,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
         } catch (err) {
           if (err.field) {
             setErrors({[err.field]: err.message});
+            (document.querySelector(
+              `[name="${err.field}"]`
+            ) as HTMLInputElement).focus();
+          } else {
+            setStatus(err.message);
           }
-          setStatus(err.message);
           setSubmitting(false);
         }
       }}
