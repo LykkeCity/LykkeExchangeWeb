@@ -8,7 +8,8 @@ export const AmountInput = (
   onChange: (e: React.ChangeEvent<any>) => void,
   value: any,
   name: string,
-  decimalLimit: number = 8
+  decimalLimit: number = 8,
+  maxLength: number = 10
 ) => {
   const numberMask = createNumberMask({
     allowDecimal: true,
@@ -26,6 +27,7 @@ export const AmountInput = (
       id={name}
       onChange={onChange}
       value={value || ''}
+      maxLength={maxLength}
     />
   );
 };
