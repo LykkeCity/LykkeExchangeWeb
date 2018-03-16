@@ -95,7 +95,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       <div className="input-group-addon addon-text">
                         {asset && asset.name}
                       </div>
-                      {AmountInput(field.onChange, field.value, field.name)}
+                      {AmountInput(
+                        field.onChange,
+                        field.value,
+                        field.name,
+                        asset && asset.accuracy
+                      )}
                       {form.errors[field.name] && (
                         <span className="help-block">
                           {form.errors[field.name]}
