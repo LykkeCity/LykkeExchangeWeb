@@ -39,81 +39,33 @@ export class DepositCreditCardPage extends React.Component<
 
   render() {
     const asset = this.depositCreditCardStore.newDeposit.asset;
+    const cardIcons = [
+      'visa.svg',
+      'visa-electron.svg',
+      'mc.png',
+      'maestro.svg',
+      'americanexpress.svg',
+      'jcb.svg',
+      'unionpay.svg',
+      'skrill.svg',
+      'przelewy.png',
+      'poli.png',
+      'ideal.png',
+      'giropay.svg'
+    ];
 
     return (
       <div className="container">
         <div className="deposit-credit-card">
           <ul className="deposit-credit-card__icons">
-            <li>
-              <img
-                src={`${process.env.PUBLIC_URL}/images/paymentMethods/visa.svg`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/visa-electron.svg`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env.PUBLIC_URL}/images/paymentMethods/mc.png`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/maestro.svg`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/americanexpress.svg`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env.PUBLIC_URL}/images/paymentMethods/jcb.svg`}
-              />
-            </li>
-          </ul>
-          <ul className="deposit-credit-card__icons">
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/unionpay.svg`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/skrill.svg`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/przelewy.png`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env.PUBLIC_URL}/images/paymentMethods/poli.png`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/ideal.png`}
-              />
-            </li>
-            <li>
-              <img
-                src={`${process.env
-                  .PUBLIC_URL}/images/paymentMethods/giropay.svg`}
-              />
-            </li>
+            {cardIcons.map(cardIcon => (
+              <li key={cardIcon}>
+                <img
+                  src={`${process.env
+                    .PUBLIC_URL}/images/paymentMethods/${cardIcon}`}
+                />
+              </li>
+            ))}
           </ul>
           <div className="deposit-credit-card__title">
             Deposit {!!asset && asset!.name}

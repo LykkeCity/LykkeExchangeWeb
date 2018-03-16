@@ -71,9 +71,5 @@
     top: -2px;
 
     @include rem(margin-right, 10px);
-
-    &.asset-icon {
-      width: 19px;
-    }
   }
 }

@@ -3,6 +3,16 @@
 @import '../../../node_modules/LykkeFramework/assets/scss/partials/dropdown';
 
 .dropdown {
+  .dropdown__container {
+    @media all and (max-width: $screen-landscape) {
+      display: initial;
+    }
+
+    @media (max-width: $screen-mobile) {
+      margin-left: -50px;
+    }
+  }
+
   &__nav {
     @include rem('margin-top', 8px);
     @include rem('padding', 5px);
@@ -94,6 +104,10 @@
       top: 0;
       left: 100%;
       padding: 0 10px;
+
+      @media (max-width: $screen-mobile) {
+        margin: -9px 0;
+      }
     }
   }
 }
