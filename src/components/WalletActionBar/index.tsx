@@ -16,7 +16,8 @@ import {
   DropdownContainer,
   DropdownControl,
   DropdownList,
-  DropdownListItem
+  DropdownListItem,
+  DropdownPosition
 } from '../Dropdown';
 import './style.css';
 
@@ -24,11 +25,18 @@ interface WalletActionBarProps extends RootStoreProps {
   wallet: WalletModel;
 }
 
+const ASSET_DEFAULT_ICON_URL = `${process.env
+  .PUBLIC_URL}/images/assets/asset_default.jpg`;
+
 export class WalletActionBar extends React.Component<WalletActionBarProps> {
   state = {message: ''};
 
   render() {
     const {wallet} = this.props;
+    const assets = wallet.balances
+      .map(b => b.asset)
+      .filter(a => a.isBankDepositEnabled);
+
     return (
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
@@ -40,14 +48,38 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               <DropdownContainer>
                 <DropdownList className="wallet-menu">
                   <DropdownListItem>
-                    <Link to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id)}>
-                      <img
-                        className="icon"
-                        src={`${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                      />
-                      Credit Card
-                    </Link>
+                    <Dropdown position={DropdownPosition.RIGHT}>
+                      <DropdownControl>
+                        <a>
+                          <img
+                            className="icon"
+                            src={`${process.env
+                              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                          />
+                          Credit Card
+                        </a>
+                      </DropdownControl>
+                      <DropdownContainer>
+                        <DropdownList className="wallet-asset-menu">
+                          {assets.map(a => (
+                            <DropdownListItem key={a.id}>
+                              <Link
+                                to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                  wallet.id,
+                                  a.id
+                                )}
+                              >
+                                <img
+                                  className="icon asset-icon"
+                                  src={a.iconUrl || ASSET_DEFAULT_ICON_URL}
+                                />
+                                {a.name}
+                              </Link>
+                            </DropdownListItem>
+                          ))}
+                        </DropdownList>
+                      </DropdownContainer>
+                    </Dropdown>
                   </DropdownListItem>
                 </DropdownList>
               </DropdownContainer>

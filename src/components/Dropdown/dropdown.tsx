@@ -3,10 +3,16 @@ import * as React from 'react';
 import {ClickOutside} from '../ClickOutside';
 import './style.css';
 
+export const DropdownPosition = {
+  BOTTOM: 'bottom',
+  RIGHT: 'right'
+};
+
 export interface DropdownProps {
   children?: React.ReactChild | React.ReactChild[];
   className?: string;
   isOpen?: boolean;
+  position?: string;
   tag?: string;
   trigger?: string;
 }
@@ -44,6 +50,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
     const {
       children,
       className,
+      position = 'bottom',
       tag: Tag = 'div',
       trigger = 'hover',
       ...props
@@ -58,6 +65,7 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
             'dropdown',
             className,
             this.state.isOpen ? 'dropdown_open' : '',
+            position === DropdownPosition.RIGHT ? 'dropdown_right' : '',
             trigger === 'click' ? 'dropdown_clickable' : ''
           )}
         >
