@@ -33,6 +33,10 @@
     .control-label {
       color: $secondary;
     }
+    .input-group-addon {
+      background-color: inherit;
+      color: inherit;
+    }
   }
 
   .fee-label {
