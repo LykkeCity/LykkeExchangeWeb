@@ -60,7 +60,7 @@ export class DepositCreditCardStore {
     if (response.Result) {
       this.defaultDeposit = new DepositCreditCardModel({
         address: response.Result.Address || '',
-        amount: response.Result.Amount || 0,
+        amount: 0,
         city: response.Result.City || '',
         country: response.Result.Country || '',
         depositOption: response.Result.DepositOption || '',
