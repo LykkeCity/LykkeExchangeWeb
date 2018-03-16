@@ -65,7 +65,8 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           onSuccess(failUrl, okUrl, paymentUrl);
         } catch (err) {
           if (err.field) {
-            setErrors({[err.field]: err.message});
+            const errMessage = err.message.replace(asset.id, asset.name);
+            setErrors({[err.field]: errMessage});
             (document.querySelector(
               `[name="${err.field}"]`
             ) as HTMLInputElement).focus();
