@@ -40,6 +40,9 @@ export const arraysEqual = (a: any[], b: any[]) => {
   return true;
 };
 
+export const roundMoney = (value: number, accuracy = 2) =>
+  Math.ceil(value * Math.pow(10, accuracy)) / Math.pow(10, accuracy);
+
 export const copyTextToClipboard = (text: string) => {
   const textArea = document.createElement('textarea');
 
