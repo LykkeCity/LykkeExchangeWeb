@@ -9,6 +9,7 @@ import {
 } from 'formik';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {FormattedNumber} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
@@ -17,7 +18,6 @@ import {AssetModel, DepositCreditCardModel} from '../../models';
 import {roundMoney} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {FormSelect} from '../FormSelect';
-import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
 
@@ -115,10 +115,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       {!!bankCardsFeeSizePercentage && (
                         <div className="fee-label">
                           Fee: {asset && asset.name}{' '}
-                          <NumberFormat
+                          <FormattedNumber
                             value={roundMoney(
                               field.value * bankCardsFeeSizePercentage
                             )}
+                            style="decimal"
+                            maximumFractionDigits={asset && asset.accuracy}
                           />
                         </div>
                       )}
