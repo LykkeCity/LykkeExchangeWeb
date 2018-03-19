@@ -20,14 +20,13 @@ import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
   ROUTE_AFFILIATE_STATISTICS,
-<<<<<<< HEAD
   ROUTE_ASSET_PAGE,
-=======
   ROUTE_DEPOSIT_CREDIT_CARD,
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
->>>>>>> LWDEV-6220: Added Deposit Credit Card page with form
+  ROUTE_GATEWAY_FAIL,
+  ROUTE_GATEWAY_SUCCESS,
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
@@ -146,6 +145,16 @@ export class ProtectedPage extends React.Component<
             <Route
               path={ROUTE_DEPOSIT_CREDIT_CARD}
               component={asLoading(DepositCreditCardPage)}
+            />
+            <Route
+              path={ROUTE_GATEWAY_FAIL}
+              // tslint:disable-next-line:jsx-no-lambda
+              render={() => <div />}
+            />
+            <Route
+              path={ROUTE_GATEWAY_SUCCESS}
+              // tslint:disable-next-line:jsx-no-lambda
+              render={() => <div />}
             />
             <Route component={NoMatch} />
           </Switch>
