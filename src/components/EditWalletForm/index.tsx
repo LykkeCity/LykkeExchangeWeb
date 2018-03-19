@@ -2,8 +2,11 @@ import * as classNames from 'classnames';
 import {extendObservable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
 import {WalletModel} from '../../models/index';
 import {RootStore} from '../../stores/index';
+
+import './style.css';
 
 interface EditWalletFormProps {
   wallet?: WalletModel;
@@ -20,7 +23,7 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
   onSave,
   pending = false
 }) => (
-  <form>
+  <form className="edit-wallet-form">
     <div className="form-group">
       <label htmlFor="name" className="control-label">
         Name of wallet
@@ -52,6 +55,7 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
         value={wallet!.desc}
       />
     </div>
+    <GenerateWalletKeyForm wallet={wallet!} />
     <div className="drawer__footer">
       <button
         className="btn btn--primary pull-right"
