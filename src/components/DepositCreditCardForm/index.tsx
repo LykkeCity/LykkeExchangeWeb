@@ -40,7 +40,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   } = rootStore!;
   const countryOptions = countries.map(c => ({
     label: c.name,
-    value: c.id
+    value: c.iso2
   }));
 
   return (
