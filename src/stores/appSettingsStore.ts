@@ -17,6 +17,7 @@ export class AppSettingsStore {
     return uniq(
       this.appSettings.countryCodes.map(cc => ({
         id: cc.Id,
+        iso2: cc.Iso2,
         name: cc.Name
       }))
     );
