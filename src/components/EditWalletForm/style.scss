@@ -1,0 +1,17 @@
+@import '../../styles/utils';
+
+.edit-wallet-form {
+  .asset_link_list {
+    border-top: 1px solid $border-alt;
+
+    @include rem(padding-top, 12px);
+
+    .asset_link {
+      @include rem(padding-bottom, 12px);
+
+      &__title {
+        margin: 0;
+      }
+    }
+  }
+}
