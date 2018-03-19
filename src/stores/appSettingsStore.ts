@@ -31,13 +31,10 @@ export class AppSettingsStore {
     const resp = await this.api!.fetchSettings();
 
     if (!!resp.Result) {
-      // TODO: remove if not needed anymore the defence from Settings error
-      const fee = resp.Result.FeeSettings.BankCardsFeeSizePercentage;
-      const defaultFee = 0.035;
-
       runInAction(() => {
         this.appSettings.feeSettings = {
-          bankCardsFeeSizePercentage: fee > 1 ? defaultFee : fee
+          bankCardsFeeSizePercentage:
+            resp.Result.FeeSettings.BankCardsFeeSizePercentage
         };
       });
     }
