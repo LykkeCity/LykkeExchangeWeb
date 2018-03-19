@@ -28,6 +28,24 @@
 
 .app--overlayed {
   filter: blur(5px);
+
+  &:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba($gray-25, 0.5);
+  }
+
+  .header {
+    background: rgba($gray-25, 0.5);
+  }
+
+  .header_nav__inner {
+    background: rgba($gray-light, 0.5);
+  }
 }
 
 body {
