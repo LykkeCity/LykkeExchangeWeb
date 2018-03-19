@@ -1,6 +1,8 @@
 import {action, computed, observable} from 'mobx';
 import {AssetModel, WalletModel} from './';
 
+export const DEFAULT_DEPOSIT_OPTION = 'BankCard';
+
 export class DepositCreditCardModel {
   @observable address: string = '';
   @observable amount: number = 0;
@@ -43,7 +45,7 @@ export class DepositCreditCardModel {
       AssetId: this.asset && this.asset.id,
       City: this.city,
       Country: this.country,
-      DepositOption: this.depositOption,
+      DepositOption: this.depositOption || DEFAULT_DEPOSIT_OPTION,
       Email: this.email,
       FirstName: this.firstName,
       LastName: this.lastName,

@@ -1,6 +1,9 @@
 import {RootStore} from '../stores';
 import {AssetModel, DepositCreditCardModel, WalletModel} from './';
-import {convertFieldName} from './depositCreditCardModel';
+import {
+  convertFieldName,
+  DEFAULT_DEPOSIT_OPTION
+} from './depositCreditCardModel';
 
 const rootStore = new RootStore();
 const wallet = new WalletModel(rootStore.walletStore);
@@ -52,6 +55,11 @@ describe('DepositCreditCardModel', () => {
     expect(deposit.asJson.Phone).toBe(deposit.phone);
     expect(deposit.asJson.WalletId).toBe(deposit.wallet.id);
     expect(deposit.asJson.Zip).toBe(deposit.zip);
+  });
+
+  it('should send default DepositOption', () => {
+    deposit.update({depositOption: ''});
+    expect(deposit.asJson.DepositOption).toBe(DEFAULT_DEPOSIT_OPTION);
   });
 
   it('should update model', () => {
