@@ -27,12 +27,10 @@
 
 .asset_link {
   &__title {
-    line-height: normal;
+    line-height: 1.67;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-
-    @include rem(margin-bottom, 5px);
   }
 
   &__info {
