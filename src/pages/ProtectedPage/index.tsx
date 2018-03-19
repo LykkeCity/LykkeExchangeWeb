@@ -10,8 +10,7 @@ import {loadable} from '../../components/hoc/loadable';
 import {NoMatch} from '../../components/NoMatch/index';
 import PaymentGateway from '../../components/PaymentGateway';
 
-import {DepositFail} from '../../components/DepositResult';
-import DepositSuccess from '../../components/DepositResult';
+import {DepositFail, DepositSuccess} from '../../components/DepositResult';
 import {
   TransferFail,
   TransferResult
