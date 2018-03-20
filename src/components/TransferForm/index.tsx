@@ -1,3 +1,4 @@
+import {Select} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
@@ -5,10 +6,9 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel, WalletModel} from '../../models';
+import {TransferModel, WalletModel, WalletType} from '../../models';
 import {asAssetBalance} from '../hoc/assetBalance';
-import Select from '../Select';
-import WalletSelect from '../WalletSelect';
+
 import './style.css';
 
 // tslint:disable-next-line:no-var-requires
@@ -107,10 +107,64 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
               </label>
             </div>
             <div className="col-sm-8">
-              <WalletSelect
-                options={walletStore.walletsWithAssets}
+              <Select
+                optGroups={[
+                  {
+                    label: 'Trading Wallet',
+                    options: walletStore.walletsWithAssets.filter(
+                      w => w.type === WalletType.Trading
+                    )
+                  },
+                  {
+                    label: 'Private Wallet',
+                    options: walletStore.walletsWithAssets.filter(
+                      w => w.type === WalletType.Trusted
+                    )
+                  }
+                ]}
                 onChange={handleChangeWallet('from')}
+                // tslint:disable-next-line:jsx-no-lambda
+                optionRenderer={wallet => (
+                  <div>
+                    <a>
+                      <span>{wallet.title}</span>
+                      <span className="pull-right">
+                        {!!baseAssetAsModel &&
+                          asAssetBalance(
+                            baseAssetAsModel,
+                            wallet.totalBalance
+                          )}{' '}
+                        {!!baseAssetAsModel && baseAssetAsModel.name}
+                      </span>
+                    </a>
+                  </div>
+                )}
+                placeholder="Select..."
+                searchPlaceholder="Enter address of wallet or select from list..."
+                // tslint:disable-next-line:jsx-no-lambda
+                selectRenderer={wallet => {
+                  return (
+                    wallet && (
+                      <div className="wallet-select">
+                        <div className="wallet-select__wallet-name">
+                          {wallet.title}
+                        </div>
+                        <div className="wallet-select__wallet-amount">
+                          {!!baseAssetAsModel &&
+                            asAssetBalance(
+                              baseAssetAsModel,
+                              wallet.totalBalance
+                            )}{' '}
+                          {!!baseAssetAsModel && baseAssetAsModel.name}{' '}
+                          available
+                        </div>
+                      </div>
+                    )
+                  );
+                }}
                 value={transfer.from && transfer.from.id}
+                valueKey="id"
+                labelKey="title"
               />
             </div>
           </div>
@@ -131,22 +185,27 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                   balance: x.balance,
                   balanceAvailable: x.availableBalance
                 }))}
-                // tslint:disable-next-line:jsx-no-lambda
-                optionRenderer={(option: any) => (
-                  <div className="option">
-                    <div>{option.asset.name}</div>
-                    <div>
-                      <small style={{color: 'gray'}}>
-                        {asAssetBalance(option.asset, option.balanceAvailable)}
-                      </small>
-                    </div>
-                  </div>
-                )}
                 labelKey="assetName"
                 valueKey="assetId"
                 onChange={handleChangeAsset}
                 value={!!transfer.asset && transfer.asset.id}
-                clearable={false}
+                // tslint:disable-next-line:jsx-no-lambda
+                optionRenderer={option => (
+                  <div>
+                    <a>
+                      <span>{option.assetName}</span>
+                      <span className="pull-right">
+                        {asAssetBalance(
+                          option.asset,
+                          option.balanceAvailable
+                        )}{' '}
+                        {option.assetName}
+                      </span>
+                    </a>
+                  </div>
+                )}
+                placeholder="Select..."
+                searchPlaceholder="Enter asset name or select from list..."
               />
             </div>
           </div>
@@ -159,10 +218,64 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
               </label>
             </div>
             <div className="col-sm-8">
-              <WalletSelect
-                options={walletStore.getWalletsExceptOne(transfer.from)}
+              <Select
+                optGroups={[
+                  {
+                    label: 'Trading Wallets',
+                    options: walletStore
+                      .getWalletsExceptOne(transfer.from)
+                      .filter(w => w.type === WalletType.Trading)
+                  },
+                  {
+                    label: 'Private Wallets',
+                    options: walletStore
+                      .getWalletsExceptOne(transfer.from)
+                      .filter(w => w.type === WalletType.Trusted)
+                  }
+                ]}
                 onChange={handleChangeWallet('to')}
+                // tslint:disable-next-line:jsx-no-lambda
+                optionRenderer={wallet => (
+                  <div>
+                    <a>
+                      <span>{wallet.title}</span>
+                      <span className="pull-right">
+                        {!!baseAssetAsModel &&
+                          asAssetBalance(
+                            baseAssetAsModel,
+                            wallet.totalBalance
+                          )}{' '}
+                        {!!baseAssetAsModel && baseAssetAsModel.name}
+                      </span>
+                    </a>
+                  </div>
+                )}
+                placeholder="Select..."
+                searchPlaceholder="Enter address of wallet or select from list..."
+                // tslint:disable-next-line:jsx-no-lambda
+                selectRenderer={wallet => {
+                  return (
+                    wallet && (
+                      <div className="wallet-select">
+                        <div className="wallet-select__wallet-name">
+                          {wallet.title}
+                        </div>
+                        <div className="wallet-select__wallet-amount">
+                          {!!baseAssetAsModel &&
+                            asAssetBalance(
+                              baseAssetAsModel,
+                              wallet.totalBalance
+                            )}{' '}
+                          {!!baseAssetAsModel && baseAssetAsModel.name}{' '}
+                          available
+                        </div>
+                      </div>
+                    )
+                  );
+                }}
                 value={transfer.to && transfer.to.id}
+                valueKey="id"
+                labelKey="title"
               />
             </div>
           </div>
