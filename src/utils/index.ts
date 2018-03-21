@@ -27,8 +27,14 @@ export const formatWithAccuracy = (accuracy: number) => {
   return `0,0.[${new Array(accuracy).fill('0').join('')}]`;
 };
 
-export const roundMoney = (value: number, accuracy = 2) =>
-  Math.ceil(value * Math.pow(10, accuracy)) / Math.pow(10, accuracy);
+export const roundMoney = (value: number, accuracy = 2) => {
+  const SAFE_ACCURACY = accuracy + 4;
+
+  return (
+    Math.ceil(Number(value.toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)) /
+    Math.pow(10, accuracy)
+  );
+};
 
 export const copyTextToClipboard = (text: string) => {
   const textArea = document.createElement('textarea');
