@@ -78,23 +78,23 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
-                      <Dropdown trigger="click">
-                        <DropdownControl>
-                          <button type="button" className="btn btn--icon">
-                            <i className="icon icon--actions" />
-                          </button>
-                        </DropdownControl>
-                        <DropdownContainer>
-                          <DropdownList className="asset-menu">
-                            {wallet.isTrading
-                              ? [
-                                  <DropdownListItem
-                                    isCategory={true}
-                                    key="Deposit"
-                                  >
-                                    Deposit
-                                  </DropdownListItem>,
-                                  b.asset.isBankDepositEnabled ? (
+                      {(b.asset.isBankDepositEnabled || !wallet.isTrading) && (
+                        <Dropdown trigger="click">
+                          <DropdownControl>
+                            <button type="button" className="btn btn--icon">
+                              <i className="icon icon--actions" />
+                            </button>
+                          </DropdownControl>
+                          <DropdownContainer>
+                            <DropdownList className="asset-menu">
+                              {wallet.isTrading
+                                ? [
+                                    <DropdownListItem
+                                      isCategory={true}
+                                      key="Deposit"
+                                    >
+                                      Deposit
+                                    </DropdownListItem>,
                                     <DropdownListItem key="Credit Card">
                                       <Link
                                         to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
@@ -110,42 +110,28 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                         Credit Card
                                       </Link>
                                     </DropdownListItem>
-                                  ) : (
-                                    <DropdownListItem
-                                      className="asset-menu__item_disabled"
-                                      key="Credit Card"
-                                    >
-                                      <a>
-                                        <img
-                                          className="icon"
-                                          src={`${process.env
-                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                        />
-                                        Credit Card
-                                      </a>
+                                  ]
+                                : [
+                                    <DropdownListItem key="Deposit">
+                                      <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
+                                        Deposit
+                                      </Link>
+                                    </DropdownListItem>,
+                                    <DropdownListItem key="Withdraw">
+                                      <Link
+                                        to={ROUTE_TRANSFER_FROM(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        Withdraw
+                                      </Link>
                                     </DropdownListItem>
-                                  )
-                                ]
-                              : [
-                                  <DropdownListItem key="Deposit">
-                                    <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                      Deposit
-                                    </Link>
-                                  </DropdownListItem>,
-                                  <DropdownListItem key="Withdraw">
-                                    <Link
-                                      to={ROUTE_TRANSFER_FROM(
-                                        wallet.id,
-                                        b.assetId
-                                      )}
-                                    >
-                                      Withdraw
-                                    </Link>
-                                  </DropdownListItem>
-                                ]}
-                          </DropdownList>
-                        </DropdownContainer>
-                      </Dropdown>
+                                  ]}
+                            </DropdownList>
+                          </DropdownContainer>
+                        </Dropdown>
+                      )}
                     </td>
                   </tr>
                 ))}
