@@ -100,13 +100,13 @@
 
   &_right {
     .dropdown__container {
-      margin: -13px 0;
+      margin: -13px -5px;
       top: 0;
       left: 100%;
       padding: 0 10px;
 
       @media (max-width: $screen-mobile) {
-        margin: -9px 0;
+        margin: -9px -5px;
       }
     }
   }
