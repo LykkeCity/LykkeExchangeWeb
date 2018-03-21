@@ -26,14 +26,31 @@
     @include rem(margin-top, 6px);
   }
 
+  .error-bar {
+    background-color: $red;
+    border-radius: 100px;
+    display: none;
+    height: 40px;
+    position: absolute;
+    top: 3px;
+    width: 2px;
+    z-index: 100;
+  }
+
+  label + .error-bar {
+    top: 35px;
+  }
+
   .has-error {
+    .error-bar {
+      display: block;
+    }
+
     .form-control {
       border-color: $gray-25;
-      border-left: 2px solid $red;
 
       &:focus {
         border-color: $gray-25;
-        border-left: 2px solid $red;
       }
     }
     .help-block {
