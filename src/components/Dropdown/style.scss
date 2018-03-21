@@ -73,6 +73,11 @@
       }
     }
 
+    .dropdown__nav {
+      max-height: 410px;
+      overflow-y: auto;
+    }
+
     li a {
       padding-top: 0;
       padding-bottom: 0;
