@@ -15,6 +15,7 @@ interface WalletFormProps {
 export class WalletForm extends React.Component<WalletFormProps> {
   @observable hasErrors = false;
   @observable isDirty = false;
+  @observable isSubmitting = false;
 
   render() {
     return (
@@ -58,7 +59,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
             className="btn btn--primary pull-right"
             type="button"
             onClick={this.handleSubmit}
-            disabled={!this.props.wallet.isValid}
+            disabled={!this.props.wallet.isValid || this.isSubmitting}
           >
             Generate API Key
           </button>
@@ -83,6 +84,7 @@ export class WalletForm extends React.Component<WalletFormProps> {
   private handleSubmit: React.MouseEventHandler<any> = e => {
     this.validateForm();
     if (this.props.wallet.isValid) {
+      this.isSubmitting = true;
       this.props.onSubmit(e);
     }
   };
