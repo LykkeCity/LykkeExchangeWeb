@@ -127,6 +127,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       <div className="input-group-addon addon-text">
                         {asset && asset.name}
                       </div>
+                      <div className="error-bar" />
                       {AmountInput(
                         field.onChange,
                         field.value,
@@ -172,6 +173,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     <label htmlFor={field.name} className="control-label">
                       First Name
                     </label>
+                    <div className="error-bar" />
                     <input
                       id={field.name}
                       type="text"
@@ -201,6 +203,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     <label htmlFor={field.name} className="control-label">
                       Last Name
                     </label>
+                    <div className="error-bar" />
                     <input
                       id={field.name}
                       type="text"
@@ -218,25 +221,32 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             </div>
           </div>
 
-          <Field
-            name="country"
-            render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-              <div
-                className={classNames(
-                  'form-group',
-                  form.errors[field.name] && 'has-error'
+          <div className="row">
+            <div className="col-sm-12">
+              <Field
+                name="country"
+                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
+                  <div
+                    className={classNames(
+                      'form-group',
+                      form.errors[field.name] && 'has-error'
+                    )}
+                  >
+                    <label htmlFor={field.name} className="control-label">
+                      Country
+                    </label>
+                    <div className="error-bar" />
+                    <FormSelect options={countryOptions} {...field} />
+                    {form.errors[field.name] && (
+                      <span className="help-block">
+                        {form.errors[field.name]}
+                      </span>
+                    )}
+                  </div>
                 )}
-              >
-                <label htmlFor={field.name} className="control-label">
-                  Country
-                </label>
-                <FormSelect options={countryOptions} {...field} />
-                {form.errors[field.name] && (
-                  <span className="help-block">{form.errors[field.name]}</span>
-                )}
-              </div>
-            )}
-          />
+              />
+            </div>
+          </div>
 
           <div className="row">
             <div className="col-sm-6">
@@ -252,6 +262,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     <label htmlFor={field.name} className="control-label">
                       City
                     </label>
+                    <div className="error-bar" />
                     <input
                       id={field.name}
                       type="text"
@@ -281,6 +292,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     <label htmlFor={field.name} className="control-label">
                       ZIP
                     </label>
+                    <div className="error-bar" />
                     <input
                       id={field.name}
                       type="text"
@@ -298,30 +310,37 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             </div>
           </div>
 
-          <Field
-            name="address"
-            render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-              <div
-                className={classNames(
-                  'form-group',
-                  form.errors[field.name] && 'has-error'
+          <div className="row">
+            <div className="col-sm-12">
+              <Field
+                name="address"
+                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
+                  <div
+                    className={classNames(
+                      'form-group',
+                      form.errors[field.name] && 'has-error'
+                    )}
+                  >
+                    <label htmlFor={field.name} className="control-label">
+                      Address
+                    </label>
+                    <div className="error-bar" />
+                    <input
+                      id={field.name}
+                      type="text"
+                      {...field}
+                      className="form-control"
+                    />
+                    {form.errors[field.name] && (
+                      <span className="help-block">
+                        {form.errors[field.name]}
+                      </span>
+                    )}
+                  </div>
                 )}
-              >
-                <label htmlFor={field.name} className="control-label">
-                  Address
-                </label>
-                <input
-                  id={field.name}
-                  type="text"
-                  {...field}
-                  className="form-control"
-                />
-                {form.errors[field.name] && (
-                  <span className="help-block">{form.errors[field.name]}</span>
-                )}
-              </div>
-            )}
-          />
+              />
+            </div>
+          </div>
 
           <div className="row">
             <div className="col-sm-6">
@@ -337,6 +356,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     <label htmlFor={field.name} className="control-label">
                       Phone Number
                     </label>
+                    <div className="error-bar" />
                     <input
                       id={field.name}
                       type="tel"
@@ -367,6 +387,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     <label htmlFor={field.name} className="control-label">
                       E-mail
                     </label>
+                    <div className="error-bar" />
                     <input
                       id={field.name}
                       type="email"
