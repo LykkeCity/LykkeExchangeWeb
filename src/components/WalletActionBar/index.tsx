@@ -29,10 +29,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
   state = {message: ''};
 
   render() {
-    const {wallet} = this.props;
-    const assets = wallet.balances
-      .map(b => b.asset)
-      .filter(a => a.isBankDepositEnabled);
+    const {wallet, rootStore} = this.props;
+    const assets = rootStore!.assetStore.assets.filter(
+      a => a.isBankDepositEnabled
+    );
 
     return (
       <div className="wallet-action-bar">
