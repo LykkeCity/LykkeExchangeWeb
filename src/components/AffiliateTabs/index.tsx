@@ -356,10 +356,9 @@ export class AffiliateTabs extends React.Component<any> {
                   </li>
                   <li>
                     Get your reward — up to 50% of Lykke’s fee on all trade
-                    transactions made by your affiliates through Lykke Web
-                    Terminal or through Lykke API. The revenue received from
-                    commissions is divided between Lykke and the partner
-                    according to the following model:
+                    transactions made by your affiliates through Lykke API. The
+                    revenue received from commissions is divided between Lykke
+                    and the partner according to the following model:
                     <table className="table table--simple">
                       <tbody>
                         <tr>
