@@ -1,4 +1,4 @@
-import {formatWithAccuracy, pipe, plural, seq} from '.';
+import {formatWithAccuracy, pipe, plural, roundMoney, seq} from '.';
 
 const add = (a: any, b: any) => a + b;
 const inc = (num: any) => num + 1;
@@ -84,5 +84,19 @@ describe('format with accuracy', () => {
     expect(formatWithAccuracy(3)).toBe('0,0.[000]');
     expect(formatWithAccuracy(5)).toBe('0,0.[00000]');
     expect(formatWithAccuracy(8)).toBe('0,0.[00000000]');
+  });
+});
+
+describe('roundMoney', () => {
+  it('should round to accuracy', () => {
+    expect(roundMoney(1.8888888, 2)).toBe(1.89);
+  });
+
+  it('should ceil resulting value', () => {
+    expect(roundMoney(1.8801, 2)).toBe(1.89);
+  });
+
+  it('should avoid Floating-Point issue', () => {
+    expect(roundMoney(0.1 + 0.2)).toBe(0.3);
   });
 });
