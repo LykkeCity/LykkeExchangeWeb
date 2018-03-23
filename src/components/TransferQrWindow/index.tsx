@@ -7,6 +7,9 @@ import {ROUTE_TRANSFER_BASE} from '../../constants/routes';
 import {TransferModel} from '../../models/index';
 import './style.css';
 
+// tslint:disable-next-line:no-var-requires
+const QRCode = require('qrcode.react');
+
 interface TransferQrWindowProps extends ModalProps {
   resetCurrentTransfer?: any;
   transfer?: TransferModel;
@@ -61,13 +64,7 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
         Scan the QR code with your Lykke Wallet
       </p>
       <div className="transfer-qr__img">
-        <img
-          src={`//lykke-qr.azurewebsites.net/QR/${transferStore.newTransfer
-            .asBase64}.gif`}
-          alt="qr"
-          height={160}
-          width={160}
-        />
+        <QRCode size={160} value={transferStore.newTransfer.asBase64} />
       </div>
     </Modal>
   );
