@@ -128,12 +128,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                         {asset && asset.name}
                       </div>
                       <div className="error-bar" />
-                      {AmountInput(
-                        field.onChange,
-                        field.value,
-                        field.name,
-                        asset && asset.accuracy
-                      )}
+                      <AmountInput
+                        onChange={field.onChange}
+                        value={field.value}
+                        name={field.name}
+                        decimalLimit={asset && asset.accuracy}
+                      />
                       {form.errors[field.name] && (
                         <span className="help-block">
                           {form.errors[field.name]}
