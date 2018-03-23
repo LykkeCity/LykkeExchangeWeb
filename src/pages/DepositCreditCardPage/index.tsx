@@ -5,6 +5,7 @@ import {RootStoreProps} from '../../App';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
 import {ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import {GatewayUrls} from '../../models';
 
 import './style.css';
 
@@ -84,12 +85,8 @@ export class DepositCreditCardPage extends React.Component<
     );
   }
 
-  private handleSubmitSuccess = (
-    failUrl: string,
-    okUrl: string,
-    paymentUrl: string
-  ) => {
-    this.depositCreditCardStore.setGatewayUrls(failUrl, okUrl, paymentUrl);
+  private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {
+    this.depositCreditCardStore.setGatewayUrls(gatewayUrls);
     this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY);
   };
 }

@@ -15,7 +15,11 @@ describe('deposit credit card store', () => {
   });
 
   it('should set and reset payment urls', () => {
-    depositCreditCardStore.setGatewayUrls('foo', 'bar', 'baz');
+    depositCreditCardStore.setGatewayUrls({
+      failUrl: 'foo',
+      okUrl: 'bar',
+      paymentUrl: 'baz'
+    });
     expect(depositCreditCardStore.gatewayUrls.failUrl).toBe('foo');
     expect(depositCreditCardStore.gatewayUrls.okUrl).toBe('bar');
     expect(depositCreditCardStore.gatewayUrls.paymentUrl).toBe('baz');
