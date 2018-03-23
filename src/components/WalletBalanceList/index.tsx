@@ -1,3 +1,10 @@
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl,
+  DropdownList,
+  DropdownListItem
+} from 'lykke-react-components';
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
@@ -8,13 +15,6 @@ import {
 } from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
-import {
-  Dropdown,
-  DropdownContainer,
-  DropdownControl,
-  DropdownList,
-  DropdownListItem
-} from '../Dropdown';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
 
