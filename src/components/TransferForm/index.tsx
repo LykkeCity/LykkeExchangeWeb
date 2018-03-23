@@ -153,12 +153,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 <div className="input-group-addon addon-text">
                   {transfer.asset && transfer.asset.name}
                 </div>
-                {AmountInput(
-                  handleChangeAmount,
-                  transfer.amount,
-                  'tr_name',
-                  transfer.asset ? transfer.asset.accuracy : 8
-                )}
+                <AmountInput
+                  onChange={handleChangeAmount}
+                  value={transfer.amount}
+                  name="tr_name"
+                  decimalLimit={transfer.asset ? transfer.asset.accuracy : 8}
+                />
               </div>
             </div>
           </div>
