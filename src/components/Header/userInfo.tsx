@@ -1,14 +1,14 @@
-import {inject, observer} from 'mobx-react';
-import * as React from 'react';
-import {RootStoreProps} from '../../App';
-import {STORE_ROOT} from '../../constants/stores';
 import {
   Dropdown,
   DropdownContainer,
   DropdownControl,
   DropdownList,
   DropdownListItem
-} from '../Dropdown';
+} from 'lykke-react-components';
+import {inject, observer} from 'mobx-react';
+import * as React from 'react';
+import {RootStoreProps} from '../../App';
+import {STORE_ROOT} from '../../constants/stores';
 
 export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {authStore, profileStore} = rootStore!;
