@@ -1,0 +1,24 @@
+@import '../../styles/utils';
+
+.generate-wallet-key-form {
+  .dropdown__container {
+    padding-top: 0;
+    margin-left: -171px;
+
+    .dropdown__nav {
+      width: 226px;
+
+      &:after {
+        left: 73%;
+      }
+    }
+  }
+
+  .regenerate-button-tooltip {
+    line-height: 1.5;
+    text-align: center;
+
+    @include rem(font-size, 16px);
+    @include rem(padding, 7.5px);
+  }
+}
