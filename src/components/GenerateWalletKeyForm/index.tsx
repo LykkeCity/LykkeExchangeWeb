@@ -1,10 +1,17 @@
 import Modal from 'antd/lib/modal/Modal';
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl
+} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
+
+import './style.css';
 
 const WALLET_KEY_INPUT = 'walletKey';
 
@@ -19,7 +26,7 @@ export class GenerateWalletKeyForm extends React.Component<
 
   render() {
     return (
-      <div className="form-item">
+      <div className="form-item generate-wallet-key-form">
         <div className="asset_link_list">
           <div className="asset_link">
             <div className="asset_link__info">
@@ -37,13 +44,22 @@ export class GenerateWalletKeyForm extends React.Component<
               </div>
             </div>
             <div className="asset_link__action">
-              <button
-                className="btn btn--icon"
-                type="button"
-                onClick={this.toggleConfirm}
-              >
-                <i className="icon icon--key" />
-              </button>
+              <Dropdown isTooltip>
+                <DropdownControl>
+                  <button
+                    className="btn btn--icon"
+                    type="button"
+                    onClick={this.toggleConfirm}
+                  >
+                    <i className="icon icon--key" />
+                  </button>
+                </DropdownControl>
+                <DropdownContainer>
+                  <div className="regenerate-button-tooltip">
+                    Regenerate a new API key
+                  </div>
+                </DropdownContainer>
+              </Dropdown>
             </div>
             <div style={{position: 'relative'}} className="asset_link__action">
               <CopyToClipboard
