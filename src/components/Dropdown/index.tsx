@@ -1,7 +1,7 @@
 import './style.css';
 
-export {default as Dropdown, DropdownPosition} from './dropdown';
-export {default as DropdownContainer} from './dropdownContainer';
-export {default as DropdownControl} from './dropdownControl';
-export {default as DropdownList} from './dropdownList';
-export {default as DropdownListItem} from './dropdownListItem';
+export {default as Dropdown, DropdownPosition} from './Dropdown';
+export {default as DropdownContainer} from './DropdownContainer';
+export {default as DropdownControl} from './DropdownControl';
+export {default as DropdownList} from './DropdownList';
+export {default as DropdownListItem} from './DropdownListItem';
