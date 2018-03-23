@@ -2,12 +2,16 @@ import {action, observable} from 'mobx';
 import {RootStore} from '.';
 import {DepositCreditCardApi} from '../api/depositCreditCardApi';
 import {ApiResponse} from '../api/types';
-import {convertFieldName, DepositCreditCardModel} from '../models/index';
+import {
+  convertFieldName,
+  DepositCreditCardModel,
+  GatewayUrls
+} from '../models/index';
 
 export class DepositCreditCardStore {
   @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
-  @observable gatewayUrls: {failUrl: string; okUrl: string; paymentUrl: string};
+  @observable gatewayUrls: GatewayUrls;
 
   constructor(
     readonly rootStore: RootStore,
@@ -15,18 +19,18 @@ export class DepositCreditCardStore {
   ) {
     this.defaultDeposit = new DepositCreditCardModel();
     this.newDeposit = new DepositCreditCardModel();
-    this.gatewayUrls = {failUrl: '', okUrl: '', paymentUrl: ''};
+    this.gatewayUrls = new GatewayUrls();
   }
 
   @action
   resetCurrentDeposit = () => {
     this.newDeposit.update(this.defaultDeposit);
-    this.gatewayUrls = {failUrl: '', okUrl: '', paymentUrl: ''};
+    this.gatewayUrls = new GatewayUrls();
   };
 
   @action
-  setGatewayUrls = (failUrl: string, okUrl: string, paymentUrl: string) => {
-    this.gatewayUrls = {failUrl, okUrl, paymentUrl};
+  setGatewayUrls = (gatewayUrls: GatewayUrls) => {
+    this.gatewayUrls = gatewayUrls;
   };
 
   fetchBankCardPaymentUrl = async (deposit: DepositCreditCardModel) => {
