@@ -1,4 +1,4 @@
 import './style.css';
 
-export {default as DepositFail} from './depositFail';
-export {default as DepositSuccess} from './depositSuccess';
+export {default as DepositFail} from './DepositFail';
+export {default as DepositSuccess} from './DepositSuccess';
