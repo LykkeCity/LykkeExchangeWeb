@@ -64,9 +64,9 @@ export class Dropdown extends React.Component<DropdownProps, DropdownState> {
           className={classnames(
             'dropdown',
             className,
-            this.state.isOpen ? 'dropdown_open' : '',
-            position === DropdownPosition.RIGHT ? 'dropdown_right' : '',
-            trigger === 'click' ? 'dropdown_clickable' : ''
+            {dropdown_open: this.state.isOpen},
+            {dropdown_right: position === DropdownPosition.RIGHT},
+            {dropdown_clickable: trigger === 'click'}
           )}
         >
           {children}
