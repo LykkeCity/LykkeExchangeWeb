@@ -11,6 +11,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {FormattedNumber} from 'react-intl';
 import {Link} from 'react-router-dom';
+import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -42,38 +43,21 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
     label: c.name,
     value: c.iso2
   }));
+  const requiredErrorMessage = (fieldName: string) =>
+    `Field ${fieldName} should not be empty`;
 
   return (
     <Formik
       initialValues={deposit}
-      // tslint:disable-next-line:jsx-no-lambda
-      validate={(values: DepositCreditCardModel) => {
-        const errors = {} as any;
-
-        if (!values.address) {
-          errors.address = 'Field Address should not be empty';
-        }
-        if (!values.amount) {
-          errors.amount = 'Field Amount should not be empty';
-        }
-        if (!values.city) {
-          errors.city = 'Field City should not be empty';
-        }
-        if (!values.country) {
-          errors.country = 'Field Country should not be empty';
-        }
-        if (!values.firstName) {
-          errors.firstName = 'Field First Name should not be empty';
-        }
-        if (!values.lastName) {
-          errors.lastName = 'Field Last Name should not be empty';
-        }
-        if (!values.zip) {
-          errors.zip = 'Field ZIP should not be empty';
-        }
-
-        return errors;
-      }}
+      validationSchema={Yup.object().shape({
+        address: Yup.string().required(requiredErrorMessage('Address')),
+        amount: Yup.number().required(requiredErrorMessage('Amount')),
+        city: Yup.string().required(requiredErrorMessage('City')),
+        country: Yup.string().required(requiredErrorMessage('Country')),
+        firstName: Yup.string().required(requiredErrorMessage('First Name')),
+        lastName: Yup.string().required(requiredErrorMessage('Last Name')),
+        zip: Yup.string().required(requiredErrorMessage('Zip'))
+      })}
       // tslint:disable-next-line:jsx-no-lambda
       onSubmit={async (
         values: DepositCreditCardModel,
