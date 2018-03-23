@@ -15,7 +15,7 @@ import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {AssetModel, DepositCreditCardModel} from '../../models';
+import {AssetModel, DepositCreditCardModel, GatewayUrls} from '../../models';
 import {roundMoney} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {FormSelect} from '../FormSelect';
@@ -24,7 +24,7 @@ import './style.css';
 
 export interface DepositCreditCardFormProps extends RootStoreProps {
   asset: AssetModel;
-  onSuccess: (failUrl: string, okUrl: string, paymentUrl: string) => void;
+  onSuccess: (gatewayUrls: GatewayUrls) => void;
 }
 
 export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
@@ -70,10 +70,8 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
         setStatus(null);
         deposit.update(values);
         try {
-          const {failUrl, okUrl, paymentUrl} = await fetchBankCardPaymentUrl(
-            deposit
-          );
-          onSuccess(failUrl, okUrl, paymentUrl);
+          const gatewayUrls = await fetchBankCardPaymentUrl(deposit);
+          onSuccess(gatewayUrls);
         } catch (err) {
           if (err.field) {
             const errMessage = err.message.replace(asset.id, asset.name);
