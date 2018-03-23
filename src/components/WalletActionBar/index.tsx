@@ -1,4 +1,12 @@
 import * as classNames from 'classnames';
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl,
+  DropdownList,
+  DropdownListItem,
+  DropdownPosition
+} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
@@ -11,14 +19,6 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
-import {
-  Dropdown,
-  DropdownContainer,
-  DropdownControl,
-  DropdownList,
-  DropdownListItem,
-  DropdownPosition
-} from '../Dropdown';
 import './style.css';
 
 interface WalletActionBarProps extends RootStoreProps {
@@ -38,7 +38,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
           {wallet.isTrading ? (
-            <Dropdown>
+            <Dropdown fullHeight>
               <DropdownControl>
                 <a>Deposit</a>
               </DropdownControl>

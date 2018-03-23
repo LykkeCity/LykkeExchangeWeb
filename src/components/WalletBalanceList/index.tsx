@@ -1,13 +1,3 @@
-import {observer} from 'mobx-react';
-import * as React from 'react';
-import {Link} from 'react-router-dom';
-import {
-  ROUTE_DEPOSIT_CREDIT_CARD_TO,
-  ROUTE_TRANSFER_FROM,
-  ROUTE_TRANSFER_TO
-} from '../../constants/routes';
-import {WalletModel} from '../../models/index';
-import {plural} from '../../utils';
 import {
   Dropdown,
   DropdownContainer,
@@ -19,7 +9,7 @@ import {observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {
-  ROUTE_ASSET,
+  ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_TRANSFER_FROM,
   ROUTE_TRANSFER_TO
 } from '../../constants/routes';
