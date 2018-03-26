@@ -8,3 +8,6 @@ export * from './credentialsModel';
 export * from './walletType';
 export * from './opStatus';
 export * from './assetModel';
+export * from './depositCreditCardModel';
+export * from './appSettingsModel';
+export * from './gatewayUrls';

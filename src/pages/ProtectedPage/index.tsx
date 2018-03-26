@@ -8,7 +8,9 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import {loadable} from '../../components/hoc/loadable';
 import {NoMatch} from '../../components/NoMatch/index';
+import PaymentGateway from '../../components/PaymentGateway';
 
+import {DepositFail, DepositSuccess} from '../../components/DepositResult';
 import {
   TransferFail,
   TransferResult
@@ -17,6 +19,12 @@ import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
   ROUTE_AFFILIATE_STATISTICS,
+  ROUTE_DEPOSIT_CREDIT_CARD,
+  ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
+  ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
+  ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_GATEWAY_FAIL,
+  ROUTE_GATEWAY_SUCCESS,
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
@@ -26,7 +34,7 @@ import {
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {WalletPage} from '../../pages/index';
+import {DepositCreditCardPage, WalletPage} from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import TransferPage from '../TransferPage/index';
 
@@ -39,6 +47,9 @@ export class ProtectedPage extends React.Component<
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
   private readonly featureStore = this.props.rootStore!.featureStore;
+  private readonly appSettingsStore = this.props.rootStore!.appSettingsStore;
+  private readonly depositCreditCardStore = this.props.rootStore!
+    .depositCreditCardStore;
   private unlistenRouteChange: () => void;
 
   @computed
@@ -54,10 +65,13 @@ export class ProtectedPage extends React.Component<
     this.featureStore.getFeatures();
     this.assetStore
       .fetchCategories()
+      .then(() => this.appSettingsStore.fetchSettings())
+      .then(() => this.appSettingsStore.fetchCountryCodes())
       .then(() => this.assetStore.fetchAssets())
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
+      .then(() => this.depositCreditCardStore.fetchDepositDefaultValues())
       .then(() => this.uiStore.finishRequest());
 
     this.unlistenRouteChange = this.props.history.listen(() => {
@@ -111,6 +125,32 @@ export class ProtectedPage extends React.Component<
             <Route
               path={ROUTE_AFFILIATE}
               component={asLoading(AffiliatePage)}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY}
+              component={PaymentGateway}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS}
+              component={DepositSuccess}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_CREDIT_CARD_FAIL}
+              component={DepositFail}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_CREDIT_CARD}
+              component={asLoading(DepositCreditCardPage)}
+            />
+            <Route
+              path={ROUTE_GATEWAY_FAIL}
+              // tslint:disable-next-line:jsx-no-lambda
+              render={() => <div />}
+            />
+            <Route
+              path={ROUTE_GATEWAY_SUCCESS}
+              // tslint:disable-next-line:jsx-no-lambda
+              render={() => <div />}
             />
             <Route component={NoMatch} />
           </Switch>

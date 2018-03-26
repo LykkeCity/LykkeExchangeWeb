@@ -2,6 +2,7 @@ import {create, persist} from 'mobx-persist';
 import {Provider} from 'mobx-react';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import {IntlProvider} from 'react-intl';
 import App from './App';
 import {RootStore} from './stores';
 
@@ -46,7 +47,9 @@ function runDevelopment() {
 function renderApp(rootStore: any) {
   ReactDOM.render(
     <Provider rootStore={rootStore}>
-      <App />
+      <IntlProvider locale="en">
+        <App />
+      </IntlProvider>
     </Provider>,
     rootElement
   );

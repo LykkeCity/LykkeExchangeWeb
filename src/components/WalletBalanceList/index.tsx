@@ -1,9 +1,18 @@
-import Dropdown from 'antd/lib/dropdown/dropdown';
-import 'antd/lib/table/style/css';
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl,
+  DropdownList,
+  DropdownListItem
+} from 'lykke-react-components';
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
+import {
+  ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_TRANSFER_FROM,
+  ROUTE_TRANSFER_TO
+} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
@@ -69,30 +78,60 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
-                      <Dropdown
-                        overlay={
-                          <div className="asset-menu">
-                            <div>
-                              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                Deposit
-                              </Link>
-                            </div>
-                            <div>
-                              <Link
-                                to={ROUTE_TRANSFER_FROM(wallet.id, b.assetId)}
-                              >
-                                Withdraw
-                              </Link>
-                            </div>
-                          </div>
-                        }
-                        trigger={['click']}
-                        placement="bottomCenter"
-                      >
-                        <button type="button" className="btn btn--icon">
-                          <i className="icon icon--actions" />
-                        </button>
-                      </Dropdown>
+                      {(b.asset.isBankDepositEnabled || !wallet.isTrading) && (
+                        <Dropdown trigger="click">
+                          <DropdownControl>
+                            <button type="button" className="btn btn--icon">
+                              <i className="icon icon--actions" />
+                            </button>
+                          </DropdownControl>
+                          <DropdownContainer>
+                            <DropdownList className="asset-menu">
+                              {wallet.isTrading
+                                ? [
+                                    <DropdownListItem
+                                      isCategory={true}
+                                      key="Deposit"
+                                    >
+                                      Deposit
+                                    </DropdownListItem>,
+                                    <DropdownListItem key="Credit Card">
+                                      <Link
+                                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </Link>
+                                    </DropdownListItem>
+                                  ]
+                                : [
+                                    <DropdownListItem key="Deposit">
+                                      <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
+                                        Deposit
+                                      </Link>
+                                    </DropdownListItem>,
+                                    <DropdownListItem key="Withdraw">
+                                      <Link
+                                        to={ROUTE_TRANSFER_FROM(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        Withdraw
+                                      </Link>
+                                    </DropdownListItem>
+                                  ]}
+                            </DropdownList>
+                          </DropdownContainer>
+                        </Dropdown>
+                      )}
                     </td>
                   </tr>
                 ))}
