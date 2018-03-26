@@ -2,7 +2,7 @@ import * as classNames from 'classnames';
 import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -38,7 +38,9 @@ import {DepositCreditCardPage, WalletPage} from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import TransferPage from '../TransferPage/index';
 
-export class ProtectedPage extends React.Component<RootStoreProps> {
+export class ProtectedPage extends React.Component<
+  RootStoreProps & RouteComponentProps<any>
+> {
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
@@ -48,6 +50,7 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
   private readonly appSettingsStore = this.props.rootStore!.appSettingsStore;
   private readonly depositCreditCardStore = this.props.rootStore!
     .depositCreditCardStore;
+  private unlistenRouteChange: () => void;
 
   @computed
   private get classes() {
@@ -70,6 +73,15 @@ export class ProtectedPage extends React.Component<RootStoreProps> {
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.depositCreditCardStore.fetchDepositDefaultValues())
       .then(() => this.uiStore.finishRequest());
+
+    this.unlistenRouteChange = this.props.history.listen(() => {
+      this.uiStore.startRequest();
+      this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
+    });
+  }
+
+  componentWillUnmount() {
+    this.unlistenRouteChange();
   }
 
   render() {
