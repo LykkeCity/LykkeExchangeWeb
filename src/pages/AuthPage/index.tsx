@@ -12,8 +12,11 @@ export class AuthPage extends React.Component<AuthPageProps> {
   private readonly authStore = this.props.rootStore!.authStore;
 
   componentDidMount() {
-    const accessToken = AuthUtils.getAccessTokenFromUrl(location.href);
-    const state = AuthUtils.getStateFromUrl(location.href);
+    const accessToken = AuthUtils.getOAuthParamFromUrl(
+      location.href,
+      'access_token'
+    )!;
+    const state = AuthUtils.getOAuthParamFromUrl(location.href, 'state')!;
 
     this.authStore
       .fetchToken(accessToken, state)
