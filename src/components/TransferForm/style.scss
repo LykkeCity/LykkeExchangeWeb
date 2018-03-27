@@ -27,6 +27,10 @@
       &__wallet-name {
         height: 24px;
         line-height: 1.5;
+        max-width: 95%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
 
         @include rem(padding-top, 3px);
       }
