@@ -26,10 +26,12 @@ test('getOAuthParamFromUrl', () => {
   let url =
     'http://localhost:3000/auth#state=foo&scope=email%20profile&token_type=Bearer&access_token=bar&expires_in=3600';
 
+  expect(getOAuthParamFromUrl(url, 'state')).toBe('foo');
   expect(getOAuthParamFromUrl(url, 'access_token')).toBe('bar');
 
   url =
     'http://localhost:3000/auth#new_param=123&state=foo&scope=email%20profile&token_type=Bearer&access_token=bar&expires_in=3600';
 
+  expect(getOAuthParamFromUrl(url, 'state')).toBe('foo');
   expect(getOAuthParamFromUrl(url, 'access_token')).toBe('bar');
 });

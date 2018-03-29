@@ -15,6 +15,7 @@ export const queryStringFromObject = (obj: any, path?: string) =>
 
 export const getOAuthParamFromUrl = (url: string, key: string) => {
   const value = new URL(url).hash
+    .substr(1)
     .split('&')
     .find(param => !!param.match(new RegExp(`^${key}`)));
 
