@@ -90,7 +90,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     )
                   },
                   {
-                    label: 'Private Wallet',
+                    label: 'API Wallet',
                     options: walletStore.walletsWithAssets.filter(
                       w => w.type === WalletType.Trusted
                     )
@@ -201,7 +201,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                       .filter(w => w.type === WalletType.Trading)
                   },
                   {
-                    label: 'Private Wallets',
+                    label: 'API Wallets',
                     options: walletStore
                       .getWalletsExceptOne(transfer.from)
                       .filter(w => w.type === WalletType.Trusted)
