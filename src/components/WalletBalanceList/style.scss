@@ -59,6 +59,12 @@
       }
     }
   }
+
+  @media (max-width: $screen-tablet) {
+    .dropdown__container {
+      margin-left: -125px;
+    }
+  }
 }
 
 .issuer {
@@ -132,16 +138,5 @@
     top: -2px;
 
     @include rem(margin-right, 10px);
-  }
-
-  &__item {
-    &_disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-
-      a {
-        cursor: not-allowed;
-      }
-    }
   }
 }
