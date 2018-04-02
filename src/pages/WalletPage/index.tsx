@@ -32,6 +32,10 @@ export class WalletPage extends React.Component<RootStoreProps> {
     this.depositCreditCardStore.resetCurrentDeposit();
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   render() {
     return (
       <div className="container">
