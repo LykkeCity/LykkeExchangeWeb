@@ -22,5 +22,26 @@
     input[type='number'] {
       -moz-appearance: textfield;
     }
+
+    .wallet-select {
+      &__wallet-name {
+        height: 24px;
+        line-height: 1.5;
+        max-width: 95%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        @include rem(padding-top, 3px);
+      }
+      &__wallet-amount {
+        height: 24px;
+        line-height: 1.71;
+        opacity: 0.6;
+
+        @include rem(font-size, 14px);
+        @include rem(padding-bottom, 2px);
+      }
+    }
   }
 }
