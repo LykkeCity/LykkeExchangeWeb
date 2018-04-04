@@ -6,6 +6,8 @@
     "@types/react-copy-to-clipboard": "^4.2.3",
     "antd": "^2.13.3",
     "classnames": "^2.2.5",
+
+    "lykke-react-components": "^0.1.10",
     "mobx": "^3.3.0",
     "mobx-react": "^4.3.2",
     "numeral": "^2.0.6",
