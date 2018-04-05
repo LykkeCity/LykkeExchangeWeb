@@ -4,7 +4,7 @@ import * as React from 'react';
 export const NoMatch = () => (
   <div className="container">
     <div className="row">
-      <div className="col-md-6 automargin">
+      <div className="col-sm-8 col-md-6 automargin">
         <Error404 />
       </div>
     </div>
