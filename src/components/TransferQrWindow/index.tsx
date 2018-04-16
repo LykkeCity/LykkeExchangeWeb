@@ -1,4 +1,4 @@
-import Modal, {ModalProps} from 'antd/lib/modal/Modal';
+import {Dialog} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {withRouter} from 'react-router';
@@ -10,7 +10,7 @@ import './style.css';
 // tslint:disable-next-line:no-var-requires
 const QRCode = require('qrcode.react');
 
-interface TransferQrWindowProps extends ModalProps {
+interface TransferQrWindowProps {
   resetCurrentTransfer?: any;
   transfer?: TransferModel;
   showQrWindow?: boolean;
@@ -39,34 +39,23 @@ export const TransferQrWindow: React.SFC<TransferQrWindowProps> = ({
   };
 
   return (
-    <Modal
+    <Dialog
+      className="transfer-qr-modal"
       visible={showQrWindow}
+      closeable={false}
+      onCancel={handleCancelTransfer}
+      confirmButton={{text: ''}}
+      cancelButton={{text: 'Cancel transaction'}}
       title="Confirm the transfer"
-      // tslint:disable-next-line:jsx-no-lambda
-      onCancel={() => {
-        return;
-      }}
-      className="transfer-qr"
-      closable={false}
-      maskClosable={false}
-      footer={[
-        <button
-          key="cancelTx"
-          className="btn btn--primary"
-          onClick={handleCancelTransfer}
-        >
-          Cancel transaction
-        </button>
-      ]}
-      {...rest}
-    >
-      <p className="transfer-qr__desc">
-        Scan the QR code with your Lykke Wallet
-      </p>
-      <div className="transfer-qr__img">
-        <QRCode size={160} value={transferStore.newTransfer.asBase64} />
-      </div>
-    </Modal>
+      description={
+        <div>
+          <p>Scan the QR code with your Lykke Wallet</p>
+          <div className="transfer-qr-modal__code">
+            <QRCode size={160} value={transferStore.newTransfer.asBase64} />
+          </div>
+        </div>
+      }
+    />
   );
 };
 
