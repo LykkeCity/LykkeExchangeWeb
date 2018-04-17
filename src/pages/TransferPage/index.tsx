@@ -1,4 +1,3 @@
-import 'antd/lib/modal/style';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';

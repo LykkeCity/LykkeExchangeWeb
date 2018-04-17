@@ -1,4 +1,3 @@
-import 'antd/lib/modal/style/css';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';

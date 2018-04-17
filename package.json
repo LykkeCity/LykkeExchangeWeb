@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "@types/react-copy-to-clipboard": "^4.2.3",
-    "antd": "^2.13.3",
     "classnames": "^2.2.5",
     "lykke-react-components": "^0.1.11",
     "mobx": "^3.3.0",
