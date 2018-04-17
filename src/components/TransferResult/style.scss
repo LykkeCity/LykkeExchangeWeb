@@ -10,6 +10,20 @@
   @include rem(margin, 30px auto);
   @include rem(line-height, 1.43);
 
+  &__icon {
+    &.icon {
+      font-size: 64px;
+    }
+
+    &_success {
+      color: $green;
+    }
+
+    &_fail {
+      color: $red;
+    }
+  }
+
   &__desc {
     font-weight: $fw-semi;
 
