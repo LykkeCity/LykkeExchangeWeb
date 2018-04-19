@@ -126,9 +126,11 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 // tslint:disable-next-line:jsx-no-lambda
                 optionRenderer={wallet => (
                   <div>
-                    <a>
-                      <span>{wallet.title}</span>
-                      <span className="pull-right">
+                    <a className="wallet-option">
+                      <span className="wallet-option__wallet-name">
+                        {wallet.title}
+                      </span>
+                      <span className="wallet-option__wallet-amount">
                         {!!baseAssetAsModel &&
                           asAssetBalance(
                             baseAssetAsModel,
@@ -237,9 +239,11 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 // tslint:disable-next-line:jsx-no-lambda
                 optionRenderer={wallet => (
                   <div>
-                    <a>
-                      <span>{wallet.title}</span>
-                      <span className="pull-right">
+                    <a className="wallet-option">
+                      <span className="wallet-option__wallet-name">
+                        {wallet.title}
+                      </span>
+                      <span className="wallet-option__wallet-amount">
                         {!!baseAssetAsModel &&
                           asAssetBalance(
                             baseAssetAsModel,

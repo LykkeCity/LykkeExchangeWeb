@@ -43,5 +43,22 @@
         @include rem(padding-bottom, 2px);
       }
     }
+
+    .wallet-option {
+      display: flex;
+
+      &__wallet-name {
+        flex-grow: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 1%;
+      }
+
+      &__wallet-amount {
+        margin-left: 10px;
+        white-space: nowrap;
+      }
+    }
   }
 }
