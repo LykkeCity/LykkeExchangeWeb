@@ -6,7 +6,12 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel, WalletModel, WalletType} from '../../models';
+import {
+  BalanceModel,
+  TransferModel,
+  WalletModel,
+  WalletType
+} from '../../models';
 import {asAssetBalance} from '../hoc/assetBalance';
 
 import './style.css';
@@ -68,7 +73,10 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       transfer.to = walletStore.createWallet();
     }
     if (side === 'from') {
-      transfer.asset = wallet.balances[0].asset;
+      transfer.asset = wallet.balances.sort(
+        (a: BalanceModel, b: BalanceModel) =>
+          b.asset.name.localeCompare(a.asset.name)
+      )[0].asset;
     }
     transfer.setWallet(wallet, side);
   };
@@ -180,13 +188,17 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             </div>
             <div className="col-sm-8">
               <Select
-                options={transfer.from.balances.map(x => ({
-                  asset: x.asset,
-                  assetId: x.asset.id,
-                  assetName: x.asset.name,
-                  balance: x.balance,
-                  balanceAvailable: x.availableBalance
-                }))}
+                options={transfer.from.balances
+                  .map(x => ({
+                    asset: x.asset,
+                    assetId: x.asset.id,
+                    assetName: x.asset.name,
+                    balance: x.balance,
+                    balanceAvailable: x.availableBalance
+                  }))
+                  .sort((a: any, b: any) =>
+                    b.assetName.localeCompare(a.assetName)
+                  )}
                 labelKey="assetName"
                 valueKey="assetId"
                 onChange={handleChangeAsset}
