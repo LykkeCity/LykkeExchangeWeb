@@ -43,7 +43,10 @@ export class GenerateWalletKeyForm extends React.Component<
                 />
               </div>
             </div>
-            <div className="asset_link__action">
+            <div
+              className="asset_link__action"
+              onTouchEndCapture={this.handleRegenerateKeyTouch}
+            >
               <Dropdown isTooltip>
                 <DropdownControl>
                   <button
@@ -134,6 +137,12 @@ export class GenerateWalletKeyForm extends React.Component<
         this.setState({message: ''});
       }, 2000);
     }
+  };
+
+  private handleRegenerateKeyTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.toggleConfirm();
   };
 }
 
