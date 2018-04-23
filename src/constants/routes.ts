@@ -17,6 +17,13 @@ export const ROUTE_AFFILIATE = '/affiliate';
 export const ROUTE_AFFILIATE_STATISTICS = `${ROUTE_AFFILIATE}/statistics`;
 export const ROUTE_AFFILIATE_DETAILS = `${ROUTE_AFFILIATE}/details`;
 
+export const ROUTE_DEPOSIT_CREDIT_VOUCHER_BASE = '/deposit/credit-voucher';
+export const ROUTE_DEPOSIT_CREDIT_VOUCHER = `${ROUTE_DEPOSIT_CREDIT_VOUCHER_BASE}/:walletId/:assetId?`;
+export const ROUTE_DEPOSIT_CREDIT_VOUCHER_TO = (
+  walletId: string,
+  assetId = ''
+) => `${ROUTE_DEPOSIT_CREDIT_VOUCHER_BASE}/${walletId}/${assetId}`;
+
 export const ROUTE_DEPOSIT_CREDIT_CARD_BASE = '/deposit/credit-card';
 export const ROUTE_DEPOSIT_CREDIT_CARD = `${ROUTE_DEPOSIT_CREDIT_CARD_BASE}/:walletId/:assetId?`;
 export const ROUTE_DEPOSIT_CREDIT_CARD_TO = (walletId: string, assetId = '') =>

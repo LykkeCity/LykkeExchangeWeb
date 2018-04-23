@@ -1,8 +1,9 @@
 import {action, computed, observable} from 'mobx';
+import {DepositOptions} from '../constants/depositOptions';
 import {ROUTE_GATEWAY_FAIL, ROUTE_GATEWAY_SUCCESS} from '../constants/routes';
 import {AssetModel, WalletModel} from './';
 
-export const DEFAULT_DEPOSIT_OPTION = 'BankCard';
+export const DEFAULT_DEPOSIT_OPTION = 10;
 
 export class DepositCreditCardModel {
   @observable address: string = '';
@@ -10,7 +11,7 @@ export class DepositCreditCardModel {
   @observable asset: AssetModel;
   @observable city: string = '';
   @observable country: string = '';
-  @observable depositOption: string = '';
+  @observable depositOption: number = DepositOptions.bankCard;
   @observable email: string = '';
   @observable firstName: string = '';
   @observable lastName: string = '';

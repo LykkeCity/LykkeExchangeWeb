@@ -3,6 +3,7 @@ import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
+import {DepositOptions} from '../../constants/depositOptions';
 import {ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {GatewayUrls} from '../../models';
@@ -11,11 +12,17 @@ import './style.css';
 
 interface DepositCreditCardPageProps
   extends RootStoreProps,
-    RouteComponentProps<any> {}
+    RouteComponentProps<any> {
+  depositOption?: number;
+}
 
 export class DepositCreditCardPage extends React.Component<
   DepositCreditCardPageProps
 > {
+  static defaultProps: Partial<DepositCreditCardPageProps> = {
+    depositOption: DepositOptions.bankCard
+  };
+
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly profileStore = this.props.rootStore!.profileStore;

@@ -1,3 +1,4 @@
+import {DepositOptions} from '../constants/depositOptions';
 import {RootStore} from '../stores';
 import {AssetModel, DepositCreditCardModel, WalletModel} from './';
 import {
@@ -15,7 +16,7 @@ const deposit = new DepositCreditCardModel({
   asset: new AssetModel({id: 'USD'}),
   city: 'City',
   country: 'Country',
-  depositOption: 'BankCard',
+  depositOption: DepositOptions.bankCard,
   email: 'test@mail.com',
   firstName: 'John',
   lastName: 'Doe',
@@ -58,7 +59,7 @@ describe('DepositCreditCardModel', () => {
   });
 
   it('should send default DepositOption', () => {
-    deposit.update({depositOption: ''});
+    deposit.update({depositOption: DepositOptions.unknown});
     expect(deposit.asJson.DepositOption).toBe(DEFAULT_DEPOSIT_OPTION);
   });
 

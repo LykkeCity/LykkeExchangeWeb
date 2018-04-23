@@ -15,6 +15,7 @@ import {
   TransferFail,
   TransferResult
 } from '../../components/TransferResult/index';
+import {DepositOptions} from '../../constants/depositOptions';
 import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
@@ -23,6 +24,7 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_DEPOSIT_CREDIT_VOUCHER,
   ROUTE_GATEWAY_FAIL,
   ROUTE_GATEWAY_SUCCESS,
   ROUTE_ROOT,
@@ -127,6 +129,17 @@ export class ProtectedPage extends React.Component<
               component={asLoading(AffiliatePage)}
             />
             <Route
+              path={ROUTE_DEPOSIT_CREDIT_VOUCHER}
+              render={routeProps => (
+                <DepositCreditCardPage
+                  {...routeProps}
+                  depositOption={
+                    DepositOptions.other // tslint:disable-next-line:jsx-no-lambda
+                  }
+                />
+              )}
+            />
+            <Route
               path={ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY}
               component={PaymentGateway}
             />
@@ -143,13 +156,11 @@ export class ProtectedPage extends React.Component<
               component={asLoading(DepositCreditCardPage)}
             />
             <Route
-              path={ROUTE_GATEWAY_FAIL}
-              // tslint:disable-next-line:jsx-no-lambda
+              path={ROUTE_GATEWAY_FAIL} // tslint:disable-next-line:jsx-no-lambda
               render={() => <div />}
             />
             <Route
-              path={ROUTE_GATEWAY_SUCCESS}
-              // tslint:disable-next-line:jsx-no-lambda
+              path={ROUTE_GATEWAY_SUCCESS} // tslint:disable-next-line:jsx-no-lambda
               render={() => <div />}
             />
             <Route component={NoMatch} />
