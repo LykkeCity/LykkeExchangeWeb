@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CREDIT_VOUCHER_TO,
   ROUTE_TRANSFER_FROM,
   ROUTE_TRANSFER_TO
 } from '../../constants/routes';
@@ -35,6 +36,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     );
 
     return (
+      // TODO: disabling, based on more payments enabled property
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
           {wallet.isTrading ? (
@@ -62,6 +64,37 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                             <DropdownListItem key={a.id}>
                               <Link
                                 to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                  wallet.id,
+                                  a.id
+                                )}
+                              >
+                                {a.name}
+                              </Link>
+                            </DropdownListItem>
+                          ))}
+                        </DropdownList>
+                      </DropdownContainer>
+                    </Dropdown>
+                  </DropdownListItem>
+                  <DropdownListItem>
+                    <Dropdown position={DropdownPosition.RIGHT}>
+                      <DropdownControl>
+                        <a>
+                          <img
+                            className="icon"
+                            src={`${process.env
+                              .PUBLIC_URL}/images/paymentMethods/more-payment-methods.svg`}
+                          />
+                          More Payment Methods
+                        </a>
+                      </DropdownControl>
+                      <DropdownContainer>
+                        <DropdownList className="wallet-asset-menu">
+                          {' '}
+                          {assets.map(a => (
+                            <DropdownListItem key={a.id}>
+                              <Link
+                                to={ROUTE_DEPOSIT_CREDIT_VOUCHER_TO(
                                   wallet.id,
                                   a.id
                                 )}

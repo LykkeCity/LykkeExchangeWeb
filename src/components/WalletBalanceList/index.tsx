@@ -10,6 +10,7 @@ import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CREDIT_VOUCHER_TO,
   ROUTE_TRANSFER_FROM,
   ROUTE_TRANSFER_TO
 } from '../../constants/routes';
@@ -24,7 +25,7 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
 interface WalletBalanceListProps {
   wallet: WalletModel;
 }
-
+// TODO: disabling, based on more payments enabled property
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet
 }) => (
@@ -108,6 +109,21 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                             .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
                                         />
                                         Credit Card
+                                      </Link>
+                                    </DropdownListItem>,
+                                    <DropdownListItem key="More Payment Methods">
+                                      <Link
+                                        to={ROUTE_DEPOSIT_CREDIT_VOUCHER_TO(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/more-payment-methods.svg`}
+                                        />
+                                        More Payment Methods
                                       </Link>
                                     </DropdownListItem>
                                   ]
