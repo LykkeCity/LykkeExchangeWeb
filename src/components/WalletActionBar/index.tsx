@@ -31,12 +31,14 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
 
   render() {
     const {wallet, rootStore} = this.props;
-    const assets = rootStore!.assetStore.assets.filter(
+    const creditCardDepositAssets = rootStore!.assetStore.assets.filter(
       a => a.isBankDepositEnabled
+    );
+    const otherDepositOptionsAssets = rootStore!.assetStore.assets.filter(
+      a => a.isOtherDepositOptionsEnabled
     );
 
     return (
-      // TODO: disabling, based on more payments enabled property
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
           {wallet.isTrading ? (
@@ -60,7 +62,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                       </DropdownControl>
                       <DropdownContainer>
                         <DropdownList className="wallet-asset-menu">
-                          {assets.map(a => (
+                          {creditCardDepositAssets.map(a => (
                             <DropdownListItem key={a.id}>
                               <Link
                                 to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
@@ -90,8 +92,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                       </DropdownControl>
                       <DropdownContainer>
                         <DropdownList className="wallet-asset-menu">
-                          {' '}
-                          {assets.map(a => (
+                          {otherDepositOptionsAssets.map(a => (
                             <DropdownListItem key={a.id}>
                               <Link
                                 to={ROUTE_DEPOSIT_CREDIT_VOUCHER_TO(

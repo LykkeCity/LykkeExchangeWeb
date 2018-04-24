@@ -14,13 +14,62 @@ import {
   ROUTE_TRANSFER_FROM,
   ROUTE_TRANSFER_TO
 } from '../../constants/routes';
-import {WalletModel} from '../../models/index';
+import {AssetModel, WalletModel} from '../../models/index';
 import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
 
 const ASSET_DEFAULT_ICON_URL = `${process.env
   .PUBLIC_URL}/images/assets/asset_default.jpg`;
+
+function getDropdownListItem(
+  key: string,
+  title: string,
+  link: string,
+  imgSrc: string
+) {
+  return (
+    <DropdownListItem key={key}>
+      <Link to={link}>
+        <img className="icon" src={`${process.env.PUBLIC_URL}${imgSrc}`} />
+        {title}
+      </Link>
+    </DropdownListItem>
+  );
+}
+
+function getDepositOptionsArray(asset: AssetModel, walletId: string) {
+  const optionsArray = Array<any>();
+
+  optionsArray.push(
+    <DropdownListItem isCategory={true} key="Deposit">
+      Deposit
+    </DropdownListItem>
+  );
+
+  if (asset.isBankDepositEnabled) {
+    optionsArray.push(
+      getDropdownListItem(
+        'Credit Card',
+        'Credit Card',
+        ROUTE_DEPOSIT_CREDIT_CARD_TO(walletId, asset.id),
+        '/images/paymentMethods/deposit-credit-card.svg'
+      )
+    );
+  }
+  if (asset.isOtherDepositOptionsEnabled) {
+    optionsArray.push(
+      getDropdownListItem(
+        'More Payment Methods',
+        'More Payment Methods',
+        ROUTE_DEPOSIT_CREDIT_VOUCHER_TO(walletId, asset.id),
+        '/images/paymentMethods/more-payment-methods.svg'
+      )
+    );
+  }
+
+  return optionsArray;
+}
 
 interface WalletBalanceListProps {
   wallet: WalletModel;
@@ -79,7 +128,9 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
-                      {(b.asset.isBankDepositEnabled || !wallet.isTrading) && (
+                      {(b.asset.isBankDepositEnabled ||
+                        b.asset.isOtherDepositOptionsEnabled ||
+                        !wallet.isTrading) && (
                         <Dropdown trigger="click">
                           <DropdownControl>
                             <button type="button" className="btn btn--icon">
@@ -89,44 +140,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                           <DropdownContainer>
                             <DropdownList className="asset-menu">
                               {wallet.isTrading
-                                ? [
-                                    <DropdownListItem
-                                      isCategory={true}
-                                      key="Deposit"
-                                    >
-                                      Deposit
-                                    </DropdownListItem>,
-                                    <DropdownListItem key="Credit Card">
-                                      <Link
-                                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                          wallet.id,
-                                          b.assetId
-                                        )}
-                                      >
-                                        <img
-                                          className="icon"
-                                          src={`${process.env
-                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                        />
-                                        Credit Card
-                                      </Link>
-                                    </DropdownListItem>,
-                                    <DropdownListItem key="More Payment Methods">
-                                      <Link
-                                        to={ROUTE_DEPOSIT_CREDIT_VOUCHER_TO(
-                                          wallet.id,
-                                          b.assetId
-                                        )}
-                                      >
-                                        <img
-                                          className="icon"
-                                          src={`${process.env
-                                            .PUBLIC_URL}/images/paymentMethods/more-payment-methods.svg`}
-                                        />
-                                        More Payment Methods
-                                      </Link>
-                                    </DropdownListItem>
-                                  ]
+                                ? getDepositOptionsArray(b.asset, wallet.id)
                                 : [
                                     <DropdownListItem key="Deposit">
                                       <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
@@ -137,7 +151,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                       <Link
                                         to={ROUTE_TRANSFER_FROM(
                                           wallet.id,
-                                          b.assetId
+                                          b.asset.id
                                         )}
                                       >
                                         Withdraw
