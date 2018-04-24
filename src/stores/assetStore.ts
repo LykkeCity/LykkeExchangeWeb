@@ -28,6 +28,7 @@ export class AssetStore {
           Accuracy: accuracy,
           IconUrl: iconUrl,
           BankCardsDepositEnabled: isBankDepositEnabled,
+          OtherDepositOptionsEnabled: isOtherDepositOptionsEnabled,
           IsBase
         }: any) => {
           const category = this.categories.find(x => x.Id === CategoryId) || {
@@ -39,6 +40,7 @@ export class AssetStore {
             iconUrl,
             id,
             isBankDepositEnabled,
+            isOtherDepositOptionsEnabled,
             name: name || Name
           });
           asset.isBase = IsBase;
