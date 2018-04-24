@@ -7,8 +7,14 @@ export interface AppSettingsApi {
 }
 
 export class RestAppSettingsApi extends RestApiv1 implements AppSettingsApi {
-  fetchSettings = () => this.get('/AppSettings');
-  fetchCountryCodes = () => this.get('/CountryPhoneCodes');
+  fetchSettings = () =>
+    this.get('/AppSettings').catch(
+      this.rootStore.authStore.redirectToAuthServer
+    );
+  fetchCountryCodes = () =>
+    this.get('/CountryPhoneCodes').catch(
+      this.rootStore.authStore.redirectToAuthServer
+    );
 }
 
 export default RestAppSettingsApi;
