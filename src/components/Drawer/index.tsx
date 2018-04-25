@@ -6,6 +6,7 @@ import './style.css';
 
 interface DrawerProps {
   show: boolean;
+  overlayed?: boolean;
   title: string;
 }
 
@@ -16,7 +17,8 @@ export class Drawer extends React.Component<DrawerProps> {
     return ReactDOM.createPortal(
       <div
         className={classNames(DRAWER_CLASS_NAME, {
-          [DRAWER_CLASS_NAME + '--show']: this.props.show
+          [DRAWER_CLASS_NAME + '--show']: this.props.show,
+          [DRAWER_CLASS_NAME + '--overlayed']: this.props.overlayed
         })}
       >
         <div className="drawer__body">
