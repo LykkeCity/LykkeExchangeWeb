@@ -1,11 +1,46 @@
 @import '../../styles/utils';
 
 .wallet-tabs {
-  @include rem(padding, 0 20px);
+  .beta-banner {
+    margin: 30px auto 5px;
 
-  @media all and (min-width: $screen-tablet + 1) {
-    padding: 0;
+    .app-link {
+      color: #111;
+      font-weight: $fw-semi;
+      line-height: normal;
+      margin-right: 30px;
+      white-space: nowrap;
 
-    @include rem(margin, -20px 100px 0);
+      @include rem(font-size, 16px);
+
+      img {
+        bottom: 2px;
+        margin-right: 10px;
+        position: relative;
+      }
+
+      @media all and (max-width: $screen-mobile-old) {
+        display: block;
+        padding: 5px;
+        text-align: center;
+      }
+    }
+
+    .hide-button {
+      float: right;
+      font-weight: $fw-semi;
+      padding-top: 4px;
+      white-space: nowrap;
+
+      @include rem(font-size, 16px);
+      @include rem(line-height, 1.5);
+
+      @media all and (max-width: $screen-mobile-old) {
+        display: block;
+        padding: 5px 0 0 0;
+        text-align: center;
+        float: none;
+      }
+    }
   }
 }
