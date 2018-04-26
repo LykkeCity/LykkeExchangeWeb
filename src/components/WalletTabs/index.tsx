@@ -17,6 +17,7 @@ export class WalletTabs extends React.Component<any> {
           <TabLink label="API Wallets" to={ROUTE_WALLETS_HFT} />
         </div>
         <Banner
+          show={this.props.showBetaBanner}
           className="beta-banner"
           title="Information"
           text="The web trading wallet is currently under active development. It will be improved in the coming weeks, to eventually offer the same functionalities as our mobile Lykke Wallet. In the meantime, please use our mobile application to access all fund management functionalities."
@@ -46,7 +47,12 @@ export class WalletTabs extends React.Component<any> {
                 />
                 Download for Android
               </a>
-              <a className="hide-button">Don't show again</a>
+              <a
+                className="hide-button"
+                onClick={this.props.handleHideBetaBannerClick}
+              >
+                Don't show again
+              </a>
             </div>
           }
         />
@@ -104,6 +110,8 @@ export class WalletTabs extends React.Component<any> {
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
-    onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer
+    handleHideBetaBannerClick: rootStore!.uiStore.hideBetaBanner,
+    onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
+    showBetaBanner: rootStore!.uiStore.showBetaBanner
   }))(observer(WalletTabs))
 );

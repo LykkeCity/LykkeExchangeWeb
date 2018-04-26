@@ -27,6 +27,7 @@
     }
 
     .hide-button {
+      cursor: pointer;
       float: right;
       font-weight: $fw-semi;
       padding-top: 4px;
@@ -37,7 +38,7 @@
 
       @media all and (max-width: $screen-mobile-old) {
         display: block;
-        padding: 5px 0 0 0;
+        padding: 10px 0 0 0;
         text-align: center;
         float: none;
       }

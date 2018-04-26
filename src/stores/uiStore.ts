@@ -1,5 +1,11 @@
-import {computed, observable, reaction} from 'mobx';
+import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
+import {StorageUtils} from '../utils';
+
+const BETA_BANNER_HIDDEN_STORAGE_KEY = 'lww-beta-banner-hidden';
+const betaBannerHiddenStorage = StorageUtils.withKey(
+  BETA_BANNER_HIDDEN_STORAGE_KEY
+);
 
 export class UiStore {
   readonly rootStore: RootStore;
@@ -10,6 +16,7 @@ export class UiStore {
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
+  @observable showBetaBanner: boolean = !betaBannerHiddenStorage.get();
   @observable transferError: string;
   @observable apiError: string;
 
@@ -76,6 +83,12 @@ export class UiStore {
 
   readonly toggleBaseAssetPicker = () =>
     (this.showBaseCurrencyPicker = !this.showBaseCurrencyPicker);
+
+  @action
+  readonly hideBetaBanner = () => {
+    betaBannerHiddenStorage.set(true);
+    this.showBetaBanner = false;
+  };
 }
 
 export default UiStore;
