@@ -35,6 +35,9 @@ export class DepositCreditCardPage extends React.Component<
     const wallet = this.walletStore.findWalletById(walletId);
     const asset = this.assetStore.getById(assetId || baseAsset);
 
+    this.depositCreditCardStore.newDeposit.depositOption = this.props
+      .depositOption!;
+
     if (!!asset) {
       this.depositCreditCardStore.newDeposit.setAsset(asset);
     }
