@@ -22,7 +22,7 @@ export class RestDepositCreditCardApi extends RestApiv1
 
   fetchDepositDefaultValues = () => {
     return this.apiBearerWretch()
-      .url('/BankCardPaymentUrlFormValues')
+      .url('/BankCardPaymentUrl')
       .get()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .json();
