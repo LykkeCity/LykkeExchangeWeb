@@ -52,27 +52,27 @@ export class DepositCreditCardStore {
     }
 
     return {
-      failUrl: response.Result.FailUrl,
-      okUrl: response.Result.OkUrl,
-      paymentUrl: response.Result.Url
+      failUrl: response.FailUrl,
+      okUrl: response.OkUrl,
+      paymentUrl: response.Url
     };
   };
 
   fetchDepositDefaultValues = async () => {
     const response = await this.api!.fetchDepositDefaultValues();
 
-    if (response.Result) {
+    if (response) {
       this.defaultDeposit = new DepositCreditCardModel({
-        address: response.Result.Address || '',
+        address: response.Address || '',
         amount: 0,
-        city: response.Result.City || '',
-        country: response.Result.Country || '',
-        depositOption: response.Result.DepositOption || '',
-        email: response.Result.Email || '',
-        firstName: response.Result.FirstName || '',
-        lastName: response.Result.LastName || '',
-        phone: response.Result.Phone || '',
-        zip: response.Result.Zip || ''
+        city: response.City || '',
+        country: response.Country || '',
+        depositOption: response.DepositOption || '',
+        email: response.Email || '',
+        firstName: response.FirstName || '',
+        lastName: response.LastName || '',
+        phone: response.Phone || '',
+        zip: response.Zip || ''
       });
       this.resetCurrentDeposit();
     }
