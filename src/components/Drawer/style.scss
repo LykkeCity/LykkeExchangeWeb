@@ -125,6 +125,10 @@
       right: 0;
       background: rgba($gray-25, 0.5);
     }
+
+    .drawer__overlay {
+      z-index: 113;
+    }
   }
 
   @media all and (max-height: $screen-tablet) {
