@@ -1,10 +1,10 @@
 import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
-import {StorageUtils} from '../utils';
+import {getHash, StorageUtils} from '../utils';
 
-const BETA_BANNER_HIDDEN_STORAGE_KEY = 'lww-beta-banner-hidden';
-const betaBannerHiddenStorage = StorageUtils.withKey(
-  BETA_BANNER_HIDDEN_STORAGE_KEY
+const BETA_BANNER_HASHES_STORAGE_KEY = 'lww-beta-banner-hashes';
+const betaBannerHashesStorage = StorageUtils.withKey(
+  BETA_BANNER_HASHES_STORAGE_KEY
 );
 
 export class UiStore {
@@ -16,7 +16,7 @@ export class UiStore {
   @observable showQrWindow: boolean;
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
-  @observable showBetaBanner: boolean = !betaBannerHiddenStorage.get();
+  @observable showBetaBanner: boolean;
   @observable transferError: string;
   @observable apiError: string;
 
@@ -44,6 +44,15 @@ export class UiStore {
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+    reaction(
+      () => this.rootStore.profileStore.email,
+      email => {
+        const betaBannerHashes = JSON.parse(
+          betaBannerHashesStorage.get() || '[]'
+        );
+        this.showBetaBanner = !betaBannerHashes.includes(getHash(email));
+      }
+    );
     reaction(
       () => this.pendingRequestsCount,
       count => {
@@ -86,7 +95,9 @@ export class UiStore {
 
   @action
   readonly hideBetaBanner = () => {
-    betaBannerHiddenStorage.set(true);
+    const betaBannerHashes = JSON.parse(betaBannerHashesStorage.get() || '[]');
+    betaBannerHashes.push(getHash(this.rootStore.profileStore.email));
+    betaBannerHashesStorage.set(JSON.stringify(betaBannerHashes));
     this.showBetaBanner = false;
   };
 }
