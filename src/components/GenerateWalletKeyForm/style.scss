@@ -1,6 +1,14 @@
 @import '../../styles/utils';
 
 .generate-wallet-key-form {
+  .dropdown {
+    &_touched {
+      .dropdown__container {
+        display: none;
+      }
+    }
+  }
+
   .dropdown__container {
     padding-top: 0;
     margin-left: -171px;

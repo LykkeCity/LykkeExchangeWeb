@@ -1,4 +1,5 @@
 import Modal from 'antd/lib/modal/Modal';
+import classnames from 'classnames';
 import {
   Dropdown,
   DropdownContainer,
@@ -22,7 +23,7 @@ interface GenerateWalletKeyFormProps extends RootStoreProps {
 export class GenerateWalletKeyForm extends React.Component<
   GenerateWalletKeyFormProps
 > {
-  state = {message: ''};
+  state = {message: '', regenerateKeyTouched: false};
 
   render() {
     return (
@@ -43,8 +44,16 @@ export class GenerateWalletKeyForm extends React.Component<
                 />
               </div>
             </div>
-            <div className="asset_link__action">
-              <Dropdown isTooltip>
+            <div
+              className="asset_link__action"
+              onTouchStartCapture={this.handleRegenerateKeyTouchStart}
+            >
+              <Dropdown
+                isTooltip
+                className={classnames({
+                  dropdown_touched: this.state.regenerateKeyTouched
+                })}
+              >
                 <DropdownControl>
                   <button
                     className="btn btn--icon"
@@ -134,6 +143,12 @@ export class GenerateWalletKeyForm extends React.Component<
         this.setState({message: ''});
       }, 2000);
     }
+  };
+
+  private handleRegenerateKeyTouchStart = (
+    e: React.TouchEvent<HTMLDivElement>
+  ) => {
+    this.setState({regenerateKeyTouched: true});
   };
 }
 
