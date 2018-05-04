@@ -41,7 +41,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   } = rootStore!;
   const countryOptions = countries.map(c => ({
     label: c.name,
-    value: c.iso2
+    value: c.id
   }));
   const requiredErrorMessage = (fieldName: string) =>
     `Field ${fieldName} should not be empty`;
