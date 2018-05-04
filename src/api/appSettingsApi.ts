@@ -1,4 +1,4 @@
-import {RestApiv1} from '.';
+import {RestApi} from '.';
 import {ApiResponse} from './types';
 
 export interface AppSettingsApi {
@@ -6,7 +6,7 @@ export interface AppSettingsApi {
   fetchCountryCodes: () => ApiResponse<any>;
 }
 
-export class RestAppSettingsApi extends RestApiv1 implements AppSettingsApi {
+export class RestAppSettingsApi extends RestApi implements AppSettingsApi {
   fetchSettings = () =>
     this.get('/AppSetting').catch(
       this.rootStore.authStore.redirectToAuthServer
