@@ -40,9 +40,7 @@ describe('deposit credit card store', () => {
   it('should populate new deposit with default values from API', async () => {
     mockApi.fetchDepositDefaultValues = jest.fn(() => {
       return {
-        Result: {
-          FirstName: 'foo'
-        }
+        FirstName: 'foo'
       };
     });
     expect(depositCreditCardStore.newDeposit.firstName).toBe('');
