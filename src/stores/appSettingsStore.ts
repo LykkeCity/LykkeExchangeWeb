@@ -28,13 +28,12 @@ export class AppSettingsStore {
   }
 
   fetchSettings = async () => {
-    const resp = await this.api!.fetchSettings();
+    const resp = await this.api!.fetchFeePercentage();
 
-    if (!!resp.Result) {
+    if (!!resp) {
       runInAction(() => {
         this.appSettings.feeSettings = {
-          bankCardsFeeSizePercentage:
-            resp.Result.FeeSettings.BankCardsFeeSizePercentage
+          bankCardsFeeSizePercentage: resp.BankCardsFeeSizePercentage
         };
       });
     }

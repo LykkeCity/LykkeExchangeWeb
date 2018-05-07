@@ -20,7 +20,8 @@ const mockApi = {
       ]
     }
   })),
-  fetchSettings: jest.fn()
+  fetchSettings: jest.fn(),
+  fetchFeePercentage: jest.fn()
 };
 const appSettingsStore = new AppSettingsStore(rootStore, mockApi);
 
