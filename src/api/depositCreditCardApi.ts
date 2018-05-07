@@ -1,5 +1,5 @@
 import {DepositCreditCardModel} from '../models/index';
-import {RestApiv1} from './index';
+import {RestApi} from './index';
 import {ApiResponse} from './types/index';
 
 export interface DepositCreditCardApi {
@@ -9,7 +9,7 @@ export interface DepositCreditCardApi {
   fetchDepositDefaultValues: () => ApiResponse<any>;
 }
 
-export class RestDepositCreditCardApi extends RestApiv1
+export class RestDepositCreditCardApi extends RestApi
   implements DepositCreditCardApi {
   fetchBankCardPaymentUrl = (deposit: DepositCreditCardModel) => {
     return this.apiBearerWretch()
@@ -22,7 +22,7 @@ export class RestDepositCreditCardApi extends RestApiv1
 
   fetchDepositDefaultValues = () => {
     return this.apiBearerWretch()
-      .url('/BankCardPaymentUrlFormValues')
+      .url('/BankCardPaymentUrl')
       .get()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .json();
