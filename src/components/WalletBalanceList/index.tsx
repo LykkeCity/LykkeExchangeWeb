@@ -1,5 +1,10 @@
-import Dropdown from 'antd/lib/dropdown/dropdown';
-import 'antd/lib/table/style/css';
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl,
+  DropdownList,
+  DropdownListItem
+} from 'lykke-react-components';
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
@@ -69,29 +74,28 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
-                      <Dropdown
-                        overlay={
-                          <div className="asset-menu">
-                            <div>
+                      <Dropdown trigger="click">
+                        <DropdownControl>
+                          <button type="button" className="btn btn--icon">
+                            <i className="icon icon--actions" />
+                          </button>
+                        </DropdownControl>
+                        <DropdownContainer>
+                          <DropdownList className="asset-menu">
+                            <DropdownListItem key="Deposit">
                               <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
                                 Deposit
                               </Link>
-                            </div>
-                            <div>
+                            </DropdownListItem>
+                            <DropdownListItem key="Withdraw">
                               <Link
                                 to={ROUTE_TRANSFER_FROM(wallet.id, b.assetId)}
                               >
                                 Withdraw
                               </Link>
-                            </div>
-                          </div>
-                        }
-                        trigger={['click']}
-                        placement="bottomCenter"
-                      >
-                        <button type="button" className="btn btn--icon">
-                          <i className="icon icon--actions" />
-                        </button>
+                            </DropdownListItem>
+                          </DropdownList>
+                        </DropdownContainer>
                       </Dropdown>
                     </td>
                   </tr>

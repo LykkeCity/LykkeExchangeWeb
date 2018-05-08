@@ -29,7 +29,9 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
         <DropdownContainer>
           <DropdownList>
             <DropdownListItem>
-              <a onClick={authStore.signOut}>Sign out</a>
+              <a href="javascript:void(0)" onClick={authStore.signOut}>
+                Sign out
+              </a>
             </DropdownListItem>
           </DropdownList>
         </DropdownContainer>
