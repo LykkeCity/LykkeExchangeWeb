@@ -86,7 +86,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           onSuccess(gatewayUrls);
         } catch (err) {
           if (err.field) {
-            const errMessage = err.message.replace(asset.id, asset.name);
+            const errMessage = err.message;
             setErrors({[err.field]: errMessage});
             (document.querySelector(
               `[name="${err.field}"]`

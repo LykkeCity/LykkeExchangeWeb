@@ -39,15 +39,18 @@ export class DepositCreditCardStore {
     try {
       response = await this.api!.fetchBankCardPaymentUrl(deposit);
     } catch (err) {
+      if (err.message) {
+        const errors = JSON.parse(err.message);
+        const invalidFieldsNames = Object.keys(errors);
+        invalidFieldsNames.forEach(fieldName => {
+          throw {
+            field: convertFieldName(fieldName),
+            message: errors[fieldName]
+          };
+        });
+      }
       throw {
         message: 'Something went wrong. Please check form or try again later.'
-      };
-    }
-
-    if (response.Error) {
-      throw {
-        field: convertFieldName(response.Error.Field),
-        message: response.Error.Message
       };
     }
 
