@@ -26,6 +26,7 @@ export class ProfileStore {
     );
   }
 
+  @observable email: string = '';
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -65,8 +66,8 @@ export class ProfileStore {
   fetchUserInfo = async () => {
     const resp = await this.api!.getUserName();
     if (!!resp) {
-      const {FirstName: firstName, LastName: lastName} = resp;
-      extendObservable(this, {firstName, lastName});
+      const {Email: email, FirstName: firstName, LastName: lastName} = resp;
+      extendObservable(this, {email, firstName, lastName});
     }
   };
 }

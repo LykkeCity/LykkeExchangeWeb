@@ -6,6 +6,9 @@ export {StorageUtils};
 
 export {default as RandomString} from './randomString';
 
+// tslint:disable-next-line:no-var-requires
+const shajs = require('sha.js');
+
 let idx = 0;
 export const nextId = () => idx++;
 
@@ -64,3 +67,12 @@ export const copyTextToClipboard = (text: string) => {
 
   return opResult;
 };
+
+export const getHash = (
+  value: string,
+  algorithm: string = 'sha224',
+  encoding: string = 'hex'
+) =>
+  shajs(algorithm)
+    .update(value)
+    .digest(encoding);

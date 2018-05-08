@@ -1,0 +1,46 @@
+@import '../../styles/utils';
+
+.banner {
+  border-radius: 8px;
+  box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2);
+  color: $text;
+  padding: 14px 25px;
+  position: relative;
+  width: 770px;
+
+  @include rem(font-size, 18px);
+  @include rem(line-height, 1.67);
+
+  @media all and (max-width: $screen-tablet) {
+    width: 100%;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+
+  &_hidden {
+    display: none;
+  }
+
+  &__bar {
+    background-color: #0388ef;
+    border-radius: 100px;
+    height: 92%;
+    left: 0;
+    position: absolute;
+    top: 10px;
+    width: 2px;
+    z-index: 100;
+  }
+
+  &__title {
+    color: #111;
+    font-weight: $fw-semi;
+  }
+
+  &__footer {
+    border-top: 1px solid $border-alt;
+    padding-top: 13px;
+
+    @include rem(margin-top, 16px);
+  }
+}

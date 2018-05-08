@@ -45,13 +45,13 @@ export class RootStore {
     );
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
     this.featureStore = new FeatureStore(new RestFeaturesApi(this));
+    this.profileStore = new ProfileStore(this, new ProfileApi(this));
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(
       this,
       new TransferApi(this),
       this.converter
     );
-    this.profileStore = new ProfileStore(this, new ProfileApi(this));
   }
 
   reset() {
@@ -61,13 +61,13 @@ export class RootStore {
       this.converter
     );
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
+    this.profileStore = new ProfileStore(this, new ProfileApi(this));
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(
       this,
       new TransferApi(this),
       this.converter
     );
-    this.profileStore = new ProfileStore(this, new ProfileApi(this));
     this.authStore.reset();
   }
 }
