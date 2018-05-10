@@ -75,7 +75,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     if (side === 'from') {
       transfer.asset = wallet.balances.sort(
         (a: BalanceModel, b: BalanceModel) =>
-          b.asset.name.localeCompare(a.asset.name)
+          a.asset.name.localeCompare(b.asset.name)
       )[0].asset;
     }
     transfer.setWallet(wallet, side);
@@ -197,7 +197,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     balanceAvailable: x.availableBalance
                   }))
                   .sort((a: any, b: any) =>
-                    b.assetName.localeCompare(a.assetName)
+                    a.assetName.localeCompare(b.assetName)
                   )}
                 labelKey="assetName"
                 valueKey="assetId"
