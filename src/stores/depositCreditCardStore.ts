@@ -42,12 +42,13 @@ export class DepositCreditCardStore {
       if (err.message) {
         const errors = JSON.parse(err.message);
         const invalidFieldsNames = Object.keys(errors);
+        const errMessages = {errorList: {}};
         invalidFieldsNames.forEach(fieldName => {
-          throw {
-            field: convertFieldName(fieldName),
-            message: errors[fieldName]
-          };
+          errMessages[convertFieldName(fieldName)] = errors[fieldName][0];
         });
+        throw {
+          errMessages
+        };
       }
       throw {
         message: 'Something went wrong. Please check form or try again later.'

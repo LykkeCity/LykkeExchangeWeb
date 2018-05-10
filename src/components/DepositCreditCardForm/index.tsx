@@ -85,12 +85,8 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           const gatewayUrls = await fetchBankCardPaymentUrl(deposit);
           onSuccess(gatewayUrls);
         } catch (err) {
-          if (err.field) {
-            const errMessage = err.message;
-            setErrors({[err.field]: errMessage});
-            (document.querySelector(
-              `[name="${err.field}"]`
-            ) as HTMLInputElement).focus();
+          if (err.errMessages) {
+            setErrors(err.errMessages);
           } else {
             setStatus(err.message);
           }

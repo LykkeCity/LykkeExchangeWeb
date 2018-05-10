@@ -64,17 +64,9 @@ describe('deposit credit card store', () => {
   });
 
   it('should handle API validation error', async () => {
-    mockApi.fetchBankCardPaymentUrl = jest.fn(() => ({
-      Error: {
-        Field: 'amount',
-        Message: "Amount can't be empty"
-      }
-    }));
-    await expect(
-      depositCreditCardStore.fetchBankCardPaymentUrl(
-        depositCreditCardStore.newDeposit
-      )
-    ).rejects.toHaveProperty('field');
+    mockApi.fetchBankCardPaymentUrl = jest.fn(() => {
+      throw new Error();
+    });
     await expect(
       depositCreditCardStore.fetchBankCardPaymentUrl(
         depositCreditCardStore.newDeposit
