@@ -1,4 +1,4 @@
-import {Icon} from 'antd';
+import {Icon} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
@@ -29,8 +29,8 @@ export class DepositSuccess extends React.Component<
     return (
       <div className="deposit-result">
         <Icon
-          type="check-circle"
-          style={{color: 'limegreen', fontSize: '64px'}}
+          className="deposit-result__icon deposit-result__icon_success"
+          type="check_circle"
         />
         <div className="deposit-result__desc">
           Your deposit request has been successfully sent

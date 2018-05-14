@@ -5,7 +5,12 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {TransferModel, WalletModel} from '../../models';
+import {
+  BalanceModel,
+  TransferModel,
+  WalletModel,
+  WalletType
+} from '../../models';
 import {AmountInput} from '../AmountInput';
 import {asAssetBalance} from '../hoc/assetBalance';
 
