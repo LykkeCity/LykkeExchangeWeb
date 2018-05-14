@@ -1,4 +1,10 @@
-import Dropdown from 'antd/lib/dropdown/dropdown';
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl,
+  DropdownList,
+  DropdownListItem
+} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
@@ -9,19 +15,8 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   return (
     <div className="header__actions header_actions__login header_login pull-right">
-      <Dropdown
-        overlay={
-          <ul className="dropdown__nav">
-            <li>
-              <a onClick={authStore.signOut}>Sign out</a>
-            </li>
-          </ul>
-        }
-        trigger={['hover']}
-        className="dropdown__container"
-        placement="bottomRight"
-      >
-        <div className="header_user dropdown__control">
+      <Dropdown>
+        <DropdownControl>
           <div className="header_user__img">
             <img
               src={`${process.env.PUBLIC_URL}/images/user_default.svg`}
@@ -30,7 +25,16 @@ export const UserInfo: React.SFC<RootStoreProps> = ({rootStore}) => {
             />
           </div>
           <div className="header_login__title">{profileStore.fullName}</div>
-        </div>
+        </DropdownControl>
+        <DropdownContainer>
+          <DropdownList>
+            <DropdownListItem>
+              <a href="javascript:void(0)" onClick={authStore.signOut}>
+                Sign out
+              </a>
+            </DropdownListItem>
+          </DropdownList>
+        </DropdownContainer>
       </Dropdown>
     </div>
   );

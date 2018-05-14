@@ -1,4 +1,4 @@
-import {Icon} from 'antd';
+import {Icon} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
@@ -11,8 +11,8 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
   return (
     <div className="transfer-result">
       <Icon
-        type="check-circle"
-        style={{color: 'limegreen', fontSize: '64px'}}
+        className="transfer-result__icon transfer-result__icon_success"
+        type="check_circle"
       />
       <div className="transfer-result__desc">
         Your transaction request has been successfully sent
@@ -34,7 +34,10 @@ export const TransferFail: React.SFC<RouteComponentProps<any>> = ({
 }) => {
   return (
     <div className="transfer-result">
-      <Icon type="close-circle" style={{color: 'red', fontSize: '64px'}} />
+      <Icon
+        className="transfer-result__icon transfer-result__icon_fail"
+        type="cancel_round"
+      />
       <div className="transfer-result__desc">Your transaction {reason}</div>
       <div className="transfer-result__button">
         <Link to={ROUTE_WALLETS} className="btn btn--primary">

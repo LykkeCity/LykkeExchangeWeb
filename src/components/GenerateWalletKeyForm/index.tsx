@@ -1,6 +1,6 @@
-import Modal from 'antd/lib/modal/Modal';
 import classnames from 'classnames';
 import {
+  Dialog,
   Dropdown,
   DropdownContainer,
   DropdownControl
@@ -58,7 +58,7 @@ export class GenerateWalletKeyForm extends React.Component<
                   <button
                     className="btn btn--icon"
                     type="button"
-                    onClick={this.toggleConfirm}
+                    onClick={this.handleRegenerateKeyClick}
                   >
                     <i className="icon icon--key" />
                   </button>
@@ -95,38 +95,32 @@ export class GenerateWalletKeyForm extends React.Component<
             </div>
           </div>
         </div>
-        <Modal
+        <Dialog
+          className="regenerate-api-key-modal"
           visible={this.props.rootStore!.uiStore.showConfirmRegenerateKey}
-          title="Regenerate API key?"
-          onOk={this.toggleConfirm}
           onCancel={this.toggleConfirm}
-          footer={[
-            <button
-              key="back"
-              type="button"
-              className="btn btn--primary btn-block"
-              onClick={this.toggleConfirm}
-            >
-              No, back to wallet
-            </button>,
-            <button
-              key="submit"
-              className="btn btn--flat btn-block"
-              onClick={this.handleRegenerateKey}
-            >
-              Yes, change API key
-            </button>
-          ]}
-          style={{margin: '0 auto'}}
-        >
-          <div className="modal__text">
-            <p>This action is irreversible!</p>
-            <p>Previous API key will become invalid</p>
-          </div>
-        </Modal>
+          onConfirm={this.handleRegenerateKey}
+          confirmButton={{text: 'Yes, Change API Key'}}
+          cancelButton={{text: 'No, Back to Wallet'}}
+          title="Regenerate API key?"
+          description={
+            <span>
+              This action is irreversible!
+              <br />Previous API key will become invalid
+            </span>
+          }
+        />
       </div>
     );
   }
+
+  private handleRegenerateKeyClick = (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+    this.toggleConfirm();
+  };
 
   private toggleConfirm = () =>
     this.props.rootStore!.uiStore.toggleConfirmRegenerateKey();

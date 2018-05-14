@@ -8,15 +8,17 @@ import {Wizard, WizardStep} from '../Wizard';
 
 interface EditWalletDrawerProps {
   wallet?: WalletModel;
+  overlayed?: boolean;
   show?: boolean;
 }
 
 export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
   wallet = null,
+  overlayed = false,
   show = false
 }) =>
   wallet && (
-    <Drawer title="Edit Wallet" show={show}>
+    <Drawer title="Edit Wallet" show={show} overlayed={overlayed}>
       <div className="drawer__title">
         <h2>{wallet.title}</h2>
         <h3>API Wallet</h3>
@@ -35,6 +37,7 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
   );
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  overlayed: rootStore.uiStore.drawerOverlayed,
   show: rootStore.uiStore.showEditWalletDrawer,
   wallet: rootStore.walletStore.selectedWallet
 }))(observer(EditWalletDrawer));

@@ -42,6 +42,11 @@ export class UiStore {
     );
   }
 
+  @computed
+  get drawerOverlayed() {
+    return this.showConfirmRegenerateKey;
+  }
+
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
     reaction(
