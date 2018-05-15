@@ -65,6 +65,12 @@
   display: table;
   width: 100%;
 
+  &__name {
+    a {
+      color: $secondary;
+    }
+  }
+
   &__img,
   &__content {
     display: table-cell;

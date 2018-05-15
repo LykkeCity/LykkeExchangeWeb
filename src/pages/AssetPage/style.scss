@@ -1,0 +1,66 @@
+@import '../../styles/utils';
+
+.arrow-back {
+  position: relative;
+  top: 98px;
+}
+
+.asset-page {
+  @include rem(margin-top, 63px);
+  @include rem(padding, 0 100px);
+
+  &__name {
+    color: $text;
+    font-family: $ff;
+    margin-bottom: 11px;
+  }
+
+  &__amount {
+    font-weight: $fw-light;
+    line-height: 1.1;
+
+    @include rem(font-size, 36px);
+  }
+
+  &__description {
+    color: $secondary;
+    line-height: 1.67;
+    margin-top: 30px;
+    max-width: 670px;
+
+    @include rem(font-size, 18px);
+    @include rem(margin-bottom, 39px);
+  }
+
+  &__actions {
+    border-top: solid 1px $border-alt;
+    display: flex;
+
+    @include rem(padding-top, 39px);
+
+    .action-list {
+      margin-right: 40px;
+
+      &__title {
+        font-weight: $fw-semi;
+        letter-spacing: 1.6px;
+        line-height: 2;
+        margin-bottom: 22px;
+        text-transform: uppercase;
+      }
+
+      &__item {
+        a {
+          color: $secondary;
+          line-height: 1.5;
+
+          img {
+            margin-right: 10px;
+            position: relative;
+            bottom: 2px;
+          }
+        }
+      }
+    }
+  }
+}
