@@ -4,12 +4,13 @@ export class AssetModel {
   id: string;
   name: string;
   category: AssetCategoryModel;
+  description: string;
   accuracy: number;
   iconUrl: string;
 
   isBase: boolean = false;
 
-  constructor(asset: Partial<AssetModel>) {
+  constructor(asset?: Partial<AssetModel>) {
     Object.assign(this, asset);
   }
 }

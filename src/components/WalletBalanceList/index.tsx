@@ -8,7 +8,11 @@ import {
 import {observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
-import {ROUTE_TRANSFER_FROM, ROUTE_TRANSFER_TO} from '../../constants/routes';
+import {
+  ROUTE_ASSET,
+  ROUTE_TRANSFER_FROM,
+  ROUTE_TRANSFER_TO
+} from '../../constants/routes';
 import {WalletModel} from '../../models/index';
 import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
@@ -62,7 +66,15 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                           />
                         </div>
                         <div className="issuer__content">
-                          <div className="issuer__name">{b.asset.name}</div>
+                          <div className="issuer__name">
+                            {wallet.isTrading ? (
+                              <Link to={ROUTE_ASSET(b.assetId)}>
+                                {b.asset.name}
+                              </Link>
+                            ) : (
+                              b.asset.name
+                            )}
+                          </div>
                         </div>
                       </div>
                     </td>

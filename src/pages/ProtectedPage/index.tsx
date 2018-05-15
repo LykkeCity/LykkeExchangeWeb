@@ -17,6 +17,7 @@ import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
   ROUTE_AFFILIATE_STATISTICS,
+  ROUTE_ASSET_PAGE,
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
@@ -28,6 +29,7 @@ import {
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletPage} from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
+import AssetPage from '../AssetPage/index';
 import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<
@@ -91,6 +93,7 @@ export class ProtectedPage extends React.Component<
               to={ROUTE_WALLETS_TRADING}
             />
             <Route path={ROUTE_WALLETS} component={asLoading(WalletPage)} />
+            <Route path={ROUTE_ASSET_PAGE} component={asLoading(AssetPage)} />
             <Route
               exact={true}
               path={ROUTE_TRANSFER_BASE}

@@ -8,13 +8,28 @@ import {Banner} from '../Banner';
 import {TabLink, TabPane} from '../Tabs';
 import './style.css';
 
-export class WalletTabs extends React.Component<any> {
+interface WalletTabsProps {
+  activeTabRoute?: string;
+  showBetaBanner?: boolean;
+  handleHideBetaBannerClick?: () => void;
+  onCreateNewWallet?: () => void;
+}
+
+export class WalletTabs extends React.Component<WalletTabsProps> {
   render() {
     return (
       <div className="wallet-tabs">
         <div className="tabs">
-          <TabLink label="Trading" to={ROUTE_WALLETS_TRADING} />
-          <TabLink label="API Wallets" to={ROUTE_WALLETS_HFT} />
+          <TabLink
+            label="Trading"
+            to={ROUTE_WALLETS_TRADING}
+            active={this.props.activeTabRoute === ROUTE_WALLETS_TRADING}
+          />
+          <TabLink
+            label="API Wallets"
+            to={ROUTE_WALLETS_HFT}
+            active={this.props.activeTabRoute === ROUTE_WALLETS_HFT}
+          />
         </div>
         <Banner
           show={this.props.showBetaBanner}

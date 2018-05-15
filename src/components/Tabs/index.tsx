@@ -4,6 +4,7 @@ import {Link, Route} from 'react-router-dom';
 import './style.css';
 
 interface TabLinkProps {
+  active?: boolean;
   label: string;
   to: string;
 }
@@ -12,13 +13,13 @@ interface TabPaneProps {
   to: string;
 }
 
-export const TabLink: React.SFC<TabLinkProps> = ({label, to}) => (
+export const TabLink: React.SFC<TabLinkProps> = ({active, label, to}) => (
   <Route
     path={to}
     exact={true}
     // tslint:disable-next-line:jsx-no-lambda
     children={({match}) => (
-      <div className={classNames('tab', {'tab--active': !!match})}>
+      <div className={classNames('tab', {'tab--active': !!match || active})}>
         <Link to={to} className="tab__link">
           {label}
         </Link>
