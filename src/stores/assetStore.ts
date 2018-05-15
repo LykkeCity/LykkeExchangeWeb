@@ -5,6 +5,7 @@ import {RootStore} from './index';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
+  @observable assetsAvailableForDeposit: AssetModel[] = [];
 
   @computed
   get baseAssets() {
@@ -29,7 +30,6 @@ export class AssetStore {
           CategoryId,
           Accuracy: accuracy,
           IconUrl: iconUrl,
-          BankCardsDepositEnabled: isBankDepositEnabled,
           IsBase
         }: any) => {
           const category = this.categories.find(x => x.Id === CategoryId) || {
@@ -51,7 +51,6 @@ export class AssetStore {
             description: description.Description,
             iconUrl,
             id,
-            isBankDepositEnabled,
             name: name || Name
           });
           asset.isBase = IsBase;
@@ -59,6 +58,20 @@ export class AssetStore {
         }
       );
     });
+  };
+
+  fetchAssetsAvailableForDeposit = async () => {
+    const resp = await this.api.fetchPaymentMethods();
+    const fxpaygate = resp.PaymentMethods.find(
+      (pm: any) => pm.Name === 'Fxpaygate'
+    );
+    if (fxpaygate && fxpaygate.Available) {
+      runInAction(() => {
+        this.assetsAvailableForDeposit = fxpaygate.Assets.map(
+          (assetId: string) => this.getById(assetId)
+        );
+      });
+    }
   };
 
   fetchCategories = async () => {

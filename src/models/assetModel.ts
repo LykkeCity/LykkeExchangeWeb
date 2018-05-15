@@ -7,7 +7,6 @@ export class AssetModel {
   description: string;
   accuracy: number;
   iconUrl: string;
-  isBankDepositEnabled: boolean;
 
   isBase: boolean = false;
 

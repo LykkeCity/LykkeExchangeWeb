@@ -5,7 +5,7 @@ import {
   DropdownList,
   DropdownListItem
 } from 'lykke-react-components';
-import {observer} from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {
@@ -13,7 +13,8 @@ import {
   ROUTE_TRANSFER_FROM,
   ROUTE_TRANSFER_TO
 } from '../../constants/routes';
-import {WalletModel} from '../../models/index';
+import {AssetModel, WalletModel} from '../../models/index';
+import {RootStore} from '../../stores';
 import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
@@ -23,10 +24,12 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
 
 interface WalletBalanceListProps {
   wallet: WalletModel;
+  assetsAvailableForDeposit?: AssetModel[];
 }
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
-  wallet
+  wallet,
+  assetsAvailableForDeposit = []
 }) => (
   <div className="wallet__balances">
     {wallet.hasBalances || (
@@ -88,7 +91,10 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
-                      {(b.asset.isBankDepositEnabled || !wallet.isTrading) && (
+                      {(assetsAvailableForDeposit.find(
+                        asset => asset.id === b.assetId
+                      ) ||
+                        !wallet.isTrading) && (
                         <Dropdown trigger="click">
                           <DropdownControl>
                             <button type="button" className="btn btn--icon">
@@ -153,4 +159,6 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   </div>
 );
 
-export default observer(WalletBalanceList);
+export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  assetsAvailableForDeposit: rootStore.assetStore.assetsAvailableForDeposit
+}))(observer(WalletBalanceList));
