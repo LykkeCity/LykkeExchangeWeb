@@ -19,6 +19,7 @@ export class AssetStore {
   fetchAssets = async () => {
     await this.fetchCategories();
     const resp = await this.api.fetchAssets();
+    const descriptionsResp = await this.api.fetchDescription();
     runInAction(() => {
       this.assets = resp.Assets.map(
         ({
@@ -33,9 +34,15 @@ export class AssetStore {
           const category = this.categories.find(x => x.Id === CategoryId) || {
             Name: 'Other'
           };
+          const description = descriptionsResp.Descriptions.find(
+            (d: any) => d.Id === id
+          ) || {
+            Description: ''
+          };
           const asset = new AssetModel({
             accuracy,
             category: category.Name,
+            description: description.Description,
             iconUrl,
             id,
             name: name || Name
