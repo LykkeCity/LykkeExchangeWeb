@@ -11,6 +11,7 @@ export class RestApi {
   protected readonly authWretch = wretch(this.baseAuthUrl);
 
   protected get = this._get(() => this.apiBearerWretch());
+  protected getWithQuery = this._getWithQuery(() => this.apiBearerWretch());
   protected getRes = this._getRes(() => this.apiBearerWretch());
   protected post = this._post(() => this.apiBearerWretch());
   protected put = this._put(() => this.apiBearerWretch());
@@ -29,6 +30,21 @@ export class RestApi {
     ) =>
       wretcher()
         .url(url)
+        .get()
+        .unauthorized(cb)
+        .json();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _getWithQuery(wretcher: () => Wretcher) {
+    return (
+      url: string,
+      query: object,
+      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
+      wretcher()
+        .url(url)
+        .query(query)
         .get()
         .unauthorized(cb)
         .json();
