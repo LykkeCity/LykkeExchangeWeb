@@ -71,6 +71,41 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             </div>
           }
         />
+        <Banner
+          show={this.props.showKycBanner}
+          warning
+          className="kyc-banner"
+          title="KYC is missing"
+          text="To offer you the advanced range of services we need you to confirm your identity and pass KYC (Know Your Client) procedure. You can pass the KYC in the Lykke Wallet app."
+          footer={
+            <div>
+              <a
+                href={APPSTORE_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="app-link"
+              >
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
+                  alt="App Store"
+                />
+                Download for iOS
+              </a>
+              <a
+                href={GOOGLEPLAY_LINK}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="app-link"
+              >
+                <img
+                  src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
+                  alt="Google Play"
+                />
+                Download for Android
+              </a>
+            </div>
+          }
+        />
         <TabPane to={ROUTE_WALLETS_TRADING}>
           <div className="tab__pane">
             <div className="row">
@@ -128,6 +163,7 @@ export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
     handleHideBetaBannerClick: rootStore!.uiStore.hideBetaBanner,
     onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
-    showBetaBanner: rootStore!.uiStore.showBetaBanner
+    showBetaBanner: rootStore!.uiStore.showBetaBanner,
+    showKycBanner: !rootStore!.profileStore.isKycPassed
   }))(observer(WalletTabs))
 );

@@ -17,6 +17,8 @@ export class UiStore {
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
   @observable showBetaBanner: boolean;
+  @observable showKycBanner: boolean;
+  @observable showDisclaimerError: boolean = false;
   @observable transferError: string;
   @observable apiError: string;
 

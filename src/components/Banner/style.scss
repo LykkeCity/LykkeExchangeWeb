@@ -32,6 +32,12 @@
     z-index: 100;
   }
 
+  &_warning {
+    .banner__bar {
+      background-color: $red;
+    }
+  }
+
   &__title {
     color: $heading;
     font-weight: $fw-semi;
