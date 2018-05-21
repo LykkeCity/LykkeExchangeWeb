@@ -76,9 +76,9 @@ export class ProfileStore {
       extendObservable(this, {
         email,
         firstName,
-        lastName,
         isKycPassed:
-          kycStatus === KycStatuses.Ok || kycStatus === KycStatuses.ReviewDone
+          kycStatus === KycStatuses.Ok || kycStatus === KycStatuses.ReviewDone,
+        lastName
       });
     }
   };

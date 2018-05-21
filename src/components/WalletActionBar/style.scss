@@ -34,6 +34,14 @@
       &:hover {
         color: $primary;
       }
+
+      &.disabled {
+        cursor: pointer;
+
+        &:hover {
+          color: $gray-dark;
+        }
+      }
     }
 
     &--key {

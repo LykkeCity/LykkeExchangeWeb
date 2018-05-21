@@ -31,50 +31,55 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
   render() {
     const {wallet, rootStore} = this.props;
     const assets = rootStore!.assetStore.assetsAvailableForDeposit;
+    const isKycPassed = rootStore!.profileStore.isKycPassed;
 
     return (
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
           {wallet.isTrading ? (
-            <Dropdown fullHeight>
-              <DropdownControl>
-                <a>Deposit</a>
-              </DropdownControl>
-              <DropdownContainer>
-                <DropdownList className="wallet-menu">
-                  <DropdownListItem>
-                    <Dropdown position={DropdownPosition.RIGHT}>
-                      <DropdownControl>
-                        <a>
-                          <img
-                            className="icon"
-                            src={`${process.env
-                              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                          />
-                          Credit Card
-                        </a>
-                      </DropdownControl>
-                      <DropdownContainer>
-                        <DropdownList className="wallet-asset-menu">
-                          {assets.map(a => (
-                            <DropdownListItem key={a.id}>
-                              <Link
-                                to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                  wallet.id,
-                                  a.id
-                                )}
-                              >
-                                {a.name}
-                              </Link>
-                            </DropdownListItem>
-                          ))}
-                        </DropdownList>
-                      </DropdownContainer>
-                    </Dropdown>
-                  </DropdownListItem>
-                </DropdownList>
-              </DropdownContainer>
-            </Dropdown>
+            isKycPassed ? (
+              <Dropdown fullHeight>
+                <DropdownControl>
+                  <a>Deposit</a>
+                </DropdownControl>
+                <DropdownContainer>
+                  <DropdownList className="wallet-menu">
+                    <DropdownListItem>
+                      <Dropdown position={DropdownPosition.RIGHT}>
+                        <DropdownControl>
+                          <a>
+                            <img
+                              className="icon"
+                              src={`${process.env
+                                .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                            />
+                            Credit Card
+                          </a>
+                        </DropdownControl>
+                        <DropdownContainer>
+                          <DropdownList className="wallet-asset-menu">
+                            {assets.map(a => (
+                              <DropdownListItem key={a.id}>
+                                <Link
+                                  to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                    wallet.id,
+                                    a.id
+                                  )}
+                                >
+                                  {a.name}
+                                </Link>
+                              </DropdownListItem>
+                            ))}
+                          </DropdownList>
+                        </DropdownContainer>
+                      </Dropdown>
+                    </DropdownListItem>
+                  </DropdownList>
+                </DropdownContainer>
+              </Dropdown>
+            ) : (
+              <a className="disabled">Deposit</a>
+            )
           ) : (
             <div className="wallet-action-bar__item">
               <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
