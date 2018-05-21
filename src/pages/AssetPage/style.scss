@@ -5,6 +5,12 @@
   top: 98px;
 }
 
+.filters-row {
+  background: $gray-5;
+
+  @include rem(margin-top, 61px);
+}
+
 .asset-page {
   @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
@@ -58,6 +64,117 @@
             margin-right: 10px;
             position: relative;
             bottom: 2px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.transaction-filters {
+  @include rem(padding, 0 76px 0 100px);
+
+  &__title {
+    display: inline-block;
+    font-weight: $fw-semi;
+    padding: 29px 0;
+
+    @include rem(font-size, 22px);
+  }
+
+  &__item {
+    color: #636f7e;
+    cursor: pointer;
+    float: right;
+    font-weight: $fw-semi;
+    letter-spacing: 1.5px;
+    opacity: 0.6;
+    padding: 6px 24px;
+    text-transform: uppercase;
+    margin: 24px 0 0 6px;
+
+    @include rem(font-size, 15px);
+
+    &_active {
+      background: #0388ef;
+      border-radius: 100px;
+      color: $white;
+      opacity: 1;
+    }
+  }
+}
+
+.transactions-table {
+  @include rem(margin-top, 12px);
+  @include rem(padding, 0 100px);
+
+  tr {
+    th {
+      letter-spacing: 0.2px;
+      line-height: 1.67;
+      text-transform: none;
+
+      @include rem(font-size, 18px);
+
+      &:first-child {
+        &:before {
+          margin-top: 47px;
+        }
+      }
+    }
+
+    td {
+      color: $secondary;
+      line-height: 1.5;
+
+      @include rem(font-size, 16px);
+
+      img {
+        border: solid 1px rgba(63, 77, 96, 0.1);
+        margin-right: 17px;
+        padding: 8px;
+        position: relative;
+        bottom: 1px;
+      }
+
+      &:first-child {
+        line-height: 1.67;
+
+        @include rem(font-size, 18px);
+
+        &:before {
+          margin-top: 62px;
+        }
+      }
+    }
+
+    th:first-child,
+    td:first-child {
+      padding-left: 0;
+
+      &:before {
+        content: '';
+        position: absolute;
+        border-bottom: 1px solid $white;
+        width: 64px;
+      }
+    }
+
+    th:last-child,
+    td:last-child {
+      padding-right: 0;
+      text-align: right;
+    }
+
+    &.empty-state {
+      td {
+        text-align: center;
+
+        &:first-child {
+          text-align: left;
+
+          &:before {
+            margin-top: 44px;
           }
         }
       }
