@@ -1,0 +1,15 @@
+@import '../../styles/utils';
+
+.colored-amount {
+  line-height: 1.67;
+
+  @include rem(font-size, 18px);
+
+  &_negative {
+    color: $red;
+  }
+
+  &_positive {
+    color: $green;
+  }
+}
