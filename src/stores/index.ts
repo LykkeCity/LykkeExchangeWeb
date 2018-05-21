@@ -5,6 +5,7 @@ export * from './walletStore';
 export * from './balanceStore';
 export * from './featuresStore';
 export * from './uiStore';
+export * from './transactionStore';
 export * from './transferStore';
 export * from './profileStore';
 export * from './assetStore';
