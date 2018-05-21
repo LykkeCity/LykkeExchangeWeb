@@ -44,4 +44,31 @@
     @include rem(font-size, 16px);
     @include rem(margin-bottom, 37px);
   }
+
+  .disclaimer-banner {
+    margin: 0 auto 50px;
+    width: 570px;
+
+    .app-link {
+      color: #111;
+      font-weight: $fw-semi;
+      line-height: normal;
+      margin-right: 30px;
+      white-space: nowrap;
+
+      @include rem(font-size, 16px);
+
+      img {
+        bottom: 2px;
+        margin-right: 10px;
+        position: relative;
+      }
+
+      @media all and (max-width: $screen-mobile-old) {
+        display: block;
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
 }

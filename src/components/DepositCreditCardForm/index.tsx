@@ -24,12 +24,14 @@ import './style.css';
 
 export interface DepositCreditCardFormProps extends RootStoreProps {
   asset: AssetModel;
+  onDisclaimerError: () => void;
   onSuccess: (gatewayUrls: GatewayUrls) => void;
 }
 
 export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   rootStore,
   asset,
+  onDisclaimerError,
   onSuccess
 }) => {
   const {
@@ -45,6 +47,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   }));
   const requiredErrorMessage = (fieldName: string) =>
     `Field ${fieldName} should not be empty`;
+  const DISCLAIMER_ERROR_MESSAGE = 'User has pending disclaimer';
 
   return (
     <Formik
@@ -87,6 +90,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
         } catch (err) {
           if (err.errMessages) {
             setErrors(err.errMessages);
+            if (
+              err.errMessages.assetId &&
+              err.errMessages.assetId === DISCLAIMER_ERROR_MESSAGE
+            ) {
+              onDisclaimerError();
+            }
           } else {
             setStatus(err.message);
           }
