@@ -125,7 +125,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
           <div className="container">
             <div className="transaction-filters">
               <div className="transaction-filters__title">
-                Latest Transaction
+                Latest Transactions
               </div>
               {transactionFilters.map(tf => (
                 <div
