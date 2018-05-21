@@ -15,3 +15,4 @@ export * from './transactionModel';
 export * from './depositCreditCardModel';
 export * from './appSettingsModel';
 export * from './gatewayUrls';
+export * from './kycStatuses';

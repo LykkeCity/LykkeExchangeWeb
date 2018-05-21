@@ -7,7 +7,7 @@ import {
   runInAction
 } from 'mobx';
 import {ProfileApi} from '../api/profileApi';
-import {AssetModel} from '../models/index';
+import {AssetModel, KycStatuses} from '../models/index';
 import {StorageUtils} from '../utils/index';
 import {RootStore} from './index';
 
@@ -27,6 +27,7 @@ export class ProfileStore {
   }
 
   @observable email: string = '';
+  @observable isKycPassed: boolean = false;
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -64,10 +65,21 @@ export class ProfileStore {
   };
 
   fetchUserInfo = async () => {
-    const resp = await this.api!.getUserName();
+    const resp = await this.api!.getUserInfo();
     if (!!resp) {
-      const {Email: email, FirstName: firstName, LastName: lastName} = resp;
-      extendObservable(this, {email, firstName, lastName});
+      const {
+        Email: email,
+        FirstName: firstName,
+        KycStatus: kycStatus,
+        LastName: lastName
+      } = resp;
+      extendObservable(this, {
+        email,
+        firstName,
+        lastName,
+        isKycPassed:
+          kycStatus === KycStatuses.Ok || kycStatus === KycStatuses.ReviewDone
+      });
     }
   };
 }

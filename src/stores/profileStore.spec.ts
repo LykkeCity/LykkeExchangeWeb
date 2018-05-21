@@ -3,7 +3,7 @@ import {ProfileStore, RootStore} from '.';
 const rootStore = new RootStore();
 const mockApi = {
   fetchBaseAsset: jest.fn(),
-  getUserName: jest.fn(),
+  getUserInfo: jest.fn(),
   updateBaseAsset: jest.fn()
 };
 const profileStore = new ProfileStore(rootStore, mockApi);
