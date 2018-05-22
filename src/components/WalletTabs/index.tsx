@@ -75,8 +75,8 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
           show={this.props.showKycBanner}
           warning
           className="kyc-banner"
-          title="KYC is missing"
-          text="To offer you the advanced range of services we need you to confirm your identity and pass KYC (Know Your Client) procedure. You can pass the KYC in the Lykke Wallet app."
+          title="KYC missing"
+          text="In order to access the full set of functionalities, please complete KYC on the Lykke Wallet mobile application."
           footer={
             <div>
               <a
