@@ -3,24 +3,21 @@ import {AppSettingsStore, RootStore} from '.';
 const rootStore = new RootStore();
 const mockApi = {
   fetchCountryCodes: jest.fn(() => ({
-    Result: {
-      CountriesList: [
-        {
-          Id: 'FOO',
-          Name: 'Foo country'
-        },
-        {
-          Id: 'FOO',
-          Name: 'Foo country'
-        },
-        {
-          Id: 'BAR',
-          Name: 'Bar country'
-        }
-      ]
-    }
+    CountriesList: [
+      {
+        Id: 'FOO',
+        Name: 'Foo country'
+      },
+      {
+        Id: 'FOO',
+        Name: 'Foo country'
+      },
+      {
+        Id: 'BAR',
+        Name: 'Bar country'
+      }
+    ]
   })),
-  fetchSettings: jest.fn(),
   fetchFeePercentage: jest.fn()
 };
 const appSettingsStore = new AppSettingsStore(rootStore, mockApi);

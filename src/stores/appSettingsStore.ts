@@ -42,9 +42,9 @@ export class AppSettingsStore {
   fetchCountryCodes = async () => {
     const resp = await this.api!.fetchCountryCodes();
 
-    if (!!resp.Result) {
+    if (!!resp.CountriesList) {
       runInAction(() => {
-        this.appSettings.countryCodes = resp.Result.CountriesList;
+        this.appSettings.countryCodes = resp.CountriesList;
       });
     }
   };
