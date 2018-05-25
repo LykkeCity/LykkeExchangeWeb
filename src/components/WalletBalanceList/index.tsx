@@ -10,8 +10,7 @@ import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
-  ROUTE_TRANSFER_FROM,
-  ROUTE_TRANSFER_TO
+  ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
 import {AssetModel, WalletModel} from '../../models/index';
 import {RootStore} from '../../stores';
@@ -103,47 +102,42 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                           </DropdownControl>
                           <DropdownContainer>
                             <DropdownList className="asset-menu">
-                              {wallet.isTrading
-                                ? [
-                                    <DropdownListItem
-                                      isCategory={true}
-                                      key="Deposit"
+                              {wallet.isTrading ? (
+                                [
+                                  <DropdownListItem
+                                    isCategory={true}
+                                    key="Deposit"
+                                  >
+                                    Deposit
+                                  </DropdownListItem>,
+                                  <DropdownListItem key="Credit Card">
+                                    <Link
+                                      to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                        wallet.id,
+                                        b.assetId
+                                      )}
                                     >
-                                      Deposit
-                                    </DropdownListItem>,
-                                    <DropdownListItem key="Credit Card">
-                                      <Link
-                                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                          wallet.id,
-                                          b.assetId
-                                        )}
-                                      >
-                                        <img
-                                          className="icon"
-                                          src={`${process.env
-                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                        />
-                                        Credit Card
-                                      </Link>
-                                    </DropdownListItem>
-                                  ]
-                                : [
-                                    <DropdownListItem key="Deposit">
-                                      <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                        Deposit
-                                      </Link>
-                                    </DropdownListItem>,
-                                    <DropdownListItem key="Withdraw">
-                                      <Link
-                                        to={ROUTE_TRANSFER_FROM(
-                                          wallet.id,
-                                          b.assetId
-                                        )}
-                                      >
-                                        Withdraw
-                                      </Link>
-                                    </DropdownListItem>
-                                  ]}
+                                      <img
+                                        className="icon"
+                                        src={`${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                      />
+                                      Credit Card
+                                    </Link>
+                                  </DropdownListItem>
+                                ]
+                              ) : (
+                                <DropdownListItem>
+                                  <Link
+                                    to={ROUTE_TRANSFER_FROM(
+                                      wallet.id,
+                                      b.assetId
+                                    )}
+                                  >
+                                    Transfer
+                                  </Link>
+                                </DropdownListItem>
+                              )}
                             </DropdownList>
                           </DropdownContainer>
                         </Dropdown>

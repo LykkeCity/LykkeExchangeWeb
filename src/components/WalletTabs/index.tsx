@@ -71,42 +71,42 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             </div>
           }
         />
-        <Banner
-          show={this.props.showKycBanner}
-          warning
-          className="kyc-banner"
-          title="KYC missing"
-          text="In order to access the full set of functionalities, please complete KYC on the Lykke Wallet mobile application."
-          footer={
-            <div>
-              <a
-                href={APPSTORE_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="app-link"
-              >
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
-                  alt="App Store"
-                />
-                Download for iOS
-              </a>
-              <a
-                href={GOOGLEPLAY_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="app-link"
-              >
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
-                  alt="Google Play"
-                />
-                Download for Android
-              </a>
-            </div>
-          }
-        />
         <TabPane to={ROUTE_WALLETS_TRADING}>
+          <Banner
+            show={this.props.showKycBanner}
+            warning
+            className="kyc-banner"
+            title="KYC missing"
+            text="In order to deposit funds using credit card, please complete KYC on the Lykke Wallet mobile application."
+            footer={
+              <div>
+                <a
+                  href={APPSTORE_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="app-link"
+                >
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
+                    alt="App Store"
+                  />
+                  Download for iOS
+                </a>
+                <a
+                  href={GOOGLEPLAY_LINK}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="app-link"
+                >
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
+                    alt="Google Play"
+                  />
+                  Download for Android
+                </a>
+              </div>
+            }
+          />
           <div className="tab__pane">
             <div className="row">
               <div className="col-sm-12">

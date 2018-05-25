@@ -30,17 +30,14 @@
       @include rem(padding, 30px 20px);
 
       color: $heading;
+      cursor: pointer;
 
       &:hover {
         color: $primary;
       }
 
       &.disabled {
-        cursor: pointer;
-
-        &:hover {
-          color: $gray-dark;
-        }
+        color: $gray-dark;
       }
     }
 

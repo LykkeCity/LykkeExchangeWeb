@@ -14,8 +14,7 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
-  ROUTE_TRANSFER_FROM,
-  ROUTE_TRANSFER_TO
+  ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models';
@@ -36,8 +35,8 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     return (
       <div className="wallet-action-bar">
         <div className="wallet-action-bar__item">
-          {wallet.isTrading ? (
-            isKycPassed ? (
+          {wallet.isTrading &&
+            (isKycPassed ? (
               <Dropdown fullHeight>
                 <DropdownControl>
                   <a>Deposit</a>
@@ -79,15 +78,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               </Dropdown>
             ) : (
               <a className="disabled">Deposit</a>
-            )
-          ) : (
-            <div className="wallet-action-bar__item">
-              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>Deposit</Link>
-            </div>
-          )}
+            ))}
         </div>
         <div className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Withdraw</Link>
+          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Transfer</Link>
         </div>
         {wallet.apiKey && (
           <div
