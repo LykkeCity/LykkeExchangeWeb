@@ -1,4 +1,4 @@
-import {pipe, plural, seq} from '.';
+import {arraysEqual, pipe, plural, seq} from '.';
 
 const add = (a: any, b: any) => a + b;
 const inc = (num: any) => num + 1;
@@ -75,5 +75,32 @@ describe('seq', () => {
     expect(f.mock.calls.length).toBe(1);
     expect(g.mock.calls.length).toBe(1);
     expect(ff.mock.calls.length).toBe(1);
+  });
+});
+
+describe('arraysEqual', () => {
+  it('should handle empty arrays', () => {
+    expect(arraysEqual([], [])).toBeTruthy();
+    expect(arraysEqual([], [1])).toBeFalsy();
+    expect(arraysEqual([1], [])).toBeFalsy();
+  });
+
+  it('should handle non-empty arrays', () => {
+    expect(arraysEqual([1, 2, 3], [1, 2, 3])).toBeTruthy();
+    expect(arraysEqual([1, 2, 3], [1, 2])).toBeFalsy();
+  });
+
+  it('should consider order of elements', () => {
+    expect(arraysEqual([1, 2, 3], [1, 3, 2])).toBeFalsy();
+  });
+
+  it('should do strict comparing', () => {
+    expect(arraysEqual([0], [false])).toBeFalsy();
+  });
+
+  it('should do shallow comparing', () => {
+    expect(arraysEqual([{}], [{}])).toBeFalsy();
+    const a = {};
+    expect(arraysEqual([a], [a])).toBeTruthy();
   });
 });
