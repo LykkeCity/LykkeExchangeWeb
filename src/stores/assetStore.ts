@@ -5,7 +5,7 @@ import {RootStore} from './index';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
-  @observable selectedAsset = new AssetModel();
+
   @computed
   get baseAssets() {
     return this.assets.filter(x => x.isBase);

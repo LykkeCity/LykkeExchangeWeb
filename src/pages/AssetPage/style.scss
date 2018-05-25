@@ -80,6 +80,10 @@
     padding: 29px 0;
 
     @include rem(font-size, 22px);
+
+    @media all and (max-width: $screen-mobile-old) {
+      display: block;
+    }
   }
 
   &__item {
@@ -94,6 +98,8 @@
     margin: 24px 0 0 6px;
 
     @include rem(font-size, 15px);
+    @include rem(padding-left, 24px);
+    @include rem(padding-right, 24px);
 
     &_active {
       background: #0388ef;
@@ -101,6 +107,14 @@
       color: $white;
       opacity: 1;
     }
+
+    @media all and (max-width: $screen-mobile-old) {
+      margin: 0 0 29px 6px;
+    }
+  }
+
+  @media all and (max-width: $screen-tablet) {
+    @include rem(padding, 0);
   }
 }
 
@@ -179,5 +193,20 @@
         }
       }
     }
+  }
+
+  .table-responsive {
+    @include rem(margin-bottom, 4px);
+  }
+
+  .show-more-button {
+    color: $gray-dark;
+    cursor: pointer;
+    line-height: 1.88;
+    margin-left: 65px;
+  }
+
+  @media all and (max-width: $screen-tablet) {
+    @include rem(padding, 0 24px 0 0);
   }
 }

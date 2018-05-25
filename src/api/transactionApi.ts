@@ -1,3 +1,4 @@
+import {TransactionType} from '../models';
 import {RootStore} from '../stores';
 import {HistoryApi, RestApi} from './index';
 import {ApiResponse} from './types/index';
@@ -8,7 +9,7 @@ export interface TransactionApi {
     skip: number,
     take: number,
     assetId?: string,
-    operationType?: string
+    operationType?: TransactionType[]
   ) => ApiResponse<any>;
 }
 
@@ -25,7 +26,7 @@ export class RestTransactionApi extends RestApi implements TransactionApi {
     skip: number,
     take: number,
     assetId?: string,
-    operationType?: string
+    operationType?: TransactionType[]
   ) =>
     this.historyApi.fetchWalletHistory(
       walletId,
