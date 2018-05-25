@@ -1,6 +1,6 @@
 import {observable, runInAction} from 'mobx';
 import {TransactionApi} from '../api/transactionApi';
-import {TransactionModel} from '../models';
+import {TransactionModel, TransactionType} from '../models';
 import {RootStore} from './index';
 
 export class TransactionStore {
@@ -12,7 +12,7 @@ export class TransactionStore {
     assetId: string,
     skip: number,
     take: number,
-    operationType?: string
+    operationType?: TransactionType[]
   ) => {
     const tradingWallet = this.rootStore.walletStore.tradingWallets[0];
 

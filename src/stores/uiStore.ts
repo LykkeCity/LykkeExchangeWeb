@@ -17,10 +17,8 @@ export class UiStore {
   @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
   @observable showBetaBanner: boolean;
-  @observable showAssetTransactionsLoader: boolean = false;
   @observable transferError: string;
   @observable apiError: string;
-  @observable assetTransactionsFilterValue: string = '';
 
   @observable pendingRequestsCount: number = 0;
   @computed
