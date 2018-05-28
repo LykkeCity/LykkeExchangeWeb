@@ -129,10 +129,19 @@
       text-transform: none;
 
       @include rem(font-size, 18px);
+      @include rem(padding-bottom, 11px);
 
       &:first-child {
         &:before {
-          margin-top: 47px;
+          margin-top: 41px;
+
+          @media all and (max-width: $screen-landscape) {
+            margin-top: 35px;
+          }
+
+          @media all and (max-width: $screen-mobile) {
+            margin-top: 30px;
+          }
         }
       }
     }
@@ -142,6 +151,8 @@
       line-height: 1.5;
 
       @include rem(font-size, 16px);
+      @include rem(padding-bottom, 5px);
+      @include rem(padding-top, 6px);
 
       img {
         border: solid 1px rgba(63, 77, 96, 0.1);
@@ -157,7 +168,15 @@
         @include rem(font-size, 18px);
 
         &:before {
-          margin-top: 62px;
+          margin-top: 53px;
+
+          @media all and (max-width: $screen-landscape) {
+            margin-top: 52px;
+          }
+
+          @media all and (max-width: $screen-mobile) {
+            margin-top: 51px;
+          }
         }
       }
     }
