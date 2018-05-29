@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import {
   Dropdown,
   DropdownContainer,
@@ -23,11 +24,13 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
 
 interface WalletBalanceListProps {
   wallet: WalletModel;
+  isKycPassed?: boolean;
   assetsAvailableForDeposit?: AssetModel[];
 }
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet,
+  isKycPassed,
   assetsAvailableForDeposit = []
 }) => (
   <div className="wallet__balances">
@@ -110,20 +113,36 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                   >
                                     Deposit
                                   </DropdownListItem>,
-                                  <DropdownListItem key="Credit Card">
-                                    <Link
-                                      to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                        wallet.id,
-                                        b.assetId
-                                      )}
-                                    >
-                                      <img
-                                        className="icon"
-                                        src={`${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                                      />
-                                      Credit Card
-                                    </Link>
+                                  <DropdownListItem
+                                    key="Credit Card"
+                                    className={classnames({
+                                      disabled: !isKycPassed
+                                    })}
+                                  >
+                                    {isKycPassed ? (
+                                      <Link
+                                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </Link>
+                                    ) : (
+                                      <a>
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </a>
+                                    )}
                                   </DropdownListItem>
                                 ]
                               ) : (
@@ -154,5 +173,6 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 );
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
-  assetsAvailableForDeposit: rootStore.assetStore.assetsAvailableForDeposit
+  assetsAvailableForDeposit: rootStore.assetStore.assetsAvailableForDeposit,
+  isKycPassed: rootStore.profileStore.isKycPassed
 }))(observer(WalletBalanceList));

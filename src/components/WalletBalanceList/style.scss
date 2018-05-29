@@ -27,6 +27,20 @@
     padding: 0;
     text-align: left;
     width: 44px;
+
+    .dropdown-list__item {
+      &.disabled {
+        cursor: not-allowed;
+
+        &:hover {
+          background-color: inherit;
+        }
+
+        a {
+          color: $gray-dark;
+        }
+      }
+    }
   }
 
   .btn--icon {
