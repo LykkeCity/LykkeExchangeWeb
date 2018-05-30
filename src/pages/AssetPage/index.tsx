@@ -29,6 +29,8 @@ import './style.css';
 interface AssetPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
 const PAGE_SIZE = 5;
+const ASSET_DEFAULT_ICON_URL = `${process.env
+  .PUBLIC_URL}/images/assets/asset_default.jpg`;
 
 export class AssetPage extends React.Component<AssetPageProps> {
   private readonly assetStore = this.props.rootStore!.assetStore;
@@ -171,7 +173,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 <Table responsive>
                   <thead>
                     <tr>
-                      <th>Wallet</th>
+                      <th>Asset</th>
                       <th>Date</th>
                       <th>Operation</th>
                       <th>Status</th>
@@ -192,12 +194,20 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     {this.transactionStore.assetTransactions.map(t => (
                       <tr key={t.id}>
                         <td>
-                          <img
-                            width="48"
-                            src={`${process.env
-                              .PUBLIC_URL}/images/asset_lkk.svg`}
-                          />
-                          Current accounts
+                          <div className="asset-col">
+                            <img
+                              width="48"
+                              src={asset.iconUrl || ASSET_DEFAULT_ICON_URL}
+                            />
+                            <div>
+                              <div className="asset-col__asset_name">
+                                {asset.name}
+                              </div>
+                              <div className="asset-col__wallet_name">
+                                Trading Wallet
+                              </div>
+                            </div>
+                          </div>
                         </td>
                         <td>
                           <FormattedDate
@@ -213,6 +223,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                           <ColoredAmount
                             value={t.amount}
                             accuracy={asset.accuracy}
+                            assetName={asset.name}
                           />
                         </td>
                       </tr>

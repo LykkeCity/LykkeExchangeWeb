@@ -5,12 +5,14 @@ import './style.css';
 
 export interface ColoredAmountProps {
   accuracy: number;
+  assetName?: string;
   className?: string;
   value: number;
 }
 
 export const ColoredAmount: React.SFC<ColoredAmountProps> = ({
   accuracy,
+  assetName,
   className,
   value,
   ...attributes
@@ -32,6 +34,7 @@ export const ColoredAmount: React.SFC<ColoredAmountProps> = ({
       value={Math.abs(value)}
       accuracy={accuracy}
     />
+    {assetName && ` ${assetName}`}
   </span>
 );
 
