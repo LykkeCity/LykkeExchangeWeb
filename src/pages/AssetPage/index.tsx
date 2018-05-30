@@ -165,72 +165,70 @@ export class AssetPage extends React.Component<AssetPageProps> {
 
         <div className="container">
           <div className="transactions-table">
+            {this.transactionStore.assetTransactions.length === 0 &&
+              !this.areTransactionsLoading &&
+              !this.hasMoreTransactions && (
+                <div className="empty-state">
+                  You don't have any transactions yet
+                </div>
+              )}
             <InfiniteScroll
               loadMore={this.handleLoadMoreTransactions}
               hasMore={this.hasMoreTransactions}
             >
-              {(!this.areTransactionsLoading || this.pageNumber > 1) && (
-                <Table responsive>
-                  <thead>
-                    <tr>
-                      <th>Asset</th>
-                      <th>Date</th>
-                      <th>Operation</th>
-                      <th>Status</th>
-                      <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.transactionStore.assetTransactions.length === 0 &&
-                      !this.hasMoreTransactions && (
-                        <tr className="empty-state">
-                          <td>&nbsp;</td>
-                          <td />
-                          <td>Transactions not found.</td>
-                          <td />
-                          <td />
-                        </tr>
-                      )}
-                    {this.transactionStore.assetTransactions.map(t => (
-                      <tr key={t.id}>
-                        <td>
-                          <div className="asset-col">
-                            <img
-                              width="48"
-                              src={asset.iconUrl || ASSET_DEFAULT_ICON_URL}
-                            />
-                            <div>
-                              <div className="asset-col__asset_name">
-                                {asset.name}
-                              </div>
-                              <div className="asset-col__wallet_name">
-                                Trading Wallet
+              {(!this.areTransactionsLoading || this.pageNumber > 1) &&
+                this.transactionStore.assetTransactions.length > 0 && (
+                  <Table responsive>
+                    <thead>
+                      <tr>
+                        <th>Asset</th>
+                        <th>Date</th>
+                        <th>Operation</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {this.transactionStore.assetTransactions.map(t => (
+                        <tr key={t.id}>
+                          <td>
+                            <div className="asset-col">
+                              <img
+                                width="48"
+                                src={asset.iconUrl || ASSET_DEFAULT_ICON_URL}
+                              />
+                              <div>
+                                <div className="asset-col__asset_name">
+                                  {asset.name}
+                                </div>
+                                <div className="asset-col__wallet_name">
+                                  Trading Wallet
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        </td>
-                        <td>
-                          <FormattedDate
-                            day="2-digit"
-                            month="2-digit"
-                            year="2-digit"
-                            value={t.dateTime}
-                          />, <FormattedTime value={t.dateTime} />
-                        </td>
-                        <td>{TransactionTypeLabel[t.type]}</td>
-                        <td>{TransactionStatusLabel[t.state]}</td>
-                        <td>
-                          <ColoredAmount
-                            value={t.amount}
-                            accuracy={asset.accuracy}
-                            assetName={asset.name}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              )}
+                          </td>
+                          <td>
+                            <FormattedDate
+                              day="2-digit"
+                              month="2-digit"
+                              year="2-digit"
+                              value={t.dateTime}
+                            />, <FormattedTime value={t.dateTime} />
+                          </td>
+                          <td>{TransactionTypeLabel[t.type]}</td>
+                          <td>{TransactionStatusLabel[t.state]}</td>
+                          <td>
+                            <ColoredAmount
+                              value={t.amount}
+                              accuracy={asset.accuracy}
+                              assetName={asset.name}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                )}
             </InfiniteScroll>
             {this.areTransactionsLoading && <Spinner />}
             {this.hasMoreTransactions &&

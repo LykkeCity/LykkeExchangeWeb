@@ -251,17 +251,9 @@
       }
     }
 
-    &.empty-state {
+    &:hover {
       td {
-        text-align: center;
-
-        &:first-child {
-          text-align: left;
-
-          &:before {
-            margin-top: 44px;
-          }
-        }
+        background-color: $gray-5;
       }
     }
   }
@@ -275,6 +267,11 @@
     cursor: pointer;
     line-height: 1.88;
     margin-left: 65px;
+  }
+
+  .empty-state {
+    margin-top: 29px;
+    text-align: center;
   }
 
   @media all and (max-width: $screen-tablet) {
