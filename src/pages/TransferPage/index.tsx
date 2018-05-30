@@ -29,18 +29,23 @@ export class TransferPage extends React.Component<TransferPageProps> {
     const wallet = this.walletStore.findWalletById(walletId);
     const asset = assetId && this.assetStore.getById(assetId);
 
-    if (!!wallet) {
-      this.transferStore.newTransfer.setWallet(wallet, dest);
-    } else {
-      ['from', 'to'].forEach((x: 'from' | 'to') =>
-        this.transferStore.newTransfer.setWallet(
-          this.walletStore.createWallet(),
-          x
-        )
-      );
+    if (
+      !this.transferStore.newTransfer[dest] ||
+      !this.transferStore.newTransfer[dest].id
+    ) {
+      if (!!wallet) {
+        this.transferStore.newTransfer.setWallet(wallet, dest);
+      } else {
+        ['from', 'to'].forEach((x: 'from' | 'to') =>
+          this.transferStore.newTransfer.setWallet(
+            this.walletStore.createWallet(),
+            x
+          )
+        );
+      }
     }
 
-    if (!!asset) {
+    if (!!asset && !this.transferStore.newTransfer.asset) {
       this.transferStore.newTransfer.setAsset(asset);
     }
 
