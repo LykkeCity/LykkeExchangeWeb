@@ -7,13 +7,14 @@ export interface DepositCreditCardApi {
     deposit: DepositCreditCardModel
   ) => ApiResponse<any>;
   fetchDepositDefaultValues: () => ApiResponse<any>;
+  fetchFee: () => ApiResponse<any>;
 }
 
 export class RestDepositCreditCardApi extends RestApi
   implements DepositCreditCardApi {
   fetchBankCardPaymentUrl = (deposit: DepositCreditCardModel) => {
     return this.apiBearerWretch()
-      .url('/BankCardPaymentUrl')
+      .url('/deposits/fxpaygate')
       .json(deposit.asJson)
       .post()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
@@ -22,7 +23,15 @@ export class RestDepositCreditCardApi extends RestApi
 
   fetchDepositDefaultValues = () => {
     return this.apiBearerWretch()
-      .url('/BankCardPaymentUrl')
+      .url('/deposits/fxpaygate/last')
+      .get()
+      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
+      .json();
+  };
+
+  fetchFee = () => {
+    return this.apiBearerWretch()
+      .url('/deposits/fxpaygate/fee')
       .get()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .json();

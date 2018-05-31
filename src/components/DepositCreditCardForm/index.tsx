@@ -35,11 +35,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   onSuccess
 }) => {
   const {
-    appSettingsStore: {
-      appSettings: {feeSettings: {bankCardsFeeSizePercentage}},
-      countries
-    },
-    depositCreditCardStore: {fetchBankCardPaymentUrl, newDeposit: deposit}
+    catalogsStore: {countries},
+    depositCreditCardStore: {
+      fetchBankCardPaymentUrl,
+      newDeposit: deposit,
+      feePercentage
+    }
   } = rootStore!;
   const countryOptions = countries.map(c => ({
     label: c.name,
@@ -137,13 +138,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                           {form.errors[field.name]}
                         </span>
                       )}
-                      {!!bankCardsFeeSizePercentage && (
+                      {!!feePercentage && (
                         <div className="fee-label">
                           Fee: {asset && asset.name}{' '}
                           <FormattedNumber
-                            value={roundMoney(
-                              field.value * bankCardsFeeSizePercentage
-                            )}
+                            value={roundMoney(field.value * feePercentage)}
                             style="decimal"
                             maximumFractionDigits={asset && asset.accuracy}
                           />

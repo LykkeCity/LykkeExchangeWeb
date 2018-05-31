@@ -50,7 +50,7 @@ export class ProtectedPage extends React.Component<
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
   private readonly featureStore = this.props.rootStore!.featureStore;
   private unlistenRouteChange: () => void;
-  private readonly appSettingsStore = this.props.rootStore!.appSettingsStore;
+  private readonly catalogsStore = this.props.rootStore!.catalogsStore;
   private readonly depositCreditCardStore = this.props.rootStore!
     .depositCreditCardStore;
 
@@ -67,14 +67,14 @@ export class ProtectedPage extends React.Component<
     this.featureStore.getFeatures();
     this.assetStore
       .fetchCategories()
-      .then(() => this.appSettingsStore.fetchSettings())
-      .then(() => this.appSettingsStore.fetchCountryCodes())
+      .then(() => this.catalogsStore.fetchCountries())
       .then(() => this.assetStore.fetchAssets())
       .then(() => this.assetStore.fetchAssetsAvailableForDeposit())
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.depositCreditCardStore.fetchDepositDefaultValues())
+      .then(() => this.depositCreditCardStore.fetchFee())
       .then(() => this.uiStore.finishRequest());
 
     this.unlistenRouteChange = this.props.history.listen(() => {

@@ -10,4 +10,4 @@ export * from './transferStore';
 export * from './profileStore';
 export * from './assetStore';
 export * from './depositCreditCardStore';
-export * from './appSettingsStore';
+export * from './catalogsStore';

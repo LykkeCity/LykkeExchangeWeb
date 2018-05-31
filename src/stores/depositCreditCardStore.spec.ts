@@ -3,7 +3,8 @@ import {DepositCreditCardStore, RootStore} from '.';
 const rootStore = new RootStore();
 const mockApi = {
   fetchBankCardPaymentUrl: jest.fn(),
-  fetchDepositDefaultValues: jest.fn()
+  fetchDepositDefaultValues: jest.fn(),
+  fetchFee: jest.fn()
 };
 const depositCreditCardStore = new DepositCreditCardStore(rootStore, mockApi);
 

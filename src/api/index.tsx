@@ -11,4 +11,4 @@ export {default as AffiliateApi} from './affiliateApi';
 export {default as HistoryApi} from './historyApi';
 export {default as TransactionApi} from './transactionApi';
 export {default as DepositCreditCardApi} from './depositCreditCardApi';
-export {default as AppSettingsApi} from './appSettingsApi';
+export {default as CatalogsApi} from './catalogsApi';

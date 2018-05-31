@@ -1,4 +1,4 @@
-import {action, observable} from 'mobx';
+import {action, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
 import {DepositCreditCardApi} from '../api/depositCreditCardApi';
 import {ApiResponse} from '../api/types';
@@ -12,6 +12,7 @@ export class DepositCreditCardStore {
   @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
   @observable gatewayUrls: GatewayUrls;
+  @observable feePercentage: number = 0;
 
   constructor(
     readonly rootStore: RootStore,
@@ -79,6 +80,16 @@ export class DepositCreditCardStore {
         zip: response.Zip || ''
       });
       this.resetCurrentDeposit();
+    }
+  };
+
+  fetchFee = async () => {
+    const response = await this.api!.fetchFee();
+
+    if (response) {
+      runInAction(() => {
+        this.feePercentage = response.Amount;
+      });
     }
   };
 }

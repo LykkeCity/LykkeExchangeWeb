@@ -13,6 +13,6 @@ export * from './assetModel';
 export * from './assetCategoryModel';
 export * from './transactionModel';
 export * from './depositCreditCardModel';
-export * from './appSettingsModel';
+export * from './countryModel';
 export * from './gatewayUrls';
 export * from './kycStatuses';
