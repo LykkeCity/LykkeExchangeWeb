@@ -9,43 +9,40 @@ export class TransactionStore {
   constructor(readonly rootStore: RootStore, private api: TransactionApi) {}
 
   fetchAssetTransactions = async (
+    walletId: string,
     assetId: string,
     skip: number,
     take: number,
     operationType?: TransactionType[]
   ) => {
-    const tradingWallet = this.rootStore.walletStore.tradingWallets[0];
+    const response = await this.api.fetchWalletTransactions(
+      walletId,
+      skip,
+      take,
+      assetId,
+      operationType
+    );
+    runInAction(() => {
+      this.assetTransactions = response.map(
+        ({
+          Id: id,
+          Amount: amount,
+          DateTime: dateTime,
+          State: state,
+          Type: type
+        }: any) => {
+          const asset = this.rootStore.assetStore.getById(assetId);
 
-    if (tradingWallet) {
-      const response = await this.api.fetchWalletTransactions(
-        tradingWallet.id,
-        skip,
-        take,
-        assetId,
-        operationType
+          return new TransactionModel({
+            amount,
+            asset,
+            dateTime,
+            id,
+            state,
+            type
+          });
+        }
       );
-      runInAction(() => {
-        this.assetTransactions = response.map(
-          ({
-            Id: id,
-            Amount: amount,
-            DateTime: dateTime,
-            State: state,
-            Type: type
-          }: any) => {
-            const asset = this.rootStore.assetStore.getById(assetId);
-
-            return new TransactionModel({
-              amount,
-              asset,
-              dateTime,
-              id,
-              state,
-              type
-            });
-          }
-        );
-      });
-    }
+    });
   };
 }
