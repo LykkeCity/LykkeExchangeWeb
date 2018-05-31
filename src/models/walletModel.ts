@@ -59,6 +59,8 @@ export class WalletModel {
         this.expanded = !collapsed;
       }
     );
+    this.collapsed = !this.isTrading;
+    this.expanded = !this.collapsed;
   }
 
   @action
@@ -109,6 +111,10 @@ export class WalletModel {
 
   @action
   toggleCollapse = () => {
+    if (this.isTrading) {
+      return;
+    }
+
     this.collapsed = !this.collapsed;
     if (!this.collapsed) {
       const restWallets = this.store.getWalletsExceptOne(this);

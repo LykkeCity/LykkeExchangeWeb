@@ -25,7 +25,10 @@ export const WalletList: React.SFC<WalletListProps> = ({
     ).map(w => (
       <div
         key={w.id}
-        className={classnames('wallet', {'wallet--expanded': w.expanded})}
+        className={classnames('wallet', {
+          'wallet--expanded': w.expanded,
+          'wallet--trading': type === 'trading'
+        })}
       >
         <div className="wallet__inner">
           <WalletSummary wallet={w} onEditWallet={onEditWallet} />
