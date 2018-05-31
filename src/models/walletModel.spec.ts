@@ -138,6 +138,18 @@ describe('wallet model', () => {
       expect(wallet.expanded).toBe(!wallet.collapsed);
     });
 
+    it("shouldn't collapse trading wallet", () => {
+      const tradingWallet = walletStore.createWallet({Type: 'Trading'});
+
+      expect(tradingWallet.collapsed).toBeFalsy();
+      expect(tradingWallet.expanded).toBeTruthy();
+
+      tradingWallet.toggleCollapse();
+
+      expect(tradingWallet.collapsed).toBeFalsy();
+      expect(tradingWallet.expanded).toBeTruthy();
+    });
+
     it('should collapse all the rest wallets when expanding curr one', () => {
       for (let i = 0; i < 5; i++) {
         walletStore.addWallet(

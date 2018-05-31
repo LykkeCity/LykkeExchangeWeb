@@ -37,14 +37,16 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
             {wallet.title}
-            <i
-              className={classnames(
-                'icon',
-                wallet.expanded
-                  ? 'icon--chevron-thin-up'
-                  : 'icon--chevron-thin-down'
-              )}
-            />
+            {!wallet.isTrading && (
+              <i
+                className={classnames(
+                  'icon',
+                  wallet.expanded
+                    ? 'icon--chevron-thin-up'
+                    : 'icon--chevron-thin-down'
+                )}
+              />
+            )}
           </h2>
           <div className="wallet__desc">{wallet.desc || 'No description'}</div>
         </div>
