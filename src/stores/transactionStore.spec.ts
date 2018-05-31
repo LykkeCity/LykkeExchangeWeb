@@ -31,7 +31,7 @@ describe('transaction store', () => {
         }
       ];
     });
-    await transactionStore.fetchAssetTransactions('foo', 0, 10);
+    await transactionStore.fetchAssetTransactions('1', 'foo', 0, 10);
 
     when(
       () => transactionStore.assetTransactions.length > 0,

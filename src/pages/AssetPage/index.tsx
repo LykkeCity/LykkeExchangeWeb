@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import {Table} from 'lykke-react-components';
-import {observable, reaction} from 'mobx';
+import {computed, observable, reaction} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -11,10 +11,7 @@ import {ColoredAmount} from '../../components/ColoredAmount';
 import {asBalance} from '../../components/hoc/assetBalance';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
-import {
-  ROUTE_DEPOSIT_CREDIT_CARD_TO,
-  ROUTE_WALLETS_TRADING
-} from '../../constants/routes';
+import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
   AssetModel,
@@ -44,6 +41,28 @@ export class AssetPage extends React.Component<AssetPageProps> {
   @observable private areTransactionsLoading = false;
 
   @observable private hasMoreTransactions = true;
+
+  @computed
+  get showEmptyState() {
+    return (
+      this.transactionStore.assetTransactions.length === 0 &&
+      !this.areTransactionsLoading &&
+      !this.hasMoreTransactions
+    );
+  }
+
+  @computed
+  get showTransactionsTable() {
+    return (
+      (!this.areTransactionsLoading || this.pageNumber > 1) &&
+      this.transactionStore.assetTransactions.length > 0
+    );
+  }
+
+  @computed
+  get showLoadMoreButton() {
+    return this.hasMoreTransactions && !this.areTransactionsLoading;
+  }
 
   constructor(props: any) {
     super(props);
@@ -105,23 +124,6 @@ export class AssetPage extends React.Component<AssetPageProps> {
             )}
             <div className="asset-page__description">{asset.description}</div>
             <div className="asset-page__actions">
-              {asset.isBankDepositEnabled && (
-                <ul className="action-list">
-                  <li className="action-list__title">Deposit</li>
-                  <li className="action-list__item">
-                    <Link
-                      to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id)}
-                    >
-                      <img
-                        className="icon"
-                        src={`${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                      />
-                      Deposit with credit card
-                    </Link>
-                  </li>
-                </ul>
-              )}
               <ul className="action-list">
                 <li className="action-list__title">Trading</li>
                 <li className="action-list__item">
@@ -165,81 +167,77 @@ export class AssetPage extends React.Component<AssetPageProps> {
 
         <div className="container">
           <div className="transactions-table">
-            {this.transactionStore.assetTransactions.length === 0 &&
-              !this.areTransactionsLoading &&
-              !this.hasMoreTransactions && (
-                <div className="empty-state">
-                  You don't have any transactions yet
-                </div>
-              )}
+            {this.showEmptyState && (
+              <div className="empty-state">
+                You don't have any transactions yet
+              </div>
+            )}
             <InfiniteScroll
               loadMore={this.handleLoadMoreTransactions}
               hasMore={this.hasMoreTransactions}
             >
-              {(!this.areTransactionsLoading || this.pageNumber > 1) &&
-                this.transactionStore.assetTransactions.length > 0 && (
-                  <Table responsive>
-                    <thead>
-                      <tr>
-                        <th>Asset</th>
-                        <th>Date</th>
-                        <th>Operation</th>
-                        <th>Status</th>
-                        <th>Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {this.transactionStore.assetTransactions.map(t => (
-                        <tr key={t.id}>
-                          <td>
-                            <div className="asset-col">
-                              <img
-                                width="48"
-                                src={asset.iconUrl || ASSET_DEFAULT_ICON_URL}
-                              />
-                              <div>
-                                <div className="asset-col__asset_name">
-                                  {asset.name}
-                                </div>
-                                <div className="asset-col__wallet_name">
-                                  Trading Wallet
-                                </div>
+              {this.showTransactionsTable && (
+                <Table responsive>
+                  <thead>
+                    <tr>
+                      <th>Asset</th>
+                      <th>Date</th>
+                      <th>Operation</th>
+                      <th>Status</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.transactionStore.assetTransactions.map(t => (
+                      <tr key={t.id}>
+                        <td>
+                          <div className="asset-col">
+                            <img
+                              width="48"
+                              src={asset.iconUrl || ASSET_DEFAULT_ICON_URL}
+                            />
+                            <div>
+                              <div className="asset-col__asset_name">
+                                {asset.name}
+                              </div>
+                              <div className="asset-col__wallet_name">
+                                Trading Wallet
                               </div>
                             </div>
-                          </td>
-                          <td>
-                            <FormattedDate
-                              day="2-digit"
-                              month="2-digit"
-                              year="2-digit"
-                              value={t.dateTime}
-                            />, <FormattedTime value={t.dateTime} />
-                          </td>
-                          <td>{TransactionTypeLabel[t.type]}</td>
-                          <td>{TransactionStatusLabel[t.state]}</td>
-                          <td>
-                            <ColoredAmount
-                              value={t.amount}
-                              accuracy={asset.accuracy}
-                              assetName={asset.name}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                )}
+                          </div>
+                        </td>
+                        <td>
+                          <FormattedDate
+                            day="2-digit"
+                            month="2-digit"
+                            year="2-digit"
+                            value={t.dateTime}
+                          />, <FormattedTime value={t.dateTime} />
+                        </td>
+                        <td>{TransactionTypeLabel[t.type]}</td>
+                        <td>{TransactionStatusLabel[t.state]}</td>
+                        <td>
+                          <ColoredAmount
+                            value={t.amount}
+                            accuracy={asset.accuracy}
+                            assetName={asset.name}
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
+              )}
             </InfiniteScroll>
             {this.areTransactionsLoading && <Spinner />}
-            {this.hasMoreTransactions &&
-              !this.areTransactionsLoading && (
-                <div
-                  className="show-more-button"
-                  onClick={this.handleLoadMoreTransactions}
-                >
-                  Show more...
-                </div>
-              )}
+            {this.showLoadMoreButton && (
+              <div
+                className="show-more-button"
+                onClick={this.handleLoadMoreTransactions}
+              >
+                Show more...
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -248,14 +246,18 @@ export class AssetPage extends React.Component<AssetPageProps> {
 
   private loadTransactions = async () => {
     const {assetId} = this.props.match.params;
-    this.areTransactionsLoading = true;
-    await this.transactionStore.fetchAssetTransactions(
-      assetId,
-      0,
-      PAGE_SIZE * this.pageNumber,
-      this.transactionsFilterValue
-    );
-    this.areTransactionsLoading = false;
+    const tradingWallet = this.walletStore.tradingWallets[0];
+    if (tradingWallet && assetId) {
+      this.areTransactionsLoading = true;
+      await this.transactionStore.fetchAssetTransactions(
+        tradingWallet.id,
+        assetId,
+        0,
+        PAGE_SIZE * this.pageNumber,
+        this.transactionsFilterValue
+      );
+      this.areTransactionsLoading = false;
+    }
   };
 
   private handleTransactionsFilterChange = async (
