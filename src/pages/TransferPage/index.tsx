@@ -64,7 +64,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
                   {newTransfer.asset.name}
                 </span>
               )}
-            {!!newTransfer.asset || <NumberFormat value={0} />}
+            {!!newTransfer.asset || <NumberFormat value={0} accuracy={2} />}
           </h2>
           <p className="transfer__text">
             To transfer any asset to other wallet please fill in the form.

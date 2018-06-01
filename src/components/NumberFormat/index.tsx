@@ -1,59 +1,44 @@
-import * as numeral from 'numeral';
-import 'numeral/locales';
 import * as React from 'react';
 
-// TODO: consider using format.js as intl provider
-const knownLocales = [
-  'bg',
-  'chs',
-  'cs',
-  'da-dk',
-  'de-ch',
-  'de',
-  'en-au',
-  'en-gb',
-  'en-za',
-  'es-es',
-  'es',
-  'et',
-  'fi',
-  'fr-ca',
-  'fr-ch',
-  'fr',
-  'hu',
-  'it',
-  'ja',
-  'lv',
-  'nl-be',
-  'nl-nl',
-  'no',
-  'pl',
-  'pt-br',
-  'pt-pt',
-  'ru-ua',
-  'ru',
-  'sk',
-  'sl',
-  'th',
-  'tr',
-  'uk-ua',
-  'vi'
-];
+const replaceNumber = (replacer: any) => (
+  value: number,
+  accuracy: number,
+  options?: object
+) => {
+  options = {
+    maximumFractionDigits: accuracy,
+    minimumFractionDigits: accuracy,
+    ...options
+  };
 
-numeral.zeroFormat('0.00');
-const lang =
-  (window.navigator.languages && window.navigator.languages[0]) ||
-  (window.navigator as any).userLanguage ||
-  window.navigator.language;
+  if (!Number.isFinite(value)) {
+    if (typeof replacer === 'string') {
+      return replacer;
+    }
+    value = replacer;
+  }
 
-numeral.locale(knownLocales.find(x => x.toLowerCase() === lang.toLowerCase()));
+  const result = value.toLocaleString(undefined, options);
+  return checkForTrailingZero(result);
+};
+
+export const formattedNumber = replaceNumber(0);
+
+export const checkForTrailingZero = (value: string): string => {
+  const indexOfZero = value.search(/0+$/);
+  const zeroesQuantity =
+    value[indexOfZero - 1] === ',' || value[indexOfZero - 1] === '.' ? 2 : 1;
+  return indexOfZero !== -1
+    ? value.slice(0, indexOfZero + zeroesQuantity)
+    : value;
+};
 
 interface NumberFormatProps {
   value: number;
-  format?: string;
+  accuracy: number;
 }
 
 export const NumberFormat: React.SFC<NumberFormatProps> = ({
   value,
-  format = '0,0[.]00'
-}) => <span>{numeral(value).format(format)}</span>;
+  accuracy
+}) => <span>{formattedNumber(value, accuracy)}</span>;
