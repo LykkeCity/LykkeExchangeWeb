@@ -16,6 +16,8 @@ import './style.css';
 
 interface TransferPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
+const DEFAULT_ACCURACY = 2;
+
 export class TransferPage extends React.Component<TransferPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly transferStore = this.props.rootStore!.transferStore;
@@ -64,7 +66,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
                   {newTransfer.asset.name}
                 </span>
               )}
-            {!!newTransfer.asset || <NumberFormat value={0} accuracy={2} />}
+            {!!newTransfer.asset || (
+              <NumberFormat value={0} accuracy={DEFAULT_ACCURACY} />
+            )}
           </h2>
           <p className="transfer__text">
             To transfer any asset to other wallet please fill in the form.
