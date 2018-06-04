@@ -55,42 +55,6 @@ ol.list_styled {
   }
 }
 
-.tabs {
-  &--nav {
-    border-bottom: 0;
-
-    @include rem(margin-top, -20px);
-    @include rem(padding, 10px 0);
-
-    .tab {
-      line-height: 20px;
-      border-bottom: 0;
-      margin-bottom: 0;
-
-      @include rem(margin-right, 30px);
-
-      &__link {
-        padding-left: 0;
-        padding-right: 0;
-        color: #8c94a0;
-      }
-
-      &--active {
-        border-bottom: 0;
-        margin-bottom: 0;
-
-        .tab__link {
-          color: #111111;
-        }
-      }
-    }
-
-    @media all and (min-width: $screen-landscape + 1) {
-      @include rem(margin-top, -40px);
-    }
-  }
-}
-
 .table {
   width: 100%;
 
