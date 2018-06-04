@@ -7,41 +7,66 @@ export default function Nav() {
         <div className="footer_nav__col">
           <menu className="nav nav--list">
             <li className="nav__title">Services</li>
-            <li><a href="https://streams.lykke.com/" target="_blank">Lykke Streams</a></li>
-            <li><a href="https://blockchainexplorer.lykke.com/" target="_blank">Blockchain Explorer</a></li>
-            <li><a href="https://lykke.com/ico-platform">ICO Platform</a></li>
+            <li>
+              <a href="https://lykke.com/exchange">Exchange</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/lykke_api">API</a>
+            </li>
+            <li>
+              <a href="https://wallet.lykke.com/">API deposits</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/apply-ico">Listing</a>
+            </li>
           </menu>
         </div>
         <div className="footer_nav__col">
           <menu className="nav nav--list">
-            <li className="nav__title">For clients</li>
-            <li><a href="https://lykke.com/city/invest">Invest</a></li>
-            <li><a href="https://lykke.com/">Wallet</a></li>
-            <li><a href="https://lykke.com/exchange">Exchange</a></li>
-            <li><a href="https://lykke.com/b2b">Accelerator</a></li>
-            <li><a href="https://lykke.com/city/faq">FAQ</a></li>
+            <li className="nav__title">About</li>
+            <li>
+              <a href="https://lykke.com/leadership">Core team</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/city/faq">FAQ</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/city/invest">Invest</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/company/news">News</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/city/blog">Blog</a>
+            </li>
           </menu>
         </div>
         <div className="footer_nav__col">
           <menu className="nav nav--list">
-            <li className="nav__title">About us</li>
-            <li><a href="https://lykke.com/leadership">Core team</a></li>
-            <li><a href="https://lykke.com/technology">Technology</a></li>
-            <li><a href="https://lykke.com/company/news">News</a></li>
-            <li><a href="https://lykke.com/city/blog">Blog</a></li>
-            <li><a href="https://lykke.com/media/Whitepaper_LykkeExchange.pdf">White Paper</a></li>
+            <li className="nav__title">Contribute</li>
+            <li>
+              <a href="https://github.com/LykkeCity/">Github</a>
+            </li>
+            <li>
+              <a href="https://streams.lykke.com/">Streams</a>
+            </li>
+            <li>
+              <a href="https://lykke.com/city/open_positions">Career</a>
+            </li>
           </menu>
         </div>
         <div className="footer_nav__col">
           <menu className="nav nav--list">
             <li className="nav__title">Get in touch</li>
-            <li><a href="https://lykke.com/contacts">Contacts</a></li>
-            <li><a href="mailto:support@lykke.com">Support</a></li>
-            <li><a href="https://lykke.com/city/open_positions">Open positions</a></li>
-            <li><a href="https://lykke.com/b2b-join">Join as Blockchain Accelerator</a></li>
+            <li>
+              <a href="https://lykke.com/contacts">Contacts</a>
+            </li>
+            <li>
+              <a href="https://lykkex.zendesk.com">Help center</a>
+            </li>
           </menu>
         </div>
       </div>
     </div>
-  )
+  );
 }

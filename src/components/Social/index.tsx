@@ -22,7 +22,7 @@ export default ({theme}: any) => (
     </li>
     <li>
       <a
-        href="https://twitter.com/LykkeCity"
+        href="https://twitter.com/lykke"
         target="_blank"
         className="social__item"
       >
