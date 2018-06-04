@@ -10,7 +10,6 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AffiliateStore, FeatureStore, RootStore, UiStore} from '../../stores';
-import {formatWithAccuracy} from '../../utils';
 import {NumberFormat} from '../NumberFormat';
 import {TabLink, TabPane} from '../Tabs';
 import './style.css';
@@ -104,7 +103,7 @@ export class AffiliateTabs extends React.Component<any> {
                                 this.affiliateStore.affiliateModel
                                   .totalTradeVolume
                               }
-                              format={formatWithAccuracy(this.formatAccuracy)}
+                              accuracy={this.formatAccuracy}
                             />
                           ) : (
                             0
@@ -122,7 +121,7 @@ export class AffiliateTabs extends React.Component<any> {
                               value={
                                 this.affiliateStore.affiliateModel.totalBonus
                               }
-                              format={formatWithAccuracy(this.formatAccuracy)}
+                              accuracy={this.formatAccuracy}
                             />
                           ) : (
                             0

@@ -4,7 +4,10 @@ import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import {NumberFormat} from '../NumberFormat';
 import './style.css';
+
+const MAX_ACCURACY = 8;
 
 export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
   const {amount, asset} = props.location.state;
@@ -18,7 +21,7 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
         Your transaction request has been successfully sent
       </div>
       <div className="transfer-result__amount">
-        {amount} {asset}
+        <NumberFormat value={amount} accuracy={MAX_ACCURACY} /> {asset}
       </div>
       <div className="transfer-result__button">
         <Link to={ROUTE_WALLETS} className="btn btn--primary">

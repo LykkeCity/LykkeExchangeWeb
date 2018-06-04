@@ -1,4 +1,4 @@
-import {formatWithAccuracy, pipe, plural, seq} from '.';
+import {pipe, plural, seq} from '.';
 
 const add = (a: any, b: any) => a + b;
 const inc = (num: any) => num + 1;
@@ -75,14 +75,5 @@ describe('seq', () => {
     expect(f.mock.calls.length).toBe(1);
     expect(g.mock.calls.length).toBe(1);
     expect(ff.mock.calls.length).toBe(1);
-  });
-});
-
-describe('format with accuracy', () => {
-  it('should format', () => {
-    expect(formatWithAccuracy(2)).toBe('0,0.[00]');
-    expect(formatWithAccuracy(3)).toBe('0,0.[000]');
-    expect(formatWithAccuracy(5)).toBe('0,0.[00000]');
-    expect(formatWithAccuracy(8)).toBe('0,0.[00000000]');
   });
 });
