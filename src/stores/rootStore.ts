@@ -14,6 +14,7 @@ import {
   AuthApi,
   BalanceApi,
   ConverterApi,
+  HistoryApi,
   ProfileApi,
   TransactionApi,
   TransferApi,
@@ -48,7 +49,7 @@ export class RootStore {
     );
     this.transactionStore = new TransactionStore(
       this,
-      new TransactionApi(this)
+      new TransactionApi(this, new HistoryApi(this))
     );
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
     this.featureStore = new FeatureStore(new RestFeaturesApi(this));
@@ -72,7 +73,7 @@ export class RootStore {
     this.uiStore = new UiStore(this);
     this.transactionStore = new TransactionStore(
       this,
-      new TransactionApi(this)
+      new TransactionApi(this, new HistoryApi(this))
     );
     this.transferStore = new TransferStore(
       this,

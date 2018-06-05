@@ -6,10 +6,10 @@ export enum TransactionStatus {
 }
 
 export const TransactionStatusLabel = {
-  Canceled: 'Canceled',
-  Failed: 'Failed',
-  Finished: 'Finished',
-  InProgress: 'In Progress'
+  [TransactionStatus.Canceled]: 'Canceled',
+  [TransactionStatus.Failed]: 'Failed',
+  [TransactionStatus.Finished]: 'Finished',
+  [TransactionStatus.InProgress]: 'In Progress'
 };
 
 export default TransactionStatus;

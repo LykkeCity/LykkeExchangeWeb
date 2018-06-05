@@ -38,7 +38,7 @@ export class AssetStore {
           const description = descriptionsResp.Descriptions.find(
             (d: any) => d.Id === id
           ) || {
-            Description: ''
+            Description: 'No description'
           };
           const asset = new AssetModel({
             accuracy,

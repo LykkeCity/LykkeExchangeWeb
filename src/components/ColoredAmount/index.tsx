@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import React from 'react';
-import {NumberFormat} from '../components/NumberFormat';
+import {NumberFormat} from '../NumberFormat';
 import './style.css';
 
 export interface ColoredAmountProps {
@@ -30,10 +30,7 @@ export const ColoredAmount: React.SFC<ColoredAmountProps> = ({
   >
     {value > 0 && '+'}
     {value < 0 && '–'}
-    <NumberFormat
-      value={Math.abs(value)}
-      accuracy={accuracy}
-    />
+    <NumberFormat value={Math.abs(value)} accuracy={accuracy} />
     {assetName && ` ${assetName}`}
   </span>
 );

@@ -14,11 +14,8 @@ export interface TransactionApi {
 }
 
 export class RestTransactionApi extends RestApi implements TransactionApi {
-  private historyApi: HistoryApi;
-
-  constructor(rootStore: RootStore) {
+  constructor(rootStore: RootStore, private historyApi: HistoryApi) {
     super(rootStore);
-    this.historyApi = new HistoryApi(rootStore);
   }
 
   fetchWalletTransactions = (

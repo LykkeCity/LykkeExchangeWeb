@@ -26,6 +26,20 @@ export const pipe = (...fns: AnyFunc[]) => fns.reduce(_pipe);
 export const seq = (...fns: AnyFunc[]) => (...args: AnyArgs) =>
   fns.forEach(f => f(...args));
 
+export const arraysEqual = (a: any[], b: any[]) => {
+  if (a.length !== b.length) {
+    return false;
+  }
+
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
 export const copyTextToClipboard = (text: string) => {
   const textArea = document.createElement('textarea');
 

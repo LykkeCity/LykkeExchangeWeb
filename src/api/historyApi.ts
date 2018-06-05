@@ -19,19 +19,13 @@ export class RestHistoryApi extends RestApi implements HistoryApi {
     take: number,
     assetId?: string,
     operationType?: TransactionType[]
-  ) => {
-    const query: any = {skip, take};
-
-    if (assetId) {
-      query.assetId = assetId;
-    }
-
-    if (operationType) {
-      query.operationType = operationType;
-    }
-
-    return this.getWithQuery(`/history/wallet/${walletId}`, query);
-  };
+  ) =>
+    this.getWithQuery(`/history/wallet/${walletId}`, {
+      assetId,
+      operationType,
+      skip,
+      take
+    });
 }
 
 export default RestHistoryApi;
