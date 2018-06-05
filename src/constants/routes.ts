@@ -1,5 +1,8 @@
 export const ROUTE_ROOT = '/';
 
+export const ROUTE_ASSET_PAGE = '/asset/:assetId';
+export const ROUTE_ASSET = (assetId: string) => `/asset/${assetId}`;
+
 export const ROUTE_WALLETS = '/wallets';
 export const ROUTE_WALLETS_TRADING = '/wallets/trading';
 export const ROUTE_WALLETS_HFT = '/wallets/hft';

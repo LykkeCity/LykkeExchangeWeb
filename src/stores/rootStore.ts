@@ -4,6 +4,7 @@ import {
   AuthStore,
   BalanceStore,
   ProfileStore,
+  TransactionStore,
   TransferStore,
   UiStore,
   WalletStore
@@ -13,7 +14,9 @@ import {
   AuthApi,
   BalanceApi,
   ConverterApi,
+  HistoryApi,
   ProfileApi,
+  TransactionApi,
   TransferApi,
   WalletApi
 } from '../api';
@@ -28,6 +31,7 @@ export class RootStore {
   balanceStore: BalanceStore;
   featureStore: FeatureStore;
   uiStore: UiStore;
+  transactionStore: TransactionStore;
   transferStore: TransferStore;
   profileStore: ProfileStore;
   assetStore: AssetStore;
@@ -42,6 +46,10 @@ export class RootStore {
       this,
       new WalletApi(this),
       this.converter
+    );
+    this.transactionStore = new TransactionStore(
+      this,
+      new TransactionApi(this, new HistoryApi(this))
     );
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
     this.featureStore = new FeatureStore(new RestFeaturesApi(this));
@@ -63,6 +71,10 @@ export class RootStore {
     this.balanceStore = new BalanceStore(this, new BalanceApi(this));
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
     this.uiStore = new UiStore(this);
+    this.transactionStore = new TransactionStore(
+      this,
+      new TransactionApi(this, new HistoryApi(this))
+    );
     this.transferStore = new TransferStore(
       this,
       new TransferApi(this),
