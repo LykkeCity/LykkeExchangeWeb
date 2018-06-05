@@ -11,3 +11,4 @@ export * from './transactionType';
 export * from './transactionStatus';
 export * from './assetModel';
 export * from './transactionModel';
+export * from './assetCategoryModel';

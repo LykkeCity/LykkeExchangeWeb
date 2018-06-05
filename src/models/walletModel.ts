@@ -26,11 +26,15 @@ export class WalletModel {
 
   @computed
   get getBalancesByCategory() {
-    return this.balances.reduce<GroupedBalances>((agg, curr) => {
-      const category = curr.asset.category;
-      agg[category] = [...(agg[category] || []), curr];
-      return agg;
-    }, {});
+    return this.balances
+      .sort((b1, b2) => {
+        return b1.asset.category.sortOrder - b2.asset.category.sortOrder;
+      })
+      .reduce<GroupedBalances>((agg, curr) => {
+        const category = curr.asset.category.name;
+        agg[category] = [...(agg[category] || []), curr];
+        return agg;
+      }, {});
   }
 
   @observable collapsed = true;

@@ -1,7 +1,9 @@
+import {AssetCategoryModel} from '.';
+
 export class AssetModel {
   id: string;
   name: string;
-  category: string;
+  category: AssetCategoryModel;
   description: string;
   accuracy: number;
   iconUrl: string;

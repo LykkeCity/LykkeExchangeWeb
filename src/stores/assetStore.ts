@@ -32,7 +32,8 @@ export class AssetStore {
           IsBase
         }: any) => {
           const category = this.categories.find(x => x.Id === CategoryId) || {
-            Name: 'Other'
+            Name: 'Other',
+            SortOrder: Number.MAX_SAFE_INTEGER
           };
           const description = descriptionsResp.Descriptions.find(
             (d: any) => d.Id === id
@@ -41,7 +42,11 @@ export class AssetStore {
           };
           const asset = new AssetModel({
             accuracy,
-            category: category.Name,
+            category: {
+              id: category.Id,
+              name: category.Name,
+              sortOrder: category.SortOrder
+            },
             description: description.Description,
             iconUrl,
             id,
