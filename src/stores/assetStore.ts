@@ -30,11 +30,16 @@ export class AssetStore {
           IsBase
         }: any) => {
           const category = this.categories.find(x => x.Id === CategoryId) || {
-            Name: 'Other'
+            Name: 'Other',
+            SortOrder: Number.MAX_SAFE_INTEGER
           };
           const asset = new AssetModel({
             accuracy,
-            category: category.Name,
+            category: {
+              id: category.Id,
+              name: category.Name,
+              sortOrder: category.SortOrder
+            },
             iconUrl,
             id,
             name: name || Name

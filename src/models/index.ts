@@ -8,3 +8,4 @@ export * from './credentialsModel';
 export * from './walletType';
 export * from './opStatus';
 export * from './assetModel';
+export * from './assetCategoryModel';
