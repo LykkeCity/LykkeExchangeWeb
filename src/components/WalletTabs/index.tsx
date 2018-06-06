@@ -100,6 +100,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                 </p>
                 <p style={{marginTop: '10px'}} className="hint text-left">
                   Read more about using API here&nbsp;<a
+                    className="link"
                     href="https://www.lykke.com/lykke_api"
                     target="_blank"
                   >

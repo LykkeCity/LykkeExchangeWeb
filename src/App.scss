@@ -64,6 +64,10 @@ body {
   }
 }
 
+.link {
+  font-weight: $fw-semi;
+}
+
 .form-control {
   &:hover {
     border-color: $gray-25;
