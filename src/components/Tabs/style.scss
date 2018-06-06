@@ -2,17 +2,17 @@
 
 .tab {
   display: inline-block;
-  color: rgba($secondary, 0.6);
+  color: rgba($heading, 0.6);
 
   @include rem(font-size, 18px);
 
   &__link {
-    color: rgba($secondary, 0.6);
+    color: rgba($heading, 0.6);
 
     @include rem(margin-right, 30px);
 
     &:hover {
-      color: rgba($secondary, 1);
+      color: rgba($heading, 1);
     }
   }
 
@@ -20,7 +20,7 @@
     font-weight: 600;
 
     .tab__link {
-      color: $secondary;
+      color: $heading;
     }
   }
 

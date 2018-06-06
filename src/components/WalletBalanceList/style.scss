@@ -3,7 +3,7 @@
 .table_assets {
   border-collapse: collapse;
   width: 100%;
-  color: $secondary;
+  color: $text;
   position: relative;
   left: -6px;
 
@@ -41,6 +41,7 @@
 
   tr {
     th {
+      color: $heading;
       font-weight: $fw-semi;
 
       @include rem(padding, 16px 20px 16px 0);
@@ -121,7 +122,7 @@
   }
 
   &__content {
-    color: $secondary;
+    color: $text;
     letter-spacing: 0;
 
     @include rem(font-size, 18px);

@@ -31,14 +31,14 @@
   }
 
   &__copy {
-    color: rgba($secondary, 0.8);
+    color: rgba($text, 0.8);
     font-weight: normal;
     line-height: 1.67;
 
     @include rem(padding, 18px 0);
 
     a {
-      color: rgba($secondary, 0.8);
+      color: rgba($text, 0.8);
       white-space: nowrap;
     }
   }
@@ -107,7 +107,7 @@
       text-decoration: none !important;
 
       &:hover {
-        color: $secondary;
+        color: $text;
       }
     }
   }
@@ -283,13 +283,13 @@
         background: transparent !important;
 
         &:hover {
-          color: $secondary;
+          color: $text;
         }
       }
     }
 
     .nav__title {
-      color: $text;
+      color: $heading;
       font-weight: $fw-semi;
     }
   }

@@ -1,7 +1,7 @@
 a.action_link,
 button.action_link {
   &:hover {
-    color: $secondary;
+    color: $text;
 
     img {
       opacity: 1;
@@ -15,7 +15,7 @@ button.action_link {
   border: 0;
   background: transparent;
   outline: none !important;
-  color: rgba($secondary, 0.6);
+  color: rgba($text, 0.6);
 
   @include transition(color 0.2s ease);
   @include rem(padding, 8px 10px);

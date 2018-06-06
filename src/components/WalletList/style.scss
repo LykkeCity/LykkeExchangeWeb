@@ -21,7 +21,7 @@
   &__title {
     font-weight: $fw-semi;
     line-height: 1.25;
-    color: $text;
+    color: $heading;
     cursor: pointer;
 
     @include rem(font-size, 40px);
@@ -39,7 +39,7 @@
       @include rem(margin-left, 10px);
 
       &:hover {
-        color: rgba($secondary, 0.8);
+        color: rgba($text, 0.8);
       }
     }
 
@@ -60,7 +60,7 @@
 
   &__desc {
     line-height: 1.56;
-    color: rgba($secondary, 0.8);
+    color: rgba($text, 0.8);
 
     @include rem(font-size, 16px);
   }
@@ -76,7 +76,7 @@
 
   &__total-balance {
     line-height: 1.85;
-    color: rgba($secondary, 0.6);
+    color: rgba($text, 0.6);
     text-transform: uppercase;
     text-align: right;
 
@@ -106,7 +106,7 @@
 
   &__figure {
     line-height: 1.5;
-    color: $secondary;
+    color: $text;
 
     @include rem(margin-right, 5px);
     @include rem(font-size, 16px);
@@ -114,7 +114,7 @@
 
   &__figure-val {
     line-height: 1.5;
-    color: rgba($secondary, 0.6);
+    color: rgba($text, 0.6);
 
     @include rem(font-size, 16px);
 
