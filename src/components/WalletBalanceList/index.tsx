@@ -46,7 +46,9 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
             <table className="table_assets">
               <thead>
                 <tr>
-                  <th className="_asset">Asset</th>
+                  <th className="_asset">
+                    <span>Asset</span>
+                  </th>
                   <th className="_currency">Base currency</th>
                   <th className="_amount">Amount</th>
                   <th className="_action">&nbsp;</th>

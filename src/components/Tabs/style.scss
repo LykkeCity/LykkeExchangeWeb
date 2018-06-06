@@ -37,8 +37,8 @@
       @include rem(font-size, 16px);
     }
 
-    @media all and (min-width: $screen-landscape + 1) {
-      @include rem(padding, 48px 0);
+    @media all and (min-width: $screen-tablet + 1) {
+      @include rem(padding, 48px 100px);
 
       p.hint {
         margin-bottom: 0;
