@@ -29,7 +29,6 @@ export const AmountInput = (
 ) => {
   const numberMask = createNumberMask({
     allowDecimal: true,
-    allowLeadingZeroes: true,
     decimalLimit: transfer.asset ? transfer.asset.accuracy : 8,
     includeThousandsSeparator: false,
     prefix: '',
