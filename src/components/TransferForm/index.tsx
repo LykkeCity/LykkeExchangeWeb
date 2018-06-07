@@ -40,7 +40,6 @@ export const AmountInput = (
       id="tr_amount"
       mask={numberMask}
       className="form-control"
-      value={transfer.amount || ''}
       onChange={handleChangeAmount}
     />
   );
