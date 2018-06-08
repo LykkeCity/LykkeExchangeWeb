@@ -55,42 +55,6 @@ ol.list_styled {
   }
 }
 
-.tabs {
-  &--nav {
-    border-bottom: 0;
-
-    @include rem(margin-top, -20px);
-    @include rem(padding, 10px 0);
-
-    .tab {
-      line-height: 20px;
-      border-bottom: 0;
-      margin-bottom: 0;
-
-      @include rem(margin-right, 30px);
-
-      &__link {
-        padding-left: 0;
-        padding-right: 0;
-        color: #8c94a0;
-      }
-
-      &--active {
-        border-bottom: 0;
-        margin-bottom: 0;
-
-        .tab__link {
-          color: #111111;
-        }
-      }
-    }
-
-    @media all and (min-width: $screen-landscape + 1) {
-      @include rem(margin-top, -40px);
-    }
-  }
-}
-
 .table {
   width: 100%;
 
@@ -107,7 +71,7 @@ ol.list_styled {
     tr {
       th {
         font-weight: $fw-semi;
-        color: #111111;
+        color: $heading;
       }
 
       th,
@@ -116,7 +80,7 @@ ol.list_styled {
       }
 
       td {
-        color: #333333;
+        color: $text;
         border-top: 1px solid $border-alt;
       }
     }
@@ -126,7 +90,7 @@ ol.list_styled {
 h3.subtitle {
   line-height: 1.33;
   font-weight: bold;
-  color: #111111;
+  color: $heading;
   font-family: $ff-alt;
 
   @include rem(font-size, 30px);
@@ -163,7 +127,7 @@ p.lead {
     font-family: $ff-alt;
     font-weight: bold;
     line-height: 1.35;
-    color: #111111;
+    color: $heading;
 
     @include rem(font-size, 26px);
   }
@@ -174,7 +138,7 @@ p.lead {
   @include rem(margin-top, 18px);
 
   &_item {
-    color: #111;
+    color: $heading;
     font-weight: $fw-semi;
 
     @include rem(font-size, 16px);
@@ -188,7 +152,7 @@ p.lead {
     }
 
     &:hover {
-      color: #111;
+      color: $heading;
       opacity: 0.8;
     }
   }
@@ -226,7 +190,7 @@ p.lead {
     font-weight: $fw-semi;
     line-height: 1.56;
     letter-spacing: normal;
-    color: #111111;
+    color: $heading;
 
     @include rem(font-size, 16px);
   }

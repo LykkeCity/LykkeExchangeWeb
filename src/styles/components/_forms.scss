@@ -43,7 +43,7 @@
 
 .inline-form {
   .control-label {
-    color: $text;
+    color: $heading;
     font-weight: $fw-semi;
 
     @include rem(font-size, 18px);

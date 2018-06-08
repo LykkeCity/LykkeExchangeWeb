@@ -65,7 +65,7 @@
     @include rem(top, 60px);
 
     .form-item {
-      color: $secondary;
+      color: $text;
 
       @include rem(font-size, 16px);
 
@@ -160,7 +160,6 @@
   @include rem(padding-bottom, 12px);
 
   h4 {
-    color: $text;
     font-weight: $fw-semi;
     margin-bottom: 0;
 
@@ -168,7 +167,7 @@
   }
 
   small {
-    color: rgba($secondary, 0.6);
+    color: rgba($text, 0.6);
     text-transform: uppercase;
 
     @include rem(font-size, 13px);
@@ -195,10 +194,10 @@
   }
 
   &_item {
-    color: $secondary;
+    color: $heading;
 
     &--current {
-      color: rgba($secondary, 0.6);
+      color: rgba($heading, 0.6);
     }
   }
 }

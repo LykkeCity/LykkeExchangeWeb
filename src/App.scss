@@ -22,7 +22,7 @@
 
   @media all and (min-width: $screen-tablet + 1) {
     @include rem(padding, 40px 0);
-    @include rem(margin-bottom, 100px);
+    @include rem(margin-bottom, 70px);
   }
 }
 
@@ -64,6 +64,10 @@ body {
   }
 }
 
+.link {
+  font-weight: $fw-semi;
+}
+
 .form-control {
   &:hover {
     border-color: $gray-25;
@@ -89,5 +93,5 @@ textarea.form-control {
 }
 
 .hint {
-  color: rgba($secondary, 0.8);
+  color: rgba($text, 0.8);
 }

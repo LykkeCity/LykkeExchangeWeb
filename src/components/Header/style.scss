@@ -98,7 +98,7 @@
   &__title {
     letter-spacing: -0.5px;
     font-weight: $fw-semi;
-    color: $text;
+    color: $heading;
 
     @include rem(font-size, 28px);
     @include rem(line-height, 40px);
@@ -149,7 +149,7 @@
     &:after,
     &:before,
     span {
-      background: $secondary;
+      background: $text;
     }
   }
 }
@@ -240,7 +240,7 @@
   white-space: nowrap;
 
   &__item {
-    color: $secondary;
+    color: $heading;
     display: inline-block;
     vertical-align: middle;
     position: relative;
@@ -274,7 +274,7 @@
 
       > a {
         &:hover {
-          color: rgba($secondary, 0.6);
+          color: rgba($text, 0.6);
 
           + .submenu {
             opacity: 1;
@@ -308,7 +308,7 @@
     padding: 0;
 
     &__item {
-      color: rgba($secondary, 0.6);
+      color: rgba($text, 0.6);
 
       @include rem(font-size, 18px);
 
@@ -316,7 +316,7 @@
         color: inherit;
 
         &:hover {
-          color: $secondary;
+          color: $text;
         }
       }
 
@@ -325,7 +325,7 @@
 
         > a {
           position: relative;
-          color: $secondary !important;
+          color: $text !important;
 
           @include rem(top, 1px);
         }
@@ -393,7 +393,7 @@
       @include rem(padding, 3px 10px);
 
       &:hover {
-        color: rgba($secondary, 0.8);
+        color: rgba($text, 0.8);
       }
     }
   }
@@ -433,7 +433,7 @@
     }
 
     + .header_login__title {
-      color: $text;
+      color: $heading;
     }
   }
 
@@ -557,7 +557,7 @@
 
     &__item {
       letter-spacing: 0;
-      color: rgba($secondary, 0.8);
+      color: rgba($text, 0.8);
       display: block;
 
       @include rem(font-size, 16px);
@@ -705,14 +705,14 @@
     a {
       &:hover {
         .main_projects_list__title {
-          color: rgba($secondary, 0.8);
+          color: rgba($text, 0.8);
         }
       }
     }
   }
 
   &__text {
-    color: rgba($secondary, 0.6);
+    color: rgba($text, 0.6);
 
     @include rem(font-size, 16px);
     @include rem(line-height, 24px);
@@ -894,23 +894,23 @@
   @include rem(font-size, 16px);
 
   &__item {
-    color: $secondary;
+    color: $text;
 
     a {
-      color: $secondary;
+      color: $text;
       display: block;
 
       @include rem(padding, 10px 13px);
 
       &:hover {
-        color: rgba($secondary, 0.7);
+        color: rgba($text, 0.7);
         background-color: #f5f6f7;
       }
     }
 
     &--active {
       a {
-        color: rgba($secondary, 0.7);
+        color: rgba($text, 0.7);
         background-color: #f5f6f7;
       }
     }
@@ -924,7 +924,7 @@
 
       &--selected {
         > a {
-          color: rgba($secondary, 0.6);
+          color: rgba($text, 0.6);
         }
 
         .submenu {
@@ -1073,7 +1073,7 @@
   }
 
   &__value {
-    color: $secondary;
+    color: $text;
   }
 
   .icon {
@@ -1104,7 +1104,7 @@
   font-feature-settings: 'tnum';
 
   &__item {
-    color: $secondary;
+    color: $text;
     line-height: 1.5;
 
     @include rem(font-size, 16px);
@@ -1115,6 +1115,6 @@
   }
 
   &__value {
-    color: rgba($secondary, 0.6);
+    color: rgba($text, 0.6);
   }
 }

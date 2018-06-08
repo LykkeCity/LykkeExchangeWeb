@@ -126,7 +126,7 @@ export class Sidebar extends React.Component<RootStoreProps> {
               </li>
               <li>
                 <a
-                  href="https://twitter.com/LykkeCity"
+                  href="https://twitter.com/lykke"
                   target="_blank"
                   className="social__item"
                 >

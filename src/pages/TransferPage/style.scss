@@ -9,14 +9,16 @@
 
   h1 {
     font-weight: $fw-semi;
+    line-height: 1.25;
     text-align: center;
 
-    @include rem(margin-bottom, 11px);
+    @include rem(margin-bottom, 5px);
     @include rem(font-size, 40px);
   }
 
   h2 {
     font-weight: $fw-light;
+    line-height: 1.11;
     text-align: center;
 
     @include rem(font-size, 36px);
@@ -25,11 +27,12 @@
 
   &__text {
     text-align: left;
-    color: $secondary;
+    color: $text;
 
     @include rem(font-size, 16px);
 
     &--center {
+      margin-bottom: -40px;
       text-align: center;
     }
   }

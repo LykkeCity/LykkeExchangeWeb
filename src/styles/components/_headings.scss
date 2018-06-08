@@ -5,7 +5,7 @@
 }
 
 .section__title {
-  color: #111;
+  color: $heading;
 
   @include rem(margin-bottom, 20px);
 }
@@ -21,6 +21,16 @@
 
 .block_subscribe h5,
 .block_subscribe .h5 {
+  color: $heading;
   font-family: $ff;
   font-weight: $fw-semi;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $heading;
 }

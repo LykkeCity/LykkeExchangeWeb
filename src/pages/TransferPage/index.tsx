@@ -76,7 +76,9 @@ export class TransferPage extends React.Component<TransferPageProps> {
           <TransferForm onTransfer={this.handleTransfer} />
           <div className="transfer__text transfer__text--center">
             If you have any other problem contact{' '}
-            <a href="mailto:support@lykke.com">our support</a>
+            <a className="link" href="mailto:support@lykke.com">
+              our support
+            </a>
           </div>
           <TransferQrWindow />
         </div>
