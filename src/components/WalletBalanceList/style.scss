@@ -56,22 +56,24 @@
         &:before {
           content: '';
           position: absolute;
+          left: -6px;
           top: 34px;
-          width: 64px;
-          height: 4px;
+          width: 70px;
+          height: 2px;
           background-color: $white;
         }
 
         @media all and (max-width: $screen-landscape) {
           &:before {
             top: 29px;
+            height: 4px;
           }
         }
 
         @media all and (max-width: $screen-mobile) {
           &:before {
             top: 26px;
-            width: 60px;
+            width: 66px;
           }
         }
       }
@@ -117,7 +119,7 @@
 
   &__name {
     a {
-      color: $secondary;
+      color: $text;
     }
   }
 
@@ -140,7 +142,7 @@
       position: absolute;
       top: 100%;
       margin-top: 5px;
-      width: 100%;
+      width: 68px;
       height: 1px;
       left: -6px;
       background-color: $white;
@@ -152,6 +154,13 @@
       border-radius: $border-radius;
       padding: 7px;
       box-shadow: inset 0 0 0 1px rgba(63, 77, 96, 0.1);
+    }
+
+    @media all and (max-width: $screen-landscape) {
+      &:after {
+        margin-top: 4px;
+        height: 2px;
+      }
     }
 
     @media all and (max-width: $screen-mobile) {

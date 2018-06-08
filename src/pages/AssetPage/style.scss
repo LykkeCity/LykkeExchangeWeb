@@ -16,7 +16,6 @@
   @include rem(padding, 0 100px);
 
   &__name {
-    color: $text;
     font-family: 'Akrobat', sans-serif;
     margin-bottom: 11px;
   }
@@ -29,7 +28,7 @@
   }
 
   &__description {
-    color: $secondary;
+    color: $text;
     line-height: 1.67;
     margin-top: 30px;
     max-width: 670px;
@@ -48,6 +47,7 @@
       margin-right: 40px;
 
       &__title {
+        color: $heading;
         font-weight: $fw-semi;
         letter-spacing: 1.6px;
         line-height: 2;
@@ -57,7 +57,7 @@
 
       &__item {
         a {
-          color: $secondary;
+          color: $text;
           line-height: 1.5;
 
           img {
@@ -75,6 +75,7 @@
   @include rem(padding, 0 76px 0 100px);
 
   &__title {
+    color: $heading;
     display: inline-block;
     font-weight: $fw-semi;
     padding: 29px 0;
@@ -124,6 +125,7 @@
 
   tr {
     th {
+      color: $heading;
       letter-spacing: 0.2px;
       line-height: 1.67;
       text-transform: none;
@@ -162,7 +164,7 @@
     }
 
     td {
-      color: $secondary;
+      color: $text;
       line-height: 1.5;
 
       @include rem(font-size, 16px);
