@@ -37,7 +37,7 @@ export const WalletList: React.SFC<WalletListProps> = ({
               <div key={WalletActionBar.name}>
                 <WalletActionBar wallet={w} />
               </div>
-              <div key={WalletBalanceList.name}>
+              <div>
                 <WalletBalanceList wallet={w} />
               </div>
             </div>

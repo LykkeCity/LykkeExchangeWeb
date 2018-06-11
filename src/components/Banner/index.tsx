@@ -8,6 +8,7 @@ interface BannerProps {
   title?: string;
   footer?: string | React.ReactChild;
   show?: boolean;
+  warning?: boolean;
 }
 
 export const Banner: React.SFC<BannerProps> = ({
@@ -16,12 +17,16 @@ export const Banner: React.SFC<BannerProps> = ({
   title,
   footer,
   show = true,
+  warning,
   ...attributes
 }) => {
   return (
     <div
       {...attributes}
-      className={classnames('banner', className, {banner_hidden: !show})}
+      className={classnames('banner', className, {
+        banner_hidden: !show,
+        banner_warning: warning
+      })}
     >
       <div className="banner__bar" />
       {title && <div className="banner__title">{title}</div>}

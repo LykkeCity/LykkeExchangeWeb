@@ -30,9 +30,15 @@
       @include rem(padding, 30px 20px);
 
       color: $heading;
+      cursor: pointer;
 
       &:hover {
         color: $primary;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+        color: $gray-dark;
       }
     }
 
@@ -62,5 +68,14 @@
       @include rem(font-size, 20px);
       @include rem(margin, -10px 0 -10px -10px);
     }
+  }
+}
+
+.wallet-menu {
+  .icon {
+    position: relative;
+    top: -2px;
+
+    @include rem(margin-right, 10px);
   }
 }

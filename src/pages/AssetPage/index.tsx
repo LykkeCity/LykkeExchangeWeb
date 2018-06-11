@@ -11,7 +11,10 @@ import {ColoredAmount} from '../../components/ColoredAmount';
 import {asBalance} from '../../components/hoc/assetBalance';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
-import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
+import {
+  ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_WALLETS_TRADING
+} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
   AssetModel,
@@ -33,6 +36,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
+  private readonly profileStore = this.props.rootStore!.profileStore;
 
   private pageNumber = 1;
 
@@ -124,6 +128,36 @@ export class AssetPage extends React.Component<AssetPageProps> {
             )}
             <div className="asset-page__description">{asset.description}</div>
             <div className="asset-page__actions">
+              {this.assetStore.assetsAvailableForDeposit.find(
+                a => asset.id === a.id
+              ) && (
+                <ul className="action-list">
+                  <li className="action-list__title">Deposit</li>
+                  <li className="action-list__item">
+                    {this.profileStore.isKycPassed ? (
+                      <Link
+                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id)}
+                      >
+                        <img
+                          className="icon"
+                          src={`${process.env
+                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                        />
+                        Credit card
+                      </Link>
+                    ) : (
+                      <a className="disabled">
+                        <img
+                          className="icon"
+                          src={`${process.env
+                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                        />
+                        Credit card
+                      </a>
+                    )}
+                  </li>
+                </ul>
+              )}
               <ul className="action-list">
                 <li className="action-list__title">Trading</li>
                 <li className="action-list__item">

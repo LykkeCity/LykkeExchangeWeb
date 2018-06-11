@@ -1,3 +1,4 @@
+import classnames from 'classnames';
 import {
   Dropdown,
   DropdownContainer,
@@ -5,15 +6,16 @@ import {
   DropdownList,
   DropdownListItem
 } from 'lykke-react-components';
-import {observer} from 'mobx-react';
+import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {
   ROUTE_ASSET,
-  ROUTE_TRANSFER_FROM,
-  ROUTE_TRANSFER_TO
+  ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
-import {WalletModel} from '../../models/index';
+import {AssetModel, WalletModel} from '../../models/index';
+import {RootStore} from '../../stores';
 import {plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
@@ -23,10 +25,14 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
 
 interface WalletBalanceListProps {
   wallet: WalletModel;
+  isKycPassed?: boolean;
+  assetsAvailableForDeposit?: AssetModel[];
 }
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
-  wallet
+  wallet,
+  isKycPassed,
+  assetsAvailableForDeposit = []
 }) => (
   <div className="wallet__balances">
     {wallet.hasBalances || (
@@ -88,29 +94,74 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                       {asBalance(b)} {b.asset.name}
                     </td>
                     <td className="_action">
-                      <Dropdown trigger="click">
-                        <DropdownControl>
-                          <button type="button" className="btn btn--icon">
-                            <i className="icon icon--actions" />
-                          </button>
-                        </DropdownControl>
-                        <DropdownContainer>
-                          <DropdownList className="asset-menu">
-                            <DropdownListItem key="Deposit">
-                              <Link to={ROUTE_TRANSFER_TO(wallet.id)}>
-                                Deposit
-                              </Link>
-                            </DropdownListItem>
-                            <DropdownListItem key="Withdraw">
-                              <Link
-                                to={ROUTE_TRANSFER_FROM(wallet.id, b.assetId)}
-                              >
-                                Withdraw
-                              </Link>
-                            </DropdownListItem>
-                          </DropdownList>
-                        </DropdownContainer>
-                      </Dropdown>
+                      {(assetsAvailableForDeposit.find(
+                        asset => asset.id === b.assetId
+                      ) ||
+                        !wallet.isTrading) && (
+                        <Dropdown trigger="click">
+                          <DropdownControl>
+                            <button type="button" className="btn btn--icon">
+                              <i className="icon icon--actions" />
+                            </button>
+                          </DropdownControl>
+                          <DropdownContainer>
+                            <DropdownList className="asset-menu">
+                              {wallet.isTrading ? (
+                                [
+                                  <DropdownListItem
+                                    isCategory={true}
+                                    key="Deposit"
+                                  >
+                                    Deposit
+                                  </DropdownListItem>,
+                                  <DropdownListItem
+                                    key="Credit Card"
+                                    className={classnames({
+                                      disabled: !isKycPassed
+                                    })}
+                                  >
+                                    {isKycPassed ? (
+                                      <Link
+                                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                          wallet.id,
+                                          b.assetId
+                                        )}
+                                      >
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </Link>
+                                    ) : (
+                                      <a>
+                                        <img
+                                          className="icon"
+                                          src={`${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                                        />
+                                        Credit Card
+                                      </a>
+                                    )}
+                                  </DropdownListItem>
+                                ]
+                              ) : (
+                                <DropdownListItem>
+                                  <Link
+                                    to={ROUTE_TRANSFER_FROM(
+                                      wallet.id,
+                                      b.assetId
+                                    )}
+                                  >
+                                    Transfer
+                                  </Link>
+                                </DropdownListItem>
+                              )}
+                            </DropdownList>
+                          </DropdownContainer>
+                        </Dropdown>
+                      )}
                     </td>
                   </tr>
                 ))}
@@ -122,4 +173,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   </div>
 );
 
-export default observer(WalletBalanceList);
+export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  assetsAvailableForDeposit: rootStore.assetStore.assetsAvailableForDeposit,
+  isKycPassed: rootStore.profileStore.isKycPassed
+}))(observer(WalletBalanceList));

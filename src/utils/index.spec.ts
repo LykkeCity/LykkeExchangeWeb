@@ -1,4 +1,4 @@
-import {arraysEqual, pipe, plural, seq} from '.';
+import {arraysEqual, pipe, plural, roundMoney, seq} from '.';
 
 const add = (a: any, b: any) => a + b;
 const inc = (num: any) => num + 1;
@@ -102,5 +102,19 @@ describe('arraysEqual', () => {
     expect(arraysEqual([{}], [{}])).toBeFalsy();
     const a = {};
     expect(arraysEqual([a], [a])).toBeTruthy();
+  });
+});
+
+describe('roundMoney', () => {
+  it('should round to accuracy', () => {
+    expect(roundMoney(1.8888888, 2)).toBe(1.89);
+  });
+
+  it('should ceil resulting value', () => {
+    expect(roundMoney(1.8801, 2)).toBe(1.89);
+  });
+
+  it('should avoid Floating-Point issue', () => {
+    expect(roundMoney(0.1 + 0.2)).toBe(0.3);
   });
 });

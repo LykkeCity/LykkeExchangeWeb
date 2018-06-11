@@ -5,6 +5,7 @@ export interface AssetApi {
   fetchAssets: () => ApiResponse<any>;
   fetchCategories: () => ApiResponse<any>;
   fetchDescription: () => ApiResponse<any>;
+  fetchPaymentMethods: () => ApiResponse<any>;
 }
 
 export class RestAssetApi extends RestApi implements AssetApi {
@@ -13,6 +14,7 @@ export class RestAssetApi extends RestApi implements AssetApi {
   fetchCategories = () => this.get('/assets/categories');
 
   fetchDescription = () => this.get('/assets/description');
+  fetchPaymentMethods = () => this.get('/paymentmethods');
 }
 
 export default RestAssetApi;

@@ -4,7 +4,7 @@ import {ApiResponse} from './types';
 export interface ProfileApi {
   fetchBaseAsset: () => ApiResponse<any>;
   updateBaseAsset: (baseCurrency: string) => ApiResponse<any>;
-  getUserName: () => ApiResponse<any>;
+  getUserInfo: () => ApiResponse<any>;
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
@@ -18,7 +18,7 @@ export class RestProfileApi extends RestApi implements ProfileApi {
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .res();
 
-  getUserName = () =>
+  getUserInfo = () =>
     this.apiBearerWretch()
       .url('/client/userInfo')
       .get()
