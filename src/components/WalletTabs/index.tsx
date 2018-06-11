@@ -11,6 +11,7 @@ import './style.css';
 interface WalletTabsProps {
   activeTabRoute?: string;
   showBetaBanner?: boolean;
+  showKycBanner?: boolean;
   handleHideBetaBannerClick?: () => void;
   onCreateNewWallet?: () => void;
 }

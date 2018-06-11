@@ -10,6 +10,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {
+  ROUTE_ASSET,
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';

@@ -9,7 +9,6 @@ import {
 } from 'formik';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {FormattedNumber} from 'react-intl';
 import {Link} from 'react-router-dom';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
@@ -19,6 +18,7 @@ import {AssetModel, DepositCreditCardModel, GatewayUrls} from '../../models';
 import {roundMoney} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {FormSelect} from '../FormSelect';
+import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
 
@@ -141,11 +141,12 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       {!!feePercentage && (
                         <div className="fee-label">
                           Fee: {asset && asset.name}{' '}
-                          <FormattedNumber
-                            value={roundMoney(field.value * feePercentage)}
-                            style="decimal"
-                            maximumFractionDigits={asset && asset.accuracy}
-                          />
+                          {asset && (
+                            <NumberFormat
+                              value={roundMoney(field.value * feePercentage)}
+                              accuracy={asset.accuracy}
+                            />
+                          )}
                         </div>
                       )}
                     </div>
@@ -396,7 +397,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           </div>
 
           <div className="deposit-credit-card-form__links">
-            <a href="https://www.lykke.com/terms_of_use" target="_blank">
+            <a
+              className="link"
+              href="https://www.lykke.com/terms_of_use"
+              target="_blank"
+            >
               Terms of Use
             </a>
           </div>
