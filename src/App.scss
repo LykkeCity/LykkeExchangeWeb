@@ -91,3 +91,7 @@ textarea.form-control {
 .hint {
   color: rgba($secondary, 0.8);
 }
+
+input::-ms-clear {
+  display: none;
+}

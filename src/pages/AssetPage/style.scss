@@ -222,6 +222,10 @@
           @include rem(font-size, 14px);
         }
       }
+
+      .amount-col {
+        @include rem(font-size, 18px);
+      }
     }
 
     th:first-child,

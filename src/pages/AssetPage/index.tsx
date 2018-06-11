@@ -9,12 +9,14 @@ import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ColoredAmount} from '../../components/ColoredAmount';
 import {asBalance} from '../../components/hoc/assetBalance';
+import {NumberFormat} from '../../components/NumberFormat';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
   AssetModel,
+  TransactionStatus,
   TransactionStatusLabel,
   TransactionType,
   TransactionTypeLabel
@@ -25,7 +27,7 @@ import './style.css';
 
 interface AssetPageProps extends RootStoreProps, RouteComponentProps<any> {}
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 25;
 const ASSET_DEFAULT_ICON_URL = `${process.env
   .PUBLIC_URL}/images/assets/asset_default.jpg`;
 
@@ -93,7 +95,11 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const transactionFilters = [
       {
         label: 'Trading',
-        value: [TransactionType.Trade, TransactionType.LimitTrade]
+        value: [
+          TransactionType.Trade,
+          TransactionType.LimitTrade,
+          TransactionType.LimitOrderEvent
+        ]
       },
       {
         label: 'Deposit & Withdraw',
@@ -183,7 +189,6 @@ export class AssetPage extends React.Component<AssetPageProps> {
                       <th>Asset</th>
                       <th>Date</th>
                       <th>Operation</th>
-                      <th>Status</th>
                       <th>Amount</th>
                     </tr>
                   </thead>
@@ -214,14 +219,27 @@ export class AssetPage extends React.Component<AssetPageProps> {
                             value={t.dateTime}
                           />, <FormattedTime value={t.dateTime} />
                         </td>
-                        <td>{TransactionTypeLabel[t.type]}</td>
-                        <td>{TransactionStatusLabel[t.state]}</td>
                         <td>
-                          <ColoredAmount
-                            value={t.amount}
-                            accuracy={asset.accuracy}
-                            assetName={asset.name}
-                          />
+                          {TransactionTypeLabel[t.type]}{' '}
+                          {TransactionStatusLabel[t.state]}
+                        </td>
+                        <td>
+                          {t.type === TransactionType.LimitOrderEvent &&
+                          t.state === TransactionStatus.Canceled ? (
+                            <div className="amount-col">
+                              <NumberFormat
+                                value={Math.abs(t.amount)}
+                                accuracy={asset.accuracy}
+                              />{' '}
+                              {asset.name}
+                            </div>
+                          ) : (
+                            <ColoredAmount
+                              value={t.amount}
+                              accuracy={asset.accuracy}
+                              assetName={asset.name}
+                            />
+                          )}
                         </td>
                       </tr>
                     ))}
