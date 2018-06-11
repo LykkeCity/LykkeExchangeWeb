@@ -57,7 +57,9 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
         address: Yup.string()
           .trim()
           .required(requiredErrorMessage('Address')),
-        amount: Yup.number().required(requiredErrorMessage('Amount')),
+        amount: Yup.number()
+          .moreThan(0, requiredErrorMessage('Amount'))
+          .required(requiredErrorMessage('Amount')),
         city: Yup.string()
           .trim()
           .required(requiredErrorMessage('City')),
