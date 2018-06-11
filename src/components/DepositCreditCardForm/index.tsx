@@ -131,7 +131,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       <div className="error-bar" />
                       <AmountInput
                         onChange={field.onChange}
-                        value={field.value}
+                        value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />

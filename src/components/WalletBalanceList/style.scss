@@ -12,6 +12,7 @@
   @include rem(margin-bottom, 45px);
 
   td._currency {
+    min-width: 220px;
     color: $gray-dark;
     letter-spacing: 0.18px;
     white-space: nowrap;
@@ -19,6 +20,7 @@
 
   td._amount {
     white-space: nowrap;
+    min-width: 250px;
 
     @include rem(font-size, 18px);
   }
@@ -135,6 +137,14 @@
   @media (max-width: $screen-tablet) {
     .dropdown__container {
       margin-left: -125px;
+    }
+
+    td._currency {
+      min-width: 0;
+    }
+
+    td._amount {
+      min-width: 0;
     }
   }
 }

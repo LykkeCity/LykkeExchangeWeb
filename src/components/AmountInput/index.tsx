@@ -35,7 +35,7 @@ export const AmountInput: React.SFC<AmountInputProps> = ({
       name={name}
       id={name}
       onChange={onChange}
-      value={value || ''}
+      value={value}
       maxLength={maxLength}
       {...attributes}
     />
