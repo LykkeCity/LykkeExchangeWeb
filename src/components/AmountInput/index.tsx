@@ -22,7 +22,6 @@ export const AmountInput: React.SFC<AmountInputProps> = ({
 }) => {
   const numberMask = createNumberMask({
     allowDecimal: true,
-    allowLeadingZeroes: true,
     decimalLimit,
     includeThousandsSeparator: false,
     prefix: '',
