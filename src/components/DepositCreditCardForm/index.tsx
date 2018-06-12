@@ -99,6 +99,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             ) {
               onDisclaimerError();
             }
+            window.scrollTo(0, 0);
           } else {
             setStatus(err.message);
           }
