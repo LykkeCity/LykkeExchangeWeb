@@ -57,7 +57,9 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
         address: Yup.string()
           .trim()
           .required(requiredErrorMessage('Address')),
-        amount: Yup.number().required(requiredErrorMessage('Amount')),
+        amount: Yup.number()
+          .moreThan(0, requiredErrorMessage('Amount'))
+          .required(requiredErrorMessage('Amount')),
         city: Yup.string()
           .trim()
           .required(requiredErrorMessage('City')),
@@ -97,6 +99,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             ) {
               onDisclaimerError();
             }
+            window.scrollTo(0, 0);
           } else {
             setStatus(err.message);
           }
@@ -129,7 +132,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       <div className="error-bar" />
                       <AmountInput
                         onChange={field.onChange}
-                        value={field.value}
+                        value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />

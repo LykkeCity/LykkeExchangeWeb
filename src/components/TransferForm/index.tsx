@@ -284,7 +284,6 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 </div>
                 <AmountInput
                   onChange={handleChangeAmount}
-                  value={transfer.amount}
                   name="tr_name"
                   decimalLimit={transfer.asset ? transfer.asset.accuracy : 8}
                 />
