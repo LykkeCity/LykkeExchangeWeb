@@ -7,6 +7,7 @@ import {STORE_ROOT} from './constants/stores';
 import AuthPage from './pages/AuthPage/index';
 import ProtectedPage from './pages/ProtectedPage/index';
 import {RootStore} from './stores';
+import './utils/polyfills';
 
 import './App.css';
 
