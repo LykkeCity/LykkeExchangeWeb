@@ -10,7 +10,7 @@ export class TransferModel {
   @observable amount: number = 0;
   @observable asset: AssetModel;
 
-  @observable amountInBaseCurrency: number;
+  @observable amountInBaseCurrency: number = 0;
 
   @computed
   get asJson() {

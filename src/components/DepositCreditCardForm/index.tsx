@@ -15,7 +15,7 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, DepositCreditCardModel, GatewayUrls} from '../../models';
-import {roundMoney} from '../../utils';
+import {moneyCeil} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {FormSelect} from '../FormSelect';
 import {NumberFormat} from '../NumberFormat';
@@ -146,7 +146,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                           Fee: {asset && asset.name}{' '}
                           {asset && (
                             <NumberFormat
-                              value={roundMoney(field.value * feePercentage)}
+                              value={moneyCeil(field.value * feePercentage)}
                               accuracy={asset.accuracy}
                             />
                           )}
