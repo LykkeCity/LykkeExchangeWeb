@@ -1,0 +1,9 @@
+{
+  "NavBarView": {
+    "Wallets": "Wallets",
+    "Transfer": "Transfer"
+  },
+  "WalletTotalView": {
+    "TotalBalance": "Total balance"
+  }
+}
