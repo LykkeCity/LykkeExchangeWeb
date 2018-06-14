@@ -1,4 +1,4 @@
-import {arraysEqual, pipe, plural, roundMoney, seq} from '.';
+import {arraysEqual, moneyCeil, moneyFloor, pipe, plural, seq} from '.';
 
 const add = (a: any, b: any) => a + b;
 const inc = (num: any) => num + 1;
@@ -105,16 +105,26 @@ describe('arraysEqual', () => {
   });
 });
 
-describe('roundMoney', () => {
-  it('should round to accuracy', () => {
-    expect(roundMoney(1.8888888, 2)).toBe(1.89);
+describe('moneyCeil', () => {
+  it('should ceil to accuracy', () => {
+    expect(moneyCeil(1.8888888, 2)).toBe(1.89);
   });
 
   it('should ceil resulting value', () => {
-    expect(roundMoney(1.8801, 2)).toBe(1.89);
+    expect(moneyCeil(1.8801, 2)).toBe(1.89);
   });
 
   it('should avoid Floating-Point issue', () => {
-    expect(roundMoney(0.1 + 0.2)).toBe(0.3);
+    expect(moneyCeil(0.1 + 0.2)).toBe(0.3);
+  });
+});
+
+describe('moneyFloor', () => {
+  it('should floor to accuracy', () => {
+    expect(moneyFloor(1.8888888, 2)).toBe(1.88);
+  });
+
+  it('should avoid Floating-Point issue', () => {
+    expect(moneyFloor(0.999999999)).toBe(1);
   });
 });

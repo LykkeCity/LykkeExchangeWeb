@@ -40,11 +40,20 @@ export const arraysEqual = (a: any[], b: any[]) => {
   return true;
 };
 
-export const roundMoney = (value: number, accuracy = 2) => {
-  const SAFE_ACCURACY = accuracy + 4;
+export const moneyCeil = (value: number, accuracy = 2) => {
+  const SAFE_ACCURACY = accuracy >= 6 ? accuracy + 1 : accuracy + 4;
 
   return (
     Math.ceil(Number(value.toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)) /
+    Math.pow(10, accuracy)
+  );
+};
+
+export const moneyFloor = (value: number, accuracy = 2) => {
+  const SAFE_ACCURACY = accuracy >= 6 ? accuracy + 1 : accuracy + 4;
+
+  return (
+    Math.floor(Number(value.toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)) /
     Math.pow(10, accuracy)
   );
 };
