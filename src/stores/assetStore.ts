@@ -6,12 +6,16 @@ import {RootStore} from './index';
 export class AssetStore {
   @observable assets: AssetModel[] = [];
   @observable assetsAvailableForDeposit: AssetModel[] = [];
+  @observable categories: any[] = [];
+
+  @observable.shallow private availableAssets: string[] = [];
 
   @computed
   get baseAssets() {
-    return this.assets.filter(x => x.isBase);
+    return this.assets
+      .filter(a => this.availableAssets.indexOf(a.id) > -1)
+      .filter(x => x.isBase);
   }
-  @observable categories: any[] = [];
 
   constructor(readonly rootStore: RootStore, private api: AssetApi) {}
 
@@ -19,6 +23,7 @@ export class AssetStore {
 
   fetchAssets = async () => {
     await this.fetchCategories();
+    await this.fetchAvailableAssets();
     const resp = await this.api.fetchAssets();
     const descriptionsResp = await this.api.fetchDescription();
     runInAction(() => {
@@ -57,6 +62,13 @@ export class AssetStore {
           return asset;
         }
       );
+    });
+  };
+
+  fetchAvailableAssets = async () => {
+    const resp = await this.api.fetchAvailableAssets();
+    runInAction(() => {
+      this.availableAssets = resp.AssetIds;
     });
   };
 
