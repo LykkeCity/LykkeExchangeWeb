@@ -3,6 +3,7 @@ import {ApiResponse} from './types/index';
 
 export interface AssetApi {
   fetchAssets: () => ApiResponse<any>;
+  fetchAvailableAssets: () => ApiResponse<any>;
   fetchCategories: () => ApiResponse<any>;
   fetchDescription: () => ApiResponse<any>;
   fetchPaymentMethods: () => ApiResponse<any>;
@@ -10,6 +11,7 @@ export interface AssetApi {
 
 export class RestAssetApi extends RestApi implements AssetApi {
   fetchAssets = () => this.get('/assets');
+  fetchAvailableAssets = () => this.get('/assets/available');
 
   fetchCategories = () => this.get('/assets/categories');
 
