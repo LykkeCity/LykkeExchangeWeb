@@ -26,7 +26,7 @@ export const Language: React.SFC<RootStoreProps> = ({rootStore}) => {
             <DropdownListItem>
               <a
                 href="javascript:void(0)"
-                onClick={localizationStore.changeLanguage1}
+                onClick={localizationStore.changeLanguageToEnglish}
               >
                 EN
               </a>
@@ -34,7 +34,7 @@ export const Language: React.SFC<RootStoreProps> = ({rootStore}) => {
             <DropdownListItem>
               <a
                 href="javascript:void(0)"
-                onClick={localizationStore.changeLanguage1}
+                onClick={localizationStore.changeLanguageToGerman}
               >
                 DE
               </a>

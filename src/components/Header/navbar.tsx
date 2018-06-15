@@ -41,8 +41,8 @@ export const NavBar = ({match, isAuthenticated, hasAffiliate, labels}: any) => {
           <div className="header_nav__inner">
             <div className="container">
               <ul className="header_nav__list nav_list">
-                <NavLink to={ROUTE_WALLETS} label="{labels.Wallets}" />
-                <NavLink to={ROUTE_TRANSFER_BASE} label="{labels.Transfer}" />
+                <NavLink to={ROUTE_WALLETS} label={labels.Wallets} />
+                <NavLink to={ROUTE_TRANSFER_BASE} label={labels.Transfer} />
                 {hasAffiliate && (
                   <NavLink to={ROUTE_AFFILIATE} label="Affiliate Program" />
                 )}

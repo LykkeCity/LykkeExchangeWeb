@@ -8,11 +8,6 @@ export class LocalizationStore {
   @observable selectedLanguage: string;
 
   @computed
-  get i18nHeader() {
-    return this.i18n.Header;
-  }
-
-  @computed
   get currentLanguage() {
     return this.selectedLanguage.toUpperCase();
   }
@@ -29,8 +24,12 @@ export class LocalizationStore {
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    this.selectedLanguage = localStorage.getItem('lang') || 'DE';
-    this.i18n = JSON.parse(localStorage.getItem('trans') || '{}') || {};
+    this.selectedLanguage = localStorage.getItem('lang') || 'de';
+    this.i18n =
+      JSON.parse(
+        localStorage.getItem('trans') ||
+          '{  "NavBarView": {        "Wallets": "Walletski",        "Transfer": "Transferski"      },      "WalletTotalView": {        "TotalBalance": "Kontostand"      }}'
+      ) || {};
   }
 
   fetch(language: string): Promise<void> {
@@ -47,17 +46,19 @@ export class LocalizationStore {
         this.setLanguage(language, json);
       })
       .catch(err => {
-        // TODO: Don't know what to do here
+        // TODO (Rach): Not sure what to do here.
+        // console.error(err);
       });
   }
 
+  // TODO (Rach): Need help to combine the 2 methods below with parameter passthrough
   @action
-  changeLanguage = async (language: string) => {
-    this.fetch(language);
+  changeLanguageToEnglish = async (): Promise<void> => {
+    this.fetch('en');
   };
 
-  changeLanguage1 = async () => {
-    this.fetch('en');
+  changeLanguageToGerman = async (): Promise<void> => {
+    this.fetch('de');
   };
 
   private setLanguage(language: string, i18n: Record<string, any>) {
