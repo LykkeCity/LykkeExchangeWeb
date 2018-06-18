@@ -44,8 +44,9 @@ export const moneyCeil = (value: number, accuracy = 2) => {
   const SAFE_ACCURACY = accuracy >= 6 ? accuracy + 1 : accuracy + 4;
 
   return (
-    Math.ceil(Number(value.toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)) /
-    Math.pow(10, accuracy)
+    Math.ceil(
+      Number((value || 0).toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)
+    ) / Math.pow(10, accuracy)
   );
 };
 
@@ -53,8 +54,9 @@ export const moneyFloor = (value: number, accuracy = 2) => {
   const SAFE_ACCURACY = accuracy >= 6 ? accuracy + 1 : accuracy + 4;
 
   return (
-    Math.floor(Number(value.toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)) /
-    Math.pow(10, accuracy)
+    Math.floor(
+      Number((value || 0).toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)
+    ) / Math.pow(10, accuracy)
   );
 };
 
