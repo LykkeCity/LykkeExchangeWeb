@@ -106,6 +106,11 @@ describe('arraysEqual', () => {
 });
 
 describe('moneyCeil', () => {
+  it('should handle undefined value', () => {
+    const foo: any = undefined;
+    expect(moneyCeil(foo, 2)).toBe(0);
+  });
+
   it('should ceil to accuracy', () => {
     expect(moneyCeil(1.8888888, 2)).toBe(1.89);
   });
@@ -120,6 +125,11 @@ describe('moneyCeil', () => {
 });
 
 describe('moneyFloor', () => {
+  it('should handle undefined value', () => {
+    const foo: any = undefined;
+    expect(moneyFloor(foo, 2)).toBe(0);
+  });
+
   it('should floor to accuracy', () => {
     expect(moneyFloor(1.8888888, 2)).toBe(1.88);
   });
