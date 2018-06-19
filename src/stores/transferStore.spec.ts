@@ -7,14 +7,7 @@ const mockTransferApi = {
   fetchOperationDetails: jest.fn(),
   startTransfer: jest.fn()
 };
-const mockConverterApi = {
-  convertToBaseAsset: jest.fn(() => ({Converted: [{To: {Amount: 1}}]}))
-};
-const transferStore = new TransferStore(
-  rootStore,
-  mockTransferApi as any,
-  mockConverterApi as any
-);
+const transferStore = new TransferStore(rootStore, mockTransferApi as any);
 rootStore.assetStore.getById = jest.fn();
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
@@ -79,58 +72,10 @@ describe('transfer store', () => {
   });
 
   it('newTransfer should not be added to transfer list', () => {
-    const store = new TransferStore(
-      rootStore,
-      mockTransferApi,
-      mockConverterApi
-    );
+    const store = new TransferStore(rootStore, mockTransferApi);
 
     expect(store.transfers.length).toBe(0);
     expect(store.transfers).not.toContain(store.newTransfer);
-  });
-
-  it('should not convert if transfer currency is the same as base one', () => {
-    const transferCurrency = new AssetModel({id: '1', name: 'TEST'});
-    const baseCurrency = new AssetModel({id: '1', name: 'TEST'});
-
-    const isRequired = transferStore.conversionIsRequired(
-      transferCurrency.id,
-      baseCurrency.id
-    );
-
-    expect(isRequired).toBeFalsy();
-  });
-
-  it('should convert if transfer currency is not the same as base one', () => {
-    const transferCurrency = 'TEST 1';
-    const baseCurrency = 'TEST 2';
-
-    const isRequired = transferStore.conversionIsRequired(
-      transferCurrency,
-      baseCurrency
-    );
-
-    expect(isRequired).toBeTruthy();
-  });
-
-  it('should not request conversion api if no conversion is required', () => {
-    const transferModel = new TransferModel(transferStore);
-    transferModel.asset = new AssetModel({id: 'TEST', name: 'TEST'});
-    const baseCurrency = 'TEST';
-
-    transferStore.convertToBaseCurrency(transferModel, baseCurrency);
-
-    expect(mockConverterApi.convertToBaseAsset).not.toBeCalled();
-  });
-
-  it('should request conversion api if conversion is required', () => {
-    const transferModel = new TransferModel(transferStore);
-    transferModel.asset = new AssetModel({id: '1', name: 'TEST 1'});
-    const baseCurrency = 'TEST 2';
-
-    transferStore.convertToBaseCurrency(transferModel, baseCurrency);
-
-    expect(mockConverterApi.convertToBaseAsset).toBeCalled();
   });
 
   describe('should reset new transfer', () => {

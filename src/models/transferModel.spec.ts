@@ -3,15 +3,6 @@ import {AssetModel, TransferModel} from './index';
 
 const rootStore = new RootStore();
 const {transferStore, walletStore} = rootStore;
-transferStore.convertToBaseCurrency = jest.fn(() => ({
-  Converted: [
-    {
-      To: {
-        Amount: 100
-      }
-    }
-  ]
-}));
 
 describe('transfer model', () => {
   it('should correctly and automaticaly update qr', () => {
