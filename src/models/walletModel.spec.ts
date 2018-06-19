@@ -3,29 +3,13 @@ import {RootStore, WalletStore} from '../stores/index';
 import {AssetModel, WalletModel} from './index';
 
 const rootStore = new RootStore();
-const mockConverter = jest.fn(() =>
-  Promise.resolve({
-    Converted: [
-      {
-        From: {
-          AssetId: 'LKK'
-        },
-        To: {
-          Amount: 100
-        }
-      }
-    ]
-  })
-);
 const MockApi = jest.fn<WalletApi>(() => ({
   create: jest.fn(),
   createApiWallet: jest.fn(),
   fetchAll: jest.fn(),
   fetchBalanceById: jest.fn()
 }));
-const walletStore = new WalletStore(rootStore, new MockApi(), {
-  convertToBaseAsset: mockConverter
-} as any);
+const walletStore = new WalletStore(rootStore, new MockApi());
 const walletSut = walletStore.createWallet({Id: 42, Name: 'w'});
 rootStore.assetStore.getById = jest.fn(() => ({
   id: 'LKK',
@@ -87,41 +71,6 @@ describe('wallet model', () => {
     });
   });
 
-  it('should not call converter for empty balances', () => {
-    // arrange
-    const count = 0;
-    mockConverter.mock.calls.splice(0);
-
-    // act
-    walletSut.setBalances(
-      Array(count).fill({
-        AssetId: 'EUR',
-        Balance: 100
-      })
-    );
-
-    // assert
-    expect(mockConverter.mock.calls.length).toBe(count);
-  });
-
-  it('should call converter once for each wallet', () => {
-    // arrange
-    const count = 5;
-    mockConverter.mock.calls.splice(0);
-
-    // act
-    walletSut.setBalances(
-      Array(count).fill({
-        AssetId: 'EUR',
-        Balance: 100
-      })
-    );
-    walletStore.addWallet(walletSut);
-
-    // assert
-    expect(mockConverter.mock.calls.length).toBe(1);
-  });
-
   describe('toggle collapse', () => {
     let wallet: WalletModel;
 
@@ -151,10 +100,8 @@ describe('wallet model', () => {
     });
 
     it('should collapse all the rest wallets when expanding curr one', () => {
-      for (let i = 0; i < 5; i++) {
-        walletStore.addWallet(
-          walletStore.createWallet({Id: i++, Name: `w${i}`})
-        );
+      for (let i = 1; i < 5; i++) {
+        walletStore.addWallet(walletStore.createWallet({Id: i, Name: `w${i}`}));
       }
       const currWallet = walletStore.wallets[3];
       const restWallets = walletStore.getWalletsExceptOne(currWallet);

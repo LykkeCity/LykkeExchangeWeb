@@ -70,6 +70,14 @@ export class ProtectedPage extends React.Component<
       .then(() => this.catalogsStore.fetchCountries())
       .then(() => this.assetStore.fetchAssets())
       .then(() => this.assetStore.fetchAssetsAvailableForDeposit())
+      .then(() => this.assetStore.fetchInstruments())
+      .then(() => this.assetStore.fetchRates())
+      .then(() =>
+        this.props.rootStore!.marketService.init(
+          this.assetStore.instruments,
+          this.assetStore.assets
+        )
+      )
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())

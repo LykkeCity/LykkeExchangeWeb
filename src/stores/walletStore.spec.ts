@@ -2,17 +2,10 @@ import {RootStore, WalletStore} from '.';
 import {WalletModel} from '../models/index';
 
 const rootStore = new RootStore();
-const mockConverter = {
-  convertToBaseCurrency: jest.fn(() => ({Converted: [{To: {Amount: 1}}]}))
-};
 const mockWalletApi = {
   createApiWallet: jest.fn((name: string) => name)
 };
-const walletStore = new WalletStore(
-  rootStore,
-  mockWalletApi as any,
-  mockConverter as any
-);
+const walletStore = new WalletStore(rootStore, mockWalletApi as any);
 rootStore.assetStore.getById = jest.fn(() => ({
   id: '1',
   name: 'asset1',

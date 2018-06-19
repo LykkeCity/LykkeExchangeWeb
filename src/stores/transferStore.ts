@@ -1,6 +1,5 @@
 import {action, observable} from 'mobx';
 import {RootStore} from '.';
-import {ConverterApi} from '../api/converterApi';
 import {TransferApi} from '../api/transferApi';
 import {TransferModel} from '../models';
 
@@ -8,11 +7,7 @@ export class TransferStore {
   @observable transfers: TransferModel[] = [];
   @observable newTransfer: TransferModel;
 
-  constructor(
-    readonly rootStore: RootStore,
-    private api: TransferApi,
-    private converter: ConverterApi
-  ) {
+  constructor(readonly rootStore: RootStore, private api: TransferApi) {
     this.newTransfer = this.createTransfer(false);
   }
 
@@ -50,20 +45,19 @@ export class TransferStore {
   fetchOperationDetails = (transfer: TransferModel) =>
     this.api.fetchOperationDetails(transfer);
 
-  conversionIsRequired = (transferCurrency: string, baseCurrency: string) => {
-    return transferCurrency !== baseCurrency;
-  };
+  convertToBaseCurrency = (transfer: TransferModel) => {
+    const baseCurrency = this.rootStore.profileStore.baseAsset;
 
-  convertToBaseCurrency = (transfer: TransferModel, baseCurrency: string) => {
-    if (!this.conversionIsRequired(transfer.asset.id, baseCurrency)) {
-      return {Converted: [{To: {Amount: transfer.amount}}]};
+    if (!transfer.asset || !transfer.amount) {
+      return 0;
     }
 
-    const balance = this.rootStore.balanceStore.createBalance();
-    balance.balance = transfer.amount;
-    balance.assetId = transfer.asset.id;
-
-    return this.converter!.convertToBaseAsset([balance], baseCurrency);
+    return this.rootStore.marketService.convert(
+      transfer.amount,
+      transfer.asset.id,
+      baseCurrency,
+      this.rootStore.assetStore.getInstrumentById
+    );
   };
 }
 

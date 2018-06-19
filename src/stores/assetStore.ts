@@ -1,12 +1,13 @@
 import {computed, observable, runInAction} from 'mobx';
 import {AssetApi} from '../api/assetApi';
-import {AssetModel} from '../models/index';
+import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
   @observable assetsAvailableForDeposit: AssetModel[] = [];
   @observable categories: any[] = [];
+  @observable instruments: InstrumentModel[] = [];
 
   @observable.shallow private availableAssets: string[] = [];
 
@@ -20,6 +21,9 @@ export class AssetStore {
   constructor(readonly rootStore: RootStore, private api: AssetApi) {}
 
   getById = (id: string) => this.assets.find(a => a.id === id);
+
+  getInstrumentById = (id: string) =>
+    this.instruments.find(x => x.id.toLowerCase().includes(id.toLowerCase()));
 
   fetchAssets = async () => {
     await this.fetchCategories();
@@ -84,6 +88,44 @@ export class AssetStore {
         );
       });
     }
+  };
+
+  fetchInstruments = async () => {
+    const resp = await this.api.fetchAssetInstruments();
+    runInAction(() => {
+      this.instruments = resp.AssetPairs
+        .map(
+          (ap: any) =>
+            new InstrumentModel({
+              accuracy: ap.Accuracy,
+              baseAsset: this.getById(ap.BaseAssetId),
+              id: ap.Id,
+              invertedAccuracy: ap.InvertedAccuracy,
+              name: ap.Name,
+              quoteAsset: this.getById(ap.QuotingAssetId)
+            })
+        )
+        .filter(
+          (instrument: InstrumentModel, key: number, arr: InstrumentModel[]) =>
+            arr.find(
+              obj =>
+                obj.baseAsset === instrument.baseAsset &&
+                obj.quoteAsset === instrument.quoteAsset
+            ) === instrument
+        );
+    });
+  };
+
+  fetchRates = async () => {
+    const resp = await this.api.fetchRates();
+
+    resp.AssetPairRates.forEach(({AssetPair, BidPrice, AskPrice}: any) => {
+      const instrument = this.getInstrumentById(AssetPair);
+      if (instrument) {
+        instrument.ask = AskPrice;
+        instrument.bid = BidPrice;
+      }
+    });
   };
 
   fetchCategories = async () => {
