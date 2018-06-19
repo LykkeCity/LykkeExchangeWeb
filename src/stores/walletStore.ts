@@ -7,7 +7,7 @@ import {
   runInAction
 } from 'mobx';
 import {RootStore} from '.';
-import {ConverterApi, WalletApi} from '../api';
+import {WalletApi} from '../api';
 import {WalletModel, WalletType} from '../models';
 import {sum} from '../utils/math';
 
@@ -20,11 +20,7 @@ export class WalletStore {
     return this.wallets.map(w => w.totalBalance).reduce(sum, 0);
   }
 
-  constructor(
-    readonly rootStore: RootStore,
-    private api?: WalletApi,
-    private converter?: ConverterApi
-  ) {
+  constructor(readonly rootStore: RootStore, private api?: WalletApi) {
     reaction(
       () =>
         this.walletsWithAssets.map(wallet => ({
@@ -108,25 +104,16 @@ export class WalletStore {
   };
 
   convertBalances = () => {
-    const {baseAsset} = this.rootStore.profileStore;
+    const {baseAssetAsModel} = this.rootStore.profileStore;
     this.walletsWithAssets.forEach(async wallet => {
-      const resp = await this.converter!.convertToBaseAsset(
-        wallet.balances.filter(b => b.assetId !== baseAsset),
-        baseAsset
-      );
       runInAction(() => {
-        const convertedAmounts = resp.Converted
-          .filter((x: any) => !!x.To && !!x.To.Amount)
-          .map((x: any) => ({asset: x.From.AssetId, balance: x.To.Amount}));
-
         wallet.balances.forEach(b => {
-          const convertedAmount = convertedAmounts.find(
-            (x: any) => x.asset === b.assetId
+          b.balanceInBaseAsset = this.rootStore.marketService.convert(
+            b.balance,
+            b.assetId,
+            baseAssetAsModel!.id,
+            this.rootStore.assetStore.getInstrumentById
           );
-          b.balanceInBaseAsset =
-            b.assetId === baseAsset
-              ? b.balance
-              : (convertedAmount && convertedAmount.balance) || 0;
         });
       });
     });
