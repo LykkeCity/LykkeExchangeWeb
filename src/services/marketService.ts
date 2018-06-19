@@ -1,4 +1,5 @@
 import {buildDijkstra} from 'lykke.js';
+import {LOG_LEVEL} from '../constants/env';
 import {AssetModel, InstrumentModel} from '../models';
 
 class MarketService {
@@ -60,6 +61,11 @@ class MarketService {
       } else {
         output *= 1 / instrument.ask;
       }
+    }
+
+    if (process.env.REACT_APP_LOG_LEVEL === LOG_LEVEL.DEBUG && amount) {
+      // tslint:disable-next-line:no-console
+      console.log('Asset conversion path:', resultedPath.join(' -> '));
     }
 
     return output;
