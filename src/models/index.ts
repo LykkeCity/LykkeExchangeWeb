@@ -11,6 +11,7 @@ export * from './transactionType';
 export * from './transactionStatus';
 export * from './assetModel';
 export * from './assetCategoryModel';
+export * from './instrumentModel';
 export * from './transactionModel';
 export * from './depositCreditCardModel';
 export * from './countryModel';
