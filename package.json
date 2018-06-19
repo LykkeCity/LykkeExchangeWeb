@@ -11,6 +11,7 @@
     "classnames": "^2.2.5",
     "formik": "^0.11.11",
     "lykke-react-components": "^0.2.0",
+    "lykke.js": "^0.1.0",
     "mobx": "^3.3.0",
     "mobx-react": "^4.3.2",
     "numeral": "^2.0.6",
