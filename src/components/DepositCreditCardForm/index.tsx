@@ -50,7 +50,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
     `Field ${fieldName} should not be empty`;
   const DISCLAIMER_ERROR_MESSAGE = 'User has pending disclaimer';
   const DAILY_LIMIT_ERROR_MESSAGE =
-    'Operation is not allowed because of Daily limitations';
+    'Operation is not allowed because of the Limitations';
 
   return (
     <Formik
