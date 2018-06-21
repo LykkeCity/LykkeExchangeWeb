@@ -11,10 +11,8 @@ import {NoMatch} from '../../components/NoMatch/index';
 import PaymentGateway from '../../components/PaymentGateway';
 
 import {DepositFail, DepositSuccess} from '../../components/DepositResult';
-import {
-  TransferFail,
-  TransferResult
-} from '../../components/TransferResult/index';
+import {TransferFail} from '../../components/TransferResult/index';
+import TransferResult from '../../components/TransferResult/index';
 import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,

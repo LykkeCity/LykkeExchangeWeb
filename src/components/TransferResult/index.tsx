@@ -2,15 +2,19 @@ import {Icon} from 'lykke-react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
+import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {NumberFormat} from '../NumberFormat';
 import './style.css';
 
-const MAX_ACCURACY = 8;
+export const TransferResult: React.SFC<
+  RootStoreProps & RouteComponentProps<any>
+> = props => {
+  const {amount, assetId} = props.location.state;
+  const assetStore = props.rootStore!.assetStore;
+  const asset = assetStore.getById(assetId);
 
-export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
-  const {amount, asset} = props.location.state;
   return (
     <div className="transfer-result">
       <Icon
@@ -20,9 +24,11 @@ export const TransferResult: React.SFC<RouteComponentProps<any>> = props => {
       <div className="transfer-result__desc">
         Your transaction request has been successfully sent
       </div>
-      <div className="transfer-result__amount">
-        <NumberFormat value={amount} accuracy={MAX_ACCURACY} /> {asset}
-      </div>
+      {asset && (
+        <div className="transfer-result__amount">
+          <NumberFormat value={amount} accuracy={asset.accuracy} /> {asset.name}
+        </div>
+      )}
       <div className="transfer-result__button">
         <Link to={ROUTE_WALLETS} className="btn btn--primary">
           Go back to wallets
