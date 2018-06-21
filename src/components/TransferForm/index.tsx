@@ -1,4 +1,4 @@
-import {Select} from 'lykke-react-components';
+import {Select} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';

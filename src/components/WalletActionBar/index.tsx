@@ -1,4 +1,3 @@
-import * as classNames from 'classnames';
 import {
   Dropdown,
   DropdownContainer,
@@ -6,7 +5,8 @@ import {
   DropdownList,
   DropdownListItem,
   DropdownPosition
-} from 'lykke-react-components';
+} from '@lykkex/react-components';
+import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';

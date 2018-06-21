@@ -1,5 +1,5 @@
+import {Table} from '@lykkex/react-components';
 import classnames from 'classnames';
-import {Table} from 'lykke-react-components';
 import {computed, observable, reaction} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
