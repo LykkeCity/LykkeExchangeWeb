@@ -57,6 +57,7 @@ export class DepositCreditCardStore {
     }
 
     return {
+      cancelUrl: response.CancelUrl,
       failUrl: response.FailUrl,
       okUrl: response.OkUrl,
       paymentUrl: response.Url

@@ -4,7 +4,8 @@ import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
-  ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS
+  ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_WALLETS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 
@@ -42,6 +43,9 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
       }
       if (currentUrl === this.depositCreditCardStore.gatewayUrls.failUrl) {
         this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_FAIL);
+      }
+      if (currentUrl === this.depositCreditCardStore.gatewayUrls.cancelUrl) {
+        this.props.history.replace(ROUTE_WALLETS);
       }
     } catch (err) {
       // Can't access iframe URL

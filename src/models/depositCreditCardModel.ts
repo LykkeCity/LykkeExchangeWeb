@@ -1,5 +1,9 @@
 import {action, computed, observable} from 'mobx';
-import {ROUTE_GATEWAY_FAIL, ROUTE_GATEWAY_SUCCESS} from '../constants/routes';
+import {
+  ROUTE_GATEWAY_CANCEL,
+  ROUTE_GATEWAY_FAIL,
+  ROUTE_GATEWAY_SUCCESS
+} from '../constants/routes';
 import {AssetModel, WalletModel} from './';
 
 export const DEFAULT_DEPOSIT_OPTION = 'BankCard';
@@ -46,6 +50,7 @@ export class DepositCreditCardModel {
       Address: this.address,
       Amount: this.amount,
       AssetId: this.asset && this.asset.id,
+      CancelUrl: url + ROUTE_GATEWAY_CANCEL,
       City: this.city,
       Country: this.country,
       DepositOption: this.depositOption || DEFAULT_DEPOSIT_OPTION,
