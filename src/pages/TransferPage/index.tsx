@@ -111,7 +111,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
             await this.walletStore.fetchWallets();
             this.props.history.replace(ROUTE_TRANSFER_SUCCESS, {
               amount,
-              asset: asset.name
+              assetId: asset.id
             });
             break;
           case OpStatus.Canceled:
