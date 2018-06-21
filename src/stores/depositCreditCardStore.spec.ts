@@ -17,15 +17,18 @@ describe('deposit credit card store', () => {
 
   it('should set and reset payment urls', () => {
     depositCreditCardStore.setGatewayUrls({
+      cancelUrl: 'cancel',
       failUrl: 'foo',
       okUrl: 'bar',
       paymentUrl: 'baz'
     });
+    expect(depositCreditCardStore.gatewayUrls.cancelUrl).toBe('cancel');
     expect(depositCreditCardStore.gatewayUrls.failUrl).toBe('foo');
     expect(depositCreditCardStore.gatewayUrls.okUrl).toBe('bar');
     expect(depositCreditCardStore.gatewayUrls.paymentUrl).toBe('baz');
 
     depositCreditCardStore.resetCurrentDeposit();
+    expect(depositCreditCardStore.gatewayUrls.cancelUrl).toBe('');
     expect(depositCreditCardStore.gatewayUrls.failUrl).toBe('');
     expect(depositCreditCardStore.gatewayUrls.okUrl).toBe('');
     expect(depositCreditCardStore.gatewayUrls.paymentUrl).toBe('');
@@ -78,6 +81,7 @@ describe('deposit credit card store', () => {
   it('should handle successful API state', async () => {
     mockApi.fetchBankCardPaymentUrl = jest.fn(() => ({
       Result: {
+        CancelUrl: 'cancel',
         FailUrl: 'foo',
         OkUrl: 'bar',
         Url: 'baz'
