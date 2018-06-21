@@ -1,11 +1,11 @@
-import classnames from 'classnames';
 import {
   Dropdown,
   DropdownContainer,
   DropdownControl,
   DropdownList,
   DropdownListItem
-} from 'lykke-react-components';
+} from '@lykkex/react-components';
+import classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';

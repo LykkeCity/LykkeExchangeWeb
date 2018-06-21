@@ -1,4 +1,4 @@
-import {buildDijkstra} from 'lykke.js';
+import {buildDijkstra} from '@lykkex/lykke.js';
 import {LOG_LEVEL} from '../constants/env';
 import {AssetModel, InstrumentModel} from '../models';
 

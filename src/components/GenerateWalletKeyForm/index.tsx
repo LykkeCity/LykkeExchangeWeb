@@ -1,10 +1,10 @@
-import classnames from 'classnames';
 import {
   Dialog,
   Dropdown,
   DropdownContainer,
   DropdownControl
-} from 'lykke-react-components';
+} from '@lykkex/react-components';
+import classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';

@@ -4,7 +4,7 @@ import {
   DropdownControl,
   DropdownList,
   DropdownListItem
-} from 'lykke-react-components';
+} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
