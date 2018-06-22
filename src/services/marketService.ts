@@ -114,13 +114,13 @@ class MarketService {
     const assets = [instrument.baseAsset.id, instrument.quoteAsset.id];
 
     if (assets.indexOf('BTC') !== -1) {
-      return 4;
+      return 1.1;
     } else if (assets.indexOf('ETH') !== -1) {
-      return 5;
+      return 1.11;
     } else if (assets.indexOf('USD') !== -1) {
-      return 6;
+      return 1.111;
     }
-    return 7;
+    return 1.1111;
   }
 }
 
