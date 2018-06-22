@@ -31,6 +31,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     const {wallet, rootStore} = this.props;
     const assets = rootStore!.assetStore.assetsAvailableForDeposit;
     const isKycPassed = rootStore!.profileStore.isKycPassed;
+    const labels = rootStore!.localizationStore.i18nWalletActionBar;
 
     return (
       <div className="wallet-action-bar">
@@ -39,7 +40,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
             (isKycPassed ? (
               <Dropdown fullHeight>
                 <DropdownControl>
-                  <a>Deposit</a>
+                  <a>{labels.Deposit}</a>
                 </DropdownControl>
                 <DropdownContainer>
                   <DropdownList className="wallet-menu">
@@ -52,7 +53,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                               src={`${process.env
                                 .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
                             />
-                            Credit Card
+                            {labels.CreditCard}
                           </a>
                         </DropdownControl>
                         <DropdownContainer>
@@ -77,11 +78,11 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                 </DropdownContainer>
               </Dropdown>
             ) : (
-              <a className="disabled">Deposit</a>
+              <a className="disabled">{labels.Deposit}</a>
             ))}
         </div>
         <div className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Transfer</Link>
+          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>{labels.Transfer}</Link>
         </div>
         {wallet.apiKey && (
           <div
@@ -106,7 +107,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               text={this.props.wallet.apiKey}
               onCopy={this.handleCopyApiKey}
             >
-              <a title="Click to copy your API Key">API Key</a>
+              <a title={labels.APIKeyTitle}>{labels.APIKey}</a>
             </CopyToClipboard>
           </div>
         )}
@@ -114,6 +115,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     );
   }
 
+  // TODO(Rach): Don't know how to pass text in or change method signiture
   private handleCopyApiKey = (text: string) => {
     if (!!text) {
       this.setState({message: 'Copied!'});

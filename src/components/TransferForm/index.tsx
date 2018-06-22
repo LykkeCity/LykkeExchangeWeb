@@ -30,7 +30,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
     walletStore,
     uiStore,
     uiStore: {toggleQrWindow},
-    profileStore: {baseAssetAsModel}
+    profileStore: {baseAssetAsModel},
+    localizationStore
   } = rootStore!;
 
   const handleChangeAmount = (e: any) => {
@@ -72,12 +73,14 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
         onTransfer(transfer);
       }
     } catch (error) {
-      uiStore.transferError = 'Something went wrong';
+      uiStore.transferError = labels.TransferError;
       setTimeout(() => {
         uiStore.transferError = '';
       }, 3000);
     }
   };
+
+  const labels = localizationStore.i18nTransferForm;
 
   return (
     <form className="transfer-form inline-form">
@@ -86,20 +89,20 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           <div className="row">
             <div className="col-sm-4">
               <label htmlFor="tr_from" className="control-label">
-                From
+                {labels.From}
               </label>
             </div>
             <div className="col-sm-8">
               <Select
                 optGroups={[
                   {
-                    label: 'Trading Wallet',
+                    label: labels.TradingWallet,
                     options: walletStore.walletsWithAssets.filter(
                       w => w.type === WalletType.Trading
                     )
                   },
                   {
-                    label: 'API Wallet',
+                    label: labels.APIWallet,
                     options: walletStore.walletsWithAssets.filter(
                       w => w.type === WalletType.Trusted
                     )
@@ -124,8 +127,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     </a>
                   </div>
                 )}
-                placeholder="Select..."
-                searchPlaceholder="Enter address of wallet or select from list..."
+                placeholder={labels.FromPlaceholder}
+                searchPlaceholder={labels.FromSearchPlaceholder}
                 // tslint:disable-next-line:jsx-no-lambda
                 selectRenderer={wallet => {
                   return (
@@ -141,7 +144,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                               wallet.totalBalance
                             )}{' '}
                           {!!baseAssetAsModel && baseAssetAsModel.name}{' '}
-                          available
+                          {labels.Available}
                         </div>
                       </div>
                     )
@@ -158,7 +161,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           <div className="row">
             <div className="col-sm-4">
               <label htmlFor="tr_asset" className="control-label">
-                Asset
+                {labels.Asset}
               </label>
             </div>
             <div className="col-sm-8">
@@ -193,8 +196,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     </a>
                   </div>
                 )}
-                placeholder="Select..."
-                searchPlaceholder="Enter asset name or select from list..."
+                placeholder={labels.AssetPlaceholder}
+                searchPlaceholder={labels.AssetSearchPlaceholder}
               />
             </div>
           </div>
@@ -203,20 +206,20 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           <div className="row">
             <div className="col-sm-4">
               <label htmlFor="tr_to" className="control-label">
-                To
+                {labels.To}
               </label>
             </div>
             <div className="col-sm-8">
               <Select
                 optGroups={[
                   {
-                    label: 'Trading Wallets',
+                    label: labels.TradingWallet,
                     options: walletStore
                       .getWalletsExceptOne(transfer.from)
                       .filter(w => w.type === WalletType.Trading)
                   },
                   {
-                    label: 'API Wallets',
+                    label: labels.APIWallet,
                     options: walletStore
                       .getWalletsExceptOne(transfer.from)
                       .filter(w => w.type === WalletType.Trusted)
@@ -241,8 +244,8 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                     </a>
                   </div>
                 )}
-                placeholder="Select..."
-                searchPlaceholder="Enter address of wallet or select from list..."
+                placeholder={labels.ToPlaceholder}
+                searchPlaceholder={labels.ToSearchPlaceholder}
                 // tslint:disable-next-line:jsx-no-lambda
                 selectRenderer={wallet => {
                   return (
@@ -258,7 +261,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                               wallet.totalBalance
                             )}{' '}
                           {!!baseAssetAsModel && baseAssetAsModel.name}{' '}
-                          available
+                          {labels.Available}
                         </div>
                       </div>
                     )
@@ -275,7 +278,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           <div className="row">
             <div className="col-sm-4">
               <label htmlFor="tr_amount" className="control-label">
-                Amount
+                {labels.Amount}
               </label>
             </div>
             <div className="col-sm-8">
@@ -320,13 +323,13 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
       <div className="transfer__actions">
         <input
           type="submit"
-          value="Submit"
+          value={labels.Submit}
           className="btn btn--primary"
           disabled={!transfer.canTransfer}
           onClick={handleSubmit}
         />
         <Link to={ROUTE_WALLETS} className="btn btn--flat">
-          Cancel and go back
+          {labels.Cancel}
         </Link>
       </div>
     </form>

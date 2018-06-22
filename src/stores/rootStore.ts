@@ -5,6 +5,7 @@ import {
   BalanceStore,
   CatalogsStore,
   DepositCreditCardStore,
+  LocalizationStore,
   ProfileStore,
   TransactionStore,
   TransferStore,
@@ -41,6 +42,7 @@ export class RootStore {
   profileStore: ProfileStore;
   assetStore: AssetStore;
   depositCreditCardStore: DepositCreditCardStore;
+  localizationStore: LocalizationStore;
   marketService: any;
 
   constructor() {
@@ -63,6 +65,7 @@ export class RootStore {
     );
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
     this.marketService = MarketService;
+    this.localizationStore = new LocalizationStore(this);
   }
 
   reset() {

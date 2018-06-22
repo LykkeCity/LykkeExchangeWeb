@@ -23,6 +23,7 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly uiStore = this.props.rootStore!.uiStore;
   readonly assetStore = this.props.rootStore!.assetStore;
+  readonly localizationStore = this.props.rootStore!.localizationStore;
 
   componentDidMount() {
     const {walletId, assetId, dest} = this.props.match.params;
@@ -54,10 +55,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
 
   render() {
     const {newTransfer} = this.transferStore;
+    const labels = this.localizationStore.i18nTransferPage;
+
     return (
       <div className="container">
         <div className="transfer">
-          <h1>Transfer</h1>
+          <h1>{labels.Transfer}</h1>
           <h2>
             {!!newTransfer.asset &&
               !!newTransfer.from.id && (
@@ -75,14 +78,12 @@ export class TransferPage extends React.Component<TransferPageProps> {
               <NumberFormat value={0} accuracy={DEFAULT_ACCURACY} />
             )}
           </h2>
-          <p className="transfer__text">
-            To transfer any asset to other wallet please fill in the form.
-          </p>
+          <p className="transfer__text">{labels.TransferText}</p>
           <TransferForm onTransfer={this.handleTransfer} />
           <div className="transfer__text transfer__text--center">
-            If you have any other problem contact{' '}
+            {labels.Problems}{' '}
             <a className="link" href="mailto:support@lykke.com">
-              our support
+              {labels.OurSupport}
             </a>
           </div>
           <TransferQrWindow />

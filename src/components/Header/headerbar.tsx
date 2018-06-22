@@ -4,6 +4,7 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import Logo from '../Logo';
 import HeaderSearch from './headerSearch';
+import Language from './language';
 import UserInfo from './userInfo';
 
 export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
@@ -29,8 +30,8 @@ export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
 
           <Logo />
-
           {authStore.isAuthenticated && <UserInfo />}
+          <Language />
         </div>
 
         <HeaderSearch />

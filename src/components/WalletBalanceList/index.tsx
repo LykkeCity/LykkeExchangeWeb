@@ -26,18 +26,18 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
 interface WalletBalanceListProps {
   wallet: WalletModel;
   isKycPassed?: boolean;
+  labels?: any;
   assetsAvailableForDeposit?: AssetModel[];
 }
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet,
   isKycPassed,
+  labels,
   assetsAvailableForDeposit = []
 }) => (
   <div className="wallet__balances">
-    {wallet.hasBalances || (
-      <small style={{margin: 0}}>You don’t have any asset yet</small>
-    )}
+    {wallet.hasBalances || <small style={{margin: 0}}>{labels.NoAssets}</small>}
     {wallet.hasBalances &&
       Object.keys(wallet.getBalancesByCategory).map(x => {
         const balances = wallet.getBalancesByCategory[x];
@@ -46,17 +46,17 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
             <h3>
               {x}
               <small>
-                {balances.length} {plural(balances.length, 'asset')}
+                {balances.length} {plural(balances.length, labels.AssetLower)}
               </small>
             </h3>
             <table className="table_assets">
               <thead>
                 <tr>
                   <th className="_asset">
-                    <span>Asset</span>
+                    <span>{labels.Asset}</span>
                   </th>
-                  <th className="_currency">Base currency</th>
-                  <th className="_amount">Amount</th>
+                  <th className="_currency">{labels.BaseCurrency}</th>
+                  <th className="_amount">{labels.Amount}</th>
                   <th className="_action">&nbsp;</th>
                 </tr>
               </thead>
@@ -115,7 +115,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                     isCategory={true}
                                     key="Deposit"
                                   >
-                                    Deposit
+                                    {labels.Deposit}
                                   </DropdownListItem>,
                                   <DropdownListItem
                                     key="Credit Card"
@@ -135,7 +135,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                           src={`${process.env
                                             .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
                                         />
-                                        Credit Card
+                                        {labels.CreditCard}
                                       </Link>
                                     ) : (
                                       <a>
@@ -144,7 +144,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                           src={`${process.env
                                             .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
                                         />
-                                        Credit Card
+                                        {labels.CreditCard}
                                       </a>
                                     )}
                                   </DropdownListItem>
@@ -157,7 +157,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                       b.assetId
                                     )}
                                   >
-                                    Transfer
+                                    {labels.Transfer}
                                   </Link>
                                 </DropdownListItem>
                               )}
@@ -178,5 +178,6 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
   assetsAvailableForDeposit: rootStore.assetStore.assetsAvailableForDeposit,
-  isKycPassed: rootStore.profileStore.isKycPassed
+  isKycPassed: rootStore.profileStore.isKycPassed,
+  labels: rootStore!.localizationStore.i18nWalletBalanceList
 }))(observer(WalletBalanceList));

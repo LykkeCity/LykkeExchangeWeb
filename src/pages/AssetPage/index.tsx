@@ -39,6 +39,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
+  private readonly localizationStore = this.props.rootStore!.localizationStore;
 
   private pageNumber = 1;
 
@@ -96,9 +97,10 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const asset = this.assetStore.getById(assetId) || new AssetModel();
     const wallet = this.walletStore.tradingWallets[0];
     const balance = wallet && wallet.balances.find(b => b.assetId === assetId);
+    const labels = this.localizationStore.i18nAssetPage;
     const transactionFilters = [
       {
-        label: 'Trading',
+        label: labels.Trading,
         value: [
           TransactionType.Trade,
           TransactionType.LimitTrade,
@@ -106,11 +108,11 @@ export class AssetPage extends React.Component<AssetPageProps> {
         ]
       },
       {
-        label: 'Deposit & Withdraw',
+        label: labels.DepositAndWithdraw,
         value: [TransactionType.CashIn, TransactionType.CashOut]
       },
       {
-        label: 'All',
+        label: labels.All,
         value: []
       }
     ];
@@ -138,7 +140,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 a => asset.id === a.id
               ) && (
                 <ul className="action-list">
-                  <li className="action-list__title">Deposit</li>
+                  <li className="action-list__title">{labels.Deposit}</li>
                   <li className="action-list__item">
                     {this.profileStore.isKycPassed ? (
                       <Link
@@ -149,7 +151,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                           src={`${process.env
                             .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
                         />
-                        Credit card
+                        {labels.CreditCard}
                       </Link>
                     ) : (
                       <a className="disabled">
@@ -158,21 +160,21 @@ export class AssetPage extends React.Component<AssetPageProps> {
                           src={`${process.env
                             .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
                         />
-                        Credit card
+                        {labels.CreditCard}
                       </a>
                     )}
                   </li>
                 </ul>
               )}
               <ul className="action-list">
-                <li className="action-list__title">Trading</li>
+                <li className="action-list__title">{labels.Trading}</li>
                 <li className="action-list__item">
                   <a href="http://trade.lykke.com" target="_blank">
                     <img
                       className="icon"
                       src={`${process.env.PUBLIC_URL}/images/trade-icn.svg`}
                     />
-                    Trade
+                    {labels.Trade}
                   </a>
                 </li>
               </ul>
@@ -184,7 +186,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
           <div className="container">
             <div className="transaction-filters">
               <div className="transaction-filters__title">
-                Latest Transactions
+                {labels.LatestTransactions}
               </div>
               {transactionFilters.map(tf => (
                 <div
@@ -208,9 +210,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
         <div className="container">
           <div className="transactions-table">
             {this.showEmptyState && (
-              <div className="empty-state">
-                You don't have any transactions yet
-              </div>
+              <div className="empty-state">{labels.NoTransactions}</div>
             )}
             <InfiniteScroll
               loadMore={this.handleLoadMoreTransactions}
@@ -220,10 +220,10 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 <Table responsive>
                   <thead>
                     <tr>
-                      <th>Asset</th>
-                      <th>Date</th>
-                      <th>Operation</th>
-                      <th>Amount</th>
+                      <th>{labels.Asset}</th>
+                      <th>{labels.Date}</th>
+                      <th>{labels.Operation}</th>
+                      <th>{labels.Amount}</th>
                     </tr>
                   </thead>
                   <tbody>

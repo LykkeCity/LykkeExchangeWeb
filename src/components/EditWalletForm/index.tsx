@@ -14,6 +14,7 @@ interface EditWalletFormProps {
   onSave?: (w: WalletModel) => void;
   onCancel?: () => void;
   pending?: boolean;
+  labels?: any;
 }
 
 export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
@@ -21,12 +22,13 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
   errors,
   onCancel,
   onSave,
-  pending = false
+  pending = false,
+  labels
 }) => (
   <form className="edit-wallet-form">
     <div className="form-group">
       <label htmlFor="name" className="control-label">
-        Name of wallet
+        {labels.Name}
       </label>
       <input
         type="text"
@@ -44,13 +46,13 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
     </div>
     <div className="form-group">
       <label htmlFor="desc" className="control-label">
-        Description
+        {labels.Description}
       </label>
       <textarea
         id="desc"
         // tslint:disable-next-line:jsx-no-lambda
         onChange={e => (wallet!.desc = e.currentTarget.value)}
-        placeholder="Put your description, like My API Wallet"
+        placeholder={labels.DescriptionPlaceholder}
         className="form-control"
         value={wallet!.desc}
       />
@@ -64,18 +66,23 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
         onClick={() => onSave && onSave(wallet!)}
         disabled={pending || !wallet!.title}
       >
-        Save change
+        {labels.Submit}
       </button>
       <button className="btn btn--flat" type="button" onClick={onCancel}>
-        Cancel and close
+        {labels.Cancel}
       </button>
     </div>
   </form>
 );
 
 export default inject(
-  ({rootStore: {walletStore, uiStore}}: {rootStore: RootStore}) => ({
+  ({
+    rootStore: {walletStore, uiStore, localizationStore}
+  }: {
+    rootStore: RootStore;
+  }) => ({
     errors: uiStore.apiError,
+    labels: localizationStore.i18nEditWalletForm,
     onCancel: async () => {
       const {
         findWalletById,

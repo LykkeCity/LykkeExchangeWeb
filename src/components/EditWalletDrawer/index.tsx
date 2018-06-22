@@ -10,22 +10,24 @@ interface EditWalletDrawerProps {
   wallet?: WalletModel;
   overlayed?: boolean;
   show?: boolean;
+  labels?: any;
 }
 
 export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
   wallet = null,
   overlayed = false,
-  show = false
+  show = false,
+  labels
 }) =>
   wallet && (
-    <Drawer title="Edit Wallet" show={show} overlayed={overlayed}>
+    <Drawer title={labels.Drawer} show={show} overlayed={overlayed}>
       <div className="drawer__title">
         <h2>{wallet.title}</h2>
-        <h3>API Wallet</h3>
+        <h3>{labels.APIWallet}</h3>
       </div>
       <Wizard activeIndex={1}>
         <WizardStep
-          title="Name and description"
+          title={labels.NameStepTitle}
           onCancel={null}
           onNext={null}
           index={1}
@@ -37,6 +39,7 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
   );
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  labels: rootStore.localizationStore.i18nEditWalletDrawer,
   overlayed: rootStore.uiStore.drawerOverlayed,
   show: rootStore.uiStore.showEditWalletDrawer,
   wallet: rootStore.walletStore.selectedWallet

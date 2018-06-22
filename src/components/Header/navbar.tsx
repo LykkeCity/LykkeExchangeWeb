@@ -33,7 +33,7 @@ const NavLink: React.SFC<NavLinkProps> = ({label, to}) => (
   />
 );
 
-export const NavBar = ({match, isAuthenticated, hasAffiliate}: any) => {
+export const NavBar = ({match, isAuthenticated, hasAffiliate, labels}: any) => {
   return (
     isAuthenticated && (
       <div className="header_nav_container">
@@ -41,8 +41,8 @@ export const NavBar = ({match, isAuthenticated, hasAffiliate}: any) => {
           <div className="header_nav__inner">
             <div className="container">
               <ul className="header_nav__list nav_list">
-                <NavLink to={ROUTE_WALLETS} label="Wallets" />
-                <NavLink to={ROUTE_TRANSFER_BASE} label="Transfer" />
+                <NavLink to={ROUTE_WALLETS} label={labels.Wallets} />
+                <NavLink to={ROUTE_TRANSFER_BASE} label={labels.Transfer} />
                 {hasAffiliate && (
                   <NavLink to={ROUTE_AFFILIATE} label="Affiliate Program" />
                 )}
@@ -59,6 +59,7 @@ export const NavBar = ({match, isAuthenticated, hasAffiliate}: any) => {
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
     hasAffiliate: rootStore!.featureStore.hasAffiliate,
-    isAuthenticated: rootStore!.authStore.isAuthenticated
+    isAuthenticated: rootStore!.authStore.isAuthenticated,
+    labels: rootStore!.localizationStore.i18nNavBarView
   }))(NavBar)
 );

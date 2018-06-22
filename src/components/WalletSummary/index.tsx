@@ -12,11 +12,13 @@ export interface WalletActions {
 
 interface WalletSummaryProps extends WalletActions {
   wallet: WalletModel;
+  labels?: any;
 }
 
 export const WalletSummary: React.SFC<WalletSummaryProps> = ({
   wallet,
-  onEditWallet
+  onEditWallet,
+  labels
 }) => (
   <div>
     <div className="row">
@@ -48,7 +50,9 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
           </h2>
-          <div className="wallet__desc">{wallet.desc || 'No description'}</div>
+          <div className="wallet__desc">
+            {wallet.desc || labels.NoDescription}
+          </div>
         </div>
       </div>
       <div className="col-sm-5">
@@ -59,6 +63,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
 );
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  labels: rootStore.localizationStore.i18nWalletSummary,
   onEditWallet: (wallet: WalletModel) => {
     rootStore.walletStore.selectedWallet = wallet;
     rootStore.uiStore.toggleEditWalletDrawer();
