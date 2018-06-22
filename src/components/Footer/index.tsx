@@ -1,4 +1,7 @@
+import {inject} from 'mobx-react';
 import * as React from 'react';
+import {withRouter} from 'react-router';
+import {RootStoreProps} from '../../App';
 
 import Apps from '../Apps';
 import Subscribe from '../Blocks/Subscribe';
@@ -7,7 +10,7 @@ import Social from '../Social';
 import Nav from './nav';
 import './style.css';
 
-export default () => (
+export const Footer = ({labels}: any) => (
   <footer className="footer">
     <div className="footer__top">
       <div className="container">
@@ -39,13 +42,13 @@ export default () => (
               <li className="middot">&middot;</li>
               <li>
                 <a href="https://www.lykke.com/privacy_policy" target="_blank">
-                  Privacy Policy
+                  {labels.PrivacyPolicy}
                 </a>
               </li>
               <li className="middot">&middot;</li>
               <li>
                 <a href="https://www.lykke.com/terms_of_use" target="_blank">
-                  Terms of Use
+                  {labels.TermsOfUse}
                 </a>
               </li>
             </ul>
@@ -54,4 +57,10 @@ export default () => (
       </div>
     </div>
   </footer>
+);
+
+export default withRouter(
+  inject(({rootStore}: RootStoreProps) => ({
+    labels: rootStore!.localizationStore.i18nFooter
+  }))(Footer)
 );

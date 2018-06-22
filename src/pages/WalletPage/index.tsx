@@ -22,6 +22,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
   private readonly transferStore = this.props.rootStore!.transferStore;
   private readonly depositCreditCardStore = this.props.rootStore!
     .depositCreditCardStore;
+  private readonly localizationStore = this.props.rootStore!.localizationStore;
 
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
@@ -37,6 +38,8 @@ export class WalletPage extends React.Component<RootStoreProps> {
   }
 
   render() {
+    const labels = this.localizationStore.i18nWalletPage;
+
     return (
       <div className="container">
         <WalletTabs />
@@ -45,14 +48,14 @@ export class WalletPage extends React.Component<RootStoreProps> {
           path={`${ROUTE_WALLETS}/:type`}
           component={WalletList}
         />
-        <Drawer title="New API Wallet" show={this.uiStore.showWalletDrawer}>
+        <Drawer title={labels.Drawer} show={this.uiStore.showWalletDrawer}>
           <div className="drawer__title">
-            <h2>New Wallet</h2>
-            <h3>API Wallet</h3>
+            <h2>{labels.Wallet}</h2>
+            <h3>{labels.APIWallet}</h3>
           </div>
           <Wizard activeIndex={this.activeStep}>
             <WizardStep
-              title="Name of wallet"
+              title={labels.NameStepTitle}
               onCancel={this.uiStore.toggleWalletDrawer}
               onNext={this.handleCreateWallet}
               index={1}
@@ -66,7 +69,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
               />
             </WizardStep>
             <WizardStep
-              title="Generate API key"
+              title={labels.GenerateStepTitle}
               onCancel={this.uiStore.toggleWalletDrawer}
               onNext={this.handleCreateWallet}
               index={2}
@@ -78,7 +81,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
                   type="button"
                   onClick={this.uiStore.toggleWalletDrawer}
                 >
-                  Save
+                  {labels.Save}
                 </button>
               </div>
             </WizardStep>

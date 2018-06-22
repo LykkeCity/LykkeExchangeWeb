@@ -1,9 +1,180 @@
 {
   "NavBarView": {
-    "Wallets": "Walletski",
-    "Transfer": "Transferski"
+    "Wallets": "Wallets",
+    "Transfer": "Übertragen"
+  },
+  "WalletTabs": {
+    "Trading": "Trading",
+    "APIWallets": "API Wallet",
+    "BetaBannerTitle": "Information",
+    "BetaBannerContent": "Das Web Trading Wallet befinded sich in aktiver Entwicklung. Über die folgenden Wochen wird das Wallet stetig verbessert, um schlussendlich die selbe Funktionalität wie das Lykke Mobile Wallet zu bieten. Verwenden Sie zwischenzeitlich unsere Mobilapplikation, um auf alle Fund Management Funktionenen zugriff zu haben.",
+    "AndroidDownload": "Download für Android",
+    "IOSDownload": "Download für iOS",
+    "NotAgain": "Nicht mehr anzeigen",
+    "KycBannerTitle": "KYC unvollständig",
+    "KycBannerContent": "Kompletieren Sie bitte die KYC Prozedur in der Lykke Wallet Mobilapplikation, um Geld von einer Kreditkarte zu überweisen.",
+    "TradingWalletInfo": "Das Trading Wallet wird von der LykkeWallet Applikation gesteuert. Transaktionen können nur in der mit der Mobileapplikation bestätigt werden. Das Trading Wallet ist mit einer 2-of-2 Multisignature abgesichert. Ein Schlüssel wird von Lykke, der andere auf ihrem Mobiltelefon gespeichert. Bitte bewahren Sie den 12 Wörter Privatschlüssel gut auf.",
+    "APIWalletInfo": "Das API-Wallet bietet ein schnelleres Trading Interface. Sie können mehrere API-Wallets besitzen. Einlagen im API-Wallet werden von Lykke verwaltet. Das API wird mit einem API-Schlüssel abgesichert. Bitte bewahren Sie diesen sorgfältig auf. Um Mittel aus dem API-Wallet zu überweisen, müssen diese zuerst auf Ihr Trading Wallet überwiesen werden.",
+    "APIWalletMoreInfo": "Weitere Informationen zum API",
+    "NewWallet": "Neues Wallet"
   },
   "WalletTotalView": {
-    "TotalBalance": "Kontostand"
+    "TotalBalance": "Gesamtbetrag"
+  },
+  "NavView": {
+    "Services": "Services",
+    "Exchange": "Exchange",
+    "API": "API",
+    "APIDeposits": "API Einzahlung",
+    "Listing": "Listing",
+    "About": "Über uns",
+    "CoreTeam": "Core team",
+    "FAQ": "FAQ",
+    "Invest": "Investieren",
+    "News": "News",
+    "Blog": "Blog",
+    "Contribute": "Beitragen",
+    "Github": "Github",
+    "Streams": "Streams",
+    "Career": "Karriere",
+    "GetInTouch": "Kontakt",
+    "Contacts": "Kontakte",
+    "HelpCenter": "Help center"
+  },
+  "WalletBalanceList": {
+    "NoAssets": "Sie haben noch keine Assets",
+    "Asset": "Asset",
+    "BaseCurrency": "Basiswährung",
+    "Amount": "Betrag",
+    "AssetLower": "asset",
+    "Deposit": "Einzahlung",
+    "CreditCard": "Kreditkarte",
+    "Transfer": "Übertragen"
+  },
+  "AssetPage": {
+    "Deposit": "Einzahlung",
+    "CreditCard": "Kreditkarte",
+    "Trading": "Trading",
+    "Trade": "Trade",
+    "DepositAndWithdraw": "Ein- und Auszahlung",
+    "All": "Alle",
+    "LatestTransactions": "Letzte Transaktionen",
+    "Asset": "Asset",
+    "Date": "Datum",
+    "Operation": "Operation",
+    "Amount": "Betrag",
+    "NoTransactions": "Sie haben noch keine Transaktionen"
+  },
+  "DepositCreditCardPage": {
+    "DisclaimerErrorTitle": "Ausstehender disclaimer",
+    "DisclaimerErrorText": "Sie müssen den ausstehenden Disclaimer in der Lykke Wallet Mobileapplikation bestätigen",
+    "AndroidDownload": "Download für Android",
+    "IOSDownload": "Download für iOS",
+    "Deposit": "Einzahlung",
+    "CreditCard": "Kreditkarte",
+    "FormDescription1": "Um",
+    "FormDescription2": "zu übertragen, bitte das Formular ausfüllen"
+  },
+  "DepositCreditCardForm": {
+    "ErrorMessageText1": "Feld",
+    "ErrorMessageText2": "darf nicht leer sein",
+    "DisclaimerErrorMessage": "Der Benutzer hat einen ausstehenden Disclaimer",
+    "Amount": "Betrag",
+    "Fee": "Gebür",
+    "FirstName": "Vorname",
+    "LastName": "Nachname",
+    "Country": "Land",
+    "City": "Stadt",
+    "ZIP": "Postleitzahl",
+    "Address": "Adresse",
+    "PhoneNumber": "Telefonnummer",
+    "Email": "E-Mail",
+    "TermsOfUse": "Terms of Use",
+    "Submit": "Deposit",
+    "Cancel": "Abbrechen und zurück"
+  },
+  "TransferPage": {
+    "Transfer": "Übertragen",
+    "TransferText": "Füllen Sie das Formular aus, um Assets von einem Wallet ins andere zu übertragen.",
+    "Problems": "Falls Sie ein anderes Problem haben, bitte kontaktieren Sie",
+    "OurSupport": "unseren Support"
+  },
+  "TransferForm": {
+    "TransferError": "Etwas ist schief gelaufen",
+    "From": "Von",
+    "TradingWallet": "Trading Wallet",
+    "APIWallet": "API Wallet",
+    "Available": "verfügbar",
+    "FromPlaceholder": "Auswählen...",
+    "FromSearchPlaceholder": "Wallet Adresse eingeben oder aus der Liste auswählen...",
+    "Asset": "Asset",
+    "AssetPlaceholder": "Auswählen...",
+    "AssetSearchPlaceholder": "Asset Name eingeben oder aus der Liste auswählen...",
+    "To": "An",
+    "ToPlaceholder": "Auswählen...",
+    "ToSearchPlaceholder": "Wallet Adresse eingeben oder aus der Liste auswählen...",
+    "Amount": "Betrag",
+    "Submit": "Übermitteln",
+    "Cancel": "Abbrechen und zurück"
+  },
+  "WalletPage": {
+    "Drawer": "Neues API Wallet",
+    "NewWallet": "Neues Wallet",
+    "APIWallet": "Neues API Wallet",
+    "NameStepTitle": "Wallet Name",
+    "GenerateStepTitle": "API-Key generieren",
+    "Save": "Speichern"
+  },
+  "WalletForm": {
+    "Name": "Wallet Name",
+    "NameError": "Bitte den Wallet Name eingeben",
+    "Description": "Beschreibung",
+    "DescriptionPlaceholder": "Beschreibung eingeben, wie z.B. Mein API Wallet",
+    "Submit": "API-Key generieren",
+    "Cancel": "Abbrechen und schliessen"
+  },
+  "Drawer": {
+    "Summary": "Zusammenfassung"
+  },
+  "EditWalletDrawer": {
+    "Drawer": "Wallet bearbeiten",
+    "APIWallet": "API-Wallet",
+    "NameStepTitle": "Name und Beschreibung"
+  },
+  "EditWalletForm": {
+    "Name": "Wallet Name",
+    "Description": "Beschreibung",
+    "DescriptionPlaceholder": "Beschreibung eingeben, wie z.B. Mein API Wallet",
+    "Submit": "Änderungen speichern",
+    "Cancel": "Abbrechen und schliessen"
+  },
+  "GenerateWalletKeyForm": {
+    "APIKey": "API-Key",
+    "Regenerate": "Neuen API-Key generieren",
+    "Confirm": "Ja, API-Key ändern",
+    "Cancel": "Nein, zurück zum Wallet",
+    "RegenerateTitle": "Neuen API-Key generieren?",
+    "Description1": "Diese Aktion kann nicht rückgängig gemacht werden!",
+    "Description2": "Vorherige API-Keys werden ungültig",
+    "Copied": "Kopiert!"
+  },
+  "WalletActionBar": {
+    "Deposit": "Einzahlung",
+    "CreditCard": "Kreditkarte",
+    "Transfer": "Übertragen",
+    "APIKey": "API-Key",
+    "APIKeyTitle": "Klicken, um Ihr API-Key zu kopieren"
+  },
+  "WalletSummary": {
+    "NoDescription": "Keine Beschreibung"
+  },
+  "Subscribe": {
+    "Title": "Newsletter",
+    "Details": "Bleiben Sie auf dem Laufenden",
+    "EmailAddress": "E-Mail-Addresse"
+  },
+  "Footer": {
+    "PrivacyPolicy": "Datenschutzverordung",
+    "TermsOfUse": "Terms of Use"
   }
 }

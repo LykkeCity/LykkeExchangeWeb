@@ -46,9 +46,10 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
     label: c.name,
     value: c.id
   }));
+  const labels = rootStore!.localizationStore.i18nDepositCreditCardForm;
   const requiredErrorMessage = (fieldName: string) =>
-    `Field ${fieldName} should not be empty`;
-  const DISCLAIMER_ERROR_MESSAGE = 'User has pending disclaimer';
+    labels.ErrorMessageText1 + ` ${fieldName} ` + labels.ErrorMessageText2;
+  const DISCLAIMER_ERROR_MESSAGE = labels.DisclaimerErrorMessage;
   const DAILY_LIMIT_ERROR_MESSAGE =
     'Operation is not allowed because of the Limitations';
 
@@ -123,7 +124,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                 <div className="row">
                   <div className="col-sm-4">
                     <label htmlFor={field.name} className="control-label">
-                      Amount
+                      {labels.Amount}
                     </label>
                   </div>
                   <div className="col-sm-8">
@@ -155,7 +156,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       )}
                       {!!feePercentage && (
                         <div className="fee-label">
-                          Fee: {asset && asset.name}{' '}
+                          {labels.Fee}: {asset && asset.name}{' '}
                           {asset && (
                             <NumberFormat
                               value={moneyCeil(field.value * feePercentage)}
@@ -183,7 +184,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      First Name
+                      {labels.FirstName}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -212,7 +213,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      Last Name
+                      {labels.LastName}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -243,7 +244,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      Country
+                      {labels.Country}
                     </label>
                     <div className="error-bar" />
                     <FormSelect options={countryOptions} {...field} />
@@ -269,7 +270,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      City
+                      {labels.City}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -298,7 +299,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      ZIP
+                      {labels.ZIP}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -329,7 +330,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      Address
+                      {labels.Address}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -360,7 +361,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      Phone Number
+                      {labels.PhoneNumber}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -390,7 +391,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
-                      E-mail
+                      {labels.Email}
                     </label>
                     <div className="error-bar" />
                     <input
@@ -417,7 +418,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
               href="https://www.lykke.com/terms_of_use"
               target="_blank"
             >
-              Terms of Use
+              {labels.TermsOfUse}
             </a>
           </div>
 
@@ -428,7 +429,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           >
             <input
               type="submit"
-              value="Cash In"
+              value={labels.Submit}
               className="btn btn--primary"
               disabled={formikBag.isSubmitting || !formikBag.isValid}
             />
@@ -436,7 +437,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
               <div className="help-block">{formikBag.status}</div>
             )}
             <Link to={ROUTE_WALLETS} className="btn btn--flat">
-              Cancel and go back
+              {labels.Cancel}
             </Link>
           </div>
         </Form>

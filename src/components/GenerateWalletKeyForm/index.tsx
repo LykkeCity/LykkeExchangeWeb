@@ -24,14 +24,17 @@ export class GenerateWalletKeyForm extends React.Component<
   GenerateWalletKeyFormProps
 > {
   state = {message: '', regenerateKeyTouched: false};
+  readonly localizationStore = this.props.rootStore!.localizationStore;
 
   render() {
+    const labels = this.localizationStore.i18nGenerateWalletKeyForm;
+
     return (
       <div className="form-item generate-wallet-key-form">
         <div className="asset_link_list">
           <div className="asset_link">
             <div className="asset_link__info">
-              <div className="asset_link__title">API Key</div>
+              <div className="asset_link__title">{labels.APIKey}</div>
               <div className="asset_link__desc">
                 {this.props.wallet.apiKey}
                 <input
@@ -65,7 +68,7 @@ export class GenerateWalletKeyForm extends React.Component<
                 </DropdownControl>
                 <DropdownContainer>
                   <div className="regenerate-button-tooltip">
-                    Regenerate a new API key
+                    {labels.Regenerate}
                   </div>
                 </DropdownContainer>
               </Dropdown>
@@ -100,13 +103,14 @@ export class GenerateWalletKeyForm extends React.Component<
           visible={this.props.rootStore!.uiStore.showConfirmRegenerateKey}
           onCancel={this.toggleConfirm}
           onConfirm={this.handleRegenerateKey}
-          confirmButton={{text: 'Yes, Change API Key'}}
-          cancelButton={{text: 'No, Back to Wallet'}}
-          title="Regenerate API key?"
+          confirmButton={{text: labels.Confirm}}
+          cancelButton={{text: labels.Cancel}}
+          title={labels.RegenerateTitle}
           description={
             <span>
-              This action is irreversible!
-              <br />Previous API key will become invalid
+              {labels.Description1}
+              <br />
+              {labels.Description2}
             </span>
           }
         />
@@ -130,6 +134,7 @@ export class GenerateWalletKeyForm extends React.Component<
     this.props.rootStore!.walletStore.regenerateApiKey(this.props.wallet);
   };
 
+  // TODO(Rach): Don't know how to pass text in or change method signiture
   private readonly handleCopyKey = (text: string) => {
     if (!!text) {
       this.setState({message: 'Copied!'});

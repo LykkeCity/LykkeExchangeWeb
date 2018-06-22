@@ -14,6 +14,7 @@ interface WalletTabsProps {
   showKycBanner?: boolean;
   handleHideBetaBannerClick?: () => void;
   onCreateNewWallet?: () => void;
+  labels?: any;
 }
 
 export class WalletTabs extends React.Component<WalletTabsProps> {
@@ -22,12 +23,12 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
       <div className="wallet-tabs">
         <div className="tabs">
           <TabLink
-            label="Trading"
+            label={this.props.labels.Trading}
             to={ROUTE_WALLETS_TRADING}
             active={this.props.activeTabRoute === ROUTE_WALLETS_TRADING}
           />
           <TabLink
-            label="API Wallets"
+            label={this.props.labels.APIWallets}
             to={ROUTE_WALLETS_HFT}
             active={this.props.activeTabRoute === ROUTE_WALLETS_HFT}
           />
@@ -35,8 +36,8 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
         <Banner
           show={this.props.showBetaBanner}
           className="beta-banner"
-          title="Information"
-          text="The web trading wallet is currently under active development. It will be improved in the coming weeks, to eventually offer the same functionalities as our mobile Lykke Wallet. In the meantime, please use our mobile application to access all fund management functionalities."
+          title={this.props.labels.BetaBannerTitle}
+          text={this.props.labels.BetaBannerContent}
           footer={
             <div>
               <a
@@ -49,7 +50,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                   src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
                   alt="App Store"
                 />
-                Download for iOS
+                {this.props.labels.IOSDownload}
               </a>
               <a
                 href={GOOGLEPLAY_LINK}
@@ -61,13 +62,13 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                   src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
                   alt="Google Play"
                 />
-                Download for Android
+                {this.props.labels.AndroidDownload}
               </a>
               <a
                 className="hide-button"
                 onClick={this.props.handleHideBetaBannerClick}
               >
-                Don't show again
+                {this.props.labels.NotAgain}
               </a>
             </div>
           }
@@ -77,8 +78,8 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             show={this.props.showKycBanner}
             warning
             className="kyc-banner"
-            title="KYC incomplete"
-            text="In order to deposit funds using credit card, please complete KYC procedure using the Lykke Wallet mobile application."
+            title={this.props.labels.KycBannerTitle}
+            text={this.props.labels.KycBannerContent}
             footer={
               <div>
                 <a
@@ -91,7 +92,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                     src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
                     alt="App Store"
                   />
-                  Download for iOS
+                  {this.props.labels.IOSDownload}
                 </a>
                 <a
                   href={GOOGLEPLAY_LINK}
@@ -103,7 +104,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                     src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
                     alt="Google Play"
                   />
-                  Download for Android
+                  {this.props.labels.AndroidDownload}
                 </a>
               </div>
             }
@@ -112,12 +113,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             <div className="row">
               <div className="col-sm-12">
                 <p className="hint text-left">
-                  Trading wallet is driven by LykkeWallet app. You can confirm a
-                  Trading Wallet transaction only by signing it on your mobile
-                  device. Trading Wallet is secured with 2-of-2 multisignature
-                  protection. One key is controlled by Lykke and another one is
-                  located on your mobile device. Please keep your 12 words seed
-                  private key backup safely.
+                  {this.props.labels.TradingWalletInfo}
                 </p>
               </div>
             </div>
@@ -128,14 +124,10 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             <div className="row">
               <div className="col-sm-8">
                 <p className="hint text-left">
-                  API Wallet offers you a faster trading interface. You can have
-                  multiple API wallets. Funds deposited to API wallet are under
-                  Lykke custodian. The API is secured with an API Key. Please
-                  keep the key safe. To withdraw the funds from your API wallet
-                  you need to transfer them to your Trading Wallet first.
+                  {this.props.labels.APIWalletInfo}
                 </p>
                 <p style={{marginTop: '10px'}} className="hint text-left">
-                  Read more about using API here&nbsp;<a
+                  {this.props.labels.APIWalletMoreInfo}&nbsp;<a
                     className="link"
                     href="https://www.lykke.com/lykke_api"
                     target="_blank"
@@ -149,7 +141,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                   className="btn btn--primary btn-sm"
                   onClick={this.props.onCreateNewWallet}
                 >
-                  <i className="icon icon--add" /> New Wallet
+                  <i className="icon icon--add" /> {this.props.labels.NewWallet}
                 </button>
               </div>
             </div>
@@ -163,6 +155,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
     handleHideBetaBannerClick: rootStore!.uiStore.hideBetaBanner,
+    labels: rootStore!.localizationStore.i18nWalletTabs,
     onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
     showBetaBanner: rootStore!.uiStore.showBetaBanner,
     showKycBanner: !rootStore!.profileStore.isKycPassed

@@ -24,6 +24,7 @@ export class DepositCreditCardPage extends React.Component<
   readonly depositCreditCardStore = this.props.rootStore!
     .depositCreditCardStore;
   readonly uiStore = this.props.rootStore!.uiStore;
+  readonly localizationStore = this.props.rootStore!.localizationStore;
 
   componentDidMount() {
     const {walletId, assetId} = this.props.match.params;
@@ -58,6 +59,7 @@ export class DepositCreditCardPage extends React.Component<
       'ideal.png',
       'giropay.svg'
     ];
+    const labels = this.localizationStore.i18nDepositCreditCardPage;
 
     return (
       <div className="container">
@@ -66,8 +68,8 @@ export class DepositCreditCardPage extends React.Component<
             show={this.uiStore.showDisclaimerError}
             warning
             className="disclaimer-banner"
-            title="Pending disclaimer"
-            text="You need to accept pending disclaimer with your Lykke Wallet mobile app."
+            title={labels.DisclaimerErrorTitle}
+            text={labels.DisclaimerErrorText}
             footer={
               <div>
                 <a
@@ -80,7 +82,7 @@ export class DepositCreditCardPage extends React.Component<
                     src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
                     alt="App Store"
                   />
-                  Download for iOS
+                  {labels.IOSDownload}
                 </a>
                 <a
                   href={GOOGLEPLAY_LINK}
@@ -92,7 +94,7 @@ export class DepositCreditCardPage extends React.Component<
                     src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
                     alt="Google Play"
                   />
-                  Download for Android
+                  {labels.AndroidDownload}
                 </a>
               </div>
             }
@@ -108,12 +110,14 @@ export class DepositCreditCardPage extends React.Component<
             ))}
           </ul>
           <div className="deposit-credit-card__title">
-            Deposit {!!asset && asset!.name}
+            {labels.Deposit} {!!asset && asset!.name}
           </div>
-          <div className="deposit-credit-card__subtitle">Credit Card</div>
+          <div className="deposit-credit-card__subtitle">
+            {labels.CreditCard}
+          </div>
           <div className="deposit-credit-card__description">
-            To deposit {!!asset && asset!.name} to your trading wallet please
-            fill in the form.
+            {labels.FormDescription1} {!!asset && asset!.name}{' '}
+            {labels.FormDescription2}
           </div>
           <DepositCreditCardForm
             onDisclaimerError={this.handleDisclaimerError}
