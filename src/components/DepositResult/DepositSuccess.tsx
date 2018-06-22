@@ -25,7 +25,8 @@ export class DepositSuccess extends React.Component<
   }
 
   render() {
-    const {amount, asset} = this.depositCreditCardStore.newDeposit;
+    const amount = Number(this.depositCreditCardStore.newDeposit.amount);
+    const {asset} = this.depositCreditCardStore.newDeposit;
 
     return (
       <div className="deposit-result">
