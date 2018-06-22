@@ -30,8 +30,8 @@ export const HeaderBar: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
 
           <Logo />
-          <Language />
           {authStore.isAuthenticated && <UserInfo />}
+          <Language />
         </div>
 
         <HeaderSearch />
