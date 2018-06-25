@@ -40,25 +40,20 @@ export const arraysEqual = (a: any[], b: any[]) => {
   return true;
 };
 
-export const moneyCeil = (value: number, accuracy = 2) => {
-  const SAFE_ACCURACY = accuracy >= 6 ? accuracy + 1 : accuracy + 4;
+export const calcSafeAccuracy = (accuracy: number) =>
+  accuracy >= 6 ? accuracy + 1 : accuracy + 4;
 
-  return (
-    Math.ceil(
-      Number((value || 0).toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)
-    ) / Math.pow(10, accuracy)
-  );
-};
+export const moneyCeil = (value: number, accuracy = 2) =>
+  Math.ceil(
+    Number((value || 0).toFixed(calcSafeAccuracy(accuracy))) *
+      Math.pow(10, accuracy)
+  ) / Math.pow(10, accuracy);
 
-export const moneyFloor = (value: number, accuracy = 2) => {
-  const SAFE_ACCURACY = accuracy >= 6 ? accuracy + 1 : accuracy + 4;
-
-  return (
-    Math.floor(
-      Number((value || 0).toFixed(SAFE_ACCURACY)) * Math.pow(10, accuracy)
-    ) / Math.pow(10, accuracy)
-  );
-};
+export const moneyFloor = (value: number, accuracy = 2) =>
+  Math.floor(
+    Number((value || 0).toFixed(calcSafeAccuracy(accuracy))) *
+      Math.pow(10, accuracy)
+  ) / Math.pow(10, accuracy);
 
 export const copyTextToClipboard = (text: string) => {
   const textArea = document.createElement('textarea');
