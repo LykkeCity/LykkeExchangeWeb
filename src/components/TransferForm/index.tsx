@@ -1,4 +1,4 @@
-import {Select} from 'lykke-react-components';
+import {Select} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
@@ -11,6 +11,7 @@ import {
   WalletModel,
   WalletType
 } from '../../models';
+import {moneyFloor} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {asAssetBalance} from '../hoc/assetBalance';
 
@@ -300,7 +301,10 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 {!!baseAssetAsModel &&
                   asAssetBalance(
                     baseAssetAsModel,
-                    transfer.amountInBaseCurrency
+                    moneyFloor(
+                      transfer.amountInBaseCurrency,
+                      baseAssetAsModel.accuracy
+                    )
                   )}{' '}
                 {!!baseAssetAsModel && baseAssetAsModel.name}
               </div>

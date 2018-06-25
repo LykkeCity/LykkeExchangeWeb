@@ -1,4 +1,4 @@
-import {action, computed, observable, reaction} from 'mobx';
+import {action, computed, observable} from 'mobx';
 import * as uuid from 'uuid';
 import {AssetModel, WalletModel} from '.';
 import {TransferStore} from '../stores';
@@ -10,7 +10,10 @@ export class TransferModel {
   @observable amount: number = 0;
   @observable asset: AssetModel;
 
-  @observable amountInBaseCurrency: number;
+  @computed
+  get amountInBaseCurrency() {
+    return this.store.convertToBaseCurrency(this);
+  }
 
   @computed
   get asJson() {
@@ -48,25 +51,6 @@ export class TransferModel {
     this.id = uuid.v4();
     this.from = createWallet();
     this.to = createWallet();
-
-    reaction(
-      () => ({amount: this.amount, asset: this.asset}),
-      async () => {
-        if (!!this.amount && !!this.asset) {
-          const resp = await this.store.convertToBaseCurrency(
-            this,
-            this.store.rootStore.profileStore.baseAsset
-          );
-          // FIXME: user input should be debounced instead of double-checked
-          if (!!this.amount) {
-            this.amountInBaseCurrency =
-              resp.Converted[0] && resp.Converted[0].To.Amount;
-          }
-        } else {
-          this.amountInBaseCurrency = 0;
-        }
-      }
-    );
   }
 
   @action
