@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@lykkex/lykke.js": "^0.2.0",
     "@types/react-copy-to-clipboard": "^4.2.3",
     "@types/react-infinite-scroller": "^1.0.6",
     "@types/react-intl": "^2.3.5",
