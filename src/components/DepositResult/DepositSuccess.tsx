@@ -5,6 +5,7 @@ import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
 
@@ -24,7 +25,8 @@ export class DepositSuccess extends React.Component<
   }
 
   render() {
-    const {amount, asset} = this.depositCreditCardStore.newDeposit;
+    const amount = Number(this.depositCreditCardStore.newDeposit.amount);
+    const {asset} = this.depositCreditCardStore.newDeposit;
 
     return (
       <div className="deposit-result">
@@ -35,9 +37,12 @@ export class DepositSuccess extends React.Component<
         <div className="deposit-result__desc">
           Your deposit request has been successfully sent
         </div>
-        <div className="deposit-result__amount">
-          {amount} {asset && asset.name}
-        </div>
+        {asset && (
+          <div className="deposit-result__amount">
+            <NumberFormat value={amount} accuracy={asset.accuracy} />{' '}
+            {asset.name}
+          </div>
+        )}
         <div className="deposit-result__button">
           <Link to={ROUTE_WALLETS} className="btn btn--primary">
             Go back to wallets
