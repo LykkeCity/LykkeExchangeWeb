@@ -22,6 +22,7 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_DEPOSIT_CRYPTO,
   ROUTE_GATEWAY_FAIL,
   ROUTE_GATEWAY_SUCCESS,
   ROUTE_ROOT,
@@ -33,7 +34,11 @@ import {
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {DepositCreditCardPage, WalletPage} from '../../pages/index';
+import {
+  DepositCreditCardPage,
+  DepositCryptoPage,
+  WalletPage
+} from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
 import TransferPage from '../TransferPage/index';
@@ -151,6 +156,10 @@ export class ProtectedPage extends React.Component<
             <Route
               path={ROUTE_DEPOSIT_CREDIT_CARD}
               component={asLoading(DepositCreditCardPage)}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_CRYPTO}
+              component={asLoading(DepositCryptoPage)}
             />
             <Route
               path={ROUTE_GATEWAY_FAIL}
