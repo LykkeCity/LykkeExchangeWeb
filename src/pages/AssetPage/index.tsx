@@ -83,9 +83,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
               {asset.address && (
                 <div className="asset-page__address">
                   <QRCode size="120" value={asset.address} />
-                  <div className="asset-page__address-tip">
-                    Scan to get the address
-                  </div>
+                  <div className="asset-page__address-tip">Scan to Deposit</div>
                 </div>
               )}
             </div>
