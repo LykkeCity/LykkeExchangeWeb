@@ -14,6 +14,9 @@ import {
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, BalanceModel, TransactionType} from '../../models';
 
+// tslint:disable-next-line:no-var-requires
+const QRCode = require('qrcode.react');
+
 import './style.css';
 
 interface AssetPageProps extends RootStoreProps, RouteComponentProps<any> {}
@@ -41,6 +44,10 @@ export class AssetPage extends React.Component<AssetPageProps> {
   }
 
   componentDidMount() {
+    const {assetId} = this.props.match.params;
+    this.loadTransactions();
+    this.assetStore.fetchAddress(assetId);
+
     window.scrollTo(0, 0);
   }
 
@@ -61,13 +68,27 @@ export class AssetPage extends React.Component<AssetPageProps> {
             />
           </Link>
           <div className="asset-page">
-            <h2 className="asset-page__name">{asset.name}</h2>
-            {balance && (
-              <span className="asset-page__amount">
-                {asBalance(balance)} {balance.asset.name}
-              </span>
-            )}
-            <div className="asset-page__description">{asset.description}</div>
+            <div className="asset-page__header">
+              <div className="asset-page__info">
+                <h2 className="asset-page__name">{asset.name}</h2>
+                {balance && (
+                  <span className="asset-page__amount">
+                    {asBalance(balance)} {balance.asset.name}
+                  </span>
+                )}
+                <div className="asset-page__description">
+                  {asset.description}
+                </div>
+              </div>
+              {asset.address && (
+                <div className="asset-page__address">
+                  <QRCode size="120" value={asset.address} />
+                  <div className="asset-page__address-tip">
+                    Scan to get the address
+                  </div>
+                </div>
+              )}
+            </div>
             <div className="asset-page__actions">
               {(this.isAvailableForCreditCardDeposit ||
                 this.isAvailableForSwiftDeposit) && (
