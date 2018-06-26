@@ -1,3 +1,4 @@
+import {observable} from 'mobx';
 import {AssetCategoryModel} from '.';
 
 export class AssetModel {
@@ -7,6 +8,7 @@ export class AssetModel {
   description: string;
   accuracy: number;
   iconUrl: string;
+  @observable address: string;
 
   isBase: boolean = false;
 

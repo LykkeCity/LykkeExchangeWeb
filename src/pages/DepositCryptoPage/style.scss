@@ -1,0 +1,89 @@
+@import '../../styles/utils';
+
+.deposit-crypto {
+  max-width: 569px;
+  margin: 83px auto 0;
+
+  &__title {
+    color: $heading;
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+  }
+
+  &__subtitle {
+    color: $gray-dark;
+    font-weight: $fw-light;
+    line-height: 1.43;
+    letter-spacing: -0.3px;
+    text-align: center;
+
+    @include rem(font-size, 28px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 1.5;
+    padding-bottom: 27px;
+    border-bottom: 1px solid $border-alt;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-top, 32px);
+  }
+
+  &__address-qr {
+    text-align: center;
+
+    @include rem(margin, 60px 0);
+
+    canvas {
+      width: 240px;
+    }
+  }
+
+  &__address-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    position: relative;
+    border-bottom: 1px solid $border-alt;
+    border-top: 1px solid $border-alt;
+
+    .btn--icon {
+      cursor: pointer;
+      position: relative;
+      top: 14px;
+      right: 10px;
+    }
+  }
+
+  &__address-label {
+    color: $heading;
+    font-weight: $fw-semi;
+    line-height: 1.67;
+
+    @include rem(font-size, 18px);
+  }
+
+  &__address {
+    color: $text;
+    line-height: 1.5;
+    opacity: 0.6;
+
+    @include rem(font-size, 16px);
+  }
+
+  .copy-to-clipboard-message {
+    position: absolute;
+    color: $green;
+    top: 4rem;
+    right: 1rem;
+  }
+
+  .go-back-btn {
+    margin-top: 59px;
+    text-align: center;
+  }
+}

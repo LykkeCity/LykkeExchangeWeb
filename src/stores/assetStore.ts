@@ -105,6 +105,14 @@ export class AssetStore {
     }
   };
 
+  fetchAddress = async (assetId: string) => {
+    const resp = await this.api.fetchAssetAddress(assetId);
+    const asset = this.getById(assetId);
+    if (asset) {
+      asset.address = resp.Address;
+    }
+  };
+
   fetchInstruments = async () => {
     const resp = await this.api.fetchAssetInstruments();
     runInAction(() => {

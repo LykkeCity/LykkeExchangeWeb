@@ -34,6 +34,11 @@ export const ROUTE_DEPOSIT_SWIFT_TO = (assetId: string) =>
   `${ROUTE_DEPOSIT_SWIFT_BASE}/${assetId}`;
 export const ROUTE_DEPOSIT_SWIFT_EMAIL_SENT = `${ROUTE_DEPOSIT_SWIFT_BASE}/success`;
 
+export const ROUTE_DEPOSIT_CRYPTO_BASE = '/deposit/crypto';
+export const ROUTE_DEPOSIT_CRYPTO = `${ROUTE_DEPOSIT_CRYPTO_BASE}/:assetId`;
+export const ROUTE_DEPOSIT_CRYPTO_TO = (assetId: string) =>
+  `${ROUTE_DEPOSIT_CRYPTO_BASE}/${assetId}`;
+
 export const ROUTE_GATEWAY_CANCEL = '/gateway/cancel';
 export const ROUTE_GATEWAY_SUCCESS = '/gateway/success';
 export const ROUTE_GATEWAY_FAIL = '/gateway/fail';

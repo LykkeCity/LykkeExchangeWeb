@@ -26,6 +26,7 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_DEPOSIT_CRYPTO,
   ROUTE_DEPOSIT_SWIFT,
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_GATEWAY_FAIL,
@@ -42,6 +43,7 @@ import {
 import {STORE_ROOT} from '../../constants/stores';
 import {
   DepositCreditCardPage,
+  DepositCryptoPage,
   DepositSwiftPage,
   WalletPage
 } from '../../pages/index';
@@ -180,6 +182,10 @@ export class ProtectedPage extends React.Component<
             <Route
               path={ROUTE_DEPOSIT_SWIFT}
               component={asLoading(DepositSwiftPage)}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_CRYPTO}
+              component={asLoading(DepositCryptoPage)}
             />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
             <Route
