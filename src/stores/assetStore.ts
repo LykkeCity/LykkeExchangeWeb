@@ -128,7 +128,7 @@ export class AssetStore {
     });
 
     this.instruments = this.instruments.filter(
-      instrument => instrument.bid !== 0 || instrument.ask !== 0
+      instrument => instrument.bid || instrument.ask
     );
   };
 
