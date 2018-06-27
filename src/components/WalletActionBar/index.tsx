@@ -14,6 +14,7 @@ import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -29,7 +30,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
 
   render() {
     const {wallet, rootStore} = this.props;
-    const assets = rootStore!.assetStore.assetsAvailableForDeposit;
+    const assetsAvailableForCreditCardDeposit = rootStore!.assetStore
+      .assetsAvailableForCreditCardDeposit;
+    const assetsAvailableForCryptoDeposit = rootStore!.assetStore
+      .assetsAvailableForCryptoDeposit;
     const isKycPassed = rootStore!.profileStore.isKycPassed;
 
     return (
@@ -57,7 +61,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                         </DropdownControl>
                         <DropdownContainer>
                           <DropdownList className="wallet-asset-menu">
-                            {assets.map(a => (
+                            {assetsAvailableForCreditCardDeposit.map(a => (
                               <DropdownListItem key={a.id}>
                                 <Link
                                   to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
@@ -65,6 +69,31 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                                     a.id
                                   )}
                                 >
+                                  {a.name}
+                                </Link>
+                              </DropdownListItem>
+                            ))}
+                          </DropdownList>
+                        </DropdownContainer>
+                      </Dropdown>
+                    </DropdownListItem>
+                    <DropdownListItem>
+                      <Dropdown position={DropdownPosition.RIGHT}>
+                        <DropdownControl>
+                          <a>
+                            <img
+                              className="icon"
+                              src={`${process.env
+                                .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
+                            />
+                            Blockchain Transfer
+                          </a>
+                        </DropdownControl>
+                        <DropdownContainer>
+                          <DropdownList className="wallet-asset-menu">
+                            {assetsAvailableForCryptoDeposit.map(a => (
+                              <DropdownListItem key={a.id}>
+                                <Link to={ROUTE_DEPOSIT_CRYPTO_TO(a.id)}>
                                   {a.name}
                                 </Link>
                               </DropdownListItem>
