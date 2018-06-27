@@ -161,6 +161,12 @@
     a {
       color: $text;
     }
+
+    .qr-icn {
+      position: relative;
+      left: 5px;
+      bottom: 2px;
+    }
   }
 
   &__img,
