@@ -119,11 +119,11 @@ export class AssetStore {
   fetchRates = async () => {
     const resp = await this.api.fetchRates();
 
-    resp.AssetPairRates.forEach(({AssetPair, BidPrice, AskPrice}: any) => {
+    resp.forEach(({AssetPair, Bid, Ask}: any) => {
       const instrument = this.getInstrumentById(AssetPair);
       if (instrument) {
-        instrument.ask = AskPrice;
-        instrument.bid = BidPrice;
+        instrument.ask = Ask;
+        instrument.bid = Bid;
       }
     });
 
