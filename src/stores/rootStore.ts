@@ -5,6 +5,7 @@ import {
   BalanceStore,
   CatalogsStore,
   DepositCreditCardStore,
+  DialogStore,
   ProfileStore,
   TransactionStore,
   TransferStore,
@@ -17,6 +18,7 @@ import {
   BalanceApi,
   CatalogsApi,
   DepositCreditCardApi,
+  DialogApi,
   HistoryApi,
   ProfileApi,
   TransactionApi,
@@ -31,6 +33,7 @@ import {FeatureStore} from './featuresStore';
 export class RootStore {
   affiliateStore: AffiliateStore;
   catalogsStore: CatalogsStore;
+  dialogStore: DialogStore;
   authStore: AuthStore;
   walletStore: WalletStore;
   balanceStore: BalanceStore;
@@ -62,6 +65,7 @@ export class RootStore {
       new DepositCreditCardApi(this)
     );
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
+    this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.marketService = MarketService;
   }
 
@@ -80,6 +84,7 @@ export class RootStore {
       new DepositCreditCardApi(this)
     );
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
+    this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.authStore.reset();
     this.marketService.reset();
   }

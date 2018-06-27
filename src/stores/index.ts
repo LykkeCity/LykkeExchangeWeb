@@ -11,3 +11,4 @@ export * from './profileStore';
 export * from './assetStore';
 export * from './depositCreditCardStore';
 export * from './catalogsStore';
+export * from './dialogStore';

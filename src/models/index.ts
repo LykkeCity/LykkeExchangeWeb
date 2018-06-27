@@ -17,3 +17,4 @@ export * from './depositCreditCardModel';
 export * from './countryModel';
 export * from './gatewayUrls';
 export * from './kycStatuses';
+export * from './dialogModel';
