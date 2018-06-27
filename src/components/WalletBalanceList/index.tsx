@@ -133,6 +133,17 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                               ) : (
                                 b.asset.name
                               )}
+                              {isAvailableForCryptoDeposit(b.assetId) && (
+                                <span className="qr-icn">
+                                  <Link to={ROUTE_DEPOSIT_CRYPTO_TO(b.assetId)}>
+                                    <img
+                                      className="icon"
+                                      src={`${process.env
+                                        .PUBLIC_URL}/images/qr-icn.svg`}
+                                    />
+                                  </Link>
+                                </span>
+                              )}
                             </div>
                           </div>
                         </div>
