@@ -126,6 +126,10 @@ export class AssetStore {
         instrument.bid = BidPrice;
       }
     });
+
+    this.instruments = this.instruments.filter(
+      instrument => instrument.bid !== 0 || instrument.ask !== 0
+    );
   };
 
   fetchCategories = async () => {
