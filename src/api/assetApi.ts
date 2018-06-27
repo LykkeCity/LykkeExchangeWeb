@@ -18,7 +18,7 @@ export class RestAssetApi extends RestApi implements AssetApi {
   fetchAssetInstruments = () => this.get('/assetpairs');
   fetchAssetAddress = (id: string) =>
     this.get(`/deposits/crypto/${id}/address`);
-  fetchRates = () => this.get('/assetpairs/rates');
+  fetchRates = () => this.get('/markets');
 
   fetchCategories = () => this.get('/assets/categories');
 
