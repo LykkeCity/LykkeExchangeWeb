@@ -8,6 +8,7 @@ import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
@@ -28,6 +29,11 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly profileStore = this.props.rootStore!.profileStore;
 
   @computed
+  get showLoadMoreButton() {
+    return this.hasMoreTransactions && !this.areTransactionsLoading;
+  }
+
+  @computed
   get isAvailableForCreditCardDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForCreditCardDeposit.find(
@@ -36,10 +42,33 @@ export class AssetPage extends React.Component<AssetPageProps> {
   }
 
   @computed
+  get isAvailableForCryptoDeposit() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForCryptoDeposit.find(
+      a => assetId === a.id
+    );
+  }
+
+  @computed
   get isAvailableForSwiftDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForSwiftDeposit.find(
       asset => assetId === asset.id
+    );
+  }
+
+  constructor(props: any) {
+    super(props);
+
+    reaction(
+      () => ({
+        page: this.pageNumber,
+        transactionsLength: this.transactionStore.assetTransactions.length
+      }),
+      params => {
+        this.hasMoreTransactions =
+          params.transactionsLength === params.page * PAGE_SIZE;
+      }
     );
   }
 
@@ -98,6 +127,13 @@ export class AssetPage extends React.Component<AssetPageProps> {
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
                       'Credit Card'
+                    )}
+                  {this.isAvailableForCryptoDeposit &&
+                    this.renderDepositMenuItem(
+                      ROUTE_DEPOSIT_CRYPTO_TO(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-blockchain-icn.svg`,
+                      'Blockchain Transfer'
                     )}
                   {this.isAvailableForSwiftDeposit &&
                     this.renderDepositMenuItem(

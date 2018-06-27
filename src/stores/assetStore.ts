@@ -7,6 +7,7 @@ export class AssetStore {
   @observable assets: AssetModel[] = [];
   @observable assetsAvailableForCreditCardDeposit: AssetModel[] = [];
   @observable assetsAvailableForSwiftDeposit: AssetModel[] = [];
+  @observable assetsAvailableForCryptoDeposit: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
 
@@ -83,6 +84,7 @@ export class AssetStore {
       (pm: any) => pm.Name === 'Fxpaygate'
     );
     const swift = resp.PaymentMethods.find((pm: any) => pm.Name === 'Swift');
+    const crypros = resp.PaymentMethods.find((pm: any) => pm.Name === 'Crypto');
     const prepareAssets = (assets: any) =>
       assets
         .map((assetId: string) => this.getById(assetId))
@@ -101,6 +103,11 @@ export class AssetStore {
     if (swift && swift.Available) {
       runInAction(() => {
         this.assetsAvailableForSwiftDeposit = prepareAssets(swift.Assets);
+      });
+    }
+    if (cryptos && cryptos.Available) {
+      runInAction(() => {
+        this.assetsAvailableForCryptoDeposit =  prepareAssets(crypros.Assets);
       });
     }
   };

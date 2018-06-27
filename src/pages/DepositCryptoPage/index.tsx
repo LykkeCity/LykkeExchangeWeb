@@ -4,6 +4,7 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -19,12 +20,20 @@ interface DepositCryptoPageProps
 
 export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
   @observable showCopiedToClipboardMessage = false;
+  @observable addressLoaded = false;
 
   readonly assetStore = this.props.rootStore!.assetStore;
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
-    this.assetStore.fetchAddress(assetId);
+    this.assetStore
+      .fetchAddress(assetId)
+      .then(() => {
+        this.addressLoaded = true;
+      })
+      .catch(() => {
+        this.addressLoaded = true;
+      });
 
     window.scrollTo(0, 0);
   }
@@ -40,36 +49,48 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
           <div className="deposit-crypto">
             <div className="deposit-crypto__title">Deposit {asset.name}</div>
             <div className="deposit-crypto__subtitle">Blockchain transfer</div>
-            <div className="deposit-crypto__description">
-              To deposit {asset.name} to your trading wallet please use the
-              following bank account details.
-            </div>
-            {asset.address && (
-              <div className="deposit-crypto__address-qr">
-                <QRCode size="240" value={asset.address} />
-              </div>
-            )}
-            <div className="deposit-crypto__address-info">
+            {asset.address ? (
               <div>
-                <div className="deposit-crypto__address-label">
-                  Your wallet address
+                <div className="deposit-crypto__description">
+                  To deposit {asset.name} to your trading wallet please use the
+                  following bank account details.
                 </div>
-                <div className="deposit-crypto__address">{asset.address}</div>
+                <div className="deposit-crypto__address-qr">
+                  <QRCode size="240" value={asset.address} />
+                </div>
+                <div className="deposit-crypto__address-info">
+                  <div>
+                    <div className="deposit-crypto__address-label">
+                      Your wallet address
+                    </div>
+                    <div className="deposit-crypto__address">
+                      {asset.address}
+                    </div>
+                  </div>
+                  <div>
+                    <CopyToClipboard
+                      text={asset.address}
+                      onCopy={this.handleCopyAddress}
+                    >
+                      <button className="btn btn--icon" type="button">
+                        <i className="icon icon--copy_thin" />
+                      </button>
+                    </CopyToClipboard>
+                    {this.showCopiedToClipboardMessage && (
+                      <small className="copy-to-clipboard-message">
+                        Copied!
+                      </small>
+                    )}
+                  </div>
+                </div>
               </div>
-              <div>
-                <CopyToClipboard
-                  text={asset.address}
-                  onCopy={this.handleCopyAddress}
-                >
-                  <button className="btn btn--icon" type="button">
-                    <i className="icon icon--copy_thin" />
-                  </button>
-                </CopyToClipboard>
-                {this.showCopiedToClipboardMessage && (
-                  <small className="copy-to-clipboard-message">Copied!</small>
-                )}
+            ) : this.addressLoaded ? (
+              <div className="deposit-crypto__description text-center">
+                Not available
               </div>
-            </div>
+            ) : (
+              <Spinner />
+            )}
             <div className="go-back-btn">
               <Link to={ROUTE_WALLETS_TRADING} className="btn btn--flat">
                 Go back
