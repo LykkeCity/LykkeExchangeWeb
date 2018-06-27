@@ -5,7 +5,8 @@ import {RootStore} from './index';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
-  @observable assetsAvailableForDeposit: AssetModel[] = [];
+  @observable assetsAvailableForCreditCardDeposit: AssetModel[] = [];
+  @observable assetsAvailableForCryptoDeposit: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
 
@@ -81,11 +82,21 @@ export class AssetStore {
     const fxpaygate = resp.PaymentMethods.find(
       (pm: any) => pm.Name === 'Fxpaygate'
     );
+    const cryptos = resp.PaymentMethods.find(
+      (pm: any) => pm.Name === 'Cryptos'
+    );
     if (fxpaygate && fxpaygate.Available) {
       runInAction(() => {
-        this.assetsAvailableForDeposit = fxpaygate.Assets.map(
-          (assetId: string) => this.getById(assetId)
-        );
+        this.assetsAvailableForCreditCardDeposit = fxpaygate.Assets
+          .map((assetId: string) => this.getById(assetId))
+          .filter((asset: any) => asset);
+      });
+    }
+    if (cryptos && cryptos.Available) {
+      runInAction(() => {
+        this.assetsAvailableForCryptoDeposit = cryptos.Assets
+          .map((assetId: string) => this.getById(assetId))
+          .filter((asset: any) => asset);
       });
     }
   };

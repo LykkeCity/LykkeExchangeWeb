@@ -14,6 +14,7 @@ import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -71,6 +72,22 @@ export class AssetPage extends React.Component<AssetPageProps> {
   @computed
   get showLoadMoreButton() {
     return this.hasMoreTransactions && !this.areTransactionsLoading;
+  }
+
+  @computed
+  get isAvailableForCreditCardDeposit() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForCreditCardDeposit.find(
+      a => assetId === a.id
+    );
+  }
+
+  @computed
+  get isAvailableForCryptoDeposit() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForCryptoDeposit.find(
+      a => assetId === a.id
+    );
   }
 
   constructor(props: any) {
@@ -151,32 +168,42 @@ export class AssetPage extends React.Component<AssetPageProps> {
               )}
             </div>
             <div className="asset-page__actions">
-              {this.assetStore.assetsAvailableForDeposit.find(
-                a => asset.id === a.id
-              ) && (
+              {(this.isAvailableForCreditCardDeposit ||
+                this.isAvailableForCryptoDeposit) && (
                 <ul className="action-list">
                   <li className="action-list__title">Deposit</li>
                   <li className="action-list__item">
-                    {this.profileStore.isKycPassed ? (
-                      <Link
-                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id)}
-                      >
+                    {this.isAvailableForCreditCardDeposit &&
+                      (this.profileStore.isKycPassed ? (
+                        <Link
+                          to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id)}
+                        >
+                          <img
+                            className="icon"
+                            src={`${process.env
+                              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                          />
+                          Credit card
+                        </Link>
+                      ) : (
+                        <a className="disabled">
+                          <img
+                            className="icon"
+                            src={`${process.env
+                              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                          />
+                          Credit card
+                        </a>
+                      ))}
+                    {this.isAvailableForCryptoDeposit && (
+                      <Link to={ROUTE_DEPOSIT_CRYPTO_TO(asset.id)}>
                         <img
                           className="icon"
                           src={`${process.env
-                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
+                            .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
                         />
-                        Credit card
+                        Blockchain Transfer
                       </Link>
-                    ) : (
-                      <a className="disabled">
-                        <img
-                          className="icon"
-                          src={`${process.env
-                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                        />
-                        Credit card
-                      </a>
                     )}
                   </li>
                 </ul>
