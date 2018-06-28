@@ -79,30 +79,30 @@ class MarketService {
     const u: any = {};
 
     for (const instrument of instruments) {
-      if (!instrument.baseAsset || !instrument.quoteAsset) {
-        continue;
-      }
-
       const baseAssetId = instrument.baseAsset.id;
       const quoteAssetId = instrument.quoteAsset.id;
 
       if (!g[baseAssetId]) {
         g[baseAssetId] = {};
       }
-      g[baseAssetId][quoteAssetId] = {
-        pair: instrument.id,
-        straight: true,
-        weight: this.getWeight(instrument)
-      };
+      if (instrument.bid) {
+        g[baseAssetId][quoteAssetId] = {
+          pair: instrument.id,
+          straight: true,
+          weight: this.getWeight(instrument)
+        };
+      }
 
       if (!g[quoteAssetId]) {
         g[quoteAssetId] = {};
       }
-      g[quoteAssetId][baseAssetId] = {
-        pair: instrument.id,
-        straight: false,
-        weight: this.getWeight(instrument)
-      };
+      if (instrument.ask) {
+        g[quoteAssetId][baseAssetId] = {
+          pair: instrument.id,
+          straight: false,
+          weight: this.getWeight(instrument)
+        };
+      }
 
       d[baseAssetId] = Infinity;
       d[quoteAssetId] = Infinity;
