@@ -53,13 +53,15 @@ class MarketService {
       }
       const {pair, straight} = secondAssetData;
       const instrument = getInstrumentById(pair);
-      if (!instrument || !instrument.bid || !instrument.ask) {
+      if (!instrument) {
         return 0;
       }
-      if (straight) {
+      if (straight && instrument.bid) {
         output *= instrument.bid;
-      } else {
+      } else if (!straight && instrument.ask) {
         output *= 1 / instrument.ask;
+      } else {
+        return 0;
       }
     }
 
