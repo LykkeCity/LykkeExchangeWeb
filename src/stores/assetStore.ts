@@ -23,7 +23,7 @@ export class AssetStore {
   getById = (id: string) => this.assets.find(a => a.id === id);
 
   getInstrumentById = (id: string) =>
-    this.instruments.find(x => x.id.toLowerCase().includes(id.toLowerCase()));
+    this.instruments.find(x => x.id.toLowerCase() === id.toLowerCase());
 
   fetchAssets = async () => {
     await this.fetchCategories();

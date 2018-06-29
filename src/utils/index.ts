@@ -55,6 +55,12 @@ export const moneyFloor = (value: number, accuracy = 2) =>
       Math.pow(10, accuracy)
   ) / Math.pow(10, accuracy);
 
+export const moneyRound = (value: number, accuracy = 2) =>
+  Math.round(
+    Number((value || 0).toFixed(calcSafeAccuracy(accuracy))) *
+      Math.pow(10, accuracy)
+  ) / Math.pow(10, accuracy);
+
 export const copyTextToClipboard = (text: string) => {
   const textArea = document.createElement('textarea');
 

@@ -16,7 +16,7 @@ import {
 } from '../../constants/routes';
 import {AssetModel, WalletModel} from '../../models/index';
 import {RootStore} from '../../stores';
-import {moneyFloor, plural} from '../../utils';
+import {moneyRound, plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
 import './style.css';
 
@@ -89,7 +89,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                     <td className="_currency">
                       {asAssetBalance(
                         b.baseAsset!,
-                        moneyFloor(b.balanceInBaseAsset, b.baseAsset!.accuracy)
+                        moneyRound(b.balanceInBaseAsset, b.baseAsset!.accuracy)
                       )}{' '}
                       {b.baseAsset!.name}
                     </td>

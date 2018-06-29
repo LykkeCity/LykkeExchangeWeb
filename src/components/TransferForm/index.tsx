@@ -11,7 +11,7 @@ import {
   WalletModel,
   WalletType
 } from '../../models';
-import {moneyFloor} from '../../utils';
+import {moneyRound} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {asAssetBalance} from '../hoc/assetBalance';
 
@@ -301,7 +301,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
                 {!!baseAssetAsModel &&
                   asAssetBalance(
                     baseAssetAsModel,
-                    moneyFloor(
+                    moneyRound(
                       transfer.amountInBaseCurrency,
                       baseAssetAsModel.accuracy
                     )
