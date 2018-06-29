@@ -2,7 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
-import {moneyFloor} from '../../utils';
+import {moneyRound} from '../../utils';
 import {asAssetBalance} from '../hoc/assetBalance';
 
 export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
@@ -26,7 +26,7 @@ export const Balance: React.SFC<RootStoreProps> = ({rootStore}) => {
           {!!baseAssetAsModel &&
             asAssetBalance(
               baseAssetAsModel,
-              moneyFloor(totalBalance, baseAssetAsModel.accuracy)
+              moneyRound(totalBalance, baseAssetAsModel.accuracy)
             )}
         </div>
         <div className="header_nav_balance__currency nav_list__item">

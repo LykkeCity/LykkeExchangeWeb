@@ -1,4 +1,12 @@
-import {arraysEqual, moneyCeil, moneyFloor, pipe, plural, seq} from '.';
+import {
+  arraysEqual,
+  moneyCeil,
+  moneyFloor,
+  moneyRound,
+  pipe,
+  plural,
+  seq
+} from '.';
 
 const add = (a: any, b: any) => a + b;
 const inc = (num: any) => num + 1;
@@ -136,5 +144,20 @@ describe('moneyFloor', () => {
 
   it('should avoid Floating-Point issue', () => {
     expect(moneyFloor(0.999999999)).toBe(1);
+  });
+});
+
+describe('moneyRound', () => {
+  it('should handle undefined value', () => {
+    const foo: any = undefined;
+    expect(moneyRound(foo, 2)).toBe(0);
+  });
+
+  it('should round to accuracy', () => {
+    expect(moneyRound(1.8888888, 2)).toBe(1.89);
+  });
+
+  it('should avoid Floating-Point issue', () => {
+    expect(moneyRound(0.1 + 0.2)).toBe(0.3);
   });
 });
