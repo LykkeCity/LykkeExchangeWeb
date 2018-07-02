@@ -49,8 +49,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   const requiredErrorMessage = (fieldName: string) =>
     `Field ${fieldName} should not be empty`;
   const DISCLAIMER_ERROR_MESSAGE = 'User has pending disclaimer';
-  const DAILY_LIMIT_ERROR_MESSAGE =
-    'Credit card deposit limits reached. Read More';
+  const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
   return (
     <Formik
