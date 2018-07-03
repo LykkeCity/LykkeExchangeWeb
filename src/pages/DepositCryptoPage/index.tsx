@@ -19,7 +19,7 @@ interface DepositCryptoPageProps
     RouteComponentProps<any> {}
 
 export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
-  @observable showCopiedToClipboardMessage = false;
+  @observable copiedToClipboardText = '';
   @observable addressLoaded = false;
 
   readonly assetStore = this.props.rootStore!.assetStore;
@@ -76,7 +76,70 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                         <i className="icon icon--copy_thin" />
                       </button>
                     </CopyToClipboard>
-                    {this.showCopiedToClipboardMessage && (
+                    {this.copiedToClipboardText === asset.address && (
+                      <small className="copy-to-clipboard-message">
+                        Copied!
+                      </small>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ) : asset.addressBase && asset.addressExtension ? (
+              <div>
+                <div className="deposit-crypto__description">
+                  To deposit {asset.name} to your trading wallet please use the
+                  following address and deposit tag or scan the QR codes.
+                </div>
+                <div className="deposit-crypto__address-qr">
+                  <QRCode size="240" value={asset.addressBase} />
+                </div>
+                <div className="deposit-crypto__address-info">
+                  <div>
+                    <div className="deposit-crypto__address-label">
+                      Your wallet address
+                    </div>
+                    <div className="deposit-crypto__address">
+                      {asset.addressBase}
+                    </div>
+                  </div>
+                  <div>
+                    <CopyToClipboard
+                      text={asset.addressBase}
+                      onCopy={this.handleCopyAddress}
+                    >
+                      <button className="btn btn--icon" type="button">
+                        <i className="icon icon--copy_thin" />
+                      </button>
+                    </CopyToClipboard>
+                    {this.copiedToClipboardText === asset.addressBase && (
+                      <small className="copy-to-clipboard-message">
+                        Copied!
+                      </small>
+                    )}
+                  </div>
+                </div>
+                <div className="deposit-crypto__address-qr">
+                  <QRCode size="240" value={asset.addressExtension} />
+                </div>
+                <div className="deposit-crypto__address-info">
+                  <div>
+                    <div className="deposit-crypto__address-label">
+                      Deposit tag
+                    </div>
+                    <div className="deposit-crypto__address">
+                      {asset.addressExtension}
+                    </div>
+                  </div>
+                  <div>
+                    <CopyToClipboard
+                      text={asset.addressExtension}
+                      onCopy={this.handleCopyAddress}
+                    >
+                      <button className="btn btn--icon" type="button">
+                        <i className="icon icon--copy_thin" />
+                      </button>
+                    </CopyToClipboard>
+                    {this.copiedToClipboardText === asset.addressExtension && (
                       <small className="copy-to-clipboard-message">
                         Copied!
                       </small>
@@ -103,12 +166,10 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
   }
 
   private readonly handleCopyAddress = (text: string) => {
-    if (!!text) {
-      this.showCopiedToClipboardMessage = true;
-      setTimeout(() => {
-        this.showCopiedToClipboardMessage = false;
-      }, 2000);
-    }
+    this.copiedToClipboardText = text;
+    setTimeout(() => {
+      this.copiedToClipboardText = '';
+    }, 2000);
   };
 }
 
