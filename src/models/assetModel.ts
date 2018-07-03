@@ -9,6 +9,8 @@ export class AssetModel {
   accuracy: number;
   iconUrl: string;
   @observable address: string;
+  @observable addressBase: string;
+  @observable addressExtension: string;
 
   isBase: boolean = false;
 

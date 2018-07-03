@@ -117,6 +117,8 @@ export class AssetStore {
     const asset = this.getById(assetId);
     if (asset) {
       asset.address = resp.Address;
+      asset.addressBase = resp.BaseAddress;
+      asset.addressExtension = resp.AddressExtension;
     }
   };
 
