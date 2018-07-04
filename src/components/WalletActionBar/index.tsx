@@ -15,6 +15,7 @@ import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_DEPOSIT_CRYPTO_TO,
+  ROUTE_HISTORY,
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -112,6 +113,11 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
         <div className="wallet-action-bar__item">
           <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Transfer</Link>
         </div>
+        {wallet.isTrading && (
+          <div className="wallet-action-bar__item">
+            <Link to={ROUTE_HISTORY}>History</Link>
+          </div>
+        )}
         {wallet.apiKey && (
           <div
             className={classNames(

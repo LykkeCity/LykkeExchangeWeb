@@ -5,12 +5,6 @@
   top: 98px;
 }
 
-.filters-row {
-  background: $gray-5;
-
-  @include rem(margin-top, 61px);
-}
-
 .asset-page {
   @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
@@ -40,6 +34,12 @@
 
     @include rem(font-size, 18px);
     @include rem(margin-bottom, 39px);
+  }
+
+  &__address {
+    canvas {
+      width: 120px;
+    }
   }
 
   &__address-tip {
@@ -83,219 +83,5 @@
         }
       }
     }
-  }
-}
-
-.transaction-filters {
-  @include rem(padding, 0 76px 0 100px);
-
-  &__title {
-    color: $heading;
-    display: inline-block;
-    font-weight: $fw-semi;
-    padding: 29px 0;
-
-    @include rem(font-size, 22px);
-
-    @media all and (max-width: $screen-mobile-old) {
-      display: block;
-    }
-  }
-
-  &__item {
-    color: #636f7e;
-    cursor: pointer;
-    float: right;
-    font-weight: $fw-semi;
-    letter-spacing: 1.5px;
-    opacity: 0.6;
-    padding: 6px 24px;
-    text-transform: uppercase;
-    margin: 24px 0 0 6px;
-
-    @include rem(font-size, 15px);
-    @include rem(padding-left, 24px);
-    @include rem(padding-right, 24px);
-
-    &_active {
-      background: #0388ef;
-      border-radius: 100px;
-      color: $white;
-      opacity: 1;
-    }
-
-    @media all and (max-width: $screen-mobile-old) {
-      margin: 0 0 29px 6px;
-    }
-  }
-
-  @media all and (max-width: $screen-tablet) {
-    @include rem(padding, 0);
-  }
-}
-
-.transactions-table {
-  @include rem(margin-top, 12px);
-  @include rem(padding, 0 94px);
-
-  tr {
-    th {
-      color: $heading;
-      letter-spacing: 0.2px;
-      line-height: 1.67;
-      text-transform: none;
-
-      @include rem(font-size, 18px);
-      @include rem(padding-bottom, 11px);
-
-      &:first-child {
-        &:before {
-          margin-top: 41px;
-          margin-left: -6px;
-
-          @media all and (max-width: $screen-landscape) {
-            margin-top: 35px;
-          }
-
-          @media all and (max-width: $screen-mobile) {
-            margin-top: 30px;
-          }
-        }
-      }
-
-      &:last-child {
-        &:after {
-          margin-top: 41px;
-
-          @media all and (max-width: $screen-landscape) {
-            margin-top: 35px;
-          }
-
-          @media all and (max-width: $screen-mobile) {
-            margin-top: 30px;
-          }
-        }
-      }
-    }
-
-    td {
-      color: $text;
-      line-height: 1.5;
-
-      @include rem(font-size, 16px);
-      @include rem(padding-bottom, 3px);
-      @include rem(padding-top, 6px);
-
-      img {
-        border: solid 1px rgba(63, 77, 96, 0.1);
-        margin-right: 16px;
-        padding: 7px;
-        position: relative;
-        width: 48px;
-        height: 48px;
-        border-radius: 4px;
-      }
-
-      &:first-child {
-        line-height: 1.67;
-
-        @include rem(font-size, 18px);
-
-        &:before {
-          margin-top: 53px;
-          margin-left: -6px;
-
-          @media all and (max-width: $screen-landscape) {
-            margin-top: 50px;
-          }
-        }
-      }
-
-      &:last-child {
-        &:after {
-          margin-top: 43px;
-
-          @media all and (max-width: $screen-landscape) {
-            margin-top: 42px;
-          }
-
-          @media all and (max-width: $screen-mobile) {
-            margin-top: 41px;
-          }
-        }
-      }
-
-      &:hover {
-        cursor: initial;
-      }
-
-      .asset-col {
-        display: flex;
-
-        &__wallet_name {
-          color: $gray-dark;
-          line-height: 1.43;
-
-          @include rem(font-size, 14px);
-        }
-      }
-
-      .amount-col {
-        @include rem(font-size, 18px);
-      }
-    }
-
-    th:first-child,
-    td:first-child {
-      border-radius: 4px;
-      padding-left: 6px;
-
-      &:before {
-        content: '';
-        position: absolute;
-        border-bottom: 1px solid $white;
-        width: 64px;
-      }
-    }
-
-    th:last-child,
-    td:last-child {
-      border-radius: 4px;
-      padding-right: 6px;
-      text-align: right;
-
-      &:after {
-        content: '';
-        position: absolute;
-        border-bottom: 1px solid $white;
-        width: 6px;
-      }
-    }
-
-    &:hover {
-      td {
-        background-color: $gray-5;
-      }
-    }
-  }
-
-  .table-responsive {
-    @include rem(margin-bottom, 4px);
-  }
-
-  .show-more-button {
-    color: $gray-dark;
-    cursor: pointer;
-    line-height: 1.88;
-    margin-left: 65px;
-  }
-
-  .empty-state {
-    margin-top: 29px;
-    text-align: center;
-  }
-
-  @media all and (max-width: $screen-tablet) {
-    @include rem(padding, 0 24px 0 0);
   }
 }
