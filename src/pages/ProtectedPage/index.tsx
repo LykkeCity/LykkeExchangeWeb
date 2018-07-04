@@ -24,6 +24,7 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
   ROUTE_GATEWAY_FAIL,
   ROUTE_GATEWAY_SUCCESS,
+  ROUTE_HISTORY,
   ROUTE_ROOT,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
@@ -36,6 +37,7 @@ import {STORE_ROOT} from '../../constants/stores';
 import {DepositCreditCardPage, WalletPage} from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
+import HistoryPage from '../HistoryPage/index';
 import TransferPage from '../TransferPage/index';
 
 export class ProtectedPage extends React.Component<
@@ -152,6 +154,7 @@ export class ProtectedPage extends React.Component<
               path={ROUTE_DEPOSIT_CREDIT_CARD}
               component={asLoading(DepositCreditCardPage)}
             />
+            <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
             <Route
               path={ROUTE_GATEWAY_FAIL}
               // tslint:disable-next-line:jsx-no-lambda

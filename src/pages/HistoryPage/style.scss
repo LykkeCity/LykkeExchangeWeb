@@ -1,0 +1,24 @@
+@import '../../styles/utils';
+
+.arrow-back {
+  position: relative;
+  top: 98px;
+}
+
+.history-page {
+  @include rem(margin-top, 63px);
+  @include rem(padding, 0 100px);
+
+  &__title {
+    font-family: 'Akrobat', sans-serif;
+    margin-bottom: 0;
+  }
+
+  &__wallet-name {
+    color: #657180;
+    line-height: 1.33;
+    font-family: 'Akrobat', sans-serif;
+
+    @include rem(font-size, 30px);
+  }
+}
