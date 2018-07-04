@@ -31,4 +31,6 @@ export const ROUTE_DEPOSIT_CREDIT_CARD_FAIL = `${ROUTE_DEPOSIT_CREDIT_CARD_BASE}
 export const ROUTE_GATEWAY_SUCCESS = '/gateway/success';
 export const ROUTE_GATEWAY_FAIL = '/gateway/fail';
 
+export const ROUTE_HISTORY = '/history';
+
 export const ROUTE_AUTH = '/auth';
