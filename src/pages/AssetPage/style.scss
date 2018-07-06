@@ -36,6 +36,12 @@
     @include rem(margin-bottom, 39px);
   }
 
+  &__address {
+    canvas {
+      width: 120px;
+    }
+  }
+
   &__address-tip {
     color: $gray-dark;
     line-height: 1.43;
