@@ -200,7 +200,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                         'Blockchain Transfer',
                                         ROUTE_DEPOSIT_CRYPTO_TO(b.assetId),
                                         `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-blockchain-icn.svg`
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`
                                       ),
                                     isAvailableForSwiftDeposit(b.assetId) &&
                                       renderDepositMenuItem(

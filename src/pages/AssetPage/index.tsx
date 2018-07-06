@@ -132,7 +132,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     this.renderDepositMenuItem(
                       ROUTE_DEPOSIT_CRYPTO_TO(asset.id),
                       `${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-blockchain-icn.svg`,
+                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
                       'Blockchain Transfer'
                     )}
                   {this.isAvailableForSwiftDeposit &&
