@@ -4,7 +4,8 @@ import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
-  ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS
+  ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_WALLETS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 
@@ -36,12 +37,17 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
   private handleIframeLoaded = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
     try {
       const currentUrl = e.currentTarget.contentWindow.location.href;
+      const redirectUrls = {
+        [this.depositCreditCardStore.gatewayUrls
+          .okUrl]: ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+        [this.depositCreditCardStore.gatewayUrls
+          .failUrl]: ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
+        [this.depositCreditCardStore.gatewayUrls.cancelUrl]: ROUTE_WALLETS
+      };
+      const redirectUrl = redirectUrls[currentUrl];
 
-      if (currentUrl === this.depositCreditCardStore.gatewayUrls.okUrl) {
-        this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS);
-      }
-      if (currentUrl === this.depositCreditCardStore.gatewayUrls.failUrl) {
-        this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_FAIL);
+      if (redirectUrl) {
+        this.props.history.replace(redirectUrl);
       }
     } catch (err) {
       // Can't access iframe URL

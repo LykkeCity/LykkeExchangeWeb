@@ -28,6 +28,7 @@ export const ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY = `${ROUTE_DEPOSIT_CREDIT_CARD_BA
 export const ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS = `${ROUTE_DEPOSIT_CREDIT_CARD_BASE}/success`;
 export const ROUTE_DEPOSIT_CREDIT_CARD_FAIL = `${ROUTE_DEPOSIT_CREDIT_CARD_BASE}/fail`;
 
+export const ROUTE_GATEWAY_CANCEL = '/gateway/cancel';
 export const ROUTE_GATEWAY_SUCCESS = '/gateway/success';
 export const ROUTE_GATEWAY_FAIL = '/gateway/fail';
 
