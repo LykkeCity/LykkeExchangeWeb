@@ -49,6 +49,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   const requiredErrorMessage = (fieldName: string) =>
     `Field ${fieldName} should not be empty`;
   const DISCLAIMER_ERROR_MESSAGE = 'User has pending disclaimer';
+  const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
   return (
     <Formik
@@ -138,7 +139,21 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       />
                       {form.errors[field.name] && (
                         <span className="help-block">
-                          {form.errors[field.name]}
+                          {form.errors[field.name] ===
+                          DAILY_LIMIT_ERROR_MESSAGE ? (
+                            <span>
+                              Credit card deposit limits reached.{' '}
+                              <a
+                                className="link"
+                                href="https://www.lykke.com/cp/wallet-fees-and-limits"
+                                target="_blank"
+                              >
+                                Read More
+                              </a>
+                            </span>
+                          ) : (
+                            form.errors[field.name]
+                          )}
                         </span>
                       )}
                       {!!feePercentage && (
