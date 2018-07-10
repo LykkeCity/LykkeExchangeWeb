@@ -2,7 +2,7 @@ import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
-import {Link, RouteComponentProps} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
@@ -49,42 +49,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
           <div className="deposit-crypto">
             <div className="deposit-crypto__title">Deposit {asset.name}</div>
             <div className="deposit-crypto__subtitle">Blockchain transfer</div>
-            {asset.address ? (
-              <div>
-                <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
-                  following bank account details.
-                </div>
-                <div className="deposit-crypto__address-qr">
-                  <QRCode size="240" value={asset.address} />
-                </div>
-                <div className="deposit-crypto__address-info">
-                  <div>
-                    <div className="deposit-crypto__address-label">
-                      Your wallet address
-                    </div>
-                    <div className="deposit-crypto__address">
-                      {asset.address}
-                    </div>
-                  </div>
-                  <div>
-                    <CopyToClipboard
-                      text={asset.address}
-                      onCopy={this.handleCopyAddress}
-                    >
-                      <button className="btn btn--icon" type="button">
-                        <i className="icon icon--copy_thin" />
-                      </button>
-                    </CopyToClipboard>
-                    {this.copiedToClipboardText === asset.address && (
-                      <small className="copy-to-clipboard-message">
-                        Copied!
-                      </small>
-                    )}
-                  </div>
-                </div>
-              </div>
-            ) : asset.addressBase && asset.addressExtension ? (
+            {asset.addressBase && asset.addressExtension ? (
               <div>
                 <div className="deposit-crypto__description">
                   To deposit {asset.name} to your trading wallet please use the
@@ -147,6 +112,41 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                   </div>
                 </div>
               </div>
+            ) : asset.address ? (
+              <div>
+                <div className="deposit-crypto__description">
+                  To deposit {asset.name} to your trading wallet please use the
+                  following address.
+                </div>
+                <div className="deposit-crypto__address-qr">
+                  <QRCode size="240" value={asset.address} />
+                </div>
+                <div className="deposit-crypto__address-info">
+                  <div>
+                    <div className="deposit-crypto__address-label">
+                      Your wallet address
+                    </div>
+                    <div className="deposit-crypto__address">
+                      {asset.address}
+                    </div>
+                  </div>
+                  <div>
+                    <CopyToClipboard
+                      text={asset.address}
+                      onCopy={this.handleCopyAddress}
+                    >
+                      <button className="btn btn--icon" type="button">
+                        <i className="icon icon--copy_thin" />
+                      </button>
+                    </CopyToClipboard>
+                    {this.copiedToClipboardText === asset.address && (
+                      <small className="copy-to-clipboard-message">
+                        Copied!
+                      </small>
+                    )}
+                  </div>
+                </div>
+              </div>
             ) : this.addressLoaded ? (
               <div className="deposit-crypto__description text-center">
                 Not available
@@ -155,9 +155,13 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               <Spinner />
             )}
             <div className="go-back-btn">
-              <Link to={ROUTE_WALLETS_TRADING} className="btn btn--flat">
+              <a
+                href="#"
+                onClick={this.props.history.goBack}
+                className="btn btn--flat"
+              >
                 Go back
-              </Link>
+              </a>
             </div>
           </div>
         )}

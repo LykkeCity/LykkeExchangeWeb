@@ -68,9 +68,8 @@
   }
 
   &__address {
-    color: $text;
+    color: rgba($text, 0.6);
     line-height: 1.5;
-    opacity: 0.6;
 
     @include rem(font-size, 16px);
   }
