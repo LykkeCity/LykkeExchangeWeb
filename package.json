@@ -43,6 +43,8 @@
   },
   "devDependencies": {
     "@types/classnames": "^2.2.3",
+    "@types/enzyme": "^3.1.10",
+    "@types/enzyme-adapter-react-16": "^1.0.2",
     "@types/jest": "^21.1.1",
     "@types/node": "^8.0.31",
     "@types/numeral": "^0.0.22",
@@ -56,6 +58,8 @@
     "@types/webpack-env": "^1.13.3",
     "LykkeFramework": "^0.4.17",
     "compass-mixins": "0.12.10",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "husky": "^0.14.3",
     "lint-staged": "^4.2.3",
     "mobx-persist": "^0.4.1",

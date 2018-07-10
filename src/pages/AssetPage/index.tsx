@@ -3,6 +3,7 @@ import React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {asBalance} from '../../components/hoc/assetBalance';
+import {LinksToTrade} from '../../components/LinksToTrade';
 import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
 import {
@@ -11,7 +12,6 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, TransactionType} from '../../models';
-
 import './style.css';
 
 interface AssetPageProps extends RootStoreProps, RouteComponentProps<any> {}
@@ -35,6 +35,9 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const asset = this.assetStore.getById(assetId) || new AssetModel();
     const wallet = this.walletStore.tradingWallets[0];
     const balance = wallet && wallet.balances.find(b => b.assetId === assetId);
+    const instumentsForTrading = this.assetStore.getInstrumentsForSelectedAsset(
+      assetId
+    );
 
     return (
       <div>
@@ -88,13 +91,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
               <ul className="action-list">
                 <li className="action-list__title">Trading</li>
                 <li className="action-list__item">
-                  <a href="http://trade.lykke.com" target="_blank">
-                    <img
-                      className="icon"
-                      src={`${process.env.PUBLIC_URL}/images/trade-icn.svg`}
-                    />
-                    Trade
-                  </a>
+                  <LinksToTrade instumentsForTrading={instumentsForTrading} />
                 </li>
               </ul>
             </div>

@@ -25,6 +25,14 @@ export class AssetStore {
   getInstrumentById = (id: string) =>
     this.instruments.find(x => x.id.toLowerCase() === id.toLowerCase());
 
+  getInstrumentsForSelectedAsset = (assetId: string) =>
+    this.instruments.filter(instrument => {
+      return (
+        instrument.baseAsset.id === assetId ||
+        instrument.quoteAsset.id === assetId
+      );
+    });
+
   fetchAssets = async () => {
     await this.fetchCategories();
     await this.fetchAvailableAssets();

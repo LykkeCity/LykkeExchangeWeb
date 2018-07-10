@@ -50,7 +50,8 @@
       }
 
       &__item {
-        a {
+        a,
+        span {
           color: $text;
           line-height: 1.5;
 
