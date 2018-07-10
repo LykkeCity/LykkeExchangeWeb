@@ -36,7 +36,13 @@
     @include rem(margin-bottom, 39px);
   }
 
+  &__addresses {
+    display: flex;
+  }
+
   &__address {
+    margin-left: 40px;
+
     canvas {
       width: 120px;
     }
