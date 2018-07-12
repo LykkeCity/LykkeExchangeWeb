@@ -11,3 +11,4 @@ export {default as HistoryApi} from './historyApi';
 export {default as TransactionApi} from './transactionApi';
 export {default as DepositApi} from './depositApi';
 export {default as CatalogsApi} from './catalogsApi';
+export {default as DialogApi} from './dialogApi';

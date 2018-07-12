@@ -4,10 +4,12 @@ import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../../components/Apps';
 import {Banner} from '../../components/Banner';
+import ClientDialog from '../../components/ClientDialog';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
 import {ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {GatewayUrls} from '../../models';
+import {DialogModel, GatewayUrls} from '../../models';
+import {DialogConditionType} from '../../models/dialogModel';
 
 import './style.css';
 
@@ -23,6 +25,7 @@ export class DepositCreditCardPage extends React.Component<
   readonly profileStore = this.props.rootStore!.profileStore;
   readonly depositStore = this.props.rootStore!.depositStore;
   readonly uiStore = this.props.rootStore!.uiStore;
+  readonly dialogStore = this.props.rootStore!.dialogStore;
 
   componentDidMount() {
     const {walletId, assetId} = this.props.match.params;
@@ -36,6 +39,15 @@ export class DepositCreditCardPage extends React.Component<
     if (!!wallet) {
       this.depositStore.newDeposit.setWallet(wallet);
     }
+
+    this.dialogStore.pendingDialogs
+      .filter(
+        (dialog: DialogModel) =>
+          dialog.conditionType === DialogConditionType.Predeposit
+      )
+      .forEach((dialog: DialogModel) => {
+        dialog.visible = true;
+      });
 
     this.uiStore.showDisclaimerError = false;
     window.scrollTo(0, 0);
@@ -57,10 +69,21 @@ export class DepositCreditCardPage extends React.Component<
       'ideal.png',
       'giropay.svg'
     ];
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
 
     return (
       <div className="container">
         <div className="deposit-credit-card">
+          {clientDialog && (
+            <ClientDialog
+              dialog={clientDialog}
+              onDialogCancel={this.handleDialogCancel}
+              onDialogConfirm={this.handleDialogConfirm}
+            />
+          )}
           <Banner
             show={this.uiStore.showDisclaimerError}
             warning
@@ -123,6 +146,21 @@ export class DepositCreditCardPage extends React.Component<
       </div>
     );
   }
+
+  private handleDialogConfirm = (dialog: DialogModel) => {
+    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+      (d: DialogModel) => dialog.id !== d.id
+    );
+  };
+
+  private handleDialogCancel = (dialog: DialogModel) => {
+    if (dialog.isConfirmed) {
+      this.dialogStore.submit(dialog);
+      this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+        (d: DialogModel) => dialog.id !== d.id
+      );
+    }
+  };
 
   private handleDisclaimerError = () => {
     this.uiStore.showDisclaimerError = true;

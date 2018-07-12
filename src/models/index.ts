@@ -18,3 +18,4 @@ export * from './countryModel';
 export * from './gatewayUrls';
 export * from './kycStatuses';
 export * from './depositSwiftModel';
+export * from './dialogModel';

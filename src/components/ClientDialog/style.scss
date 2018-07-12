@@ -1,0 +1,26 @@
+@import '../../styles/utils';
+
+.client-dialog {
+  .form-group {
+    margin-top: 40px;
+  }
+
+  ul {
+    list-style: initial;
+    margin-left: 20px;
+  }
+
+  &_confirm-disabled {
+    .btn--primary,
+    .btn--primary {
+      cursor: not-allowed;
+      background-color: #f7f8f9 !important;
+      color: $gray-dark !important;
+    }
+  }
+
+  .checkbox__label-text {
+    position: relative;
+    top: -3px;
+  }
+}
