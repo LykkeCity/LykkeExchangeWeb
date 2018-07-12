@@ -14,10 +14,6 @@ export class HistoryPage extends React.Component<RootStoreProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
 
-  constructor(props: any) {
-    super(props);
-  }
-
   componentDidMount() {
     window.scrollTo(0, 0);
   }
