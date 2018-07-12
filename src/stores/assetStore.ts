@@ -1,7 +1,12 @@
 import {computed, observable, runInAction} from 'mobx';
 import {AssetApi} from '../api/assetApi';
+import {AssetApiv1} from '../api/assetApiv1';
 import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
+
+const AddressError = {
+  AddressNotGenerated: 'AddressNotGenerated'
+};
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
@@ -20,7 +25,11 @@ export class AssetStore {
       .filter(x => x.isBase);
   }
 
-  constructor(readonly rootStore: RootStore, private api: AssetApi) {}
+  constructor(
+    readonly rootStore: RootStore,
+    private api: AssetApi,
+    private apiv1: AssetApiv1
+  ) {}
 
   getById = (id: string) => this.assets.find(a => a.id === id);
 
@@ -113,13 +122,29 @@ export class AssetStore {
   };
 
   fetchAddress = async (assetId: string) => {
-    const resp = await this.api.fetchAssetAddress(assetId);
-    const asset = this.getById(assetId);
-    if (asset) {
-      asset.address = resp.Address;
-      asset.addressBase = resp.BaseAddress;
-      asset.addressExtension = resp.AddressExtension;
-    }
+    await this.api
+      .fetchAssetAddress(assetId)
+      .then((resp: any) => {
+        const asset = this.getById(assetId);
+        if (asset) {
+          asset.address = resp.Address;
+          asset.addressBase = resp.BaseAddress;
+          asset.addressExtension = resp.AddressExtension;
+        }
+      })
+      .catch(async (e: any) => {
+        const err = JSON.parse(e.message);
+        if (err && err.error === AddressError.AddressNotGenerated) {
+          await this.apiv1.generateAssetAddress(assetId);
+          const resp = await this.api.fetchAssetAddress(assetId);
+          const asset = this.getById(assetId);
+          if (asset) {
+            asset.address = resp.Address;
+            asset.addressBase = resp.BaseAddress;
+            asset.addressExtension = resp.AddressExtension;
+          }
+        }
+      });
   };
 
   fetchInstruments = async () => {
