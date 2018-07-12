@@ -4,10 +4,13 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import ClientDialog from '../../components/ClientDialog';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
+import {DialogModel} from '../../models';
+import {DialogConditionType} from '../../models/dialogModel';
 
 // tslint:disable-next-line:no-var-requires
 const QRCode = require('qrcode.react');
@@ -23,6 +26,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
   @observable addressLoaded = false;
 
   readonly assetStore = this.props.rootStore!.assetStore;
+  readonly dialogStore = this.props.rootStore!.dialogStore;
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
@@ -35,15 +39,35 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         this.addressLoaded = true;
       });
 
+    this.dialogStore.pendingDialogs
+      .filter(
+        (dialog: DialogModel) =>
+          dialog.conditionType === DialogConditionType.Predeposit
+      )
+      .forEach((dialog: DialogModel) => {
+        dialog.visible = true;
+      });
+
     window.scrollTo(0, 0);
   }
 
   render() {
     const {assetId} = this.props.match.params;
     const asset = this.assetStore.getById(assetId);
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
 
     return (
       <div className="container">
+        {clientDialog && (
+          <ClientDialog
+            dialog={clientDialog}
+            onDialogCancel={this.handleDialogCancel}
+            onDialogConfirm={this.handleDialogConfirm}
+          />
+        )}
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
         {asset && (
           <div className="deposit-crypto">
@@ -56,7 +80,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                   following address and deposit tag or scan the QR codes.
                 </div>
                 <div className="deposit-crypto__address-qr">
-                  <QRCode size="240" value={asset.addressBase} />
+                  <QRCode size={240} value={asset.addressBase} />
                 </div>
                 <div className="deposit-crypto__address-info">
                   <div>
@@ -84,7 +108,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                   </div>
                 </div>
                 <div className="deposit-crypto__address-qr">
-                  <QRCode size="240" value={asset.addressExtension} />
+                  <QRCode size={240} value={asset.addressExtension} />
                 </div>
                 <div className="deposit-crypto__address-info">
                   <div>
@@ -119,7 +143,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                   following address.
                 </div>
                 <div className="deposit-crypto__address-qr">
-                  <QRCode size="240" value={asset.address} />
+                  <QRCode size={240} value={asset.address} />
                 </div>
                 <div className="deposit-crypto__address-info">
                   <div>
@@ -174,6 +198,27 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     setTimeout(() => {
       this.copiedToClipboardText = '';
     }, 2000);
+  };
+
+  private handleDialogConfirm = (dialog: DialogModel) => {
+    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+      (d: DialogModel) => dialog.id !== d.id
+    );
+  };
+
+  private handleDialogCancel = async (dialog: DialogModel) => {
+    if (dialog.isConfirmed) {
+      const {assetId} = this.props.match.params;
+      try {
+        await this.dialogStore.submit(dialog);
+      } finally {
+        this.addressLoaded = false;
+        this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+          (d: DialogModel) => dialog.id !== d.id
+        );
+        await this.assetStore.fetchAddress(assetId);
+      }
+    }
   };
 }
 

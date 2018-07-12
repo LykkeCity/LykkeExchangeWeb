@@ -115,18 +115,18 @@ export class AssetPage extends React.Component<AssetPageProps> {
                   title={`Scan both address and tag to deposit ${asset.name}.`}
                 >
                   <div className="asset-page__address">
-                    <QRCode size="120" value={asset.addressBase} />
+                    <QRCode size={120} value={asset.addressBase} />
                     <div className="asset-page__address-tip">Address</div>
                   </div>
                   <div className="asset-page__address">
-                    <QRCode size="120" value={asset.addressExtension} />
+                    <QRCode size={120} value={asset.addressExtension} />
                     <div className="asset-page__address-tip">Tag</div>
                   </div>
                 </div>
               ) : (
                 asset.address && (
                   <div className="asset-page__address">
-                    <QRCode size="120" value={asset.address} />
+                    <QRCode size={120} value={asset.address} />
                     <div className="asset-page__address-tip">
                       Scan to Deposit
                     </div>
