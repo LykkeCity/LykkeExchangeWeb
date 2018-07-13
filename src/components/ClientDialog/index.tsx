@@ -13,7 +13,6 @@ import './style.css';
 
 export interface ClientDialogProps {
   dialog: DialogModel;
-  onDialogCancel?: (dialog: DialogModel) => void;
   onDialogConfirm: (dialog: DialogModel) => void;
 }
 
@@ -29,8 +28,13 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
         className={classnames('client-dialog', {
           'client-dialog_confirm-disabled': !this.isConfirmed
         })}
-        confirmButton={{text: 'Accept'}}
-        cancelButton={{text: ''}}
+        actions={[
+          {
+            cssClass: 'btn-primary btn-block',
+            onClick: () => this.props.onDialogConfirm(this.props.dialog),
+            text: 'Accept'
+          }
+        ]}
         description={
           <div>
             <div dangerouslySetInnerHTML={{__html: this.props.dialog.text}} />
@@ -62,12 +66,6 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
             )}
           </div>
         }
-        // tslint:disable-next-line:jsx-no-lambda
-        onCancel={() =>
-          this.props.onDialogCancel &&
-          this.props.onDialogCancel(this.props.dialog)}
-        // tslint:disable-next-line:jsx-no-lambda
-        onConfirm={() => this.props.onDialogConfirm(this.props.dialog)}
       />
     );
   }
