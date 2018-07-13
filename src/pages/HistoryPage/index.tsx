@@ -38,6 +38,11 @@ export class HistoryPage extends React.Component<RootStoreProps> {
         <TransactionsTable
           transactions={this.transactionStore.walletTransactions}
           loadTransactions={this.loadTransactions}
+          stickyTitle={
+            <div className="sticky-title">
+              <span className="sticky-title__wallet-name">Trading Wallet</span>
+            </div>
+          }
         />
       </div>
     );

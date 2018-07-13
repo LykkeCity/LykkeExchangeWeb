@@ -104,6 +104,16 @@ export class AssetPage extends React.Component<AssetPageProps> {
         <TransactionsTable
           transactions={this.transactionStore.assetTransactions}
           loadTransactions={this.loadTransactions}
+          stickyTitle={
+            <div className="sticky-title">
+              <h2 className="sticky-title__name">{asset.name}</h2>
+              {balance && (
+                <span className="sticky-title__amount">
+                  {asBalance(balance)} {balance.asset.name}
+                </span>
+              )}
+            </div>
+          }
         />
       </div>
     );

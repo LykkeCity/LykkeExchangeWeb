@@ -2,21 +2,21 @@
 
 .transactions {
   .filters-row {
-    background: $gray-5;
-
     @include rem(margin-top, 61px);
   }
 
   .transaction-filters {
-    @include rem(padding, 0 76px 0 100px);
+    border-bottom: 1px solid $border-alt;
+    padding-bottom: 20px;
+
+    @include rem(margin, 0 100px);
 
     &__title {
       color: $heading;
       display: inline-block;
+      line-height: 1.35;
       font-weight: $fw-semi;
-      padding: 29px 0;
-
-      @include rem(font-size, 22px);
+      @include rem(font-size, 26px);
 
       @media all and (max-width: $screen-mobile-old) {
         display: block;
@@ -24,40 +24,33 @@
     }
 
     &__item {
-      color: #636f7e;
+      color: #8c94a0;
       cursor: pointer;
       float: right;
-      font-weight: $fw-semi;
-      letter-spacing: 1.5px;
-      opacity: 0.6;
-      padding: 6px 24px;
-      text-transform: uppercase;
-      margin: 24px 0 0 6px;
+      margin: 6px 0 0 25px;
+      padding-bottom: 26px;
 
-      @include rem(font-size, 15px);
-      @include rem(padding-left, 24px);
-      @include rem(padding-right, 24px);
+      @include rem(font-size, 18px);
 
       &_active {
-        background: #0388ef;
-        border-radius: 100px;
-        color: $white;
-        opacity: 1;
+        border-bottom: 2px solid $blue;
+        border-radius: 1px;
+        color: $heading;
+        font-weight: $fw-semi;
+        margin-top: 9px;
       }
-
-      @media all and (max-width: $screen-mobile-old) {
-        margin: 0 0 29px 6px;
-      }
-    }
-
-    @media all and (max-width: $screen-tablet) {
-      @include rem(padding, 0);
     }
   }
 
   .transactions-table {
     @include rem(margin-top, 12px);
     @include rem(padding, 0 94px);
+
+    &__asset-col,
+    &__date-col,
+    &__operation-col {
+      width: 250px;
+    }
 
     tr {
       th {
@@ -218,6 +211,52 @@
 
     @media all and (max-width: $screen-tablet) {
       @include rem(padding, 0 24px 0 0);
+    }
+  }
+
+  .sticky-row {
+    background: $white;
+    position: fixed;
+    top: -160px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    z-index: 11111;
+    transition: all 0.5s;
+
+    &_active {
+      top: 0px;
+    }
+
+    @media (max-width: $screen-desktop) {
+      display: none;
+    }
+
+    .arrow-back {
+      top: 40px;
+    }
+
+    .filters-row {
+      margin-top: 0;
+
+      .transaction-filters {
+        padding-bottom: 11px;
+
+        &__item {
+          margin-top: 16px;
+
+          &_active {
+            margin-top: 19px;
+          }
+        }
+      }
+    }
+
+    .transactions-table {
+      .table-responsive {
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
     }
   }
 }

@@ -22,3 +22,13 @@
     @include rem(font-size, 30px);
   }
 }
+
+.sticky-title {
+  font-family: 'Akrobat', sans-serif;
+
+  &__wallet-name {
+    font-weight: $fw-light;
+
+    @include rem(font-size, 40px);
+  }
+}
