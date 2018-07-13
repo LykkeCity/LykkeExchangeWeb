@@ -5,6 +5,7 @@ import {RootStore} from './index';
 
 export class TransactionStore {
   @observable assetTransactions: TransactionModel[] = [];
+  @observable walletTransactions: TransactionModel[] = [];
 
   constructor(readonly rootStore: RootStore, private api: TransactionApi) {}
 
@@ -27,6 +28,44 @@ export class TransactionStore {
         ({
           Id: id,
           Amount: amount,
+          DateTime: dateTime,
+          State: state,
+          Type: type
+        }: any) => {
+          const asset = this.rootStore.assetStore.getById(assetId);
+
+          return new TransactionModel({
+            amount,
+            asset,
+            dateTime,
+            id,
+            state,
+            type
+          });
+        }
+      );
+    });
+  };
+
+  fetchWalletTransactions = async (
+    walletId: string,
+    skip: number,
+    take: number,
+    operationType?: TransactionType[]
+  ) => {
+    const response = await this.api.fetchWalletTransactions(
+      walletId,
+      skip,
+      take,
+      '',
+      operationType
+    );
+    runInAction(() => {
+      this.walletTransactions = response.map(
+        ({
+          Id: id,
+          Amount: amount,
+          Asset: assetId,
           DateTime: dateTime,
           State: state,
           Type: type
