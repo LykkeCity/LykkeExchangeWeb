@@ -11,16 +11,22 @@
   }
 
   &_confirm-disabled {
-    .btn--primary,
-    .btn--primary {
-      cursor: not-allowed;
-      background-color: #f7f8f9 !important;
-      color: $gray-dark !important;
+    .modal__actions {
+      .btn {
+        cursor: not-allowed;
+        background: #f7f8f9 !important;
+        color: $gray-dark !important;
+      }
     }
   }
 
   .checkbox__label-text {
     position: relative;
     top: -3px;
+  }
+
+  .btn {
+    color: #fff !important;
+    background: #0388ef !important;
   }
 }

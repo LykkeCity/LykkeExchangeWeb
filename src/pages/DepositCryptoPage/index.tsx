@@ -64,7 +64,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         {clientDialog && (
           <ClientDialog
             dialog={clientDialog}
-            onDialogCancel={this.handleDialogCancel}
             onDialogConfirm={this.handleDialogConfirm}
           />
         )}
@@ -200,13 +199,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     }, 2000);
   };
 
-  private handleDialogConfirm = (dialog: DialogModel) => {
-    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-      (d: DialogModel) => dialog.id !== d.id
-    );
-  };
-
-  private handleDialogCancel = async (dialog: DialogModel) => {
+  private handleDialogConfirm = async (dialog: DialogModel) => {
     if (dialog.isConfirmed) {
       const {assetId} = this.props.match.params;
       try {

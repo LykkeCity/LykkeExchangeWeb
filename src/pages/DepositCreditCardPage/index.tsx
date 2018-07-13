@@ -80,7 +80,6 @@ export class DepositCreditCardPage extends React.Component<
           {clientDialog && (
             <ClientDialog
               dialog={clientDialog}
-              onDialogCancel={this.handleDialogCancel}
               onDialogConfirm={this.handleDialogConfirm}
             />
           )}
@@ -148,12 +147,6 @@ export class DepositCreditCardPage extends React.Component<
   }
 
   private handleDialogConfirm = (dialog: DialogModel) => {
-    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-      (d: DialogModel) => dialog.id !== d.id
-    );
-  };
-
-  private handleDialogCancel = (dialog: DialogModel) => {
     if (dialog.isConfirmed) {
       this.dialogStore.submit(dialog);
       this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
