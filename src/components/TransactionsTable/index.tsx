@@ -135,20 +135,20 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                 >
                   {this.props.stickyTitle}
                 </div>
-                {transactionFilters.map(tf => (
+                {transactionFilters.map(filter => (
                   <div
                     className={classnames('transaction-filters__item', {
                       'transaction-filters__item_active': arraysEqual(
                         this.transactionsFilterValue,
-                        tf.value
+                        filter.value
                       )
                     })}
-                    key={tf.label}
+                    key={filter.label}
                     // tslint:disable-next-line:jsx-no-lambda
                     onClick={() =>
-                      this.handleTransactionsFilterChange(tf.value, true)}
+                      this.handleTransactionsFilterChange(filter.value, true)}
                   >
-                    {tf.label}
+                    {filter.label}
                   </div>
                 ))}
               </div>
