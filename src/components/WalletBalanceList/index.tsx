@@ -73,15 +73,31 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   );
 
   const depositCryptoMenuItem = (assetId: string) => (
-    <DropdownListItem key="Crypto">
-      <Link to={ROUTE_DEPOSIT_CRYPTO_TO(assetId)}>
-        <img
-          className="icon"
-          src={`${process.env
-            .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
-        />
-        Blockchain Transfer
-      </Link>
+    <DropdownListItem
+      key="Crypto"
+      className={classnames({
+        disabled: !isKycPassed
+      })}
+    >
+      {isKycPassed ? (
+        <Link to={ROUTE_DEPOSIT_CRYPTO_TO(assetId)}>
+          <img
+            className="icon"
+            src={`${process.env
+              .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
+          />
+          Blockchain Transfer
+        </Link>
+      ) : (
+        <a>
+          <img
+            className="icon"
+            src={`${process.env
+              .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
+          />
+          Blockchain Transfer
+        </a>
+      )}
     </DropdownListItem>
   );
 
@@ -134,17 +150,20 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                               ) : (
                                 b.asset.name
                               )}
-                              {isAvailableForCryptoDeposit(b.assetId) && (
-                                <span className="qr-icn">
-                                  <Link to={ROUTE_DEPOSIT_CRYPTO_TO(b.assetId)}>
-                                    <img
-                                      className="icon"
-                                      src={`${process.env
-                                        .PUBLIC_URL}/images/qr-icn.svg`}
-                                    />
-                                  </Link>
-                                </span>
-                              )}
+                              {isAvailableForCryptoDeposit(b.assetId) &&
+                                isKycPassed && (
+                                  <span className="qr-icn">
+                                    <Link
+                                      to={ROUTE_DEPOSIT_CRYPTO_TO(b.assetId)}
+                                    >
+                                      <img
+                                        className="icon"
+                                        src={`${process.env
+                                          .PUBLIC_URL}/images/qr-icn.svg`}
+                                      />
+                                    </Link>
+                                  </span>
+                                )}
                             </div>
                           </div>
                         </div>
