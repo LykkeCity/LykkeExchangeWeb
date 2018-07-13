@@ -42,7 +42,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
   @computed
   get showEmptyState() {
     return (
-      this.props.transactions.length === 0 &&
+      !this.props.transactions.length &&
       !this.areTransactionsLoading &&
       !this.hasMoreTransactions
     );
@@ -110,19 +110,20 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
               <div className="transaction-filters__title">
                 Latest Transactions
               </div>
-              {transactionFilters.map(tf => (
+              {transactionFilters.map(filter => (
                 <div
                   className={classnames('transaction-filters__item', {
                     'transaction-filters__item_active': arraysEqual(
                       this.transactionsFilterValue,
-                      tf.value
+                      filter.value
                     )
                   })}
-                  key={tf.label}
+                  key={filter.label}
                   // tslint:disable-next-line:jsx-no-lambda
-                  onClick={() => this.handleTransactionsFilterChange(tf.value)}
+                  onClick={() =>
+                    this.handleTransactionsFilterChange(filter.value)}
                 >
-                  {tf.label}
+                  {filter.label}
                 </div>
               ))}
             </div>
@@ -152,20 +153,21 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                   </thead>
                   <tbody>
                     {this.props.transactions.map(
-                      t =>
-                        t.asset && (
-                          <tr key={t.id}>
+                      transaction =>
+                        transaction.asset && (
+                          <tr key={transaction.id}>
                             <td>
                               <div className="asset-col">
                                 <img
                                   width="48"
                                   src={
-                                    t.asset.iconUrl || ASSET_DEFAULT_ICON_URL
+                                    transaction.asset.iconUrl ||
+                                    ASSET_DEFAULT_ICON_URL
                                   }
                                 />
                                 <div>
                                   <div className="asset-col__asset_name">
-                                    {t.asset.name}
+                                    {transaction.asset.name}
                                   </div>
                                   <div className="asset-col__wallet_name">
                                     Trading Wallet
@@ -178,28 +180,30 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                                 day="2-digit"
                                 month="2-digit"
                                 year="2-digit"
-                                value={t.dateTime}
-                              />, <FormattedTime value={t.dateTime} />
+                                value={transaction.dateTime}
+                              />, <FormattedTime value={transaction.dateTime} />
                             </td>
                             <td>
-                              {TransactionTypeLabel[t.type]}{' '}
-                              {TransactionStatusLabel[t.state]}
+                              {TransactionTypeLabel[transaction.type]}{' '}
+                              {TransactionStatusLabel[transaction.state]}
                             </td>
                             <td>
-                              {t.type === TransactionType.LimitOrderEvent &&
-                              t.state === TransactionStatus.Canceled ? (
+                              {transaction.type ===
+                                TransactionType.LimitOrderEvent &&
+                              transaction.state ===
+                                TransactionStatus.Canceled ? (
                                 <div className="amount-col">
                                   <NumberFormat
-                                    value={Math.abs(t.amount)}
-                                    accuracy={t.asset.accuracy}
+                                    value={Math.abs(transaction.amount)}
+                                    accuracy={transaction.asset.accuracy}
                                   />{' '}
-                                  {t.asset.name}
+                                  {transaction.asset.name}
                                 </div>
                               ) : (
                                 <ColoredAmount
-                                  value={t.amount}
-                                  accuracy={t.asset.accuracy}
-                                  assetName={t.asset.name}
+                                  value={transaction.amount}
+                                  accuracy={transaction.asset.accuracy}
+                                  assetName={transaction.asset.name}
                                 />
                               )}
                             </td>
