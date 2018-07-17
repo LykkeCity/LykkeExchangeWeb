@@ -10,6 +10,7 @@ export class DialogStore {
   constructor(readonly rootStore: RootStore, private api: DialogApi) {}
 
   fetchPendingDialogs = async () => {
+    this.pendingDialogs = [];
     const response = await this.api.fetchPendingDialogs();
     runInAction(() => {
       this.pendingDialogs = response.map(

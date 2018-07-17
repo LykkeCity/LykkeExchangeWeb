@@ -40,14 +40,13 @@ export class DepositCreditCardPage extends React.Component<
       this.depositStore.newDeposit.setWallet(wallet);
     }
 
-    this.dialogStore.pendingDialogs
-      .filter(
-        (dialog: DialogModel) =>
-          dialog.conditionType === DialogConditionType.Predeposit
-      )
-      .forEach((dialog: DialogModel) => {
-        dialog.visible = true;
-      });
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
+    if (clientDialog) {
+      clientDialog.visible = true;
+    }
 
     this.uiStore.showDisclaimerError = false;
     window.scrollTo(0, 0);
@@ -81,6 +80,7 @@ export class DepositCreditCardPage extends React.Component<
             <ClientDialog
               dialog={clientDialog}
               onDialogConfirm={this.handleDialogConfirm}
+              onDialogCancel={this.handleDialogCancel}
             />
           )}
           <Banner
@@ -153,6 +153,12 @@ export class DepositCreditCardPage extends React.Component<
         (d: DialogModel) => dialog.id !== d.id
       );
     }
+  };
+
+  private handleDialogCancel = async (dialog: DialogModel) => {
+    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+      (d: DialogModel) => dialog.id !== d.id
+    );
   };
 
   private handleDisclaimerError = () => {

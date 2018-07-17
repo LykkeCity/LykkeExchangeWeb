@@ -14,6 +14,7 @@ import './style.css';
 export interface ClientDialogProps {
   dialog: DialogModel;
   onDialogConfirm: (dialog: DialogModel) => void;
+  onDialogCancel?: (dialog: DialogModel) => void;
 }
 
 export class ClientDialog extends React.Component<ClientDialogProps> {
@@ -28,13 +29,20 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
         className={classnames('client-dialog', {
           'client-dialog_confirm-disabled': !this.isConfirmed
         })}
-        actions={[
-          {
+        // tslint:disable-next-line:jsx-no-lambda
+        onCancel={() =>
+          this.props.onDialogCancel &&
+          this.props.onDialogCancel(this.props.dialog)}
+        actions={this.props.dialog.actions
+          .filter(
+            (action: DialogActionModel) =>
+              action.type === DialogActionType.Submit
+          )
+          .map((action: DialogActionModel) => ({
             cssClass: 'btn-primary btn-block',
             onClick: () => this.props.onDialogConfirm(this.props.dialog),
-            text: 'Accept'
-          }
-        ]}
+            text: action.text
+          }))}
         description={
           <div>
             <div dangerouslySetInnerHTML={{__html: this.props.dialog.text}} />
