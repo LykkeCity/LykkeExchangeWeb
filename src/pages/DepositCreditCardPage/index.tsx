@@ -48,14 +48,13 @@ export class DepositCreditCardPage extends React.Component<
       clientDialog.visible = true;
     }
 
-    this.dialogStore.pendingDialogs
-      .filter(
-        (dialog: DialogModel) =>
-          dialog.conditionType === DialogConditionType.Predeposit
-      )
-      .forEach((dialog: DialogModel) => {
-        dialog.visible = true;
-      });
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
+    if (clientDialog) {
+      clientDialog.visible = true;
+    }
 
     this.uiStore.showDisclaimerError = false;
     window.scrollTo(0, 0);

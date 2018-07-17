@@ -39,14 +39,13 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         this.addressLoaded = true;
       });
 
-    this.dialogStore.pendingDialogs
-      .filter(
-        (dialog: DialogModel) =>
-          dialog.conditionType === DialogConditionType.Predeposit
-      )
-      .forEach((dialog: DialogModel) => {
-        dialog.visible = true;
-      });
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
+    if (clientDialog) {
+      clientDialog.visible = true;
+    }
 
     window.scrollTo(0, 0);
   }
@@ -66,6 +65,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             dialog={clientDialog}
             onDialogCancel={this.handleDialogCancel}
             onDialogConfirm={this.handleDialogConfirm}
+            onDialogCancel={this.handleDialogCancel}
           />
         )}
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
@@ -219,6 +219,12 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         await this.assetStore.fetchAddress(assetId);
       }
     }
+  };
+
+  private handleDialogCancel = async (dialog: DialogModel) => {
+    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+      (d: DialogModel) => dialog.id !== d.id
+    );
   };
 }
 
