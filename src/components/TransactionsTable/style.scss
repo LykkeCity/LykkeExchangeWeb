@@ -209,6 +209,10 @@
       text-align: center;
     }
 
+    .spinner_container {
+      margin-bottom: 2000px;
+    }
+
     @media all and (max-width: $screen-tablet) {
       @include rem(padding, 0 24px 0 0);
     }
