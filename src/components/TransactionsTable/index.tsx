@@ -312,8 +312,9 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
     transactionType: TransactionType[],
     shouldScroll?: boolean
   ) => {
-    if (shouldScroll) {
-      window.scrollTo(0, 0);
+    if (shouldScroll && this.filtersRowElement) {
+      const filtersRowStartPosition = this.filtersRowElement.offsetTop - 170;
+      window.scrollTo(0, filtersRowStartPosition);
     }
 
     this.transactionsFilterValue = transactionType;
