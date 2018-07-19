@@ -20,7 +20,7 @@ export class HistoryPage extends React.Component<RootStoreProps> {
 
   render() {
     return (
-      <div>
+      <div className="history-page-wrapper">
         <div className="container">
           <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
           <Link to={ROUTE_WALLETS_TRADING} className="arrow-back">
@@ -38,15 +38,17 @@ export class HistoryPage extends React.Component<RootStoreProps> {
         <TransactionsTable
           transactions={this.transactionStore.walletTransactions}
           loadTransactions={this.loadTransactions}
-          stickyTitle={
-            <div className="sticky-title">
-              <span className="sticky-title__wallet-name">Trading Wallet</span>
-            </div>
-          }
+          stickyTitle={this.renderStickyTitle()}
         />
       </div>
     );
   }
+
+  private renderStickyTitle = () => (
+    <div className="sticky-title">
+      <span className="sticky-title__wallet-name">Trading Wallet</span>
+    </div>
+  );
 
   private loadTransactions = async (
     count: number,

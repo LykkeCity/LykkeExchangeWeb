@@ -24,7 +24,7 @@
     }
 
     &__item {
-      color: #8c94a0;
+      color: $gray-dark;
       cursor: pointer;
       float: right;
       margin: 6px 0 0 25px;
@@ -229,7 +229,7 @@
     transition: all 0.5s;
 
     &_active {
-      top: 0px;
+      top: 0;
     }
 
     @media (max-width: $screen-desktop) {

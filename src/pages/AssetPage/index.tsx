@@ -10,7 +10,7 @@ import {
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {AssetModel, TransactionType} from '../../models';
+import {AssetModel, BalanceModel, TransactionType} from '../../models';
 
 import './style.css';
 
@@ -37,7 +37,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const balance = wallet && wallet.balances.find(b => b.assetId === assetId);
 
     return (
-      <div>
+      <div className="asset-page-wrapper">
         <div className="container">
           <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
           <Link to={ROUTE_WALLETS_TRADING} className="arrow-back">
@@ -104,20 +104,22 @@ export class AssetPage extends React.Component<AssetPageProps> {
         <TransactionsTable
           transactions={this.transactionStore.assetTransactions}
           loadTransactions={this.loadTransactions}
-          stickyTitle={
-            <div className="sticky-title">
-              <h2 className="sticky-title__name">{asset.name}</h2>
-              {balance && (
-                <span className="sticky-title__amount">
-                  {asBalance(balance)} {balance.asset.name}
-                </span>
-              )}
-            </div>
-          }
+          stickyTitle={this.renderStickyTitle(balance)}
         />
       </div>
     );
   }
+
+  private renderStickyTitle = (balance?: BalanceModel) => (
+    <div className="sticky-title">
+      <h2 className="sticky-title__name">{balance && balance.asset.name}</h2>
+      {balance && (
+        <span className="sticky-title__amount">
+          {asBalance(balance)} {balance.asset.name}
+        </span>
+      )}
+    </div>
+  );
 
   private loadTransactions = async (
     count: number,

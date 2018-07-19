@@ -313,7 +313,9 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
     shouldScroll?: boolean
   ) => {
     if (shouldScroll && this.filtersRowElement) {
-      const filtersRowStartPosition = this.filtersRowElement.offsetTop - 170;
+      const FILTER_ROW_TOP_OFFSET = 170;
+      const filtersRowStartPosition =
+        this.filtersRowElement.offsetTop - FILTER_ROW_TOP_OFFSET;
       window.scrollTo(0, filtersRowStartPosition);
     }
 
@@ -333,8 +335,9 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
 
   private handleScroll = () => {
     if (this.filtersRowElement) {
+      const STICKY_HEADER_TOP_OFFSET = 30;
       const stickyHeaderBreakpointPosition =
-        this.filtersRowElement.offsetTop - 30;
+        this.filtersRowElement.offsetTop - STICKY_HEADER_TOP_OFFSET;
 
       this.showStickyHeader =
         window.pageYOffset >= stickyHeaderBreakpointPosition &&

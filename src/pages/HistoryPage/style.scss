@@ -23,12 +23,14 @@
   }
 }
 
-.sticky-title {
-  font-family: 'Akrobat', sans-serif;
+.history-page-wrapper {
+  .sticky-title {
+    font-family: 'Akrobat', sans-serif;
 
-  &__wallet-name {
-    font-weight: $fw-light;
+    &__wallet-name {
+      font-weight: $fw-light;
 
-    @include rem(font-size, 40px);
+      @include rem(font-size, 40px);
+    }
   }
 }
