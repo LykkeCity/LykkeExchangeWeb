@@ -64,3 +64,21 @@
     }
   }
 }
+
+.asset-page-wrapper {
+  .sticky-title {
+    cursor: pointer;
+    font-family: 'Akrobat', sans-serif;
+
+    &__name {
+      display: inline;
+    }
+
+    &__amount {
+      margin-left: 10px;
+      font-weight: $fw-light;
+
+      @include rem(font-size, 40px);
+    }
+  }
+}
