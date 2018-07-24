@@ -14,13 +14,15 @@ import {RouteComponentProps} from 'react-router-dom';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
+import ClientDialog from '../../components/ClientDialog';
 import WalletTabs from '../../components/WalletTabs/index';
 import {
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {DepositSwiftModel} from '../../models';
+import {DepositSwiftModel, DialogModel} from '../../models';
+import {DialogConditionType} from '../../models/dialogModel';
 
 import './style.css';
 
@@ -31,10 +33,19 @@ interface DepositSwiftPageProps
 export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly depositStore = this.props.rootStore!.depositStore;
+  readonly dialogStore = this.props.rootStore!.dialogStore;
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
     this.depositStore.fetchSwiftRequisites(assetId);
+
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
+    if (clientDialog) {
+      clientDialog.visible = true;
+    }
 
     window.scrollTo(0, 0);
   }
@@ -46,6 +57,10 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
     const onSubmitSuccess = () => {
       this.props.history.replace(ROUTE_DEPOSIT_SWIFT_EMAIL_SENT);
     };
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
 
     const requiredErrorMessage = (fieldName: string) =>
       `Field ${fieldName} should not be empty`;
@@ -53,6 +68,13 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
     return (
       <div>
         <div className="container">
+          {clientDialog && (
+            <ClientDialog
+              dialog={clientDialog}
+              onDialogConfirm={this.handleDialogConfirm}
+              onDialogCancel={this.handleDialogCancel}
+            />
+          )}
           <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
           <div className="deposit-swift">
             <div className="deposit-swift__title">
@@ -64,20 +86,9 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
               use the following bank account details.
             </div>
             <Formik
-              initialValues={{
-                accountName: 'Lykke Corp UK Limited',
-                accountNumber: 'LI44 0880 1201 4601 0833 3',
-                bankAddress:
-                  'Bank Alpinum ⋅ Austrasse 59 ⋅ Postfach 1528 ⋅ 9490 Vaduz ⋅ Liechtenstein',
-                bic: '12345667890',
-                companyAddress:
-                  'Lykke Corp UK Limited · Paul Street 86-90 · London EC2A 4NE · United Kingdom',
-                correspondentAccount: 'correspondentAccount',
-                purposeOfPayment:
-                  'Lykke Shares (coins) purchase USD valery.grebenev.lykke.com'
-              }}
-              // initialValues={this.depositStore.swiftRequisites}
+              initialValues={this.depositStore.swiftRequisites}
               validationSchema={Yup.object().shape({
+                accountNumber: Yup.string().required(),
                 amount: Yup.number()
                   .moreThan(0, requiredErrorMessage('Amount'))
                   .required(requiredErrorMessage('Amount'))
@@ -162,20 +173,13 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                     </a>
                   </div>
 
-                  <div
-                    className={classnames('deposit-swift-form__actions', {
-                      'has-error': formikBag.status
-                    })}
-                  >
+                  <div className="deposit-swift-form__actions">
                     <input
                       type="submit"
                       value="Send to email"
                       className="btn btn--primary"
                       disabled={formikBag.isSubmitting || !formikBag.isValid}
                     />
-                    {!!formikBag.status && (
-                      <div className="help-block">{formikBag.status}</div>
-                    )}
                     <a
                       href="#"
                       onClick={this.props.history.goBack}
@@ -214,9 +218,10 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                     <i className="icon icon--copy_thin" />
                   </button>
                 </CopyToClipboard>
-                {form.status === field.value && (
-                  <small className="copy-to-clipboard-message">Copied!</small>
-                )}
+                {field.value &&
+                  form.status === field.value && (
+                    <small className="copy-to-clipboard-message">Copied!</small>
+                  )}
               </div>
             </div>
           )}
@@ -235,6 +240,26 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
         setStatus('');
       }, 2000);
     }
+  };
+
+  private handleDialogConfirm = async (dialog: DialogModel) => {
+    if (dialog.isConfirmed) {
+      const {assetId} = this.props.match.params;
+      try {
+        await this.dialogStore.submit(dialog);
+      } finally {
+        this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+          (d: DialogModel) => dialog.id !== d.id
+        );
+        await this.depositStore.fetchSwiftRequisites(assetId);
+      }
+    }
+  };
+
+  private handleDialogCancel = async (dialog: DialogModel) => {
+    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
+      (d: DialogModel) => dialog.id !== d.id
+    );
   };
 }
 
