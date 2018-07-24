@@ -10,7 +10,11 @@ import {loadable} from '../../components/hoc/loadable';
 import {NoMatch} from '../../components/NoMatch/index';
 import PaymentGateway from '../../components/PaymentGateway';
 
-import {DepositFail, DepositSuccess} from '../../components/DepositResult';
+import {
+  DepositFail,
+  DepositRequisitesSent,
+  DepositSuccess
+} from '../../components/DepositResult';
 import {TransferFail} from '../../components/TransferResult/index';
 import TransferResult from '../../components/TransferResult/index';
 import {
@@ -22,6 +26,8 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
+  ROUTE_DEPOSIT_SWIFT,
+  ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_GATEWAY_FAIL,
   ROUTE_GATEWAY_SUCCESS,
   ROUTE_HISTORY,
@@ -34,7 +40,11 @@ import {
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {DepositCreditCardPage, WalletPage} from '../../pages/index';
+import {
+  DepositCreditCardPage,
+  DepositSwiftPage,
+  WalletPage
+} from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
 import HistoryPage from '../HistoryPage/index';
@@ -51,8 +61,7 @@ export class ProtectedPage extends React.Component<
   private readonly featureStore = this.props.rootStore!.featureStore;
   private unlistenRouteChange: () => void;
   private readonly catalogsStore = this.props.rootStore!.catalogsStore;
-  private readonly depositCreditCardStore = this.props.rootStore!
-    .depositCreditCardStore;
+  private readonly depositStore = this.props.rootStore!.depositStore;
 
   @computed
   private get classes() {
@@ -81,8 +90,8 @@ export class ProtectedPage extends React.Component<
       .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
-      .then(() => this.depositCreditCardStore.fetchDepositDefaultValues())
-      .then(() => this.depositCreditCardStore.fetchFee())
+      .then(() => this.depositStore.fetchDepositDefaultValues())
+      .then(() => this.depositStore.fetchFee())
       .then(() => this.uiStore.finishRequest());
 
     this.unlistenRouteChange = this.props.history.listen(() => {
@@ -147,12 +156,20 @@ export class ProtectedPage extends React.Component<
               component={DepositSuccess}
             />
             <Route
+              path={ROUTE_DEPOSIT_SWIFT_EMAIL_SENT}
+              component={DepositRequisitesSent}
+            />
+            <Route
               path={ROUTE_DEPOSIT_CREDIT_CARD_FAIL}
               component={DepositFail}
             />
             <Route
               path={ROUTE_DEPOSIT_CREDIT_CARD}
               component={asLoading(DepositCreditCardPage)}
+            />
+            <Route
+              path={ROUTE_DEPOSIT_SWIFT}
+              component={asLoading(DepositSwiftPage)}
             />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
             <Route

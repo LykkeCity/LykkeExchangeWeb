@@ -5,7 +5,8 @@ import {RootStore} from './index';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
-  @observable assetsAvailableForDeposit: AssetModel[] = [];
+  @observable assetsAvailableForCreditCardDeposit: AssetModel[] = [];
+  @observable assetsAvailableForSwiftDeposit: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
 
@@ -81,11 +82,25 @@ export class AssetStore {
     const fxpaygate = resp.PaymentMethods.find(
       (pm: any) => pm.Name === 'Fxpaygate'
     );
+    const swift = resp.PaymentMethods.find((pm: any) => pm.Name === 'Swift');
     if (fxpaygate && fxpaygate.Available) {
       runInAction(() => {
-        this.assetsAvailableForDeposit = fxpaygate.Assets.map(
-          (assetId: string) => this.getById(assetId)
-        );
+        this.assetsAvailableForCreditCardDeposit = fxpaygate.Assets
+          .map((assetId: string) => this.getById(assetId))
+          .filter((asset: any) => asset)
+          .sort((a1: AssetModel, a2: AssetModel) =>
+            a1.name.localeCompare(a2.name)
+          );
+      });
+    }
+    if (swift && swift.Available) {
+      runInAction(() => {
+        this.assetsAvailableForSwiftDeposit = swift.Assets
+          .map((assetId: string) => this.getById(assetId))
+          .filter((asset: any) => asset)
+          .sort((a1: AssetModel, a2: AssetModel) =>
+            a1.name.localeCompare(a2.name)
+          );
       });
     }
   };

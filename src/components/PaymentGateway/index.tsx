@@ -16,8 +16,7 @@ export interface PaymentGatewayProps
     RouteComponentProps<any> {}
 
 export class PaymentGateway extends React.Component<PaymentGatewayProps> {
-  readonly depositCreditCardStore = this.props.rootStore!
-    .depositCreditCardStore;
+  readonly depositStore = this.props.rootStore!.depositStore;
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -28,7 +27,7 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
       <div className="payment-gateway">
         <iframe
           onLoad={this.handleIframeLoaded}
-          src={this.depositCreditCardStore.gatewayUrls.paymentUrl}
+          src={this.depositStore.gatewayUrls.paymentUrl}
         />
       </div>
     );
@@ -38,11 +37,10 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
     try {
       const currentUrl = e.currentTarget.contentWindow.location.href;
       const redirectUrls = {
-        [this.depositCreditCardStore.gatewayUrls
+        [this.depositStore.gatewayUrls
           .okUrl]: ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
-        [this.depositCreditCardStore.gatewayUrls
-          .failUrl]: ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
-        [this.depositCreditCardStore.gatewayUrls.cancelUrl]: ROUTE_WALLETS
+        [this.depositStore.gatewayUrls.failUrl]: ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
+        [this.depositStore.gatewayUrls.cancelUrl]: ROUTE_WALLETS
       };
       const redirectUrl = redirectUrls[currentUrl];
 

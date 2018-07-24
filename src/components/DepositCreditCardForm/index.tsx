@@ -36,11 +36,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
 }) => {
   const {
     catalogsStore: {countries},
-    depositCreditCardStore: {
-      fetchBankCardPaymentUrl,
-      newDeposit: deposit,
-      feePercentage
-    }
+    depositStore: {fetchBankCardPaymentUrl, newDeposit: deposit, feePercentage}
   } = rootStore!;
   const countryOptions = countries.map(c => ({
     label: c.name,

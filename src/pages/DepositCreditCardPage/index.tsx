@@ -21,8 +21,7 @@ export class DepositCreditCardPage extends React.Component<
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly profileStore = this.props.rootStore!.profileStore;
-  readonly depositCreditCardStore = this.props.rootStore!
-    .depositCreditCardStore;
+  readonly depositStore = this.props.rootStore!.depositStore;
   readonly uiStore = this.props.rootStore!.uiStore;
 
   componentDidMount() {
@@ -32,10 +31,10 @@ export class DepositCreditCardPage extends React.Component<
     const asset = this.assetStore.getById(assetId || baseAsset);
 
     if (!!asset) {
-      this.depositCreditCardStore.newDeposit.setAsset(asset);
+      this.depositStore.newDeposit.setAsset(asset);
     }
     if (!!wallet) {
-      this.depositCreditCardStore.newDeposit.setWallet(wallet);
+      this.depositStore.newDeposit.setWallet(wallet);
     }
 
     this.uiStore.showDisclaimerError = false;
@@ -43,7 +42,7 @@ export class DepositCreditCardPage extends React.Component<
   }
 
   render() {
-    const asset = this.depositCreditCardStore.newDeposit.asset;
+    const asset = this.depositStore.newDeposit.asset;
     const cardIcons = [
       'visa.svg',
       'visa-electron.svg',
@@ -131,7 +130,7 @@ export class DepositCreditCardPage extends React.Component<
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {
-    this.depositCreditCardStore.setGatewayUrls(gatewayUrls);
+    this.depositStore.setGatewayUrls(gatewayUrls);
     this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY);
   };
 }

@@ -5,28 +5,17 @@ import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
 
-export class DepositSuccess extends React.Component<
+export class DepositRequisitesSent extends React.Component<
   RootStoreProps & RouteComponentProps<any>
 > {
-  private readonly depositStore = this.props.rootStore!.depositStore;
-  private readonly uiStore = this.props.rootStore!.uiStore;
-  private readonly walletStore = this.props.rootStore!.walletStore;
-
   componentDidMount() {
     window.scrollTo(0, 0);
-
-    this.uiStore.startRequest();
-    this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
   }
 
   render() {
-    const amount = Number(this.depositStore.newDeposit.amount);
-    const {asset} = this.depositStore.newDeposit;
-
     return (
       <div className="deposit-result">
         <Icon
@@ -34,14 +23,8 @@ export class DepositSuccess extends React.Component<
           type="check_circle"
         />
         <div className="deposit-result__desc">
-          Your deposit request has been successfully sent
+          Bank account details have been sent to your email
         </div>
-        {asset && (
-          <div className="deposit-result__amount">
-            <NumberFormat value={amount} accuracy={asset.accuracy} />{' '}
-            {asset.name}
-          </div>
-        )}
         <div className="deposit-result__button">
           <Link to={ROUTE_WALLETS} className="btn btn--primary">
             Go back to wallets
@@ -52,4 +35,4 @@ export class DepositSuccess extends React.Component<
   }
 }
 
-export default inject(STORE_ROOT)(observer(DepositSuccess));
+export default inject(STORE_ROOT)(observer(DepositRequisitesSent));

@@ -50,6 +50,8 @@
       }
 
       &__item {
+        margin-bottom: 10px;
+
         a {
           color: $text;
           line-height: 1.5;
@@ -58,6 +60,11 @@
             margin-right: 10px;
             position: relative;
             bottom: 2px;
+          }
+
+          &.disabled {
+            cursor: not-allowed;
+            color: $gray-dark;
           }
         }
       }
