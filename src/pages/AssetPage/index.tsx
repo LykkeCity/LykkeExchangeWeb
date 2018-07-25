@@ -29,11 +29,6 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly profileStore = this.props.rootStore!.profileStore;
 
   @computed
-  get showLoadMoreButton() {
-    return this.hasMoreTransactions && !this.areTransactionsLoading;
-  }
-
-  @computed
   get isAvailableForCreditCardDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForCreditCardDeposit.find(
@@ -57,24 +52,8 @@ export class AssetPage extends React.Component<AssetPageProps> {
     );
   }
 
-  constructor(props: any) {
-    super(props);
-
-    reaction(
-      () => ({
-        page: this.pageNumber,
-        transactionsLength: this.transactionStore.assetTransactions.length
-      }),
-      params => {
-        this.hasMoreTransactions =
-          params.transactionsLength === params.page * PAGE_SIZE;
-      }
-    );
-  }
-
   componentDidMount() {
     const {assetId} = this.props.match.params;
-    this.loadTransactions();
     this.assetStore.fetchAddress(assetId);
 
     window.scrollTo(0, 0);
@@ -136,6 +115,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
             </div>
             <div className="asset-page__actions">
               {(this.isAvailableForCreditCardDeposit ||
+                this.isAvailableForCryptoDeposit ||
                 this.isAvailableForSwiftDeposit) && (
                 <ul className="action-list">
                   <li className="action-list__title">Deposit</li>

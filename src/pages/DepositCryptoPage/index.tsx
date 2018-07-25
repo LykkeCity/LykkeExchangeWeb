@@ -65,7 +65,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             dialog={clientDialog}
             onDialogCancel={this.handleDialogCancel}
             onDialogConfirm={this.handleDialogConfirm}
-            onDialogCancel={this.handleDialogCancel}
           />
         )}
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
@@ -204,21 +203,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
       (d: DialogModel) => dialog.id !== d.id
     );
-  };
-
-  private handleDialogCancel = async (dialog: DialogModel) => {
-    if (dialog.isConfirmed) {
-      const {assetId} = this.props.match.params;
-      try {
-        await this.dialogStore.submit(dialog);
-      } finally {
-        this.addressLoaded = false;
-        this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-          (d: DialogModel) => dialog.id !== d.id
-        );
-        await this.assetStore.fetchAddress(assetId);
-      }
-    }
   };
 
   private handleDialogCancel = async (dialog: DialogModel) => {
