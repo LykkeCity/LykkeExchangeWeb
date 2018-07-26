@@ -87,6 +87,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
             </div>
             <Formik
               initialValues={this.depositStore.swiftRequisites}
+              enableReinitialize
               validationSchema={Yup.object().shape({
                 accountNumber: Yup.string().required(),
                 amount: Yup.number()

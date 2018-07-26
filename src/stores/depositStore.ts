@@ -84,6 +84,7 @@ export class DepositStore {
   };
 
   fetchSwiftRequisites = async (assetId: string) => {
+    this.swiftRequisites = new DepositSwiftModel({});
     const response = await this.api!.fetchSwiftRequisites(assetId);
 
     if (response) {
