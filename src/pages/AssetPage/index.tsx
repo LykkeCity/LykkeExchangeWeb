@@ -74,55 +74,19 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 <ul className="action-list">
                   <li className="action-list__title">Deposit</li>
                   {this.isAvailableForCreditCardDeposit &&
-                    (this.profileStore.isKycPassed ? (
-                      <li className="action-list__item">
-                        <Link
-                          to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id)}
-                        >
-                          <img
-                            className="icon"
-                            src={`${process.env
-                              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                          />
-                          Credit card
-                        </Link>
-                      </li>
-                    ) : (
-                      <li className="action-list__item">
-                        <a className="disabled">
-                          <img
-                            className="icon"
-                            src={`${process.env
-                              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                          />
-                          Credit card
-                        </a>
-                      </li>
-                    ))}
+                    this.renderDepositMenuItem(
+                      ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                      'Credit Card'
+                    )}
                   {this.isAvailableForSwiftDeposit &&
-                    (this.profileStore.isKycPassed ? (
-                      <li className="action-list__item">
-                        <Link to={ROUTE_DEPOSIT_SWIFT_TO(asset.id)}>
-                          <img
-                            className="icon"
-                            src={`${process.env
-                              .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`}
-                          />
-                          SWIFT
-                        </Link>
-                      </li>
-                    ) : (
-                      <li className="action-list__item">
-                        <a className="disabled">
-                          <img
-                            className="icon"
-                            src={`${process.env
-                              .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`}
-                          />
-                          SWIFT
-                        </a>
-                      </li>
-                    ))}
+                    this.renderDepositMenuItem(
+                      ROUTE_DEPOSIT_SWIFT_TO(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                      'SWIFT'
+                    )}
                 </ul>
               )}
               <ul className="action-list">
@@ -160,6 +124,27 @@ export class AssetPage extends React.Component<AssetPageProps> {
       )}
     </div>
   );
+
+  private renderDepositMenuItem = (
+    route: string,
+    iconUrl: string,
+    label: string
+  ) =>
+    this.profileStore.isKycPassed ? (
+      <li className="action-list__item">
+        <Link to={route}>
+          <img className="icon" src={iconUrl} />
+          {label}
+        </Link>
+      </li>
+    ) : (
+      <li className="action-list__item">
+        <a className="disabled">
+          <img className="icon" src={iconUrl} />
+          {label}
+        </a>
+      </li>
+    );
 
   private loadTransactions = async (
     count: number,

@@ -42,59 +42,26 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   const isAvailableForSwiftDeposit = (assetId: string) =>
     assetsAvailableForSwiftDeposit.find(asset => asset.id === assetId);
 
-  const depositCreditCardMenuItem = (assetId: string) => (
+  const renderDepositMenuItem = (
+    label: string,
+    route: string,
+    iconUrl: string
+  ) => (
     <DropdownListItem
-      key="Credit Card"
+      key={label}
       className={classnames({
         disabled: !isKycPassed
       })}
     >
       {isKycPassed ? (
-        <Link to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)}>
-          <img
-            className="icon"
-            src={`${process.env
-              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-          />
-          Credit Card
+        <Link to={route}>
+          <img className="icon" src={iconUrl} />
+          {label}
         </Link>
       ) : (
         <a>
-          <img
-            className="icon"
-            src={`${process.env
-              .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-          />
-          Credit Card
-        </a>
-      )}
-    </DropdownListItem>
-  );
-
-  const depositSwiftMenuItem = (assetId: string) => (
-    <DropdownListItem
-      key="Swift"
-      className={classnames({
-        disabled: !isKycPassed
-      })}
-    >
-      {isKycPassed ? (
-        <Link to={ROUTE_DEPOSIT_SWIFT_TO(assetId)}>
-          <img
-            className="icon"
-            src={`${process.env
-              .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`}
-          />
-          SWIFT
-        </Link>
-      ) : (
-        <a>
-          <img
-            className="icon"
-            src={`${process.env
-              .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`}
-          />
-          SWIFT
+          <img className="icon" src={iconUrl} />
+          {label}
         </a>
       )}
     </DropdownListItem>
@@ -188,9 +155,23 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                     </DropdownListItem>,
                                     isAvailableForCreditCardDeposit(
                                       b.assetId
-                                    ) && depositCreditCardMenuItem(b.assetId),
+                                    ) &&
+                                      renderDepositMenuItem(
+                                        'Credit Card',
+                                        ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                          wallet.id,
+                                          b.assetId
+                                        ),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`
+                                      ),
                                     isAvailableForSwiftDeposit(b.assetId) &&
-                                      depositSwiftMenuItem(b.assetId)
+                                      renderDepositMenuItem(
+                                        'SWIFT',
+                                        ROUTE_DEPOSIT_SWIFT_TO(b.assetId),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`
+                                      )
                                   ]
                                 ) : (
                                   <DropdownListItem>

@@ -1,12 +1,5 @@
 import * as classnames from 'classnames';
-import {
-  Field,
-  FieldProps,
-  Form,
-  Formik,
-  FormikActions,
-  FormikProps
-} from 'formik';
+import {Field, FieldProps, Form, Formik, FormikProps} from 'formik';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
@@ -95,14 +88,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                   .required(requiredErrorMessage('Amount'))
               })}
               // tslint:disable-next-line:jsx-no-lambda
-              onSubmit={async (
-                values: DepositSwiftModel,
-                {
-                  setErrors,
-                  setStatus,
-                  setSubmitting
-                }: FormikActions<DepositSwiftModel>
-              ) => {
+              onSubmit={async (values: DepositSwiftModel) => {
                 await sendSwiftRequisites(assetId, values.amount);
                 onSubmitSuccess();
               }}

@@ -35,8 +35,8 @@ export class DialogModel {
       .every((action: DialogActionModel) => !!action.done);
   }
 
-  constructor(transaction?: Partial<DialogModel>) {
-    Object.assign(this, transaction);
+  constructor(dialog?: Partial<DialogModel>) {
+    Object.assign(this, dialog);
   }
 }
 

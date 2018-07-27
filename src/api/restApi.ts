@@ -14,6 +14,7 @@ export class RestApi {
   protected getWithQuery = this._getWithQuery(() => this.apiBearerWretch());
   protected getRes = this._getRes(() => this.apiBearerWretch());
   protected post = this._post(() => this.apiBearerWretch());
+  protected postRes = this._postRes(() => this.apiBearerWretch());
   protected put = this._put(() => this.apiBearerWretch());
 
   constructor(protected rootStore: RootStore) {}
@@ -78,6 +79,23 @@ export class RestApi {
         .post()
         .unauthorized(cb)
         .json();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _postRes(wretcher: () => Wretcher) {
+    return (
+      url: string,
+      payload: any,
+      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
+      wretcher()
+        .url(url)
+        .json(payload)
+        .post()
+        .unauthorized(cb)
+        // tslint:disable-next-line:no-empty
+        .notFound(() => {})
+        .res();
   }
 
   // tslint:disable-next-line:variable-name

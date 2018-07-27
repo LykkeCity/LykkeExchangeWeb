@@ -24,12 +24,7 @@ export class RestDepositApi extends RestApi implements DepositApi {
     this.get(`/deposits/swift/${assetId}/requisites`);
 
   sendSwiftRequisites = (assetId: string, amount: number) =>
-    this.apiBearerWretch()
-      .url(`/deposits/swift/${assetId}/email`)
-      .json({amount})
-      .post()
-      .unauthorized(this.rootStore.authStore.redirectToAuthServer)
-      .res();
+    this.postRes(`/deposits/swift/${assetId}/email`, {amount});
 }
 
 export default RestDepositApi;

@@ -8,8 +8,8 @@ export class DepositSwiftModel {
   correspondentAccount: string;
   purposeOfPayment: string;
 
-  constructor(asset: Partial<DepositSwiftModel>) {
-    Object.assign(this, asset);
+  constructor(depositSwift?: Partial<DepositSwiftModel>) {
+    Object.assign(this, depositSwift);
   }
 }
 

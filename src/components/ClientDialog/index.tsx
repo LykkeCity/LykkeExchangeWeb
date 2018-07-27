@@ -24,7 +24,6 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
     return (
       <Dialog
         visible={this.props.dialog.visible}
-        key={this.props.dialog.id}
         title={this.props.dialog.header}
         className={classnames('client-dialog', {
           'client-dialog_confirm-disabled': !this.isConfirmed
@@ -48,35 +47,33 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
             <div dangerouslySetInnerHTML={{__html: this.props.dialog.text}} />
             {this.props.dialog.actions.map(
               (action: DialogActionModel) =>
-                action.type === DialogActionType.Checkbox && (
-                  <div className="form-group">
-                    <div className="checkbox">
-                      <input
-                        type="checkbox"
-                        name="checkbox1"
-                        id="checkbox12"
-                        className="radio__control"
-                        checked={action.done}
-                        // tslint:disable-next-line:jsx-no-lambda
-                        onChange={() => this.handleCheckboxChange(action)}
-                      />
-                      <label
-                        htmlFor="checkbox12"
-                        className="control-label checkbox__label"
-                      >
-                        <span className="checkbox__label-text">
-                          {action.text}
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                )
+                action.type === DialogActionType.Checkbox &&
+                this.renderCheckboxAction(action)
             )}
           </div>
         }
       />
     );
   }
+
+  private renderCheckboxAction = (action: DialogActionModel) => (
+    <div className="form-group">
+      <div className="checkbox">
+        <input
+          type="checkbox"
+          name="checkbox1"
+          id="checkbox12"
+          className="radio__control"
+          checked={action.done}
+          // tslint:disable-next-line:jsx-no-lambda
+          onChange={() => this.handleCheckboxChange(action)}
+        />
+        <label htmlFor="checkbox12" className="control-label checkbox__label">
+          <span className="checkbox__label-text">{action.text}</span>
+        </label>
+      </div>
+    </div>
+  );
 
   private handleCheckboxChange = (action: DialogActionModel) => {
     action.done = !action.done;

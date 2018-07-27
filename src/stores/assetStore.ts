@@ -83,24 +83,24 @@ export class AssetStore {
       (pm: any) => pm.Name === 'Fxpaygate'
     );
     const swift = resp.PaymentMethods.find((pm: any) => pm.Name === 'Swift');
+    const prepareAssets = (assets: any) =>
+      assets
+        .map((assetId: string) => this.getById(assetId))
+        .filter((asset: any) => asset)
+        .sort((a1: AssetModel, a2: AssetModel) =>
+          a1.name.localeCompare(a2.name)
+        );
+
     if (fxpaygate && fxpaygate.Available) {
       runInAction(() => {
-        this.assetsAvailableForCreditCardDeposit = fxpaygate.Assets
-          .map((assetId: string) => this.getById(assetId))
-          .filter((asset: any) => asset)
-          .sort((a1: AssetModel, a2: AssetModel) =>
-            a1.name.localeCompare(a2.name)
-          );
+        this.assetsAvailableForCreditCardDeposit = prepareAssets(
+          fxpaygate.Assets
+        );
       });
     }
     if (swift && swift.Available) {
       runInAction(() => {
-        this.assetsAvailableForSwiftDeposit = swift.Assets
-          .map((assetId: string) => this.getById(assetId))
-          .filter((asset: any) => asset)
-          .sort((a1: AssetModel, a2: AssetModel) =>
-            a1.name.localeCompare(a2.name)
-          );
+        this.assetsAvailableForSwiftDeposit = prepareAssets(swift.Assets);
       });
     }
   };

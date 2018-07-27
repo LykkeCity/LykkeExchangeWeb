@@ -47,7 +47,7 @@ export class DialogStore {
     );
 
     if (submitAction) {
-      await this.api.dialogAction(dialog.id, submitAction.id);
+      await this.api.submitDialog(dialog.id, submitAction.id);
     }
   };
 }
