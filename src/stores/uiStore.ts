@@ -19,6 +19,7 @@ export class UiStore {
   @observable showBetaBanner: boolean;
   @observable showKycBanner: boolean;
   @observable showDisclaimerError: boolean = false;
+  @observable showEthWarning: boolean = false;
   @observable transferError: string;
   @observable apiError: string;
 
@@ -48,7 +49,8 @@ export class UiStore {
       this.showConfirmRegenerateKey ||
       this.showQrWindow ||
       this.showSidebar ||
-      this.hasVisibleDialogs
+      this.hasVisibleDialogs ||
+      this.showEthWarning
     );
   }
 
@@ -114,6 +116,12 @@ export class UiStore {
     betaBannerHashes.push(getHash(this.rootStore.profileStore.email));
     betaBannerHashesStorage.set(JSON.stringify(betaBannerHashes));
     this.showBetaBanner = false;
+  };
+
+  @action
+  readonly hideModals = () => {
+    this.showConfirmRegenerateKey = false;
+    this.showEthWarning = false;
   };
 }
 

@@ -52,6 +52,13 @@ export class AssetPage extends React.Component<AssetPageProps> {
     );
   }
 
+  get isEth() {
+    const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId);
+
+    return assetId === 'ETH' || (asset && asset.name === 'ETH');
+  }
+
   componentDidMount() {
     const {assetId} = this.props.match.params;
     this.assetStore.fetchAddress(assetId);
@@ -103,7 +110,8 @@ export class AssetPage extends React.Component<AssetPageProps> {
                   </div>
                 </div>
               ) : (
-                asset.address && (
+                asset.address &&
+                !this.isEth && (
                   <div className="asset-page__address">
                     <QRCode size={120} value={asset.address} />
                     <div className="asset-page__address-tip">

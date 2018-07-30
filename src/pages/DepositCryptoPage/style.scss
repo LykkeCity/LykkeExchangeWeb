@@ -86,3 +86,69 @@
     text-align: center;
   }
 }
+
+.eth-warning-modal {
+  &__icon {
+    background: $blue;
+    width: 90px;
+    height: 90px;
+    border-radius: 100px;
+    margin: 0 auto 28px;
+    padding: 15px;
+  }
+
+  &__title {
+    color: $heading;
+    font-family: 'Akrobat', sans-serif;
+    font-weight: $fw-bold;
+    line-height: 40px;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 16px;
+
+    @include rem(font-size, 30px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 30px;
+    letter-spacing: 0;
+    margin-bottom: 36px;
+
+    @include rem(font-size, 18px);
+  }
+
+  &__actions {
+    margin-bottom: 5px;
+
+    .app-link {
+      color: $heading;
+      font-weight: $fw-semi;
+      line-height: normal;
+      margin-right: 30px;
+      white-space: nowrap;
+
+      @include rem(font-size, 16px);
+
+      img {
+        bottom: 2px;
+        margin-right: 10px;
+        position: relative;
+      }
+
+      @media all and (max-width: $screen-mobile-old) {
+        display: block;
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  .modal__description {
+    margin-bottom: 34px;
+  }
+
+  .modal__content {
+    width: 470px;
+  }
+}
