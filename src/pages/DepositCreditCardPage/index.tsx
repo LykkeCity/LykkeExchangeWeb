@@ -149,16 +149,12 @@ export class DepositCreditCardPage extends React.Component<
   private handleDialogConfirm = (dialog: DialogModel) => {
     if (dialog.isConfirmed) {
       this.dialogStore.submit(dialog);
-      this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-        (d: DialogModel) => dialog.id !== d.id
-      );
+      this.dialogStore.removeDialog(dialog);
     }
   };
 
   private handleDialogCancel = async (dialog: DialogModel) => {
-    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-      (d: DialogModel) => dialog.id !== d.id
-    );
+    this.dialogStore.removeDialog(dialog);
   };
 
   private handleDisclaimerError = () => {

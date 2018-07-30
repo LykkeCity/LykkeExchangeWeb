@@ -21,6 +21,16 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
   @observable private isConfirmed = this.props.dialog.isConfirmed;
 
   render() {
+    const dialogActions = this.props.dialog.actions
+      .filter(
+        (action: DialogActionModel) => action.type === DialogActionType.Submit
+      )
+      .map((action: DialogActionModel) => ({
+        cssClass: 'btn-primary btn-block',
+        onClick: () => this.props.onDialogConfirm(this.props.dialog),
+        text: action.text
+      }));
+
     return (
       <Dialog
         visible={this.props.dialog.visible}
@@ -32,37 +42,28 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
         onCancel={() =>
           this.props.onDialogCancel &&
           this.props.onDialogCancel(this.props.dialog)}
-        actions={this.props.dialog.actions
-          .filter(
-            (action: DialogActionModel) =>
-              action.type === DialogActionType.Submit
-          )
-          .map((action: DialogActionModel) => ({
-            cssClass: 'btn-primary btn-block',
-            onClick: () => this.props.onDialogConfirm(this.props.dialog),
-            text: action.text
-          }))}
-        description={
-          <div>
-            <div dangerouslySetInnerHTML={{__html: this.props.dialog.text}} />
-            {this.props.dialog.actions.map(
-              (action: DialogActionModel) =>
-                action.type === DialogActionType.Checkbox &&
-                this.renderCheckboxAction(action)
-            )}
-          </div>
-        }
+        actions={dialogActions}
+        description={this.renderDescription()}
       />
     );
   }
+
+  private renderDescription = () => (
+    <div>
+      <div dangerouslySetInnerHTML={{__html: this.props.dialog.text}} />
+      {this.props.dialog.actions.map(
+        (action: DialogActionModel) =>
+          action.type === DialogActionType.Checkbox &&
+          this.renderCheckboxAction(action)
+      )}
+    </div>
+  );
 
   private renderCheckboxAction = (action: DialogActionModel) => (
     <div className="form-group">
       <div className="checkbox">
         <input
           type="checkbox"
-          name="checkbox1"
-          id="checkbox12"
           className="radio__control"
           checked={action.done}
           // tslint:disable-next-line:jsx-no-lambda

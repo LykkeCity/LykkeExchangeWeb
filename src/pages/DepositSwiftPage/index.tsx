@@ -92,97 +92,98 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                 await sendSwiftRequisites(assetId, values.amount);
                 onSubmitSuccess();
               }}
-              // tslint:disable-next-line:jsx-no-lambda
-              render={(formikBag: FormikProps<DepositSwiftModel>) => (
-                <Form className="deposit-swift-form">
-                  <div className="separator" />
-                  <Field
-                    name="amount"
-                    render={({field, form}: FieldProps<DepositSwiftModel>) => (
-                      <div
-                        className={classnames('form-group inline-form', {
-                          'has-error': form.errors[field.name]
-                        })}
-                      >
-                        <div className="row">
-                          <div className="col-sm-4">
-                            <label
-                              htmlFor={field.name}
-                              className="control-label"
-                            >
-                              Amount
-                            </label>
-                          </div>
-                          <div className="col-sm-8">
-                            <div className="input-group">
-                              <div className="input-group-addon addon-text">
-                                {asset && asset.name}
-                              </div>
-                              <div className="error-bar" />
-                              <AmountInput
-                                onChange={field.onChange}
-                                value={field.value || ''}
-                                name={field.name}
-                                decimalLimit={asset && asset.accuracy}
-                              />
-                              {form.errors[field.name] && (
-                                <span className="help-block">
-                                  {form.errors[field.name]}
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  />
-
-                  <div className="requisites">
-                    {this.renderField('accountNumber', 'Account number')}
-                    {this.renderField('accountName', 'Account name')}
-                    {this.renderField('bankAddress', 'Bank address')}
-                    {this.renderField('companyAddress', 'Company Address')}
-                    {this.renderField('purposeOfPayment', 'Purpose of Payment')}
-                    {this.renderField('bic', 'BIC')}
-                    {this.renderField(
-                      'correspondentAccount',
-                      'Correspondent Account'
-                    )}
-                  </div>
-
-                  <div className="deposit-swift-form__links">
-                    <a
-                      className="link"
-                      href="https://www.lykke.com/terms_of_use"
-                      target="_blank"
-                    >
-                      Terms of Use
-                    </a>
-                  </div>
-
-                  <div className="deposit-swift-form__actions">
-                    <input
-                      type="submit"
-                      value="Send to email"
-                      className="btn btn--primary"
-                      disabled={formikBag.isSubmitting || !formikBag.isValid}
-                    />
-                    <a
-                      href="#"
-                      onClick={this.props.history.goBack}
-                      className="btn btn--flat"
-                    >
-                      Cancel and go back
-                    </a>
-                  </div>
-                </Form>
-              )}
+              render={this.renderForm}
             />
           </div>
         </div>
       </div>
     );
   }
+
+  private renderForm = (formikBag: FormikProps<DepositSwiftModel>) => {
+    const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId);
+
+    return (
+      <Form className="deposit-swift-form">
+        <div className="separator" />
+        <Field
+          name="amount"
+          // tslint:disable-next-line:jsx-no-lambda
+          render={({field, form}: FieldProps<DepositSwiftModel>) => (
+            <div
+              className={classnames('form-group inline-form', {
+                'has-error': form.errors[field.name]
+              })}
+            >
+              <div className="row">
+                <div className="col-sm-4">
+                  <label htmlFor={field.name} className="control-label">
+                    Amount
+                  </label>
+                </div>
+                <div className="col-sm-8">
+                  <div className="input-group">
+                    <div className="input-group-addon addon-text">
+                      {asset && asset.name}
+                    </div>
+                    <div className="error-bar" />
+                    <AmountInput
+                      onChange={field.onChange}
+                      value={field.value || ''}
+                      name={field.name}
+                      decimalLimit={asset && asset.accuracy}
+                    />
+                    {form.errors[field.name] && (
+                      <span className="help-block">
+                        {form.errors[field.name]}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        />
+
+        <div className="requisites">
+          {this.renderField('accountNumber', 'Account number')}
+          {this.renderField('accountName', 'Account name')}
+          {this.renderField('bankAddress', 'Bank address')}
+          {this.renderField('companyAddress', 'Company Address')}
+          {this.renderField('purposeOfPayment', 'Purpose of Payment')}
+          {this.renderField('bic', 'BIC')}
+          {this.renderField('correspondentAccount', 'Correspondent Account')}
+        </div>
+
+        <div className="deposit-swift-form__links">
+          <a
+            className="link"
+            href="https://www.lykke.com/terms_of_use"
+            target="_blank"
+          >
+            Terms of Use
+          </a>
+        </div>
+
+        <div className="deposit-swift-form__actions">
+          <input
+            type="submit"
+            value="Send to email"
+            className="btn btn--primary"
+            disabled={formikBag.isSubmitting || !formikBag.isValid}
+          />
+          <a
+            href="#"
+            onClick={this.props.history.goBack}
+            className="btn btn--flat"
+          >
+            Cancel and go back
+          </a>
+        </div>
+      </Form>
+    );
+  };
 
   private renderField = (name: string, label: string) => (
     <div className="row">
@@ -221,32 +222,32 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
     text: string,
     setStatus: (status?: any) => void
   ) => {
+    const HELPER_TEXT_TIMEOUT = 2000;
+
     if (text) {
       setStatus(text);
       setTimeout(() => {
         setStatus('');
-      }, 2000);
+      }, HELPER_TEXT_TIMEOUT);
     }
   };
 
   private handleDialogConfirm = async (dialog: DialogModel) => {
-    if (dialog.isConfirmed) {
-      const {assetId} = this.props.match.params;
-      try {
-        await this.dialogStore.submit(dialog);
-      } finally {
-        this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-          (d: DialogModel) => dialog.id !== d.id
-        );
-        await this.depositStore.fetchSwiftRequisites(assetId);
-      }
+    if (!dialog.isConfirmed) {
+      return;
+    }
+
+    const {assetId} = this.props.match.params;
+    try {
+      await this.dialogStore.submit(dialog);
+    } finally {
+      this.dialogStore.removeDialog(dialog);
+      await this.depositStore.fetchSwiftRequisites(assetId);
     }
   };
 
   private handleDialogCancel = async (dialog: DialogModel) => {
-    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-      (d: DialogModel) => dialog.id !== d.id
-    );
+    this.dialogStore.removeDialog(dialog);
   };
 }
 

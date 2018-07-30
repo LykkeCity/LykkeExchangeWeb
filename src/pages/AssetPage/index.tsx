@@ -28,7 +28,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   get isAvailableForCreditCardDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForCreditCardDeposit.find(
-      a => assetId === a.id
+      asset => assetId === asset.id
     );
   }
 
@@ -36,7 +36,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   get isAvailableForSwiftDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForSwiftDeposit.find(
-      a => assetId === a.id
+      asset => assetId === asset.id
     );
   }
 

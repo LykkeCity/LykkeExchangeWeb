@@ -41,6 +41,12 @@ export class DialogStore {
     });
   };
 
+  removeDialog = (dialog: DialogModel) => {
+    this.pendingDialogs = this.pendingDialogs.filter(
+      (pendingDialog: DialogModel) => dialog.id !== pendingDialog.id
+    );
+  };
+
   submit = async (dialog: DialogModel) => {
     const submitAction = dialog.actions.find(
       action => action.type === DialogActionType.Submit
