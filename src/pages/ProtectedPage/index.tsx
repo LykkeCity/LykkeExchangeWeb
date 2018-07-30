@@ -106,8 +106,7 @@ export class ProtectedPage extends React.Component<
       this.walletStore
         .fetchWallets()
         .then(() => this.dialogStore.fetchPendingDialogs())
-        .then(() => this.uiStore.finishRequest())
-        .catch(() => this.uiStore.finishRequest());
+        .finally(() => this.uiStore.finishRequest());
     });
   }
 
