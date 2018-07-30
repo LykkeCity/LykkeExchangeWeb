@@ -60,16 +60,20 @@ export class ClientDialog extends React.Component<ClientDialogProps> {
   );
 
   private renderCheckboxAction = (action: DialogActionModel) => (
-    <div className="form-group">
+    <div className="form-group" key={action.text}>
       <div className="checkbox">
         <input
+          id="action-checkbox"
           type="checkbox"
           className="radio__control"
           checked={action.done}
           // tslint:disable-next-line:jsx-no-lambda
           onChange={() => this.handleCheckboxChange(action)}
         />
-        <label htmlFor="checkbox12" className="control-label checkbox__label">
+        <label
+          htmlFor="action-checkbox"
+          className="control-label checkbox__label"
+        >
           <span className="checkbox__label-text">{action.text}</span>
         </label>
       </div>
