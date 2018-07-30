@@ -93,7 +93,9 @@ export class AssetStore {
       (pm: any) => pm.Name === 'Fxpaygate'
     );
     const swift = resp.PaymentMethods.find((pm: any) => pm.Name === 'Swift');
-    const crypros = resp.PaymentMethods.find((pm: any) => pm.Name === 'Crypto');
+    const cryptos = resp.PaymentMethods.find(
+      (pm: any) => pm.Name === 'Cryptos'
+    );
     const prepareAssets = (assets: any) =>
       assets
         .map((assetId: string) => this.getById(assetId))
@@ -116,7 +118,7 @@ export class AssetStore {
     }
     if (cryptos && cryptos.Available) {
       runInAction(() => {
-        this.assetsAvailableForCryptoDeposit =  prepareAssets(crypros.Assets);
+        this.assetsAvailableForCryptoDeposit = prepareAssets(cryptos.Assets);
       });
     }
   };

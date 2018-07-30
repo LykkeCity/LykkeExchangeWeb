@@ -72,35 +72,6 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
     </DropdownListItem>
   );
 
-  const depositCryptoMenuItem = (assetId: string) => (
-    <DropdownListItem
-      key="Crypto"
-      className={classnames({
-        disabled: !isKycPassed
-      })}
-    >
-      {isKycPassed ? (
-        <Link to={ROUTE_DEPOSIT_CRYPTO_TO(assetId)}>
-          <img
-            className="icon"
-            src={`${process.env
-              .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
-          />
-          Blockchain Transfer
-        </Link>
-      ) : (
-        <a>
-          <img
-            className="icon"
-            src={`${process.env
-              .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
-          />
-          Blockchain Transfer
-        </a>
-      )}
-    </DropdownListItem>
-  );
-
   return (
     <div className="wallet__balances">
       {wallet.hasBalances || (
@@ -260,8 +231,8 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
   assetsAvailableForCreditCardDeposit:
     rootStore.assetStore.assetsAvailableForCreditCardDeposit,
-    assetsAvailableForCryptoDeposit:
-      rootStore.assetStore.assetsAvailableForCryptoDeposit,
+  assetsAvailableForCryptoDeposit:
+    rootStore.assetStore.assetsAvailableForCryptoDeposit,
   assetsAvailableForSwiftDeposit:
     rootStore.assetStore.assetsAvailableForSwiftDeposit,
   isKycPassed: rootStore.profileStore.isKycPassed
