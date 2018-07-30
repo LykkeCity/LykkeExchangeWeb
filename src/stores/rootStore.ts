@@ -4,7 +4,8 @@ import {
   AuthStore,
   BalanceStore,
   CatalogsStore,
-  DepositCreditCardStore,
+  DepositStore,
+  DialogStore,
   ProfileStore,
   TransactionStore,
   TransferStore,
@@ -16,7 +17,8 @@ import {
   AuthApi,
   BalanceApi,
   CatalogsApi,
-  DepositCreditCardApi,
+  DepositApi,
+  DialogApi,
   HistoryApi,
   ProfileApi,
   TransactionApi,
@@ -31,6 +33,7 @@ import {FeatureStore} from './featuresStore';
 export class RootStore {
   affiliateStore: AffiliateStore;
   catalogsStore: CatalogsStore;
+  dialogStore: DialogStore;
   authStore: AuthStore;
   walletStore: WalletStore;
   balanceStore: BalanceStore;
@@ -40,7 +43,7 @@ export class RootStore {
   transferStore: TransferStore;
   profileStore: ProfileStore;
   assetStore: AssetStore;
-  depositCreditCardStore: DepositCreditCardStore;
+  depositStore: DepositStore;
   marketService: any;
 
   constructor() {
@@ -57,11 +60,9 @@ export class RootStore {
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(this, new TransferApi(this));
-    this.depositCreditCardStore = new DepositCreditCardStore(
-      this,
-      new DepositCreditCardApi(this)
-    );
+    this.depositStore = new DepositStore(this, new DepositApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
+    this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.marketService = MarketService;
   }
 
@@ -75,11 +76,9 @@ export class RootStore {
       new TransactionApi(this, new HistoryApi(this))
     );
     this.transferStore = new TransferStore(this, new TransferApi(this));
-    this.depositCreditCardStore = new DepositCreditCardStore(
-      this,
-      new DepositCreditCardApi(this)
-    );
+    this.depositStore = new DepositStore(this, new DepositApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
+    this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.authStore.reset();
     this.marketService.reset();
   }

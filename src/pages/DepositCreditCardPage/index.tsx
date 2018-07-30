@@ -4,10 +4,12 @@ import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../../components/Apps';
 import {Banner} from '../../components/Banner';
+import ClientDialog from '../../components/ClientDialog';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
 import {ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {GatewayUrls} from '../../models';
+import {DialogModel, GatewayUrls} from '../../models';
+import {DialogConditionType} from '../../models/dialogModel';
 
 import './style.css';
 
@@ -21,9 +23,9 @@ export class DepositCreditCardPage extends React.Component<
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly profileStore = this.props.rootStore!.profileStore;
-  readonly depositCreditCardStore = this.props.rootStore!
-    .depositCreditCardStore;
+  readonly depositStore = this.props.rootStore!.depositStore;
   readonly uiStore = this.props.rootStore!.uiStore;
+  readonly dialogStore = this.props.rootStore!.dialogStore;
 
   componentDidMount() {
     const {walletId, assetId} = this.props.match.params;
@@ -32,10 +34,18 @@ export class DepositCreditCardPage extends React.Component<
     const asset = this.assetStore.getById(assetId || baseAsset);
 
     if (!!asset) {
-      this.depositCreditCardStore.newDeposit.setAsset(asset);
+      this.depositStore.newDeposit.setAsset(asset);
     }
     if (!!wallet) {
-      this.depositCreditCardStore.newDeposit.setWallet(wallet);
+      this.depositStore.newDeposit.setWallet(wallet);
+    }
+
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
+    if (clientDialog) {
+      clientDialog.visible = true;
     }
 
     this.uiStore.showDisclaimerError = false;
@@ -43,7 +53,7 @@ export class DepositCreditCardPage extends React.Component<
   }
 
   render() {
-    const asset = this.depositCreditCardStore.newDeposit.asset;
+    const asset = this.depositStore.newDeposit.asset;
     const cardIcons = [
       'visa.svg',
       'visa-electron.svg',
@@ -58,10 +68,21 @@ export class DepositCreditCardPage extends React.Component<
       'ideal.png',
       'giropay.svg'
     ];
+    const clientDialog = this.dialogStore.pendingDialogs.find(
+      (dialog: DialogModel) =>
+        dialog.conditionType === DialogConditionType.Predeposit
+    );
 
     return (
       <div className="container">
         <div className="deposit-credit-card">
+          {clientDialog && (
+            <ClientDialog
+              dialog={clientDialog}
+              onDialogConfirm={this.handleDialogConfirm}
+              onDialogCancel={this.handleDialogCancel}
+            />
+          )}
           <Banner
             show={this.uiStore.showDisclaimerError}
             warning
@@ -125,13 +146,24 @@ export class DepositCreditCardPage extends React.Component<
     );
   }
 
+  private handleDialogConfirm = (dialog: DialogModel) => {
+    if (dialog.isConfirmed) {
+      this.dialogStore.submit(dialog);
+      this.dialogStore.removeDialog(dialog);
+    }
+  };
+
+  private handleDialogCancel = async (dialog: DialogModel) => {
+    this.dialogStore.removeDialog(dialog);
+  };
+
   private handleDisclaimerError = () => {
     this.uiStore.showDisclaimerError = true;
     window.scrollTo(0, 0);
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {
-    this.depositCreditCardStore.setGatewayUrls(gatewayUrls);
+    this.depositStore.setGatewayUrls(gatewayUrls);
     this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY);
   };
 }

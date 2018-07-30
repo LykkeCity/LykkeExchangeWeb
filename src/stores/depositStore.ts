@@ -1,23 +1,22 @@
 import {action, observable, runInAction} from 'mobx';
 import {RootStore} from '.';
-import {DepositCreditCardApi} from '../api/depositCreditCardApi';
+import {DepositApi} from '../api/depositApi';
 import {ApiResponse} from '../api/types';
 import {
   convertFieldName,
   DepositCreditCardModel,
+  DepositSwiftModel,
   GatewayUrls
 } from '../models/index';
 
-export class DepositCreditCardStore {
+export class DepositStore {
   @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
+  @observable swiftRequisites: DepositSwiftModel;
   @observable gatewayUrls: GatewayUrls;
   @observable feePercentage: number = 0;
 
-  constructor(
-    readonly rootStore: RootStore,
-    private api?: DepositCreditCardApi
-  ) {
+  constructor(readonly rootStore: RootStore, private api?: DepositApi) {
     this.defaultDeposit = new DepositCreditCardModel();
     this.newDeposit = new DepositCreditCardModel();
     this.gatewayUrls = new GatewayUrls();
@@ -84,6 +83,27 @@ export class DepositCreditCardStore {
     }
   };
 
+  fetchSwiftRequisites = async (assetId: string) => {
+    this.swiftRequisites = new DepositSwiftModel();
+    const response = await this.api!.fetchSwiftRequisites(assetId);
+
+    if (response) {
+      this.swiftRequisites = new DepositSwiftModel({
+        accountName: response.AccountName || '',
+        accountNumber: response.AccountNumber || '',
+        bankAddress: response.BankAddress || '',
+        bic: response.Bic || '',
+        companyAddress: response.CompanyAddress || '',
+        correspondentAccount: response.CorrespondentAccount || '',
+        purposeOfPayment: response.PurposeOfPayment || ''
+      });
+    }
+  };
+
+  sendSwiftRequisites = async (assetId: string, amount: number) => {
+    await this.api!.sendSwiftRequisites(assetId, amount);
+  };
+
   fetchFee = async () => {
     const response = await this.api!.fetchFee();
 
@@ -95,4 +115,4 @@ export class DepositCreditCardStore {
   };
 }
 
-export default DepositCreditCardStore;
+export default DepositStore;

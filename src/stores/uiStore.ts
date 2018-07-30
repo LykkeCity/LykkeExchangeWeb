@@ -29,6 +29,13 @@ export class UiStore {
   }
 
   @computed
+  get hasVisibleDialogs() {
+    return this.rootStore.dialogStore.pendingDialogs.some(
+      dialog => dialog.visible
+    );
+  }
+
+  @computed
   get appLoaded() {
     return !this.hasPendingRequests && !!this.rootStore.authStore.token;
   }
@@ -40,7 +47,8 @@ export class UiStore {
       this.showEditWalletDrawer ||
       this.showConfirmRegenerateKey ||
       this.showQrWindow ||
-      this.showSidebar
+      this.showSidebar ||
+      this.hasVisibleDialogs
     );
   }
 

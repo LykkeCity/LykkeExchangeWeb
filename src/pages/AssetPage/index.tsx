@@ -1,3 +1,4 @@
+import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
@@ -7,6 +8,7 @@ import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -22,8 +24,20 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
 
-  constructor(props: any) {
-    super(props);
+  @computed
+  get isAvailableForCreditCardDeposit() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForCreditCardDeposit.find(
+      asset => assetId === asset.id
+    );
+  }
+
+  @computed
+  get isAvailableForSwiftDeposit() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForSwiftDeposit.find(
+      asset => assetId === asset.id
+    );
   }
 
   componentDidMount() {
@@ -55,34 +69,24 @@ export class AssetPage extends React.Component<AssetPageProps> {
             )}
             <div className="asset-page__description">{asset.description}</div>
             <div className="asset-page__actions">
-              {this.assetStore.assetsAvailableForDeposit.find(
-                a => asset.id === a.id
-              ) && (
+              {(this.isAvailableForCreditCardDeposit ||
+                this.isAvailableForSwiftDeposit) && (
                 <ul className="action-list">
                   <li className="action-list__title">Deposit</li>
-                  <li className="action-list__item">
-                    {this.profileStore.isKycPassed ? (
-                      <Link
-                        to={ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id)}
-                      >
-                        <img
-                          className="icon"
-                          src={`${process.env
-                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                        />
-                        Credit card
-                      </Link>
-                    ) : (
-                      <a className="disabled">
-                        <img
-                          className="icon"
-                          src={`${process.env
-                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                        />
-                        Credit card
-                      </a>
+                  {this.isAvailableForCreditCardDeposit &&
+                    this.renderDepositMenuItem(
+                      ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                      'Credit Card'
                     )}
-                  </li>
+                  {this.isAvailableForSwiftDeposit &&
+                    this.renderDepositMenuItem(
+                      ROUTE_DEPOSIT_SWIFT_TO(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                      'SWIFT'
+                    )}
                 </ul>
               )}
               <ul className="action-list">
@@ -120,6 +124,27 @@ export class AssetPage extends React.Component<AssetPageProps> {
       )}
     </div>
   );
+
+  private renderDepositMenuItem = (
+    route: string,
+    iconUrl: string,
+    label: string
+  ) =>
+    this.profileStore.isKycPassed ? (
+      <li className="action-list__item">
+        <Link to={route}>
+          <img className="icon" src={iconUrl} />
+          {label}
+        </Link>
+      </li>
+    ) : (
+      <li className="action-list__item">
+        <a className="disabled">
+          <img className="icon" src={iconUrl} />
+          {label}
+        </a>
+      </li>
+    );
 
   private loadTransactions = async (
     count: number,

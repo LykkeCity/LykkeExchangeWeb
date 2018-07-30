@@ -1,0 +1,186 @@
+@import '../../styles/utils';
+
+.deposit-swift {
+  max-width: 100%;
+  width: 570px;
+
+  @include rem(margin, 83px auto 0);
+
+  &__title {
+    color: $heading;
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 3px);
+    @include rem(margin-top, 39px);
+  }
+
+  &__subtitle {
+    color: $gray-dark;
+    font-weight: $fw-light;
+    letter-spacing: -0.3px;
+    line-height: 1.43;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include rem(font-size, 28px);
+    @include rem(margin-bottom, 27px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 1.5;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-bottom, 37px);
+  }
+
+  .deposit-swift-form {
+    .inline-form {
+      margin-bottom: 30px;
+    }
+
+    .separator {
+      border-top: 1px solid $border-alt;
+
+      @include rem(margin-bottom, 30px);
+      @include rem(margin-top, 30px);
+    }
+
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    .help-block {
+      line-height: 1.54;
+      margin-left: 0;
+
+      @include rem(font-size, 13px);
+      @include rem(margin-top, 6px);
+    }
+
+    .error-bar {
+      background-color: $red;
+      border-radius: 100px;
+      display: none;
+      height: 40px;
+      position: absolute;
+      top: 3px;
+      width: 2px;
+      z-index: 100;
+    }
+
+    label + .error-bar {
+      top: 35px;
+    }
+
+    .has-error {
+      .error-bar {
+        display: block;
+      }
+
+      .form-control {
+        border-color: $gray-25;
+
+        &:focus {
+          border-color: $gray-25;
+        }
+      }
+      .help-block {
+        color: $red;
+      }
+      .control-label {
+        color: $text;
+      }
+      .input-group-addon {
+        background-color: inherit;
+        color: inherit;
+      }
+    }
+
+    .fee-label {
+      line-height: 1.5;
+
+      @include rem(margin-top, 13px);
+    }
+
+    &__links {
+      text-align: center;
+
+      @include rem(margin-top, 61px);
+    }
+
+    &__actions {
+      text-align: center;
+
+      @include rem(margin-top, 30px);
+
+      input[type='submit'] {
+        width: 370px;
+        max-width: 100%;
+
+        @include rem(margin-bottom, 24px);
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+
+      .btn--flat {
+        padding-top: 0;
+      }
+    }
+
+    .row {
+      .deposit-swift-form__form-group {
+        display: flex;
+        justify-content: space-between;
+        padding: 13px 0;
+        position: relative;
+        border-bottom: 1px solid $border-alt;
+
+        .control-label {
+          color: $heading;
+          line-height: 1.67;
+          font-weight: $fw-semi;
+          margin-bottom: 0;
+
+          @include rem(font-size, 18px);
+        }
+
+        .value {
+          color: rgba($text, 0.6);
+          line-height: 1.5;
+        }
+
+        .btn--icon {
+          cursor: pointer;
+          position: relative;
+          top: 14px;
+          right: 10px;
+        }
+      }
+
+      &:first-child {
+        .deposit-swift-form__form-group {
+          border-top: 1px solid $border-alt;
+        }
+      }
+    }
+  }
+
+  .copy-to-clipboard-message {
+    position: absolute;
+    color: $green;
+    top: 3.5rem;
+    right: 1rem;
+  }
+}

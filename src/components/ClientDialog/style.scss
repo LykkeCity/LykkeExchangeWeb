@@ -1,0 +1,28 @@
+@import '../../styles/utils';
+
+.client-dialog {
+  .form-group {
+    margin-top: 40px;
+  }
+
+  ul {
+    list-style: initial;
+    margin-left: 20px;
+  }
+
+  &_confirm-disabled {
+    .modal__actions {
+      .btn,
+      .btn:hover {
+        cursor: not-allowed;
+        background: #f7f8f9;
+        color: $gray-dark;
+      }
+    }
+  }
+
+  .checkbox__label-text {
+    position: relative;
+    top: -3px;
+  }
+}

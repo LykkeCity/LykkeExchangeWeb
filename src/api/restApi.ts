@@ -14,6 +14,7 @@ export class RestApi {
   protected getWithQuery = this._getWithQuery(() => this.apiBearerWretch());
   protected getRes = this._getRes(() => this.apiBearerWretch());
   protected post = this._post(() => this.apiBearerWretch());
+  protected postRes = this._postRes(() => this.apiBearerWretch());
   protected put = this._put(() => this.apiBearerWretch());
 
   constructor(protected rootStore: RootStore) {}
@@ -26,12 +27,12 @@ export class RestApi {
   private _get(wretcher: () => Wretcher) {
     return (
       url: string,
-      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
     ) =>
       wretcher()
         .url(url)
         .get()
-        .unauthorized(cb)
+        .unauthorized(callback)
         .json();
   }
 
@@ -40,13 +41,13 @@ export class RestApi {
     return (
       url: string,
       query: object,
-      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
     ) =>
       wretcher()
         .url(url)
         .query(query)
         .get()
-        .unauthorized(cb)
+        .unauthorized(callback)
         .json();
   }
 
@@ -54,12 +55,12 @@ export class RestApi {
   private _getRes(wretcher: () => Wretcher) {
     return (
       url: string,
-      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
     ) =>
       wretcher()
         .url(url)
         .get()
-        .unauthorized(cb)
+        .unauthorized(callback)
         // tslint:disable-next-line:no-empty
         .notFound(() => {})
         .res();
@@ -70,14 +71,29 @@ export class RestApi {
     return (
       url: string,
       payload: any,
-      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
     ) =>
       wretcher()
         .url(url)
         .json(payload)
         .post()
-        .unauthorized(cb)
+        .unauthorized(callback)
         .json();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _postRes(wretcher: () => Wretcher) {
+    return (
+      url: string,
+      payload: any,
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
+      wretcher()
+        .url(url)
+        .json(payload)
+        .post()
+        .unauthorized(callback)
+        .res();
   }
 
   // tslint:disable-next-line:variable-name
@@ -85,13 +101,13 @@ export class RestApi {
     return (
       url: string,
       payload: any,
-      cb: () => void = this.rootStore.authStore.redirectToAuthServer
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
     ) =>
       wretcher()
         .url(url)
         .json(payload)
         .put()
-        .unauthorized(cb)
+        .unauthorized(callback)
         .json();
   }
 }
