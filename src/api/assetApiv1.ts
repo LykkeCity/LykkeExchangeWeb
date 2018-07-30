@@ -9,7 +9,14 @@ export class RestAssetApiv1 extends RestApiv1 implements AssetApiv1 {
   generateAssetAddress = (id: string) =>
     this.apiBearerWretch()
       .url('/wallets')
-      .json({AssetId: id})
+      .json({
+        AssetId: id,
+        BcnWallet: {
+          Address: null,
+          EncodedKey: null,
+          PublicKey: null
+        }
+      })
       .post()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .json();
