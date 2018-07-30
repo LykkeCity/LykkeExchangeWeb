@@ -5,7 +5,8 @@ import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
 const AddressError = {
-  AddressNotGenerated: 'AddressNotGenerated'
+  BlockchainWalletDepositAddressNotGenerated:
+    'BlockchainWalletDepositAddressNotGenerated'
 };
 
 export class AssetStore {
@@ -127,24 +128,17 @@ export class AssetStore {
     await this.api
       .fetchAssetAddress(assetId)
       .then((resp: any) => {
-        const asset = this.getById(assetId);
-        if (asset) {
-          asset.address = resp.Address;
-          asset.addressBase = resp.BaseAddress;
-          asset.addressExtension = resp.AddressExtension;
-        }
+        this.setAddress(assetId, resp);
       })
       .catch(async (e: any) => {
         const err = JSON.parse(e.message);
-        if (err && err.error === AddressError.AddressNotGenerated) {
+        if (
+          err &&
+          err.error === AddressError.BlockchainWalletDepositAddressNotGenerated
+        ) {
           await this.apiv1.generateAssetAddress(assetId);
           const resp = await this.api.fetchAssetAddress(assetId);
-          const asset = this.getById(assetId);
-          if (asset) {
-            asset.address = resp.Address;
-            asset.addressBase = resp.BaseAddress;
-            asset.addressExtension = resp.AddressExtension;
-          }
+          this.setAddress(assetId, resp);
         }
       });
   };
@@ -196,5 +190,14 @@ export class AssetStore {
     runInAction(() => {
       this.categories = resp.AssetCategories;
     });
+  };
+
+  private setAddress = (assetId: string, resp: any) => {
+    const asset = this.getById(assetId);
+    if (asset) {
+      asset.address = resp.Address;
+      asset.addressBase = resp.BaseAddress;
+      asset.addressExtension = resp.AddressExtension;
+    }
   };
 }
