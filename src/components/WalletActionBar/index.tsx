@@ -65,15 +65,15 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                         </DropdownControl>
                         <DropdownContainer>
                           <DropdownList className="wallet-asset-menu">
-                            {assetsAvailableForCreditCardDeposit.map(a => (
-                              <DropdownListItem key={a.id}>
+                            {assetsAvailableForCreditCardDeposit.map(asset => (
+                              <DropdownListItem key={asset.id}>
                                 <Link
                                   to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
                                     wallet.id,
-                                    a.id
+                                    asset.id
                                   )}
                                 >
-                                  {a.name}
+                                  {asset.name}
                                 </Link>
                               </DropdownListItem>
                             ))}
@@ -95,10 +95,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                         </DropdownControl>
                         <DropdownContainer>
                           <DropdownList className="wallet-asset-menu">
-                            {assetsAvailableForCryptoDeposit.map(a => (
-                              <DropdownListItem key={a.id}>
-                                <Link to={ROUTE_DEPOSIT_CRYPTO_TO(a.id)}>
-                                  {a.name}
+                            {assetsAvailableForCryptoDeposit.map(asset => (
+                              <DropdownListItem key={asset.id}>
+                                <Link to={ROUTE_DEPOSIT_CRYPTO_TO(asset.id)}>
+                                  {asset.name}
                                 </Link>
                               </DropdownListItem>
                             ))}
@@ -120,10 +120,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                         </DropdownControl>
                         <DropdownContainer>
                           <DropdownList className="wallet-asset-menu">
-                            {assetsAvailableForSwiftDeposit.map(a => (
-                              <DropdownListItem key={a.id}>
-                                <Link to={ROUTE_DEPOSIT_SWIFT_TO(a.id)}>
-                                  {a.name}
+                            {assetsAvailableForSwiftDeposit.map(asset => (
+                              <DropdownListItem key={asset.id}>
+                                <Link to={ROUTE_DEPOSIT_SWIFT_TO(asset.id)}>
+                                  {asset.name}
                                 </Link>
                               </DropdownListItem>
                             ))}

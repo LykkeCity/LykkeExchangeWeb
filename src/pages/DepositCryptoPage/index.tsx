@@ -83,49 +83,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
           confirmButton={{text: ''}}
           cancelButton={{text: 'Close and go back'}}
           title=""
-          description={
-            <div>
-              <div className="eth-warning-modal__icon">
-                <img
-                  src={`${process.env.PUBLIC_URL}/images/mobile-app-icn.svg`}
-                />
-              </div>
-              <div className="eth-warning-modal__title">
-                Use Lykke mobile app to deposit
-              </div>
-              <div className="eth-warning-modal__description">
-                ETH deposit functionality is currently under development and
-                will be available soon. Please use your Lykke Wallet mobile app
-                to deposit ETH to your trading wallet in the meantime.
-              </div>
-              <div className="eth-warning-modal__actions">
-                <a
-                  href={APPSTORE_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="app-link"
-                >
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
-                    alt="App Store"
-                  />
-                  Download for iOS
-                </a>
-                <a
-                  href={GOOGLEPLAY_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="app-link"
-                >
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
-                    alt="Google Play"
-                  />
-                  Download for Android
-                </a>
-              </div>
-            </div>
-          }
+          description={this.renderEthWarningDescription()}
         />
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
         {asset &&
@@ -256,27 +214,77 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     );
   }
 
+  private renderEthWarningDescription = () => (
+    <div>
+      <div className="eth-warning-modal__icon">
+        <img src={`${process.env.PUBLIC_URL}/images/mobile-app-icn.svg`} />
+      </div>
+      <div className="eth-warning-modal__title">
+        Use Lykke mobile app to deposit
+      </div>
+      <div className="eth-warning-modal__description">
+        ETH deposit functionality is currently under development and will be
+        available soon. Please use your Lykke Wallet mobile app to deposit ETH
+        to your trading wallet in the meantime.
+      </div>
+      <div className="eth-warning-modal__actions">
+        <a
+          href={APPSTORE_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="app-link"
+        >
+          <img
+            src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
+            alt="App Store"
+          />
+          Download for iOS
+        </a>
+        <a
+          href={GOOGLEPLAY_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="app-link"
+        >
+          <img
+            src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
+            alt="Google Play"
+          />
+          Download for Android
+        </a>
+      </div>
+    </div>
+  );
+
   private handleCancelEthWarning = () => {
     this.props.history.goBack();
   };
 
   private readonly handleCopyAddress = (text: string) => {
+    const HELPER_TEXT_TIMEOUT = 2000;
     this.copiedToClipboardText = text;
     setTimeout(() => {
       this.copiedToClipboardText = '';
-    }, 2000);
+    }, HELPER_TEXT_TIMEOUT);
   };
 
-  private handleDialogConfirm = (dialog: DialogModel) => {
-    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-      (d: DialogModel) => dialog.id !== d.id
-    );
+  private handleDialogConfirm = async (dialog: DialogModel) => {
+    if (!dialog.isConfirmed) {
+      return;
+    }
+
+    const {assetId} = this.props.match.params;
+    try {
+      await this.dialogStore.submit(dialog);
+    } finally {
+      this.dialogStore.removeDialog(dialog);
+      this.addressLoaded = false;
+      await this.assetStore.fetchAddress(assetId);
+    }
   };
 
   private handleDialogCancel = async (dialog: DialogModel) => {
-    this.dialogStore.pendingDialogs = this.dialogStore.pendingDialogs.filter(
-      (d: DialogModel) => dialog.id !== d.id
-    );
+    this.dialogStore.removeDialog(dialog);
   };
 }
 
