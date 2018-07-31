@@ -46,14 +46,9 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
       this.uiStore.showEthWarning = true;
       this.addressLoaded = true;
     } else {
-      this.assetStore
-        .fetchAddress(assetId)
-        .then(() => {
-          this.addressLoaded = true;
-        })
-        .catch(() => {
-          this.addressLoaded = true;
-        });
+      this.assetStore.fetchAddress(assetId).finally(() => {
+        this.addressLoaded = true;
+      });
     }
 
     window.scrollTo(0, 0);

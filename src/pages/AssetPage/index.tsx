@@ -40,7 +40,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   get isAvailableForCryptoDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForCryptoDeposit.find(
-      a => assetId === a.id
+      asset => assetId === asset.id
     );
   }
 

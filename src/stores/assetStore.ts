@@ -4,8 +4,7 @@ import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
 const AddressError = {
-  BlockchainWalletDepositAddressNotGenerated:
-    'BlockchainWalletDepositAddressNotGenerated'
+  NotGenerated: 'BlockchainWalletDepositAddressNotGenerated'
 };
 
 export class AssetStore {
@@ -127,10 +126,7 @@ export class AssetStore {
       })
       .catch(async (e: any) => {
         const err = JSON.parse(e.message);
-        if (
-          err &&
-          err.error === AddressError.BlockchainWalletDepositAddressNotGenerated
-        ) {
+        if (err && err.error === AddressError.NotGenerated) {
           try {
             await this.api.generateAssetAddress(assetId);
           } finally {
