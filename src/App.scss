@@ -46,6 +46,19 @@
   .header_nav__inner {
     background: rgba($gray-light, 0.5);
   }
+
+  .footer {
+    position: relative;
+    height: 0;
+
+    &__top {
+      background: rgba($gray-25, 0.5);
+    }
+
+    &__bottom {
+      background: rgba($gray-25, 0.5);
+    }
+  }
 }
 
 body {
