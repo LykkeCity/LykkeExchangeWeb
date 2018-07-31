@@ -61,6 +61,13 @@
   }
 }
 
+@supports (-ms-ime-align: auto) {
+  .app--overlayed .header,
+  .app--overlayed .header_nav__inner {
+    filter: blur(5px);
+  }
+}
+
 body {
   padding-bottom: 862px;
 
