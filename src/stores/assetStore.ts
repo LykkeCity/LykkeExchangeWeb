@@ -1,6 +1,5 @@
 import {computed, observable, runInAction} from 'mobx';
 import {AssetApi} from '../api/assetApi';
-import {AssetApiv1} from '../api/assetApiv1';
 import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
@@ -26,11 +25,7 @@ export class AssetStore {
       .filter(x => x.isBase);
   }
 
-  constructor(
-    readonly rootStore: RootStore,
-    private api: AssetApi,
-    private apiv1: AssetApiv1
-  ) {}
+  constructor(readonly rootStore: RootStore, private api: AssetApi) {}
 
   getById = (id: string) => this.assets.find(a => a.id === id);
 
@@ -136,9 +131,12 @@ export class AssetStore {
           err &&
           err.error === AddressError.BlockchainWalletDepositAddressNotGenerated
         ) {
-          await this.apiv1.generateAssetAddress(assetId);
-          const resp = await this.api.fetchAssetAddress(assetId);
-          this.setAddress(assetId, resp);
+          try {
+            await this.api.generateAssetAddress(assetId);
+          } finally {
+            const resp = await this.api.fetchAssetAddress(assetId);
+            this.setAddress(assetId, resp);
+          }
         }
       });
   };

@@ -12,6 +12,3 @@ export {default as TransactionApi} from './transactionApi';
 export {default as DepositApi} from './depositApi';
 export {default as CatalogsApi} from './catalogsApi';
 export {default as DialogApi} from './dialogApi';
-
-export * from './restApiv1';
-export {default as AssetApiv1} from './assetApiv1';
