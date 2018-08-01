@@ -1,0 +1,154 @@
+@import '../../styles/utils';
+
+.start-page-wrapper {
+  .subscribe {
+    width: 50%;
+    @include rem(padding-top, 30px);
+
+    .subscribe-header {
+      line-height: 3;
+
+      img {
+        float: left;
+        @include rem(padding-top, 5px);
+      }
+
+      &__title {
+        font-family: Akrobat;
+        font-weight: bold;
+        line-height: 1.35;
+        color: #111111;
+
+        @include rem(font-size, 26px);
+        @include rem(padding-left, 20px);
+      }
+    }
+
+    .hint {
+      opacity: 0.9;
+      font-family: ProximaNova;
+      line-height: 1.67;
+      color: #657180;
+
+      @include rem(font-size, 18px);
+      @include rem(margin-top, 10px);
+    }
+
+    .form {
+      @include rem(margin-top, 10px);
+    }
+
+    .form-group {
+      max-width: 524px;
+      position: relative;
+
+      @include rem(padding-right, 50px);
+    }
+
+    .btn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      line-height: 1.7em;
+
+      @include rem(font-size, 20px);
+
+      .icon {
+        position: relative;
+        top: 0;
+      }
+
+      &.btn--circle {
+        line-height: normal;
+        height: 50px;
+        width: 50px;
+        min-width: 0;
+
+        @include rem(padding, 5px);
+      }
+    }
+
+    .form-control {
+      @include rem(height, 50px);
+      @include rem(font-size, 16px);
+      @include rem(padding, 10px 20px);
+
+      line-height: 1.71;
+    }
+
+    .input-group {
+      @include rem(padding-right, 16px);
+
+      .icon {
+        position: absolute;
+        top: 50%;
+        left: 0;
+        margin-right: 0;
+        color: #b2b8bf;
+
+        @include translate(0, -50%);
+        @include rem(font-size, 26px);
+        @include rem(padding, 7px 10px);
+
+        + .form-control {
+          @include rem(padding-left, 44px);
+        }
+      }
+    }
+
+    @media all and (max-width: $screen-tablet) {
+      padding-top: 0;
+      text-align: left;
+
+      .row {
+        @include rem(margin, 15px 0);
+      }
+
+      .hint {
+        margin-bottom: 20px;
+      }
+    }
+
+    @media all and (max-width: $screen-landscape) {
+      &__icon {
+        img {
+          width: 24px;
+          height: auto;
+        }
+      }
+    }
+
+    @media all and (max-width: $screen-mobile) {
+      .form-group {
+        max-width: none;
+        padding-right: 50px;
+      }
+
+      .btn.btn--circle {
+        width: 40px;
+        height: 40px;
+      }
+
+      .input-group {
+        padding-right: 0;
+
+        .icon {
+          font-size: 24px;
+          left: 2px;
+
+          + .form-control {
+            padding-left: 40px;
+          }
+        }
+      }
+
+      .form-control {
+        height: 40px;
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 13px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

@@ -25,6 +25,7 @@ export class BalanceModel {
     return baseAsset;
   }
   @observable balanceInBaseAsset: number = 0;
+  @observable reservedBalanceInBaseAsset: number = 0;
 
   private readonly store: BalanceStore;
 

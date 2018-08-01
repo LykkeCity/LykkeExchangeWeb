@@ -16,13 +16,14 @@ import {
   DepositRequisitesSent,
   DepositSuccess
 } from '../../components/DepositResult';
-import {TransferFail} from '../../components/TransferResult/index';
 import TransferResult from '../../components/TransferResult/index';
+import {TransferFail} from '../../components/TransferResult/index';
 import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
   ROUTE_AFFILIATE_STATISTICS,
   ROUTE_ASSET_PAGE,
+  ROUTE_DASHBOARD,
   ROUTE_DEPOSIT_CREDIT_CARD,
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
@@ -54,6 +55,7 @@ import {
 } from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
+import DashboardPage from '../DashboardPage/index';
 import HistoryPage from '../HistoryPage/index';
 import TransferPage from '../TransferPage/index';
 
@@ -213,6 +215,10 @@ export class ProtectedPage extends React.Component<
               component={asLoading(SecurityPage)}
             />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
+            <Route
+              path={ROUTE_DASHBOARD}
+              component={asLoading(DashboardPage)}
+            />
             <Route
               path={ROUTE_GATEWAY_FAIL}
               // tslint:disable-next-line:jsx-no-lambda

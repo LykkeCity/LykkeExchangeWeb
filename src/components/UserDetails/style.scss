@@ -1,0 +1,46 @@
+@import '../../styles/utils';
+
+.profile-image {
+  float: left;
+
+  @include rem(padding-right, 27px);
+}
+
+.profile-details {
+  float: left;
+
+  &__name {
+    font-weight: 600;
+    line-height: 1.67;
+    color: $heading;
+
+    @include rem(margin-top, 3px);
+    @include rem(font-size, 18px);
+  }
+
+  &__email {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #8c94a0;
+
+    @include rem(font-size, 16px);
+  }
+
+  &__status {
+    width: fit-content;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: #ffffff;
+    background: $yellow;
+    border-radius: 3px;
+
+    @include rem(margin-top, 9px);
+    @include rem(padding, 5px 10px);
+    @include rem(font-size, 13px);
+
+    &.verified {
+      background: $green;
+    }
+  }
+}

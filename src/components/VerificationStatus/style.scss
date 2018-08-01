@@ -1,0 +1,14 @@
+.kyc-status {
+  &__icon,
+  &__text {
+    text-align: center;
+  }
+
+  &__icon {
+    padding-top: 12px;
+  }
+
+  &__text {
+    padding-top: 23px;
+  }
+}

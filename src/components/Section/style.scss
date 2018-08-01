@@ -1,0 +1,30 @@
+@import '../../styles/utils';
+
+.section {
+  position: relative;
+  @include rem(margin-top, 63px);
+  @include rem(padding, 0 100px);
+
+  &__title {
+    font-family: 'Akrobat', sans-serif;
+    font-weight: bold;
+    line-height: 1.35;
+
+    @include rem(font-size, 26px);
+  }
+
+  .row {
+    @include rem(margin-bottom, 40px);
+  }
+
+  .action-button {
+    @include rem(padding, 10px 30px);
+    @include rem(font-size, 16px);
+  }
+
+  .separator {
+    border-top: 1px solid #ebedef;
+
+    @include rem(margin-bottom, 40px);
+  }
+}

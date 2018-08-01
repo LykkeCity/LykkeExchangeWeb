@@ -22,6 +22,13 @@ export class WalletModel {
     return this.balances.map(b => b.balanceInBaseAsset).reduce(sum, 0);
   }
 
+  @computed
+  get availableBalance() {
+    return this.balances
+      .map(b => b.balanceInBaseAsset - b.reservedBalanceInBaseAsset)
+      .reduce(sum, 0);
+  }
+
   @observable balances: BalanceModel[] = [];
 
   @computed

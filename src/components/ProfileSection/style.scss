@@ -1,0 +1,37 @@
+@import '../../styles/utils';
+
+.section {
+  .profile-name {
+    font-weight: 600;
+    line-height: 1.67;
+    color: $heading;
+
+    @include rem(margin-top, 3px);
+    @include rem(font-size, 18px);
+  }
+
+  .profile-email {
+    line-height: 1.5;
+    color: #8c94a0;
+
+    @include rem(font-size, 16px);
+  }
+
+  .profile-status {
+    width: fit-content;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.9px;
+    color: #ffffff;
+    background: $yellow;
+    border-radius: 3px;
+
+    @include rem(margin-top, 9px);
+    @include rem(padding, 5px 10px);
+    @include rem(font-size, 13px);
+
+    &.verified {
+      background: $green;
+    }
+  }
+}

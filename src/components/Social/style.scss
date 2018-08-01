@@ -50,6 +50,31 @@
     }
   }
 
+  &--description {
+    > li {
+      display: inline-block;
+
+      @include rem(margin-right, 15px);
+
+      &:last-child {
+        margin-right: 0;
+      }
+
+      > a {
+        color: #8c94a0;
+        display: block;
+        text-align: center;
+
+        @include rem(height, 30px);
+        @include rem(width, 30px);
+
+        &:hover {
+          color: rgba($text, 1);
+        }
+      }
+    }
+  }
+
   &--footer,
   &--header {
     @include rem(padding, 5px 0);

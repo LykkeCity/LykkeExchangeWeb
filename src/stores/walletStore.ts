@@ -20,6 +20,11 @@ export class WalletStore {
     return this.wallets.map(w => w.totalBalance).reduce(sum, 0);
   }
 
+  @computed
+  get availableBalance() {
+    return this.wallets.map(w => w.availableBalance).reduce(sum, 0);
+  }
+
   constructor(readonly rootStore: RootStore, private api?: WalletApi) {
     reaction(
       () =>
@@ -110,6 +115,12 @@ export class WalletStore {
         wallet.balances.forEach(b => {
           b.balanceInBaseAsset = this.rootStore.marketService.convert(
             b.balance,
+            b.assetId,
+            baseAssetAsModel!.id,
+            this.rootStore.assetStore.getInstrumentById
+          );
+          b.reservedBalanceInBaseAsset = this.rootStore.marketService.convert(
+            b.reserved,
             b.assetId,
             baseAssetAsModel!.id,
             this.rootStore.assetStore.getInstrumentById

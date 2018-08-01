@@ -49,3 +49,5 @@ export const ROUTE_PROFILE = '/profile';
 export const ROUTE_SECURITY = '/profile/security';
 
 export const ROUTE_AUTH = '/auth';
+
+export const ROUTE_DASHBOARD = '/profile';

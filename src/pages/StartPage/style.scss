@@ -1,0 +1,209 @@
+@import '../../styles/utils';
+
+.start-page-wrapper {
+  position: relative;
+
+  .separator {
+    border-top: 1px solid #ebedef;
+
+    @include rem(margin-top, 60px);
+    @include rem(margin-bottom, 60px);
+  }
+
+  section {
+    width: 68%;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  h1 {
+    width: 70%;
+    padding: 25px 0;
+    margin: 0 auto;
+    font-family: Akrobat;
+    font-size: 60px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: -0.8px;
+    text-align: center;
+    color: #000000;
+
+    @include rem(font-size, 60px);
+  }
+
+  h2 {
+    font-family: Akrobat;
+    line-height: 1.33;
+    text-align: center;
+    color: #657180;
+
+    @include rem(font-size, 30px);
+  }
+
+  .company-description {
+    padding: 30px 0;
+    margin: 0 auto;
+    font-family: ProximaNova;
+    line-height: 1.59;
+    color: #333333;
+
+    @include rem(font-size, 22px);
+  }
+
+  .company-description-social {
+    float: right;
+    line-height: 3;
+  }
+
+  @media (max-width: $screen-mobile) {
+    .company-description-social {
+      float: none;
+      text-align: center;
+      line-height: 3;
+
+      @include rem(padding-top, 30px);
+    }
+  }
+
+  .product-logo {
+    float: left;
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background-color: #ffffff;
+    box-shadow: 0 6px 10px 0 rgba(101, 113, 128, 0.3);
+
+    @include rem(padding-right, 27px);
+    @include rem(margin-left, 20px);
+    @include rem(margin-right, 27px);
+
+    img {
+      margin: 25%;
+    }
+  }
+
+  .product-details {
+    float: left;
+
+    &__header {
+      font-family: Akrobat;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      color: #111111;
+
+      @include rem(font-size, 40px);
+      @include rem(padding, 10px 0);
+    }
+
+    &__short-description {
+      font-family: ProximaNova;
+      line-height: 1.56;
+      color: #8c94a0;
+
+      @include rem(font-size, 16px);
+
+      img {
+        line-height: 1;
+      }
+    }
+  }
+
+  .product-description {
+    font-family: ProximaNova;
+    line-height: 1.67;
+    color: #333333;
+
+    @include rem(padding-top, 30px);
+    @include rem(padding-bottom, 30px);
+    @include rem(font-size, 18px);
+  }
+
+  .product-links {
+    &__note {
+      font-family: ProximaNova;
+      line-height: 1.71;
+      color: #8c94a0;
+
+      @include rem(font-size, 14px);
+    }
+
+    .apps {
+      text-align: left;
+
+      .apps_apple {
+        padding-left: 0;
+      }
+    }
+
+    img {
+      width: 136px;
+    }
+  }
+
+  .product-image {
+    position: absolute;
+  }
+
+  @media (max-width: $screen-tablet) {
+    .product-details {
+      float: none;
+    }
+
+    .lykke-accounts-section {
+      width: 70%;
+      padding-bottom: 0;
+    }
+
+    .lykke-trade-section {
+      width: 70%;
+      padding-bottom: 0;
+    }
+
+    .product-image {
+      display: none;
+    }
+  }
+
+  @media (max-width: $screen-mobile) {
+    .product-details {
+      float: none;
+
+      &__short-description {
+        @include rem(padding-top, 20px);
+      }
+    }
+
+    .lykke-accounts-section {
+      width: 100%;
+      padding-bottom: 0;
+    }
+
+    .lykke-trade-section {
+      width: 100%;
+      padding-bottom: 0;
+    }
+
+    .product-image {
+      display: none;
+    }
+  }
+}
+
+.lykke-accounts-section {
+  padding-bottom: 283px;
+
+  .product-image {
+    top: 238px;
+    left: 292px;
+  }
+}
+
+.lykke-trade-section {
+  padding-bottom: 518px;
+
+  .product-image {
+    top: 322px;
+    left: 46px;
+  }
+}
