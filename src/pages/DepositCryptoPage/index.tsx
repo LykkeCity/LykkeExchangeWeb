@@ -60,6 +60,16 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
       (dialog: DialogModel) =>
         dialog.conditionType === DialogConditionType.Predeposit
     );
+    const defaultWarningMessage = (assetName: string) =>
+      `Please, only send ${assetName} to this address. Depositing any other asset may result in funds loss.`;
+    const warningMessages = {
+      BTC:
+        'Please, only send Bitcoin (BTC) to this address. Depositing any other asset may result in funds loss.',
+      ETC:
+        'Please, only send Ethereum Classic (ETC) to this address, do not send ETH. Depositing any asset other than ETC may result in funds loss.',
+      ETH:
+        'Please, only send Ethereum (ETH) to this address, do not send ETC or ERC20 tokens. Depositing any asset other than ETH may result in funds loss.'
+    };
 
     return (
       <div className="container">
@@ -138,6 +148,10 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                         </button>
                       )}
                     </CopyToClipboard>
+                    <div className="deposit-crypto__warning">
+                      {warningMessages[assetId] ||
+                        defaultWarningMessage(asset.name)}
+                    </div>
                   </div>
                 )}
                 <a

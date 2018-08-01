@@ -86,8 +86,13 @@
     text-align: center;
 
     .btn--primary {
-      margin-bottom: 24px;
+      margin-bottom: 16px;
     }
+  }
+
+  &__warning {
+    @include rem(font-size, 14px);
+    @include rem(line-height, 20px);
   }
 }
 
