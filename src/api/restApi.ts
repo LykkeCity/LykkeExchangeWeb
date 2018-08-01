@@ -70,7 +70,7 @@ export class RestApi {
   private _post(wretcher: () => Wretcher) {
     return (
       url: string,
-      payload: any,
+      payload?: any,
       callback: () => void = this.rootStore.authStore.redirectToAuthServer
     ) =>
       wretcher()

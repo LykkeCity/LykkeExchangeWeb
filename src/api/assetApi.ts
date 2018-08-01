@@ -5,6 +5,8 @@ export interface AssetApi {
   fetchAssets: () => ApiResponse<any>;
   fetchAvailableAssets: () => ApiResponse<any>;
   fetchAssetInstruments: () => ApiResponse<any>;
+  fetchAssetAddress: (id: string) => ApiResponse<any>;
+  generateAssetAddress: (id: string) => ApiResponse<any>;
   fetchRates: () => ApiResponse<any>;
   fetchCategories: () => ApiResponse<any>;
   fetchDescription: () => ApiResponse<any>;
@@ -16,6 +18,10 @@ export class RestAssetApi extends RestApi implements AssetApi {
   fetchAvailableAssets = () => this.get('/assets/available');
   fetchAssetInstruments = () => this.get('/assetpairs');
   fetchRates = () => this.get('/markets');
+  fetchAssetAddress = (id: string) =>
+    this.get(`/deposits/crypto/${id}/address`);
+  generateAssetAddress = (id: string) =>
+    this.post(`/deposits/crypto/${id}/address`);
 
   fetchCategories = () => this.get('/assets/categories');
 

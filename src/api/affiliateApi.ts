@@ -9,7 +9,7 @@ export interface AffiliateApi {
 
 export class RestAffiliateApi extends RestApi implements AffiliateApi {
   fetchLink = () => this.getRes('/affiliate/link');
-  createLink = () => this.post('/affiliate/create', undefined);
+  createLink = () => this.post('/affiliate/create');
   fetchStats = () => this.get('/affiliate/stats');
 }
 

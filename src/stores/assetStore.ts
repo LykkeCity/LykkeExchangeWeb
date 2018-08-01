@@ -3,10 +3,15 @@ import {AssetApi} from '../api/assetApi';
 import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
+const AddressError = {
+  NotGenerated: 'BlockchainWalletDepositAddressNotGenerated'
+};
+
 export class AssetStore {
   @observable assets: AssetModel[] = [];
   @observable assetsAvailableForCreditCardDeposit: AssetModel[] = [];
   @observable assetsAvailableForSwiftDeposit: AssetModel[] = [];
+  @observable assetsAvailableForCryptoDeposit: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
 
@@ -22,6 +27,12 @@ export class AssetStore {
   constructor(readonly rootStore: RootStore, private api: AssetApi) {}
 
   getById = (id: string) => this.assets.find(a => a.id === id);
+
+  isEth = (assetId: string) => {
+    const asset = this.getById(assetId);
+
+    return assetId === 'ETH' || (asset && asset.name === 'ETH');
+  };
 
   getInstrumentById = (id: string) =>
     this.instruments.find(x => x.id.toLowerCase() === id.toLowerCase());
@@ -80,9 +91,14 @@ export class AssetStore {
   fetchAssetsAvailableForDeposit = async () => {
     const resp = await this.api.fetchPaymentMethods();
     const fxpaygate = resp.PaymentMethods.find(
-      (pm: any) => pm.Name === 'Fxpaygate'
+      (paymentMethod: any) => paymentMethod.Name === 'Fxpaygate'
     );
-    const swift = resp.PaymentMethods.find((pm: any) => pm.Name === 'Swift');
+    const swift = resp.PaymentMethods.find(
+      (paymentMethod: any) => paymentMethod.Name === 'Swift'
+    );
+    const cryptos = resp.PaymentMethods.find(
+      (paymentMethod: any) => paymentMethod.Name === 'Cryptos'
+    );
     const prepareAssets = (assets: any) =>
       assets
         .map((assetId: string) => this.getById(assetId))
@@ -103,6 +119,30 @@ export class AssetStore {
         this.assetsAvailableForSwiftDeposit = prepareAssets(swift.Assets);
       });
     }
+    if (cryptos && cryptos.Available) {
+      runInAction(() => {
+        this.assetsAvailableForCryptoDeposit = prepareAssets(cryptos.Assets);
+      });
+    }
+  };
+
+  fetchAddress = async (assetId: string) => {
+    await this.api
+      .fetchAssetAddress(assetId)
+      .then((resp: any) => {
+        this.setAddress(assetId, resp);
+      })
+      .catch(async (error: any) => {
+        const errorMessage = JSON.parse(error.message);
+        if (errorMessage && errorMessage.error === AddressError.NotGenerated) {
+          try {
+            await this.api.generateAssetAddress(assetId);
+          } finally {
+            const resp = await this.api.fetchAssetAddress(assetId);
+            this.setAddress(assetId, resp);
+          }
+        }
+      });
   };
 
   fetchInstruments = async () => {
@@ -152,5 +192,14 @@ export class AssetStore {
     runInAction(() => {
       this.categories = resp.AssetCategories;
     });
+  };
+
+  private setAddress = (assetId: string, resp: any) => {
+    const asset = this.getById(assetId);
+    if (asset) {
+      asset.address = resp.Address;
+      asset.addressBase = resp.BaseAddress;
+      asset.addressExtension = resp.AddressExtension;
+    }
   };
 }

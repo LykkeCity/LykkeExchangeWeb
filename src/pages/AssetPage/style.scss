@@ -9,6 +9,11 @@
   @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+  }
+
   &__name {
     font-family: 'Akrobat', sans-serif;
     margin-bottom: 11px;
@@ -29,6 +34,28 @@
 
     @include rem(font-size, 18px);
     @include rem(margin-bottom, 39px);
+  }
+
+  &__addresses {
+    display: flex;
+  }
+
+  &__address {
+    margin-left: 40px;
+
+    canvas {
+      width: 120px;
+    }
+  }
+
+  &__address-tip {
+    color: $gray-dark;
+    line-height: 1.43;
+    margin: 10px 0;
+    text-align: center;
+    width: 120px;
+
+    @include rem(font-size, 14px);
   }
 
   &__actions {

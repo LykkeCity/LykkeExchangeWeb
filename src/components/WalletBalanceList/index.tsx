@@ -12,6 +12,7 @@ import {Link} from 'react-router-dom';
 import {
   ROUTE_ASSET,
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
@@ -29,16 +30,20 @@ interface WalletBalanceListProps {
   isKycPassed?: boolean;
   assetsAvailableForCreditCardDeposit?: AssetModel[];
   assetsAvailableForSwiftDeposit?: AssetModel[];
+  assetsAvailableForCryptoDeposit?: AssetModel[];
 }
 
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet,
   isKycPassed,
   assetsAvailableForCreditCardDeposit = [],
-  assetsAvailableForSwiftDeposit = []
+  assetsAvailableForSwiftDeposit = [],
+  assetsAvailableForCryptoDeposit = []
 }) => {
   const isAvailableForCreditCardDeposit = (assetId: string) =>
     assetsAvailableForCreditCardDeposit.find(asset => asset.id === assetId);
+  const isAvailableForCryptoDeposit = (assetId: string) =>
+    assetsAvailableForCryptoDeposit.find(asset => asset.id === assetId);
   const isAvailableForSwiftDeposit = (assetId: string) =>
     assetsAvailableForSwiftDeposit.find(asset => asset.id === assetId);
 
@@ -95,13 +100,15 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                   </tr>
                 </thead>
                 <tbody>
-                  {balances.map(b => (
-                    <tr key={b.assetId + b.balance}>
+                  {balances.map(balance => (
+                    <tr key={balance.assetId + balance.balance}>
                       <td className="_asset">
                         <div className="issuer">
                           <div className="issuer__img">
                             <img
-                              src={b.asset.iconUrl || ASSET_DEFAULT_ICON_URL}
+                              src={
+                                balance.asset.iconUrl || ASSET_DEFAULT_ICON_URL
+                              }
                               alt="asset"
                               width={48}
                               height={48}
@@ -110,32 +117,49 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                           <div className="issuer__content">
                             <div className="issuer__name">
                               {wallet.isTrading ? (
-                                <Link to={ROUTE_ASSET(b.assetId)}>
-                                  {b.asset.name}
+                                <Link to={ROUTE_ASSET(balance.assetId)}>
+                                  {balance.asset.name}
                                 </Link>
                               ) : (
-                                b.asset.name
+                                balance.asset.name
                               )}
+                              {isAvailableForCryptoDeposit(balance.assetId) &&
+                                isKycPassed && (
+                                  <span className="qr-icn">
+                                    <Link
+                                      to={ROUTE_DEPOSIT_CRYPTO_TO(
+                                        balance.assetId
+                                      )}
+                                    >
+                                      <img
+                                        className="icon"
+                                        src={`${process.env
+                                          .PUBLIC_URL}/images/qr-icn.svg`}
+                                      />
+                                    </Link>
+                                  </span>
+                                )}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="_currency">
                         {asAssetBalance(
-                          b.baseAsset!,
+                          balance.baseAsset!,
                           moneyRound(
-                            b.balanceInBaseAsset,
-                            b.baseAsset!.accuracy
+                            balance.balanceInBaseAsset,
+                            balance.baseAsset!.accuracy
                           )
                         )}{' '}
-                        {b.baseAsset!.name}
+                        {balance.baseAsset!.name}
                       </td>
                       <td className="_amount">
-                        {asBalance(b)} {b.asset.name}
+                        {asBalance(balance)} {balance.asset.name}
                       </td>
                       <td className="_action">
-                        {(isAvailableForCreditCardDeposit(b.assetId) ||
-                          isAvailableForSwiftDeposit(b.assetId) ||
+                        {(isAvailableForCreditCardDeposit(balance.assetId) ||
+                          isAvailableForSwiftDeposit(balance.assetId) ||
+                          isAvailableForCryptoDeposit(balance.assetId) ||
                           !wallet.isTrading) && (
                           <Dropdown trigger="click">
                             <DropdownControl>
@@ -154,21 +178,34 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                       Deposit
                                     </DropdownListItem>,
                                     isAvailableForCreditCardDeposit(
-                                      b.assetId
+                                      balance.assetId
                                     ) &&
                                       renderDepositMenuItem(
                                         'Credit Card',
                                         ROUTE_DEPOSIT_CREDIT_CARD_TO(
                                           wallet.id,
-                                          b.assetId
+                                          balance.assetId
                                         ),
                                         `${process.env
                                           .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`
                                       ),
-                                    isAvailableForSwiftDeposit(b.assetId) &&
+                                    isAvailableForCryptoDeposit(
+                                      balance.assetId
+                                    ) &&
+                                      renderDepositMenuItem(
+                                        'Blockchain Transfer',
+                                        ROUTE_DEPOSIT_CRYPTO_TO(
+                                          balance.assetId
+                                        ),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`
+                                      ),
+                                    isAvailableForSwiftDeposit(
+                                      balance.assetId
+                                    ) &&
                                       renderDepositMenuItem(
                                         'SWIFT',
-                                        ROUTE_DEPOSIT_SWIFT_TO(b.assetId),
+                                        ROUTE_DEPOSIT_SWIFT_TO(balance.assetId),
                                         `${process.env
                                           .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`
                                       )
@@ -178,7 +215,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                     <Link
                                       to={ROUTE_TRANSFER_FROM(
                                         wallet.id,
-                                        b.assetId
+                                        balance.assetId
                                       )}
                                     >
                                       Transfer
@@ -204,6 +241,8 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
   assetsAvailableForCreditCardDeposit:
     rootStore.assetStore.assetsAvailableForCreditCardDeposit,
+  assetsAvailableForCryptoDeposit:
+    rootStore.assetStore.assetsAvailableForCryptoDeposit,
   assetsAvailableForSwiftDeposit:
     rootStore.assetStore.assetsAvailableForSwiftDeposit,
   isKycPassed: rootStore.profileStore.isKycPassed

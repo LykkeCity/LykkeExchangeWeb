@@ -1,0 +1,154 @@
+@import '../../styles/utils';
+
+.deposit-crypto {
+  max-width: 569px;
+  margin: 83px auto 0;
+
+  &__title {
+    color: $heading;
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+  }
+
+  &__subtitle {
+    color: $gray-dark;
+    font-weight: $fw-light;
+    line-height: 1.43;
+    letter-spacing: -0.3px;
+    text-align: center;
+
+    @include rem(font-size, 28px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 1.5;
+    padding-bottom: 27px;
+    border-bottom: 1px solid $border-alt;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-top, 32px);
+  }
+
+  &__address-qr {
+    text-align: center;
+
+    @include rem(margin, 60px 0);
+
+    canvas {
+      width: 240px;
+    }
+  }
+
+  &__address-info {
+    display: flex;
+    justify-content: space-between;
+    padding: 18px 0;
+    position: relative;
+    border-bottom: 1px solid $border-alt;
+    border-top: 1px solid $border-alt;
+
+    .btn--icon {
+      cursor: pointer;
+      position: relative;
+      top: 14px;
+      right: 10px;
+    }
+  }
+
+  &__address-label {
+    color: $heading;
+    font-weight: $fw-semi;
+    line-height: 1.67;
+
+    @include rem(font-size, 18px);
+  }
+
+  &__address {
+    color: rgba($text, 0.6);
+    line-height: 1.5;
+
+    @include rem(font-size, 16px);
+  }
+
+  .copy-to-clipboard-message {
+    position: absolute;
+    color: $green;
+    top: 4rem;
+    right: 1rem;
+  }
+
+  .go-back-btn {
+    margin-top: 59px;
+    text-align: center;
+  }
+}
+
+.eth-warning-modal {
+  &__icon {
+    background: $blue;
+    width: 90px;
+    height: 90px;
+    border-radius: 100px;
+    margin: 0 auto 28px;
+    padding: 15px;
+  }
+
+  &__title {
+    color: $heading;
+    font-family: 'Akrobat', sans-serif;
+    font-weight: $fw-bold;
+    line-height: 40px;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 16px;
+
+    @include rem(font-size, 30px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 30px;
+    letter-spacing: 0;
+    margin-bottom: 36px;
+
+    @include rem(font-size, 18px);
+  }
+
+  &__actions {
+    margin-bottom: 5px;
+
+    .app-link {
+      color: $heading;
+      font-weight: $fw-semi;
+      line-height: normal;
+      margin-right: 30px;
+      white-space: nowrap;
+
+      @include rem(font-size, 16px);
+
+      img {
+        bottom: 2px;
+        margin-right: 10px;
+        position: relative;
+      }
+
+      @media all and (max-width: $screen-mobile-old) {
+        display: block;
+        padding: 5px;
+        text-align: center;
+      }
+    }
+  }
+
+  .modal__description {
+    margin-bottom: 34px;
+  }
+
+  .modal__content {
+    width: 470px;
+  }
+}

@@ -46,6 +46,26 @@
   .header_nav__inner {
     background: rgba($gray-light, 0.5);
   }
+
+  .footer {
+    position: relative;
+    height: 0;
+
+    &__top {
+      background: rgba($gray-25, 0.5);
+    }
+
+    &__bottom {
+      background: rgba($gray-25, 0.5);
+    }
+  }
+}
+
+@supports (-ms-ime-align: auto) {
+  .app--overlayed .header,
+  .app--overlayed .header_nav__inner {
+    filter: blur(5px);
+  }
 }
 
 body {

@@ -30,6 +30,10 @@
     text-align: left;
     width: 44px;
 
+    .dropdown__nav {
+      width: 220px;
+    }
+
     .dropdown-list__item {
       &.disabled {
         cursor: not-allowed;
@@ -156,6 +160,12 @@
   &__name {
     a {
       color: $text;
+    }
+
+    .qr-icn {
+      position: relative;
+      left: 5px;
+      bottom: 2px;
     }
   }
 

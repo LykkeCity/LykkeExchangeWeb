@@ -8,11 +8,15 @@ import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
+  ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, BalanceModel, TransactionType} from '../../models';
+
+// tslint:disable-next-line:no-var-requires
+const QRCode = require('qrcode.react');
 
 import './style.css';
 
@@ -33,6 +37,14 @@ export class AssetPage extends React.Component<AssetPageProps> {
   }
 
   @computed
+  get isAvailableForCryptoDeposit() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForCryptoDeposit.find(
+      asset => assetId === asset.id
+    );
+  }
+
+  @computed
   get isAvailableForSwiftDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForSwiftDeposit.find(
@@ -41,6 +53,9 @@ export class AssetPage extends React.Component<AssetPageProps> {
   }
 
   componentDidMount() {
+    const {assetId} = this.props.match.params;
+    this.assetStore.fetchAddress(assetId);
+
     window.scrollTo(0, 0);
   }
 
@@ -49,6 +64,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const asset = this.assetStore.getById(assetId) || new AssetModel();
     const wallet = this.walletStore.tradingWallets[0];
     const balance = wallet && wallet.balances.find(b => b.assetId === assetId);
+    const QR_SIZE = 120;
 
     return (
       <div className="asset-page-wrapper">
@@ -61,15 +77,47 @@ export class AssetPage extends React.Component<AssetPageProps> {
             />
           </Link>
           <div className="asset-page">
-            <h2 className="asset-page__name">{asset.name}</h2>
-            {balance && (
-              <span className="asset-page__amount">
-                {asBalance(balance)} {balance.asset.name}
-              </span>
-            )}
-            <div className="asset-page__description">{asset.description}</div>
+            <div className="asset-page__header">
+              <div className="asset-page__info">
+                <h2 className="asset-page__name">{asset.name}</h2>
+                {balance && (
+                  <span className="asset-page__amount">
+                    {asBalance(balance)} {balance.asset.name}
+                  </span>
+                )}
+                <div className="asset-page__description">
+                  {asset.description}
+                </div>
+              </div>
+              {asset.addressBase && asset.addressExtension ? (
+                <div
+                  className="asset-page__addresses"
+                  title={`Scan both address and tag to deposit ${asset.name}.`}
+                >
+                  <div className="asset-page__address">
+                    <QRCode size={QR_SIZE} value={asset.addressBase} />
+                    <div className="asset-page__address-tip">Address</div>
+                  </div>
+                  <div className="asset-page__address">
+                    <QRCode size={QR_SIZE} value={asset.addressExtension} />
+                    <div className="asset-page__address-tip">Tag</div>
+                  </div>
+                </div>
+              ) : (
+                asset.address &&
+                !this.assetStore.isEth(asset.id) && (
+                  <div className="asset-page__address">
+                    <QRCode size={QR_SIZE} value={asset.address} />
+                    <div className="asset-page__address-tip">
+                      Scan to Deposit
+                    </div>
+                  </div>
+                )
+              )}
+            </div>
             <div className="asset-page__actions">
               {(this.isAvailableForCreditCardDeposit ||
+                this.isAvailableForCryptoDeposit ||
                 this.isAvailableForSwiftDeposit) && (
                 <ul className="action-list">
                   <li className="action-list__title">Deposit</li>
@@ -79,6 +127,13 @@ export class AssetPage extends React.Component<AssetPageProps> {
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
                       'Credit Card'
+                    )}
+                  {this.isAvailableForCryptoDeposit &&
+                    this.renderDepositMenuItem(
+                      ROUTE_DEPOSIT_CRYPTO_TO(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                      'Blockchain Transfer'
                     )}
                   {this.isAvailableForSwiftDeposit &&
                     this.renderDepositMenuItem(
