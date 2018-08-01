@@ -131,14 +131,14 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                 <Spinner />
               )}
               <div className="deposit-crypto__actions">
-                {(asset.address || asset.addressBase) && (
+                {(asset.addressBase || asset.address) && (
                   <div>
                     <CopyToClipboard
-                      text={asset.address || asset.addressBase}
+                      text={asset.addressBase || asset.address}
                       onCopy={this.handleCopyAddress}
                     >
                       {this.copiedToClipboardText ===
-                      (asset.address || asset.addressBase) ? (
+                      (asset.addressBase || asset.address) ? (
                         <button className="btn btn--primary disabled">
                           Copied to clipboard
                         </button>
@@ -174,7 +174,14 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     return (
       <div>
         <div className="deposit-crypto__address-qr">
-          <QRCode size={QR_SIZE} value={address} />
+          <CopyToClipboard text={address} onCopy={this.handleCopyAddress}>
+            <QRCode size={QR_SIZE} value={address} />
+          </CopyToClipboard>
+          {this.copiedToClipboardText === address && (
+            <small className="copy-to-clipboard-message">
+              Copied to clipboard
+            </small>
+          )}
         </div>
         <div className="deposit-crypto__address-info">
           <div>
@@ -187,9 +194,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                 <i className="icon icon--copy_thin" />
               </button>
             </CopyToClipboard>
-            {this.copiedToClipboardText === address && (
-              <small className="copy-to-clipboard-message">Copied!</small>
-            )}
           </div>
         </div>
       </div>
