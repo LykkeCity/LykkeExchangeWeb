@@ -81,9 +81,13 @@
     right: 1rem;
   }
 
-  .go-back-btn {
+  &__actions {
     margin-top: 59px;
     text-align: center;
+
+    .btn--primary {
+      margin-bottom: 24px;
+    }
   }
 }
 

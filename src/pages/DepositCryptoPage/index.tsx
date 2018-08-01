@@ -120,7 +120,26 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               ) : (
                 <Spinner />
               )}
-              <div className="go-back-btn">
+              <div className="deposit-crypto__actions">
+                {(asset.address || asset.addressBase) && (
+                  <div>
+                    <CopyToClipboard
+                      text={asset.address || asset.addressBase}
+                      onCopy={this.handleCopyAddress}
+                    >
+                      {this.copiedToClipboardText ===
+                      (asset.address || asset.addressBase) ? (
+                        <button className="btn btn--primary disabled">
+                          Copied to clipboard
+                        </button>
+                      ) : (
+                        <button className="btn btn--primary">
+                          Copy address
+                        </button>
+                      )}
+                    </CopyToClipboard>
+                  </div>
+                )}
                 <a
                   href="#"
                   onClick={this.props.history.goBack}
