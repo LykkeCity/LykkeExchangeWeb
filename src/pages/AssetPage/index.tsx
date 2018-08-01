@@ -52,13 +52,6 @@ export class AssetPage extends React.Component<AssetPageProps> {
     );
   }
 
-  get isEth() {
-    const {assetId} = this.props.match.params;
-    const asset = this.assetStore.getById(assetId);
-
-    return assetId === 'ETH' || (asset && asset.name === 'ETH');
-  }
-
   componentDidMount() {
     const {assetId} = this.props.match.params;
     this.assetStore.fetchAddress(assetId);
@@ -71,6 +64,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const asset = this.assetStore.getById(assetId) || new AssetModel();
     const wallet = this.walletStore.tradingWallets[0];
     const balance = wallet && wallet.balances.find(b => b.assetId === assetId);
+    const QR_SIZE = 120;
 
     return (
       <div className="asset-page-wrapper">
@@ -101,19 +95,19 @@ export class AssetPage extends React.Component<AssetPageProps> {
                   title={`Scan both address and tag to deposit ${asset.name}.`}
                 >
                   <div className="asset-page__address">
-                    <QRCode size={120} value={asset.addressBase} />
+                    <QRCode size={QR_SIZE} value={asset.addressBase} />
                     <div className="asset-page__address-tip">Address</div>
                   </div>
                   <div className="asset-page__address">
-                    <QRCode size={120} value={asset.addressExtension} />
+                    <QRCode size={QR_SIZE} value={asset.addressExtension} />
                     <div className="asset-page__address-tip">Tag</div>
                   </div>
                 </div>
               ) : (
                 asset.address &&
-                !this.isEth && (
+                !this.assetStore.isEth(asset.id) && (
                   <div className="asset-page__address">
-                    <QRCode size={120} value={asset.address} />
+                    <QRCode size={QR_SIZE} value={asset.address} />
                     <div className="asset-page__address-tip">
                       Scan to Deposit
                     </div>

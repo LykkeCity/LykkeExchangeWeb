@@ -28,6 +28,12 @@ export class AssetStore {
 
   getById = (id: string) => this.assets.find(a => a.id === id);
 
+  isEth = (assetId: string) => {
+    const asset = this.getById(assetId);
+
+    return assetId === 'ETH' || (asset && asset.name === 'ETH');
+  };
+
   getInstrumentById = (id: string) =>
     this.instruments.find(x => x.id.toLowerCase() === id.toLowerCase());
 
@@ -85,11 +91,13 @@ export class AssetStore {
   fetchAssetsAvailableForDeposit = async () => {
     const resp = await this.api.fetchPaymentMethods();
     const fxpaygate = resp.PaymentMethods.find(
-      (pm: any) => pm.Name === 'Fxpaygate'
+      (paymentMethod: any) => paymentMethod.Name === 'Fxpaygate'
     );
-    const swift = resp.PaymentMethods.find((pm: any) => pm.Name === 'Swift');
+    const swift = resp.PaymentMethods.find(
+      (paymentMethod: any) => paymentMethod.Name === 'Swift'
+    );
     const cryptos = resp.PaymentMethods.find(
-      (pm: any) => pm.Name === 'Cryptos'
+      (paymentMethod: any) => paymentMethod.Name === 'Cryptos'
     );
     const prepareAssets = (assets: any) =>
       assets
@@ -124,9 +132,9 @@ export class AssetStore {
       .then((resp: any) => {
         this.setAddress(assetId, resp);
       })
-      .catch(async (e: any) => {
-        const err = JSON.parse(e.message);
-        if (err && err.error === AddressError.NotGenerated) {
+      .catch(async (error: any) => {
+        const errorMessage = JSON.parse(error.message);
+        if (errorMessage && errorMessage.error === AddressError.NotGenerated) {
           try {
             await this.api.generateAssetAddress(assetId);
           } finally {

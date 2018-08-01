@@ -33,7 +33,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
-    const asset = this.assetStore.getById(assetId);
 
     const clientDialog = this.dialogStore.pendingDialogs.find(
       (dialog: DialogModel) =>
@@ -42,7 +41,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     if (clientDialog) {
       clientDialog.visible = true;
     }
-    if (assetId === 'ETH' || (asset && asset.name === 'ETH')) {
+    if (this.assetStore.isEth(assetId)) {
       this.uiStore.showEthWarning = true;
       this.addressLoaded = true;
     } else {
@@ -94,63 +93,14 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                     To deposit {asset.name} to your trading wallet please use
                     the following address and deposit tag or scan the QR codes.
                   </div>
-                  <div className="deposit-crypto__address-qr">
-                    <QRCode size={240} value={asset.addressBase} />
-                  </div>
-                  <div className="deposit-crypto__address-info">
-                    <div>
-                      <div className="deposit-crypto__address-label">
-                        Your wallet address
-                      </div>
-                      <div className="deposit-crypto__address">
-                        {asset.addressBase}
-                      </div>
-                    </div>
-                    <div>
-                      <CopyToClipboard
-                        text={asset.addressBase}
-                        onCopy={this.handleCopyAddress}
-                      >
-                        <button className="btn btn--icon" type="button">
-                          <i className="icon icon--copy_thin" />
-                        </button>
-                      </CopyToClipboard>
-                      {this.copiedToClipboardText === asset.addressBase && (
-                        <small className="copy-to-clipboard-message">
-                          Copied!
-                        </small>
-                      )}
-                    </div>
-                  </div>
-                  <div className="deposit-crypto__address-qr">
-                    <QRCode size={240} value={asset.addressExtension} />
-                  </div>
-                  <div className="deposit-crypto__address-info">
-                    <div>
-                      <div className="deposit-crypto__address-label">
-                        Deposit tag
-                      </div>
-                      <div className="deposit-crypto__address">
-                        {asset.addressExtension}
-                      </div>
-                    </div>
-                    <div>
-                      <CopyToClipboard
-                        text={asset.addressExtension}
-                        onCopy={this.handleCopyAddress}
-                      >
-                        <button className="btn btn--icon" type="button">
-                          <i className="icon icon--copy_thin" />
-                        </button>
-                      </CopyToClipboard>
-                      {this.copiedToClipboardText ===
-                        asset.addressExtension && (
-                        <small className="copy-to-clipboard-message">
-                          Copied!
-                        </small>
-                      )}
-                    </div>
-                  </div>
+                  {this.renderAddressBlock(
+                    asset.addressBase,
+                    'Your wallet address'
+                  )}
+                  {this.renderAddressBlock(
+                    asset.addressExtension,
+                    'Deposit tag'
+                  )}
                 </div>
               ) : asset.address ? (
                 <div>
@@ -158,34 +108,10 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                     To deposit {asset.name} to your trading wallet please use
                     the following address.
                   </div>
-                  <div className="deposit-crypto__address-qr">
-                    <QRCode size={240} value={asset.address} />
-                  </div>
-                  <div className="deposit-crypto__address-info">
-                    <div>
-                      <div className="deposit-crypto__address-label">
-                        Your wallet address
-                      </div>
-                      <div className="deposit-crypto__address">
-                        {asset.address}
-                      </div>
-                    </div>
-                    <div>
-                      <CopyToClipboard
-                        text={asset.address}
-                        onCopy={this.handleCopyAddress}
-                      >
-                        <button className="btn btn--icon" type="button">
-                          <i className="icon icon--copy_thin" />
-                        </button>
-                      </CopyToClipboard>
-                      {this.copiedToClipboardText === asset.address && (
-                        <small className="copy-to-clipboard-message">
-                          Copied!
-                        </small>
-                      )}
-                    </div>
-                  </div>
+                  {this.renderAddressBlock(
+                    asset.address,
+                    'Your wallet address'
+                  )}
                 </div>
               ) : this.addressLoaded ? (
                 <div className="deposit-crypto__description text-center">
@@ -208,6 +134,34 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
       </div>
     );
   }
+
+  private renderAddressBlock = (address: string, label: string) => {
+    const QR_SIZE = 240;
+
+    return (
+      <div>
+        <div className="deposit-crypto__address-qr">
+          <QRCode size={QR_SIZE} value={address} />
+        </div>
+        <div className="deposit-crypto__address-info">
+          <div>
+            <div className="deposit-crypto__address-label">{label}</div>
+            <div className="deposit-crypto__address">{address}</div>
+          </div>
+          <div>
+            <CopyToClipboard text={address} onCopy={this.handleCopyAddress}>
+              <button className="btn btn--icon" type="button">
+                <i className="icon icon--copy_thin" />
+              </button>
+            </CopyToClipboard>
+            {this.copiedToClipboardText === address && (
+              <small className="copy-to-clipboard-message">Copied!</small>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   private renderEthWarningDescription = () => (
     <div>

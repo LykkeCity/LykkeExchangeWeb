@@ -21,7 +21,7 @@ export class RestAssetApi extends RestApi implements AssetApi {
   fetchAssetAddress = (id: string) =>
     this.get(`/deposits/crypto/${id}/address`);
   generateAssetAddress = (id: string) =>
-    this.post(`/deposits/crypto/${id}/address`, undefined);
+    this.post(`/deposits/crypto/${id}/address`);
 
   fetchCategories = () => this.get('/assets/categories');
 

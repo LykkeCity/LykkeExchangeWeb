@@ -20,7 +20,7 @@ import {
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {WalletModel} from '../../models';
+import {AssetModel, WalletModel} from '../../models';
 import './style.css';
 
 interface WalletActionBarProps extends RootStoreProps {
@@ -51,86 +51,28 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                 </DropdownControl>
                 <DropdownContainer>
                   <DropdownList className="wallet-menu">
-                    <DropdownListItem>
-                      <Dropdown position={DropdownPosition.RIGHT}>
-                        <DropdownControl>
-                          <a>
-                            <img
-                              className="icon"
-                              src={`${process.env
-                                .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`}
-                            />
-                            Credit Card
-                          </a>
-                        </DropdownControl>
-                        <DropdownContainer>
-                          <DropdownList className="wallet-asset-menu">
-                            {assetsAvailableForCreditCardDeposit.map(asset => (
-                              <DropdownListItem key={asset.id}>
-                                <Link
-                                  to={ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                    wallet.id,
-                                    asset.id
-                                  )}
-                                >
-                                  {asset.name}
-                                </Link>
-                              </DropdownListItem>
-                            ))}
-                          </DropdownList>
-                        </DropdownContainer>
-                      </Dropdown>
-                    </DropdownListItem>
-                    <DropdownListItem>
-                      <Dropdown position={DropdownPosition.RIGHT}>
-                        <DropdownControl>
-                          <a>
-                            <img
-                              className="icon"
-                              src={`${process.env
-                                .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`}
-                            />
-                            Blockchain Transfer
-                          </a>
-                        </DropdownControl>
-                        <DropdownContainer>
-                          <DropdownList className="wallet-asset-menu">
-                            {assetsAvailableForCryptoDeposit.map(asset => (
-                              <DropdownListItem key={asset.id}>
-                                <Link to={ROUTE_DEPOSIT_CRYPTO_TO(asset.id)}>
-                                  {asset.name}
-                                </Link>
-                              </DropdownListItem>
-                            ))}
-                          </DropdownList>
-                        </DropdownContainer>
-                      </Dropdown>
-                    </DropdownListItem>
-                    <DropdownListItem>
-                      <Dropdown position={DropdownPosition.RIGHT}>
-                        <DropdownControl>
-                          <a>
-                            <img
-                              className="icon"
-                              src={`${process.env
-                                .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`}
-                            />
-                            SWIFT
-                          </a>
-                        </DropdownControl>
-                        <DropdownContainer>
-                          <DropdownList className="wallet-asset-menu">
-                            {assetsAvailableForSwiftDeposit.map(asset => (
-                              <DropdownListItem key={asset.id}>
-                                <Link to={ROUTE_DEPOSIT_SWIFT_TO(asset.id)}>
-                                  {asset.name}
-                                </Link>
-                              </DropdownListItem>
-                            ))}
-                          </DropdownList>
-                        </DropdownContainer>
-                      </Dropdown>
-                    </DropdownListItem>
+                    {this.renderDepositMenuItem(
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                      'Credit Card',
+                      assetsAvailableForCreditCardDeposit,
+                      (assetId: string) =>
+                        ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)
+                    )}
+                    {this.renderDepositMenuItem(
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                      'Blockchain Transfer',
+                      assetsAvailableForCryptoDeposit,
+                      (assetId: string) => ROUTE_DEPOSIT_CRYPTO_TO(assetId)
+                    )}
+                    {this.renderDepositMenuItem(
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                      'SWIFT',
+                      assetsAvailableForSwiftDeposit,
+                      (assetId: string) => ROUTE_DEPOSIT_SWIFT_TO(assetId)
+                    )}
                   </DropdownList>
                 </DropdownContainer>
               </Dropdown>
@@ -176,6 +118,33 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
       </div>
     );
   }
+
+  private renderDepositMenuItem = (
+    iconUrl: string,
+    title: string,
+    assets: AssetModel[],
+    getRoute: (assetId: string) => string
+  ) => (
+    <DropdownListItem>
+      <Dropdown position={DropdownPosition.RIGHT}>
+        <DropdownControl>
+          <a>
+            <img className="icon" src={iconUrl} />
+            {title}
+          </a>
+        </DropdownControl>
+        <DropdownContainer>
+          <DropdownList className="wallet-asset-menu">
+            {assets.map(asset => (
+              <DropdownListItem key={asset.id}>
+                <Link to={getRoute(asset.id)}>{asset.name}</Link>
+              </DropdownListItem>
+            ))}
+          </DropdownList>
+        </DropdownContainer>
+      </Dropdown>
+    </DropdownListItem>
+  );
 
   private handleCopyApiKey = (text: string) => {
     if (!!text) {

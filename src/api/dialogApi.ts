@@ -9,7 +9,7 @@ export interface DialogApi {
 export class RestHistoryApi extends RestApi implements DialogApi {
   fetchPendingDialogs = () => this.get('/dialogs');
   submitDialog = (dialogId: string, actionId: string) =>
-    this.post(`/dialogs/${dialogId}/actions/${actionId}`, undefined);
+    this.post(`/dialogs/${dialogId}/actions/${actionId}`);
 }
 
 export default RestHistoryApi;
