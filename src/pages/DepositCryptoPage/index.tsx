@@ -90,6 +90,12 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
           description={this.renderEthWarningDescription()}
         />
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
+        <a href="#" onClick={this.props.history.goBack} className="arrow-back">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/back-icn.svg`}
+            alt="Back"
+          />
+        </a>
         {asset &&
           !this.uiStore.showEthWarning && (
             <div className="deposit-crypto">
