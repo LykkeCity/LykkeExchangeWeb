@@ -17,17 +17,23 @@ import {
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
 import {AssetModel, WalletModel} from '../../models/index';
-import {RootStore} from '../../stores';
+import {AssetStore, RootStore} from '../../stores';
 import {moneyRound, plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
+import Spinner from '../Spinner';
+
 import './style.css';
 
 const ASSET_DEFAULT_ICON_URL = `${process.env
   .PUBLIC_URL}/images/assets/asset_default.jpg`;
 
+// tslint:disable-next-line:no-var-requires
+const QRCode = require('qrcode.react');
+
 interface WalletBalanceListProps {
   wallet: WalletModel;
   isKycPassed?: boolean;
+  assetStore?: AssetStore;
   assetsAvailableForCreditCardDeposit?: AssetModel[];
   assetsAvailableForSwiftDeposit?: AssetModel[];
   assetsAvailableForCryptoDeposit?: AssetModel[];
@@ -36,6 +42,7 @@ interface WalletBalanceListProps {
 export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
   wallet,
   isKycPassed,
+  assetStore,
   assetsAvailableForCreditCardDeposit = [],
   assetsAvailableForSwiftDeposit = [],
   assetsAvailableForCryptoDeposit = []
@@ -46,6 +53,8 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
     assetsAvailableForCryptoDeposit.find(asset => asset.id === assetId);
   const isAvailableForSwiftDeposit = (assetId: string) =>
     assetsAvailableForSwiftDeposit.find(asset => asset.id === assetId);
+
+  const QR_SIZE = 120;
 
   const renderDepositMenuItem = (
     label: string,
@@ -71,6 +80,13 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
       )}
     </DropdownListItem>
   );
+
+  const handleQrOpen = (assetId: string) => {
+    const asset = assetStore!.getById(assetId);
+    if (asset && !asset.address) {
+      assetStore!.fetchAddress(assetId);
+    }
+  };
 
   return (
     <div className="wallet__balances">
@@ -124,20 +140,64 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                 balance.asset.name
                               )}
                               {isAvailableForCryptoDeposit(balance.assetId) &&
-                                isKycPassed && (
-                                  <span className="qr-icn">
-                                    <Link
-                                      to={ROUTE_DEPOSIT_CRYPTO_TO(
-                                        balance.assetId
-                                      )}
-                                    >
-                                      <img
-                                        className="icon"
-                                        src={`${process.env
-                                          .PUBLIC_URL}/images/qr-icn.svg`}
-                                      />
-                                    </Link>
-                                  </span>
+                                isKycPassed &&
+                                !assetStore!.isEth(balance.assetId) && (
+                                  <div
+                                    className="pull-right"
+                                    // tslint:disable-next-line:jsx-no-lambda
+                                    onMouseOver={() =>
+                                      handleQrOpen(balance.assetId)}
+                                  >
+                                    <Dropdown>
+                                      <DropdownControl>
+                                        <span className="qr-icn">
+                                          <img
+                                            className="icon"
+                                            src={`${process.env
+                                              .PUBLIC_URL}/images/qr-icn.svg`}
+                                          />
+                                        </span>
+                                      </DropdownControl>
+                                      <DropdownContainer>
+                                        <div className="asset-address">
+                                          {balance.asset.addressExtension ? (
+                                            <div>
+                                              <QRCode
+                                                size={QR_SIZE}
+                                                value={
+                                                  balance.asset.addressBase
+                                                }
+                                              />
+                                              <div className="asset-address-label">
+                                                Address
+                                              </div>
+                                              <QRCode
+                                                size={QR_SIZE}
+                                                value={
+                                                  balance.asset.addressExtension
+                                                }
+                                              />
+                                              <div className="asset-address-label">
+                                                Tag
+                                              </div>
+                                            </div>
+                                          ) : balance.asset.address ? (
+                                            <div>
+                                              <QRCode
+                                                size={QR_SIZE}
+                                                value={balance.asset.address}
+                                              />
+                                              <div className="asset-address-label">
+                                                Scan to get the address
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <Spinner />
+                                          )}
+                                        </div>
+                                      </DropdownContainer>
+                                    </Dropdown>
+                                  </div>
                                 )}
                             </div>
                           </div>
@@ -239,6 +299,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
 };
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  assetStore: rootStore.assetStore,
   assetsAvailableForCreditCardDeposit:
     rootStore.assetStore.assetsAvailableForCreditCardDeposit,
   assetsAvailableForCryptoDeposit:

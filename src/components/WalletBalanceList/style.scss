@@ -162,10 +162,33 @@
       color: $text;
     }
 
+    .dropdown__nav {
+      width: 160px;
+
+      .asset-address {
+        text-align: center;
+        margin-top: 15px;
+      }
+
+      .asset-address-label {
+        color: $gray-dark;
+        line-height: 1.43;
+        margin: 10px;
+
+        @include rem(font-size, 14px);
+      }
+    }
+
     .qr-icn {
       position: relative;
       left: 5px;
       bottom: 2px;
+      opacity: 0.5;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 
