@@ -128,10 +128,7 @@ export class AssetStore {
     const disabledCryptoAssetNames = ['VET', 'ICX', 'EOS'];
     this.assetsAvailableForCryptoDeposit = this.assetsAvailableForCryptoDeposit.filter(
       asset =>
-        !disabledCryptoAssetNames.find(
-          (assetName => assetName === asset.id) ||
-            disabledCryptoAssetNames.find(assetName => assetName === asset.name)
-        )
+        !disabledCryptoAssetNames.find(assetName => asset.name === assetName)
     );
   };
 
