@@ -4,7 +4,7 @@ import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
 const AddressError = {
-  NotGenerated: 'BlockchainWalletDepositAddressNotGenerated'
+  NotGenerated: 'AddressNotGenerated'
 };
 
 export class AssetStore {
