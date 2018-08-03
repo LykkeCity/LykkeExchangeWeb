@@ -124,6 +124,15 @@ export class AssetStore {
         this.assetsAvailableForCryptoDeposit = prepareAssets(cryptos.Assets);
       });
     }
+
+    const disabledCryptoAssetNames = ['VET', 'ICX', 'EOS'];
+    this.assetsAvailableForCryptoDeposit = this.assetsAvailableForCryptoDeposit.filter(
+      asset =>
+        !disabledCryptoAssetNames.find(
+          (assetName => assetName === asset.id) ||
+            disabledCryptoAssetNames.find(assetName => assetName === asset.name)
+        )
+    );
   };
 
   fetchAddress = async (assetId: string) => {
