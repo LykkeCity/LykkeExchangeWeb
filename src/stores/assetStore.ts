@@ -14,6 +14,7 @@ export class AssetStore {
   @observable assetsAvailableForCryptoDeposit: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
+  @observable selectedAsset?: AssetModel;
 
   @observable.shallow private availableAssets: string[] = [];
 

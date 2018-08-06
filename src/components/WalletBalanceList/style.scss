@@ -274,3 +274,12 @@
     @include rem(margin-right, 10px);
   }
 }
+
+.asset-address-modal {
+  text-align: center;
+
+  hr {
+    width: 100%;
+    margin: 30px auto 40px;
+  }
+}
