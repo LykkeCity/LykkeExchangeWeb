@@ -14,6 +14,9 @@ export class HistoryPage extends React.Component<RootStoreProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
 
+  private isExportLoading = false;
+  private transactionType?: TransactionType[] = [];
+
   componentDidMount() {
     window.scrollTo(0, 0);
   }
@@ -30,7 +33,17 @@ export class HistoryPage extends React.Component<RootStoreProps> {
             />
           </Link>
           <div className="history-page">
-            <h2 className="history-page__title">History</h2>
+            <h2 className="history-page__title">
+              History
+              <span
+                className="pull-right btn-shadow btn-export"
+                // tslint:disable-next-line:jsx-no-lambda
+                onClick={() => this.exportTransactions()}
+              >
+                <img src={`${process.env.PUBLIC_URL}/images/export-icn.svg`} />
+                Export to csv
+              </span>
+            </h2>
             <div className="history-page__wallet-name">Trading wallet</div>
           </div>
         </div>
@@ -38,6 +51,8 @@ export class HistoryPage extends React.Component<RootStoreProps> {
         <TransactionsTable
           transactions={this.transactionStore.walletTransactions}
           loadTransactions={this.loadTransactions}
+          exportTransactions={this.exportTransactions}
+          onTransactionTypeChange={this.handleTransactionTypeChange}
           stickyTitle={this.renderStickyTitle()}
         />
       </div>
@@ -49,6 +64,23 @@ export class HistoryPage extends React.Component<RootStoreProps> {
       <span className="sticky-title__wallet-name">Trading Wallet</span>
     </div>
   );
+
+  private handleTransactionTypeChange = (
+    transactionType?: TransactionType[]
+  ) => {
+    this.transactionType = transactionType;
+  };
+
+  private exportTransactions = async (transactionType?: TransactionType[]) => {
+    if (!this.isExportLoading) {
+      this.isExportLoading = true;
+      const url = await this.transactionStore.fetchTransactionsCsvUrl(
+        transactionType || this.transactionType
+      );
+      window.location.replace(url);
+      this.isExportLoading = false;
+    }
+  };
 
   private loadTransactions = async (
     count: number,

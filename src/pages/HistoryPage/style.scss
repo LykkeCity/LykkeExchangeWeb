@@ -12,6 +12,14 @@
   &__title {
     font-family: 'Akrobat', sans-serif;
     margin-bottom: 0;
+
+    .btn-export {
+      margin-top: 5px;
+
+      img {
+        margin-right: 10px;
+      }
+    }
   }
 
   &__wallet-name {
