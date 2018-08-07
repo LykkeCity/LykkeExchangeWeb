@@ -33,6 +33,21 @@
   appearance: none !important;
 }
 
+.btn-shadow {
+  color: $heading;
+  letter-spacing: 1.5px;
+  font-weight: $fw-semi;
+  font-family: $ff;
+  text-transform: uppercase;
+  padding: 5px 20px 5px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2),
+    0 2px 4px 0 rgba(140, 148, 160, 0.15);
+
+  @include rem(font-size, 13px);
+}
+
 .addon-text {
   cursor: default !important;
   -webkit-user-select: none;

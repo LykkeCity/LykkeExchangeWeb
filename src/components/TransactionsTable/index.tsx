@@ -33,7 +33,10 @@ interface TransactionsTableProps extends RootStoreProps {
     count: number,
     transactionTypes?: TransactionType[]
   ) => void;
+  exportTransactions: (transactionType?: TransactionType[]) => void;
+  onTransactionTypeChange?: (transactionType?: TransactionType[]) => void;
   stickyTitle?: React.ReactChild;
+  showExportButton?: boolean;
 }
 
 export class TransactionsTable extends React.Component<TransactionsTableProps> {
@@ -135,6 +138,15 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                 >
                   {this.props.stickyTitle}
                 </div>
+                <span
+                  className="pull-right btn-shadow btn-export"
+                  onClick={this.handleExportClick}
+                >
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
+                  />
+                  CSV
+                </span>
                 {transactionFilters.map(filter => (
                   <div
                     className={classnames('transaction-filters__item', {
@@ -178,6 +190,17 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
               <div className="transaction-filters__title">
                 Latest transactions
               </div>
+              {this.props.showExportButton && (
+                <span
+                  className="pull-right btn-shadow btn-export"
+                  onClick={this.handleExportClick}
+                >
+                  <img
+                    src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
+                  />
+                  CSV
+                </span>
+              )}
               {transactionFilters.map(filter => (
                 <div
                   className={classnames('transaction-filters__item', {
@@ -299,6 +322,10 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
     );
   }
 
+  private handleExportClick = async () => {
+    this.props.exportTransactions(this.transactionsFilterValue);
+  };
+
   private loadTransactions = async () => {
     this.areTransactionsLoading = true;
     await this.props.loadTransactions(
@@ -319,6 +346,9 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       window.scrollTo(0, filtersRowStartPosition);
     }
 
+    if (this.props.onTransactionTypeChange) {
+      this.props.onTransactionTypeChange(transactionType);
+    }
     this.transactionsFilterValue = transactionType;
     this.pageNumber = 1;
     this.loadTransactions();

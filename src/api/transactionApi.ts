@@ -11,6 +11,11 @@ export interface TransactionApi {
     assetId?: string,
     operationType?: TransactionType[]
   ) => ApiResponse<any>;
+
+  fetchExportCsvUrl: (
+    assetId?: string,
+    operationType?: TransactionType[]
+  ) => ApiResponse<any>;
 }
 
 export class RestTransactionApi extends RestApi implements TransactionApi {
@@ -32,6 +37,9 @@ export class RestTransactionApi extends RestApi implements TransactionApi {
       assetId,
       operationType
     );
+
+  fetchExportCsvUrl = (assetId?: string, operationType?: TransactionType[]) =>
+    this.historyApi.fetchExportCsvUrl(0, assetId, operationType);
 }
 
 export default RestTransactionApi;
