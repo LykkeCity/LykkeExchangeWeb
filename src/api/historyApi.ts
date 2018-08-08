@@ -26,6 +26,30 @@ export class RestHistoryApi extends RestApi implements HistoryApi {
       skip,
       take
     });
+
+  fetchExportCsvUrl = async (
+    assetId?: string,
+    operationType?: TransactionType[]
+  ) => {
+    const idResponse = await this.post('/history/client/csv', {
+      assetId,
+      operationType
+    });
+
+    if (idResponse) {
+      let urlResponse = await this.getWithQuery('/history/client/csv', {
+        id: idResponse.Id
+      });
+
+      while (!urlResponse.Url) {
+        urlResponse = await this.getWithQuery('/history/client/csv', {
+          id: idResponse.Id
+        });
+      }
+
+      return urlResponse.Url;
+    }
+  };
 }
 
 export default RestHistoryApi;
