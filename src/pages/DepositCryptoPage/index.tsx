@@ -60,6 +60,16 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
       (dialog: DialogModel) =>
         dialog.conditionType === DialogConditionType.Predeposit
     );
+    const defaultWarningMessage = (assetName: string) =>
+      `Please, only send ${assetName} to this address. Depositing any other asset may result in funds loss.`;
+    const warningMessages = {
+      BTC:
+        'Please, only send Bitcoin (BTC) to this address. Depositing any other asset may result in funds loss.',
+      ETC:
+        'Please, only send Ethereum Classic (ETC) to this address, do not send ETH. Depositing any asset other than ETC may result in funds loss.',
+      ETH:
+        'Please, only send Ethereum (ETH) to this address, do not send ETC or ERC20 tokens. Depositing any asset other than ETH may result in funds loss.'
+    };
 
     return (
       <div className="container">
@@ -80,6 +90,12 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
           description={this.renderEthWarningDescription()}
         />
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
+        <a href="#" onClick={this.props.history.goBack} className="arrow-back">
+          <img
+            src={`${process.env.PUBLIC_URL}/images/back-icn.svg`}
+            alt="Back"
+          />
+        </a>
         {asset &&
           !this.uiStore.showEthWarning && (
             <div className="deposit-crypto">
@@ -120,7 +136,30 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               ) : (
                 <Spinner />
               )}
-              <div className="go-back-btn">
+              <div className="deposit-crypto__actions">
+                {(asset.addressBase || asset.address) && (
+                  <div>
+                    <CopyToClipboard
+                      text={asset.addressBase || asset.address}
+                      onCopy={this.handleCopyAddress}
+                    >
+                      {this.copiedToClipboardText ===
+                      (asset.addressBase || asset.address) ? (
+                        <button className="btn btn--primary disabled">
+                          Copied to clipboard
+                        </button>
+                      ) : (
+                        <button className="btn btn--primary">
+                          Copy address
+                        </button>
+                      )}
+                    </CopyToClipboard>
+                    <div className="deposit-crypto__warning">
+                      {warningMessages[asset.name] ||
+                        defaultWarningMessage(asset.name)}
+                    </div>
+                  </div>
+                )}
                 <a
                   href="#"
                   onClick={this.props.history.goBack}
@@ -141,7 +180,14 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     return (
       <div>
         <div className="deposit-crypto__address-qr">
-          <QRCode size={QR_SIZE} value={address} />
+          <CopyToClipboard text={address} onCopy={this.handleCopyAddress}>
+            <QRCode size={QR_SIZE} value={address} />
+          </CopyToClipboard>
+          {this.copiedToClipboardText === address && (
+            <small className="copy-to-clipboard-message">
+              Copied to clipboard
+            </small>
+          )}
         </div>
         <div className="deposit-crypto__address-info">
           <div>
@@ -154,9 +200,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                 <i className="icon icon--copy_thin" />
               </button>
             </CopyToClipboard>
-            {this.copiedToClipboardText === address && (
-              <small className="copy-to-clipboard-message">Copied!</small>
-            )}
           </div>
         </div>
       </div>

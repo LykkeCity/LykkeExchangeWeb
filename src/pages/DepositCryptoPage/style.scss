@@ -39,7 +39,13 @@
     @include rem(margin, 60px 0);
 
     canvas {
+      cursor: pointer;
       width: 240px;
+    }
+
+    .copy-to-clipboard-message {
+      color: $green;
+      display: block;
     }
   }
 
@@ -74,16 +80,18 @@
     @include rem(font-size, 16px);
   }
 
-  .copy-to-clipboard-message {
-    position: absolute;
-    color: $green;
-    top: 4rem;
-    right: 1rem;
-  }
-
-  .go-back-btn {
+  &__actions {
     margin-top: 59px;
     text-align: center;
+
+    .btn--primary {
+      margin-bottom: 16px;
+    }
+  }
+
+  &__warning {
+    @include rem(font-size, 14px);
+    @include rem(line-height, 20px);
   }
 }
 

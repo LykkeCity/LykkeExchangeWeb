@@ -20,6 +20,7 @@ export class UiStore {
   @observable showKycBanner: boolean;
   @observable showDisclaimerError: boolean = false;
   @observable showEthWarning: boolean = false;
+  @observable showAssetAddressModal: boolean = false;
   @observable transferError: string;
   @observable apiError: string;
 
@@ -50,7 +51,8 @@ export class UiStore {
       this.showQrWindow ||
       this.showSidebar ||
       this.hasVisibleDialogs ||
-      this.showEthWarning
+      this.showEthWarning ||
+      this.showAssetAddressModal
     );
   }
 
@@ -122,6 +124,7 @@ export class UiStore {
   readonly hideModals = () => {
     this.showConfirmRegenerateKey = false;
     this.showEthWarning = false;
+    this.showAssetAddressModal = false;
   };
 }
 

@@ -1,4 +1,5 @@
 import {
+  Dialog,
   Dropdown,
   DropdownContainer,
   DropdownControl,
@@ -6,9 +7,11 @@ import {
   DropdownListItem
 } from '@lykkex/react-components';
 import classnames from 'classnames';
+import {action} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
+import {RootStoreProps} from '../../App';
 import {
   ROUTE_ASSET,
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
@@ -16,69 +19,53 @@ import {
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_TRANSFER_FROM
 } from '../../constants/routes';
-import {AssetModel, WalletModel} from '../../models/index';
-import {RootStore} from '../../stores';
+import {STORE_ROOT} from '../../constants/stores';
+import {WalletModel} from '../../models/index';
 import {moneyRound, plural} from '../../utils';
 import {asAssetBalance, asBalance} from '../hoc/assetBalance';
+import Spinner from '../Spinner';
+
 import './style.css';
 
 const ASSET_DEFAULT_ICON_URL = `${process.env
   .PUBLIC_URL}/images/assets/asset_default.jpg`;
 
-interface WalletBalanceListProps {
+// tslint:disable-next-line:no-var-requires
+const QRCode = require('qrcode.react');
+
+interface WalletBalanceListProps extends RootStoreProps {
   wallet: WalletModel;
-  isKycPassed?: boolean;
-  assetsAvailableForCreditCardDeposit?: AssetModel[];
-  assetsAvailableForSwiftDeposit?: AssetModel[];
-  assetsAvailableForCryptoDeposit?: AssetModel[];
 }
 
-export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
-  wallet,
-  isKycPassed,
-  assetsAvailableForCreditCardDeposit = [],
-  assetsAvailableForSwiftDeposit = [],
-  assetsAvailableForCryptoDeposit = []
-}) => {
-  const isAvailableForCreditCardDeposit = (assetId: string) =>
-    assetsAvailableForCreditCardDeposit.find(asset => asset.id === assetId);
-  const isAvailableForCryptoDeposit = (assetId: string) =>
-    assetsAvailableForCryptoDeposit.find(asset => asset.id === assetId);
-  const isAvailableForSwiftDeposit = (assetId: string) =>
-    assetsAvailableForSwiftDeposit.find(asset => asset.id === assetId);
+export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
+  private readonly assetStore = this.props.rootStore!.assetStore;
+  private readonly profileStore = this.props.rootStore!.profileStore;
+  private readonly uiStore = this.props.rootStore!.uiStore;
 
-  const renderDepositMenuItem = (
-    label: string,
-    route: string,
-    iconUrl: string
-  ) => (
-    <DropdownListItem
-      key={label}
-      className={classnames({
-        disabled: !isKycPassed
-      })}
-    >
-      {isKycPassed ? (
-        <Link to={route}>
-          <img className="icon" src={iconUrl} />
-          {label}
-        </Link>
-      ) : (
-        <a>
-          <img className="icon" src={iconUrl} />
-          {label}
-        </a>
-      )}
-    </DropdownListItem>
-  );
+  render() {
+    const QR_SIZE = 120;
+    const wallet = this.props.wallet;
 
-  return (
-    <div className="wallet__balances">
-      {wallet.hasBalances || (
-        <small style={{margin: 0}}>You don’t have any asset yet</small>
-      )}
-      {wallet.hasBalances &&
-        Object.keys(wallet.getBalancesByCategory).map(x => {
+    if (!wallet.hasBalances) {
+      return (
+        <div className="wallet__balances">
+          <small style={{margin: 0}}>You don’t have any asset yet</small>
+        </div>
+      );
+    }
+
+    return (
+      <div className="wallet__balances">
+        <Dialog
+          className="asset-address-modal"
+          visible={this.uiStore.showAssetAddressModal}
+          onCancel={this.handleCloseAssetAddressModal}
+          confirmButton={{text: ''}}
+          cancelButton={{text: ''}}
+          title=""
+          description={this.renderAssetAddressModal()}
+        />
+        {Object.keys(wallet.getBalancesByCategory).map(x => {
           const balances = wallet.getBalancesByCategory[x];
           return (
             <div key={x}>
@@ -123,21 +110,70 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                               ) : (
                                 balance.asset.name
                               )}
-                              {isAvailableForCryptoDeposit(balance.assetId) &&
-                                isKycPassed && (
-                                  <span className="qr-icn">
-                                    <Link
-                                      to={ROUTE_DEPOSIT_CRYPTO_TO(
-                                        balance.assetId
-                                      )}
-                                    >
-                                      <img
-                                        className="icon"
-                                        src={`${process.env
-                                          .PUBLIC_URL}/images/qr-icn.svg`}
-                                      />
-                                    </Link>
-                                  </span>
+                              {this.isAvailableForCryptoDeposit(
+                                balance.assetId
+                              ) &&
+                                this.profileStore.isKycPassed &&
+                                !this.assetStore!.isEth(balance.assetId) && (
+                                  <div
+                                    className="pull-right"
+                                    // tslint:disable-next-line:jsx-no-lambda
+                                    onMouseOver={() =>
+                                      this.handleQrMouseOver(balance.assetId)}
+                                    // tslint:disable-next-line:jsx-no-lambda
+                                    onClick={() =>
+                                      this.handleQrClick(balance.assetId)}
+                                  >
+                                    <Dropdown>
+                                      <DropdownControl>
+                                        <span className="qr-icn">
+                                          <img
+                                            className="icon"
+                                            src={`${process.env
+                                              .PUBLIC_URL}/images/qr-icn.svg`}
+                                          />
+                                        </span>
+                                      </DropdownControl>
+                                      <DropdownContainer>
+                                        <div className="asset-address">
+                                          {balance.asset.addressExtension ? (
+                                            <div>
+                                              <QRCode
+                                                size={QR_SIZE}
+                                                value={
+                                                  balance.asset.addressBase
+                                                }
+                                              />
+                                              <div className="asset-address-label">
+                                                Address
+                                              </div>
+                                              <QRCode
+                                                size={QR_SIZE}
+                                                value={
+                                                  balance.asset.addressExtension
+                                                }
+                                              />
+                                              <div className="asset-address-label">
+                                                Tag
+                                              </div>
+                                            </div>
+                                          ) : balance.asset.address ? (
+                                            <div>
+                                              <QRCode
+                                                size={QR_SIZE}
+                                                value={balance.asset.address}
+                                              />
+                                              <div className="asset-address-label">
+                                                Scan to get the address
+                                              </div>
+                                            </div>
+                                          ) : (
+                                            <Spinner />
+                                          )}
+                                        </div>
+                                      </DropdownContainer>
+                                    </Dropdown>
+                                  </div>
                                 )}
                             </div>
                           </div>
@@ -157,9 +193,7 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                         {asBalance(balance)} {balance.asset.name}
                       </td>
                       <td className="_action">
-                        {(isAvailableForCreditCardDeposit(balance.assetId) ||
-                          isAvailableForSwiftDeposit(balance.assetId) ||
-                          isAvailableForCryptoDeposit(balance.assetId) ||
+                        {(this.isAvailableForDeposit(balance.assetId) ||
                           !wallet.isTrading) && (
                           <Dropdown trigger="click">
                             <DropdownControl>
@@ -177,10 +211,10 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                     >
                                       Deposit
                                     </DropdownListItem>,
-                                    isAvailableForCreditCardDeposit(
+                                    this.isAvailableForCreditCardDeposit(
                                       balance.assetId
                                     ) &&
-                                      renderDepositMenuItem(
+                                      this.renderDepositMenuItem(
                                         'Credit Card',
                                         ROUTE_DEPOSIT_CREDIT_CARD_TO(
                                           wallet.id,
@@ -189,10 +223,10 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                         `${process.env
                                           .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`
                                       ),
-                                    isAvailableForCryptoDeposit(
+                                    this.isAvailableForCryptoDeposit(
                                       balance.assetId
                                     ) &&
-                                      renderDepositMenuItem(
+                                      this.renderDepositMenuItem(
                                         'Blockchain Transfer',
                                         ROUTE_DEPOSIT_CRYPTO_TO(
                                           balance.assetId
@@ -200,10 +234,10 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
                                         `${process.env
                                           .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`
                                       ),
-                                    isAvailableForSwiftDeposit(
+                                    this.isAvailableForSwiftDeposit(
                                       balance.assetId
                                     ) &&
-                                      renderDepositMenuItem(
+                                      this.renderDepositMenuItem(
                                         'SWIFT',
                                         ROUTE_DEPOSIT_SWIFT_TO(balance.assetId),
                                         `${process.env
@@ -234,16 +268,119 @@ export const WalletBalanceList: React.SFC<WalletBalanceListProps> = ({
             </div>
           );
         })}
-    </div>
-  );
-};
+      </div>
+    );
+  }
 
-export default inject(({rootStore}: {rootStore: RootStore}) => ({
-  assetsAvailableForCreditCardDeposit:
-    rootStore.assetStore.assetsAvailableForCreditCardDeposit,
-  assetsAvailableForCryptoDeposit:
-    rootStore.assetStore.assetsAvailableForCryptoDeposit,
-  assetsAvailableForSwiftDeposit:
-    rootStore.assetStore.assetsAvailableForSwiftDeposit,
-  isKycPassed: rootStore.profileStore.isKycPassed
-}))(observer(WalletBalanceList));
+  private renderAssetAddressModal = () => {
+    const QR_SIZE = 240;
+
+    return (
+      <div className="asset-address-modal">
+        {this.assetStore.selectedAsset &&
+        this.assetStore.selectedAsset.addressExtension ? (
+          <div>
+            <div className="asset-address-label">
+              {this.assetStore.selectedAsset.addressBase}
+            </div>
+            <hr />
+            <QRCode
+              size={QR_SIZE}
+              value={this.assetStore.selectedAsset.addressBase}
+            />
+            <div className="asset-address-label">Address</div>
+            <hr />
+            <div className="asset-address-label">
+              {this.assetStore.selectedAsset.addressExtension}
+            </div>
+            <hr />
+            <QRCode
+              size={QR_SIZE}
+              value={this.assetStore.selectedAsset.addressExtension}
+            />
+            <div className="asset-address-label">Tag</div>
+          </div>
+        ) : this.assetStore.selectedAsset &&
+        this.assetStore.selectedAsset.address ? (
+          <div>
+            <div className="asset-address-label">
+              {this.assetStore.selectedAsset.address}
+            </div>
+            <hr />
+            <QRCode
+              size={QR_SIZE}
+              value={this.assetStore.selectedAsset.address}
+            />
+          </div>
+        ) : (
+          <Spinner />
+        )}
+      </div>
+    );
+  };
+
+  private renderDepositMenuItem = (
+    label: string,
+    route: string,
+    iconUrl: string
+  ) => (
+    <DropdownListItem
+      key={label}
+      className={classnames({
+        disabled: !this.profileStore.isKycPassed
+      })}
+    >
+      {this.profileStore.isKycPassed ? (
+        <Link to={route}>
+          <img className="icon" src={iconUrl} />
+          {label}
+        </Link>
+      ) : (
+        <a>
+          <img className="icon" src={iconUrl} />
+          {label}
+        </a>
+      )}
+    </DropdownListItem>
+  );
+
+  private handleQrMouseOver = (assetId: string) => {
+    const asset = this.assetStore!.getById(assetId);
+    if (asset && !asset.address) {
+      this.assetStore!.fetchAddress(assetId);
+    }
+  };
+
+  @action
+  private handleQrClick = (assetId: string) => {
+    this.uiStore.showAssetAddressModal = true;
+    this.assetStore.selectedAsset = this.assetStore!.getById(assetId);
+  };
+
+  @action
+  private handleCloseAssetAddressModal = () => {
+    this.uiStore.showAssetAddressModal = false;
+  };
+
+  private isAvailableForCreditCardDeposit = (assetId: string) =>
+    this.assetStore.assetsAvailableForCreditCardDeposit.find(
+      asset => asset.id === assetId
+    );
+
+  private isAvailableForCryptoDeposit = (assetId: string) =>
+    this.assetStore.assetsAvailableForCryptoDeposit.find(
+      asset => asset.id === assetId
+    );
+
+  private isAvailableForSwiftDeposit = (assetId: string) =>
+    this.assetStore.assetsAvailableForSwiftDeposit.find(
+      asset => asset.id === assetId
+    );
+
+  private isAvailableForDeposit = (assetId: string) =>
+    this.isAvailableForCreditCardDeposit(assetId) ||
+    this.isAvailableForCryptoDeposit(assetId) ||
+    this.isAvailableForSwiftDeposit(assetId);
+}
+
+export default inject(STORE_ROOT)(observer(WalletBalanceList));
