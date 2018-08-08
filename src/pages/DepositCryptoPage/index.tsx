@@ -155,7 +155,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                       )}
                     </CopyToClipboard>
                     <div className="deposit-crypto__warning">
-                      {warningMessages[assetId] ||
+                      {warningMessages[asset.name] ||
                         defaultWarningMessage(asset.name)}
                     </div>
                   </div>
