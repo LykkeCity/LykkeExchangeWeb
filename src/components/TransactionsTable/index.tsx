@@ -35,6 +35,7 @@ interface TransactionsTableProps extends RootStoreProps {
   ) => void;
   exportTransactions: (transactionType?: TransactionType[]) => void;
   onTransactionTypeChange?: (transactionType?: TransactionType[]) => void;
+  isExportLoading?: boolean;
   stickyTitle?: React.ReactChild;
   showExportButton?: boolean;
 }
@@ -142,10 +143,16 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                   className="pull-right btn-shadow btn-export"
                   onClick={this.handleExportClick}
                 >
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
-                  />
-                  CSV
+                  {this.props.isExportLoading ? (
+                    <Spinner />
+                  ) : (
+                    <span>
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
+                      />
+                      CSV
+                    </span>
+                  )}
                 </span>
                 {transactionFilters.map(filter => (
                   <div
@@ -195,10 +202,16 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                   className="pull-right btn-shadow btn-export"
                   onClick={this.handleExportClick}
                 >
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
-                  />
-                  CSV
+                  {this.props.isExportLoading ? (
+                    <Spinner />
+                  ) : (
+                    <span>
+                      <img
+                        src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
+                      />
+                      CSV
+                    </span>
+                  )}
                 </span>
               )}
               {transactionFilters.map(filter => (

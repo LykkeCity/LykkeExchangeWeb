@@ -46,6 +46,15 @@
     0 2px 4px 0 rgba(140, 148, 160, 0.15);
 
   @include rem(font-size, 13px);
+
+  .spinner_container {
+    padding: 0;
+  }
+
+  .spinner {
+    width: 30px;
+    height: 30px;
+  }
 }
 
 .addon-text {
