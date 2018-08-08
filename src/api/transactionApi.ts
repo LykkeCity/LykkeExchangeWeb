@@ -39,7 +39,7 @@ export class RestTransactionApi extends RestApi implements TransactionApi {
     );
 
   fetchExportCsvUrl = (assetId?: string, operationType?: TransactionType[]) =>
-    this.historyApi.fetchExportCsvUrl(0, assetId, operationType);
+    this.historyApi.fetchExportCsvUrl(assetId, operationType);
 }
 
 export default RestTransactionApi;

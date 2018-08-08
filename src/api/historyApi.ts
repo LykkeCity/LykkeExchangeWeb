@@ -28,35 +28,27 @@ export class RestHistoryApi extends RestApi implements HistoryApi {
     });
 
   fetchExportCsvUrl = async (
-    skip: number,
     assetId?: string,
     operationType?: TransactionType[]
   ) => {
     const idResponse = await this.post('/history/client/csv', {
       assetId,
-      operationType,
-      skip
+      operationType
     });
 
     if (idResponse) {
-      const urlResponse = await this.getWithQuery('/history/client/csv', {
+      let urlResponse = await this.getWithQuery('/history/client/csv', {
         id: idResponse.Id
       });
 
-      // while (!urlResponse.Url) {
-      //   urlResponse = await this.getWithQuery('/history/client/csv', {
-      //     id: idResponse.Id
-      //   });
-      // }
+      while (!urlResponse.Url) {
+        urlResponse = await this.getWithQuery('/history/client/csv', {
+          id: idResponse.Id
+        });
+      }
 
-      return (
-        'https://www.sample-videos.com/csv/Sample-Spreadsheet-10-rows.csv' ||
-        urlResponse.Url
-      );
-
-      // return urlResponse.Url;
+      return urlResponse.Url;
     }
-    return;
   };
 }
 
