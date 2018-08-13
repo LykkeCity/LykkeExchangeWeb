@@ -19,7 +19,7 @@ class App extends React.Component<RootStoreProps> {
   render() {
     return (
       <Router>
-        <div onClick={this.handleOutsideClick}>
+        <div>
           <Switch>
             <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
             <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
@@ -28,11 +28,6 @@ class App extends React.Component<RootStoreProps> {
       </Router>
     );
   }
-
-  private handleOutsideClick = (e: React.MouseEvent<any>) => {
-    const {closeSidebar} = this.props.rootStore!.uiStore;
-    closeSidebar();
-  };
 }
 
 export default inject(STORE_ROOT)(observer(App));

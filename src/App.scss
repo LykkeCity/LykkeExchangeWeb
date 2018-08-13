@@ -17,11 +17,10 @@
 @import 'styles/components/headings';
 
 .app__shell {
-  @include rem(padding, 20px 0);
+  @include rem(padding, 110px 0 20px);
   @include rem(margin-bottom, 50px);
 
   @media all and (min-width: $screen-tablet + 1) {
-    @include rem(padding, 40px 0);
     @include rem(margin-bottom, 70px);
   }
 }
@@ -37,14 +36,6 @@
     bottom: 0;
     right: 0;
     background: rgba($gray-25, 0.5);
-  }
-
-  .header {
-    background: rgba($gray-25, 0.5);
-  }
-
-  .header_nav__inner {
-    background: rgba($gray-light, 0.5);
   }
 
   .footer {
