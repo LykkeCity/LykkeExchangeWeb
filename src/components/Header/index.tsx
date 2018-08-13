@@ -1,15 +1,22 @@
+import {Header as LykkeHeader} from '@lykkex/react-components';
+import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import SideBar from '../Sidebar';
-import HeaderBar from './headerbar';
-import NavBar from './navbar';
+import {RootStoreProps} from '../../App';
+import {STORE_ROOT} from '../../constants/stores';
+
 import './style.css';
 
-export const Header = () => (
-  <div>
-    <SideBar />
-    <HeaderBar />
-    <NavBar />
-  </div>
-);
+export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
+  const {authStore, profileStore} = rootStore!;
 
-export default Header;
+  return (
+    <LykkeHeader
+      onLogout={authStore.signOut}
+      userName={profileStore.fullName}
+      email={profileStore.email}
+      activeMenuItem="funds"
+    />
+  );
+};
+
+export default inject(STORE_ROOT)(observer(Header));
