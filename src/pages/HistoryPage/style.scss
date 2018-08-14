@@ -9,9 +9,9 @@
   @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
 
-  &__title {
-    font-family: 'Akrobat', sans-serif;
-    margin-bottom: 0;
+  &__header {
+    display: flex;
+    justify-content: space-between;
 
     .btn-export {
       margin-top: 5px;
@@ -22,12 +22,21 @@
     }
   }
 
+  &__title {
+    font-family: 'Akrobat', sans-serif;
+    margin-bottom: 0;
+  }
+
   &__wallet-name {
     color: #657180;
     line-height: 1.33;
     font-family: 'Akrobat', sans-serif;
 
     @include rem(font-size, 30px);
+  }
+
+  @media (max-width: $screen-mobile-tiny) {
+    @include rem(padding, 0 50px);
   }
 }
 
@@ -39,6 +48,20 @@
       font-weight: $fw-light;
 
       @include rem(font-size, 40px);
+    }
+  }
+
+  .transactions .transaction-filters {
+    min-width: 475px;
+
+    @media all and (max-width: $screen-mobile) {
+      min-width: 450px;
+    }
+  }
+
+  .transactions .transaction-filters__item {
+    @media all and (max-width: $screen-mobile) {
+      padding-bottom: 23px;
     }
   }
 }
