@@ -35,10 +35,10 @@ export class HistoryPage extends React.Component<RootStoreProps> {
             />
           </Link>
           <div className="history-page">
-            <h2 className="history-page__title">
-              History
-              <span
-                className="pull-right btn-shadow btn-export"
+            <div className="history-page__header">
+              <h2 className="history-page__title">History</h2>
+              <div
+                className="btn-shadow btn-export"
                 // tslint:disable-next-line:jsx-no-lambda
                 onClick={() => this.exportTransactions()}
               >
@@ -52,8 +52,8 @@ export class HistoryPage extends React.Component<RootStoreProps> {
                     Export to csv
                   </span>
                 )}
-              </span>
-            </h2>
+              </div>
+            </div>
             <div className="history-page__wallet-name">Trading wallet</div>
           </div>
         </div>

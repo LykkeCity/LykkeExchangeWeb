@@ -100,20 +100,20 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
   render() {
     const transactionFilters = [
       {
-        label: 'Trading',
-        value: [
-          TransactionType.Trade,
-          TransactionType.LimitTrade,
-          TransactionType.LimitOrderEvent
-        ]
+        label: 'All',
+        value: []
       },
       {
         label: 'Deposit & Withdraw',
         value: [TransactionType.CashIn, TransactionType.CashOut]
       },
       {
-        label: 'All',
-        value: []
+        label: 'Trading',
+        value: [
+          TransactionType.Trade,
+          TransactionType.LimitTrade,
+          TransactionType.LimitOrderEvent
+        ]
       }
     ];
 
@@ -139,37 +139,42 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                 >
                   {this.props.stickyTitle}
                 </div>
-                <span
-                  className="pull-right btn-shadow btn-export"
-                  onClick={this.handleExportClick}
-                >
-                  {this.props.isExportLoading ? (
-                    <Spinner />
-                  ) : (
-                    <span>
-                      <img
-                        src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
-                      />
-                      CSV
+                <div>
+                  {transactionFilters.map(filter => (
+                    <span
+                      className={classnames('transaction-filters__item', {
+                        'transaction-filters__item_active': arraysEqual(
+                          this.transactionsFilterValue,
+                          filter.value
+                        )
+                      })}
+                      key={filter.label}
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() =>
+                        this.handleTransactionsFilterChange(filter.value, true)}
+                    >
+                      {filter.label}
                     </span>
-                  )}
-                </span>
-                {transactionFilters.map(filter => (
-                  <div
-                    className={classnames('transaction-filters__item', {
-                      'transaction-filters__item_active': arraysEqual(
-                        this.transactionsFilterValue,
-                        filter.value
-                      )
+                  ))}
+                  <span
+                    className={classnames('btn-shadow btn-export', {
+                      'has-spinner': this.props.isExportLoading
                     })}
-                    key={filter.label}
-                    // tslint:disable-next-line:jsx-no-lambda
-                    onClick={() =>
-                      this.handleTransactionsFilterChange(filter.value, true)}
+                    onClick={this.handleExportClick}
                   >
-                    {filter.label}
-                  </div>
-                ))}
+                    {this.props.isExportLoading ? (
+                      <Spinner />
+                    ) : (
+                      <span>
+                        <img
+                          src={`${process.env
+                            .PUBLIC_URL}/images/export-icn.svg`}
+                        />
+                        CSV
+                      </span>
+                    )}
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -197,39 +202,44 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
               <div className="transaction-filters__title">
                 Latest transactions
               </div>
-              {this.props.showExportButton && (
-                <span
-                  className="pull-right btn-shadow btn-export"
-                  onClick={this.handleExportClick}
-                >
-                  {this.props.isExportLoading ? (
-                    <Spinner />
-                  ) : (
-                    <span>
-                      <img
-                        src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
-                      />
-                      CSV
-                    </span>
-                  )}
-                </span>
-              )}
-              {transactionFilters.map(filter => (
-                <div
-                  className={classnames('transaction-filters__item', {
-                    'transaction-filters__item_active': arraysEqual(
-                      this.transactionsFilterValue,
-                      filter.value
-                    )
-                  })}
-                  key={filter.label}
-                  // tslint:disable-next-line:jsx-no-lambda
-                  onClick={() =>
-                    this.handleTransactionsFilterChange(filter.value)}
-                >
-                  {filter.label}
-                </div>
-              ))}
+              <div>
+                {transactionFilters.map(filter => (
+                  <span
+                    className={classnames('transaction-filters__item', {
+                      'transaction-filters__item_active': arraysEqual(
+                        this.transactionsFilterValue,
+                        filter.value
+                      )
+                    })}
+                    key={filter.label}
+                    // tslint:disable-next-line:jsx-no-lambda
+                    onClick={() =>
+                      this.handleTransactionsFilterChange(filter.value)}
+                  >
+                    {filter.label}
+                  </span>
+                ))}
+                {this.props.showExportButton && (
+                  <span
+                    className={classnames('btn-shadow btn-export', {
+                      'has-spinner': this.props.isExportLoading
+                    })}
+                    onClick={this.handleExportClick}
+                  >
+                    {this.props.isExportLoading ? (
+                      <Spinner />
+                    ) : (
+                      <span>
+                        <img
+                          src={`${process.env
+                            .PUBLIC_URL}/images/export-icn.svg`}
+                        />
+                        CSV
+                      </span>
+                    )}
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         </div>
