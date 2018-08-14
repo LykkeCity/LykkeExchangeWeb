@@ -6,17 +6,27 @@
   }
 
   .btn-export {
+    display: inline-block;
     margin-left: 30px;
     margin-top: -7px;
 
     img {
       margin-right: 10px;
     }
+
+    &.has-spinner {
+      margin-bottom: 13px;
+      position: relative;
+      top: 7px;
+    }
   }
 
   .transaction-filters {
     border-bottom: 1px solid $border-alt;
     padding-bottom: 13px;
+    display: flex;
+    justify-content: space-between;
+    min-width: 610px;
 
     @include rem(margin, 0 100px);
 
@@ -35,9 +45,8 @@
     &__item {
       color: $gray-dark;
       cursor: pointer;
-      float: right;
       margin: 6px 0 0 25px;
-      padding-bottom: 20px;
+      padding-bottom: 26px;
 
       @include rem(font-size, 18px);
 
@@ -48,6 +57,14 @@
         font-weight: $fw-semi;
         margin-top: 9px;
       }
+    }
+
+    @media all and (max-width: $screen-tablet) {
+      @include rem(margin, 0 10px);
+    }
+
+    @media all and (max-width: $screen-mobile) {
+      min-width: 550px;
     }
   }
 
@@ -257,6 +274,10 @@
 
         .btn-export {
           margin-top: 4px;
+
+          &.has-spinner {
+            margin-bottom: 22px;
+          }
         }
 
         &__item {
