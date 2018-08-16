@@ -6,9 +6,9 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@lykkex/lykke.js/-/lykke.js-0.2.0.tgz#251bfd6a4f0ce71af6c07b4e0940229a8a6fd9c8"
 
-"@lykkex/react-components@^0.5.5":
-  version "0.5.5"
-  resolved "https://registry.yarnpkg.com/@lykkex/react-components/-/react-components-0.5.5.tgz#167dd33da953393fa36b096253c009eb97ede505"
+"@lykkex/react-components@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@lykkex/react-components/-/react-components-0.5.6.tgz#3947a1cf7bae70175a4d11cc17a962db86fa90c1"
 
 "@types/classnames@^2.2.3":
   version "2.2.3"
