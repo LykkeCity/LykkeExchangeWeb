@@ -1,0 +1,10 @@
+@import '../../styles/utils';
+
+.wallet {
+  &__trading-balance {
+    font-weight: $fw-light;
+    line-height: 1;
+
+    @include rem(font-size, 50px);
+  }
+}

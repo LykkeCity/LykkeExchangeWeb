@@ -16,6 +16,11 @@
     transition: border-color $transition-default;
 
     @include rem(padding, 45px 0);
+
+    .tab {
+      float: right;
+      margin-top: 20px;
+    }
   }
 
   &__title {

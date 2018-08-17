@@ -2,11 +2,10 @@
 
 .arrow-back {
   position: relative;
-  top: 98px;
+  top: 35px;
 }
 
 .history-page {
-  @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
 
   &__title {
