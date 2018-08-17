@@ -41,9 +41,19 @@ export class RestHistoryApi extends RestApi implements HistoryApi {
         id: idResponse.Id
       });
 
-      while (!urlResponse.Url) {
-        urlResponse = await this.getWithQuery('/history/client/csv', {
-          id: idResponse.Id
+      if (!urlResponse.Url) {
+        await new Promise(resolve => {
+          const URL_POLL_TIMEOUT = 1000;
+          const urlInterval = window.setInterval(async () => {
+            urlResponse = await this.getWithQuery('/history/client/csv', {
+              id: idResponse.Id
+            });
+
+            if (urlResponse.Url) {
+              window.clearInterval(urlInterval);
+              resolve();
+            }
+          }, URL_POLL_TIMEOUT);
         });
       }
 
