@@ -1,4 +1,4 @@
-import {computed} from 'mobx';
+import {action, computed, observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
@@ -27,6 +27,8 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
+
+  @observable private isExportLoading = false;
 
   @computed
   get isAvailableForCreditCardDeposit() {
@@ -163,7 +165,10 @@ export class AssetPage extends React.Component<AssetPageProps> {
         <TransactionsTable
           transactions={this.transactionStore.assetTransactions}
           loadTransactions={this.loadTransactions}
+          exportTransactions={this.exportTransactions}
           stickyTitle={this.renderStickyTitle(balance)}
+          isExportLoading={this.isExportLoading}
+          showExportButton
         />
       </div>
     );
@@ -200,6 +205,20 @@ export class AssetPage extends React.Component<AssetPageProps> {
         </a>
       </li>
     );
+
+  @action
+  private exportTransactions = async (transactionType?: TransactionType[]) => {
+    if (!this.isExportLoading) {
+      this.isExportLoading = true;
+      const {assetId} = this.props.match.params;
+      const url = await this.transactionStore.fetchTransactionsCsvUrl(
+        transactionType,
+        assetId
+      );
+      window.location.replace(url);
+      this.isExportLoading = false;
+    }
+  };
 
   private loadTransactions = async (
     count: number,

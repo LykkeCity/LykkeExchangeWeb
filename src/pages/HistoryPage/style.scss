@@ -9,6 +9,19 @@
   @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
 
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    .btn-export {
+      margin-top: 5px;
+
+      img {
+        margin-right: 10px;
+      }
+    }
+  }
+
   &__title {
     font-family: 'Akrobat', sans-serif;
     margin-bottom: 0;
@@ -21,6 +34,10 @@
 
     @include rem(font-size, 30px);
   }
+
+  @media (max-width: $screen-mobile-tiny) {
+    @include rem(padding, 0 50px);
+  }
 }
 
 .history-page-wrapper {
@@ -31,6 +48,20 @@
       font-weight: $fw-light;
 
       @include rem(font-size, 40px);
+    }
+  }
+
+  .transactions .transaction-filters {
+    min-width: 475px;
+
+    @media all and (max-width: $screen-mobile) {
+      min-width: 450px;
+    }
+  }
+
+  .transactions .transaction-filters__item {
+    @media all and (max-width: $screen-mobile) {
+      padding-bottom: 23px;
     }
   }
 }

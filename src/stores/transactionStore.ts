@@ -84,4 +84,11 @@ export class TransactionStore {
       );
     });
   };
+
+  fetchTransactionsCsvUrl = async (
+    operationType?: TransactionType[],
+    assetId?: string
+  ) => {
+    return await this.api.fetchExportCsvUrl(assetId, operationType);
+  };
 }

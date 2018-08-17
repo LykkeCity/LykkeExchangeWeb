@@ -33,7 +33,11 @@ interface TransactionsTableProps extends RootStoreProps {
     count: number,
     transactionTypes?: TransactionType[]
   ) => void;
+  exportTransactions: (transactionType?: TransactionType[]) => void;
+  onTransactionTypeChange?: (transactionType?: TransactionType[]) => void;
+  isExportLoading?: boolean;
   stickyTitle?: React.ReactChild;
+  showExportButton?: boolean;
 }
 
 export class TransactionsTable extends React.Component<TransactionsTableProps> {
@@ -94,25 +98,6 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
   }
 
   render() {
-    const transactionFilters = [
-      {
-        label: 'Trading',
-        value: [
-          TransactionType.Trade,
-          TransactionType.LimitTrade,
-          TransactionType.LimitOrderEvent
-        ]
-      },
-      {
-        label: 'Deposit & Withdraw',
-        value: [TransactionType.CashIn, TransactionType.CashOut]
-      },
-      {
-        label: 'All',
-        value: []
-      }
-    ];
-
     return (
       <div className="transactions">
         <div
@@ -135,22 +120,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                 >
                   {this.props.stickyTitle}
                 </div>
-                {transactionFilters.map(filter => (
-                  <div
-                    className={classnames('transaction-filters__item', {
-                      'transaction-filters__item_active': arraysEqual(
-                        this.transactionsFilterValue,
-                        filter.value
-                      )
-                    })}
-                    key={filter.label}
-                    // tslint:disable-next-line:jsx-no-lambda
-                    onClick={() =>
-                      this.handleTransactionsFilterChange(filter.value, true)}
-                  >
-                    {filter.label}
-                  </div>
-                ))}
+                <div>{this.renderFiltersRow(true)}</div>
               </div>
             </div>
           </div>
@@ -178,22 +148,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
               <div className="transaction-filters__title">
                 Latest transactions
               </div>
-              {transactionFilters.map(filter => (
-                <div
-                  className={classnames('transaction-filters__item', {
-                    'transaction-filters__item_active': arraysEqual(
-                      this.transactionsFilterValue,
-                      filter.value
-                    )
-                  })}
-                  key={filter.label}
-                  // tslint:disable-next-line:jsx-no-lambda
-                  onClick={() =>
-                    this.handleTransactionsFilterChange(filter.value)}
-                >
-                  {filter.label}
-                </div>
-              ))}
+              <div>{this.renderFiltersRow()}</div>
             </div>
           </div>
         </div>
@@ -299,6 +254,69 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
     );
   }
 
+  private renderFiltersRow = (isSticky?: boolean) => {
+    const transactionFilters = [
+      {
+        label: 'All',
+        value: []
+      },
+      {
+        label: 'Deposit & Withdraw',
+        value: [TransactionType.CashIn, TransactionType.CashOut]
+      },
+      {
+        label: 'Trading',
+        value: [
+          TransactionType.Trade,
+          TransactionType.LimitTrade,
+          TransactionType.LimitOrderEvent
+        ]
+      }
+    ];
+
+    return (
+      <div>
+        {transactionFilters.map(filter => (
+          <span
+            className={classnames('transaction-filters__item', {
+              'transaction-filters__item_active': arraysEqual(
+                this.transactionsFilterValue,
+                filter.value
+              )
+            })}
+            key={filter.label}
+            // tslint:disable-next-line:jsx-no-lambda
+            onClick={() =>
+              this.handleTransactionsFilterChange(filter.value, isSticky)}
+          >
+            {filter.label}
+          </span>
+        ))}
+        {(this.props.showExportButton || isSticky) && (
+          <span
+            className={classnames('btn-shadow btn-export', {
+              'has-spinner': this.props.isExportLoading
+            })}
+            onClick={this.handleExportClick}
+          >
+            {this.props.isExportLoading ? (
+              <Spinner />
+            ) : (
+              <span>
+                <img src={`${process.env.PUBLIC_URL}/images/export-icn.svg`} />
+                CSV
+              </span>
+            )}
+          </span>
+        )}
+      </div>
+    );
+  };
+
+  private handleExportClick = async () => {
+    this.props.exportTransactions(this.transactionsFilterValue);
+  };
+
   private loadTransactions = async () => {
     this.areTransactionsLoading = true;
     await this.props.loadTransactions(
@@ -319,6 +337,9 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       window.scrollTo(0, filtersRowStartPosition);
     }
 
+    if (this.props.onTransactionTypeChange) {
+      this.props.onTransactionTypeChange(transactionType);
+    }
     this.transactionsFilterValue = transactionType;
     this.pageNumber = 1;
     this.loadTransactions();

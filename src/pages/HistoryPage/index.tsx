@@ -1,7 +1,9 @@
+import {action, observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import Spinner from '../../components/Spinner';
 import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
@@ -13,6 +15,9 @@ import './style.css';
 export class HistoryPage extends React.Component<RootStoreProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
+
+  @observable private isExportLoading = false;
+  private transactionType?: TransactionType[] = [];
 
   componentDidMount() {
     window.scrollTo(0, 0);
@@ -30,7 +35,25 @@ export class HistoryPage extends React.Component<RootStoreProps> {
             />
           </Link>
           <div className="history-page">
-            <h2 className="history-page__title">History</h2>
+            <div className="history-page__header">
+              <h2 className="history-page__title">History</h2>
+              <div
+                className="btn-shadow btn-export"
+                // tslint:disable-next-line:jsx-no-lambda
+                onClick={() => this.exportTransactions()}
+              >
+                {this.isExportLoading ? (
+                  <Spinner />
+                ) : (
+                  <span>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
+                    />
+                    Export to csv
+                  </span>
+                )}
+              </div>
+            </div>
             <div className="history-page__wallet-name">Trading wallet</div>
           </div>
         </div>
@@ -38,6 +61,9 @@ export class HistoryPage extends React.Component<RootStoreProps> {
         <TransactionsTable
           transactions={this.transactionStore.walletTransactions}
           loadTransactions={this.loadTransactions}
+          exportTransactions={this.exportTransactions}
+          onTransactionTypeChange={this.handleTransactionTypeChange}
+          isExportLoading={this.isExportLoading}
           stickyTitle={this.renderStickyTitle()}
         />
       </div>
@@ -49,6 +75,24 @@ export class HistoryPage extends React.Component<RootStoreProps> {
       <span className="sticky-title__wallet-name">Trading Wallet</span>
     </div>
   );
+
+  private handleTransactionTypeChange = (
+    transactionType?: TransactionType[]
+  ) => {
+    this.transactionType = transactionType;
+  };
+
+  @action
+  private exportTransactions = async (transactionType?: TransactionType[]) => {
+    if (!this.isExportLoading) {
+      this.isExportLoading = true;
+      const url = await this.transactionStore.fetchTransactionsCsvUrl(
+        transactionType || this.transactionType
+      );
+      window.location.replace(url);
+      this.isExportLoading = false;
+    }
+  };
 
   private loadTransactions = async (
     count: number,
