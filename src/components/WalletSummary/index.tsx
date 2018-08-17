@@ -2,12 +2,20 @@ import classnames from 'classnames';
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {WalletModel} from '../../models';
+// import {Link} from 'react-router-dom';
+import {ROUTE_WALLETS_HFT} from '../../constants/routes';
+import {AssetModel, WalletModel} from '../../models';
 import {RootStore} from '../../stores';
+import {moneyRound} from '../../utils';
+import {asAssetBalance} from '../hoc/assetBalance';
+import {TabLink} from '../Tabs';
 import WalletTotalBalance from '../WalletTotalBalance';
+
+import './style.css';
 
 export interface WalletActions {
   onEditWallet?: (w: WalletModel) => void;
+  baseAssetAsModel?: AssetModel;
 }
 
 interface WalletSummaryProps extends WalletActions {
@@ -16,7 +24,8 @@ interface WalletSummaryProps extends WalletActions {
 
 export const WalletSummary: React.SFC<WalletSummaryProps> = ({
   wallet,
-  onEditWallet
+  onEditWallet,
+  baseAssetAsModel
 }) => (
   <div>
     <div className="row">
@@ -37,6 +46,16 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
             {wallet.title}
+            {wallet.isTrading && (
+              <div className="wallet__trading-balance">
+                {asAssetBalance(
+                  baseAssetAsModel!,
+                  moneyRound(wallet.totalBalance, baseAssetAsModel!.accuracy)
+                )}
+                &nbsp;
+                {baseAssetAsModel!.name}
+              </div>
+            )}
             {!wallet.isTrading && (
               <i
                 className={classnames(
@@ -48,17 +67,29 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
           </h2>
-          <div className="wallet__desc">{wallet.desc || 'No description'}</div>
+          {!wallet.isTrading && (
+            <div className="wallet__desc">
+              {wallet.desc || 'No description'}
+            </div>
+          )}
         </div>
       </div>
-      <div className="col-sm-5">
-        <WalletTotalBalance wallet={wallet} />
-      </div>
+
+      {wallet.isTrading ? (
+        <div className="col-sm-5">
+          <TabLink to={ROUTE_WALLETS_HFT} label="API wallets" />
+        </div>
+      ) : (
+        <div className="col-sm-5">
+          <WalletTotalBalance wallet={wallet} />
+        </div>
+      )}
     </div>
   </div>
 );
 
 export default inject(({rootStore}: {rootStore: RootStore}) => ({
+  baseAssetAsModel: rootStore!.profileStore.baseAssetAsModel!,
   onEditWallet: (wallet: WalletModel) => {
     rootStore.walletStore.selectedWallet = wallet;
     rootStore.uiStore.toggleEditWalletDrawer();
