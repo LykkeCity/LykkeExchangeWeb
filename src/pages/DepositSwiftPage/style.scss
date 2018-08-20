@@ -8,6 +8,7 @@
 
   &__title {
     color: $heading;
+    font-family: $ff-alt;
     font-weight: $fw-semi;
     line-height: 1.25;
     text-align: center;
@@ -149,6 +150,7 @@
 
         .control-label {
           color: $heading;
+          font-family: $ff-alt;
           line-height: 1.67;
           font-weight: $fw-semi;
           margin-bottom: 0;

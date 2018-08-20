@@ -14,7 +14,7 @@
   }
 
   &__name {
-    font-family: 'Akrobat', sans-serif;
+    font-family: $ff-alt;
     margin-bottom: 11px;
   }
 
@@ -69,6 +69,7 @@
       &__title {
         color: $heading;
         font-weight: $fw-semi;
+        font-family: $ff-alt;
         letter-spacing: 1.6px;
         line-height: 2;
         margin-bottom: 22px;
@@ -101,7 +102,7 @@
 .asset-page-wrapper {
   .sticky-title {
     cursor: pointer;
-    font-family: 'Akrobat', sans-serif;
+    font-family: $ff-alt;
 
     &__name {
       display: inline;
