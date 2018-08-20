@@ -6,6 +6,7 @@
 
   &__title {
     color: $heading;
+    font-family: $ff-alt;
     font-weight: $fw-semi;
     line-height: 1.25;
     text-align: center;
@@ -107,7 +108,8 @@
 
   &__title {
     color: $heading;
-    font-family: 'Akrobat', sans-serif;
+    font-family: $ff-alt;
+    font-family: $ff-alt;
     font-weight: $fw-bold;
     line-height: 40px;
     letter-spacing: 0;
@@ -131,6 +133,7 @@
 
     .app-link {
       color: $heading;
+      font-family: $ff-alt;
       font-weight: $fw-semi;
       line-height: normal;
       margin-right: 30px;

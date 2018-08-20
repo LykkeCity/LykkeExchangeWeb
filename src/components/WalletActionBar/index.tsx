@@ -80,9 +80,11 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               <a className="disabled">Deposit</a>
             ))}
         </div>
-        <div className="wallet-action-bar__item">
-          <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Transfer</Link>
-        </div>
+        {!wallet.isTrading && (
+          <div className="wallet-action-bar__item">
+            <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Transfer</Link>
+          </div>
+        )}
         {wallet.isTrading && (
           <div className="wallet-action-bar__item">
             <Link to={ROUTE_HISTORY}>History</Link>

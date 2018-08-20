@@ -195,6 +195,7 @@
 
   &_item {
     color: $heading;
+    font-family: $ff-alt;
 
     &--current {
       color: rgba($heading, 0.6);

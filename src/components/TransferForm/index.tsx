@@ -93,13 +93,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
               <Select
                 optGroups={[
                   {
-                    label: 'Trading Wallet',
-                    options: walletStore.walletsWithAssets.filter(
-                      w => w.type === WalletType.Trading
-                    )
-                  },
-                  {
-                    label: 'API Wallet',
+                    label: 'API Wallets',
                     options: walletStore.walletsWithAssets.filter(
                       w => w.type === WalletType.Trusted
                     )
@@ -209,12 +203,6 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             <div className="col-sm-8">
               <Select
                 optGroups={[
-                  {
-                    label: 'Trading Wallets',
-                    options: walletStore
-                      .getWalletsExceptOne(transfer.from)
-                      .filter(w => w.type === WalletType.Trading)
-                  },
                   {
                     label: 'API Wallets',
                     options: walletStore

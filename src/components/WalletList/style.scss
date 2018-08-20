@@ -27,6 +27,7 @@
     font-weight: $fw-semi;
     line-height: 1.25;
     color: $heading;
+    font-family: $ff-alt;
     cursor: pointer;
 
     @include rem(font-size, 40px);
