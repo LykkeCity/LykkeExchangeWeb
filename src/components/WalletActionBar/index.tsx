@@ -42,9 +42,9 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
 
     return (
       <div className="wallet-action-bar">
-        <div className="wallet-action-bar__item">
-          {wallet.isTrading &&
-            (isKycPassed ? (
+        {wallet.isTrading && (
+          <div className="wallet-action-bar__item">
+            {isKycPassed ? (
               <Dropdown fullHeight>
                 <DropdownControl>
                   <a>Deposit</a>
@@ -78,8 +78,9 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               </Dropdown>
             ) : (
               <a className="disabled">Deposit</a>
-            ))}
-        </div>
+            )}
+          </div>
+        )}
         {!wallet.isTrading && (
           <div className="wallet-action-bar__item">
             <Link to={ROUTE_TRANSFER_FROM(wallet.id)}>Transfer</Link>
