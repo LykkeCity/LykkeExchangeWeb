@@ -12,3 +12,4 @@ export * from './assetStore';
 export * from './depositStore';
 export * from './catalogsStore';
 export * from './dialogStore';
+export * from './socketStore';
