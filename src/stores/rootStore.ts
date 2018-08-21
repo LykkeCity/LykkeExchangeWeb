@@ -29,6 +29,7 @@ import RestAffiliateApi from '../api/affiliateApi';
 import {RestFeaturesApi} from '../api/featuresApi';
 import MarketService from '../services/marketService';
 import {FeatureStore} from './featuresStore';
+import SocketStore from './socketStore';
 
 export class RootStore {
   affiliateStore: AffiliateStore;
@@ -45,6 +46,7 @@ export class RootStore {
   assetStore: AssetStore;
   depositStore: DepositStore;
   marketService: any;
+  socketStore: SocketStore;
 
   constructor() {
     this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
@@ -64,6 +66,7 @@ export class RootStore {
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
     this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.marketService = MarketService;
+    this.socketStore = new SocketStore(this);
   }
 
   reset() {
@@ -81,6 +84,7 @@ export class RootStore {
     this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.authStore.reset();
     this.marketService.reset();
+    this.socketStore.reset();
   }
 }
 
