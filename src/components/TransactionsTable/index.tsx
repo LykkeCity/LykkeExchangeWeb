@@ -10,7 +10,7 @@ import {RootStoreProps} from '../../App';
 import {ColoredAmount} from '../../components/ColoredAmount';
 import {NumberFormat} from '../../components/NumberFormat';
 import Spinner from '../../components/Spinner';
-import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
+import {ROUTE_ASSET, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
   TransactionModel,
@@ -28,6 +28,7 @@ const ASSET_DEFAULT_ICON_URL = `${process.env
   .PUBLIC_URL}/images/assets/asset_default.jpg`;
 
 interface TransactionsTableProps extends RootStoreProps {
+  hasAssetLinks?: boolean;
   transactions: TransactionModel[];
   loadTransactions: (
     count: number,
@@ -283,7 +284,15 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                                 />
                                 <div>
                                   <div className="asset-col__asset_name">
-                                    {transaction.asset.name}
+                                    {this.props.hasAssetLinks ? (
+                                      <Link
+                                        to={ROUTE_ASSET(transaction.asset.id)}
+                                      >
+                                        {transaction.asset.name}
+                                      </Link>
+                                    ) : (
+                                      transaction.asset.name
+                                    )}
                                   </div>
                                   <div className="asset-col__wallet_name">
                                     Trading Wallet

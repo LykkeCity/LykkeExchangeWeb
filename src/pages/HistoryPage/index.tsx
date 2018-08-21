@@ -59,6 +59,7 @@ export class HistoryPage extends React.Component<RootStoreProps> {
         </div>
 
         <TransactionsTable
+          hasAssetLinks
           transactions={this.transactionStore.walletTransactions}
           loadTransactions={this.loadTransactions}
           exportTransactions={this.exportTransactions}
