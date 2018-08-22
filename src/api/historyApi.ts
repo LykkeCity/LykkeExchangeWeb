@@ -27,7 +27,7 @@ export class RestHistoryApi extends RestApi implements HistoryApi {
       take
     });
 
-  fetchExportCsvUrl = async (
+  fetchExportCsvId = async (
     assetId?: string,
     operationType?: TransactionType[]
   ) => {
@@ -36,29 +36,15 @@ export class RestHistoryApi extends RestApi implements HistoryApi {
       operationType
     });
 
-    if (idResponse) {
-      let urlResponse = await this.getWithQuery('/history/client/csv', {
-        id: idResponse.Id
-      });
+    return idResponse.Id;
+  };
 
-      if (!urlResponse.Url) {
-        await new Promise(resolve => {
-          const URL_POLL_TIMEOUT = 1000;
-          const urlInterval = window.setInterval(async () => {
-            urlResponse = await this.getWithQuery('/history/client/csv', {
-              id: idResponse.Id
-            });
+  fetchExportCsvUrl = async (exportId: string) => {
+    const urlResponse = await this.getWithQuery('/history/client/csv', {
+      id: exportId
+    });
 
-            if (urlResponse.Url) {
-              window.clearInterval(urlInterval);
-              resolve();
-            }
-          }, URL_POLL_TIMEOUT);
-        });
-      }
-
-      return urlResponse.Url;
-    }
+    return urlResponse.Url;
   };
 }
 
