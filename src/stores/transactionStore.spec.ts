@@ -4,6 +4,7 @@ import {TransactionStatus, TransactionType, WalletModel} from '../models';
 
 const rootStore = new RootStore();
 const mockApi = {
+  fetchExportCsvId: jest.fn(),
   fetchExportCsvUrl: jest.fn(),
   fetchWalletTransactions: jest.fn()
 };
