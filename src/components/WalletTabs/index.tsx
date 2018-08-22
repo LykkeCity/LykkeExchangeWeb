@@ -5,7 +5,7 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../Apps';
 import {Banner} from '../Banner';
-import {TabLink, TabPane} from '../Tabs';
+import {TabPane} from '../Tabs';
 import './style.css';
 
 interface WalletTabsProps {
@@ -119,9 +119,6 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                 </p>
               </div>
               <div className="col-sm-4 text-right">
-                <div>
-                  <TabLink to={ROUTE_WALLETS_TRADING} label="Trading Wallet" />
-                </div>
                 <button
                   className="btn btn--primary btn-sm"
                   onClick={this.props.onCreateNewWallet}
