@@ -72,6 +72,7 @@ ol.list_styled {
       th {
         font-weight: $fw-semi;
         color: $heading;
+        font-family: $ff-alt;
       }
 
       th,
@@ -140,6 +141,7 @@ p.lead {
   &_item {
     color: $heading;
     font-weight: $fw-semi;
+    font-family: $ff-alt;
 
     @include rem(font-size, 16px);
     @include rem(padding, 4px);
@@ -191,6 +193,7 @@ p.lead {
     line-height: 1.56;
     letter-spacing: normal;
     color: $heading;
+    font-family: $ff-alt;
 
     @include rem(font-size, 16px);
   }

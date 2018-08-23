@@ -2,11 +2,10 @@
 
 .arrow-back {
   position: relative;
-  top: 98px;
+  top: 35px;
 }
 
 .history-page {
-  @include rem(margin-top, 63px);
   @include rem(padding, 0 100px);
 
   &__header {
@@ -23,14 +22,14 @@
   }
 
   &__title {
-    font-family: 'Akrobat', sans-serif;
+    font-family: $ff-alt;
     margin-bottom: 0;
   }
 
   &__wallet-name {
     color: #657180;
     line-height: 1.33;
-    font-family: 'Akrobat', sans-serif;
+    font-family: $ff-alt;
 
     @include rem(font-size, 30px);
   }
@@ -42,7 +41,7 @@
 
 .history-page-wrapper {
   .sticky-title {
-    font-family: 'Akrobat', sans-serif;
+    font-family: $ff-alt;
 
     &__wallet-name {
       font-weight: $fw-light;

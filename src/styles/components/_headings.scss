@@ -6,6 +6,7 @@
 
 .section__title {
   color: $heading;
+  font-family: $ff-alt;
 
   @include rem(margin-bottom, 20px);
 }
@@ -22,7 +23,7 @@
 .block_subscribe h5,
 .block_subscribe .h5 {
   color: $heading;
-  font-family: $ff;
+  font-family: $ff-alt;
   font-weight: $fw-semi;
 }
 
@@ -33,4 +34,5 @@ h4,
 h5,
 h6 {
   color: $heading;
+  font-family: $ff-alt;
 }

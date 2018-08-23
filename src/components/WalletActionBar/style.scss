@@ -11,6 +11,7 @@
   &__item {
     text-transform: uppercase;
     color: $heading;
+    font-family: $ff-alt;
     float: left;
     letter-spacing: 1.6px;
 
@@ -30,6 +31,7 @@
       @include rem(padding, 30px 20px);
 
       color: $heading;
+      font-family: $ff-alt;
       cursor: pointer;
 
       &:hover {
@@ -39,6 +41,12 @@
       &.disabled {
         cursor: not-allowed;
         color: $gray-dark;
+      }
+    }
+
+    .dropdown__container {
+      a {
+        font-family: $ff;
       }
     }
 

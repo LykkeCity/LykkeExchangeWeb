@@ -5,7 +5,7 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../Apps';
 import {Banner} from '../Banner';
-import {TabLink, TabPane} from '../Tabs';
+import {TabPane} from '../Tabs';
 import './style.css';
 
 interface WalletTabsProps {
@@ -20,18 +20,6 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
   render() {
     return (
       <div className="wallet-tabs">
-        <div className="tabs">
-          <TabLink
-            label="Trading"
-            to={ROUTE_WALLETS_TRADING}
-            active={this.props.activeTabRoute === ROUTE_WALLETS_TRADING}
-          />
-          <TabLink
-            label="API Wallets"
-            to={ROUTE_WALLETS_HFT}
-            active={this.props.activeTabRoute === ROUTE_WALLETS_HFT}
-          />
-        </div>
         <Banner
           show={this.props.showBetaBanner}
           className="beta-banner"
@@ -108,20 +96,6 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
               </div>
             }
           />
-          <div className="tab__pane">
-            <div className="row">
-              <div className="col-sm-12">
-                <p className="hint text-left">
-                  Trading wallet is driven by LykkeWallet app. You can confirm a
-                  Trading Wallet transaction only by signing it on your mobile
-                  device. Trading Wallet is secured with 2-of-2 multisignature
-                  protection. One key is controlled by Lykke and another one is
-                  located on your mobile device. Please keep your 12 words seed
-                  private key backup safely.
-                </p>
-              </div>
-            </div>
-          </div>
         </TabPane>
         <TabPane to={ROUTE_WALLETS_HFT}>
           <div className="tab__pane">

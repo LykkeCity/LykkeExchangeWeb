@@ -115,3 +115,15 @@
   font-style: normal;
   font-weight: 600;
 }
+
+@font-face {
+  font-family: 'Akrobat';
+  src: url('./fonts/Akrobat-Light.eot');
+  src: url('./fonts/Akrobat-Light.eot?#iefix') format('embedded-opentype'),
+    url('./fonts/Akrobat-Light.woff') format('woff'),
+    url('./fonts/Akrobat-Light.ttf') format('truetype'),
+    url('./fonts/Akrobat-Light.svg#akrobatlight') format('svg');
+
+  font-style: normal;
+  font-weight: 300;
+}

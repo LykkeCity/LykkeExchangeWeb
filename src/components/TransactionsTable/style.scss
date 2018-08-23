@@ -32,6 +32,7 @@
 
     &__title {
       color: $heading;
+      font-family: $ff-alt;
       display: inline-block;
       line-height: 1.35;
       font-weight: $fw-semi;
@@ -81,6 +82,7 @@
     tr {
       th {
         color: $heading;
+        font-family: $ff-alt;
         letter-spacing: 0.2px;
         line-height: 1.67;
         text-transform: none;

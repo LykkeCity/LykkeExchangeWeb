@@ -14,7 +14,6 @@ export class UiStore {
   @observable showEditWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
   @observable showQrWindow: boolean;
-  @observable showSidebar: boolean;
   @observable showBaseCurrencyPicker: boolean;
   @observable showBetaBanner: boolean;
   @observable showKycBanner: boolean;
@@ -49,7 +48,6 @@ export class UiStore {
       this.showEditWalletDrawer ||
       this.showConfirmRegenerateKey ||
       this.showQrWindow ||
-      this.showSidebar ||
       this.hasVisibleDialogs ||
       this.showEthWarning ||
       this.showAssetAddressModal
@@ -103,11 +101,6 @@ export class UiStore {
 
   readonly toggleQrWindow = () => (this.showQrWindow = !this.showQrWindow);
   readonly closeQrWindow = () => (this.showQrWindow = false);
-
-  readonly toggleSidebar = () => (this.showSidebar = !this.showSidebar);
-
-  readonly closeSidebar = () =>
-    this.showSidebar && (this.showSidebar = !this.showSidebar);
 
   readonly toggleBaseAssetPicker = () =>
     (this.showBaseCurrencyPicker = !this.showBaseCurrencyPicker);

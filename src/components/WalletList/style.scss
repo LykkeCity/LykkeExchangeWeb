@@ -16,12 +16,19 @@
     transition: border-color $transition-default;
 
     @include rem(padding, 45px 0);
+
+    .tab {
+      float: right;
+      text-align: right;
+      margin-top: 20px;
+    }
   }
 
   &__title {
     font-weight: $fw-semi;
     line-height: 1.25;
     color: $heading;
+    font-family: $ff-alt;
     cursor: pointer;
 
     @include rem(font-size, 40px);
