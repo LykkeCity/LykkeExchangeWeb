@@ -172,6 +172,10 @@
         .asset-col {
           display: flex;
 
+          a {
+            color: $text;
+          }
+
           &__wallet_name {
             color: $gray-dark;
             line-height: 1.43;
