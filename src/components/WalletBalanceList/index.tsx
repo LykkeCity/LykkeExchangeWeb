@@ -113,6 +113,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                               {this.isAvailableForCryptoDeposit(
                                 balance.assetId
                               ) &&
+                                wallet.isTrading &&
                                 this.profileStore.isKycPassed &&
                                 !this.assetStore!.isEth(balance.assetId) && (
                                   <div
