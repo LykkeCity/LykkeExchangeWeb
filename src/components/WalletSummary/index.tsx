@@ -2,7 +2,6 @@ import classnames from 'classnames';
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-// import {Link} from 'react-router-dom';
 import {ROUTE_WALLETS_HFT} from '../../constants/routes';
 import {AssetModel, WalletModel} from '../../models';
 import {RootStore} from '../../stores';
