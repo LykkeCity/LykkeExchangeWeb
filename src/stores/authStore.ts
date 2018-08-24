@@ -1,18 +1,18 @@
 import {computed, observable, reaction} from 'mobx';
-import {UserManager} from 'oidc-client';
 import {RootStore} from '.';
 import {AuthApi} from '../api';
-import {openIdConstants} from '../constants/openId';
-import {StorageUtils} from '../utils/index';
+import {RandomString, StorageUtils} from '../utils/index';
 
 const TOKEN_KEY = 'lww-token';
+const STATE_KEY = 'lww-state';
+
+const randomString = RandomString();
 const tokenStorage = StorageUtils.withKey(TOKEN_KEY);
+const stateStorage = StorageUtils.withKey(STATE_KEY);
 
 export class AuthStore {
   readonly rootStore: RootStore;
   @observable token = tokenStorage.get();
-
-  private userManager: UserManager;
 
   constructor(rootStore: RootStore, private api?: AuthApi) {
     this.rootStore = rootStore;
@@ -26,45 +26,49 @@ export class AuthStore {
         }
       }
     );
-
-    const settings = {
-      authority: process.env.REACT_APP_AUTH_URL!,
-      automaticSilentRenew: true,
-      client_id: process.env.REACT_APP_CLIENT_ID!,
-      filterProtocolClaims: true,
-      loadUserInfo: false,
-      post_logout_redirect_uri: location.origin,
-      redirect_uri: `${location.origin}/assets/signin-callback.html`,
-      response_type: openIdConstants.responseType,
-      silent_redirect_uri: `${location.origin}/assets/silent-callback.html`
-    };
-
-    this.userManager = new UserManager(settings);
-    this.userManager.events.addSilentRenewError(() => {
-      this.signOut();
-    });
   }
 
   catchUnauthorized = () => {
     this.signOut();
   };
 
-  fetchToken = async () => {
-    const user = await this.userManager.getUser();
-    const {access_token} = user;
-    const {token} = await this.api!.fetchToken(access_token);
-    this.token = token;
-    tokenStorage.set(token);
-    return Promise.resolve();
+  fetchToken = async (accessToken: string, state: string) => {
+    if (state === stateStorage.get()) {
+      const {token} = await this.api!.fetchToken(accessToken);
+      this.token = token;
+      tokenStorage.set(token);
+      stateStorage.clear();
+      return Promise.resolve();
+    } else {
+      this.catchUnauthorized();
+    }
   };
 
   signIn = () => {
-    this.userManager.signinRedirect();
+    const {
+      REACT_APP_AUTH_URL: url,
+      REACT_APP_CLIENT_ID: clientId,
+      REACT_APP_CALLBACK_URL: callbackUrl
+    } = process.env;
+    const nonce = randomString.mixed(20);
+    const state = randomString.mixed(20);
+    stateStorage.set(state);
+
+    location.replace(
+      `${url}/connect/authorize?client_id=${clientId}&scope=profile email address&response_type=token&redirect_uri=${encodeURIComponent(
+        callbackUrl!
+      )}&nonce=${nonce}&state=${state}`
+    );
   };
 
   signOut = async () => {
     this.rootStore.reset();
-    this.userManager.signoutRedirect();
+    const {REACT_APP_AUTH_URL: url} = process.env;
+    location.replace(
+      `${url}/connect/logout?post_logout_redirect_uri=${encodeURIComponent(
+        location.origin
+      )}`
+    );
   };
 
   reset = () => {
