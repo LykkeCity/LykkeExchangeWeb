@@ -20,6 +20,7 @@ import {
   TransactionTypeLabel
 } from '../../models';
 import {arraysEqual} from '../../utils';
+import {Feature, FeatureFlag} from '../../utils/launchDarkly';
 
 import './style.css';
 
@@ -293,21 +294,29 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
           </span>
         ))}
         {(this.props.showExportButton || isSticky) && (
-          <span
-            className={classnames('btn-shadow btn-export', {
-              'has-spinner': this.props.isExportLoading
-            })}
-            onClick={this.handleExportClick}
-          >
-            {this.props.isExportLoading ? (
-              <Spinner />
-            ) : (
-              <span>
-                <img src={`${process.env.PUBLIC_URL}/images/export-icn.svg`} />
-                CSV
+          <FeatureFlag
+            flagKey={Feature.ExportTradingHistory}
+            // tslint:disable-next-line:jsx-no-lambda
+            renderFeatureCallback={() => (
+              <span
+                className={classnames('btn-shadow btn-export', {
+                  'has-spinner': this.props.isExportLoading
+                })}
+                onClick={this.handleExportClick}
+              >
+                {this.props.isExportLoading ? (
+                  <Spinner />
+                ) : (
+                  <span>
+                    <img
+                      src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
+                    />
+                    CSV
+                  </span>
+                )}
               </span>
             )}
-          </span>
+          />
         )}
       </div>
     );
