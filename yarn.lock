@@ -112,6 +112,10 @@
   version "0.24.1"
   resolved "https://registry.yarnpkg.com/@types/yup/-/yup-0.24.1.tgz#d80d9589b17cd8d90aa7aab428b46a93d3b509c7"
 
+Base64@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/Base64/-/Base64-1.0.0.tgz#b6b73ee342ce64bf66d6003a4536683bf8a349b5"
+
 LykkeFramework@^0.4.17:
   version "0.4.17"
   resolved "https://registry.yarnpkg.com/LykkeFramework/-/LykkeFramework-0.4.17.tgz#3368e4d7f38899eed5764a3bf7d7b3c293db0a17"
@@ -3571,6 +3575,13 @@ lcid@^1.0.0:
   dependencies:
     invert-kv "^1.0.0"
 
+ldclient-js@1.1.12:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/ldclient-js/-/ldclient-js-1.1.12.tgz#06ea0dc2326bd84116f0c6674ccd8ff7a83e7d8d"
+  dependencies:
+    Base64 "1.0.0"
+    escape-string-regexp "1.0.5"
+
 leven@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/leven/-/leven-2.1.0.tgz#c2e7a9f772094dee9d34202ae8acce4687875580"
@@ -5131,6 +5142,13 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.1.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
+react-broadcast@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/react-broadcast/-/react-broadcast-0.3.1.tgz#8eb61fc812abc6e6579d373f93649163a97c26dd"
+  dependencies:
+    invariant "^2.2.1"
+    prop-types "^15.5.6"
+
 react-copy-to-clipboard@^5.0.1:
   version "5.0.1"
   resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.0.1.tgz#8eae107bb400be73132ed3b6a7b4fb156090208e"
@@ -5195,6 +5213,13 @@ react-intl@^2.4.0:
     intl-messageformat "^2.1.0"
     intl-relativeformat "^2.0.0"
     invariant "^2.1.1"
+
+react-launch-darkly@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/react-launch-darkly/-/react-launch-darkly-1.4.0.tgz#b6abd536bafa7f679be90572775fea3a294de047"
+  dependencies:
+    ldclient-js "1.1.12"
+    react-broadcast "^0.3.1"
 
 react-lifecycles-compat@^3.0.4:
   version "3.0.4"

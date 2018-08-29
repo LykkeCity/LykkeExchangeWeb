@@ -9,6 +9,7 @@ import WalletTabs from '../../components/WalletTabs/index';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransactionType} from '../../models';
+import {Feature, FeatureFlag} from '../../utils/launchDarkly';
 
 import './style.css';
 
@@ -37,22 +38,28 @@ export class HistoryPage extends React.Component<RootStoreProps> {
           <div className="history-page">
             <div className="history-page__header">
               <h2 className="history-page__title">History</h2>
-              <div
-                className="btn-shadow btn-export"
-                // tslint:disable-next-line:jsx-no-lambda
-                onClick={() => this.exportTransactions()}
-              >
-                {this.isExportLoading ? (
-                  <Spinner />
-                ) : (
-                  <span>
-                    <img
-                      src={`${process.env.PUBLIC_URL}/images/export-icn.svg`}
-                    />
-                    Export to csv
-                  </span>
+              <FeatureFlag
+                flagKey={Feature.ExportTradingHistory}
+                renderFeatureCallback={() => (
+                  <div
+                    className="btn-shadow btn-export"
+                    // tslint:disable-next-line:jsx-no-lambda
+                    onClick={() => this.exportTransactions()}
+                  >
+                    {this.isExportLoading ? (
+                      <Spinner />
+                    ) : (
+                      <span>
+                        <img
+                          src={`${process.env
+                            .PUBLIC_URL}/images/export-icn.svg`}
+                        />
+                        Export to csv
+                      </span>
+                    )}
+                  </div>
                 )}
-              </div>
+              />
             </div>
             <div className="history-page__wallet-name">Trading wallet</div>
           </div>
