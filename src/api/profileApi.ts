@@ -13,7 +13,7 @@ export class RestProfileApi extends RestApi implements ProfileApi {
   updateBaseAsset = (baseCurrency: string) =>
     this.apiBearerWretch()
       .url('/assets/baseAsset')
-      .json({BaseAsssetId: baseCurrency})
+      .json({BaseAssetId: baseCurrency})
       .post()
       .unauthorized(this.rootStore.authStore.redirectToAuthServer)
       .res();

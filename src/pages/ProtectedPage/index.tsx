@@ -65,6 +65,8 @@ export class ProtectedPage extends React.Component<
   private readonly catalogsStore = this.props.rootStore!.catalogsStore;
   private readonly depositStore = this.props.rootStore!.depositStore;
   private readonly dialogStore = this.props.rootStore!.dialogStore;
+  private readonly socketStore = this.props.rootStore!.socketStore;
+  private readonly authStore = this.props.rootStore!.authStore;
 
   @computed
   private get classes() {
@@ -96,6 +98,11 @@ export class ProtectedPage extends React.Component<
       .then(() => this.depositStore.fetchDepositDefaultValues())
       .then(() => this.depositStore.fetchFee())
       .then(() => this.uiStore.finishRequest());
+
+    const wampUrl = process.env.REACT_APP_WAMP_URL || '';
+    const wampRealm = process.env.REACT_APP_WAMP_REALM || '';
+    const token = this.authStore.token || '';
+    this.socketStore.connect(wampUrl, wampRealm, token);
 
     this.uiStore.startRequest();
     this.dialogStore
