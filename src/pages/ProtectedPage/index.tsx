@@ -32,7 +32,9 @@ import {
   ROUTE_GATEWAY_FAIL,
   ROUTE_GATEWAY_SUCCESS,
   ROUTE_HISTORY,
+  ROUTE_PROFILE,
   ROUTE_ROOT,
+  ROUTE_SECURITY,
   ROUTE_TRANSFER,
   ROUTE_TRANSFER_BASE,
   ROUTE_TRANSFER_FAIL,
@@ -45,6 +47,7 @@ import {
   DepositCreditCardPage,
   DepositCryptoPage,
   DepositSwiftPage,
+  SecurityPage,
   WalletPage
 } from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
@@ -93,6 +96,7 @@ export class ProtectedPage extends React.Component<
         )
       )
       .then(() => this.profileStore.fetchUserInfo())
+      .then(() => this.profileStore.fetch2faStatus())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.depositStore.fetchDepositDefaultValues())
@@ -112,6 +116,7 @@ export class ProtectedPage extends React.Component<
 
     this.unlistenRouteChange = this.props.history.listen(() => {
       this.uiStore.hideModals();
+      this.uiStore.activeHeaderMenuItem = 'funds';
       this.uiStore.startRequest();
       this.walletStore
         .fetchWallets()
@@ -195,6 +200,8 @@ export class ProtectedPage extends React.Component<
               path={ROUTE_DEPOSIT_CRYPTO}
               component={asLoading(DepositCryptoPage)}
             />
+            <Route path={ROUTE_PROFILE} component={asLoading(SecurityPage)} />
+            <Route path={ROUTE_SECURITY} component={asLoading(SecurityPage)} />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
             <Route
               path={ROUTE_GATEWAY_FAIL}

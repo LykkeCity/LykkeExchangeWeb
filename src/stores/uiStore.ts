@@ -22,6 +22,7 @@ export class UiStore {
   @observable showAssetAddressModal: boolean = false;
   @observable transferError: string;
   @observable apiError: string;
+  @observable activeHeaderMenuItem: string = 'funds';
 
   @observable pendingRequestsCount: number = 0;
   @computed
