@@ -2,7 +2,10 @@ import {ProfileStore, RootStore} from '.';
 
 const rootStore = new RootStore();
 const mockApi = {
+  enable2fa: jest.fn(),
   fetchBaseAsset: jest.fn(),
+  get2faCode: jest.fn(),
+  get2faStatus: jest.fn(),
   getUserInfo: jest.fn(),
   updateBaseAsset: jest.fn()
 };

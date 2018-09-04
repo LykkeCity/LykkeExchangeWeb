@@ -7,14 +7,15 @@ import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
 export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
-  const {authStore, profileStore} = rootStore!;
+  const {authStore, profileStore, uiStore} = rootStore!;
 
   return (
     <LykkeHeader
       onLogout={authStore.signOut}
       userName={profileStore.fullName}
       email={profileStore.email}
-      activeMenuItem="funds"
+      activeMenuItem={uiStore.activeHeaderMenuItem}
+      profileLink={`${process.env.REACT_APP_WEBWALLET_URL}/profile`}
     />
   );
 };
