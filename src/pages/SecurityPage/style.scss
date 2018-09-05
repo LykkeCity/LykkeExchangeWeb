@@ -94,6 +94,7 @@
       margin-bottom: 25px;
 
       .form-control.disabled {
+        cursor: default;
         color: $text;
         line-height: 1.5;
       }

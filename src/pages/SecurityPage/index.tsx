@@ -39,12 +39,12 @@ export class SecurityPage extends React.Component<RootStoreProps> {
         <div className="container">
           <h2 className="security-page__title">Security</h2>
           <div className="security-page__subtitle">
-            Two Factor Authentification
+            Two-Factor Authentication
           </div>
           <div className="security-page__description">
-            Two Factor Authentification (2FA) enhances the security of your
-            Lykke account and required for all users. Each time you sign in to
-            Lykke services, you will need your password and a verification code.
+            Two-Factor Authentication (2FA) enhances the security of your Lykke
+            account and required for all users. Each time you sign in to Lykke
+            services, you will need your password and a verification code.
           </div>
           <div
             className={classnames('tfa', {
@@ -57,7 +57,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                   <img
                     src={`${process.env.PUBLIC_URL}/images/google-auth.svg`}
                   />
-                  Google Authentificator
+                  Google Authenticator
                 </div>
                 <div className="tfa__badge">Enabled</div>
               </div>
@@ -69,10 +69,10 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                   <img
                     src={`${process.env.PUBLIC_URL}/images/google-auth.svg`}
                   />
-                  Google Authentificator
+                  Google Authenticator
                 </div>
                 <div className="tfa__description">
-                  Download and install Google Authentificator. Scan the QR code
+                  Download and install Google Authenticator. Scan the QR code
                   with or copy the key:
                 </div>
                 <div className="tfa__input">
