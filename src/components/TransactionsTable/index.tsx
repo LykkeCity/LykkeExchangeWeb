@@ -223,8 +223,10 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                               {TransactionStatusLabel[transaction.state]}
                             </td>
                             <td>
-                              {transaction.type ===
-                                TransactionType.LimitOrderEvent &&
+                              {(transaction.type ===
+                                TransactionType.LimitOrderEvent ||
+                                transaction.type ===
+                                  TransactionType.OrderEvent) &&
                               transaction.state ===
                                 TransactionStatus.Canceled ? (
                                 <div className="amount-col">
@@ -279,7 +281,8 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
         value: [
           TransactionType.Trade,
           TransactionType.LimitTrade,
-          TransactionType.LimitOrderEvent
+          TransactionType.LimitOrderEvent,
+          TransactionType.OrderEvent
         ]
       }
     ];
