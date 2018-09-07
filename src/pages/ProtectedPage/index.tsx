@@ -47,6 +47,7 @@ import {
   DepositCreditCardPage,
   DepositCryptoPage,
   DepositSwiftPage,
+  ProfilePage,
   SecurityPage,
   WalletPage
 } from '../../pages/index';
@@ -200,8 +201,16 @@ export class ProtectedPage extends React.Component<
               path={ROUTE_DEPOSIT_CRYPTO}
               component={asLoading(DepositCryptoPage)}
             />
-            <Route path={ROUTE_PROFILE} component={asLoading(SecurityPage)} />
-            <Route path={ROUTE_SECURITY} component={asLoading(SecurityPage)} />
+            <Route
+              path={ROUTE_PROFILE}
+              exact
+              component={asLoading(ProfilePage)}
+            />
+            <Route
+              path={ROUTE_SECURITY}
+              exact
+              component={asLoading(SecurityPage)}
+            />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
             <Route
               path={ROUTE_GATEWAY_FAIL}

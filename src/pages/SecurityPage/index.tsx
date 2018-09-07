@@ -43,8 +43,8 @@ export class SecurityPage extends React.Component<RootStoreProps> {
           </div>
           <div className="security-page__description">
             Two-Factor Authentication (2FA) enhances the security of your Lykke
-            account and required for all users. Each time you sign in to Lykke
-            services, you will need your password and a verification code.
+            account and is required for all users. Each time you sign in to
+            Lykke services, you will need your password and a verification code.
           </div>
           <div
             className={classnames('tfa', {
@@ -72,8 +72,8 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                   Google Authenticator
                 </div>
                 <div className="tfa__description">
-                  Download and install Google Authenticator. Scan the QR code
-                  with or copy the key:
+                  Download and install Google Authenticator. Scan the QR code or
+                  copy the key:
                 </div>
                 <div className="tfa__input">
                   <input
