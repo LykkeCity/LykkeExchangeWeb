@@ -78,7 +78,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                 <div className="tfa__input">
                   <input
                     type="text"
-                    disabled
+                    readOnly
                     className="form-control disabled"
                     value={this.profileStore.code2fa}
                   />
