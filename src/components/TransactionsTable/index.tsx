@@ -182,7 +182,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                     {this.props.transactions.map(
                       transaction =>
                         transaction.asset && (
-                          <tr key={transaction.id}>
+                          <tr key={transaction.id + transaction.amount}>
                             <td>
                               <div className="asset-col">
                                 <img
