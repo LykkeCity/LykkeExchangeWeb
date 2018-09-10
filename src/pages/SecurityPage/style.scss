@@ -96,6 +96,8 @@
       .form-control.disabled {
         cursor: default;
         color: $text;
+        background: $gray-5;
+        border-color: $gray-25;
         line-height: 1.5;
       }
     }
