@@ -4,7 +4,8 @@ export enum TransactionType {
   Trade = 'Trade',
   LimitTrade = 'LimitTrade',
   LimitTradeEvent = 'LimitTradeEvent',
-  LimitOrderEvent = 'LimitOrderEvent'
+  LimitOrderEvent = 'LimitOrderEvent',
+  OrderEvent = 'OrderEvent'
 }
 
 export const TransactionTypeLabel = {
@@ -13,6 +14,7 @@ export const TransactionTypeLabel = {
   [TransactionType.LimitOrderEvent]: 'Limit order',
   [TransactionType.LimitTrade]: 'Trade',
   [TransactionType.LimitTradeEvent]: 'Limit trade',
+  [TransactionType.OrderEvent]: 'Limit order',
   [TransactionType.Trade]: 'Trade'
 };
 
