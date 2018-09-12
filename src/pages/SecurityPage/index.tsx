@@ -1,3 +1,4 @@
+import {MenuItem} from '@lykkex/react-components';
 import classnames from 'classnames';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
@@ -22,7 +23,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
   @observable private isLoading = false;
 
   componentDidMount() {
-    this.uiStore.activeHeaderMenuItem = 'profile';
+    this.uiStore.activeHeaderMenuItem = MenuItem.Profile;
     window.scrollTo(0, 0);
     if (!this.profileStore.is2faEnabled) {
       this.profileStore.fetch2faCode();

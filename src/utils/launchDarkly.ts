@@ -4,5 +4,6 @@ export const LaunchDarkly = ReactLaunchDarkly.LaunchDarkly;
 export const FeatureFlag = ReactLaunchDarkly.FeatureFlag;
 
 export const Feature = {
-  ExportTradingHistory: 'export-trading-history'
+  ExportTradingHistory: 'export-trading-history',
+  TwoFactorAuthentication: '2fa'
 };

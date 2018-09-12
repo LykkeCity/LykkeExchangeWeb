@@ -1,4 +1,4 @@
-import {Select} from '@lykkex/react-components';
+import {MenuItem, Select} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
@@ -12,7 +12,7 @@ export class ProfilePage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
 
   componentDidMount() {
-    this.uiStore.activeHeaderMenuItem = 'profile';
+    this.uiStore.activeHeaderMenuItem = MenuItem.Profile;
     window.scrollTo(0, 0);
   }
 
