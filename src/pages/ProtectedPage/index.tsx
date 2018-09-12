@@ -1,3 +1,4 @@
+import {MenuItem} from '@lykkex/react-components';
 import * as classNames from 'classnames';
 import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
@@ -117,7 +118,7 @@ export class ProtectedPage extends React.Component<
 
     this.unlistenRouteChange = this.props.history.listen(() => {
       this.uiStore.hideModals();
-      this.uiStore.activeHeaderMenuItem = 'funds';
+      this.uiStore.activeHeaderMenuItem = MenuItem.Funds;
       this.uiStore.startRequest();
       this.walletStore
         .fetchWallets()

@@ -7,6 +7,7 @@ import {
   ROUTE_WALLETS_HFT,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
+import {Feature, FeatureFlag} from '../../utils/launchDarkly';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../Apps';
 import {Banner} from '../Banner';
 import {TabPane} from '../Tabs';
@@ -101,17 +102,23 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
               </div>
             }
           />
-          <Banner
-            show={this.props.show2faBanner}
-            className="tfa-banner"
-            title="Two-Factor Authentication"
-            text={
-              <span>
-                To ensure the security of withdrawals from Lykke, you need to
-                turn on Two-Factor Authentication. Find out more about it{' '}
-                <Link to={ROUTE_SECURITY}>here</Link>.
-              </span>
-            }
+          <FeatureFlag
+            flagKey={Feature.TwoFactorAuthentication}
+            // tslint:disable-next-line:jsx-no-lambda
+            renderFeatureCallback={() => (
+              <Banner
+                show={this.props.show2faBanner}
+                className="tfa-banner"
+                title="Two-Factor Authentication"
+                text={
+                  <span>
+                    To ensure the security of withdrawals from Lykke, you need
+                    to turn on Two-Factor Authentication. Find out more about it{' '}
+                    <Link to={ROUTE_SECURITY}>here</Link>.
+                  </span>
+                }
+              />
+            )}
           />
         </TabPane>
         <TabPane to={ROUTE_WALLETS_HFT}>
