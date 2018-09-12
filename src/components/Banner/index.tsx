@@ -4,7 +4,7 @@ import './style.css';
 
 interface BannerProps {
   className?: string;
-  text?: string;
+  text?: string | React.ReactChild;
   title?: string;
   footer?: string | React.ReactChild;
   show?: boolean;

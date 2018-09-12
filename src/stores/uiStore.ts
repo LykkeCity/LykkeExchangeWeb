@@ -1,3 +1,4 @@
+import {MenuItem} from '@lykkex/react-components';
 import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {getHash, StorageUtils} from '../utils';
@@ -22,6 +23,7 @@ export class UiStore {
   @observable showAssetAddressModal: boolean = false;
   @observable transferError: string;
   @observable apiError: string;
+  @observable activeHeaderMenuItem: string = MenuItem.Funds;
 
   @observable pendingRequestsCount: number = 0;
   @computed

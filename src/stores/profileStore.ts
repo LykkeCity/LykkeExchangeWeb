@@ -16,6 +16,8 @@ const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 export class ProfileStore {
   @observable baseAsset: string = baseCurrencyStorage.get() || 'USD';
+  @observable is2faEnabled = false;
+  @observable code2fa: string;
 
   @computed
   get baseAssetAsModel() {
@@ -81,6 +83,32 @@ export class ProfileStore {
         lastName
       });
     }
+  };
+
+  fetch2faStatus = async () => {
+    const resp = await this.api!.get2faStatus();
+
+    runInAction(() => {
+      this.is2faEnabled = resp && resp.length;
+    });
+  };
+
+  fetch2faCode = async () => {
+    const resp = await this.api!.get2faCode();
+
+    runInAction(() => {
+      this.code2fa = resp && resp.ManualEntryKey;
+    });
+  };
+
+  enable2fa = async (code: string) => {
+    const resp = await this.api!.enable2fa(code);
+
+    runInAction(() => {
+      this.is2faEnabled = resp && resp.IsValid;
+    });
+
+    return resp && resp.IsValid;
   };
 }
 

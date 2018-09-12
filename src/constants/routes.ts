@@ -45,4 +45,7 @@ export const ROUTE_GATEWAY_FAIL = '/gateway/fail';
 
 export const ROUTE_HISTORY = '/history';
 
+export const ROUTE_PROFILE = '/profile';
+export const ROUTE_SECURITY = '/profile/security';
+
 export const ROUTE_AUTH = '/auth';

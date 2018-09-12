@@ -17,3 +17,32 @@
     font-size: 16px;
   }
 }
+
+.subheader {
+  position: fixed;
+  top: 60px;
+  height: 60px;
+  width: 100%;
+  border-bottom: 1px solid $border-alt;
+  display: flex;
+  justify-content: center;
+  background: $white;
+  z-index: 109;
+
+  &__item {
+    margin: 20px 16px;
+
+    a {
+      font-weight: $fw-semi;
+      letter-spacing: 1.5px;
+      color: $gray-dark;
+      text-transform: uppercase;
+
+      @include rem(font-size, 13px);
+
+      &.active {
+        color: $heading;
+      }
+    }
+  }
+}

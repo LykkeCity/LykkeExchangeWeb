@@ -1,0 +1,21 @@
+@import '../../styles/utils';
+
+.profile-page {
+  @include rem(margin-top, 50px);
+
+  &__title {
+    letter-spacing: -0.4px;
+    line-height: 1.25;
+    font-weight: $fw-bold;
+
+    @include rem(margin-bottom, 70px);
+  }
+
+  .container {
+    width: 589px;
+
+    @media all and (max-width: $screen-mobile) {
+      width: 100%;
+    }
+  }
+}
