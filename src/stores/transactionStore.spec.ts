@@ -12,6 +12,10 @@ const transactionStore = new TransactionStore(rootStore, mockApi);
 rootStore.walletStore.wallets.push(
   new WalletModel(rootStore.walletStore, {Id: 1, Type: 'Trading'})
 );
+rootStore.assetStore.getById = jest.fn(() => ({
+  id: 'foo',
+  name: 'foo'
+}));
 
 describe('transaction store', () => {
   it('should hold strongly typed ref to the root store', () => {
