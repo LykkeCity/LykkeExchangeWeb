@@ -84,6 +84,7 @@ export class ProtectedPage extends React.Component<
   componentDidMount() {
     this.uiStore.startRequest();
     this.featureStore.getFeatures();
+    this.profileStore.fetch2faStatus();
     this.assetStore
       .fetchCategories()
       .then(() => this.catalogsStore.fetchCountries())
@@ -98,7 +99,6 @@ export class ProtectedPage extends React.Component<
         )
       )
       .then(() => this.profileStore.fetchUserInfo())
-      .then(() => this.profileStore.fetch2faStatus())
       .then(() => this.walletStore.fetchWallets())
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.depositStore.fetchDepositDefaultValues())

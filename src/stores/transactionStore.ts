@@ -24,26 +24,31 @@ export class TransactionStore {
       operationType
     );
     runInAction(() => {
-      this.assetTransactions = response.map(
-        ({
-          Id: id,
-          Amount: amount,
-          DateTime: dateTime,
-          State: state,
-          Type: type
-        }: any) => {
-          const asset = this.rootStore.assetStore.getById(assetId);
+      this.assetTransactions = response
+        .map(
+          ({
+            Id: id,
+            Amount: amount,
+            Asset: transactionAssetId,
+            DateTime: dateTime,
+            State: state,
+            Type: type
+          }: any) => {
+            const asset = this.rootStore.assetStore.getById(transactionAssetId);
 
-          return new TransactionModel({
-            amount,
-            asset,
-            dateTime,
-            id,
-            state,
-            type
-          });
-        }
-      );
+            return new TransactionModel({
+              amount,
+              asset,
+              dateTime,
+              id,
+              state,
+              type
+            });
+          }
+        )
+        .filter((transaction: TransactionModel) => {
+          return transaction.asset.id === assetId;
+        });
     });
   };
 
