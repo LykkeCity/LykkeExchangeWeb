@@ -5,7 +5,6 @@ import * as ReactDOM from 'react-dom';
 import {IntlProvider} from 'react-intl';
 import App from './App';
 import {RootStore} from './stores';
-import {getHash} from './utils';
 import {LaunchDarkly} from './utils/launchDarkly';
 
 export const rootElement = document.getElementById('root');
@@ -52,7 +51,7 @@ function renderApp(rootStore: any) {
       <IntlProvider locale="en">
         <LaunchDarkly
           clientId={process.env.REACT_APP_LAUNCH_DARKLY_CLIENT_ID}
-          user={{key: getHash(rootStore!.profileStore.email)}}
+          user={{key: rootStore!.profileStore.email}}
         >
           <App />
         </LaunchDarkly>
