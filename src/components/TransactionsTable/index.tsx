@@ -267,7 +267,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
   }
 
   private renderFiltersRow = (isSticky?: boolean) => {
-    const transactionFilters = [
+    const exportTransactionFilters = [
       {
         label: 'All',
         value: []
@@ -286,25 +286,40 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
         ]
       }
     ];
+    const transactionFilters = [
+      {
+        label: 'All',
+        value: []
+      },
+      {
+        label: 'Deposit & Withdraw',
+        value: [TransactionType.CashIn, TransactionType.CashOut]
+      },
+      {
+        label: 'Trading',
+        value: [
+          TransactionType.Trade,
+          TransactionType.LimitTrade,
+          TransactionType.LimitOrderEvent
+        ]
+      }
+    ];
 
     return (
       <div>
-        {transactionFilters.map(filter => (
-          <span
-            className={classnames('transaction-filters__item', {
-              'transaction-filters__item_active': arraysEqual(
-                this.transactionsFilterValue,
-                filter.value
-              )
-            })}
-            key={filter.label}
-            // tslint:disable-next-line:jsx-no-lambda
-            onClick={() =>
-              this.handleTransactionsFilterChange(filter.value, isSticky)}
-          >
-            {filter.label}
-          </span>
-        ))}
+        <FeatureFlag
+          flagKey={Feature.ExportTradingHistory}
+          // tslint:disable-next-line:jsx-no-lambda
+          renderFeatureCallback={() =>
+            exportTransactionFilters.map(filter =>
+              this.renderFilter(filter, isSticky)
+            )}
+          // tslint:disable-next-line:jsx-no-lambda
+          renderDefaultCallback={() =>
+            transactionFilters.map(filter =>
+              this.renderFilter(filter, isSticky)
+            )}
+        />
         {(this.props.showExportButton || isSticky) && (
           <FeatureFlag
             flagKey={Feature.ExportTradingHistory}
@@ -333,6 +348,23 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       </div>
     );
   };
+
+  private renderFilter = (filter: any, isSticky?: boolean) => (
+    <span
+      className={classnames('transaction-filters__item', {
+        'transaction-filters__item_active': arraysEqual(
+          this.transactionsFilterValue,
+          filter.value
+        )
+      })}
+      key={filter.label}
+      // tslint:disable-next-line:jsx-no-lambda
+      onClick={() =>
+        this.handleTransactionsFilterChange(filter.value, isSticky)}
+    >
+      {filter.label}
+    </span>
+  );
 
   private handleExportClick = async () => {
     this.props.exportTransactions(this.transactionsFilterValue);
