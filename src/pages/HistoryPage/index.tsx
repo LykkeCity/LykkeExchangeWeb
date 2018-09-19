@@ -18,7 +18,11 @@ export class HistoryPage extends React.Component<RootStoreProps> {
   private readonly walletStore = this.props.rootStore!.walletStore;
 
   @observable private isExportLoading = false;
-  private transactionType?: TransactionType[] = [];
+  private transactionType?: TransactionType[] = [
+    TransactionType.CashIn,
+    TransactionType.CashOut,
+    TransactionType.Trade
+  ];
 
   componentDidMount() {
     window.scrollTo(0, 0);
