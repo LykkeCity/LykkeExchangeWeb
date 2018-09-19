@@ -8,13 +8,11 @@ import {FormattedDate, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ColoredAmount} from '../../components/ColoredAmount';
-import {NumberFormat} from '../../components/NumberFormat';
 import Spinner from '../../components/Spinner';
 import {ROUTE_ASSET, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
   TransactionModel,
-  TransactionStatus,
   TransactionStatusLabel,
   TransactionType,
   TransactionTypeLabel
@@ -44,7 +42,12 @@ interface TransactionsTableProps extends RootStoreProps {
 
 export class TransactionsTable extends React.Component<TransactionsTableProps> {
   @observable private pageNumber = 1;
-  @observable private transactionsFilterValue: TransactionType[] = [];
+  @observable
+  private transactionsFilterValue: TransactionType[] = [
+    TransactionType.CashIn,
+    TransactionType.CashOut,
+    TransactionType.Trade
+  ];
   @observable private areTransactionsLoading = false;
   @observable private hasMoreTransactions = true;
   @observable private showStickyHeader = false;
@@ -83,7 +86,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       }),
       params => {
         this.hasMoreTransactions =
-          params.transactionsLength === params.page * PAGE_SIZE;
+          params.transactionsLength >= params.page * PAGE_SIZE;
       }
     );
   }
@@ -223,26 +226,11 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                               {TransactionStatusLabel[transaction.state]}
                             </td>
                             <td>
-                              {(transaction.type ===
-                                TransactionType.LimitOrderEvent ||
-                                transaction.type ===
-                                  TransactionType.OrderEvent) &&
-                              transaction.state ===
-                                TransactionStatus.Canceled ? (
-                                <div className="amount-col">
-                                  <NumberFormat
-                                    value={Math.abs(transaction.amount)}
-                                    accuracy={transaction.asset.accuracy}
-                                  />{' '}
-                                  {transaction.asset.name}
-                                </div>
-                              ) : (
-                                <ColoredAmount
-                                  value={transaction.amount}
-                                  accuracy={transaction.asset.accuracy}
-                                  assetName={transaction.asset.name}
-                                />
-                              )}
+                              <ColoredAmount
+                                value={transaction.amount}
+                                accuracy={transaction.asset.accuracy}
+                                assetName={transaction.asset.name}
+                              />
                             </td>
                           </tr>
                         )
@@ -267,29 +255,14 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
   }
 
   private renderFiltersRow = (isSticky?: boolean) => {
-    const exportTransactionFilters = [
-      {
-        label: 'All',
-        value: []
-      },
-      {
-        label: 'Deposit & Withdraw',
-        value: [TransactionType.CashIn, TransactionType.CashOut]
-      },
-      {
-        label: 'Trading',
-        value: [
-          TransactionType.Trade,
-          TransactionType.LimitTrade,
-          TransactionType.LimitOrderEvent,
-          TransactionType.OrderEvent
-        ]
-      }
-    ];
     const transactionFilters = [
       {
         label: 'All',
-        value: []
+        value: [
+          TransactionType.CashIn,
+          TransactionType.CashOut,
+          TransactionType.Trade
+        ]
       },
       {
         label: 'Deposit & Withdraw',
@@ -297,29 +270,13 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       },
       {
         label: 'Trading',
-        value: [
-          TransactionType.Trade,
-          TransactionType.LimitTrade,
-          TransactionType.LimitOrderEvent
-        ]
+        value: [TransactionType.Trade]
       }
     ];
 
     return (
       <div>
-        <FeatureFlag
-          flagKey={Feature.ExportTradingHistory}
-          // tslint:disable-next-line:jsx-no-lambda
-          renderFeatureCallback={() =>
-            exportTransactionFilters.map(filter =>
-              this.renderFilter(filter, isSticky)
-            )}
-          // tslint:disable-next-line:jsx-no-lambda
-          renderDefaultCallback={() =>
-            transactionFilters.map(filter =>
-              this.renderFilter(filter, isSticky)
-            )}
-        />
+        {transactionFilters.map(filter => this.renderFilter(filter, isSticky))}
         {(this.props.showExportButton || isSticky) && (
           <FeatureFlag
             flagKey={Feature.ExportTradingHistory}
