@@ -31,6 +31,7 @@ export class ProfileStore {
 
   @observable email: string = '';
   @observable isKycPassed: boolean = false;
+  @observable isKycPending: boolean = false;
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -82,6 +83,7 @@ export class ProfileStore {
         firstName,
         isKycPassed:
           kycStatus === KycStatuses.Ok || kycStatus === KycStatuses.ReviewDone,
+        isKycPending: kycStatus === KycStatuses.Pending,
         lastName
       });
     }
