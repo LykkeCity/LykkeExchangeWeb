@@ -76,7 +76,9 @@ export class WithdrawCryptoPage extends React.Component<
             </div>
             <div className="withdraw-crypto__description">
               Your wallet will not be charged until you authorize this
-              transaction.
+              transaction. Please ensure that the withdrawal address is a valid{' '}
+              {asset && asset.name} address. Transfer to another blockchain will
+              result in funds loss.
             </div>
             <Formik
               initialValues={this.withdrawStore.withdrawCrypto}
