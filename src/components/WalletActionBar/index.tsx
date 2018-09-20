@@ -17,7 +17,8 @@ import {
   ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_HISTORY,
-  ROUTE_TRANSFER_FROM
+  ROUTE_TRANSFER_FROM,
+  ROUTE_WITHDRAW_CRYPTO_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, WalletModel} from '../../models';
@@ -38,47 +39,73 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
       .assetsAvailableForSwiftDeposit;
     const assetsAvailableForCryptoDeposit = rootStore!.assetStore
       .assetsAvailableForCryptoDeposit;
+    const assetsAvailableForCryptoWithdraw = rootStore!.assetStore
+      .assetsAvailableForCryptoWithdraw;
     const isKycPassed = rootStore!.profileStore.isKycPassed;
 
     return (
       <div className="wallet-action-bar">
         {wallet.isTrading && (
-          <div className="wallet-action-bar__item">
-            {isKycPassed ? (
-              <Dropdown fullHeight>
-                <DropdownControl>
-                  <a>Deposit</a>
-                </DropdownControl>
-                <DropdownContainer>
-                  <DropdownList className="wallet-menu">
-                    {this.renderDepositMenuItem(
-                      `${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
-                      'Credit Card',
-                      assetsAvailableForCreditCardDeposit,
-                      (assetId: string) =>
-                        ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)
-                    )}
-                    {this.renderDepositMenuItem(
-                      `${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                      'Blockchain Transfer',
-                      assetsAvailableForCryptoDeposit,
-                      (assetId: string) => ROUTE_DEPOSIT_CRYPTO_TO(assetId)
-                    )}
-                    {this.renderDepositMenuItem(
-                      `${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                      'SWIFT',
-                      assetsAvailableForSwiftDeposit,
-                      (assetId: string) => ROUTE_DEPOSIT_SWIFT_TO(assetId)
-                    )}
-                  </DropdownList>
-                </DropdownContainer>
-              </Dropdown>
-            ) : (
-              <a className="disabled">Deposit</a>
-            )}
+          <div>
+            <div className="wallet-action-bar__item">
+              {isKycPassed ? (
+                <Dropdown fullHeight>
+                  <DropdownControl>
+                    <a>Deposit</a>
+                  </DropdownControl>
+                  <DropdownContainer>
+                    <DropdownList className="wallet-menu">
+                      {this.renderMenuItem(
+                        `${process.env
+                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                        'Credit Card',
+                        assetsAvailableForCreditCardDeposit,
+                        (assetId: string) =>
+                          ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)
+                      )}
+                      {this.renderMenuItem(
+                        `${process.env
+                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                        'Blockchain Transfer',
+                        assetsAvailableForCryptoDeposit,
+                        (assetId: string) => ROUTE_DEPOSIT_CRYPTO_TO(assetId)
+                      )}
+                      {this.renderMenuItem(
+                        `${process.env
+                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                        'SWIFT',
+                        assetsAvailableForSwiftDeposit,
+                        (assetId: string) => ROUTE_DEPOSIT_SWIFT_TO(assetId)
+                      )}
+                    </DropdownList>
+                  </DropdownContainer>
+                </Dropdown>
+              ) : (
+                <a className="disabled">Deposit</a>
+              )}
+            </div>
+            <div className="wallet-action-bar__item">
+              {isKycPassed ? (
+                <Dropdown fullHeight>
+                  <DropdownControl>
+                    <a>Withdraw</a>
+                  </DropdownControl>
+                  <DropdownContainer>
+                    <DropdownList className="wallet-menu">
+                      {this.renderMenuItem(
+                        `${process.env
+                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                        'Blockchain Transfer',
+                        assetsAvailableForCryptoWithdraw,
+                        (assetId: string) => ROUTE_WITHDRAW_CRYPTO_FROM(assetId)
+                      )}
+                    </DropdownList>
+                  </DropdownContainer>
+                </Dropdown>
+              ) : (
+                <a className="disabled">Withdraw</a>
+              )}
+            </div>
           </div>
         )}
         {!wallet.isTrading && (
@@ -122,7 +149,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
     );
   }
 
-  private renderDepositMenuItem = (
+  private renderMenuItem = (
     iconUrl: string,
     title: string,
     assets: AssetModel[],

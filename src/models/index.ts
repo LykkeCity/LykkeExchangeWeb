@@ -19,3 +19,4 @@ export * from './gatewayUrls';
 export * from './kycStatuses';
 export * from './depositSwiftModel';
 export * from './dialogModel';
+export * from './withdrawCryptoModel';

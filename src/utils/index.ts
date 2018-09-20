@@ -1,3 +1,6 @@
+import * as AuthUtils from './authUtils';
+export {AuthUtils};
+
 import * as StorageUtils from './storageUtils';
 export {StorageUtils};
 

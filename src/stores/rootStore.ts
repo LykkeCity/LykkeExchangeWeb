@@ -10,7 +10,8 @@ import {
   TransactionStore,
   TransferStore,
   UiStore,
-  WalletStore
+  WalletStore,
+  WithdrawStore
 } from '.';
 import {
   AssetApi,
@@ -23,7 +24,8 @@ import {
   ProfileApi,
   TransactionApi,
   TransferApi,
-  WalletApi
+  WalletApi,
+  WithdrawApi
 } from '../api';
 import RestAffiliateApi from '../api/affiliateApi';
 import {RestFeaturesApi} from '../api/featuresApi';
@@ -45,6 +47,7 @@ export class RootStore {
   profileStore: ProfileStore;
   assetStore: AssetStore;
   depositStore: DepositStore;
+  withdrawStore: WithdrawStore;
   marketService: any;
   socketStore: SocketStore;
 
@@ -63,6 +66,7 @@ export class RootStore {
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(this, new TransferApi(this));
     this.depositStore = new DepositStore(this, new DepositApi(this));
+    this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
     this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.marketService = MarketService;
@@ -80,6 +84,7 @@ export class RootStore {
     );
     this.transferStore = new TransferStore(this, new TransferApi(this));
     this.depositStore = new DepositStore(this, new DepositApi(this));
+    this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
     this.dialogStore = new DialogStore(this, new DialogApi(this));
     this.authStore.reset();
