@@ -10,7 +10,8 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
-  ROUTE_WALLETS_TRADING
+  ROUTE_WALLETS_TRADING,
+  ROUTE_WITHDRAW_CRYPTO_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, BalanceModel, TransactionType} from '../../models';
@@ -50,6 +51,14 @@ export class AssetPage extends React.Component<AssetPageProps> {
   get isAvailableForSwiftDeposit() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForSwiftDeposit.find(
+      asset => assetId === asset.id
+    );
+  }
+
+  @computed
+  get isAvailableForCryptoWithdraw() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForCryptoWithdraw.find(
       asset => assetId === asset.id
     );
   }
@@ -124,26 +133,37 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 <ul className="action-list">
                   <li className="action-list__title">Deposit</li>
                   {this.isAvailableForCreditCardDeposit &&
-                    this.renderDepositMenuItem(
+                    this.renderMenuItem(
                       ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
                       'Credit Card'
                     )}
                   {this.isAvailableForCryptoDeposit &&
-                    this.renderDepositMenuItem(
+                    this.renderMenuItem(
                       ROUTE_DEPOSIT_CRYPTO_TO(asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
                       'Blockchain Transfer'
                     )}
                   {this.isAvailableForSwiftDeposit &&
-                    this.renderDepositMenuItem(
+                    this.renderMenuItem(
                       ROUTE_DEPOSIT_SWIFT_TO(asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
                       'SWIFT'
                     )}
+                </ul>
+              )}
+              {this.isAvailableForCryptoWithdraw && (
+                <ul className="action-list">
+                  <li className="action-list__title">Withdraw</li>
+                  {this.renderMenuItem(
+                    ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
+                    `${process.env
+                      .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                    'Blockchain Transfer'
+                  )}
                 </ul>
               )}
               <ul className="action-list">
@@ -185,11 +205,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
     </div>
   );
 
-  private renderDepositMenuItem = (
-    route: string,
-    iconUrl: string,
-    label: string
-  ) =>
+  private renderMenuItem = (route: string, iconUrl: string, label: string) =>
     this.profileStore.isKycPassed ? (
       <li className="action-list__item">
         <Link to={route}>
