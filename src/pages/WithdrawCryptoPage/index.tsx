@@ -3,11 +3,15 @@ import {Field, FieldProps, Form, Formik, FormikProps} from 'formik';
 import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {RouteComponentProps} from 'react-router-dom';
+import {Link, RouteComponentProps} from 'react-router-dom';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
-import {ROUTE_CONFIRM_OPERATION_ID} from '../../constants/routes';
+import {Banner} from '../../components/Banner';
+import {
+  ROUTE_CONFIRM_OPERATION_ID,
+  ROUTE_SECURITY
+} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, WithdrawCryptoModel} from '../../models';
 import {moneyRound} from '../../utils';
@@ -24,6 +28,7 @@ export class WithdrawCryptoPage extends React.Component<
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly withdrawStore = this.props.rootStore!.withdrawStore;
   readonly walletStore = this.props.rootStore!.walletStore;
+  readonly profileStore = this.props.rootStore!.profileStore;
 
   @computed
   get balance() {
@@ -70,6 +75,18 @@ export class WithdrawCryptoPage extends React.Component<
       <div>
         <div className="container">
           <div className="withdraw-crypto">
+            <Banner
+              show={!this.profileStore.is2faEnabled}
+              className="tfa-banner"
+              title="Two-Factor Authentication"
+              text={
+                <span>
+                  To ensure the security of withdrawals from Lykke, you need to
+                  turn on Two-Factor Authentication. Find out more about it{' '}
+                  <Link to={ROUTE_SECURITY}>here</Link>.
+                </span>
+              }
+            />
             <div className="withdraw-crypto__title">Withdraw</div>
             <div className="withdraw-crypto__subtitle">
               {this.balance} {!!asset && asset!.name}
@@ -236,7 +253,11 @@ export class WithdrawCryptoPage extends React.Component<
             type="submit"
             value="Submit"
             className="btn btn--primary"
-            disabled={formikBag.isSubmitting || !formikBag.isValid}
+            disabled={
+              formikBag.isSubmitting ||
+              !formikBag.isValid ||
+              !this.profileStore.is2faEnabled
+            }
           />
           <a
             href="#"
