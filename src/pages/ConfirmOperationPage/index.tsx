@@ -121,6 +121,9 @@ export class ConfirmOperationPage extends React.Component<
         this.error = 'Code is not valid';
         this.isLoading = false;
       },
+      [OpStatus.Completed]: () => {
+        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
+      },
       [OpStatus.Confirmed]: () => {
         this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
       },
