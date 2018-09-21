@@ -7,6 +7,7 @@ import {RootStoreProps} from '../../App';
 import Spinner from '../../components/Spinner';
 import {
   ROUTE_CONFIRM_OPERATION_ID,
+  ROUTE_WITHDRAW_CRYPTO_FAIL,
   ROUTE_WITHDRAW_CRYPTO_SUCCESS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -31,7 +32,6 @@ export class ConfirmOperationPage extends React.Component<
   @observable code: string = '';
   @observable isLoading: boolean = false;
   @observable isTimeout: boolean = false;
-  @observable isFailed: boolean = false;
   @observable error: string = '';
 
   componentDidMount() {
@@ -58,7 +58,7 @@ export class ConfirmOperationPage extends React.Component<
             <div className="confirm-operation-form">
               <div
                 className={classnames('form-group', {
-                  'has-error': !!this.error || this.isTimeout || this.isFailed
+                  'has-error': !!this.error || this.isTimeout
                 })}
               >
                 <label htmlFor="code" className="control-label">
@@ -85,14 +85,6 @@ export class ConfirmOperationPage extends React.Component<
                     </a>
                   </span>
                 )}
-                {this.isFailed && (
-                  <span className="help-block">
-                    Something went wrong.{' '}
-                    <a href="#" onClick={this.handleTryAgain}>
-                      Try again
-                    </a>
-                  </span>
-                )}
               </div>
               <div className="confirm-operation-form__actions">
                 <input
@@ -100,12 +92,7 @@ export class ConfirmOperationPage extends React.Component<
                   value="Confirm"
                   className="btn btn--primary"
                   onClick={this.handleSubmit}
-                  disabled={
-                    this.isLoading ||
-                    this.isTimeout ||
-                    this.isFailed ||
-                    !this.code
-                  }
+                  disabled={this.isLoading || this.isTimeout || !this.code}
                 />
                 {this.isLoading && <Spinner />}
               </div>
@@ -138,9 +125,7 @@ export class ConfirmOperationPage extends React.Component<
         this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
       },
       [OpStatus.Failed]: () => {
-        this.error = '';
-        this.isFailed = true;
-        this.isLoading = false;
+        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
       }
     };
 
@@ -152,9 +137,7 @@ export class ConfirmOperationPage extends React.Component<
       if (operation && operation.Status && actions[operation.Status]) {
         actions[operation.Status]();
       } else {
-        this.error = '';
-        this.isLoading = false;
-        this.isTimeout = true;
+        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
       }
     }, TIMEOUT_LIMIT);
 
