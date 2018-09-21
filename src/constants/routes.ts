@@ -58,5 +58,6 @@ export const ROUTE_WITHDRAW_CRYPTO = `${ROUTE_WITHDRAW_CRYPTO_BASE}/:assetId`;
 export const ROUTE_WITHDRAW_CRYPTO_FROM = (assetId: string) =>
   `${ROUTE_WITHDRAW_CRYPTO_BASE}/${assetId}`;
 export const ROUTE_WITHDRAW_CRYPTO_SUCCESS = `${ROUTE_WITHDRAW_CRYPTO_BASE}/success`;
+export const ROUTE_WITHDRAW_CRYPTO_FAIL = `${ROUTE_WITHDRAW_CRYPTO_BASE}/fail`;
 
 export const ROUTE_AUTH = '/auth';

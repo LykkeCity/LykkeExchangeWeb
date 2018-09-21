@@ -18,7 +18,10 @@ import {
 } from '../../components/DepositResult';
 import {TransferFail} from '../../components/TransferResult/index';
 import TransferResult from '../../components/TransferResult/index';
-import {WithdrawCryptoSuccess} from '../../components/WithdrawResult';
+import {
+  WithdrawCryptoFail,
+  WithdrawCryptoSuccess
+} from '../../components/WithdrawResult';
 import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
@@ -45,6 +48,7 @@ import {
   ROUTE_WALLETS,
   ROUTE_WALLETS_TRADING,
   ROUTE_WITHDRAW_CRYPTO,
+  ROUTE_WITHDRAW_CRYPTO_FAIL,
   ROUTE_WITHDRAW_CRYPTO_SUCCESS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -218,6 +222,11 @@ export class ProtectedPage extends React.Component<
               path={ROUTE_SECURITY}
               exact
               component={asLoading(SecurityPage)}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_CRYPTO_FAIL}
+              exact
+              component={WithdrawCryptoFail}
             />
             <Route
               path={ROUTE_WITHDRAW_CRYPTO_SUCCESS}
