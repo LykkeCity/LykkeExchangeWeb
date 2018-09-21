@@ -21,6 +21,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly transferStore = this.props.rootStore!.transferStore;
   private readonly depositStore = this.props.rootStore!.depositStore;
+  private readonly withdrawStore = this.props.rootStore!.withdrawStore;
 
   @observable private wallet = new WalletModel(this.walletStore);
   @observable private activeStep = 1;
@@ -29,6 +30,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
     super(props);
     this.transferStore.resetCurrentTransfer();
     this.depositStore.resetCurrentDeposit();
+    this.withdrawStore.resetCurrentWithdraw();
   }
 
   render() {

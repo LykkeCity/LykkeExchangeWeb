@@ -48,4 +48,16 @@ export const ROUTE_HISTORY = '/history';
 export const ROUTE_PROFILE = '/profile';
 export const ROUTE_SECURITY = '/profile/security';
 
+export const ROUTE_CONFIRM_OPERATION_BASE = '/operation/confirm';
+export const ROUTE_CONFIRM_OPERATION = `${ROUTE_CONFIRM_OPERATION_BASE}/:operationId`;
+export const ROUTE_CONFIRM_OPERATION_ID = (operationId: string) =>
+  `${ROUTE_CONFIRM_OPERATION_BASE}/${operationId}`;
+
+export const ROUTE_WITHDRAW_CRYPTO_BASE = '/withdraw/crypto';
+export const ROUTE_WITHDRAW_CRYPTO = `${ROUTE_WITHDRAW_CRYPTO_BASE}/:assetId`;
+export const ROUTE_WITHDRAW_CRYPTO_FROM = (assetId: string) =>
+  `${ROUTE_WITHDRAW_CRYPTO_BASE}/${assetId}`;
+export const ROUTE_WITHDRAW_CRYPTO_SUCCESS = `${ROUTE_WITHDRAW_CRYPTO_BASE}/success`;
+export const ROUTE_WITHDRAW_CRYPTO_FAIL = `${ROUTE_WITHDRAW_CRYPTO_BASE}/fail`;
+
 export const ROUTE_AUTH = '/auth';

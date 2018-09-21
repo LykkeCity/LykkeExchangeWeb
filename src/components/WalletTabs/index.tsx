@@ -1,13 +1,8 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Link, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {
-  ROUTE_SECURITY,
-  ROUTE_WALLETS_HFT,
-  ROUTE_WALLETS_TRADING
-} from '../../constants/routes';
-import {Feature, FeatureFlag} from '../../utils/launchDarkly';
+import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../Apps';
 import {Banner} from '../Banner';
 import {TabPane} from '../Tabs';
@@ -15,7 +10,6 @@ import './style.css';
 
 interface WalletTabsProps {
   activeTabRoute?: string;
-  show2faBanner?: boolean;
   showBetaBanner?: boolean;
   showKycBanner?: boolean;
   handleHideBetaBannerClick?: () => void;
@@ -102,24 +96,6 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
               </div>
             }
           />
-          <FeatureFlag
-            flagKey={Feature.TwoFactorAuthentication}
-            // tslint:disable-next-line:jsx-no-lambda
-            renderFeatureCallback={() => (
-              <Banner
-                show={this.props.show2faBanner}
-                className="tfa-banner"
-                title="Two-Factor Authentication"
-                text={
-                  <span>
-                    To ensure the security of withdrawals from Lykke, you need
-                    to turn on Two-Factor Authentication. Find out more about it{' '}
-                    <Link to={ROUTE_SECURITY}>here</Link>.
-                  </span>
-                }
-              />
-            )}
-          />
         </TabPane>
         <TabPane to={ROUTE_WALLETS_HFT}>
           <div className="tab__pane">
@@ -162,7 +138,6 @@ export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
     handleHideBetaBannerClick: rootStore!.uiStore.hideBetaBanner,
     onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
-    show2faBanner: !rootStore!.profileStore.is2faEnabled,
     showBetaBanner: rootStore!.uiStore.showBetaBanner,
     showKycBanner: !rootStore!.profileStore.isKycPassed
   }))(observer(WalletTabs))

@@ -1,0 +1,115 @@
+@import '../../styles/utils';
+
+.confirm-operation {
+  max-width: 100%;
+  width: 570px;
+
+  @include rem(margin, 23px auto 0);
+
+  &__title {
+    color: $heading;
+    font-family: $ff-alt;
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+  }
+
+  &__subtitle {
+    color: $heading;
+    font-family: $ff-alt;
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 34px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 1.5;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-bottom, 27px);
+  }
+
+  .confirm-operation-form {
+    .help-block {
+      line-height: 1.54;
+      margin-left: 0;
+
+      @include rem(font-size, 13px);
+      @include rem(margin-top, 6px);
+    }
+
+    .control-label {
+      line-height: 1.38;
+      color: $heading;
+      font-weight: $fw-semi;
+    }
+
+    .form-group {
+      position: relative;
+    }
+
+    .error-bar {
+      background-color: $red;
+      border-radius: 100px;
+      display: none;
+      height: 40px;
+      position: absolute;
+      top: 3px;
+      width: 2px;
+      z-index: 100;
+    }
+
+    label + .error-bar {
+      top: 38px;
+
+      @media (max-width: $screen-landscape) {
+        top: 33px;
+        height: 35px;
+      }
+
+      @media (max-width: $screen-mobile) {
+        top: 29px;
+        height: 30px;
+      }
+    }
+
+    .has-error {
+      .error-bar {
+        display: block;
+      }
+
+      .form-control {
+        border-color: $gray-25;
+
+        &:focus {
+          border-color: $gray-25;
+        }
+      }
+      .help-block {
+        color: $red;
+      }
+    }
+
+    &__actions {
+      text-align: center;
+
+      @include rem(margin-top, 60px);
+
+      input[type='submit'] {
+        width: 370px;
+        max-width: 100%;
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+    }
+  }
+}

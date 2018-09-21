@@ -15,6 +15,7 @@ export class AssetStore {
   @observable assetsAvailableForCreditCardDeposit: AssetModel[] = [];
   @observable assetsAvailableForSwiftDeposit: AssetModel[] = [];
   @observable assetsAvailableForCryptoDeposit: AssetModel[] = [];
+  @observable assetsAvailableForCryptoWithdraw: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
   @observable selectedAsset?: AssetModel;
@@ -103,29 +104,24 @@ export class AssetStore {
     const cryptos = resp.PaymentMethods.find(
       (paymentMethod: any) => paymentMethod.Name === 'Cryptos'
     );
-    const prepareAssets = (assets: any) =>
-      assets
-        .map((assetId: string) => this.getById(assetId))
-        .filter((asset: any) => asset)
-        .sort((a1: AssetModel, a2: AssetModel) =>
-          a1.name.localeCompare(a2.name)
-        );
 
     if (fxpaygate && fxpaygate.Available) {
       runInAction(() => {
-        this.assetsAvailableForCreditCardDeposit = prepareAssets(
+        this.assetsAvailableForCreditCardDeposit = this.prepareAssets(
           fxpaygate.Assets
         );
       });
     }
     if (swift && swift.Available) {
       runInAction(() => {
-        this.assetsAvailableForSwiftDeposit = prepareAssets(swift.Assets);
+        this.assetsAvailableForSwiftDeposit = this.prepareAssets(swift.Assets);
       });
     }
     if (cryptos && cryptos.Available) {
       runInAction(() => {
-        this.assetsAvailableForCryptoDeposit = prepareAssets(cryptos.Assets);
+        this.assetsAvailableForCryptoDeposit = this.prepareAssets(
+          cryptos.Assets
+        );
       });
     }
 
@@ -134,6 +130,21 @@ export class AssetStore {
       asset =>
         !disabledCryptoAssetNames.find(assetName => asset.name === assetName)
     );
+  };
+
+  fetchAssetsAvailableForWithdraw = async () => {
+    const resp = await this.api.fetchWithdrawMethods();
+    const cryptos = resp.WithdrawalMethods.find(
+      (paymentMethod: any) => paymentMethod.Name === 'Cryptos'
+    );
+
+    if (cryptos && cryptos.Assets) {
+      runInAction(() => {
+        this.assetsAvailableForCryptoWithdraw = this.prepareAssets(
+          cryptos.Assets
+        );
+      });
+    }
   };
 
   fetchAddress = async (assetId: string) => {
@@ -215,4 +226,10 @@ export class AssetStore {
       asset.addressExtension = resp.AddressExtension;
     }
   };
+
+  private prepareAssets = (assets: any) =>
+    assets
+      .map((assetId: string) => this.getById(assetId))
+      .filter((asset: any) => asset)
+      .sort((a1: AssetModel, a2: AssetModel) => a1.name.localeCompare(a2.name));
 }

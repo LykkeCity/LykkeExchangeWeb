@@ -10,6 +10,7 @@ export * from './transferStore';
 export * from './profileStore';
 export * from './assetStore';
 export * from './depositStore';
+export * from './withdrawStore';
 export * from './catalogsStore';
 export * from './dialogStore';
 export * from './socketStore';

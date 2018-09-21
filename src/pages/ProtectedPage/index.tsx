@@ -19,10 +19,15 @@ import {
 import {TransferFail} from '../../components/TransferResult/index';
 import TransferResult from '../../components/TransferResult/index';
 import {
+  WithdrawCryptoFail,
+  WithdrawCryptoSuccess
+} from '../../components/WithdrawResult';
+import {
   ROUTE_AFFILIATE,
   ROUTE_AFFILIATE_DETAILS,
   ROUTE_AFFILIATE_STATISTICS,
   ROUTE_ASSET_PAGE,
+  ROUTE_CONFIRM_OPERATION,
   ROUTE_DEPOSIT_CREDIT_CARD,
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
@@ -41,16 +46,21 @@ import {
   ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS,
   ROUTE_WALLETS,
-  ROUTE_WALLETS_TRADING
+  ROUTE_WALLETS_TRADING,
+  ROUTE_WITHDRAW_CRYPTO,
+  ROUTE_WITHDRAW_CRYPTO_FAIL,
+  ROUTE_WITHDRAW_CRYPTO_SUCCESS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
+  ConfirmOperationPage,
   DepositCreditCardPage,
   DepositCryptoPage,
   DepositSwiftPage,
   ProfilePage,
   SecurityPage,
-  WalletPage
+  WalletPage,
+  WithdrawCryptoPage
 } from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
@@ -90,6 +100,7 @@ export class ProtectedPage extends React.Component<
       .then(() => this.catalogsStore.fetchCountries())
       .then(() => this.assetStore.fetchAssets())
       .then(() => this.assetStore.fetchAssetsAvailableForDeposit())
+      .then(() => this.assetStore.fetchAssetsAvailableForWithdraw())
       .then(() => this.assetStore.fetchInstruments())
       .then(() => this.assetStore.fetchRates())
       .then(() =>
@@ -211,6 +222,24 @@ export class ProtectedPage extends React.Component<
               path={ROUTE_SECURITY}
               exact
               component={asLoading(SecurityPage)}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_CRYPTO_FAIL}
+              exact
+              component={WithdrawCryptoFail}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_CRYPTO_SUCCESS}
+              exact
+              component={WithdrawCryptoSuccess}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_CRYPTO}
+              component={asLoading(WithdrawCryptoPage)}
+            />
+            <Route
+              path={ROUTE_CONFIRM_OPERATION}
+              component={asLoading(ConfirmOperationPage)}
             />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
             <Route
