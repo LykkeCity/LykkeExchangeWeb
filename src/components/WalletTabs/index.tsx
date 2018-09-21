@@ -11,6 +11,7 @@ import {Feature, FeatureFlag} from '../../utils/launchDarkly';
 import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../Apps';
 import {Banner} from '../Banner';
 import {TabPane} from '../Tabs';
+import HftContent from './HftContent';
 import './style.css';
 
 interface WalletTabsProps {
@@ -122,36 +123,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
           />
         </TabPane>
         <TabPane to={ROUTE_WALLETS_HFT}>
-          <div className="tab__pane">
-            <div className="row">
-              <div className="col-sm-8">
-                <p className="hint text-left">
-                  API Wallet offers you a faster trading interface. You can have
-                  multiple API wallets. Funds deposited to API wallet are under
-                  Lykke custodian. The API is secured with an API Key. Please
-                  keep the key safe. To withdraw the funds from your API wallet
-                  you need to transfer them to your Trading Wallet first.
-                </p>
-                <p style={{marginTop: '10px'}} className="hint text-left">
-                  Read more about using API here&nbsp;<a
-                    className="link"
-                    href="https://www.lykke.com/lykke_api"
-                    target="_blank"
-                  >
-                    {'https://www.lykke.com/lykke_api'}
-                  </a>
-                </p>
-              </div>
-              <div className="col-sm-4 text-right">
-                <button
-                  className="btn btn--primary btn-sm"
-                  onClick={this.props.onCreateNewWallet}
-                >
-                  <i className="icon icon--add" /> New Wallet
-                </button>
-              </div>
-            </div>
-          </div>
+          <HftContent />
         </TabPane>
       </div>
     );
