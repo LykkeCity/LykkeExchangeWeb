@@ -31,7 +31,7 @@ export class ConfirmOperationPage extends React.Component<
   @observable code: string = '';
   @observable isLoading: boolean = false;
   @observable isTimeout: boolean = false;
-  @observable isLimitExceed: boolean = false;
+  @observable isFailed: boolean = false;
   @observable error: string = '';
 
   componentDidMount() {
@@ -50,7 +50,7 @@ export class ConfirmOperationPage extends React.Component<
               Two-Factor Authentication (2FA)
             </div>
             <div className="confirm-operation__subtitle">
-              + {this.withdrawStore.withdrawCrypto.amount} {asset && asset.name}
+              {this.withdrawStore.withdrawCrypto.amount} {asset && asset.name}
             </div>
             <div className="confirm-operation__description">
               Please enter 2FA code to confirm withdraw:
@@ -58,8 +58,7 @@ export class ConfirmOperationPage extends React.Component<
             <div className="confirm-operation-form">
               <div
                 className={classnames('form-group', {
-                  'has-error':
-                    !!this.error || this.isTimeout || this.isLimitExceed
+                  'has-error': !!this.error || this.isTimeout || this.isFailed
                 })}
               >
                 <label htmlFor="code" className="control-label">
@@ -86,9 +85,9 @@ export class ConfirmOperationPage extends React.Component<
                     </a>
                   </span>
                 )}
-                {this.isLimitExceed && (
+                {this.isFailed && (
                   <span className="help-block">
-                    Code tries exceeded.{' '}
+                    Something went wrong.{' '}
                     <a href="#" onClick={this.handleTryAgain}>
                       Try again
                     </a>
@@ -104,7 +103,7 @@ export class ConfirmOperationPage extends React.Component<
                   disabled={
                     this.isLoading ||
                     this.isTimeout ||
-                    this.isLimitExceed ||
+                    this.isFailed ||
                     !this.code
                   }
                 />
@@ -130,12 +129,33 @@ export class ConfirmOperationPage extends React.Component<
     const {operationId} = this.props.match.params;
     this.isLoading = true;
     this.error = '';
+    const actions = {
+      [OpStatus.ConfirmationRequested]: () => {
+        this.error = 'Code is not valid';
+        this.isLoading = false;
+      },
+      [OpStatus.Confirmed]: () => {
+        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
+      },
+      [OpStatus.Failed]: () => {
+        this.error = '';
+        this.isFailed = true;
+        this.isLoading = false;
+      }
+    };
 
     const TIMEOUT_LIMIT = 10000;
-    const timeout = window.setTimeout(() => {
-      this.error = '';
-      this.isLoading = false;
-      this.isTimeout = true;
+    const timeout = window.setTimeout(async () => {
+      const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
+        operationId
+      );
+      if (operation && operation.Status && actions[operation.Status]) {
+        actions[operation.Status]();
+      } else {
+        this.error = '';
+        this.isLoading = false;
+        this.isTimeout = true;
+      }
     }, TIMEOUT_LIMIT);
 
     const OPERATIONS_TOPIC = 'operations';
@@ -143,20 +163,6 @@ export class ConfirmOperationPage extends React.Component<
       OPERATIONS_TOPIC,
       (res: [{OperationId: string; Status: string}]) => {
         const {OperationId: id, Status: status} = res[0];
-        const actions = {
-          [OpStatus.ConfirmationRequested]: () => {
-            this.error = 'Code is not valid';
-            this.isLoading = false;
-          },
-          [OpStatus.Confirmed]: () => {
-            this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
-          },
-          [OpStatus.Failed]: () => {
-            this.error = '';
-            this.isLimitExceed = true;
-            this.isLoading = false;
-          }
-        };
 
         if (id === operationId) {
           window.clearTimeout(timeout);

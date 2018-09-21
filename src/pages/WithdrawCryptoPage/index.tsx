@@ -10,10 +10,11 @@ import {AmountInput} from '../../components/AmountInput';
 import {Banner} from '../../components/Banner';
 import {
   ROUTE_CONFIRM_OPERATION_ID,
-  ROUTE_SECURITY
+  ROUTE_SECURITY,
+  ROUTE_WITHDRAW_CRYPTO_FAIL
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {BalanceModel, WithdrawCryptoModel} from '../../models';
+import {BalanceModel, OpStatus, WithdrawCryptoModel} from '../../models';
 import {moneyRound} from '../../utils';
 
 import './style.css';
@@ -29,6 +30,7 @@ export class WithdrawCryptoPage extends React.Component<
   readonly withdrawStore = this.props.rootStore!.withdrawStore;
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly profileStore = this.props.rootStore!.profileStore;
+  readonly socketStore = this.props.rootStore!.socketStore;
 
   @computed
   get balance() {
@@ -150,8 +152,81 @@ export class WithdrawCryptoPage extends React.Component<
                     assetId,
                     values
                   );
-                  setSubmitting(false);
-                  onSubmitSuccess(operationId);
+                  const OPERATIONS_TOPIC = 'operations';
+                  const actions = {
+                    [OpStatus.ConfirmationRequested]: (
+                      errorCode?: string,
+                      errorMessage?: string
+                    ) => {
+                      onSubmitSuccess(operationId);
+                    },
+                    [OpStatus.Failed]: (
+                      errorCode?: string,
+                      errorMessage?: string
+                    ) => {
+                      const validErrorCodes = [
+                        'LimitationCheckFailed',
+                        'RuntimeProblem'
+                      ];
+
+                      if (
+                        errorCode &&
+                        validErrorCodes.indexOf(errorCode) > -1
+                      ) {
+                        setFieldError(
+                          'amount',
+                          errorMessage || 'Something went wrong.'
+                        );
+                      } else {
+                        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
+                      }
+                    }
+                  };
+                  const TIMEOUT_LIMIT = 10000;
+                  const timeout = window.setTimeout(async () => {
+                    const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
+                      operationId
+                    );
+                    if (
+                      operation &&
+                      operation.Status &&
+                      actions[operation.Status]
+                    ) {
+                      actions[operation.Status]();
+                    } else {
+                      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
+                    }
+                  }, TIMEOUT_LIMIT);
+                  const subscription = await this.socketStore.subscribe(
+                    OPERATIONS_TOPIC,
+                    (
+                      res: [
+                        {
+                          OperationId: string;
+                          Status: string;
+                          ErrorCode?: string;
+                          ErrorMessage?: string;
+                        }
+                      ]
+                    ) => {
+                      const {
+                        OperationId: id,
+                        Status: status,
+                        ErrorCode: errorCode,
+                        ErrorMessage: errorMessage
+                      } = res[0];
+
+                      if (id === operationId) {
+                        this.socketStore.unsubscribe(
+                          OPERATIONS_TOPIC,
+                          subscription.id
+                        );
+                        window.clearTimeout(timeout);
+                        setSubmitting(false);
+                        actions[status](errorCode, errorMessage);
+                      }
+                    }
+                  );
                 } else {
                   setFieldError('baseAddress', 'Address is not valid');
                   setSubmitting(false);
