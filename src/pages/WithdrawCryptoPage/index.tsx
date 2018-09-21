@@ -34,18 +34,19 @@ export class WithdrawCryptoPage extends React.Component<
 
   @computed
   get balance() {
+    if (!this.walletStore.tradingWallets.length) {
+      return 0;
+    }
+
     const {assetId} = this.props.match.params;
-
-    if (this.walletStore.tradingWallets.length) {
-      const balance = this.walletStore.tradingWallets[0].balances.find(
-        (assetBalance: BalanceModel) => {
-          return assetBalance.assetId === assetId;
-        }
-      );
-
-      if (balance) {
-        return balance.balance;
+    const balanceModel = this.walletStore.tradingWallets[0].balances.find(
+      (assetBalance: BalanceModel) => {
+        return assetBalance.assetId === assetId;
       }
+    );
+
+    if (balanceModel) {
+      return balanceModel.balance;
     }
 
     return 0;
@@ -119,19 +120,77 @@ export class WithdrawCryptoPage extends React.Component<
     );
   }
 
+  private listenSocket = async (operationId: string, formikBag: any) => {
+    const {setFieldError, setSubmitting} = formikBag;
+    const actions = {
+      [OpStatus.Accepted]: (errorCode?: string, errorMessage?: string) => {
+        this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
+      },
+      [OpStatus.ConfirmationRequested]: (
+        errorCode?: string,
+        errorMessage?: string
+      ) => {
+        this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
+      },
+      [OpStatus.Failed]: (errorCode?: string, errorMessage?: string) => {
+        const validErrorCodes = ['LimitationCheckFailed', 'RuntimeProblem'];
+
+        if (errorCode && validErrorCodes.indexOf(errorCode) > -1) {
+          setFieldError('amount', errorMessage || 'Something went wrong.');
+        } else {
+          this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
+        }
+      }
+    };
+
+    const TIMEOUT_LIMIT = 10000;
+    const socketTimeout = window.setTimeout(async () => {
+      const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
+        operationId
+      );
+      if (operation && operation.Status && actions[operation.Status]) {
+        actions[operation.Status]();
+      } else {
+        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
+      }
+    }, TIMEOUT_LIMIT);
+
+    const OPERATIONS_TOPIC = 'operations';
+    const subscription = await this.socketStore.subscribe(
+      OPERATIONS_TOPIC,
+      (
+        res: [
+          {
+            OperationId: string;
+            Status: string;
+            ErrorCode?: string;
+            ErrorMessage?: string;
+          }
+        ]
+      ) => {
+        const {
+          OperationId: id,
+          Status: status,
+          ErrorCode: errorCode,
+          ErrorMessage: errorMessage
+        } = res[0];
+
+        if (id === operationId) {
+          this.socketStore.unsubscribe(OPERATIONS_TOPIC, subscription.id);
+          window.clearTimeout(socketTimeout);
+          setSubmitting(false);
+          actions[status](errorCode, errorMessage);
+        }
+      }
+    );
+  };
+
   private handleSubmit = async (
     values: WithdrawCryptoModel,
     formikBag: any
   ) => {
     const {assetId} = this.props.match.params;
     const {setFieldError, setSubmitting} = formikBag;
-    const onSubmitSuccess = (operationId: string) => {
-      this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
-    };
-    const sendWithdrawCryptoRequest = this.withdrawStore
-      .sendWithdrawCryptoRequest;
-    const validateWithdrawCryptoRequest = this.withdrawStore
-      .validateWithdrawCryptoRequest;
 
     if (this.getTotalAmount(values.amount) > this.balance) {
       setFieldError('amount', 'Requested amount is more than balance');
@@ -139,69 +198,17 @@ export class WithdrawCryptoPage extends React.Component<
       return;
     }
 
-    const isValid = await validateWithdrawCryptoRequest(assetId, values);
+    const isValid = await this.withdrawStore.validateWithdrawCryptoRequest(
+      assetId,
+      values
+    );
 
     if (isValid) {
-      const operationId = await sendWithdrawCryptoRequest(assetId, values);
-      const OPERATIONS_TOPIC = 'operations';
-      const actions = {
-        [OpStatus.Accepted]: (errorCode?: string, errorMessage?: string) => {
-          onSubmitSuccess(operationId);
-        },
-        [OpStatus.ConfirmationRequested]: (
-          errorCode?: string,
-          errorMessage?: string
-        ) => {
-          onSubmitSuccess(operationId);
-        },
-        [OpStatus.Failed]: (errorCode?: string, errorMessage?: string) => {
-          const validErrorCodes = ['LimitationCheckFailed', 'RuntimeProblem'];
-
-          if (errorCode && validErrorCodes.indexOf(errorCode) > -1) {
-            setFieldError('amount', errorMessage || 'Something went wrong.');
-          } else {
-            this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
-          }
-        }
-      };
-      const TIMEOUT_LIMIT = 10000;
-      const timeout = window.setTimeout(async () => {
-        const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
-          operationId
-        );
-        if (operation && operation.Status && actions[operation.Status]) {
-          actions[operation.Status]();
-        } else {
-          this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
-        }
-      }, TIMEOUT_LIMIT);
-      const subscription = await this.socketStore.subscribe(
-        OPERATIONS_TOPIC,
-        (
-          res: [
-            {
-              OperationId: string;
-              Status: string;
-              ErrorCode?: string;
-              ErrorMessage?: string;
-            }
-          ]
-        ) => {
-          const {
-            OperationId: id,
-            Status: status,
-            ErrorCode: errorCode,
-            ErrorMessage: errorMessage
-          } = res[0];
-
-          if (id === operationId) {
-            this.socketStore.unsubscribe(OPERATIONS_TOPIC, subscription.id);
-            window.clearTimeout(timeout);
-            setSubmitting(false);
-            actions[status](errorCode, errorMessage);
-          }
-        }
+      const operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
+        assetId,
+        values
       );
+      this.listenSocket(operationId, formikBag);
     } else {
       setFieldError('baseAddress', 'Address is not valid');
       setSubmitting(false);
@@ -211,12 +218,17 @@ export class WithdrawCryptoPage extends React.Component<
   private getFeeSize(amount: number) {
     const {assetId} = this.props.match.params;
     const asset = this.assetStore.getById(assetId);
-    return moneyRound(
-      this.withdrawStore.absoluteFee ||
-        this.withdrawStore.relativeFee ||
-        this.withdrawStore.absoluteFee * amount,
-      asset && asset.accuracy
-    );
+    let fee = 0;
+
+    if (this.withdrawStore.absoluteFee) {
+      fee = this.withdrawStore.absoluteFee;
+    }
+
+    if (this.withdrawStore.relativeFee) {
+      fee = this.withdrawStore.relativeFee * amount;
+    }
+
+    return moneyRound(fee, asset && asset.accuracy);
   }
 
   private getTotalAmount(amount: number) {

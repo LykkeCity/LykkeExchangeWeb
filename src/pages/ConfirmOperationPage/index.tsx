@@ -29,6 +29,22 @@ export class ConfirmOperationPage extends React.Component<
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly socketStore = this.props.rootStore!.socketStore;
 
+  readonly actions = {
+    [OpStatus.ConfirmationRequested]: () => {
+      this.error = 'Code is not valid';
+      this.isLoading = false;
+    },
+    [OpStatus.Completed]: () => {
+      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
+    },
+    [OpStatus.Confirmed]: () => {
+      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
+    },
+    [OpStatus.Failed]: () => {
+      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
+    }
+  };
+
   @observable code: string = '';
   @observable isLoading: boolean = false;
   @observable isTimeout: boolean = false;
@@ -112,37 +128,14 @@ export class ConfirmOperationPage extends React.Component<
     this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
   };
 
-  private handleSubmit = async () => {
+  private listenSocket = () => {
     const {operationId} = this.props.match.params;
-    this.isLoading = true;
-    this.error = '';
-    const actions = {
-      [OpStatus.ConfirmationRequested]: () => {
-        this.error = 'Code is not valid';
-        this.isLoading = false;
-      },
-      [OpStatus.Completed]: () => {
-        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
-      },
-      [OpStatus.Confirmed]: () => {
-        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
-      },
-      [OpStatus.Failed]: () => {
-        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
-      }
-    };
 
     const TIMEOUT_LIMIT = 10000;
-    const timeout = window.setTimeout(async () => {
-      const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
-        operationId
-      );
-      if (operation && operation.Status && actions[operation.Status]) {
-        actions[operation.Status]();
-      } else {
-        this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
-      }
-    }, TIMEOUT_LIMIT);
+    const socketTimeout = window.setTimeout(
+      this.handleSocketTimeout,
+      TIMEOUT_LIMIT
+    );
 
     const OPERATIONS_TOPIC = 'operations';
     this.socketStore.subscribe(
@@ -151,11 +144,31 @@ export class ConfirmOperationPage extends React.Component<
         const {OperationId: id, Status: status} = res[0];
 
         if (id === operationId) {
-          window.clearTimeout(timeout);
-          actions[status]();
+          window.clearTimeout(socketTimeout);
+          this.actions[status]();
         }
       }
     );
+  };
+
+  private handleSocketTimeout = async () => {
+    const {operationId} = this.props.match.params;
+    const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
+      operationId
+    );
+    if (operation && operation.Status && this.actions[operation.Status]) {
+      this.actions[operation.Status]();
+    } else {
+      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
+    }
+  };
+
+  private handleSubmit = async () => {
+    const {operationId} = this.props.match.params;
+    this.isLoading = true;
+    this.error = '';
+
+    this.listenSocket();
 
     this.withdrawStore.confirmWithdrawCryptoRequest(operationId, this.code);
   };
