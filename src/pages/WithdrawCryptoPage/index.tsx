@@ -154,6 +154,12 @@ export class WithdrawCryptoPage extends React.Component<
                   );
                   const OPERATIONS_TOPIC = 'operations';
                   const actions = {
+                    [OpStatus.Accepted]: (
+                      errorCode?: string,
+                      errorMessage?: string
+                    ) => {
+                      onSubmitSuccess(operationId);
+                    },
                     [OpStatus.ConfirmationRequested]: (
                       errorCode?: string,
                       errorMessage?: string
