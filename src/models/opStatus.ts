@@ -1,4 +1,5 @@
 export enum OpStatus {
+  Accepted = 'Accepted',
   Active = 'Active',
   Created = 'Created',
   Completed = 'Completed',

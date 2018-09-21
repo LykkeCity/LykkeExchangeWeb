@@ -2,7 +2,7 @@ import {Icon} from '@lykkex/react-components';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Link, RouteComponentProps} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {ROUTE_WITHDRAW_CRYPTO_FROM} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -31,16 +31,22 @@ export class WithdrawCryptoFail extends React.Component<
         />
         <div className="withdraw-result__desc">Something went wrong.</div>
         <div className="withdraw-result__button">
-          <Link
-            to={ROUTE_WITHDRAW_CRYPTO_FROM(this.assetId)}
+          <a
             className="btn btn--primary"
+            href="#"
+            onClick={this.handleTryAgain}
           >
             Try again
-          </Link>
+          </a>
         </div>
       </div>
     );
   }
+
+  private handleTryAgain = (e: any) => {
+    e.preventDefault();
+    this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FROM(this.assetId));
+  };
 }
 
 export default inject(STORE_ROOT)(observer(WithdrawCryptoFail));
