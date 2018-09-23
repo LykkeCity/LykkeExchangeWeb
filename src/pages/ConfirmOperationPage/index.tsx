@@ -30,6 +30,9 @@ export class ConfirmOperationPage extends React.Component<
   readonly socketStore = this.props.rootStore!.socketStore;
 
   readonly actions = {
+    [OpStatus.Accepted]: () => {
+      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
+    },
     [OpStatus.ConfirmationRequested]: () => {
       this.error = 'Code is not valid';
       this.isLoading = false;
