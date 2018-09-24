@@ -31,6 +31,7 @@ export class ConfirmOperationPage extends React.Component<
 
   readonly actions = {
     [OpStatus.Accepted]: () => {
+      // TODO: Change when BE statuses fixed
       this.error = 'Code is not valid';
       this.isLoading = false;
     },
