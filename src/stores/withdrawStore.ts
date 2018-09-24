@@ -1,10 +1,11 @@
 import {action, observable} from 'mobx';
 import {RootStore} from '.';
 import {WithdrawApi} from '../api/withdrawApi';
-import {WithdrawCryptoModel} from '../models';
+import {WithdrawCryptoModel, WithdrawSwiftModel} from '../models';
 
 export class WithdrawStore {
   @observable withdrawCrypto: WithdrawCryptoModel;
+  @observable withdrawSwift: WithdrawSwiftModel;
   @observable relativeFee: number = 0;
   @observable absoluteFee: number = 0;
   @observable isAddressExtensionMandatory: boolean = false;
@@ -41,8 +42,42 @@ export class WithdrawStore {
     return await this.api!.sendWithdrawCryptoRequest(this.withdrawCrypto);
   };
 
+  sendWithdrawSwiftRequest = async (
+    assetId: string,
+    values: WithdrawSwiftModel
+  ) => {
+    this.withdrawSwift.amount = values.amount;
+    this.withdrawSwift.assetId = assetId;
+    this.withdrawSwift.accountName = values.accountName;
+    this.withdrawSwift.accountNumber = values.accountNumber;
+    this.withdrawSwift.bankName = values.bankName;
+    this.withdrawSwift.bic = values.bic;
+    this.withdrawSwift.accHolderAddress = values.accHolderAddress;
+    this.withdrawSwift.accHolderCity = values.accHolderCity;
+    this.withdrawSwift.accHolderZipCode = values.accHolderZipCode;
+
+    return await this.api!.sendWithdrawSwiftRequest(this.withdrawSwift);
+  };
+
   confirmWithdrawCryptoRequest = async (operationId: string, code: string) => {
     return await this.api!.confirmWithdrawCryptoRequest(operationId, code);
+  };
+
+  @action
+  fetchSwiftDefaultValues = async () => {
+    const response = await this.api!.fetchSwiftDefaultValues();
+
+    if (response) {
+      this.withdrawSwift = new WithdrawSwiftModel({
+        accHolderAddress: response.AccHolderAddress || '',
+        accHolderCity: response.AccHolderCity || '',
+        accHolderZipCode: response.AccHolderZipCode || '',
+        accountName: response.AccName || '',
+        accountNumber: response.AccNumber || '',
+        bankName: response.BankName || '',
+        bic: response.Bic || ''
+      });
+    }
   };
 
   @action
@@ -59,8 +94,8 @@ export class WithdrawStore {
     }
   };
 
-  fetchWithdrawCryptoOperation = async (operationId: string) =>
-    await this.api!.fetchWithdrawCryptoOperation(operationId);
+  fetchWithdrawOperation = async (operationId: string) =>
+    await this.api!.fetchWithdrawOperation(operationId);
 
   @action
   fetchFee = async (assetId: string) => {
@@ -86,6 +121,7 @@ export class WithdrawStore {
   @action
   resetCurrentWithdraw = () => {
     this.withdrawCrypto = new WithdrawCryptoModel();
+    this.withdrawSwift = new WithdrawSwiftModel();
     this.relativeFee = 0;
     this.absoluteFee = 0;
     this.isAddressExtensionMandatory = false;

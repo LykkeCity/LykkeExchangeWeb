@@ -20,7 +20,9 @@ import {TransferFail} from '../../components/TransferResult/index';
 import TransferResult from '../../components/TransferResult/index';
 import {
   WithdrawCryptoFail,
-  WithdrawCryptoSuccess
+  WithdrawCryptoSuccess,
+  WithdrawSwiftFail,
+  WithdrawSwiftSuccess
 } from '../../components/WithdrawResult';
 import {
   ROUTE_AFFILIATE,
@@ -49,7 +51,10 @@ import {
   ROUTE_WALLETS_TRADING,
   ROUTE_WITHDRAW_CRYPTO,
   ROUTE_WITHDRAW_CRYPTO_FAIL,
-  ROUTE_WITHDRAW_CRYPTO_SUCCESS
+  ROUTE_WITHDRAW_CRYPTO_SUCCESS,
+  ROUTE_WITHDRAW_SWIFT,
+  ROUTE_WITHDRAW_SWIFT_FAIL,
+  ROUTE_WITHDRAW_SWIFT_SUCCESS
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
@@ -60,7 +65,8 @@ import {
   ProfilePage,
   SecurityPage,
   WalletPage,
-  WithdrawCryptoPage
+  WithdrawCryptoPage,
+  WithdrawSwiftPage
 } from '../../pages/index';
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
@@ -82,6 +88,7 @@ export class ProtectedPage extends React.Component<
   private readonly dialogStore = this.props.rootStore!.dialogStore;
   private readonly socketStore = this.props.rootStore!.socketStore;
   private readonly authStore = this.props.rootStore!.authStore;
+  private readonly withdrawStore = this.props.rootStore!.withdrawStore;
 
   @computed
   private get classes() {
@@ -114,6 +121,7 @@ export class ProtectedPage extends React.Component<
       .then(() => this.profileStore.fetchBaseAsset())
       .then(() => this.depositStore.fetchDepositDefaultValues())
       .then(() => this.depositStore.fetchFee())
+      .then(() => this.withdrawStore.fetchSwiftDefaultValues())
       .then(() => this.uiStore.finishRequest());
 
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
@@ -236,6 +244,20 @@ export class ProtectedPage extends React.Component<
             <Route
               path={ROUTE_WITHDRAW_CRYPTO}
               component={asLoading(WithdrawCryptoPage)}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_SWIFT_FAIL}
+              exact
+              component={WithdrawSwiftFail}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_SWIFT_SUCCESS}
+              exact
+              component={WithdrawSwiftSuccess}
+            />
+            <Route
+              path={ROUTE_WITHDRAW_SWIFT}
+              component={asLoading(WithdrawSwiftPage)}
             />
             <Route
               path={ROUTE_CONFIRM_OPERATION}

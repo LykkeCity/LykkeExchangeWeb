@@ -15,6 +15,7 @@ export class AssetStore {
   @observable assetsAvailableForCreditCardDeposit: AssetModel[] = [];
   @observable assetsAvailableForSwiftDeposit: AssetModel[] = [];
   @observable assetsAvailableForCryptoDeposit: AssetModel[] = [];
+  @observable assetsAvailableForSwiftWithdraw: AssetModel[] = [];
   @observable assetsAvailableForCryptoWithdraw: AssetModel[] = [];
   @observable categories: any[] = [];
   @observable instruments: InstrumentModel[] = [];
@@ -137,12 +138,21 @@ export class AssetStore {
     const cryptos = resp.WithdrawalMethods.find(
       (paymentMethod: any) => paymentMethod.Name === 'Cryptos'
     );
+    const swift = resp.WithdrawalMethods.find(
+      (paymentMethod: any) => paymentMethod.Name === 'Swift'
+    );
 
     if (cryptos && cryptos.Assets) {
       runInAction(() => {
         this.assetsAvailableForCryptoWithdraw = this.prepareAssets(
           cryptos.Assets
         );
+      });
+    }
+
+    if (swift && swift.Assets) {
+      runInAction(() => {
+        this.assetsAvailableForSwiftWithdraw = this.prepareAssets(swift.Assets);
       });
     }
   };

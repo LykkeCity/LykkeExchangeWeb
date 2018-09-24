@@ -18,7 +18,8 @@ import {
   ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_TRANSFER_FROM,
-  ROUTE_WITHDRAW_CRYPTO_FROM
+  ROUTE_WITHDRAW_CRYPTO_FROM,
+  ROUTE_WITHDRAW_SWIFT_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models/index';
@@ -265,6 +266,17 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                       ),
                                       `${process.env
                                         .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`
+                                    ),
+                                  this.isAvailableForSwiftWithdraw(
+                                    balance.assetId
+                                  ) &&
+                                    this.renderMenuItem(
+                                      'SWIFT',
+                                      ROUTE_WITHDRAW_SWIFT_FROM(
+                                        balance.assetId
+                                      ),
+                                      `${process.env
+                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`
                                     )
                                 ]}
                                 {!wallet.isTrading && (
@@ -401,12 +413,18 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
     this.isAvailableForCryptoDeposit(assetId) ||
     this.isAvailableForSwiftDeposit(assetId);
 
+  private isAvailableForSwiftWithdraw = (assetId: string) =>
+    this.assetStore.assetsAvailableForSwiftWithdraw.find(
+      asset => asset.id === assetId
+    );
+
   private isAvailableForCryptoWithdraw = (assetId: string) =>
     this.assetStore.assetsAvailableForCryptoWithdraw.find(
       asset => asset.id === assetId
     );
 
   private isAvailableForWithdraw = (assetId: string) =>
+    this.isAvailableForSwiftWithdraw(assetId) ||
     this.isAvailableForCryptoWithdraw(assetId);
 }
 

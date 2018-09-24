@@ -60,4 +60,11 @@ export const ROUTE_WITHDRAW_CRYPTO_FROM = (assetId: string) =>
 export const ROUTE_WITHDRAW_CRYPTO_SUCCESS = `${ROUTE_WITHDRAW_CRYPTO_BASE}/success`;
 export const ROUTE_WITHDRAW_CRYPTO_FAIL = `${ROUTE_WITHDRAW_CRYPTO_BASE}/fail`;
 
+export const ROUTE_WITHDRAW_SWIFT_BASE = '/withdraw/swift';
+export const ROUTE_WITHDRAW_SWIFT = `${ROUTE_WITHDRAW_SWIFT_BASE}/:assetId`;
+export const ROUTE_WITHDRAW_SWIFT_FROM = (assetId: string) =>
+  `${ROUTE_WITHDRAW_SWIFT_BASE}/${assetId}`;
+export const ROUTE_WITHDRAW_SWIFT_SUCCESS = `${ROUTE_WITHDRAW_SWIFT_BASE}/success`;
+export const ROUTE_WITHDRAW_SWIFT_FAIL = `${ROUTE_WITHDRAW_SWIFT_BASE}/fail`;
+
 export const ROUTE_AUTH = '/auth';

@@ -145,7 +145,7 @@ export class WithdrawCryptoPage extends React.Component<
 
     const TIMEOUT_LIMIT = 10000;
     const socketTimeout = window.setTimeout(async () => {
-      const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
+      const operation = await this.withdrawStore.fetchWithdrawOperation(
         operationId
       );
       if (operation && operation.Status && actions[operation.Status]) {

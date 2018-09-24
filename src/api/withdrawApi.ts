@@ -1,4 +1,4 @@
-import {WithdrawCryptoModel} from '../models';
+import {WithdrawCryptoModel, WithdrawSwiftModel} from '../models';
 import {RestApi} from './index';
 import {ApiResponse} from './types/index';
 
@@ -16,7 +16,9 @@ export interface WithdrawApi {
     operationId: string,
     code: string
   ) => ApiResponse<any>;
-  fetchWithdrawCryptoOperation: (operationId: string) => ApiResponse<any>;
+  fetchWithdrawOperation: (operationId: string) => ApiResponse<any>;
+  fetchSwiftDefaultValues: () => ApiResponse<any>;
+  sendWithdrawSwiftRequest: (withdraw: WithdrawSwiftModel) => ApiResponse<any>;
 }
 
 export class RestWithdrawApi extends RestApi implements WithdrawApi {
@@ -47,8 +49,13 @@ export class RestWithdrawApi extends RestApi implements WithdrawApi {
       Type: 'google'
     });
 
-  fetchWithdrawCryptoOperation = (operationId: string) =>
+  fetchWithdrawOperation = (operationId: string) =>
     this.get(`/operations/${operationId}`);
+
+  fetchSwiftDefaultValues = () => this.get('/withdrawals/swift/last');
+
+  sendWithdrawSwiftRequest = (withdraw: WithdrawSwiftModel) =>
+    this.post(`/operations/cashout/swift`, withdraw.asJson);
 }
 
 export default RestWithdrawApi;
