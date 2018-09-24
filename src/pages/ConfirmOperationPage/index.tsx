@@ -31,7 +31,9 @@ export class ConfirmOperationPage extends React.Component<
 
   readonly actions = {
     [OpStatus.Accepted]: () => {
-      this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_SUCCESS);
+      // TODO: Change when BE statuses fixed
+      this.error = 'Code is not valid';
+      this.isLoading = false;
     },
     [OpStatus.ConfirmationRequested]: () => {
       this.error = 'Code is not valid';
