@@ -156,7 +156,7 @@ export class ConfirmOperationPage extends React.Component<
 
   private handleSocketTimeout = async () => {
     const {operationId} = this.props.match.params;
-    const operation = await this.withdrawStore.fetchWithdrawCryptoOperation(
+    const operation = await this.withdrawStore.fetchWithdrawOperation(
       operationId
     );
     if (operation && operation.Status && this.actions[operation.Status]) {

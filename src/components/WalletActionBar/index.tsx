@@ -18,7 +18,8 @@ import {
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_HISTORY,
   ROUTE_TRANSFER_FROM,
-  ROUTE_WITHDRAW_CRYPTO_FROM
+  ROUTE_WITHDRAW_CRYPTO_FROM,
+  ROUTE_WITHDRAW_SWIFT_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, WalletModel} from '../../models';
@@ -39,6 +40,8 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
       .assetsAvailableForSwiftDeposit;
     const assetsAvailableForCryptoDeposit = rootStore!.assetStore
       .assetsAvailableForCryptoDeposit;
+    const assetsAvailableForSwiftWithdraw = rootStore!.assetStore
+      .assetsAvailableForSwiftWithdraw;
     const assetsAvailableForCryptoWithdraw = rootStore!.assetStore
       .assetsAvailableForCryptoWithdraw;
     const isKycPassed = rootStore!.profileStore.isKycPassed;
@@ -98,6 +101,15 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                         'Blockchain Transfer',
                         assetsAvailableForCryptoWithdraw,
                         (assetId: string) => ROUTE_WITHDRAW_CRYPTO_FROM(assetId)
+                      )}
+                    </DropdownList>
+                    <DropdownList className="wallet-menu">
+                      {this.renderMenuItem(
+                        `${process.env
+                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                        'SWIFT',
+                        assetsAvailableForSwiftWithdraw,
+                        (assetId: string) => ROUTE_WITHDRAW_SWIFT_FROM(assetId)
                       )}
                     </DropdownList>
                   </DropdownContainer>
