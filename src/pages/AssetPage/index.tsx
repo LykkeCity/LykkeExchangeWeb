@@ -11,7 +11,8 @@ import {
   ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
   ROUTE_WALLETS_TRADING,
-  ROUTE_WITHDRAW_CRYPTO_FROM
+  ROUTE_WITHDRAW_CRYPTO_FROM,
+  ROUTE_WITHDRAW_SWIFT_FROM
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, BalanceModel, TransactionType} from '../../models';
@@ -59,6 +60,14 @@ export class AssetPage extends React.Component<AssetPageProps> {
   get isAvailableForCryptoWithdraw() {
     const {assetId} = this.props.match.params;
     return this.assetStore.assetsAvailableForCryptoWithdraw.find(
+      asset => assetId === asset.id
+    );
+  }
+
+  @computed
+  get isAvailableForSwiftWithdraw() {
+    const {assetId} = this.props.match.params;
+    return this.assetStore.assetsAvailableForSwiftWithdraw.find(
       asset => assetId === asset.id
     );
   }
@@ -155,15 +164,24 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     )}
                 </ul>
               )}
-              {this.isAvailableForCryptoWithdraw && (
+              {(this.isAvailableForCryptoWithdraw ||
+                this.isAvailableForSwiftWithdraw) && (
                 <ul className="action-list">
                   <li className="action-list__title">Withdraw</li>
-                  {this.renderMenuItem(
-                    ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
-                    `${process.env
-                      .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                    'Blockchain Transfer'
-                  )}
+                  {this.isAvailableForCryptoWithdraw &&
+                    this.renderMenuItem(
+                      ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                      'Blockchain Transfer'
+                    )}
+                  {this.isAvailableForSwiftWithdraw &&
+                    this.renderMenuItem(
+                      ROUTE_WITHDRAW_SWIFT_FROM(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                      'SWIFT'
+                    )}
                 </ul>
               )}
               <ul className="action-list">

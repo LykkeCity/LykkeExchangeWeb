@@ -6,3 +6,4 @@ export {default as SecurityPage} from './SecurityPage';
 export {default as ProfilePage} from './ProfilePage';
 export {default as WithdrawCryptoPage} from './WithdrawCryptoPage';
 export {default as ConfirmOperationPage} from './ConfirmOperationPage';
+export {default as WithdrawSwiftPage} from './WithdrawSwiftPage';
