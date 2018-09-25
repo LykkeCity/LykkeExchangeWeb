@@ -7,9 +7,11 @@
     padding-top: 16px;
   }
 
-  .main-menu__item {
+  .main-menu__item,
+  .secondary-menu__item:hover {
     &:hover {
       color: $white;
+      opacity: 1;
     }
   }
 

@@ -23,7 +23,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
   @observable private isLoading = false;
 
   componentDidMount() {
-    this.uiStore.activeHeaderMenuItem = MenuItem.Profile;
+    this.uiStore.activeHeaderMenuItem = MenuItem.Settings;
     window.scrollTo(0, 0);
     if (!this.profileStore.is2faEnabled) {
       this.profileStore.fetch2faCode();

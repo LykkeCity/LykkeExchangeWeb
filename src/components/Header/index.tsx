@@ -7,6 +7,7 @@ import {RootStoreProps} from '../../App';
 import {
   ROUTE_PROFILE,
   ROUTE_SECURITY,
+  ROUTE_WALLETS_HFT,
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -27,8 +28,23 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
       url: ROUTE_WALLETS_TRADING
     },
     {
-      title: MenuItem.Profile,
+      title: MenuItem.Settings,
       url: ROUTE_PROFILE
+    }
+  ];
+
+  const secondMenuLinkOptions = [
+    {
+      title: MenuItem.LykkeStreams,
+      url: 'https://streams.lykke.com/'
+    },
+    {
+      title: MenuItem.ApiKeys,
+      url: ROUTE_WALLETS_HFT
+    },
+    {
+      title: MenuItem.FeesAndLimits,
+      url: 'https://www.lykke.com/cp/wallet-fees-and-limits'
     }
   ];
 
@@ -73,6 +89,9 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
         activeMenuItem={uiStore.activeHeaderMenuItem}
         headerLinkOptions={headerLinkOptions}
         renderLink={renderLink}
+        isAuth={!!authStore.token}
+        secondaryMenuLinkOptions={secondMenuLinkOptions}
+        isSecondaryMenuShown={true}
       />
       <FeatureFlag
         flagKey={Feature.TwoFactorAuthentication}
@@ -80,7 +99,7 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
         renderFeatureCallback={() => (
           <div
             className={classnames('subheader', {
-              hidden: uiStore.activeHeaderMenuItem !== MenuItem.Profile
+              hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
             })}
           >
             {renderSubmenuItem(ROUTE_PROFILE, 'General')}
