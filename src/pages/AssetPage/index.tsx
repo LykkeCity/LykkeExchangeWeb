@@ -164,26 +164,26 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     )}
                 </ul>
               )}
-              {this.isAvailableForCryptoWithdraw ||
-                (this.isAvailableForSwiftWithdraw && (
-                  <ul className="action-list">
-                    <li className="action-list__title">Withdraw</li>
-                    {this.isAvailableForCryptoWithdraw &&
-                      this.renderMenuItem(
-                        ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                        'Blockchain Transfer'
-                      )}
-                    {this.isAvailableForSwiftWithdraw &&
-                      this.renderMenuItem(
-                        ROUTE_WITHDRAW_SWIFT_FROM(asset.id),
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                        'SWIFT'
-                      )}
-                  </ul>
-                ))}
+              {(this.isAvailableForCryptoWithdraw ||
+                this.isAvailableForSwiftWithdraw) && (
+                <ul className="action-list">
+                  <li className="action-list__title">Withdraw</li>
+                  {this.isAvailableForCryptoWithdraw &&
+                    this.renderMenuItem(
+                      ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                      'Blockchain Transfer'
+                    )}
+                  {this.isAvailableForSwiftWithdraw &&
+                    this.renderMenuItem(
+                      ROUTE_WITHDRAW_SWIFT_FROM(asset.id),
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                      'SWIFT'
+                    )}
+                </ul>
+              )}
               <ul className="action-list">
                 <li className="action-list__title">Trading</li>
                 <li className="action-list__item">
