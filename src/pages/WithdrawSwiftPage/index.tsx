@@ -109,9 +109,9 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     );
   }
 
-  private listenSocket = async (formikBag: any) => {
-    const {setFieldError, setSubmitting} = formikBag;
-    const actions = {
+  private getSocketActions = (formikBag: any) => {
+    const {setFieldError} = formikBag;
+    return {
       [OpStatus.Accepted]: (errorCode?: string, errorMessage?: string) => {
         this.props.history.replace(ROUTE_WITHDRAW_SWIFT_SUCCESS);
       },
@@ -134,6 +134,11 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
         }
       }
     };
+  };
+
+  private listenSocket = async (formikBag: any) => {
+    const {setSubmitting} = formikBag;
+    const actions = this.getSocketActions(formikBag);
 
     const TIMEOUT_LIMIT = 10000;
     const socketTimeout = window.setTimeout(async () => {
