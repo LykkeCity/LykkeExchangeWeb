@@ -6,29 +6,38 @@ export default function Nav() {
       <div className="footer_nav__row">
         <div className="footer_nav__col">
           <menu className="nav nav--list">
-            <li className="nav__title">Services</li>
+            <li className="nav__title">Products</li>
             <li>
-              <a href="https://lykke.com/exchange">Exchange</a>
+              <a href="https://wallet.lykke.com">Lykke Wallet</a>
             </li>
             <li>
-              <a href="https://lykke.com/lykke_api">API</a>
+              <a href="https://trade.lykke.com">Lykke Trade</a>
+            </li>
+          </menu>
+          <menu className="nav nav--list">
+            <li className="nav__title">For clients</li>
+            <li>
+              <a href="https://lykke.com/cp/wallet-fees-and-limits">Fees</a>
             </li>
             <li>
-              <a href="https://wallet.lykke.com/">API deposits</a>
+              <a href="https://lykke.com/cp/api-wallet-trading-rules-fees-limits">
+                HFT limits
+              </a>
             </li>
             <li>
               <a href="https://lykke.com/apply-ico">Listing</a>
             </li>
-          </menu>
-        </div>
-        <div className="footer_nav__col">
-          <menu className="nav nav--list">
-            <li className="nav__title">About</li>
-            <li>
-              <a href="https://lykke.com/leadership">Core team</a>
-            </li>
             <li>
               <a href="https://lykke.com/city/faq">FAQ</a>
+            </li>
+          </menu>
+        </div>
+
+        <div className="footer_nav__col">
+          <menu className="nav nav--list">
+            <li className="nav__title">Company</li>
+            <li>
+              <a href="https://lykke.com/leadership">Core team</a>
             </li>
             <li>
               <a href="https://lykke.com/city/invest">Invest</a>
@@ -41,7 +50,17 @@ export default function Nav() {
             </li>
           </menu>
         </div>
+
         <div className="footer_nav__col">
+          <menu className="nav nav--list">
+            <li className="nav__title">Get in touch</li>
+            <li>
+              <a href="https://lykke.com/contacts">Contacts</a>
+            </li>
+            <li>
+              <a href="https://lykkex.zendesk.com">Help center</a>
+            </li>
+          </menu>
           <menu className="nav nav--list">
             <li className="nav__title">Contribute</li>
             <li>
@@ -57,12 +76,35 @@ export default function Nav() {
         </div>
         <div className="footer_nav__col">
           <menu className="nav nav--list">
-            <li className="nav__title">Get in touch</li>
+            <li className="nav__title">Social</li>
             <li>
-              <a href="https://lykke.com/contacts">Contacts</a>
+              <a href="https://www.facebook.com/LykkeCity">Facebook</a>
             </li>
             <li>
-              <a href="https://lykkex.zendesk.com">Help center</a>
+              <a href="https://twitter.com/lykke">Twitter</a>
+            </li>
+            <li>
+              <a href="http://instagram.com/lykkecity">Instagram</a>
+            </li>
+            <li>
+              <a href="https://www.youtube.com/c/LykkeX">Youtube</a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/company/lykke-ag">Linkedin</a>
+            </li>
+            <li>
+              <a href="https://www.reddit.com/r/lykke/">Reddit</a>
+            </li>
+            <li>
+              <a href="https://t.co/TmjMYnQD7T">Telegram</a>
+            </li>
+            <li>
+              <a href="https://t.me/LykkeDev" rel="noopener noreferrer">
+                Telegram DEV
+              </a>
+            </li>
+            <li>
+              <a href="https://lykke.com/cp/rss">RSS</a>
             </li>
           </menu>
         </div>

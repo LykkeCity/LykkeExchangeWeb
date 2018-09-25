@@ -32,9 +32,15 @@
     z-index: 100;
   }
 
-  &_warning {
+  &_error {
     .banner__bar {
       background-color: $red;
+    }
+  }
+
+  &_warning {
+    .banner__bar {
+      background-color: $yellow;
     }
   }
 
