@@ -78,6 +78,10 @@
         text-transform: capitalize;
       }
 
+      .link {
+        @include rem(font-size, 13px);
+      }
+
       @include rem(font-size, 13px);
       @include rem(margin-top, 6px);
     }
