@@ -44,8 +44,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
           </div>
           <div className="security-page__description">
             Two-Factor Authentication (2FA) enhances the security of your Lykke
-            account and is required for all users. Each time you sign in to
-            Lykke services, you will need your password and a verification code.
+            account and is required for crypto withdrawals
           </div>
           <div
             className={classnames('tfa', {
@@ -139,6 +138,17 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                 </button>
               </div>
               {this.error && <span className="help-block">{this.error}</span>}
+            </div>
+            <div
+              className={classnames('security-page__description', {
+                hidden: !this.profileStore.is2faEnabled
+              })}
+            >
+              For any issues with your configuration of Two-Factor
+              Authentication please contact support at{' '}
+              <a className="link" href="mailto:support@lykke.com">
+                support@lykke.com
+              </a>
             </div>
           </div>
         </div>
