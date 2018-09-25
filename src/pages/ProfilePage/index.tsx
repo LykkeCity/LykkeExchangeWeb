@@ -12,7 +12,7 @@ export class ProfilePage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
 
   componentDidMount() {
-    this.uiStore.activeHeaderMenuItem = MenuItem.Profile;
+    this.uiStore.activeHeaderMenuItem = MenuItem.Settings;
     window.scrollTo(0, 0);
   }
 
