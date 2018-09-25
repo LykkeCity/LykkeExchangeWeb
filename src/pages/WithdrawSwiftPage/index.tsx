@@ -205,6 +205,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     const submitButtonText = formikBag.values.amount
       ? `Withdraw ${formikBag.values.amount} ${asset && asset.name}`
       : 'Withdraw';
+    const dateText = new Date().toLocaleDateString();
 
     return (
       <Form className="withdraw-swift-form">
@@ -258,6 +259,27 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
         {this.renderField('accHolderAddress', 'Address of the accountholder')}
         {this.renderField('accHolderCity', 'City of the accountholder')}
         {this.renderField('accHolderZipCode', 'Zip code of the accountholder')}
+
+        <div className="form-group">
+          <label htmlFor="paymentPurpose" className="control-label">
+            Payment Purpose
+          </label>
+          <input
+            id="paymentPurpose"
+            type="text"
+            disabled
+            value={`Purchase of ${formikBag.values.amount} Lykke ${asset &&
+              asset.name} as of ${dateText}`}
+            className="form-control"
+          />
+          <label className="help-block">
+            If a custom payment purpose is required please email{' '}
+            <a className="link" href="mailto:support@lykke.com">
+              support@lykke.com
+            </a>{' '}
+            with the details after submitting this request.
+          </label>
+        </div>
 
         <div className="withdraw-swift-form__actions">
           <input

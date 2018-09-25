@@ -140,6 +140,17 @@ export class SecurityPage extends React.Component<RootStoreProps> {
               </div>
               {this.error && <span className="help-block">{this.error}</span>}
             </div>
+            <div
+              className={classnames('security-page__description', {
+                hidden: !this.profileStore.is2faEnabled
+              })}
+            >
+              For any issues with your configuration of Two-Factor
+              Authentication please contact support at{' '}
+              <a className="link" href="mailto:support@lykke.com">
+                support@lykke.com
+              </a>
+            </div>
           </div>
         </div>
       </div>
