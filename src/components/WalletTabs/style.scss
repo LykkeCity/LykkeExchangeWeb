@@ -1,6 +1,19 @@
 @import '../../styles/utils';
 
 .wallet-tabs {
+  .kyc-banner {
+    a {
+      &:hover {
+        color: inherit;
+      }
+
+      img + span {
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+    }
+  }
+
   .tfa-banner,
   .beta-banner,
   .kyc-banner {
