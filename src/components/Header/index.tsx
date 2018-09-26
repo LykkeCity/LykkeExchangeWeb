@@ -92,6 +92,7 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
         isAuth={!!authStore.token}
         secondaryMenuLinkOptions={secondMenuLinkOptions}
         isSecondaryMenuShown={true}
+        isBeta={true}
       />
       <FeatureFlag
         flagKey={Feature.TwoFactorAuthentication}
