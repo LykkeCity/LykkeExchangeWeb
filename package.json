@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@lykkex/lykke.js": "^0.2.0",
+    "@lykkex/lykke.js": "^0.4.8",
     "@lykkex/react-components": "^0.8.19",
     "@types/autobahn": "^0.9.39",
     "@types/react-copy-to-clipboard": "^4.2.3",
