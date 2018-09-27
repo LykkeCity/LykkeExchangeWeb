@@ -4,15 +4,21 @@
   max-width: 100%;
   width: 570px;
 
-  @include rem(margin, 0 auto);
+  @include rem(margin, 0 auto 90px);
 
   &__icons {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
 
     li {
       @include rem(margin, 0 10px 20px);
+
+      img {
+        max-width: 64px;
+        height: auto;
+      }
     }
   }
 

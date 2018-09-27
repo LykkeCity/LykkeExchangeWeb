@@ -94,20 +94,22 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
         isSecondaryMenuShown={true}
         isBeta={true}
       />
-      <FeatureFlag
-        flagKey={Feature.TwoFactorAuthentication}
-        // tslint:disable-next-line:jsx-no-lambda
-        renderFeatureCallback={() => (
-          <div
-            className={classnames('subheader', {
-              hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
-            })}
-          >
-            {renderSubmenuItem(ROUTE_PROFILE, 'General')}
-            {renderSubmenuItem(ROUTE_SECURITY, 'Security')}
-          </div>
-        )}
-      />
+      {!uiStore.hasPendingRequests && (
+        <FeatureFlag
+          flagKey={Feature.TwoFactorAuthentication}
+          // tslint:disable-next-line:jsx-no-lambda
+          renderFeatureCallback={() => (
+            <div
+              className={classnames('subheader', {
+                hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
+              })}
+            >
+              {renderSubmenuItem(ROUTE_PROFILE, 'General')}
+              {renderSubmenuItem(ROUTE_SECURITY, 'Security')}
+            </div>
+          )}
+        />
+      )}
     </div>
   );
 };

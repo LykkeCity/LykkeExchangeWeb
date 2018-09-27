@@ -55,18 +55,12 @@ export class DepositCreditCardPage extends React.Component<
   render() {
     const asset = this.depositStore.newDeposit.asset;
     const cardIcons = [
-      'visa.svg',
-      'visa-electron.svg',
-      'mc.png',
-      'maestro.svg',
-      'americanexpress.svg',
-      'jcb.svg',
-      'unionpay.svg',
-      'skrill.svg',
-      'przelewy.png',
-      'poli.png',
-      'ideal.png',
-      'giropay.svg'
+      'icon-card-1.png',
+      'icon-card-2.png',
+      'icon-card-3.png',
+      'icon-card-4.png',
+      'icon-card-5.png',
+      'icon-card-6.png'
     ];
     const clientDialog = this.dialogStore.pendingDialogs.find(
       (dialog: DialogModel) =>

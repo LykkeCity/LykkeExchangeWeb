@@ -2,6 +2,7 @@
 
 .security-page {
   @include rem(margin-top, 50px);
+  @include rem(margin-bottom, 90px);
 
   &__title {
     letter-spacing: -0.4px;
@@ -58,6 +59,8 @@
     &__badge {
       border-radius: 4px;
       color: $white;
+      font-weight: $fw-semi;
+      line-height: 1.31;
       text-transform: uppercase;
       letter-spacing: 0.9px;
       background-color: $green;

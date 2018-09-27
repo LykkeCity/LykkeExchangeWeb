@@ -26,7 +26,7 @@
   }
 
   td._action {
-    padding: 0 6px 0 0;
+    padding: 0 10px 0 0;
     text-align: left;
     width: 44px;
 
@@ -70,7 +70,6 @@
   tr {
     th {
       color: $heading;
-      font-family: $ff-alt;
       font-weight: $fw-semi;
 
       @include rem(font-size, 18px);
@@ -131,6 +130,10 @@
         background-color: $gray-5;
 
         .issuer__img {
+          img {
+            background-color: $white;
+          }
+
           &:after {
             background-color: $gray-5;
           }
@@ -184,12 +187,7 @@
       position: relative;
       left: 5px;
       bottom: 2px;
-      opacity: 0.5;
       cursor: pointer;
-
-      &:hover {
-        opacity: 1;
-      }
     }
   }
 

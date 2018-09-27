@@ -2,7 +2,8 @@
 
 .deposit-crypto {
   max-width: 569px;
-  margin: 23px auto 0;
+
+  @include rem(margin, 23px auto 90px);
 
   &__title {
     color: $heading;

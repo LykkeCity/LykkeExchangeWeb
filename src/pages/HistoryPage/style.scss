@@ -14,6 +14,7 @@
 
     .btn-export {
       margin-top: 5px;
+      line-height: 2.7;
 
       img {
         margin-right: 10px;
@@ -40,6 +41,8 @@
 }
 
 .history-page-wrapper {
+  @include rem(margin-bottom, 90px);
+
   .sticky-title {
     font-family: $ff-alt;
 
