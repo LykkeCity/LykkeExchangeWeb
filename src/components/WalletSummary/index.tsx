@@ -2,12 +2,10 @@ import classnames from 'classnames';
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {ROUTE_WALLETS_HFT} from '../../constants/routes';
 import {AssetModel, WalletModel} from '../../models';
 import {RootStore} from '../../stores';
 import {moneyRound} from '../../utils';
 import {asAssetBalance} from '../hoc/assetBalance';
-import {TabLink} from '../Tabs';
 import WalletTotalBalance from '../WalletTotalBalance';
 
 import './style.css';
@@ -74,11 +72,7 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
         </div>
       </div>
 
-      {wallet.isTrading ? (
-        <div className="col-sm-5">
-          <TabLink to={ROUTE_WALLETS_HFT} label="API wallets" />
-        </div>
-      ) : (
+      {!wallet.isTrading && (
         <div className="col-sm-5">
           <WalletTotalBalance wallet={wallet} />
         </div>
