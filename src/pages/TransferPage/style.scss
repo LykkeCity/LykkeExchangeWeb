@@ -5,7 +5,7 @@
   width: 570px;
   max-width: 100%;
 
-  @include rem(margin, 0 auto);
+  @include rem(margin, 0 auto 90px);
 
   h1 {
     font-weight: $fw-semi;
