@@ -100,6 +100,8 @@
 }
 
 .asset-page-wrapper {
+  @include rem(margin-bottom, 90px);
+
   .sticky-title {
     cursor: pointer;
     font-family: $ff-alt;
