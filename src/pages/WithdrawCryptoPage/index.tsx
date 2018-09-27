@@ -140,9 +140,15 @@ export class WithdrawCryptoPage extends React.Component<
       },
       [OpStatus.Failed]: (errorCode?: string, errorMessage?: string) => {
         const validErrorCodes = ['LimitationCheckFailed', 'RuntimeProblem'];
-        const invalidAddressErrorMessage = 'Invalid address';
+        const invalidAddressErrorMessages = [
+          'Invalid address',
+          'Invalid Destination Address. Please try again.'
+        ];
 
-        if (errorMessage === invalidAddressErrorMessage) {
+        if (
+          errorMessage &&
+          invalidAddressErrorMessages.indexOf(errorMessage) > -1
+        ) {
           setFieldError('baseAddress', 'Address is not valid');
           return;
         }

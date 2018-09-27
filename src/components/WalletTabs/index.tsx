@@ -26,7 +26,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             show={this.props.showKycBanner}
             className="kyc-banner"
             title="KYC incomplete"
-            text="In order to deposit funds using credit card, please complete KYC procedure using the Lykke Wallet mobile application."
+            text="In order to deposit funds using credit card, please complete KYC procedure."
             footer={
               <div>
                 <a
@@ -47,7 +47,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             warning
             className="kyc-banner"
             title="Your KYC application is pending"
-            text="In order to deposit funds using credit card, please complete KYC procedure using the Lykke Wallet mobile application."
+            text="In order to deposit funds using credit card, please complete KYC procedure."
             footer={
               <div>
                 <a
