@@ -81,8 +81,7 @@ export class ProfileStore {
       extendObservable(this, {
         email,
         firstName,
-        isKycPassed:
-          kycStatus === KycStatuses.Ok || kycStatus === KycStatuses.ReviewDone,
+        isKycPassed: kycStatus === KycStatuses.Ok,
         isKycPending: kycStatus === KycStatuses.Pending,
         lastName
       });
