@@ -1,6 +1,6 @@
 import * as classnames from 'classnames';
 import {Field, FieldProps, Form, Formik, FormikProps} from 'formik';
-import {computed} from 'mobx';
+import {computed, observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
@@ -31,6 +31,8 @@ export class WithdrawCryptoPage extends React.Component<
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly profileStore = this.props.rootStore!.profileStore;
   readonly socketStore = this.props.rootStore!.socketStore;
+
+  @observable operationId: string = '';
 
   @computed
   get balance() {
@@ -120,20 +122,30 @@ export class WithdrawCryptoPage extends React.Component<
     );
   }
 
-  private listenSocket = async (operationId: string, formikBag: any) => {
+  private listenSocket = async (formikBag: any) => {
     const {setFieldError, setSubmitting} = formikBag;
     const actions = {
       [OpStatus.Accepted]: (errorCode?: string, errorMessage?: string) => {
-        this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
+        this.props.history.replace(
+          ROUTE_CONFIRM_OPERATION_ID(this.operationId)
+        );
       },
       [OpStatus.ConfirmationRequested]: (
         errorCode?: string,
         errorMessage?: string
       ) => {
-        this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
+        this.props.history.replace(
+          ROUTE_CONFIRM_OPERATION_ID(this.operationId)
+        );
       },
       [OpStatus.Failed]: (errorCode?: string, errorMessage?: string) => {
         const validErrorCodes = ['LimitationCheckFailed', 'RuntimeProblem'];
+        const invalidAddressErrorMessage = 'Invalid address';
+
+        if (errorMessage === invalidAddressErrorMessage) {
+          setFieldError('baseAddress', 'Address is not valid');
+          return;
+        }
 
         if (errorCode && validErrorCodes.indexOf(errorCode) > -1) {
           setFieldError('amount', errorMessage || 'Something went wrong.');
@@ -146,7 +158,7 @@ export class WithdrawCryptoPage extends React.Component<
     const TIMEOUT_LIMIT = 10000;
     const socketTimeout = window.setTimeout(async () => {
       const operation = await this.withdrawStore.fetchWithdrawOperation(
-        operationId
+        this.operationId
       );
       if (operation && operation.Status && actions[operation.Status]) {
         actions[operation.Status]();
@@ -175,7 +187,7 @@ export class WithdrawCryptoPage extends React.Component<
           ErrorMessage: errorMessage
         } = res[0];
 
-        if (id === operationId) {
+        if (id === this.operationId) {
           this.socketStore.unsubscribe(OPERATIONS_TOPIC, subscription.id);
           window.clearTimeout(socketTimeout);
           setSubmitting(false);
@@ -204,11 +216,11 @@ export class WithdrawCryptoPage extends React.Component<
     );
 
     if (isValid) {
-      const operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
+      this.listenSocket(formikBag);
+      this.operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
         assetId,
         values
       );
-      this.listenSocket(operationId, formikBag);
     } else {
       setFieldError('baseAddress', 'Address is not valid');
       setSubmitting(false);

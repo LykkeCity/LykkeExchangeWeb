@@ -82,7 +82,6 @@
     tr {
       th {
         color: $heading;
-        font-family: $ff-alt;
         letter-spacing: 0.2px;
         line-height: 1.67;
         text-transform: none;
@@ -221,6 +220,14 @@
       &:hover {
         td {
           background-color: $gray-5;
+
+          img {
+            background-color: $white;
+          }
+
+          &:after {
+            background-color: $gray-5;
+          }
         }
       }
     }
