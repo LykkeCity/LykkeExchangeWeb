@@ -6,9 +6,9 @@
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/@lykkex/lykke.js/-/lykke.js-0.2.0.tgz#251bfd6a4f0ce71af6c07b4e0940229a8a6fd9c8"
 
-"@lykkex/react-components@^0.8.14":
-  version "0.8.14"
-  resolved "https://registry.yarnpkg.com/@lykkex/react-components/-/react-components-0.8.14.tgz#09e35e3d8b2134c897879b1bc8ff8f30bace6cae"
+"@lykkex/react-components@^0.8.17":
+  version "0.8.17"
+  resolved "https://registry.yarnpkg.com/@lykkex/react-components/-/react-components-0.8.17.tgz#b757ed51e62807e1ef1eb810a384af1870f5ddb2"
   dependencies:
     recharts "^1.1.0"
 
