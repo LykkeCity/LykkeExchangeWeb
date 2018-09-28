@@ -51,7 +51,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
     if (!wallet.hasBalances) {
       return (
         <div className="wallet__balances">
-          <small style={{margin: 0}}>You don’t have any asset yet</small>
+          <small style={{margin: 0}}>You don’t have any assets yet</small>
         </div>
       );
     }

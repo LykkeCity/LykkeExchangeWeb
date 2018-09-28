@@ -25,8 +25,8 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
           <Banner
             show={this.props.showKycBanner}
             className="kyc-banner"
-            title="KYC incomplete"
-            text="In order to deposit funds using credit card, please complete KYC procedure."
+            title="Almost there!"
+            text="To start trading now simply complete KYC"
             footer={
               <div>
                 <a
@@ -46,8 +46,8 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             show={this.props.showKycPendingBanner}
             warning
             className="kyc-banner"
-            title="Your KYC application is pending"
-            text="In order to deposit funds using credit card, please complete KYC procedure."
+            title="KYC under review"
+            text="We are in the process of checking your documentation and will be in touch shortly"
             footer={
               <div>
                 <a
