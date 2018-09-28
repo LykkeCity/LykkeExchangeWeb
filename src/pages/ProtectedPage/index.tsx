@@ -123,6 +123,7 @@ export class ProtectedPage extends React.Component<
       .then(() => this.depositStore.fetchDepositDefaultValues())
       .then(() => this.depositStore.fetchFee())
       .then(() => this.withdrawStore.fetchSwiftDefaultValues())
+      .then(() => this.identifyAnalytics())
       .then(() => this.uiStore.finishRequest());
 
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
@@ -288,6 +289,16 @@ export class ProtectedPage extends React.Component<
       </div>
     );
   }
+
+  private identifyAnalytics = () => {
+    this.analyticsService.identify({
+      assetsCount:
+        this.walletStore.tradingWallets.length &&
+        this.walletStore.tradingWallets[0].balances.length,
+      is2faEnabled: !!this.profileStore.is2faEnabled,
+      isKycPassed: !!this.profileStore.isKycPassed
+    });
+  };
 
   private handleOutsideClick = (e: React.MouseEvent<any>) => {
     const {toggleBaseAssetPicker, showBaseCurrencyPicker} = this.props

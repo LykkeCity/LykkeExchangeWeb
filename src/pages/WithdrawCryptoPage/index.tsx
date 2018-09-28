@@ -8,6 +8,7 @@ import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
 import {Banner} from '../../components/Banner';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_CONFIRM_OPERATION_ID,
   ROUTE_SECURITY,
@@ -31,6 +32,7 @@ export class WithdrawCryptoPage extends React.Component<
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly profileStore = this.props.rootStore!.profileStore;
   readonly socketStore = this.props.rootStore!.socketStore;
+  readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable operationId: string = '';
 
@@ -80,7 +82,9 @@ export class WithdrawCryptoPage extends React.Component<
                 <span>
                   To ensure the security of withdrawals from Lykke, you need to
                   turn on Two-Factor Authentication. Find out more about it{' '}
-                  <Link to={ROUTE_SECURITY}>here</Link>.
+                  <Link to={ROUTE_SECURITY} onClick={this.trackStart2faSetup}>
+                    here
+                  </Link>.
                 </span>
               }
             />
@@ -126,6 +130,7 @@ export class WithdrawCryptoPage extends React.Component<
     const {setFieldError, setSubmitting} = formikBag;
     const actions = {
       [OpStatus.Accepted]: (errorCode?: string, errorMessage?: string) => {
+        this.analyticsService.track(AnalyticsEvent.StartConfirmWithdraw);
         this.props.history.replace(
           ROUTE_CONFIRM_OPERATION_ID(this.operationId)
         );
@@ -134,6 +139,7 @@ export class WithdrawCryptoPage extends React.Component<
         errorCode?: string,
         errorMessage?: string
       ) => {
+        this.analyticsService.track(AnalyticsEvent.StartConfirmWithdraw);
         this.props.history.replace(
           ROUTE_CONFIRM_OPERATION_ID(this.operationId)
         );
@@ -201,6 +207,18 @@ export class WithdrawCryptoPage extends React.Component<
         }
       }
     );
+  };
+
+  private handleGoBack = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.GoBack(Place.WithdrawCryptoPage, 'button')
+    );
+
+    this.props.history.goBack();
+  };
+
+  private trackStart2faSetup = () => {
+    this.analyticsService.track(AnalyticsEvent.Start2faSetup);
   };
 
   private handleSubmit = async (
@@ -343,11 +361,7 @@ export class WithdrawCryptoPage extends React.Component<
               !this.profileStore.is2faEnabled
             }
           />
-          <a
-            href="#"
-            onClick={this.props.history.goBack}
-            className="btn btn--flat"
-          >
+          <a href="#" onClick={this.handleGoBack} className="btn btn--flat">
             Cancel and go back
           </a>
         </div>

@@ -2,9 +2,9 @@
 # yarn lockfile v1
 
 
-"@lykkex/lykke.js@^0.4.8":
-  version "0.4.8"
-  resolved "https://registry.yarnpkg.com/@lykkex/lykke.js/-/lykke.js-0.4.8.tgz#363bfcfcc44d0e191bdc472e02474a53849ca68e"
+"@lykkex/lykke.js@^0.4.10":
+  version "0.4.10"
+  resolved "https://registry.yarnpkg.com/@lykkex/lykke.js/-/lykke.js-0.4.10.tgz#f970d349b79176a105c114fa446cb0cf93305042"
   dependencies:
     "@types/amplitude-js" "^2.12.5"
     "@types/react" "^16.4.13"

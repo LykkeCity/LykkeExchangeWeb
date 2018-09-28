@@ -12,6 +12,7 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_DEPOSIT_CRYPTO_TO,
@@ -30,6 +31,8 @@ interface WalletActionBarProps extends RootStoreProps {
 }
 
 export class WalletActionBar extends React.Component<WalletActionBarProps> {
+  readonly analyticsService = this.props.rootStore!.analyticsService;
+
   state = {message: ''};
 
   render() {
@@ -54,7 +57,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               {isKycPassed ? (
                 <Dropdown fullHeight>
                   <DropdownControl>
-                    <a>Deposit</a>
+                    <a onClick={this.trackDepositMenuClick}>Deposit</a>
                   </DropdownControl>
                   <DropdownContainer>
                     <DropdownList className="wallet-menu">
@@ -127,7 +130,9 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
         )}
         {wallet.isTrading && (
           <div className="wallet-action-bar__item">
-            <Link to={ROUTE_HISTORY}>History</Link>
+            <Link to={ROUTE_HISTORY} onClick={this.trackHistoryMenuClick}>
+              History
+            </Link>
           </div>
         )}
         {wallet.apiKey && (
@@ -178,7 +183,14 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
         <DropdownContainer>
           <DropdownList className="wallet-asset-menu">
             {assets.map(asset => (
-              <DropdownListItem key={asset.id}>
+              <DropdownListItem
+                key={asset.id}
+                // tslint:disable-next-line:jsx-no-lambda
+                onClick={() =>
+                  getRoute(asset.id).includes('deposit')
+                    ? this.trackStartDeposit(title, asset.id)
+                    : this.trackStartWithdraw(title, asset.id)}
+              >
                 <Link to={getRoute(asset.id)}>{asset.name}</Link>
               </DropdownListItem>
             ))}
@@ -187,6 +199,26 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
       </Dropdown>
     </DropdownListItem>
   );
+
+  private trackStartDeposit = (type: string, assetId: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.StartDeposit(Place.MainMenu, type, assetId)
+    );
+  };
+
+  private trackStartWithdraw = (type: string, assetId: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.StartWithdraw(Place.MainMenu, type, assetId)
+    );
+  };
+
+  private trackDepositMenuClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    this.analyticsService.track(AnalyticsEvent.ClickDepositMenuItem);
+  };
+
+  private trackHistoryMenuClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    this.analyticsService.track(AnalyticsEvent.ClickHistoryMenuItem);
+  };
 
   private handleCopyApiKey = (text: string) => {
     if (!!text) {

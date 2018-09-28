@@ -2,6 +2,7 @@ import {MenuItem, Select} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 import './style.css';
@@ -10,6 +11,7 @@ export class ProfilePage extends React.Component<RootStoreProps> {
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     this.uiStore.activeHeaderMenuItem = MenuItem.Settings;
@@ -87,6 +89,7 @@ export class ProfilePage extends React.Component<RootStoreProps> {
   }
 
   private handleChangeBaseAsset = (asset: any) => {
+    this.analyticsService.track(AnalyticsEvent.ChangeBaseAsset(asset.id));
     this.profileStore.setBaseAsset(asset);
   };
 }

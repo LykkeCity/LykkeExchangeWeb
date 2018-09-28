@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {NumberFormat} from '../NumberFormat';
@@ -13,9 +14,18 @@ export class WithdrawSwiftSuccess extends React.Component<
   RootStoreProps & RouteComponentProps<any>
 > {
   private readonly withdrawStore = this.props.rootStore!.withdrawStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     window.scrollTo(0, 0);
+
+    this.analyticsService.track(
+      AnalyticsEvent.FinishWithdraw(
+        Place.SuccessPage,
+        'SWIFT',
+        this.withdrawStore.withdrawSwift.assetId
+      )
+    );
   }
 
   render() {

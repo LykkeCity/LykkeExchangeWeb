@@ -6,6 +6,7 @@ import {RootStoreProps} from '../../App';
 import Spinner from '../../components/Spinner';
 import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {TransactionType} from '../../models';
@@ -16,6 +17,7 @@ import './style.css';
 export class HistoryPage extends React.Component<RootStoreProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable private isExportLoading = false;
   private transactionType?: TransactionType[] = [
@@ -48,7 +50,8 @@ export class HistoryPage extends React.Component<RootStoreProps> {
                   <div
                     className="btn-shadow btn-export"
                     // tslint:disable-next-line:jsx-no-lambda
-                    onClick={() => this.exportTransactions()}
+                    onClick={() =>
+                      this.exportTransactions(this.transactionType)}
                   >
                     {this.isExportLoading ? (
                       <Spinner />
@@ -77,10 +80,31 @@ export class HistoryPage extends React.Component<RootStoreProps> {
           onTransactionTypeChange={this.handleTransactionTypeChange}
           isExportLoading={this.isExportLoading}
           stickyTitle={this.renderStickyTitle()}
+          handleAssetIconClick={this.trackClickAssetIcon}
+          handleAssetNameClick={this.trackClickAssetName}
+          handleColumnHeaderClick={this.trackClickColumnHeader}
         />
       </div>
     );
   }
+
+  private trackClickAssetIcon = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickAssetIcon(Place.HistoryPage)
+    );
+  };
+
+  private trackClickAssetName = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickAssetName(Place.HistoryPage)
+    );
+  };
+
+  private trackClickColumnHeader = (name: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickColumnHeader(name, Place.HistoryPage)
+    );
+  };
 
   private renderStickyTitle = () => (
     <div className="sticky-title">
@@ -92,11 +116,23 @@ export class HistoryPage extends React.Component<RootStoreProps> {
     transactionType?: TransactionType[]
   ) => {
     this.transactionType = transactionType;
+    this.analyticsService.track(
+      AnalyticsEvent.FilterTransactionHistory(
+        transactionType ? transactionType.toString() : '',
+        Place.HistoryPage
+      )
+    );
   };
 
   @action
   private exportTransactions = async (transactionType?: TransactionType[]) => {
     if (!this.isExportLoading) {
+      this.analyticsService.track(
+        AnalyticsEvent.ExportTransactionHistory(
+          transactionType ? transactionType.toString() : '',
+          Place.HistoryPage
+        )
+      );
       this.isExportLoading = true;
       const url = await this.transactionStore.fetchTransactionsCsvUrl(
         transactionType || this.transactionType

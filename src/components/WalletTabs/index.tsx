@@ -2,6 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {Banner} from '../Banner';
 import {TabPane} from '../Tabs';
@@ -9,6 +10,7 @@ import HftContent from './HftContent';
 import './style.css';
 
 interface WalletTabsProps {
+  analyticsService?: any;
   activeTabRoute?: string;
   showBetaBanner?: boolean;
   showKycBanner?: boolean;
@@ -32,6 +34,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                 <a
                   href={`${process.env.REACT_APP_KYC_URL}?returnUrl=${window
                     .location.origin}`}
+                  onClick={this.trackStartKyc}
                 >
                   <img
                     src={`${process.env.PUBLIC_URL}/images/id-icn.svg`}
@@ -53,6 +56,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
                 <a
                   href={`${process.env.REACT_APP_KYC_URL}?returnUrl=${window
                     .location.origin}`}
+                  onClick={this.trackCheckKycStatus}
                 >
                   <img
                     src={`${process.env.PUBLIC_URL}/images/info-icn.svg`}
@@ -70,10 +74,19 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
       </div>
     );
   }
+
+  private trackStartKyc = () => {
+    this.props.analyticsService.track(AnalyticsEvent.StartKyc);
+  };
+
+  private trackCheckKycStatus = () => {
+    this.props.analyticsService.track(AnalyticsEvent.CheckKycStatus);
+  };
 }
 
 export default withRouter(
   inject(({rootStore}: RootStoreProps) => ({
+    analyticsService: rootStore!.analyticsService,
     handleHideBetaBannerClick: rootStore!.uiStore.hideBetaBanner,
     onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
     showBetaBanner: rootStore!.uiStore.showBetaBanner,
