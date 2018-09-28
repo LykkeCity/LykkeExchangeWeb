@@ -82,7 +82,7 @@ export class ProfileStore {
         email,
         firstName,
         isKycPassed: kycStatus === KycStatuses.Ok,
-        isKycPending: kycStatus === KycStatuses.Ok,
+        isKycPending: kycStatus === KycStatuses.Pending,
         lastName
       });
     }
