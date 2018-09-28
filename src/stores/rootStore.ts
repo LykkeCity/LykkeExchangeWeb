@@ -29,6 +29,7 @@ import {
 } from '../api';
 import RestAffiliateApi from '../api/affiliateApi';
 import {RestFeaturesApi} from '../api/featuresApi';
+import AnalyticsService from '../services/analyticsService';
 import MarketService from '../services/marketService';
 import {FeatureStore} from './featuresStore';
 import SocketStore from './socketStore';
@@ -48,6 +49,7 @@ export class RootStore {
   assetStore: AssetStore;
   depositStore: DepositStore;
   withdrawStore: WithdrawStore;
+  analyticsService: any;
   marketService: any;
   socketStore: SocketStore;
 
@@ -69,6 +71,7 @@ export class RootStore {
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
     this.dialogStore = new DialogStore(this, new DialogApi(this));
+    this.analyticsService = AnalyticsService;
     this.marketService = MarketService;
     this.socketStore = new SocketStore(this);
   }

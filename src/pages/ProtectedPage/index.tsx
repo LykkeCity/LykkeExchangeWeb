@@ -89,6 +89,7 @@ export class ProtectedPage extends React.Component<
   private readonly socketStore = this.props.rootStore!.socketStore;
   private readonly authStore = this.props.rootStore!.authStore;
   private readonly withdrawStore = this.props.rootStore!.withdrawStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @computed
   private get classes() {
@@ -122,6 +123,7 @@ export class ProtectedPage extends React.Component<
       .then(() => this.depositStore.fetchDepositDefaultValues())
       .then(() => this.depositStore.fetchFee())
       .then(() => this.withdrawStore.fetchSwiftDefaultValues())
+      .then(() => this.identifyAnalytics())
       .then(() => this.uiStore.finishRequest());
 
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
@@ -135,6 +137,7 @@ export class ProtectedPage extends React.Component<
       .then(() => this.uiStore.finishRequest())
       .catch(() => this.uiStore.finishRequest());
 
+    this.analyticsService.init();
     this.unlistenRouteChange = this.props.history.listen(() => {
       const path = this.props.history.location.pathname;
       if (path !== ROUTE_PROFILE && path !== ROUTE_SECURITY) {
@@ -146,6 +149,8 @@ export class ProtectedPage extends React.Component<
         .fetchWallets()
         .then(() => this.dialogStore.fetchPendingDialogs())
         .finally(() => this.uiStore.finishRequest());
+
+      this.analyticsService.pageview(this.props.history.location.pathname);
     });
   }
 
@@ -284,6 +289,16 @@ export class ProtectedPage extends React.Component<
       </div>
     );
   }
+
+  private identifyAnalytics = () => {
+    this.analyticsService.identify({
+      assetsCount:
+        this.walletStore.tradingWallets.length &&
+        this.walletStore.tradingWallets[0].balances.length,
+      is2faEnabled: !!this.profileStore.is2faEnabled,
+      isKycPassed: !!this.profileStore.isKycPassed
+    });
+  };
 
   private handleOutsideClick = (e: React.MouseEvent<any>) => {
     const {toggleBaseAssetPicker, showBaseCurrencyPicker} = this.props

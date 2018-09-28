@@ -12,6 +12,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_ASSET,
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
@@ -43,6 +44,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   render() {
     const QR_SIZE = 120;
@@ -80,11 +82,28 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
               <table className="table_assets">
                 <thead>
                   <tr>
-                    <th className="_asset">
+                    <th
+                      className="_asset"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() => this.trackClickColumnHeader('Asset')}
+                    >
                       <span>Asset</span>
                     </th>
-                    <th className="_currency">Base currency</th>
-                    <th className="_amount">Amount</th>
+                    <th
+                      className="_currency"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() =>
+                        this.trackClickColumnHeader('Base currency')}
+                    >
+                      Base currency
+                    </th>
+                    <th
+                      className="_amount"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() => this.trackClickColumnHeader('Amount')}
+                    >
+                      Amount
+                    </th>
                     <th className="_action">&nbsp;</th>
                   </tr>
                 </thead>
@@ -98,6 +117,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                               src={
                                 balance.asset.iconUrl || ASSET_DEFAULT_ICON_URL
                               }
+                              onClick={this.trackClickAssetIcon}
                               alt="asset"
                               width={48}
                               height={48}
@@ -106,11 +126,16 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                           <div className="issuer__content">
                             <div className="issuer__name">
                               {wallet.isTrading ? (
-                                <Link to={ROUTE_ASSET(balance.assetId)}>
+                                <Link
+                                  to={ROUTE_ASSET(balance.assetId)}
+                                  onClick={this.trackClickAssetName}
+                                >
                                   {balance.asset.name}
                                 </Link>
                               ) : (
-                                balance.asset.name
+                                <span onClick={this.trackClickAssetName}>
+                                  balance.asset.name
+                                </span>
                               )}
                               {this.isAvailableForCryptoDeposit(
                                 balance.assetId
@@ -201,7 +226,11 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                           !wallet.isTrading) && (
                           <Dropdown trigger="click">
                             <DropdownControl>
-                              <button type="button" className="btn btn--icon">
+                              <button
+                                onClick={this.trackClickAssetActionsMenu}
+                                type="button"
+                                className="btn btn--icon"
+                              >
                                 <i className="icon icon--actions" />
                               </button>
                             </DropdownControl>
@@ -226,7 +255,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                         balance.assetId
                                       ),
                                       `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`
+                                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                                      balance.assetId
                                     ),
                                   this.isAvailableForCryptoDeposit(
                                     balance.assetId
@@ -235,7 +265,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                       'Blockchain Transfer',
                                       ROUTE_DEPOSIT_CRYPTO_TO(balance.assetId),
                                       `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`
+                                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                      balance.assetId
                                     ),
                                   this.isAvailableForSwiftDeposit(
                                     balance.assetId
@@ -244,7 +275,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                       'SWIFT',
                                       ROUTE_DEPOSIT_SWIFT_TO(balance.assetId),
                                       `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`
+                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                      balance.assetId
                                     )
                                 ]}
                                 {this.isAvailableForWithdraw(
@@ -265,7 +297,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                         balance.assetId
                                       ),
                                       `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`
+                                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                      balance.assetId
                                     ),
                                   this.isAvailableForSwiftWithdraw(
                                     balance.assetId
@@ -276,7 +309,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                         balance.assetId
                                       ),
                                       `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`
+                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                      balance.assetId
                                     )
                                 ]}
                                 {!wallet.isTrading && (
@@ -354,7 +388,12 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
     );
   };
 
-  private renderMenuItem = (label: string, route: string, iconUrl: string) => (
+  private renderMenuItem = (
+    label: string,
+    route: string,
+    iconUrl: string,
+    assetId: string
+  ) => (
     <DropdownListItem
       key={label}
       className={classnames({
@@ -362,7 +401,14 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
       })}
     >
       {this.profileStore.isKycPassed ? (
-        <Link to={route}>
+        <Link
+          to={route}
+          // tslint:disable-next-line:jsx-no-lambda
+          onClick={() =>
+            route.includes('deposit')
+              ? this.trackStartDeposit(label, assetId)
+              : this.trackStartWithdraw(label, assetId)}
+        >
           <img className="icon" src={iconUrl} />
           {label}
         </Link>
@@ -375,17 +421,63 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
     </DropdownListItem>
   );
 
+  private trackClickAssetActionsMenu = () => {
+    this.analyticsService.track(AnalyticsEvent.ClickAssetActionsMenu);
+  };
+
+  private trackClickAssetIcon = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickAssetIcon(Place.WalletPage)
+    );
+  };
+
+  private trackClickAssetName = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickAssetName(Place.WalletPage)
+    );
+  };
+
+  private trackClickAssetQR = () => {
+    this.analyticsService.track(AnalyticsEvent.ClickAssetQR);
+  };
+
+  private trackClickColumnHeader = (name: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickColumnHeader(name, Place.WalletPage)
+    );
+  };
+
+  private trackHoverAssetQR = () => {
+    this.analyticsService.track(AnalyticsEvent.HoverAssetQR);
+  };
+
+  private trackStartDeposit = (type: string, assetId: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.StartDeposit(Place.WalletBalanceMenu, type, assetId)
+    );
+  };
+
+  private trackStartWithdraw = (type: string, assetId: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.StartWithdraw(Place.WalletBalanceMenu, type, assetId)
+    );
+  };
+
   private handleQrMouseOver = (assetId: string) => {
     const asset = this.assetStore!.getById(assetId);
     if (asset && !asset.address) {
       this.assetStore!.fetchAddress(assetId);
     }
+
+    this.trackHoverAssetQR();
   };
 
   @action
   private handleQrClick = (assetId: string) => {
     this.uiStore.showAssetAddressModal = true;
     this.assetStore.selectedAsset = this.assetStore!.getById(assetId);
+
+    this.trackClickAssetQR();
   };
 
   @action

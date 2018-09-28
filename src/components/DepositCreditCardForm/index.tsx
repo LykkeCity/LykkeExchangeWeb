@@ -26,11 +26,15 @@ export interface DepositCreditCardFormProps extends RootStoreProps {
   asset: AssetModel;
   onDisclaimerError: () => void;
   onSuccess: (gatewayUrls: GatewayUrls) => void;
+  handleViewTermsOfUse?: () => void;
+  handleGoBack?: (source: string) => void;
 }
 
 export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   rootStore,
   asset,
+  handleGoBack,
+  handleViewTermsOfUse,
   onDisclaimerError,
   onSuccess
 }) => {
@@ -415,6 +419,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
               className="link"
               href="https://www.lykke.com/terms_of_use"
               target="_blank"
+              onClick={handleViewTermsOfUse}
             >
               Terms of Use
             </a>
@@ -434,7 +439,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             {!!formikBag.status && (
               <div className="help-block">{formikBag.status}</div>
             )}
-            <Link to={ROUTE_WALLETS} className="btn btn--flat">
+            <Link
+              to={ROUTE_WALLETS}
+              className="btn btn--flat"
+              onClick={() => handleGoBack && handleGoBack('button')}
+            >
               Cancel and go back
             </Link>
           </div>

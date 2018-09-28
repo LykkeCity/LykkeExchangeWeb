@@ -6,6 +6,7 @@ import {RootStoreProps} from '../../App';
 import {asBalance} from '../../components/hoc/assetBalance';
 import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_DEPOSIT_CRYPTO_TO,
@@ -29,6 +30,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable private isExportLoading = false;
 
@@ -126,7 +128,10 @@ export class AssetPage extends React.Component<AssetPageProps> {
               ) : (
                 asset.address &&
                 !this.assetStore.isEth(asset.id) && (
-                  <div className="asset-page__address">
+                  <div
+                    className="asset-page__address"
+                    onClick={this.trackClickQrArea}
+                  >
                     <QRCode size={QR_SIZE} value={asset.address} />
                     <div className="asset-page__address-tip">
                       Scan to Deposit
@@ -146,21 +151,24 @@ export class AssetPage extends React.Component<AssetPageProps> {
                       ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
-                      'Credit Card'
+                      'Credit Card',
+                      asset.id
                     )}
                   {this.isAvailableForCryptoDeposit &&
                     this.renderMenuItem(
                       ROUTE_DEPOSIT_CRYPTO_TO(asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                      'Blockchain Transfer'
+                      'Blockchain Transfer',
+                      asset.id
                     )}
                   {this.isAvailableForSwiftDeposit &&
                     this.renderMenuItem(
                       ROUTE_DEPOSIT_SWIFT_TO(asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                      'SWIFT'
+                      'SWIFT',
+                      asset.id
                     )}
                 </ul>
               )}
@@ -173,21 +181,27 @@ export class AssetPage extends React.Component<AssetPageProps> {
                       ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                      'Blockchain Transfer'
+                      'Blockchain Transfer',
+                      asset.id
                     )}
                   {this.isAvailableForSwiftWithdraw &&
                     this.renderMenuItem(
                       ROUTE_WITHDRAW_SWIFT_FROM(asset.id),
                       `${process.env
                         .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                      'SWIFT'
+                      'SWIFT',
+                      asset.id
                     )}
                 </ul>
               )}
               <ul className="action-list">
                 <li className="action-list__title">Trading</li>
                 <li className="action-list__item">
-                  <a href="http://trade.lykke.com" target="_blank">
+                  <a
+                    href="http://trade.lykke.com"
+                    onClick={this.trackGoToTrade}
+                    target="_blank"
+                  >
                     <img
                       className="icon"
                       src={`${process.env.PUBLIC_URL}/images/trade-icn.svg`}
@@ -205,12 +219,61 @@ export class AssetPage extends React.Component<AssetPageProps> {
           loadTransactions={this.loadTransactions}
           exportTransactions={this.exportTransactions}
           stickyTitle={this.renderStickyTitle(balance)}
+          onTransactionTypeChange={this.handleTransactionTypeChange}
           isExportLoading={this.isExportLoading}
           showExportButton
+          handleAssetIconClick={this.trackClickAssetIcon}
+          handleAssetNameClick={this.trackClickAssetName}
+          handleColumnHeaderClick={this.trackClickColumnHeader}
         />
       </div>
     );
   }
+
+  private trackStartDeposit = (type: string, assetId: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.StartDeposit(Place.AssetPage, type, assetId)
+    );
+  };
+
+  private trackStartWithdraw = (type: string, assetId: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.StartWithdraw(Place.AssetPage, type, assetId)
+    );
+  };
+
+  private trackClickAssetIcon = () => {
+    this.analyticsService.track(AnalyticsEvent.ClickAssetIcon(Place.AssetPage));
+  };
+
+  private trackClickAssetName = () => {
+    this.analyticsService.track(AnalyticsEvent.ClickAssetName(Place.AssetPage));
+  };
+
+  private trackClickQrArea = () => {
+    this.analyticsService.track(AnalyticsEvent.ClickAssetPageQrArea);
+  };
+
+  private trackClickColumnHeader = (name: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.ClickColumnHeader(name, Place.AssetPage)
+    );
+  };
+
+  private trackGoToTrade = () => {
+    this.analyticsService.track(AnalyticsEvent.GoToTrade);
+  };
+
+  private handleTransactionTypeChange = (
+    transactionType?: TransactionType[]
+  ) => {
+    this.analyticsService.track(
+      AnalyticsEvent.FilterTransactionHistory(
+        transactionType ? transactionType.toString() : '',
+        Place.AssetPage
+      )
+    );
+  };
 
   private renderStickyTitle = (balance?: BalanceModel) => (
     <div className="sticky-title">
@@ -223,10 +286,22 @@ export class AssetPage extends React.Component<AssetPageProps> {
     </div>
   );
 
-  private renderMenuItem = (route: string, iconUrl: string, label: string) =>
+  private renderMenuItem = (
+    route: string,
+    iconUrl: string,
+    label: string,
+    assetId: string
+  ) =>
     this.profileStore.isKycPassed ? (
       <li className="action-list__item">
-        <Link to={route}>
+        <Link
+          to={route}
+          // tslint:disable-next-line:jsx-no-lambda
+          onClick={() =>
+            route.includes('deposit')
+              ? this.trackStartDeposit(label, assetId)
+              : this.trackStartWithdraw(label, assetId)}
+        >
           <img className="icon" src={iconUrl} />
           {label}
         </Link>
@@ -243,6 +318,12 @@ export class AssetPage extends React.Component<AssetPageProps> {
   @action
   private exportTransactions = async (transactionType?: TransactionType[]) => {
     if (!this.isExportLoading) {
+      this.analyticsService.track(
+        AnalyticsEvent.ExportTransactionHistory(
+          transactionType ? transactionType.toString() : '',
+          Place.AssetPage
+        )
+      );
       this.isExportLoading = true;
       const {assetId} = this.props.match.params;
       const url = await this.transactionStore.fetchTransactionsCsvUrl(

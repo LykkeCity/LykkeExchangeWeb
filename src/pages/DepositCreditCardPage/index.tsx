@@ -6,6 +6,7 @@ import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../../components/Apps';
 import {Banner} from '../../components/Banner';
 import ClientDialog from '../../components/ClientDialog';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {DialogModel, GatewayUrls} from '../../models';
@@ -26,6 +27,7 @@ export class DepositCreditCardPage extends React.Component<
   readonly depositStore = this.props.rootStore!.depositStore;
   readonly uiStore = this.props.rootStore!.uiStore;
   readonly dialogStore = this.props.rootStore!.dialogStore;
+  readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     const {walletId, assetId} = this.props.match.params;
@@ -134,11 +136,25 @@ export class DepositCreditCardPage extends React.Component<
             onDisclaimerError={this.handleDisclaimerError}
             onSuccess={this.handleSubmitSuccess}
             asset={asset}
+            handleViewTermsOfUse={this.trackViewTermsOfUse}
+            handleGoBack={this.trackGoBack}
           />
         </div>
       </div>
     );
   }
+
+  private trackViewTermsOfUse = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.ViewTermsOfUse(Place.DepositCreditCardPage)
+    );
+  };
+
+  private trackGoBack = (source: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.GoBack(Place.DepositCreditCardPage, source)
+    );
+  };
 
   private handleDialogConfirm = (dialog: DialogModel) => {
     if (dialog.isConfirmed) {
@@ -157,6 +173,12 @@ export class DepositCreditCardPage extends React.Component<
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {
+    const {assetId} = this.props.match.params;
+
+    this.analyticsService.track(
+      AnalyticsEvent.ProceedToPaymentProvider(assetId)
+    );
+
     this.depositStore.setGatewayUrls(gatewayUrls);
     this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY);
   };

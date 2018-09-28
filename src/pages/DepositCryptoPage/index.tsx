@@ -9,6 +9,7 @@ import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../../components/Apps';
 import ClientDialog from '../../components/ClientDialog';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {DialogModel} from '../../models';
@@ -30,6 +31,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly dialogStore = this.props.rootStore!.dialogStore;
   readonly uiStore = this.props.rootStore!.uiStore;
+  readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
@@ -90,7 +92,12 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
           description={this.renderEthWarningDescription()}
         />
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
-        <a href="#" onClick={this.props.history.goBack} className="arrow-back">
+        <a
+          href="#"
+          // tslint:disable-next-line:jsx-no-lambda
+          onClick={() => this.handleGoBack('arrow')}
+          className="arrow-back"
+        >
           <img
             src={`${process.env.PUBLIC_URL}/images/back-icn.svg`}
             alt="Back"
@@ -162,7 +169,8 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                 )}
                 <a
                   href="#"
-                  onClick={this.props.history.goBack}
+                  // tslint:disable-next-line:jsx-no-lambda
+                  onClick={() => this.handleGoBack('button')}
                   className="btn btn--flat"
                 >
                   Go back
@@ -173,6 +181,14 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
       </div>
     );
   }
+
+  private handleGoBack = (source: string) => {
+    this.analyticsService.track(
+      AnalyticsEvent.GoBack(Place.DepositCryptoPage, source)
+    );
+
+    this.props.history.goBack();
+  };
 
   private renderAddressBlock = (address: string, label: string) => {
     const QR_SIZE = 240;
@@ -258,6 +274,15 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     setTimeout(() => {
       this.copiedToClipboardText = '';
     }, HELPER_TEXT_TIMEOUT);
+
+    const {assetId} = this.props.match.params;
+    this.analyticsService.track(
+      AnalyticsEvent.FinishDeposit(
+        Place.DepositCryptoPage,
+        'Blockchain Transfer',
+        assetId
+      )
+    );
   };
 
   private handleDialogConfirm = async (dialog: DialogModel) => {
