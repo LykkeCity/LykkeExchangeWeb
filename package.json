@@ -43,7 +43,7 @@
     "start-ts": "react-scripts-ts start",
     "start": "npm-run-all -p watch-css start-ts",
     "build": "npm run build-css && react-scripts-ts build",
-    "test": "react-scripts-ts test --env=jsdom",
+    "test": "react-scripts-ts test --env=jsdom --moduleNameMapper='{\"^@lykkex/lykke.js\":\"<rootDir>/node_modules/@lykkex/lykke.js/dist\"}'",
     "eject": "react-scripts-ts eject"
   },
   "devDependencies": {
