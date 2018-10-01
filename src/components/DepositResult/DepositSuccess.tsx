@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {NumberFormat} from '../NumberFormat';
@@ -15,12 +16,21 @@ export class DepositSuccess extends React.Component<
   private readonly depositStore = this.props.rootStore!.depositStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     window.scrollTo(0, 0);
 
     this.uiStore.startRequest();
     this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
+    this.analyticsService.track(
+      AnalyticsEvent.FinishDeposit(
+        Place.SuccessPage,
+        'Credit Card',
+        this.depositStore.newDeposit.asset &&
+          this.depositStore.newDeposit.asset.id
+      )
+    );
   }
 
   render() {

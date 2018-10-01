@@ -9,6 +9,7 @@ import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
 import ClientDialog from '../../components/ClientDialog';
 import WalletTabs from '../../components/WalletTabs/index';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_WALLETS_TRADING
@@ -27,6 +28,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly depositStore = this.props.rootStore!.depositStore;
   readonly dialogStore = this.props.rootStore!.dialogStore;
+  readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
@@ -48,6 +50,10 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
     const asset = this.assetStore.getById(assetId);
     const sendSwiftRequisites = this.depositStore.sendSwiftRequisites;
     const onSubmitSuccess = () => {
+      this.analyticsService.track(
+        AnalyticsEvent.FinishDeposit(Place.DepositSwiftPage, 'SWIFT', assetId)
+      );
+
       this.props.history.replace(ROUTE_DEPOSIT_SWIFT_EMAIL_SENT);
     };
     const clientDialog = this.dialogStore.pendingDialogs.find(
@@ -99,6 +105,20 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
       </div>
     );
   }
+
+  private trackViewTermsOfUse = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.ViewTermsOfUse(Place.DepositSwiftPage)
+    );
+  };
+
+  private handleGoBack = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.GoBack(Place.DepositSwiftPage, 'button')
+    );
+
+    this.props.history.goBack();
+  };
 
   private renderForm = (formikBag: FormikProps<DepositSwiftModel>) => {
     const {assetId} = this.props.match.params;
@@ -161,6 +181,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
             className="link"
             href="https://www.lykke.com/terms_of_use"
             target="_blank"
+            onClick={this.trackViewTermsOfUse}
           >
             Terms of Use
           </a>
@@ -173,11 +194,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
             className="btn btn--primary"
             disabled={formikBag.isSubmitting || !formikBag.isValid}
           />
-          <a
-            href="#"
-            onClick={this.props.history.goBack}
-            className="btn btn--flat"
-          >
+          <a href="#" onClick={this.handleGoBack} className="btn btn--flat">
             Cancel and go back
           </a>
         </div>

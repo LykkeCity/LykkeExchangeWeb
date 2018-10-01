@@ -38,6 +38,9 @@ interface TransactionsTableProps extends RootStoreProps {
   isExportLoading?: boolean;
   stickyTitle?: React.ReactChild;
   showExportButton?: boolean;
+  handleAssetIconClick?: () => void;
+  handleAssetNameClick?: () => void;
+  handleColumnHeaderClick?: (name: string) => void;
 }
 
 export class TransactionsTable extends React.Component<TransactionsTableProps> {
@@ -134,12 +137,34 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
               <Table responsive>
                 <thead>
                   <tr>
-                    <th className="transactions-table__asset-col">Asset</th>
-                    <th className="transactions-table__date-col">Date</th>
-                    <th className="transactions-table__operation-col">
+                    <th
+                      className="transactions-table__asset-col"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() => this.handleColumnHeaderClick('Asset')}
+                    >
+                      Asset
+                    </th>
+                    <th
+                      className="transactions-table__date-col"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() => this.handleColumnHeaderClick('Date')}
+                    >
+                      Date
+                    </th>
+                    <th
+                      className="transactions-table__operation-col"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() => this.handleColumnHeaderClick('Operation')}
+                    >
                       Operation
                     </th>
-                    <th className="transactions-table__amount-col">Amount</th>
+                    <th
+                      className="transactions-table__amount-col"
+                      // tslint:disable-next-line:jsx-no-lambda
+                      onClick={() => this.handleColumnHeaderClick('Amount')}
+                    >
+                      Amount
+                    </th>
                   </tr>
                 </thead>
               </Table>
@@ -173,12 +198,35 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                 <Table responsive>
                   <thead>
                     <tr>
-                      <th className="transactions-table__asset-col">Asset</th>
-                      <th className="transactions-table__date-col">Date</th>
-                      <th className="transactions-table__operation-col">
+                      <th
+                        className="transactions-table__asset-col"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() => this.handleColumnHeaderClick('Asset')}
+                      >
+                        Asset
+                      </th>
+                      <th
+                        className="transactions-table__date-col"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() => this.handleColumnHeaderClick('Date')}
+                      >
+                        Date
+                      </th>
+                      <th
+                        className="transactions-table__operation-col"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() =>
+                          this.handleColumnHeaderClick('Operation')}
+                      >
                         Operation
                       </th>
-                      <th className="transactions-table__amount-col">Amount</th>
+                      <th
+                        className="transactions-table__amount-col"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() => this.handleColumnHeaderClick('Amount')}
+                      >
+                        Amount
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -189,6 +237,7 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                             <td>
                               <div className="asset-col">
                                 <img
+                                  onClick={this.props.handleAssetIconClick}
                                   width="48"
                                   src={
                                     transaction.asset.iconUrl ||
@@ -200,11 +249,20 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                                     {this.props.hasAssetLinks ? (
                                       <Link
                                         to={ROUTE_ASSET(transaction.asset.id)}
+                                        onClick={
+                                          this.props.handleAssetNameClick
+                                        }
                                       >
                                         {transaction.asset.name}
                                       </Link>
                                     ) : (
-                                      transaction.asset.name
+                                      <span
+                                        onClick={
+                                          this.props.handleAssetNameClick
+                                        }
+                                      >
+                                        {transaction.asset.name}
+                                      </span>
                                     )}
                                   </div>
                                   <div className="asset-col__wallet_name">
@@ -305,6 +363,10 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       </div>
     );
   };
+
+  private handleColumnHeaderClick = (name: string) =>
+    this.props.handleColumnHeaderClick &&
+    this.props.handleColumnHeaderClick(name);
 
   private renderFilter = (filter: any, isSticky?: boolean) => (
     <span

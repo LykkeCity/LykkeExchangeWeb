@@ -4,6 +4,7 @@ import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 import './style.css';
@@ -17,6 +18,7 @@ const TextMask = require('react-text-mask').default;
 export class SecurityPage extends React.Component<RootStoreProps> {
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable private code2fa = '';
   @observable private error = '';
@@ -163,6 +165,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
       this.error = '';
       const isValid = await this.profileStore.enable2fa(this.code2fa);
       if (isValid) {
+        this.analyticsService.track(AnalyticsEvent.Enable2fa);
         window.scrollTo(0, 0);
       } else {
         this.error = 'Code not valid. Please try again.';

@@ -7,6 +7,7 @@ import {RouteComponentProps} from 'react-router-dom';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_WITHDRAW_SWIFT_FAIL,
   ROUTE_WITHDRAW_SWIFT_SUCCESS
@@ -26,6 +27,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
   readonly walletStore = this.props.rootStore!.walletStore;
   readonly profileStore = this.props.rootStore!.profileStore;
   readonly socketStore = this.props.rootStore!.socketStore;
+  readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable operationId: string = '';
 
@@ -108,6 +110,14 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
       </div>
     );
   }
+
+  private handleGoBack = () => {
+    this.analyticsService.track(
+      AnalyticsEvent.GoBack(Place.WithdrawSwiftPage, 'button')
+    );
+
+    this.props.history.goBack();
+  };
 
   private getSocketActions = (formikBag: any) => {
     const {setFieldError} = formikBag;
@@ -288,11 +298,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
             className="btn btn--primary"
             disabled={formikBag.isSubmitting || !formikBag.isValid}
           />
-          <a
-            href="#"
-            onClick={this.props.history.goBack}
-            className="btn btn--flat"
-          >
+          <a href="#" onClick={this.handleGoBack} className="btn btn--flat">
             Cancel and go back
           </a>
         </div>
