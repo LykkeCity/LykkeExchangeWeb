@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@lykkex/lykke.js": "^0.4.10",
-    "@lykkex/react-components": "^0.8.19",
+    "@lykkex/react-components": "^0.8.20",
     "@types/autobahn": "^0.9.39",
     "@types/react-copy-to-clipboard": "^4.2.3",
     "@types/react-infinite-scroller": "^1.0.6",

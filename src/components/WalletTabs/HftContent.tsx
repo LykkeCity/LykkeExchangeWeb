@@ -1,3 +1,4 @@
+import {MenuItem} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RootStoreProps} from '../../App';
@@ -6,8 +7,8 @@ import {STORE_ROOT} from '../../constants/stores';
 class HftContent extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
 
-  componentWillMount() {
-    this.uiStore.activeHeaderMenuItem = '';
+  componentDidMount() {
+    this.uiStore.activeHeaderMenuItem = MenuItem.ApiKeys;
   }
 
   render() {
