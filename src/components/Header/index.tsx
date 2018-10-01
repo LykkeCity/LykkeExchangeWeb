@@ -50,12 +50,12 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   const renderLink = (classes: string, title: JSX.Element, url: string) => {
     const externalLinkRenderer = (
-      <a href={url} className={classes}>
+      <a href={url} className={classes} key={url}>
         {title}
       </a>
     );
     const internalLinkRenderer = (
-      <Link to={url} className={classes}>
+      <Link to={url} className={classes} key={url}>
         {title}
       </Link>
     );
