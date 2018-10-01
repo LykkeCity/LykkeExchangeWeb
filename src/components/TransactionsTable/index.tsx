@@ -140,36 +140,28 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                     <th
                       className="transactions-table__asset-col"
                       // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() =>
-                        this.props.handleColumnHeaderClick &&
-                        this.props.handleColumnHeaderClick('Asset')}
+                      onClick={() => this.handleColumnHeaderClick('Asset')}
                     >
                       Asset
                     </th>
                     <th
                       className="transactions-table__date-col"
                       // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() =>
-                        this.props.handleColumnHeaderClick &&
-                        this.props.handleColumnHeaderClick('Date')}
+                      onClick={() => this.handleColumnHeaderClick('Date')}
                     >
                       Date
                     </th>
                     <th
                       className="transactions-table__operation-col"
                       // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() =>
-                        this.props.handleColumnHeaderClick &&
-                        this.props.handleColumnHeaderClick('Operation')}
+                      onClick={() => this.handleColumnHeaderClick('Operation')}
                     >
                       Operation
                     </th>
                     <th
                       className="transactions-table__amount-col"
                       // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() =>
-                        this.props.handleColumnHeaderClick &&
-                        this.props.handleColumnHeaderClick('Amount')}
+                      onClick={() => this.handleColumnHeaderClick('Amount')}
                     >
                       Amount
                     </th>
@@ -209,18 +201,14 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                       <th
                         className="transactions-table__asset-col"
                         // tslint:disable-next-line:jsx-no-lambda
-                        onClick={() =>
-                          this.props.handleColumnHeaderClick &&
-                          this.props.handleColumnHeaderClick('Asset')}
+                        onClick={() => this.handleColumnHeaderClick('Asset')}
                       >
                         Asset
                       </th>
                       <th
                         className="transactions-table__date-col"
                         // tslint:disable-next-line:jsx-no-lambda
-                        onClick={() =>
-                          this.props.handleColumnHeaderClick &&
-                          this.props.handleColumnHeaderClick('Date')}
+                        onClick={() => this.handleColumnHeaderClick('Date')}
                       >
                         Date
                       </th>
@@ -228,17 +216,14 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
                         className="transactions-table__operation-col"
                         // tslint:disable-next-line:jsx-no-lambda
                         onClick={() =>
-                          this.props.handleColumnHeaderClick &&
-                          this.props.handleColumnHeaderClick('Operation')}
+                          this.handleColumnHeaderClick('Operation')}
                       >
                         Operation
                       </th>
                       <th
                         className="transactions-table__amount-col"
                         // tslint:disable-next-line:jsx-no-lambda
-                        onClick={() =>
-                          this.props.handleColumnHeaderClick &&
-                          this.props.handleColumnHeaderClick('Amount')}
+                        onClick={() => this.handleColumnHeaderClick('Amount')}
                       >
                         Amount
                       </th>
@@ -378,6 +363,10 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
       </div>
     );
   };
+
+  private handleColumnHeaderClick = (name: string) =>
+    this.props.handleColumnHeaderClick &&
+    this.props.handleColumnHeaderClick(name);
 
   private renderFilter = (filter: any, isSticky?: boolean) => (
     <span
