@@ -11,7 +11,6 @@ import {
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {Feature, FeatureFlag} from '../../utils/launchDarkly';
 
 import './style.css';
 
@@ -95,20 +94,14 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
         isBeta={true}
       />
       {!uiStore.hasPendingRequests && (
-        <FeatureFlag
-          flagKey={Feature.TwoFactorAuthentication}
-          // tslint:disable-next-line:jsx-no-lambda
-          renderFeatureCallback={() => (
-            <div
-              className={classnames('subheader', {
-                hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
-              })}
-            >
-              {renderSubmenuItem(ROUTE_PROFILE, 'General')}
-              {renderSubmenuItem(ROUTE_SECURITY, 'Security')}
-            </div>
-          )}
-        />
+        <div
+          className={classnames('subheader', {
+            hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
+          })}
+        >
+          {renderSubmenuItem(ROUTE_PROFILE, 'General')}
+          {renderSubmenuItem(ROUTE_SECURITY, 'Security')}
+        </div>
       )}
     </div>
   );
