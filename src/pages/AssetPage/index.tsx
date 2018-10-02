@@ -198,7 +198,10 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 <li className="action-list__title">Trading</li>
                 <li className="action-list__item">
                   <a
-                    href="http://trade.lykke.com"
+                    href={
+                      process.env.REACT_APP_TRADE_URL ||
+                      'http://trade.lykke.com'
+                    }
                     onClick={this.trackGoToTrade}
                     target="_blank"
                   >

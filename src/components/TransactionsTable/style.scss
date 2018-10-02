@@ -65,7 +65,22 @@
     }
 
     @media all and (max-width: $screen-mobile) {
-      min-width: 550px;
+      min-width: 0;
+      display: block;
+
+      &__title {
+        margin-bottom: 24px;
+      }
+
+      &__item {
+        &_active {
+          padding-bottom: 13px;
+        }
+
+        &:first-child {
+          margin-left: 0;
+        }
+      }
     }
   }
 
@@ -122,6 +137,7 @@
       td {
         color: $text;
         line-height: 1.5;
+        cursor: auto;
 
         @include rem(font-size, 16px);
         @include rem(padding-bottom, 3px);
@@ -198,8 +214,11 @@
         &:before {
           content: '';
           position: absolute;
-          border-bottom: 3px solid $white;
           width: 64px;
+        }
+
+        @media all and (max-width: $screen-tablet) {
+          padding-left: 0;
         }
       }
 
@@ -253,7 +272,7 @@
     }
 
     @media all and (max-width: $screen-tablet) {
-      @include rem(padding, 0 24px 0 0);
+      @include rem(padding, 0 10px);
     }
   }
 

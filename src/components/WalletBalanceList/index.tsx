@@ -79,261 +79,267 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                   {balances.length} {plural(balances.length, 'asset')}
                 </small>
               </h3>
-              <table className="table_assets">
-                <thead>
-                  <tr>
-                    <th
-                      className="_asset"
-                      // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() => this.trackClickColumnHeader('Asset')}
-                    >
-                      <span>Asset</span>
-                    </th>
-                    <th
-                      className="_currency"
-                      // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() =>
-                        this.trackClickColumnHeader('Base currency')}
-                    >
-                      Base currency
-                    </th>
-                    <th
-                      className="_amount"
-                      // tslint:disable-next-line:jsx-no-lambda
-                      onClick={() => this.trackClickColumnHeader('Amount')}
-                    >
-                      Amount
-                    </th>
-                    <th className="_action">&nbsp;</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {balances.map(balance => (
-                    <tr key={balance.assetId + balance.balance}>
-                      <td className="_asset">
-                        <div className="issuer">
-                          <div className="issuer__img">
-                            <img
-                              src={
-                                balance.asset.iconUrl || ASSET_DEFAULT_ICON_URL
-                              }
-                              onClick={this.trackClickAssetIcon}
-                              alt="asset"
-                              width={48}
-                              height={48}
-                            />
-                          </div>
-                          <div className="issuer__content">
-                            <div className="issuer__name">
-                              {wallet.isTrading ? (
-                                <Link
-                                  to={ROUTE_ASSET(balance.assetId)}
-                                  onClick={this.trackClickAssetName}
-                                >
-                                  {balance.asset.name}
-                                </Link>
-                              ) : (
-                                <span onClick={this.trackClickAssetName}>
-                                  balance.asset.name
-                                </span>
-                              )}
-                              {this.isAvailableForCryptoDeposit(
-                                balance.assetId
-                              ) &&
-                                wallet.isTrading &&
-                                this.profileStore.isKycPassed &&
-                                !this.assetStore!.isEth(balance.assetId) && (
-                                  <div
-                                    className="pull-right"
-                                    // tslint:disable-next-line:jsx-no-lambda
-                                    onMouseOver={() =>
-                                      this.handleQrMouseOver(balance.assetId)}
-                                    // tslint:disable-next-line:jsx-no-lambda
-                                    onClick={() =>
-                                      this.handleQrClick(balance.assetId)}
+              <div className="container-table-assets">
+                <table className="table_assets">
+                  <thead>
+                    <tr>
+                      <th
+                        className="_asset"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() => this.trackClickColumnHeader('Asset')}
+                      >
+                        <span>Asset</span>
+                      </th>
+                      <th
+                        className="_currency"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() =>
+                          this.trackClickColumnHeader('Base currency')}
+                      >
+                        Base currency
+                      </th>
+                      <th
+                        className="_amount"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() => this.trackClickColumnHeader('Amount')}
+                      >
+                        Amount
+                      </th>
+                      <th className="_action">&nbsp;</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {balances.map(balance => (
+                      <tr key={balance.assetId + balance.balance}>
+                        <td className="_asset">
+                          <div className="issuer">
+                            <div className="issuer__img">
+                              <img
+                                src={
+                                  balance.asset.iconUrl ||
+                                  ASSET_DEFAULT_ICON_URL
+                                }
+                                onClick={this.trackClickAssetIcon}
+                                alt="asset"
+                                width={48}
+                                height={48}
+                              />
+                            </div>
+                            <div className="issuer__content">
+                              <div className="issuer__name">
+                                {wallet.isTrading ? (
+                                  <Link
+                                    to={ROUTE_ASSET(balance.assetId)}
+                                    onClick={this.trackClickAssetName}
                                   >
-                                    <Dropdown>
-                                      <DropdownControl>
-                                        <span className="qr-icn">
-                                          <img
-                                            className="icon"
-                                            src={`${process.env
-                                              .PUBLIC_URL}/images/qr-icn.svg`}
-                                          />
-                                        </span>
-                                      </DropdownControl>
-                                      <DropdownContainer>
-                                        <div className="asset-address">
-                                          {balance.asset.addressExtension ? (
-                                            <div>
-                                              <QRCode
-                                                size={QR_SIZE}
-                                                value={
-                                                  balance.asset.addressBase
-                                                }
-                                              />
-                                              <div className="asset-address-label">
-                                                Address
-                                              </div>
-                                              <QRCode
-                                                size={QR_SIZE}
-                                                value={
-                                                  balance.asset.addressExtension
-                                                }
-                                              />
-                                              <div className="asset-address-label">
-                                                Tag
-                                              </div>
-                                            </div>
-                                          ) : balance.asset.address ? (
-                                            <div>
-                                              <QRCode
-                                                size={QR_SIZE}
-                                                value={balance.asset.address}
-                                              />
-                                              <div className="asset-address-label">
-                                                Scan to get the address
-                                              </div>
-                                            </div>
-                                          ) : (
-                                            <Spinner />
-                                          )}
-                                        </div>
-                                      </DropdownContainer>
-                                    </Dropdown>
-                                  </div>
+                                    {balance.asset.name}
+                                  </Link>
+                                ) : (
+                                  <span onClick={this.trackClickAssetName}>
+                                    balance.asset.name
+                                  </span>
                                 )}
+                                {this.isAvailableForCryptoDeposit(
+                                  balance.assetId
+                                ) &&
+                                  wallet.isTrading &&
+                                  this.profileStore.isKycPassed &&
+                                  !this.assetStore!.isEth(balance.assetId) && (
+                                    <div
+                                      className="qr"
+                                      // tslint:disable-next-line:jsx-no-lambda
+                                      onMouseOver={() =>
+                                        this.handleQrMouseOver(balance.assetId)}
+                                      // tslint:disable-next-line:jsx-no-lambda
+                                      onClick={() =>
+                                        this.handleQrClick(balance.assetId)}
+                                    >
+                                      <Dropdown>
+                                        <DropdownControl>
+                                          <span className="qr-icn">
+                                            <img
+                                              className="icon"
+                                              src={`${process.env
+                                                .PUBLIC_URL}/images/qr-icn.svg`}
+                                            />
+                                          </span>
+                                        </DropdownControl>
+                                        <DropdownContainer>
+                                          <div className="asset-address">
+                                            {balance.asset.addressExtension ? (
+                                              <div>
+                                                <QRCode
+                                                  size={QR_SIZE}
+                                                  value={
+                                                    balance.asset.addressBase
+                                                  }
+                                                />
+                                                <div className="asset-address-label">
+                                                  Address
+                                                </div>
+                                                <QRCode
+                                                  size={QR_SIZE}
+                                                  value={
+                                                    balance.asset
+                                                      .addressExtension
+                                                  }
+                                                />
+                                                <div className="asset-address-label">
+                                                  Tag
+                                                </div>
+                                              </div>
+                                            ) : balance.asset.address ? (
+                                              <div>
+                                                <QRCode
+                                                  size={QR_SIZE}
+                                                  value={balance.asset.address}
+                                                />
+                                                <div className="asset-address-label">
+                                                  Scan to get the address
+                                                </div>
+                                              </div>
+                                            ) : (
+                                              <Spinner />
+                                            )}
+                                          </div>
+                                        </DropdownContainer>
+                                      </Dropdown>
+                                    </div>
+                                  )}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </td>
-                      <td className="_currency">
-                        {asAssetBalance(
-                          balance.baseAsset!,
-                          moneyRound(
-                            balance.balanceInBaseAsset,
-                            balance.baseAsset!.accuracy
-                          )
-                        )}{' '}
-                        {balance.baseAsset!.name}
-                      </td>
-                      <td className="_amount">
-                        {asBalance(balance)} {balance.asset.name}
-                      </td>
-                      <td className="_action">
-                        {(this.isAvailableForDeposit(balance.assetId) ||
-                          this.isAvailableForWithdraw(balance.assetId) ||
-                          !wallet.isTrading) && (
-                          <Dropdown trigger="click">
-                            <DropdownControl>
-                              <button
-                                onClick={this.trackClickAssetActionsMenu}
-                                type="button"
-                                className="btn btn--icon"
-                              >
-                                <i className="icon icon--actions" />
-                              </button>
-                            </DropdownControl>
-                            <DropdownContainer>
-                              <DropdownList className="asset-menu">
-                                {this.isAvailableForDeposit(
-                                  balance.assetId
-                                ) && [
-                                  <DropdownListItem
-                                    isCategory={true}
-                                    key="Deposit"
-                                  >
-                                    Deposit
-                                  </DropdownListItem>,
-                                  this.isAvailableForCreditCardDeposit(
+                        </td>
+                        <td className="_currency">
+                          {asAssetBalance(
+                            balance.baseAsset!,
+                            moneyRound(
+                              balance.balanceInBaseAsset,
+                              balance.baseAsset!.accuracy
+                            )
+                          )}{' '}
+                          {balance.baseAsset!.name}
+                        </td>
+                        <td className="_amount">
+                          {asBalance(balance)} {balance.asset.name}
+                        </td>
+                        <td className="_action">
+                          {(this.isAvailableForDeposit(balance.assetId) ||
+                            this.isAvailableForWithdraw(balance.assetId) ||
+                            !wallet.isTrading) && (
+                            <Dropdown trigger="click">
+                              <DropdownControl>
+                                <button
+                                  onClick={this.trackClickAssetActionsMenu}
+                                  type="button"
+                                  className="btn btn--icon"
+                                >
+                                  <i className="icon icon--actions" />
+                                </button>
+                              </DropdownControl>
+                              <DropdownContainer className="actions">
+                                <DropdownList className="asset-menu">
+                                  {this.isAvailableForDeposit(
                                     balance.assetId
-                                  ) &&
-                                    this.renderMenuItem(
-                                      'Credit Card',
-                                      ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                        wallet.id,
-                                        balance.assetId
-                                      ),
-                                      `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
-                                      balance.assetId
-                                    ),
-                                  this.isAvailableForCryptoDeposit(
-                                    balance.assetId
-                                  ) &&
-                                    this.renderMenuItem(
-                                      'Blockchain Transfer',
-                                      ROUTE_DEPOSIT_CRYPTO_TO(balance.assetId),
-                                      `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                                      balance.assetId
-                                    ),
-                                  this.isAvailableForSwiftDeposit(
-                                    balance.assetId
-                                  ) &&
-                                    this.renderMenuItem(
-                                      'SWIFT',
-                                      ROUTE_DEPOSIT_SWIFT_TO(balance.assetId),
-                                      `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                                      balance.assetId
-                                    )
-                                ]}
-                                {this.isAvailableForWithdraw(
-                                  balance.assetId
-                                ) && [
-                                  <DropdownListItem
-                                    isCategory={true}
-                                    key="Withdraw"
-                                  >
-                                    Withdraw
-                                  </DropdownListItem>,
-                                  this.isAvailableForCryptoWithdraw(
-                                    balance.assetId
-                                  ) &&
-                                    this.renderMenuItem(
-                                      'Blockchain Transfer',
-                                      ROUTE_WITHDRAW_CRYPTO_FROM(
-                                        balance.assetId
-                                      ),
-                                      `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                                      balance.assetId
-                                    ),
-                                  this.isAvailableForSwiftWithdraw(
-                                    balance.assetId
-                                  ) &&
-                                    this.renderMenuItem(
-                                      'SWIFT',
-                                      ROUTE_WITHDRAW_SWIFT_FROM(
-                                        balance.assetId
-                                      ),
-                                      `${process.env
-                                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                                      balance.assetId
-                                    )
-                                ]}
-                                {!wallet.isTrading && (
-                                  <DropdownListItem>
-                                    <Link
-                                      to={ROUTE_TRANSFER_FROM(
-                                        wallet.id,
-                                        balance.assetId
-                                      )}
+                                  ) && [
+                                    <DropdownListItem
+                                      isCategory={true}
+                                      key="Deposit"
                                     >
-                                      Transfer
-                                    </Link>
-                                  </DropdownListItem>
-                                )}
-                              </DropdownList>
-                            </DropdownContainer>
-                          </Dropdown>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                                      Deposit
+                                    </DropdownListItem>,
+                                    this.isAvailableForCreditCardDeposit(
+                                      balance.assetId
+                                    ) &&
+                                      this.renderMenuItem(
+                                        'Credit Card',
+                                        ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                          wallet.id,
+                                          balance.assetId
+                                        ),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                                        balance.assetId
+                                      ),
+                                    this.isAvailableForCryptoDeposit(
+                                      balance.assetId
+                                    ) &&
+                                      this.renderMenuItem(
+                                        'Blockchain Transfer',
+                                        ROUTE_DEPOSIT_CRYPTO_TO(
+                                          balance.assetId
+                                        ),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                        balance.assetId
+                                      ),
+                                    this.isAvailableForSwiftDeposit(
+                                      balance.assetId
+                                    ) &&
+                                      this.renderMenuItem(
+                                        'SWIFT',
+                                        ROUTE_DEPOSIT_SWIFT_TO(balance.assetId),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                        balance.assetId
+                                      )
+                                  ]}
+                                  {this.isAvailableForWithdraw(
+                                    balance.assetId
+                                  ) && [
+                                    <DropdownListItem
+                                      isCategory={true}
+                                      key="Withdraw"
+                                    >
+                                      Withdraw
+                                    </DropdownListItem>,
+                                    this.isAvailableForCryptoWithdraw(
+                                      balance.assetId
+                                    ) &&
+                                      this.renderMenuItem(
+                                        'Blockchain Transfer',
+                                        ROUTE_WITHDRAW_CRYPTO_FROM(
+                                          balance.assetId
+                                        ),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                        balance.assetId
+                                      ),
+                                    this.isAvailableForSwiftWithdraw(
+                                      balance.assetId
+                                    ) &&
+                                      this.renderMenuItem(
+                                        'SWIFT',
+                                        ROUTE_WITHDRAW_SWIFT_FROM(
+                                          balance.assetId
+                                        ),
+                                        `${process.env
+                                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                        balance.assetId
+                                      )
+                                  ]}
+                                  {!wallet.isTrading && (
+                                    <DropdownListItem>
+                                      <Link
+                                        to={ROUTE_TRANSFER_FROM(
+                                          wallet.id,
+                                          balance.assetId
+                                        )}
+                                      >
+                                        Transfer
+                                      </Link>
+                                    </DropdownListItem>
+                                  )}
+                                </DropdownList>
+                              </DropdownContainer>
+                            </Dropdown>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
           );
         })}
