@@ -12,9 +12,9 @@
     big.js "^5.1.2"
     react-ga "^2.5.3"
 
-"@lykkex/react-components@^0.8.19":
-  version "0.8.19"
-  resolved "https://registry.yarnpkg.com/@lykkex/react-components/-/react-components-0.8.19.tgz#e481922f2ca0aeb9bc33b113927c0c3d220ddeb8"
+"@lykkex/react-components@^0.8.21-dev":
+  version "0.8.21-dev"
+  resolved "https://registry.yarnpkg.com/@lykkex/react-components/-/react-components-0.8.21-dev.tgz#0d7ac574ed650d82f7d3bf933a1f9bfb31fc52d7"
   dependencies:
     recharts "^1.1.0"
 
