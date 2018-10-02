@@ -145,10 +145,11 @@ export class ProtectedPage extends React.Component<
       }
       this.uiStore.hideModals();
       this.uiStore.startRequest();
-      this.walletStore
-        .fetchWallets()
-        .then(() => this.dialogStore.fetchPendingDialogs())
-        .finally(() => this.uiStore.finishRequest());
+      this.walletStore.fetchWallets().then(() => {
+        this.dialogStore.fetchPendingDialogs();
+        // Modifier for testing purposes only!
+        this.uiStore.finishRequest();
+      });
 
       this.analyticsService.pageview(this.props.history.location.pathname);
     });
