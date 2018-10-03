@@ -390,12 +390,14 @@ export class TransactionsTable extends React.Component<TransactionsTableProps> {
   };
 
   private loadTransactions = async () => {
-    this.areTransactionsLoading = true;
-    await this.props.loadTransactions(
-      this.pageNumber * PAGE_SIZE,
-      this.transactionsFilterValue
-    );
-    this.areTransactionsLoading = false;
+    if (!this.areTransactionsLoading) {
+      this.areTransactionsLoading = true;
+      await this.props.loadTransactions(
+        this.pageNumber * PAGE_SIZE,
+        this.transactionsFilterValue
+      );
+      this.areTransactionsLoading = false;
+    }
   };
 
   private handleTransactionsFilterChange = async (
