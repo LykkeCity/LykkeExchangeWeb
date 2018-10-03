@@ -47,7 +47,6 @@ export class AssetStore {
     await this.fetchCategories();
     await this.fetchAvailableAssets();
     const resp = await this.api.fetchAssets();
-    const descriptionsResp = await this.api.fetchDescription();
     runInAction(() => {
       this.assets = resp.Assets.map(
         ({
@@ -63,11 +62,6 @@ export class AssetStore {
             Name: 'Other',
             SortOrder: Number.MAX_SAFE_INTEGER
           };
-          const description = descriptionsResp.Descriptions.find(
-            (d: any) => d.Id === id
-          ) || {
-            Description: 'No description'
-          };
           const asset = new AssetModel({
             accuracy,
             category: {
@@ -75,7 +69,7 @@ export class AssetStore {
               name: category.Name,
               sortOrder: category.SortOrder
             },
-            description: description.Description,
+            description: 'No description',
             iconUrl,
             id,
             name: name || Name
@@ -85,6 +79,21 @@ export class AssetStore {
         }
       );
     });
+  };
+
+  fetchDescriptions = async () => {
+    const resp = await this.api.fetchDescription();
+
+    if (resp && resp.Descriptions) {
+      runInAction(() => {
+        resp.Descriptions.forEach((descriptionObj: any) => {
+          const asset = this.getById(descriptionObj.Id);
+          if (asset) {
+            asset.description = descriptionObj.Description;
+          }
+        });
+      });
+    }
   };
 
   fetchAvailableAssets = async () => {

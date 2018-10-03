@@ -83,12 +83,10 @@ export class ProtectedPage extends React.Component<
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
   private readonly featureStore = this.props.rootStore!.featureStore;
   private unlistenRouteChange: () => void;
-  private readonly catalogsStore = this.props.rootStore!.catalogsStore;
   private readonly depositStore = this.props.rootStore!.depositStore;
   private readonly dialogStore = this.props.rootStore!.dialogStore;
   private readonly socketStore = this.props.rootStore!.socketStore;
   private readonly authStore = this.props.rootStore!.authStore;
-  private readonly withdrawStore = this.props.rootStore!.withdrawStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @computed
@@ -101,30 +99,33 @@ export class ProtectedPage extends React.Component<
 
   componentDidMount() {
     this.uiStore.startRequest();
-    this.featureStore.getFeatures();
-    this.profileStore.fetch2faStatus();
-    this.assetStore
-      .fetchCategories()
-      .then(() => this.catalogsStore.fetchCountries())
-      .then(() => this.assetStore.fetchAssets())
-      .then(() => this.assetStore.fetchAssetsAvailableForDeposit())
-      .then(() => this.assetStore.fetchAssetsAvailableForWithdraw())
-      .then(() => this.assetStore.fetchInstruments())
-      .then(() => this.assetStore.fetchRates())
+    const assetsPromise = this.assetStore
+      .fetchAssets()
+      .then(() => {
+        return Promise.all([
+          this.processRequest(this.assetStore.fetchDescriptions),
+          this.processRequest(this.assetStore.fetchAssetsAvailableForDeposit),
+          this.processRequest(this.assetStore.fetchAssetsAvailableForWithdraw),
+          this.processRequest(this.assetStore.fetchInstruments)
+        ]).then(() => this.assetStore.fetchRates());
+      })
       .then(() =>
         this.props.rootStore!.marketService.init(
           this.assetStore.instruments,
           this.assetStore.assets
         )
       )
-      .then(() => this.profileStore.fetchUserInfo())
       .then(() => this.walletStore.fetchWallets())
-      .then(() => this.profileStore.fetchBaseAsset())
-      .then(() => this.depositStore.fetchDepositDefaultValues())
-      .then(() => this.depositStore.fetchFee())
-      .then(() => this.withdrawStore.fetchSwiftDefaultValues())
-      .then(() => this.identifyAnalytics())
       .then(() => this.uiStore.finishRequest());
+
+    Promise.all([
+      assetsPromise,
+      this.processRequest(this.featureStore.getFeatures),
+      this.processRequest(this.profileStore.fetchUserInfo),
+      this.processRequest(this.profileStore.fetch2faStatus),
+      this.processRequest(this.profileStore.fetchBaseAsset),
+      this.processRequest(this.depositStore.fetchDepositDefaultValues)
+    ]).then(() => this.identifyAnalytics());
 
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
     const wampRealm = process.env.REACT_APP_WAMP_REALM || '';
@@ -289,6 +290,11 @@ export class ProtectedPage extends React.Component<
       </div>
     );
   }
+
+  private processRequest = (request: () => Promise<void>) => {
+    this.uiStore.startRequest();
+    return request().then(() => this.uiStore.finishRequest());
+  };
 
   private identifyAnalytics = () => {
     this.analyticsService.identify({
