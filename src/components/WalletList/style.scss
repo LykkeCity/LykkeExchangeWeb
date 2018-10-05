@@ -12,7 +12,6 @@
   @include rem(padding, 0 20px);
 
   &__inner {
-    border-bottom: 1px solid $border-alt;
     transition: border-color $transition-default;
 
     @include rem(padding, 45px 0);
@@ -180,10 +179,6 @@
       background-color: $white;
       box-shadow: 0 0 3px 0 rgba(63, 77, 96, 0.08),
         0 2px 6px 0 rgba(63, 77, 96, 0.1);
-
-      .wallet__inner {
-        border-bottom-color: transparent;
-      }
 
       &.wallet--trading {
         box-shadow: none;
