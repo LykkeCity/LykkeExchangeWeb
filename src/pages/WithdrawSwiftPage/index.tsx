@@ -30,6 +30,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
   readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable operationId: string = '';
+  @observable socketSubscriptionId: string = '';
 
   @computed
   get balance() {
@@ -153,6 +154,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     const actions = this.getSocketActions(formikBag);
 
     const TIMEOUT_LIMIT = 10000;
+    const OPERATIONS_TOPIC = 'operations';
     const socketTimeout = window.setTimeout(async () => {
       const operation = await this.withdrawStore.fetchWithdrawOperation(
         this.operationId
@@ -160,11 +162,15 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
       if (operation && operation.Status && actions[operation.Status]) {
         actions[operation.Status]();
       } else {
+        this.socketStore.unsubscribe(
+          OPERATIONS_TOPIC,
+          this.socketSubscriptionId
+        );
+        this.withdrawStore.cancelWithdrawOperation(this.operationId);
         this.props.history.replace(ROUTE_WITHDRAW_SWIFT_FAIL);
       }
     }, TIMEOUT_LIMIT);
 
-    const OPERATIONS_TOPIC = 'operations';
     const subscription = await this.socketStore.subscribe(
       OPERATIONS_TOPIC,
       (
@@ -185,13 +191,17 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
         } = res[0];
 
         if (id === this.operationId) {
-          this.socketStore.unsubscribe(OPERATIONS_TOPIC, subscription.id);
+          this.socketStore.unsubscribe(
+            OPERATIONS_TOPIC,
+            this.socketSubscriptionId
+          );
           window.clearTimeout(socketTimeout);
           setSubmitting(false);
           actions[status](errorCode, errorMessage);
         }
       }
     );
+    this.socketSubscriptionId = subscription.id;
   };
 
   private handleSubmit = async (values: WithdrawSwiftModel, formikBag: any) => {

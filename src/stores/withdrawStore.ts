@@ -97,6 +97,9 @@ export class WithdrawStore {
   fetchWithdrawOperation = async (operationId: string) =>
     await this.api!.fetchWithdrawOperation(operationId);
 
+  cancelWithdrawOperation = async (operationId: string) =>
+    await this.api!.cancelWithdrawOperation(operationId);
+
   @action
   fetchFee = async (assetId: string) => {
     const resp = await this.api.fetchFee(assetId);
