@@ -136,7 +136,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                   </Link>
                                 ) : (
                                   <span onClick={this.trackClickAssetName}>
-                                    balance.asset.name
+                                    {balance.asset.name}
                                   </span>
                                 )}
                                 {this.isAvailableForCryptoDeposit(
