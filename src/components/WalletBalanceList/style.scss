@@ -95,6 +95,7 @@
           top: 34px;
           width: 70px;
           height: 2px;
+          background-color: $white;
         }
 
         @media all and (max-width: $screen-landscape) {
@@ -242,6 +243,7 @@
       width: 68px;
       height: 1px;
       left: -6px;
+      background-color: $white;
     }
 
     img {
