@@ -18,6 +18,17 @@
   dependencies:
     recharts "^1.1.0"
 
+"@lykkex/subzero-wamp@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@lykkex/subzero-wamp/-/subzero-wamp-0.0.10.tgz#5a4b9e598237cb26ca9cdb1b3595e4654f1dedd1"
+  dependencies:
+    "@lykkex/subzero" "^0.0.4"
+    uniqid "^5.0.3"
+
+"@lykkex/subzero@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@lykkex/subzero/-/subzero-0.0.4.tgz#07a15ac6751476be843f4cb962eee4a27daa3dbd"
+
 "@segment/top-domain@^3.0.0":
   version "3.0.0"
   resolved "http://registry.npmjs.org/@segment/top-domain/-/top-domain-3.0.0.tgz#02e5a5a4fd42a9f6cf886b05e82f104012a3c3a7"
@@ -6615,6 +6626,10 @@ uniqid@^4.0.0:
   resolved "https://registry.yarnpkg.com/uniqid/-/uniqid-4.1.1.tgz#89220ddf6b751ae52b5f72484863528596bb84c1"
   dependencies:
     macaddress "^0.2.8"
+
+uniqid@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/uniqid/-/uniqid-5.0.3.tgz#917968310edc868d50df6c44f783f32c7d80fac1"
 
 uniqs@^2.0.0:
   version "2.0.0"

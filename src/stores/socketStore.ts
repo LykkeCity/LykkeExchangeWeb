@@ -1,10 +1,11 @@
-import {IConnectionOptions, OnChallengeHandler, Session} from 'autobahn';
-import {Socket} from 'socket-connection';
+import {Socket} from '@lykkex/subzero';
 import {
   IWampMessageOptions,
   WampConnection,
   WampMessageType
-} from 'socket-connection-wamp';
+} from '@lykkex/subzero-wamp';
+import {IConnectionOptions, OnChallengeHandler} from 'autobahn';
+import {Backoff, createBackoff} from '../api/backoffApi';
 import * as StorageUtils from '../utils/storageUtils';
 import RootStore from './rootStore';
 
@@ -14,6 +15,8 @@ const tokenStorage = StorageUtils.withKey(TOKEN_KEY);
 class SocketStore {
   readonly rootStore: RootStore;
   private socket: Socket | null;
+  private listeners: Map<string, () => void> = new Map();
+  private backoff: Backoff;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -30,8 +33,20 @@ class SocketStore {
       };
     }
 
-    this.socket = new Socket(new WampConnection(options));
+    const wampProxy = new WampConnection(options);
+
+    wampProxy.onopen = () => {
+      this.onConnectionOpen();
+    };
+
+    wampProxy.onclose = () => {
+      this.onConnectionClose();
+      this.backoff.backoff();
+    };
+
+    this.socket = new Socket(wampProxy);
     await this.socket.connect();
+    this.backoff = createBackoff(() => this.onBackoffReady());
     return this.socket;
   };
 
@@ -53,10 +68,28 @@ class SocketStore {
     this.socket = null;
   };
 
-  private handleChallenge: OnChallengeHandler = (
-    session: Session,
-    method: string
-  ) => {
+  onBackoffReady = async () => {
+    await this.socket!.connect();
+    this.socket!.send({type: WampMessageType.SubscribeToAll});
+  };
+
+  set onConnectionOpen(callback: () => void) {
+    this.listeners.set('onConnectionOpen', callback);
+  }
+  get onConnectionOpen() {
+    return this.listeners.get('onConnectionOpen') || (() => null);
+  }
+
+  set onConnectionClose(callback: () => void) {
+    this.listeners.set('onConnectionClose', callback);
+  }
+  get onConnectionClose() {
+    return this.listeners.get('onConnectionClose') || (() => null);
+  }
+
+  isSocketOpen = () => this.socket!.isSocketConnected();
+
+  private handleChallenge: OnChallengeHandler = (session, method) => {
     if (method === 'ticket') {
       return tokenStorage.get() as string;
     }
