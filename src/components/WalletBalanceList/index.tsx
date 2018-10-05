@@ -239,7 +239,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                               </DropdownControl>
                               <DropdownContainer className="actions">
                                 <DropdownList className="asset-menu">
-                                  {this.isAvailableForDeposit(
+                                  {wallet.isTrading && this.isAvailableForDeposit(
                                     balance.assetId
                                   ) && [
                                     <DropdownListItem
@@ -284,7 +284,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                         balance.assetId
                                       )
                                   ]}
-                                  {this.isAvailableForWithdraw(
+                                  {wallet.isTrading && this.isAvailableForWithdraw(
                                     balance.assetId
                                   ) && [
                                     <DropdownListItem
