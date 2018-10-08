@@ -35,6 +35,7 @@ export class WithdrawCryptoPage extends React.Component<
   readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable operationId: string = '';
+  @observable socketSubscriptionId: string = '';
 
   @computed
   get balance() {
@@ -175,6 +176,11 @@ export class WithdrawCryptoPage extends React.Component<
       if (operation && operation.Status && actions[operation.Status]) {
         actions[operation.Status]();
       } else {
+        this.socketStore.unsubscribe(
+          OPERATIONS_TOPIC,
+          this.socketSubscriptionId
+        );
+        this.withdrawStore.cancelWithdrawOperation(this.operationId);
         this.props.history.replace(ROUTE_WITHDRAW_CRYPTO_FAIL);
       }
     }, TIMEOUT_LIMIT);
@@ -207,6 +213,7 @@ export class WithdrawCryptoPage extends React.Component<
         }
       }
     );
+    this.socketSubscriptionId = subscription.id;
   };
 
   private handleGoBack = () => {

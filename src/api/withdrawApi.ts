@@ -17,6 +17,7 @@ export interface WithdrawApi {
     code: string
   ) => ApiResponse<any>;
   fetchWithdrawOperation: (operationId: string) => ApiResponse<any>;
+  cancelWithdrawOperation: (operationId: string) => ApiResponse<any>;
   fetchSwiftDefaultValues: () => ApiResponse<any>;
   sendWithdrawSwiftRequest: (withdraw: WithdrawSwiftModel) => ApiResponse<any>;
 }
@@ -51,6 +52,9 @@ export class RestWithdrawApi extends RestApi implements WithdrawApi {
 
   fetchWithdrawOperation = (operationId: string) =>
     this.get(`/operations/${operationId}`);
+
+  cancelWithdrawOperation = (operationId: string) =>
+    this.post(`/operations/cancel/${operationId}`);
 
   fetchSwiftDefaultValues = () => this.get('/withdrawals/swift/last');
 
