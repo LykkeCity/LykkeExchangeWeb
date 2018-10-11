@@ -112,7 +112,8 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
     );
   };
 
-  private handleGoBack = () => {
+  private handleGoBack = (e: any) => {
+    e.preventDefault();
     this.analyticsService.track(
       AnalyticsEvent.GoBack(Place.DepositSwiftPage, 'button')
     );

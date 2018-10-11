@@ -216,7 +216,8 @@ export class WithdrawCryptoPage extends React.Component<
     this.socketSubscriptionId = subscription.id;
   };
 
-  private handleGoBack = () => {
+  private handleGoBack = (e: any) => {
+    e.preventDefault();
     this.analyticsService.track(
       AnalyticsEvent.GoBack(Place.WithdrawCryptoPage, 'button')
     );

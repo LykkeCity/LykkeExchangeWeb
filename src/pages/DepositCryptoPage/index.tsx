@@ -95,7 +95,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         <a
           href="#"
           // tslint:disable-next-line:jsx-no-lambda
-          onClick={() => this.handleGoBack('arrow')}
+          onClick={(e: any) => this.handleGoBack(e, 'arrow')}
           className="arrow-back"
         >
           <img
@@ -170,7 +170,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                 <a
                   href="#"
                   // tslint:disable-next-line:jsx-no-lambda
-                  onClick={() => this.handleGoBack('button')}
+                  onClick={(e: any) => this.handleGoBack(e, 'button')}
                   className="btn btn--flat"
                 >
                   Go back
@@ -182,7 +182,8 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     );
   }
 
-  private handleGoBack = (source: string) => {
+  private handleGoBack = (e: any, source: string) => {
+    e.preventDefault();
     this.analyticsService.track(
       AnalyticsEvent.GoBack(Place.DepositCryptoPage, source)
     );
