@@ -1,11 +1,9 @@
-import {Dialog} from '@lykkex/react-components';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../../components/Apps';
 import ClientDialog from '../../components/ClientDialog';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
@@ -43,14 +41,9 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
     if (clientDialog) {
       clientDialog.visible = true;
     }
-    if (this.assetStore.isEth(assetId)) {
-      this.uiStore.showEthWarning = true;
+    this.assetStore.fetchAddress(assetId).finally(() => {
       this.addressLoaded = true;
-    } else {
-      this.assetStore.fetchAddress(assetId).finally(() => {
-        this.addressLoaded = true;
-      });
-    }
+    });
 
     window.scrollTo(0, 0);
   }
@@ -82,15 +75,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             onDialogConfirm={this.handleDialogConfirm}
           />
         )}
-        <Dialog
-          className="eth-warning-modal"
-          visible={this.uiStore.showEthWarning}
-          onCancel={this.handleCancelEthWarning}
-          confirmButton={{text: ''}}
-          cancelButton={{text: 'Close and go back'}}
-          title=""
-          description={this.renderEthWarningDescription()}
-        />
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
         <a
           href="#"
@@ -103,81 +87,70 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             alt="Back"
           />
         </a>
-        {asset &&
-          !this.uiStore.showEthWarning && (
-            <div className="deposit-crypto">
-              <div className="deposit-crypto__title">Deposit {asset.name}</div>
-              <div className="deposit-crypto__subtitle">
-                Blockchain transfer
-              </div>
-              {asset.addressBase && asset.addressExtension ? (
-                <div>
-                  <div className="deposit-crypto__description">
-                    To deposit {asset.name} to your trading wallet please use
-                    the following address and deposit tag or scan the QR codes.
-                  </div>
-                  {this.renderAddressBlock(
-                    asset.addressBase,
-                    'Your wallet address'
-                  )}
-                  {this.renderAddressBlock(
-                    asset.addressExtension,
-                    'Deposit tag'
-                  )}
+        {asset && (
+          <div className="deposit-crypto">
+            <div className="deposit-crypto__title">Deposit {asset.name}</div>
+            <div className="deposit-crypto__subtitle">Blockchain transfer</div>
+            {asset.addressBase && asset.addressExtension ? (
+              <div>
+                <div className="deposit-crypto__description">
+                  To deposit {asset.name} to your trading wallet please use the
+                  following address and deposit tag or scan the QR codes.
                 </div>
-              ) : asset.address ? (
-                <div>
-                  <div className="deposit-crypto__description">
-                    To deposit {asset.name} to your trading wallet please use
-                    the following address.
-                  </div>
-                  {this.renderAddressBlock(
-                    asset.address,
-                    'Your wallet address'
-                  )}
-                </div>
-              ) : this.addressLoaded ? (
-                <div className="deposit-crypto__description text-center">
-                  Not available
-                </div>
-              ) : (
-                <Spinner />
-              )}
-              <div className="deposit-crypto__actions">
-                {(asset.addressBase || asset.address) && (
-                  <div>
-                    <CopyToClipboard
-                      text={asset.addressBase || asset.address}
-                      onCopy={this.handleCopyAddress}
-                    >
-                      {this.copiedToClipboardText ===
-                      (asset.addressBase || asset.address) ? (
-                        <button className="btn btn--primary disabled">
-                          Copied to clipboard
-                        </button>
-                      ) : (
-                        <button className="btn btn--primary">
-                          Copy address
-                        </button>
-                      )}
-                    </CopyToClipboard>
-                    <div className="deposit-crypto__warning">
-                      {warningMessages[asset.name] ||
-                        defaultWarningMessage(asset.name)}
-                    </div>
-                  </div>
+                {this.renderAddressBlock(
+                  asset.addressBase,
+                  'Your wallet address'
                 )}
-                <a
-                  href="#"
-                  // tslint:disable-next-line:jsx-no-lambda
-                  onClick={(e: any) => this.handleGoBack(e, 'button')}
-                  className="btn btn--flat"
-                >
-                  Go back
-                </a>
+                {this.renderAddressBlock(asset.addressExtension, 'Deposit tag')}
               </div>
+            ) : asset.address ? (
+              <div>
+                <div className="deposit-crypto__description">
+                  To deposit {asset.name} to your trading wallet please use the
+                  following address.
+                </div>
+                {this.renderAddressBlock(asset.address, 'Your wallet address')}
+              </div>
+            ) : this.addressLoaded ? (
+              <div className="deposit-crypto__description text-center">
+                Not available
+              </div>
+            ) : (
+              <Spinner />
+            )}
+            <div className="deposit-crypto__actions">
+              {(asset.addressBase || asset.address) && (
+                <div>
+                  <CopyToClipboard
+                    text={asset.addressBase || asset.address}
+                    onCopy={this.handleCopyAddress}
+                  >
+                    {this.copiedToClipboardText ===
+                    (asset.addressBase || asset.address) ? (
+                      <button className="btn btn--primary disabled">
+                        Copied to clipboard
+                      </button>
+                    ) : (
+                      <button className="btn btn--primary">Copy address</button>
+                    )}
+                  </CopyToClipboard>
+                  <div className="deposit-crypto__warning">
+                    {warningMessages[asset.name] ||
+                      defaultWarningMessage(asset.name)}
+                  </div>
+                </div>
+              )}
+              <a
+                href="#"
+                // tslint:disable-next-line:jsx-no-lambda
+                onClick={(e: any) => this.handleGoBack(e, 'button')}
+                className="btn btn--flat"
+              >
+                Go back
+              </a>
             </div>
-          )}
+          </div>
+        )}
       </div>
     );
   }
@@ -221,52 +194,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         </div>
       </div>
     );
-  };
-
-  private renderEthWarningDescription = () => (
-    <div>
-      <div className="eth-warning-modal__icon">
-        <img src={`${process.env.PUBLIC_URL}/images/mobile-app-icn.svg`} />
-      </div>
-      <div className="eth-warning-modal__title">
-        Use Lykke mobile app to deposit
-      </div>
-      <div className="eth-warning-modal__description">
-        ETH deposit functionality is currently under development and will be
-        available soon. Please use your Lykke Wallet mobile app to deposit ETH
-        to your trading wallet in the meantime.
-      </div>
-      <div className="eth-warning-modal__actions">
-        <a
-          href={APPSTORE_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="app-link"
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
-            alt="App Store"
-          />
-          Download for iOS
-        </a>
-        <a
-          href={GOOGLEPLAY_LINK}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="app-link"
-        >
-          <img
-            src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
-            alt="Google Play"
-          />
-          Download for Android
-        </a>
-      </div>
-    </div>
-  );
-
-  private handleCancelEthWarning = () => {
-    this.props.history.goBack();
   };
 
   private readonly handleCopyAddress = (text: string) => {

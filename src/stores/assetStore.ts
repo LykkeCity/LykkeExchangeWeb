@@ -34,12 +34,6 @@ export class AssetStore {
 
   getById = (id: string) => this.assets.find(a => a.id === id);
 
-  isEth = (assetId: string) => {
-    const asset = this.getById(assetId);
-
-    return assetId === 'ETH' || (asset && asset.name === 'ETH');
-  };
-
   getInstrumentById = (id: string) =>
     this.instruments.find(x => x.id.toLowerCase() === id.toLowerCase());
 

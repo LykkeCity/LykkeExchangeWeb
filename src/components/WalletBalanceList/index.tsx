@@ -143,8 +143,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                   balance.assetId
                                 ) &&
                                   wallet.isTrading &&
-                                  this.profileStore.isKycPassed &&
-                                  !this.assetStore!.isEth(balance.assetId) && (
+                                  this.profileStore.isKycPassed && (
                                     <div
                                       className="qr"
                                       // tslint:disable-next-line:jsx-no-lambda
@@ -239,85 +238,89 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                               </DropdownControl>
                               <DropdownContainer className="actions">
                                 <DropdownList className="asset-menu">
-                                  {wallet.isTrading && this.isAvailableForDeposit(
-                                    balance.assetId
-                                  ) && [
-                                    <DropdownListItem
-                                      isCategory={true}
-                                      key="Deposit"
-                                    >
-                                      Deposit
-                                    </DropdownListItem>,
-                                    this.isAvailableForCreditCardDeposit(
+                                  {wallet.isTrading &&
+                                    this.isAvailableForDeposit(
                                       balance.assetId
-                                    ) &&
-                                      this.renderMenuItem(
-                                        'Credit Card',
-                                        ROUTE_DEPOSIT_CREDIT_CARD_TO(
-                                          wallet.id,
+                                    ) && [
+                                      <DropdownListItem
+                                        isCategory={true}
+                                        key="Deposit"
+                                      >
+                                        Deposit
+                                      </DropdownListItem>,
+                                      this.isAvailableForCreditCardDeposit(
+                                        balance.assetId
+                                      ) &&
+                                        this.renderMenuItem(
+                                          'Credit Card',
+                                          ROUTE_DEPOSIT_CREDIT_CARD_TO(
+                                            wallet.id,
+                                            balance.assetId
+                                          ),
+                                          `${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
                                           balance.assetId
                                         ),
-                                        `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                                      this.isAvailableForCryptoDeposit(
                                         balance.assetId
-                                      ),
-                                    this.isAvailableForCryptoDeposit(
-                                      balance.assetId
-                                    ) &&
-                                      this.renderMenuItem(
-                                        'Blockchain Transfer',
-                                        ROUTE_DEPOSIT_CRYPTO_TO(
+                                      ) &&
+                                        this.renderMenuItem(
+                                          'Blockchain Transfer',
+                                          ROUTE_DEPOSIT_CRYPTO_TO(
+                                            balance.assetId
+                                          ),
+                                          `${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
                                           balance.assetId
                                         ),
-                                        `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                      this.isAvailableForSwiftDeposit(
                                         balance.assetId
-                                      ),
-                                    this.isAvailableForSwiftDeposit(
+                                      ) &&
+                                        this.renderMenuItem(
+                                          'SWIFT',
+                                          ROUTE_DEPOSIT_SWIFT_TO(
+                                            balance.assetId
+                                          ),
+                                          `${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                          balance.assetId
+                                        )
+                                    ]}
+                                  {wallet.isTrading &&
+                                    this.isAvailableForWithdraw(
                                       balance.assetId
-                                    ) &&
-                                      this.renderMenuItem(
-                                        'SWIFT',
-                                        ROUTE_DEPOSIT_SWIFT_TO(balance.assetId),
-                                        `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                    ) && [
+                                      <DropdownListItem
+                                        isCategory={true}
+                                        key="Withdraw"
+                                      >
+                                        Withdraw
+                                      </DropdownListItem>,
+                                      this.isAvailableForCryptoWithdraw(
                                         balance.assetId
-                                      )
-                                  ]}
-                                  {wallet.isTrading && this.isAvailableForWithdraw(
-                                    balance.assetId
-                                  ) && [
-                                    <DropdownListItem
-                                      isCategory={true}
-                                      key="Withdraw"
-                                    >
-                                      Withdraw
-                                    </DropdownListItem>,
-                                    this.isAvailableForCryptoWithdraw(
-                                      balance.assetId
-                                    ) &&
-                                      this.renderMenuItem(
-                                        'Blockchain Transfer',
-                                        ROUTE_WITHDRAW_CRYPTO_FROM(
+                                      ) &&
+                                        this.renderMenuItem(
+                                          'Blockchain Transfer',
+                                          ROUTE_WITHDRAW_CRYPTO_FROM(
+                                            balance.assetId
+                                          ),
+                                          `${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
                                           balance.assetId
                                         ),
-                                        `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                      this.isAvailableForSwiftWithdraw(
                                         balance.assetId
-                                      ),
-                                    this.isAvailableForSwiftWithdraw(
-                                      balance.assetId
-                                    ) &&
-                                      this.renderMenuItem(
-                                        'SWIFT',
-                                        ROUTE_WITHDRAW_SWIFT_FROM(
+                                      ) &&
+                                        this.renderMenuItem(
+                                          'SWIFT',
+                                          ROUTE_WITHDRAW_SWIFT_FROM(
+                                            balance.assetId
+                                          ),
+                                          `${process.env
+                                            .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
                                           balance.assetId
-                                        ),
-                                        `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                                        balance.assetId
-                                      )
-                                  ]}
+                                        )
+                                    ]}
                                   {!wallet.isTrading && (
                                     <DropdownListItem>
                                       <Link
