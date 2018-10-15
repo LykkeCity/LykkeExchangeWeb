@@ -46,7 +46,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
           </div>
           <div className="security-page__description">
             Two-Factor Authentication (2FA) enhances the security of your Lykke
-            account and is required for crypto withdrawals
+            account and is required for crypto withdrawals and trading
           </div>
           <div
             className={classnames('tfa', {
