@@ -114,7 +114,8 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     );
   }
 
-  private handleGoBack = () => {
+  private handleGoBack = (e: any) => {
+    e.preventDefault();
     this.analyticsService.track(
       AnalyticsEvent.GoBack(Place.WithdrawSwiftPage, 'button')
     );
