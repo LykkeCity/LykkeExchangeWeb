@@ -16,9 +16,9 @@ const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
 const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
 const TfaStatus = {
-  Active: 'Active',
+  Active: 'active',
   Disabled: '',
-  Forbidden: 'Forbidden'
+  Forbidden: 'forbidden'
 };
 
 export class ProfileStore {
