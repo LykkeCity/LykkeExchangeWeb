@@ -4,6 +4,7 @@ import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import {TfaDisabledBanner} from '../../components/Banner/TfaDisabledBanner';
 import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
@@ -40,6 +41,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
     return (
       <div className="security-page">
         <div className="container">
+          <TfaDisabledBanner show={this.profileStore.is2faForbidden} />
           <h2 className="security-page__title">Security</h2>
           <div className="security-page__subtitle">
             Two-Factor Authentication
@@ -61,7 +63,11 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                   />
                   Google Authenticator
                 </div>
-                <div className="tfa__badge">Enabled</div>
+                {this.profileStore.is2faForbidden ? (
+                  <div className="tfa__badge tfa__badge_warning">Forbidden</div>
+                ) : (
+                  <div className="tfa__badge">Enabled</div>
+                )}
               </div>
               <div className="tfa__qr">
                 <QRCode size={QR_SIZE} value={qrValue} />

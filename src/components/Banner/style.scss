@@ -44,6 +44,10 @@
     }
   }
 
+  &_tfa-disabled {
+    margin: 30px auto 5px;
+  }
+
   &__title {
     color: $heading;
     font-family: $ff;
