@@ -126,8 +126,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                   </div>
                 </div>
               ) : (
-                asset.address &&
-                !this.assetStore.isEth(asset.id) && (
+                asset.address && (
                   <div
                     className="asset-page__address"
                     onClick={this.trackClickQrArea}
