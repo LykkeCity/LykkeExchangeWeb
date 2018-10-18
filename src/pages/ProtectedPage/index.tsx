@@ -146,6 +146,7 @@ export class ProtectedPage extends React.Component<
       }
       this.uiStore.hideModals();
       this.uiStore.startRequest();
+      this.profileStore.fetch2faStatus();
       this.walletStore.fetchWallets().then(() => {
         this.dialogStore.fetchPendingDialogs();
         this.uiStore.finishRequest();
