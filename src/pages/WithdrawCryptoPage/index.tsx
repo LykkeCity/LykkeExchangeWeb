@@ -250,11 +250,16 @@ export class WithdrawCryptoPage extends React.Component<
     );
 
     if (isValid) {
-      this.listenSocket(formikBag);
-      this.operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
-        assetId,
-        values
-      );
+      try {
+        this.operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
+          assetId,
+          values
+        );
+        this.listenSocket(formikBag);
+      } catch (e) {
+        this.profileStore.fetch2faStatus();
+        window.scrollTo(0, 0);
+      }
     } else {
       setFieldError('baseAddress', 'Address is not valid');
       setSubmitting(false);
