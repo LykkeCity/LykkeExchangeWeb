@@ -8,6 +8,7 @@ import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
 import {Banner} from '../../components/Banner';
+import {TfaDisabledBanner} from '../../components/Banner/TfaDisabledBanner';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
   ROUTE_CONFIRM_OPERATION_ID,
@@ -75,6 +76,7 @@ export class WithdrawCryptoPage extends React.Component<
       <div>
         <div className="container">
           <div className="withdraw-crypto">
+            <TfaDisabledBanner show={this.profileStore.is2faForbidden} />
             <Banner
               show={!this.profileStore.is2faEnabled}
               className="tfa-banner"
@@ -248,11 +250,16 @@ export class WithdrawCryptoPage extends React.Component<
     );
 
     if (isValid) {
-      this.listenSocket(formikBag);
-      this.operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
-        assetId,
-        values
-      );
+      try {
+        this.operationId = await this.withdrawStore.sendWithdrawCryptoRequest(
+          assetId,
+          values
+        );
+        this.listenSocket(formikBag);
+      } catch (e) {
+        this.profileStore.fetch2faStatus();
+        window.scrollTo(0, 0);
+      }
     } else {
       setFieldError('baseAddress', 'Address is not valid');
       setSubmitting(false);
@@ -366,7 +373,8 @@ export class WithdrawCryptoPage extends React.Component<
             disabled={
               formikBag.isSubmitting ||
               !formikBag.isValid ||
-              !this.profileStore.is2faEnabled
+              !this.profileStore.is2faEnabled ||
+              this.profileStore.is2faForbidden
             }
           />
           <a href="#" onClick={this.handleGoBack} className="btn btn--flat">

@@ -69,6 +69,10 @@
       margin-top: 2px;
 
       @include rem(font-size, 13px);
+
+      &_warning {
+        background-color: $yellow;
+      }
     }
 
     &__title {
@@ -169,6 +173,11 @@
         margin: 0 auto 30px;
       }
     }
+  }
+
+  .banner {
+    margin: 0 auto 30px;
+    width: 100%;
   }
 
   .help-block {

@@ -5,6 +5,7 @@ import {RootStoreProps} from '../../App';
 import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {Banner} from '../Banner';
+import {TfaDisabledBanner} from '../Banner/TfaDisabledBanner';
 import {TabPane} from '../Tabs';
 import HftContent from './HftContent';
 import './style.css';
@@ -12,6 +13,7 @@ import './style.css';
 interface WalletTabsProps {
   analyticsService?: any;
   activeTabRoute?: string;
+  show2faDisabledBanner?: boolean;
   showBetaBanner?: boolean;
   showKycBanner?: boolean;
   showKycPendingBanner?: boolean;
@@ -24,6 +26,7 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
     return (
       <div className="wallet-tabs">
         <TabPane to={ROUTE_WALLETS_TRADING}>
+          <TfaDisabledBanner show={this.props.show2faDisabledBanner} />
           <Banner
             show={this.props.showKycBanner}
             className="kyc-banner"
@@ -89,6 +92,7 @@ export default withRouter(
     analyticsService: rootStore!.analyticsService,
     handleHideBetaBannerClick: rootStore!.uiStore.hideBetaBanner,
     onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
+    show2faDisabledBanner: rootStore!.profileStore.is2faForbidden,
     showBetaBanner: rootStore!.uiStore.showBetaBanner,
     showKycBanner:
       !rootStore!.profileStore.isKycPassed &&

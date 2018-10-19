@@ -15,10 +15,26 @@ import {RootStore} from './index';
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
 const baseCurrencyStorage = StorageUtils.withKey(BASE_CURRENCY_STORAGE_KEY);
 
+const TfaStatus = {
+  Active: 'active',
+  Disabled: '',
+  Forbidden: 'forbidden'
+};
+
 export class ProfileStore {
   @observable baseAsset: string = baseCurrencyStorage.get() || 'USD';
-  @observable is2faEnabled = false;
+  @observable tfaStatus: string = '';
   @observable code2fa: string;
+
+  @computed
+  get is2faEnabled() {
+    return this.tfaStatus !== TfaStatus.Disabled;
+  }
+
+  @computed
+  get is2faForbidden() {
+    return this.tfaStatus === TfaStatus.Forbidden;
+  }
 
   @computed
   get baseAssetAsModel() {
@@ -92,7 +108,9 @@ export class ProfileStore {
     const resp = await this.api!.get2faStatus();
 
     runInAction(() => {
-      this.is2faEnabled = resp && resp.length;
+      if (resp && resp.length) {
+        this.tfaStatus = resp[0].Status;
+      }
     });
   };
 
@@ -108,7 +126,9 @@ export class ProfileStore {
     const resp = await this.api!.enable2fa(code);
 
     runInAction(() => {
-      this.is2faEnabled = resp && resp.IsValid;
+      if (resp && resp.IsValid) {
+        this.tfaStatus = TfaStatus.Active;
+      }
     });
 
     return resp && resp.IsValid;
