@@ -5,7 +5,7 @@ import {RootStoreProps} from '../../App';
 import {
   ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
   ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
-  ROUTE_WALLETS
+  ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 
@@ -19,6 +19,10 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
   readonly depositStore = this.props.rootStore!.depositStore;
 
   componentDidMount() {
+    if (!this.depositStore.gatewayUrls.paymentUrl) {
+      this.props.history.goBack();
+    }
+
     window.scrollTo(0, 0);
   }
 
@@ -40,7 +44,7 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
         [this.depositStore.gatewayUrls
           .okUrl]: ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
         [this.depositStore.gatewayUrls.failUrl]: ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
-        [this.depositStore.gatewayUrls.cancelUrl]: ROUTE_WALLETS
+        [this.depositStore.gatewayUrls.cancelUrl]: ROUTE_WALLETS_TRADING
       };
       const redirectUrl = redirectUrls[currentUrl];
 
