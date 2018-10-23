@@ -3,7 +3,6 @@ import {RootStore} from '.';
 import {DepositApi} from '../api/depositApi';
 import {ApiResponse} from '../api/types';
 import {
-  convertFieldName,
   DepositCreditCardModel,
   DepositSwiftModel,
   GatewayUrls
@@ -40,15 +39,7 @@ export class DepositStore {
       response = await this.api!.fetchBankCardPaymentUrl(deposit);
     } catch (err) {
       if (err.message) {
-        const errors = JSON.parse(err.message);
-        const invalidFieldsNames = Object.keys(errors);
-        const errMessages = {errorList: {}};
-        invalidFieldsNames.forEach(fieldName => {
-          errMessages[convertFieldName(fieldName)] = errors[fieldName][0];
-        });
-        throw {
-          errMessages
-        };
+        throw JSON.parse(err.message);
       }
       throw {
         message: 'Something went wrong. Please check form or try again later.'

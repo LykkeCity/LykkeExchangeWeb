@@ -35,7 +35,6 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   asset,
   handleGoBack,
   handleViewTermsOfUse,
-  onDisclaimerError,
   onSuccess
 }) => {
   const {
@@ -48,7 +47,6 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   }));
   const requiredErrorMessage = (fieldName: string) =>
     `Field ${fieldName} should not be empty`;
-  const DISCLAIMER_ERROR_MESSAGE = 'User has pending disclaimer';
   const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
   return (
@@ -80,11 +78,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
       // tslint:disable-next-line:jsx-no-lambda
       onSubmit={async (
         values: DepositCreditCardModel,
-        {
-          setErrors,
-          setStatus,
-          setSubmitting
-        }: FormikActions<DepositCreditCardModel>
+        {setStatus, setSubmitting}: FormikActions<DepositCreditCardModel>
       ) => {
         setStatus(null);
         deposit.update(values);
@@ -92,18 +86,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           const gatewayUrls = await fetchBankCardPaymentUrl(deposit);
           onSuccess(gatewayUrls);
         } catch (err) {
-          if (err.errMessages) {
-            setErrors(err.errMessages);
-            if (
-              err.errMessages.assetId &&
-              err.errMessages.assetId === DISCLAIMER_ERROR_MESSAGE
-            ) {
-              onDisclaimerError();
-            }
-            window.scrollTo(0, 0);
-          } else {
-            setStatus(err.message);
-          }
+          setStatus(err.message);
           setSubmitting(false);
         }
       }}

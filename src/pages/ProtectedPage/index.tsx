@@ -37,6 +37,7 @@ import {
   ROUTE_DEPOSIT_CRYPTO,
   ROUTE_DEPOSIT_SWIFT,
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
+  ROUTE_GATEWAY_CANCEL,
   ROUTE_GATEWAY_FAIL,
   ROUTE_GATEWAY_SUCCESS,
   ROUTE_HISTORY,
@@ -162,9 +163,17 @@ export class ProtectedPage extends React.Component<
 
   render() {
     const asLoading = loadable(this.uiStore.hasPendingRequests);
+    const gatewayUrls = [
+      ROUTE_GATEWAY_CANCEL,
+      ROUTE_GATEWAY_FAIL,
+      ROUTE_GATEWAY_SUCCESS
+    ];
+
     return (
       <div
-        className={classNames(this.classes)}
+        className={classNames(this.classes, {
+          hidden: gatewayUrls.indexOf(this.props.history.location.pathname) > -1
+        })}
         onClick={this.handleOutsideClick}
       >
         <Header />
@@ -274,16 +283,6 @@ export class ProtectedPage extends React.Component<
               component={asLoading(ConfirmOperationPage)}
             />
             <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
-            <Route
-              path={ROUTE_GATEWAY_FAIL}
-              // tslint:disable-next-line:jsx-no-lambda
-              render={() => <div />}
-            />
-            <Route
-              path={ROUTE_GATEWAY_SUCCESS}
-              // tslint:disable-next-line:jsx-no-lambda
-              render={() => <div />}
-            />
             <Route component={NoMatch} />
           </Switch>
         </div>

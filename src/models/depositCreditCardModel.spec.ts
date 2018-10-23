@@ -1,9 +1,6 @@
 import {RootStore} from '../stores';
 import {AssetModel, DepositCreditCardModel, WalletModel} from './';
-import {
-  convertFieldName,
-  DEFAULT_DEPOSIT_OPTION
-} from './depositCreditCardModel';
+import {DEFAULT_DEPOSIT_OPTION} from './depositCreditCardModel';
 
 const rootStore = new RootStore();
 const wallet = new WalletModel(rootStore.walletStore);
@@ -22,23 +19,6 @@ const deposit = new DepositCreditCardModel({
   phone: '123123123',
   wallet,
   zip: '12345'
-});
-
-describe('convertFieldName', () => {
-  it('should convert API field name', () => {
-    expect(convertFieldName('Address')).toBe('address');
-    expect(convertFieldName('Amount')).toBe('amount');
-    expect(convertFieldName('AssetId')).toBe('assetId');
-    expect(convertFieldName('City')).toBe('city');
-    expect(convertFieldName('Country')).toBe('country');
-    expect(convertFieldName('DepositOption')).toBe('depositOption');
-    expect(convertFieldName('Email')).toBe('email');
-    expect(convertFieldName('FirstName')).toBe('firstName');
-    expect(convertFieldName('LastName')).toBe('lastName');
-    expect(convertFieldName('Phone')).toBe('phone');
-    expect(convertFieldName('WalletId')).toBe('walletId');
-    expect(convertFieldName('Zip')).toBe('zip');
-  });
 });
 
 describe('DepositCreditCardModel', () => {
