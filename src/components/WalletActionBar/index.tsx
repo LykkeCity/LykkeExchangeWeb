@@ -100,7 +100,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                     <DropdownList className="wallet-menu">
                       {this.renderMenuItem(
                         `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                          .PUBLIC_URL}/images/paymentMethods/withdraw-bl-transfer-icn.svg`,
                         'Blockchain Transfer',
                         assetsAvailableForCryptoWithdraw,
                         (assetId: string) => ROUTE_WITHDRAW_CRYPTO_FROM(assetId)
@@ -109,7 +109,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                     <DropdownList className="wallet-menu">
                       {this.renderMenuItem(
                         `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                          .PUBLIC_URL}/images/paymentMethods/withdraw-swift-icn.svg`,
                         'SWIFT',
                         assetsAvailableForSwiftWithdraw,
                         (assetId: string) => ROUTE_WITHDRAW_SWIFT_FROM(assetId)
