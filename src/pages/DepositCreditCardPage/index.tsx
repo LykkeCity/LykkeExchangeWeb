@@ -184,7 +184,7 @@ export class DepositCreditCardPage extends React.Component<
     );
 
     this.depositStore.setGatewayUrls(gatewayUrls);
-    this.props.history.replace(ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY);
+    this.props.history.push(ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY);
   };
 }
 

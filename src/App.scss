@@ -17,6 +17,8 @@
 @import 'styles/components/headings';
 
 .app__shell {
+  overflow-x: auto;
+
   @include rem(padding, 110px 0 20px);
   @include rem(margin-bottom, 50px);
 
