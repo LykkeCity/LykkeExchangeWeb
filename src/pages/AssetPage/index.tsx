@@ -179,7 +179,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     this.renderMenuItem(
                       ROUTE_WITHDRAW_CRYPTO_FROM(asset.id),
                       `${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                        .PUBLIC_URL}/images/paymentMethods/withdraw-bl-transfer-icn.svg`,
                       'Blockchain Transfer',
                       asset.id
                     )}
@@ -187,7 +187,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     this.renderMenuItem(
                       ROUTE_WITHDRAW_SWIFT_FROM(asset.id),
                       `${process.env
-                        .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                        .PUBLIC_URL}/images/paymentMethods/withdraw-swift-icn.svg`,
                       'SWIFT',
                       asset.id
                     )}

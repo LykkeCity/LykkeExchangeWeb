@@ -305,7 +305,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                             balance.assetId
                                           ),
                                           `${process.env
-                                            .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                                            .PUBLIC_URL}/images/paymentMethods/withdraw-bl-transfer-icn.svg`,
                                           balance.assetId
                                         ),
                                       this.isAvailableForSwiftWithdraw(
@@ -317,7 +317,7 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                             balance.assetId
                                           ),
                                           `${process.env
-                                            .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                                            .PUBLIC_URL}/images/paymentMethods/withdraw-swift-icn.svg`,
                                           balance.assetId
                                         )
                                     ]}
