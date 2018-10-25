@@ -65,19 +65,3 @@ export class DepositCreditCardModel {
     };
   }
 }
-
-export const convertFieldName = (apiFieldName: string) =>
-  ({
-    Address: 'address',
-    Amount: 'amount',
-    AssetId: 'assetId',
-    City: 'city',
-    Country: 'country',
-    DepositOption: 'depositOption',
-    Email: 'email',
-    FirstName: 'firstName',
-    LastName: 'lastName',
-    Phone: 'phone',
-    WalletId: 'walletId',
-    Zip: 'zip'
-  }[apiFieldName]);
