@@ -2,11 +2,6 @@
 
 .container-table-assets {
   width: 100%;
-
-  @media all and (max-width: $screen-mobile) {
-    overflow-x: scroll;
-    overflow-y: hidden;
-  }
 }
 
 .table_assets {

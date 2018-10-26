@@ -17,8 +17,6 @@
 @import 'styles/components/headings';
 
 .app__shell {
-  overflow-x: auto;
-
   @include rem(padding, 110px 0 20px);
   @include rem(margin-bottom, 50px);
 
@@ -74,10 +72,6 @@ body {
 
   @media all and (min-width: $screen-tablet + 1) {
     @include rem(padding-bottom, 419px);
-  }
-
-  @media all and (max-width: $screen-mobile) {
-    overflow-x: hidden;
   }
 }
 
