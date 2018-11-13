@@ -41,7 +41,9 @@ class SocketStore {
 
     wampProxy.onclose = () => {
       this.onConnectionClose();
-      this.backoff.backoff();
+      // TODO: review connection abort logic
+      // tslint:disable-next-line:no-unused-expression
+      this.backoff && this.backoff.backoff();
     };
 
     this.socket = new Socket(wampProxy);
