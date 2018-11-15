@@ -176,7 +176,13 @@ export class ProtectedPage extends React.Component<
         })}
         onClick={this.handleOutsideClick}
       >
-        <Header />
+        <div
+          className={classNames({
+            hidden: this.uiStore.hasPendingRequests
+          })}
+        >
+          <Header />
+        </div>
         <div className="app__shell">
           <Switch>
             <Redirect
@@ -286,7 +292,13 @@ export class ProtectedPage extends React.Component<
             <Route component={NoMatch} />
           </Switch>
         </div>
-        <Footer />
+        <div
+          className={classNames({
+            hidden: this.uiStore.hasPendingRequests
+          })}
+        >
+          <Footer />
+        </div>
       </div>
     );
   }
