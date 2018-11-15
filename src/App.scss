@@ -23,6 +23,14 @@
   @media all and (min-width: $screen-tablet + 1) {
     @include rem(margin-bottom, 70px);
   }
+
+  > .spinner_container {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: $white;
+    z-index: 1111111;
+  }
 }
 
 .app--overlayed {
