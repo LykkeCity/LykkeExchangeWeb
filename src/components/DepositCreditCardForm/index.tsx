@@ -49,6 +49,44 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
     `Field ${fieldName} should not be empty`;
   const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
+  const renderError = (field: any, form: any) =>
+    form.errors[field.name] &&
+    form.touched[field.name] && (
+      <span className="help-block">{form.errors[field.name]}</span>
+    );
+
+  const renderField = (
+    name: string,
+    label: string,
+    type = 'text',
+    isDisabled = false
+  ) => (
+    <Field
+      name={name}
+      // tslint:disable-next-line:jsx-no-lambda
+      render={({field, form}: FieldProps<DepositCreditCardModel>) => (
+        <div
+          className={classNames('form-group', {
+            'has-error': form.errors[field.name] && form.touched[field.name]
+          })}
+        >
+          <label htmlFor={field.name} className="control-label">
+            {label}
+          </label>
+          <div className="error-bar" />
+          <input
+            id={field.name}
+            type={type}
+            {...field}
+            className="form-control"
+            disabled={isDisabled}
+          />
+          {renderError(field, form)}
+        </div>
+      )}
+    />
+  );
+
   return (
     <Formik
       initialValues={deposit}
@@ -99,7 +137,8 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             render={({field, form}: FieldProps<DepositCreditCardModel>) => (
               <div
                 className={classNames('form-group inline-form', {
-                  'has-error': form.errors[field.name]
+                  'has-error':
+                    form.errors[field.name] && form.touched[field.name]
                 })}
               >
                 <div className="row">
@@ -115,30 +154,34 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       </div>
                       <div className="error-bar" />
                       <AmountInput
-                        onChange={field.onChange}
+                        onChange={(e: any) => {
+                          form.setFieldTouched(field.name);
+                          field.onChange(e);
+                        }}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />
-                      {form.errors[field.name] && (
-                        <span className="help-block">
-                          {form.errors[field.name] ===
-                          DAILY_LIMIT_ERROR_MESSAGE ? (
-                            <span>
-                              Credit card deposit limits reached.{' '}
-                              <a
-                                className="link"
-                                href="https://www.lykke.com/cp/wallet-fees-and-limits"
-                                target="_blank"
-                              >
-                                Read More
-                              </a>
-                            </span>
-                          ) : (
-                            form.errors[field.name]
-                          )}
-                        </span>
-                      )}
+                      {form.errors[field.name] &&
+                        form.touched[field.name] && (
+                          <span className="help-block">
+                            {form.errors[field.name] ===
+                            DAILY_LIMIT_ERROR_MESSAGE ? (
+                              <span>
+                                Credit card deposit limits reached.{' '}
+                                <a
+                                  className="link"
+                                  href="https://www.lykke.com/cp/wallet-fees-and-limits"
+                                  target="_blank"
+                                >
+                                  Read More
+                                </a>
+                              </span>
+                            ) : (
+                              form.errors[field.name]
+                            )}
+                          </span>
+                        )}
                       {!!feePercentage && (
                         <div className="fee-label">
                           Fee: {asset && asset.name}{' '}
@@ -160,61 +203,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
 
           <div className="row">
             <div className="col-sm-6">
-              <Field
-                name="firstName"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      First Name
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className="form-control"
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
+              {renderField('firstName', 'First Name')}
             </div>
 
             <div className="col-sm-6">
-              <Field
-                name="lastName"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      Last Name
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className="form-control"
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
+              {renderField('lastName', 'Last Name')}
             </div>
           </div>
 
@@ -225,7 +218,8 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                 render={({field, form}: FieldProps<DepositCreditCardModel>) => (
                   <div
                     className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
+                      'has-error':
+                        form.errors[field.name] && form.touched[field.name]
                     })}
                   >
                     <label htmlFor={field.name} className="control-label">
@@ -233,11 +227,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                     </label>
                     <div className="error-bar" />
                     <FormSelect options={countryOptions} {...field} />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
+                    {renderError(field, form)}
                   </div>
                 )}
               />
@@ -245,155 +235,22 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           </div>
 
           <div className="row">
-            <div className="col-sm-6">
-              <Field
-                name="city"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      City
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className="form-control"
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-            </div>
+            <div className="col-sm-6">{renderField('city', 'City')}</div>
 
-            <div className="col-sm-6">
-              <Field
-                name="zip"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      ZIP
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className="form-control"
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-            </div>
+            <div className="col-sm-6">{renderField('zip', 'ZIP')}</div>
           </div>
 
           <div className="row">
-            <div className="col-sm-12">
-              <Field
-                name="address"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      Address
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="text"
-                      {...field}
-                      className="form-control"
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
-            </div>
+            <div className="col-sm-12">{renderField('address', 'Address')}</div>
           </div>
 
           <div className="row">
             <div className="col-sm-6">
-              <Field
-                name="phone"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      Phone Number
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="tel"
-                      {...field}
-                      className="form-control"
-                      disabled={true}
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
+              {renderField('phone', 'Phone Number', 'tel', true)}
             </div>
 
             <div className="col-sm-6">
-              <Field
-                name="email"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error': form.errors[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      E-mail
-                    </label>
-                    <div className="error-bar" />
-                    <input
-                      id={field.name}
-                      type="email"
-                      {...field}
-                      className="form-control"
-                      disabled={true}
-                    />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
-                  </div>
-                )}
-              />
+              {renderField('email', 'E-mail', 'email', true)}
             </div>
           </div>
 

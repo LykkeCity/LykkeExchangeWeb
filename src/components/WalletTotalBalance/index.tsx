@@ -15,7 +15,7 @@ export const WalletTotalBalance: React.SFC<WalletTotalBalanceProps> = ({
   rootStore
 }) => (
   <div className="wallet__total">
-    <div className="wallet__total-balance">Total balance</div>
+    <div className="wallet__total-balance">Balance</div>
     <h3 className="wallet__total-balance-value">
       {!!rootStore!.profileStore.baseAssetAsModel && (
         <span>
