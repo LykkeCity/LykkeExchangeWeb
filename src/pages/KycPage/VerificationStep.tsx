@@ -23,7 +23,7 @@ const CODE_SIZE = 5;
 export class VerificationStep extends React.Component<VerificationStepProps> {
   @observable code = '';
   @observable timerSeconds = 59;
-  @observable timerInterval: number;
+  @observable timerTimeout: number;
 
   @computed
   get canResendCode() {
@@ -32,6 +32,12 @@ export class VerificationStep extends React.Component<VerificationStepProps> {
 
   componentDidMount() {
     this.startTimer();
+  }
+
+  componentWillUnmount() {
+    if (this.timerTimeout) {
+      window.clearTimeout(this.timerTimeout);
+    }
   }
 
   render() {
@@ -105,14 +111,16 @@ export class VerificationStep extends React.Component<VerificationStepProps> {
     this.startTimer();
   };
 
+  private timerTick = () => {
+    this.timerSeconds--;
+    if (this.timerSeconds > 0) {
+      this.timerTimeout = window.setTimeout(this.timerTick, 1000);
+    }
+  };
+
   private startTimer = () => {
     this.timerSeconds = 59;
-    this.timerInterval = window.setInterval(() => {
-      this.timerSeconds--;
-      if (this.timerSeconds === 0) {
-        window.clearInterval(this.timerInterval);
-      }
-    }, 1000);
+    this.timerTimeout = window.setTimeout(this.timerTick, 1000);
   };
 }
 

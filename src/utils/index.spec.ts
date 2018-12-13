@@ -3,6 +3,7 @@ import {
   moneyCeil,
   moneyFloor,
   moneyRound,
+  padStart,
   pipe,
   plural,
   seq
@@ -159,5 +160,35 @@ describe('moneyRound', () => {
 
   it('should avoid Floating-Point issue', () => {
     expect(moneyRound(0.1 + 0.2)).toBe(0.3);
+  });
+});
+
+describe('padStart', () => {
+  it('should pad start with single character', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
+  });
+
+  it('should not pad if string already of maximum length noops', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
+  });
+
+  it('should not pad if string already larger than maximum length noops', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
+  });
+
+  it('should absent maximum length is noop', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
+  });
+
+  it('should absent fillStr defaults to a space', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
+  });
+
+  it('should non-string fillStr gets stringified', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
+  });
+
+  it('should pad start with single character', () => {
+    expect(padStart('a', 3, 'b')).toBe('bba');
   });
 });
