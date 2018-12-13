@@ -67,4 +67,6 @@ export const ROUTE_WITHDRAW_SWIFT_FROM = (assetId: string) =>
 export const ROUTE_WITHDRAW_SWIFT_SUCCESS = `${ROUTE_WITHDRAW_SWIFT_BASE}/success`;
 export const ROUTE_WITHDRAW_SWIFT_FAIL = `${ROUTE_WITHDRAW_SWIFT_BASE}/fail`;
 
+export const ROUTE_KYC = '/kyc';
+
 export const ROUTE_AUTH = '/auth';

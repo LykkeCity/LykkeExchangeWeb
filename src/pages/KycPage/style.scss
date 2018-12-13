@@ -1,0 +1,391 @@
+@import '../../styles/utils';
+
+$screen-medium: 1024px;
+$screen-small: 768px;
+
+.kyc-page {
+  background-color: rgb(250, 250, 250);
+
+  .container {
+    padding: 0;
+    background: $white;
+    width: 940px;
+
+    @media (max-width: $screen-medium) {
+      width: 100%;
+    }
+
+    @media (max-width: 920px) {
+      .col-sm-5,
+      .col-sm-7 {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: $screen-small) {
+      .col-sm-5,
+      .col-sm-7 {
+        width: auto;
+        float: none;
+      }
+    }
+  }
+
+  &__color {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 50%;
+    height: 100%;
+    background-color: $white;
+  }
+
+  &__header {
+    position: relative;
+    height: 75px;
+    background: $text;
+    display: flex;
+    align-items: center;
+    text-align: right;
+
+    .container {
+      background: $text;
+    }
+
+    a {
+      font-size: 18px;
+      line-height: 1.33;
+
+      &:hover {
+        color: $blue;
+      }
+    }
+  }
+
+  &__logo {
+    position: absolute;
+    top: 19px;
+    left: 22px;
+  }
+
+  .kyc-page-badge {
+    width: 300px;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    border-radius: 47px;
+    box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2),
+      0 2px 4px 0 rgba(140, 148, 160, 0.15);
+    position: relative;
+    top: -42.5px;
+    background: $white;
+
+    img {
+      width: 62px;
+      height: 62px;
+      border-radius: 47px;
+      margin: 0 25px 0 15px;
+    }
+
+    &__title {
+      font-size: 10px;
+      font-weight: $fw-semi;
+      line-height: 1.2;
+      letter-spacing: 1.6px;
+      color: $gray-dark;
+      text-transform: uppercase;
+    }
+
+    &__name {
+      font-size: 20px;
+      font-weight: $fw-bold;
+      line-height: 1.2;
+      color: $heading;
+    }
+
+    &__description {
+      font-size: 13px;
+      line-height: 1.23;
+      color: $gray-dark;
+      margin-right: 65px;
+    }
+
+    @media (max-width: 1200px) {
+      top: 82px;
+      margin-bottom: 113px;
+    }
+  }
+
+  &__sidebar {
+    background-color: rgb(250, 250, 250);
+    padding: 0 68px !important;
+    z-index: 111;
+    min-height: calc(100vh - 75px) !important;
+
+    .kyc-account-info-wrapper {
+      display: flex;
+      margin-bottom: 28px;
+      position: relative;
+
+      > img {
+        width: 62px;
+        height: 62px;
+        border-radius: 47px;
+        margin-right: 40px;
+      }
+
+      .kyc-account-info {
+        &__label {
+          font-size: 10px;
+          font-weight: $fw-semi;
+          line-height: 1.2;
+          letter-spacing: 1.6px;
+          color: $gray-dark;
+          text-transform: uppercase;
+          margin-bottom: 13px;
+        }
+
+        &__name {
+          font-size: 32px;
+          font-weight: $fw-semi;
+          line-height: 0.75;
+          color: $heading;
+          margin-bottom: 10px;
+          margin-top: 21px;
+        }
+
+        &__description {
+          width: 192px;
+          line-height: 1.38;
+          color: #657180;
+          margin-bottom: 22px;
+        }
+
+        &__steps {
+          li {
+            line-height: 1.38;
+            color: #657180;
+            margin-bottom: 19px;
+
+            .step-icon {
+              display: inline-block;
+              width: 18px;
+              height: 18px;
+              border-radius: 47px;
+              border: 1px solid #657180;
+              position: relative;
+              top: 4px;
+              margin-right: 5px;
+            }
+
+            &.active {
+              color: $blue;
+
+              .step-icon {
+                border-color: $blue;
+                padding: 0 4px;
+              }
+            }
+          }
+        }
+
+        .chevron {
+          font-size: 16px;
+          cursor: pointer;
+          position: absolute;
+          right: -60px;
+
+          img {
+            width: 36px;
+          }
+
+          @media (max-width: $screen-medium) {
+            right: -35px;
+          }
+        }
+      }
+
+      &_current {
+        > img {
+          width: 76px;
+          height: 76px;
+          border: 1px solid $blue;
+          padding: 7px;
+          margin-right: 28px;
+        }
+
+        .kyc-account-info {
+          &__name {
+            color: $blue;
+            margin-top: 0;
+          }
+        }
+      }
+    }
+
+    @media (max-width: $screen-small) {
+      &.col-sm-5 {
+        position: fixed;
+        left: -436px;
+        transition: all 0.5s;
+
+        &.kyc-page__sidebar_opened {
+          left: 0;
+        }
+      }
+    }
+  }
+
+  &__sidebar-toggle {
+    position: fixed;
+    z-index: 111;
+    left: 0;
+    top: 158px;
+    display: none;
+    border-top-right-radius: 47px;
+    border-bottom-right-radius: 47px;
+    padding: 10px 14px 12px 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2),
+      0 2px 4px 0 rgba(140, 148, 160, 0.15);
+
+    @media (max-width: $screen-small) {
+      display: block;
+    }
+  }
+
+  .verification {
+    text-align: center;
+    margin-top: 80px;
+
+    &__title {
+      font-family: $ff-alt;
+      font-weight: $fw-bold;
+      line-height: 1.88;
+      letter-spacing: -0.4px;
+      color: $heading;
+
+      @include rem(font-size, 32px);
+    }
+
+    &__description {
+      line-height: 1.2;
+      margin-top: 12px;
+      color: #657180;
+
+      @include rem(font-size, 20px);
+    }
+
+    &__code {
+      margin: 40px auto 0;
+
+      input {
+        width: 50px;
+        height: 70px;
+        color: $heading;
+        border: 1px solid $gray-25;
+        border-radius: 4px;
+        margin-right: 10px;
+        text-align: center;
+
+        @include rem(font-size, 21px);
+      }
+    }
+
+    &__hint {
+      margin-top: 35px;
+      line-height: 1.38;
+      color: #657180;
+
+      @include rem(font-size, 16px);
+    }
+
+    &__button {
+      width: 300px;
+      margin-top: 34px;
+      font-weight: $fw-regular;
+
+      @include rem(font-size, 18px);
+
+      &:disabled {
+        background: #0da7fc !important;
+        color: $white !important;
+        opacity: 0.5;
+      }
+    }
+
+    &__resend-hint {
+      margin-top: 33px;
+      line-height: 1.5;
+      color: #657180;
+
+      @include rem(font-size, 12px);
+    }
+
+    &__resend-link {
+      font-weight: $fw-semi;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-top: 10px;
+      color: $blue;
+
+      @include rem(font-size, 14px);
+    }
+
+    &__timer {
+      margin-top: 10px;
+      line-height: 1.43;
+      color: #a9afb8;
+
+      @include rem(font-size, 14px);
+
+      img {
+        position: relative;
+        bottom: 2px;
+        margin-right: 8px;
+      }
+    }
+
+    @media (max-width: $screen-small) {
+      margin-top: 96px;
+    }
+  }
+
+  &__notification {
+    width: 770px;
+    height: 60px;
+    z-index: 1111111;
+    border-radius: 8px;
+    background-color: rgba(0, 0, 0, 0.87);
+    padding: 16px 1px 14px 20px;
+    position: fixed;
+    bottom: 13px;
+    font-weight: $fw-semi;
+    line-height: 1.67;
+    color: $white;
+    left: 50%;
+    transform: translateX(-50%);
+
+    @include rem(font-size, 18px);
+
+    img {
+      margin-right: 14px;
+    }
+
+    .close-button {
+      float: right;
+      cursor: pointer;
+    }
+
+    @media (max-width: $screen-medium) {
+      width: 90%;
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    right: 0;
+    bottom: 25px;
+    padding-right: 25px;
+  }
+}

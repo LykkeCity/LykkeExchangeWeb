@@ -107,3 +107,20 @@ export const getHash = (
   shajs(algorithm)
     .update(value)
     .digest(encoding);
+
+export const padStart = (
+  target: string,
+  targetLength: number,
+  padString: string
+) => {
+  padString = String(typeof padString !== 'undefined' ? padString : ' ');
+  if (target.length >= targetLength) {
+    return String(target);
+  } else {
+    targetLength = targetLength - target.length;
+    if (targetLength > padString.length) {
+      padString += padString.repeat(targetLength / padString.length);
+    }
+    return padString.slice(0, targetLength) + String(target);
+  }
+};

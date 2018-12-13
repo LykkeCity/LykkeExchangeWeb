@@ -2,9 +2,10 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import ProtectedRoute from './components/ProtectedRoute/index';
-import {ROUTE_AUTH, ROUTE_ROOT} from './constants/routes';
+import {ROUTE_AUTH, ROUTE_KYC, ROUTE_ROOT} from './constants/routes';
 import {STORE_ROOT} from './constants/stores';
 import AuthPage from './pages/AuthPage/index';
+import KycPage from './pages/KycPage/index';
 import ProtectedPage from './pages/ProtectedPage/index';
 import {RootStore} from './stores';
 import './utils/polyfills';
@@ -22,6 +23,7 @@ class App extends React.Component<RootStoreProps> {
         <div>
           <Switch>
             <Route exact={true} path={ROUTE_AUTH} component={AuthPage} />
+            <Route exact={true} path={ROUTE_KYC} component={KycPage} />
             <ProtectedRoute path={ROUTE_ROOT} component={ProtectedPage} />
           </Switch>
         </div>
