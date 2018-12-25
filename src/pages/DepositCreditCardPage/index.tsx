@@ -1,9 +1,8 @@
+import {Dialog} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {APPSTORE_LINK, GOOGLEPLAY_LINK} from '../../components/Apps';
-import {Banner} from '../../components/Banner';
 import ClientDialog from '../../components/ClientDialog';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
@@ -54,7 +53,6 @@ export class DepositCreditCardPage extends React.Component<
       clientDialog.visible = true;
     }
 
-    this.uiStore.showDisclaimerError = false;
     window.scrollTo(0, 0);
   }
 
@@ -72,6 +70,7 @@ export class DepositCreditCardPage extends React.Component<
       (dialog: DialogModel) =>
         dialog.conditionType === DialogConditionType.Predeposit
     );
+    const assetDisclaimer = this.dialogStore.assetDisclaimers[0];
 
     return (
       <div className="container">
@@ -83,41 +82,20 @@ export class DepositCreditCardPage extends React.Component<
               onDialogCancel={this.handleDialogCancel}
             />
           )}
-          <Banner
-            show={this.uiStore.showDisclaimerError}
-            warning
-            className="disclaimer-banner"
-            title="Pending disclaimer"
-            text="You need to accept pending disclaimer with your Lykke Wallet mobile app."
-            footer={
-              <div>
-                <a
-                  href={APPSTORE_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="app-link"
-                >
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/apple-icn.svg`}
-                    alt="App Store"
-                  />
-                  Download for iOS
-                </a>
-                <a
-                  href={GOOGLEPLAY_LINK}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="app-link"
-                >
-                  <img
-                    src={`${process.env.PUBLIC_URL}/images/google-play-icn.svg`}
-                    alt="Google Play"
-                  />
-                  Download for Android
-                </a>
-              </div>
-            }
-          />
+          {assetDisclaimer && (
+            <Dialog
+              visible={assetDisclaimer.visible}
+              title={assetDisclaimer.header}
+              onCancel={this.handleDisclaimerCancel}
+              cancelButton={{text: 'Cancel'}}
+              onConfirm={this.handleDisclaimerConfirm}
+              confirmButton={{text: 'I accept'}}
+              shouldAccept
+              description={this.renderDisclaimerDescription(
+                assetDisclaimer.text
+              )}
+            />
+          )}
           <ul className="deposit-credit-card__icons">
             {cardIcons.map(cardIcon => (
               <li key={cardIcon}>
@@ -139,6 +117,7 @@ export class DepositCreditCardPage extends React.Component<
           <DepositCreditCardForm
             onDisclaimerError={this.handleDisclaimerError}
             onSuccess={this.handleSubmitSuccess}
+            onSubmitForm={this.handleFormSubmit}
             asset={asset}
             handleViewTermsOfUse={this.trackViewTermsOfUse}
             handleGoBack={this.trackGoBack}
@@ -171,9 +150,31 @@ export class DepositCreditCardPage extends React.Component<
     this.dialogStore.removeDialog(dialog);
   };
 
+  private renderDisclaimerDescription = (text: string) => (
+    <span dangerouslySetInnerHTML={{__html: text}} />
+  );
+
+  private handleDisclaimerConfirm = async () => {
+    await this.dialogStore.approveAssetDisclaimer(
+      this.dialogStore.assetDisclaimers[0]
+    );
+    if (this.depositStore.submitDeposit) {
+      this.depositStore.submitDeposit();
+    }
+  };
+
+  private handleDisclaimerCancel = async () => {
+    this.dialogStore.declineAssetDisclaimer(
+      this.dialogStore.assetDisclaimers[0]
+    );
+  };
+
+  private handleFormSubmit = (submitForm: () => void) => {
+    this.depositStore.submitDeposit = submitForm;
+  };
+
   private handleDisclaimerError = () => {
-    this.uiStore.showDisclaimerError = true;
-    window.scrollTo(0, 0);
+    this.dialogStore.fetchAssetDisclaimers();
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {
