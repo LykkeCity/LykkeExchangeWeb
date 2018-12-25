@@ -25,15 +25,20 @@ import './style.css';
 export interface DepositCreditCardFormProps extends RootStoreProps {
   asset: AssetModel;
   onDisclaimerError: () => void;
+  onSubmitForm: (submitForm: () => void) => void;
   onSuccess: (gatewayUrls: GatewayUrls) => void;
   handleViewTermsOfUse?: () => void;
   handleGoBack?: (source: string) => void;
 }
 
+const DISCLAIMER_ERROR = 'User has pending disclaimer';
+
 export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   rootStore,
   asset,
   handleGoBack,
+  onSubmitForm,
+  onDisclaimerError,
   handleViewTermsOfUse,
   onSuccess
 }) => {
@@ -116,15 +121,29 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
       // tslint:disable-next-line:jsx-no-lambda
       onSubmit={async (
         values: DepositCreditCardModel,
-        {setStatus, setSubmitting}: FormikActions<DepositCreditCardModel>
+        {
+          setStatus,
+          setSubmitting,
+          validateForm,
+          submitForm
+        }: FormikActions<DepositCreditCardModel>
       ) => {
+        onSubmitForm(() => {
+          setSubmitting(true);
+          submitForm();
+        });
         setStatus(null);
         deposit.update(values);
         try {
           const gatewayUrls = await fetchBankCardPaymentUrl(deposit);
           onSuccess(gatewayUrls);
         } catch (err) {
-          setStatus(err.message);
+          if (err.message === DISCLAIMER_ERROR) {
+            validateForm();
+            onDisclaimerError();
+          } else {
+            setStatus(err.message);
+          }
           setSubmitting(false);
         }
       }}
@@ -274,7 +293,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
               type="submit"
               value="Cash In"
               className="btn btn--primary"
-              disabled={formikBag.isSubmitting || !formikBag.isValid}
+              disabled={formikBag.isSubmitting}
             />
             {!!formikBag.status && (
               <div className="help-block">{formikBag.status}</div>

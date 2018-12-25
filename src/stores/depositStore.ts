@@ -14,6 +14,7 @@ export class DepositStore {
   @observable swiftRequisites: DepositSwiftModel;
   @observable gatewayUrls: GatewayUrls;
   @observable feePercentage: number = 0;
+  @observable submitDeposit: () => void;
 
   constructor(readonly rootStore: RootStore, private api?: DepositApi) {
     this.defaultDeposit = new DepositCreditCardModel();

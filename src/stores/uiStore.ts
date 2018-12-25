@@ -18,7 +18,6 @@ export class UiStore {
   @observable showBaseCurrencyPicker: boolean;
   @observable showBetaBanner: boolean;
   @observable showKycBanner: boolean;
-  @observable showDisclaimerError: boolean = false;
   @observable showEthWarning: boolean = false;
   @observable showAssetAddressModal: boolean = false;
   @observable transferError: string;
@@ -33,8 +32,11 @@ export class UiStore {
 
   @computed
   get hasVisibleDialogs() {
-    return this.rootStore.dialogStore.pendingDialogs.some(
-      dialog => dialog.visible
+    return (
+      this.rootStore.dialogStore.pendingDialogs.some(
+        dialog => dialog.visible
+      ) ||
+      this.rootStore.dialogStore.assetDisclaimers.some(dialog => dialog.visible)
     );
   }
 

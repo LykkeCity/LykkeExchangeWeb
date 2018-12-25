@@ -20,6 +20,7 @@ import {
   CatalogsApi,
   DepositApi,
   DialogApi,
+  DisclaimerApi,
   HistoryApi,
   ProfileApi,
   TransactionApi,
@@ -70,7 +71,11 @@ export class RootStore {
     this.depositStore = new DepositStore(this, new DepositApi(this));
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
-    this.dialogStore = new DialogStore(this, new DialogApi(this));
+    this.dialogStore = new DialogStore(
+      this,
+      new DialogApi(this),
+      new DisclaimerApi(this)
+    );
     this.analyticsService = AnalyticsService;
     this.marketService = MarketService;
     this.socketStore = new SocketStore(this);
@@ -89,7 +94,11 @@ export class RootStore {
     this.depositStore = new DepositStore(this, new DepositApi(this));
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
-    this.dialogStore = new DialogStore(this, new DialogApi(this));
+    this.dialogStore = new DialogStore(
+      this,
+      new DialogApi(this),
+      new DisclaimerApi(this)
+    );
     this.authStore.reset();
     this.marketService.reset();
     this.socketStore.reset();
