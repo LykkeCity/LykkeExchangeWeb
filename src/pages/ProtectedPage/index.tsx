@@ -146,6 +146,7 @@ export class ProtectedPage extends React.Component<
         this.uiStore.activeHeaderMenuItem = MenuItem.Funds;
       }
       this.uiStore.hideModals();
+      this.dialogStore.clearAssetDisclaimers();
       this.uiStore.startRequest();
       this.profileStore.fetch2faStatus();
       this.walletStore.fetchWallets().then(() => {
