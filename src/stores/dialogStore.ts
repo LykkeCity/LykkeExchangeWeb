@@ -99,4 +99,8 @@ export class DialogStore {
     this.closeAssetDisclaimer(disclaimer);
     await this.disclaimerApi.declineAssetDisclaimer(disclaimer.id);
   };
+
+  clearAssetDisclaimers = () => {
+    this.assetDisclaimers = [];
+  };
 }
