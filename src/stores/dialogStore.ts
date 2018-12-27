@@ -57,7 +57,7 @@ export class DialogStore {
             header: 'Terms of Service',
             id,
             text,
-            visible: true
+            visible: false
           });
 
           dialog.actions = [];

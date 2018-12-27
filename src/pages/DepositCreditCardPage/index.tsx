@@ -29,6 +29,8 @@ export class DepositCreditCardPage extends React.Component<
   readonly analyticsService = this.props.rootStore!.analyticsService;
   readonly catalogsStore = this.props.rootStore!.catalogsStore;
 
+  private showDislaimer = false;
+
   componentDidMount() {
     const {walletId, assetId} = this.props.match.params;
     const {baseAsset} = this.profileStore;
@@ -54,6 +56,10 @@ export class DepositCreditCardPage extends React.Component<
     }
 
     window.scrollTo(0, 0);
+  }
+
+  componentWillUnmount() {
+    this.showDislaimer = false;
   }
 
   render() {
@@ -173,8 +179,12 @@ export class DepositCreditCardPage extends React.Component<
     this.depositStore.submitDeposit = submitForm;
   };
 
-  private handleDisclaimerError = () => {
-    this.dialogStore.fetchAssetDisclaimers();
+  private handleDisclaimerError = async () => {
+    this.showDislaimer = true;
+    await this.dialogStore.fetchAssetDisclaimers();
+    if (this.showDislaimer) {
+      this.dialogStore.assetDisclaimers[0].visible = true;
+    }
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {
