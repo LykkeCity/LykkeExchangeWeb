@@ -176,11 +176,11 @@ export class DepositCreditCardPage extends React.Component<
   };
 
   private handleFormSubmit = (submitForm: () => void) => {
+    this.showDislaimer = true;
     this.depositStore.submitDeposit = submitForm;
   };
 
   private handleDisclaimerError = async () => {
-    this.showDislaimer = true;
     await this.dialogStore.fetchAssetDisclaimers();
     if (this.showDislaimer) {
       this.dialogStore.assetDisclaimers[0].visible = true;
