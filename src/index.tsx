@@ -7,6 +7,9 @@ import App from './App';
 import {RootStore} from './stores';
 import {LaunchDarkly} from './utils/launchDarkly';
 
+// tslint:disable-next-line:no-var-requires
+const TagManager = require('react-gtm-module');
+
 export const rootElement = document.getElementById('root');
 
 if (process.env.NODE_ENV === 'production') {
@@ -16,6 +19,11 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 function runProduction() {
+  const tagManagerArgs = {
+    gtmId: 'GTM-5ZXBJWR'
+  };
+  TagManager.initialize(tagManagerArgs);
+
   const rootStore = new RootStore();
   renderApp(rootStore);
 }
