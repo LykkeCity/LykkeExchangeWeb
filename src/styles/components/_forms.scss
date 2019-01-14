@@ -104,6 +104,7 @@ input::-webkit-contacts-auto-fill-button {
 
 .modal__description {
   max-height: none;
+  overflow-y: auto;
 }
 
 .modal.has-scroll {
