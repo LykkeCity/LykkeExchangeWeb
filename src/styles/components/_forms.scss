@@ -101,3 +101,13 @@ input::-webkit-contacts-auto-fill-button {
   position: absolute;
   right: 0;
 }
+
+.modal__description {
+  max-height: none;
+}
+
+.modal.has-scroll {
+  .modal__description {
+    max-height: 255px;
+  }
+}
