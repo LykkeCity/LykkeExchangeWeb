@@ -90,6 +90,7 @@ export class DepositCreditCardPage extends React.Component<
           )}
           {assetDisclaimer && (
             <Dialog
+              className="has-scroll"
               visible={assetDisclaimer.visible}
               title={assetDisclaimer.header}
               onCancel={this.handleDisclaimerCancel}
