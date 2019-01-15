@@ -18,9 +18,13 @@ export class AuthPage extends React.Component<AuthPageProps> {
     )!;
     const state = AuthUtils.getOAuthParamFromUrl(location.href, 'state')!;
 
-    this.authStore
-      .fetchToken(accessToken, state)
-      .then(() => this.props.history.push(ROUTE_ROOT));
+    if (accessToken) {
+      this.authStore
+        .fetchToken(accessToken, state)
+        .then(() => this.props.history.push(ROUTE_ROOT));
+    } else {
+      this.authStore.signIn();
+    }
   }
 
   render() {
