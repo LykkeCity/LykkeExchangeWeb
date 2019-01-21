@@ -105,13 +105,7 @@ export class WithdrawCryptoPage extends React.Component<
               initialValues={this.withdrawStore.withdrawCrypto}
               enableReinitialize
               validationSchema={Yup.object().shape({
-                addressExtension: this.withdrawStore.isAddressExtensionMandatory
-                  ? Yup.string().required(
-                      requiredErrorMessage(
-                        this.withdrawStore.addressExtensionTitle
-                      )
-                    )
-                  : Yup.string(),
+                addressExtension: Yup.string(),
                 amount: Yup.number()
                   .moreThan(0, requiredErrorMessage('Amount'))
                   .required(requiredErrorMessage('Amount')),
@@ -261,7 +255,18 @@ export class WithdrawCryptoPage extends React.Component<
         window.scrollTo(0, 0);
       }
     } else {
-      setFieldError('baseAddress', 'Address is not valid');
+      if (
+        this.withdrawStore.isAddressExtensionMandatory &&
+        !values.addressExtension
+      ) {
+        setFieldError(
+          'addressExtension',
+          `Field ${this.withdrawStore
+            .addressExtensionTitle} should not be empty`
+        );
+      } else {
+        setFieldError('baseAddress', 'Address is not valid');
+      }
       setSubmitting(false);
     }
   };

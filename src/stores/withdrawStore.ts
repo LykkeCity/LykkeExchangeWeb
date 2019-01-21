@@ -23,7 +23,7 @@ export class WithdrawStore {
     this.withdrawCrypto.amount = values.amount;
     this.withdrawCrypto.assetId = assetId;
     this.withdrawCrypto.baseAddress = values.baseAddress;
-    this.withdrawCrypto.addressExtension = values.addressExtension;
+    this.withdrawCrypto.addressExtension = values.addressExtension || '';
     const resp = await this.api!.validateWithdrawCryptoRequest(
       assetId,
       this.withdrawCrypto
