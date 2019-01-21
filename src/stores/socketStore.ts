@@ -62,11 +62,16 @@ class SocketStore {
   };
 
   unsubscribe = async (topic: string, id: string) => {
-    await this.socket!.send({type: WampMessageType.Unsubscribe, topic, id});
+    if (this.isSocketOpen()) {
+      return this.socket!.send({type: WampMessageType.Unsubscribe, topic, id});
+    }
+    return Promise.resolve();
   };
 
   reset = async () => {
-    await this.socket!.close();
+    if (this.isSocketOpen()) {
+      await this.socket!.close();
+    }
     this.socket = null;
   };
 
@@ -89,7 +94,7 @@ class SocketStore {
     return this.listeners.get('onConnectionClose') || (() => null);
   }
 
-  isSocketOpen = () => this.socket!.isSocketConnected();
+  isSocketOpen = () => this.socket && this.socket!.isSocketConnected();
 
   private handleChallenge: OnChallengeHandler = (session, method) => {
     if (method === 'ticket') {
