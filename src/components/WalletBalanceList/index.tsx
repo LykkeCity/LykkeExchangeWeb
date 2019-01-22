@@ -38,6 +38,7 @@ const QRCode = require('qrcode.react');
 
 interface WalletBalanceListProps extends RootStoreProps {
   wallet: WalletModel;
+  onAssetRowClick?: (assetId: string) => void;
 }
 
 export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
@@ -57,6 +58,11 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
         </div>
       );
     }
+
+    const hasReservedBalance = (category: string) => {
+      const balances = wallet.getBalancesByCategory[category];
+      return balances.some(balance => balance.reserved > 0);
+    };
 
     return (
       <div className="wallet__balances">
@@ -91,6 +97,13 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                         <span>Asset</span>
                       </th>
                       <th
+                        className="_reserved"
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() => this.trackClickColumnHeader('In order')}
+                      >
+                        {hasReservedBalance(x) && 'In order'}
+                      </th>
+                      <th
                         className="_currency"
                         // tslint:disable-next-line:jsx-no-lambda
                         onClick={() =>
@@ -110,7 +123,12 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                   </thead>
                   <tbody>
                     {balances.map(balance => (
-                      <tr key={balance.assetId + balance.balance}>
+                      <tr
+                        key={balance.assetId + balance.balance}
+                        // tslint:disable-next-line:jsx-no-lambda
+                        onClick={() =>
+                          this.props.onAssetRowClick!(balance.assetId)}
+                      >
                         <td className="_asset">
                           <div className="issuer">
                             <div className="issuer__img">
@@ -139,6 +157,18 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                     {balance.asset.name}
                                   </span>
                                 )}
+                                {balance.reserved > 0 && (
+                                  <div className="reserved_responsive">
+                                    In order: {balance.asset!.name}{' '}
+                                    {asAssetBalance(
+                                      balance.asset,
+                                      moneyRound(
+                                        balance.reserved,
+                                        balance.asset!.accuracy
+                                      )
+                                    )}
+                                  </div>
+                                )}
                                 {this.isAvailableForCryptoDeposit(
                                   balance.assetId
                                 ) &&
@@ -150,8 +180,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                       onMouseOver={() =>
                                         this.handleQrMouseOver(balance.assetId)}
                                       // tslint:disable-next-line:jsx-no-lambda
-                                      onClick={() =>
-                                        this.handleQrClick(balance.assetId)}
+                                      onClick={(e: any) =>
+                                        this.handleQrClick(e, balance.assetId)}
                                     >
                                       <Dropdown>
                                         <DropdownControl>
@@ -209,6 +239,17 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                             </div>
                           </div>
                         </td>
+                        <td className="_reserved">
+                          {balance.reserved > 0 &&
+                            asAssetBalance(
+                              balance.asset,
+                              moneyRound(
+                                balance.reserved,
+                                balance.asset!.accuracy
+                              )
+                            )}{' '}
+                          {balance.reserved > 0 && balance.asset!.name}
+                        </td>
                         <td className="_currency">
                           {asAssetBalance(
                             balance.baseAsset!,
@@ -222,18 +263,39 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                         <td className="_amount">
                           {asBalance(balance)} {balance.asset.name}
                         </td>
-                        <td className="_action">
+                        <td className="_amount_responsive">
+                          <div className="_amount_responsive__asset">
+                            {balance.asset.name} {asBalance(balance)}
+                          </div>
+                          <div className="_amount_responsive__base_asset">
+                            {balance.baseAsset!.name}{' '}
+                            {asAssetBalance(
+                              balance.baseAsset!,
+                              moneyRound(
+                                balance.balanceInBaseAsset,
+                                balance.baseAsset!.accuracy
+                              )
+                            )}
+                          </div>
+                        </td>
+                        <td
+                          className="_action"
+                          // tslint:disable-next-line:jsx-no-lambda
+                          onClick={(e: any) => e.stopPropagation()}
+                        >
                           {(this.isAvailableForDeposit(balance.assetId) ||
                             this.isAvailableForWithdraw(balance.assetId) ||
                             !wallet.isTrading) && (
-                            <Dropdown trigger="click">
+                            <Dropdown>
                               <DropdownControl>
                                 <button
                                   onClick={this.trackClickAssetActionsMenu}
                                   type="button"
                                   className="btn btn--icon"
                                 >
-                                  <i className="icon icon--actions" />
+                                  <span className="icon_dot">&nbsp;</span>
+                                  <span className="icon_dot">&nbsp;</span>
+                                  <span className="icon_dot">&nbsp;</span>
                                 </button>
                               </DropdownControl>
                               <DropdownContainer className="actions">
@@ -482,7 +544,8 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
   };
 
   @action
-  private handleQrClick = (assetId: string) => {
+  private handleQrClick = (e: any, assetId: string) => {
+    e.stopPropagation();
     this.uiStore.showAssetAddressModal = true;
     this.assetStore.selectedAsset = this.assetStore!.getById(assetId);
 

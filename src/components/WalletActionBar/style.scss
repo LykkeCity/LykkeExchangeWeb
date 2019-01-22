@@ -42,6 +42,10 @@
         cursor: not-allowed;
         color: $gray-dark;
       }
+
+      @media (max-width: $screen-mobile-tiny) {
+        @include rem(padding, 30px 12px);
+      }
     }
 
     .dropdown__container {

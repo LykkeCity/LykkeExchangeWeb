@@ -1,5 +1,7 @@
 @import '../../styles/utils';
 
+$screen-tablet: 768px;
+
 .container-table-assets {
   width: 100%;
 }
@@ -15,16 +17,34 @@
   @include rem(margin-top, 10px);
   @include rem(margin-bottom, 45px);
 
+  .issuer__name {
+    font-weight: $fw-semi;
+    color: $heading;
+    line-height: 30px;
+
+    @include rem(font-size, 18px);
+  }
+
+  td._reserved {
+    min-width: 220px;
+    line-height: 25px;
+    color: #ffae2c;
+    white-space: nowrap;
+  }
+
   td._currency {
     min-width: 220px;
     color: $gray-dark;
-    letter-spacing: 0.18px;
+    line-height: 25px;
     white-space: nowrap;
   }
 
   td._amount {
     white-space: nowrap;
     min-width: 250px;
+    font-weight: $fw-semi;
+    color: $heading;
+    line-height: 30px;
 
     @include rem(font-size, 18px);
   }
@@ -53,6 +73,14 @@
     }
   }
 
+  td._amount_responsive {
+    display: none;
+  }
+
+  .reserved_responsive {
+    display: none;
+  }
+
   .btn--icon {
     padding: 0;
 
@@ -72,6 +100,8 @@
   }
 
   tr {
+    cursor: pointer;
+
     th {
       color: $heading;
       font-weight: $fw-semi;
@@ -108,13 +138,18 @@
         }
       }
 
-      &._currency {
+      &._currency,
+      &._reserved {
         white-space: nowrap;
       }
     }
 
     td {
       @include rem(padding, 6px 20px 5px 0);
+
+      @media (max-width: $screen-tablet) {
+        @include rem(padding, 13px 20px 11px 0);
+      }
     }
 
     th,
@@ -132,18 +167,19 @@
     &:hover {
       td {
         background-color: $gray-5;
-
-        .issuer__img {
-          img {
-            background-color: $white;
-          }
-
-          &:after {
-            background-color: $gray-5;
-          }
-        }
       }
     }
+  }
+
+  .icon_dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 50px;
+    background-color: $heading;
+    display: inline-block;
+    margin-right: 3px;
+    position: relative;
+    top: 6px;
   }
 
   @media (max-width: $screen-mobile) {
@@ -170,6 +206,87 @@
     td._amount {
       min-width: 0;
     }
+  }
+
+  @media (max-width: $screen-tablet) {
+    thead,
+    td._currency,
+    td._reserved,
+    td._amount {
+      display: none;
+    }
+
+    td._asset {
+      padding-top: 0;
+      padding-bottom: 16px;
+
+      .issuer {
+        // overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .qr-icn {
+        bottom: -6px;
+      }
+    }
+
+    .reserved_responsive {
+      white-space: nowrap;
+      display: block;
+      font-size: 14px;
+      position: absolute;
+      font-weight: $fw-regular;
+      top: 25px;
+      line-height: 1.43;
+      letter-spacing: 0.2px;
+      color: #ffae2c;
+      text-overflow: ellipsis;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    td._amount_responsive {
+      display: table-cell;
+      padding-bottom: 6px;
+
+      ._amount_responsive__asset {
+        font-weight: $fw-semi;
+        line-height: 1.5;
+        color: $heading;
+      }
+
+      ._amount_responsive__base_asset {
+        font-size: 14px;
+        line-height: 1.43;
+        letter-spacing: 0.2px;
+        color: $gray-dark;
+      }
+    }
+  }
+
+  @media (max-width: $screen-mobile-tiny) {
+    .qr-icn {
+      display: none;
+    }
+
+    tr td {
+      border-bottom: none;
+    }
+
+    td._action {
+      display: none;
+    }
+
+    // td._asset {
+    //   max-width: 200px;
+    // }
+
+    // .issuer__name {
+    //   white-space: nowrap;
+    //   text-overflow: ellipsis;
+    //   max-width: 100%;
+    //   overflow: hidden;
+    // }
   }
 }
 
@@ -209,6 +326,7 @@
     }
 
     .qr-icn {
+      padding: 5px;
       position: relative;
       left: 5px;
       bottom: 2px;
@@ -246,7 +364,6 @@
       height: 48px;
       border-radius: $border-radius;
       padding: 7px;
-      box-shadow: inset 0 0 0 1px rgba(63, 77, 96, 0.1);
     }
 
     @media all and (max-width: $screen-landscape) {
@@ -254,6 +371,10 @@
         margin-top: 4px;
         height: 2px;
       }
+    }
+
+    @media all and (max-width: $screen-tablet) {
+      padding-right: 0;
     }
 
     @media all and (max-width: $screen-mobile) {
