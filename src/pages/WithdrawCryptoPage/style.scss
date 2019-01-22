@@ -23,15 +23,25 @@
   }
 
   &__subtitle {
-    color: $gray-dark;
+    color: $heading;
     font-weight: $fw-light;
-    letter-spacing: -0.3px;
-    line-height: 1.43;
+    line-height: 1.11;
     text-align: center;
     text-transform: uppercase;
 
-    @include rem(font-size, 28px);
-    @include rem(margin-bottom, 27px);
+    @include rem(font-size, 36px);
+    @include rem(margin-bottom, 6px);
+  }
+
+  &__subtitle-label {
+    color: rgba($secondary, 0.6);
+    line-height: 1.85;
+    letter-spacing: 2.4px;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include rem(font-size, 13px);
+    @include rem(margin-bottom, 29px);
   }
 
   &__description {

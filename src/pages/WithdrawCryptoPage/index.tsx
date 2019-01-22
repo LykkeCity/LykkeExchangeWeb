@@ -17,7 +17,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, OpStatus, WithdrawCryptoModel} from '../../models';
-import {moneyRound} from '../../utils';
+import {moneyFloor, moneyRound} from '../../utils';
 
 import './style.css';
 
@@ -52,7 +52,7 @@ export class WithdrawCryptoPage extends React.Component<
     );
 
     if (balanceModel) {
-      return balanceModel.balance;
+      return moneyFloor(balanceModel.balance - balanceModel.reserved);
     }
 
     return 0;
@@ -94,6 +94,7 @@ export class WithdrawCryptoPage extends React.Component<
             <div className="withdraw-crypto__title">Withdraw</div>
             <div className="withdraw-crypto__subtitle">
               {this.balance} {!!asset && asset!.name}
+              <div className="withdraw-crypto__subtitle-label">Available</div>
             </div>
             <div className="withdraw-crypto__description">
               Your wallet will not be charged until you authorize this
@@ -119,6 +120,8 @@ export class WithdrawCryptoPage extends React.Component<
                   requiredErrorMessage(this.withdrawStore.baseAddressTitle)
                 )
               })}
+              validateOnChange={false}
+              validateOnBlur
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
               render={this.renderForm}
@@ -322,6 +325,7 @@ export class WithdrawCryptoPage extends React.Component<
                     <div className="amount-input">
                       <AmountInput
                         onChange={field.onChange}
+                        onBlur={field.onBlur}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}

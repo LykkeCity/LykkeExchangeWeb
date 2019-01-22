@@ -6,6 +6,7 @@ const TextMask = require('react-text-mask').default;
 
 export interface AmountInputProps {
   onChange?: (e: React.ChangeEvent<any>) => void;
+  onBlur?: (e: any) => void;
   value?: any;
   name?: string;
   decimalLimit?: number;
@@ -14,6 +15,7 @@ export interface AmountInputProps {
 
 export const AmountInput: React.SFC<AmountInputProps> = ({
   onChange,
+  onBlur,
   value,
   name,
   decimalLimit = 8,
@@ -35,6 +37,7 @@ export const AmountInput: React.SFC<AmountInputProps> = ({
       id={name}
       onChange={onChange}
       value={value}
+      onBlur={onBlur}
       maxLength={maxLength}
       {...attributes}
     />
