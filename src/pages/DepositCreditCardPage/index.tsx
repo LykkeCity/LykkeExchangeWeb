@@ -66,7 +66,6 @@ export class DepositCreditCardPage extends React.Component<
     const asset = this.depositStore.newDeposit.asset;
     const cardIcons = [
       'icon-card-1.png',
-      'icon-card-3.png',
       'icon-card-4.png',
       'icon-card-5.png',
       'icon-card-6.png'
