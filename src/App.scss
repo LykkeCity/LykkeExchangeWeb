@@ -68,6 +68,10 @@
 }
 
 body {
+  padding-bottom: 0;
+}
+
+.app__shell {
   padding-bottom: 862px;
 
   @media all and (min-width: $screen-mobile + 1) {
