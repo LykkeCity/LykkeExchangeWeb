@@ -136,6 +136,18 @@
   &__balances {
     @include rem(padding-top, 35px);
 
+    > div {
+      @media (max-width: $screen-mobile-tiny) {
+        padding-top: 10px;
+        border-top: 1px solid $border-alt;
+
+        &:first-child {
+          border: none;
+          padding-top: 0;
+        }
+      }
+    }
+
     h3 {
       font-weight: $fw-bold;
 
@@ -146,6 +158,10 @@
 
         @include rem(font-size, 16px);
         @include rem(margin-left, 10px);
+
+        @media (max-width: $screen-mobile-tiny) {
+          display: none;
+        }
       }
     }
   }

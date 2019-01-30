@@ -105,6 +105,7 @@ export class ProtectedPage extends React.Component<
       .then(() => {
         return Promise.all([
           this.processRequest(this.assetStore.fetchDescriptions),
+          this.processRequest(this.assetStore.fetchAssetIcons),
           this.processRequest(this.assetStore.fetchAssetsAvailableForDeposit),
           this.processRequest(this.assetStore.fetchAssetsAvailableForWithdraw),
           this.processRequest(this.assetStore.fetchInstruments)
