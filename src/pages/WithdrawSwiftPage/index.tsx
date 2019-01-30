@@ -14,12 +14,15 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, OpStatus, WithdrawSwiftModel} from '../../models';
+import {moneyFloor} from '../../utils';
 
 import './style.css';
 
 interface WithdrawSwiftPageProps
   extends RootStoreProps,
     RouteComponentProps<any> {}
+
+const BIC_REGEX = /^[a-zA-Z]{6}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?$/;
 
 export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
@@ -46,7 +49,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     );
 
     if (balanceModel) {
-      return balanceModel.balance;
+      return moneyFloor(balanceModel.balance - balanceModel.reserved);
     }
 
     return 0;
@@ -102,8 +105,12 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                 bankName: Yup.string().required(
                   requiredErrorMessage('Bank Name')
                 ),
-                bic: Yup.string().required(requiredErrorMessage('BIC'))
+                bic: Yup.string()
+                  .required(requiredErrorMessage('BIC'))
+                  .matches(BIC_REGEX, 'Invalid BIC')
               })}
+              validateOnChange={false}
+              validateOnBlur
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
               render={this.renderForm}
@@ -257,6 +264,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                     <div className="amount-input">
                       <AmountInput
                         onChange={field.onChange}
+                        onBlur={field.onBlur}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}

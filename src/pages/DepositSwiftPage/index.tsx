@@ -98,6 +98,8 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                 await sendSwiftRequisites(assetId, values.amount);
                 onSubmitSuccess();
               }}
+              validateOnChange={false}
+              validateOnBlur
               render={this.renderForm}
             />
           </div>
@@ -151,6 +153,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                     <div className="error-bar" />
                     <AmountInput
                       onChange={field.onChange}
+                      onBlur={field.onBlur}
                       value={field.value || ''}
                       name={field.name}
                       decimalLimit={asset && asset.accuracy}
