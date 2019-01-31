@@ -45,6 +45,7 @@ export class WithdrawCryptoPage extends React.Component<
     }
 
     const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId)!;
     const balanceModel = this.walletStore.tradingWallets[0].balances.find(
       (assetBalance: BalanceModel) => {
         return assetBalance.assetId === assetId;
@@ -52,7 +53,10 @@ export class WithdrawCryptoPage extends React.Component<
     );
 
     if (balanceModel) {
-      return moneyFloor(balanceModel.balance - balanceModel.reserved);
+      return moneyFloor(
+        balanceModel.balance - balanceModel.reserved,
+        asset.accuracy
+      );
     }
 
     return 0;
