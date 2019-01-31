@@ -262,18 +262,7 @@ export class WithdrawCryptoPage extends React.Component<
         window.scrollTo(0, 0);
       }
     } else {
-      if (
-        this.withdrawStore.isAddressExtensionMandatory &&
-        !values.addressExtension
-      ) {
-        setFieldError(
-          'addressExtension',
-          `Field ${this.withdrawStore
-            .addressExtensionTitle} should not be empty`
-        );
-      } else {
-        setFieldError('baseAddress', 'Address is not valid');
-      }
+      setFieldError('baseAddress', 'Address is not valid');
       setSubmitting(false);
     }
   };
