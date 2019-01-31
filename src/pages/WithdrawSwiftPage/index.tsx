@@ -14,7 +14,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, OpStatus, WithdrawSwiftModel} from '../../models';
-import {moneyFloor} from '../../utils';
+import {moneyFloor, subtraction} from '../../utils';
 
 import './style.css';
 
@@ -51,7 +51,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
 
     if (balanceModel) {
       return moneyFloor(
-        balanceModel.balance - balanceModel.reserved,
+        subtraction(balanceModel.balance, balanceModel.reserved),
         asset.accuracy
       );
     }

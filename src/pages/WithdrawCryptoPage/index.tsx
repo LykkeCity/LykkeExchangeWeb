@@ -17,7 +17,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, OpStatus, WithdrawCryptoModel} from '../../models';
-import {moneyFloor, moneyRound} from '../../utils';
+import {moneyFloor, moneyRound, subtraction} from '../../utils';
 
 import './style.css';
 
@@ -54,7 +54,7 @@ export class WithdrawCryptoPage extends React.Component<
 
     if (balanceModel) {
       return moneyFloor(
-        balanceModel.balance - balanceModel.reserved,
+        subtraction(balanceModel.balance, balanceModel.reserved),
         asset.accuracy
       );
     }

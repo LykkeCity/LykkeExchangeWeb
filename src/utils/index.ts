@@ -6,6 +6,8 @@ export {StorageUtils};
 
 export {default as RandomString} from './randomString';
 
+import BigNumberModel from './bigNumberModel';
+
 // tslint:disable-next-line:no-var-requires
 const shajs = require('sha.js');
 
@@ -56,6 +58,17 @@ export const moneyFloor = (value: number, accuracy = 2) => {
   value = Number.isFinite(value) ? value : 0;
   const factor = Math.pow(10, accuracy);
   return Math.floor(new Big(value).times(factor).valueOf()) / factor;
+};
+
+export const addition = (term1: number | string, term2: number | string) => {
+  return new BigNumberModel(term1).plus(term2).toNumber();
+};
+
+export const subtraction = (
+  value: number | string,
+  decrement: number | string
+) => {
+  return new BigNumberModel(value).minus(decrement).toNumber();
 };
 
 export const moneyRound = (value: number, accuracy = 2) =>

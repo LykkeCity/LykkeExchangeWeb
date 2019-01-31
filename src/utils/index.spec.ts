@@ -1,4 +1,5 @@
 import {
+  addition,
   arraysEqual,
   moneyCeil,
   moneyFloor,
@@ -128,7 +129,7 @@ describe('moneyCeil', () => {
   });
 
   it('should avoid Floating-Point issue', () => {
-    expect(moneyCeil(0.1 + 0.2)).toBe(0.3);
+    expect(moneyCeil(addition(0.1, 0.2))).toBe(0.3);
   });
 });
 
@@ -140,10 +141,6 @@ describe('moneyFloor', () => {
 
   it('should floor to accuracy', () => {
     expect(moneyFloor(1.8888888, 2)).toBe(1.88);
-  });
-
-  it('should avoid Floating-Point issue', () => {
-    expect(moneyFloor(0.999999999)).toBe(1);
   });
 });
 
