@@ -9,6 +9,9 @@ export {default as RandomString} from './randomString';
 // tslint:disable-next-line:no-var-requires
 const shajs = require('sha.js');
 
+// tslint:disable-next-line:no-var-requires
+const Big = require('big.js');
+
 let idx = 0;
 export const nextId = () => idx++;
 
@@ -43,17 +46,17 @@ export const arraysEqual = (a: any[], b: any[]) => {
 export const calcSafeAccuracy = (accuracy: number) =>
   accuracy >= 6 ? accuracy + 1 : accuracy + 4;
 
-export const moneyCeil = (value: number, accuracy = 2) =>
-  Math.ceil(
-    Number((value || 0).toFixed(calcSafeAccuracy(accuracy))) *
-      Math.pow(10, accuracy)
-  ) / Math.pow(10, accuracy);
+export const moneyCeil = (value: number, accuracy = 2) => {
+  value = Number.isFinite(value) ? value : 0;
+  const factor = Math.pow(10, accuracy);
+  return Math.ceil(new Big(value).times(factor).valueOf()) / factor;
+};
 
-export const moneyFloor = (value: number, accuracy = 2) =>
-  Math.floor(
-    Number((value || 0).toFixed(calcSafeAccuracy(accuracy))) *
-      Math.pow(10, accuracy)
-  ) / Math.pow(10, accuracy);
+export const moneyFloor = (value: number, accuracy = 2) => {
+  value = Number.isFinite(value) ? value : 0;
+  const factor = Math.pow(10, accuracy);
+  return Math.floor(new Big(value).times(factor).valueOf()) / factor;
+};
 
 export const moneyRound = (value: number, accuracy = 2) =>
   Math.round(

@@ -13,6 +13,7 @@
     "@types/react-intl": "^2.3.5",
     "@types/yup": "^0.24.1",
     "autobahn": "^18.3.2",
+    "big.js": "^5.2.2",
     "classnames": "^2.2.5",
     "formik": "^0.11.11",
     "mobx": "^3.3.0",
