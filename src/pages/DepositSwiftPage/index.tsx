@@ -24,6 +24,8 @@ interface DepositSwiftPageProps
   extends RootStoreProps,
     RouteComponentProps<any> {}
 
+const DEPOSIT_LIMIT_ERROR = 'DepositLimitReached';
+
 export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly depositStore = this.props.rootStore!.depositStore;
@@ -94,12 +96,22 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                   .required(requiredErrorMessage('Amount'))
               })}
               // tslint:disable-next-line:jsx-no-lambda
-              onSubmit={async (values: DepositSwiftModel) => {
-                await sendSwiftRequisites(assetId, values.amount);
-                onSubmitSuccess();
+              onSubmit={async (
+                values: DepositSwiftModel,
+                {setFieldError, setSubmitting}
+              ) => {
+                try {
+                  await sendSwiftRequisites(assetId, values.amount);
+                  onSubmitSuccess();
+                } catch (err) {
+                  const error = JSON.parse(err.message).error;
+                  if (error === DEPOSIT_LIMIT_ERROR) {
+                    setSubmitting(false);
+                    setFieldError('amount', 'SWIFT deposit limits reached.');
+                    window.scrollTo(0, 0);
+                  }
+                }
               }}
-              validateOnChange={false}
-              validateOnBlur
               render={this.renderForm}
             />
           </div>
@@ -136,7 +148,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
           render={({field, form}: FieldProps<DepositSwiftModel>) => (
             <div
               className={classnames('form-group inline-form', {
-                'has-error': form.errors[field.name]
+                'has-error': form.errors[field.name] && form.touched[field.name]
               })}
             >
               <div className="row">
@@ -154,15 +166,19 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
                     <AmountInput
                       onChange={field.onChange}
                       onBlur={field.onBlur}
+                      onFocus={(e: any) => {
+                        formikBag.setFieldTouched(field.name, false);
+                      }}
                       value={field.value || ''}
                       name={field.name}
                       decimalLimit={asset && asset.accuracy}
                     />
-                    {form.errors[field.name] && (
-                      <span className="help-block">
-                        {form.errors[field.name]}
-                      </span>
-                    )}
+                    {form.errors[field.name] &&
+                      form.touched[field.name] && (
+                        <span className="help-block">
+                          {form.errors[field.name]}
+                        </span>
+                      )}
                   </div>
                 </div>
               </div>

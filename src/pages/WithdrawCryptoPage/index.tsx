@@ -118,8 +118,6 @@ export class WithdrawCryptoPage extends React.Component<
                   requiredErrorMessage(this.withdrawStore.baseAddressTitle)
                 )
               })}
-              validateOnChange={false}
-              validateOnBlur
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
               render={this.renderForm}
@@ -150,6 +148,7 @@ export class WithdrawCryptoPage extends React.Component<
       },
       [OpStatus.Failed]: (errorCode?: string, errorMessage?: string) => {
         const validErrorCodes = ['LimitationCheckFailed', 'RuntimeProblem'];
+        const limitError = 'AmountIsLessThanLimit';
         const invalidAddressErrorMessages = [
           'Invalid address',
           'Invalid Destination Address. Please try again.'
@@ -160,6 +159,11 @@ export class WithdrawCryptoPage extends React.Component<
           invalidAddressErrorMessages.indexOf(errorMessage) > -1
         ) {
           setFieldError('baseAddress', 'Address is not valid');
+          return;
+        }
+
+        if (errorCode === limitError || errorCode) {
+          setFieldError('amount', errorMessage || 'Something went wrong.');
           return;
         }
 
@@ -305,7 +309,7 @@ export class WithdrawCryptoPage extends React.Component<
           render={({field, form}: FieldProps<WithdrawCryptoPageProps>) => (
             <div
               className={classnames('form-group inline-form', {
-                'has-error': form.errors[field.name]
+                'has-error': form.errors[field.name] && form.touched[field.name]
               })}
             >
               <div className="row row_amount">
@@ -324,15 +328,19 @@ export class WithdrawCryptoPage extends React.Component<
                       <AmountInput
                         onChange={field.onChange}
                         onBlur={field.onBlur}
+                        onFocus={(e: any) => {
+                          formikBag.setFieldTouched(field.name, false);
+                        }}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />
-                      {form.errors[field.name] && (
-                        <span className="help-block">
-                          {form.errors[field.name]}
-                        </span>
-                      )}
+                      {form.errors[field.name] &&
+                        form.touched[field.name] && (
+                          <span className="help-block">
+                            {form.errors[field.name]}
+                          </span>
+                        )}
                     </div>
                     {field.value > 0 && (
                       <div>

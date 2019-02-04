@@ -118,8 +118,6 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           .trim()
           .required(requiredErrorMessage('Zip'))
       })}
-      validateOnChange={false}
-      validateOnBlur
       // tslint:disable-next-line:jsx-no-lambda
       onSubmit={async (
         values: DepositCreditCardModel,
@@ -177,6 +175,9 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       <AmountInput
                         onChange={(e: any) => {
                           field.onChange(e);
+                        }}
+                        onFocus={(e: any) => {
+                          formikBag.setFieldTouched(field.name, false);
                         }}
                         onBlur={field.onBlur}
                         value={field.value || ''}

@@ -113,8 +113,6 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                   .required(requiredErrorMessage('BIC'))
                   .matches(BIC_REGEX, 'Invalid BIC')
               })}
-              validateOnChange={false}
-              validateOnBlur
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
               render={this.renderForm}
@@ -250,7 +248,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
           render={({field, form}: FieldProps<WithdrawSwiftPageProps>) => (
             <div
               className={classnames('form-group inline-form', {
-                'has-error': form.errors[field.name]
+                'has-error': form.errors[field.name] && form.touched[field.name]
               })}
             >
               <div className="row row_amount">
@@ -269,15 +267,19 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                       <AmountInput
                         onChange={field.onChange}
                         onBlur={field.onBlur}
+                        onFocus={(e: any) => {
+                          formikBag.setFieldTouched(field.name, false);
+                        }}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />
-                      {form.errors[field.name] && (
-                        <span className="help-block">
-                          {form.errors[field.name]}
-                        </span>
-                      )}
+                      {form.errors[field.name] &&
+                        form.touched[field.name] && (
+                          <span className="help-block">
+                            {form.errors[field.name]}
+                          </span>
+                        )}
                     </div>
                   </div>
                 </div>
