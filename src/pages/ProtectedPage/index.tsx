@@ -89,6 +89,7 @@ export class ProtectedPage extends React.Component<
   private readonly socketStore = this.props.rootStore!.socketStore;
   private readonly authStore = this.props.rootStore!.authStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
+  private readonly balanceStore = this.props.rootStore!.balanceStore;
 
   @computed
   private get classes() {
@@ -132,7 +133,9 @@ export class ProtectedPage extends React.Component<
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
     const wampRealm = process.env.REACT_APP_WAMP_REALM || '';
     const token = this.authStore.token || '';
-    this.socketStore.connect(wampUrl, wampRealm, token);
+    this.socketStore.connect(wampUrl, wampRealm, token).then(() => {
+      this.balanceStore.subscribe();
+    });
 
     this.uiStore.startRequest();
     this.dialogStore
@@ -150,8 +153,7 @@ export class ProtectedPage extends React.Component<
       this.dialogStore.clearAssetDisclaimers();
       this.uiStore.startRequest();
       this.profileStore.fetch2faStatus();
-      this.walletStore.fetchWallets().then(() => {
-        this.dialogStore.fetchPendingDialogs();
+      this.dialogStore.fetchPendingDialogs().then(() => {
         this.uiStore.finishRequest();
       });
 
