@@ -162,7 +162,7 @@ export class WithdrawCryptoPage extends React.Component<
           return;
         }
 
-        if (errorCode === limitError || errorCode) {
+        if (errorCode === limitError) {
           setFieldError('amount', errorMessage || 'Something went wrong.');
           return;
         }
