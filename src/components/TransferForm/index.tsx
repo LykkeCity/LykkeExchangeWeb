@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLETS} from '../../constants/routes';
+import {ROUTE_WALLETS_HFT} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {
   BalanceModel,
@@ -325,7 +325,7 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           disabled={!transfer.canTransfer}
           onClick={handleSubmit}
         />
-        <Link to={ROUTE_WALLETS} className="btn btn--flat">
+        <Link to={ROUTE_WALLETS_HFT} className="btn btn--flat">
           Cancel and go back
         </Link>
       </div>

@@ -14,7 +14,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, OpStatus, WithdrawSwiftModel} from '../../models';
-import {moneyFloor} from '../../utils';
+import {moneyFloor, subtraction} from '../../utils';
 
 import './style.css';
 
@@ -42,6 +42,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     }
 
     const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId)!;
     const balanceModel = this.walletStore.tradingWallets[0].balances.find(
       (assetBalance: BalanceModel) => {
         return assetBalance.assetId === assetId;
@@ -49,7 +50,10 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
     );
 
     if (balanceModel) {
-      return moneyFloor(balanceModel.balance - balanceModel.reserved);
+      return moneyFloor(
+        subtraction(balanceModel.balance, balanceModel.reserved),
+        asset.accuracy
+      );
     }
 
     return 0;
@@ -109,8 +113,6 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                   .required(requiredErrorMessage('BIC'))
                   .matches(BIC_REGEX, 'Invalid BIC')
               })}
-              validateOnChange={false}
-              validateOnBlur
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
               render={this.renderForm}
@@ -246,7 +248,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
           render={({field, form}: FieldProps<WithdrawSwiftPageProps>) => (
             <div
               className={classnames('form-group inline-form', {
-                'has-error': form.errors[field.name]
+                'has-error': form.errors[field.name] && form.touched[field.name]
               })}
             >
               <div className="row row_amount">
@@ -265,15 +267,19 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                       <AmountInput
                         onChange={field.onChange}
                         onBlur={field.onBlur}
+                        onFocus={(e: any) => {
+                          formikBag.setFieldTouched(field.name, false);
+                        }}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />
-                      {form.errors[field.name] && (
-                        <span className="help-block">
-                          {form.errors[field.name]}
-                        </span>
-                      )}
+                      {form.errors[field.name] &&
+                        form.touched[field.name] && (
+                          <span className="help-block">
+                            {form.errors[field.name]}
+                          </span>
+                        )}
                     </div>
                   </div>
                 </div>

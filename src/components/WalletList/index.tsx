@@ -39,7 +39,7 @@ export const WalletList: React.SFC<WalletListProps> = ({
         >
           <div className="wallet__inner">
             <WalletSummary wallet={w} onEditWallet={onEditWallet} />
-            {w.expanded && (
+            {(w.expanded || type === 'trading') && (
               <div className="wallet__expanded">
                 <div key={WalletActionBar.name}>
                   <WalletActionBar wallet={w} />

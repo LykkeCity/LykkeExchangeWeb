@@ -17,7 +17,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {BalanceModel, OpStatus, WithdrawCryptoModel} from '../../models';
-import {moneyFloor, moneyRound} from '../../utils';
+import {moneyFloor, moneyRound, subtraction} from '../../utils';
 
 import './style.css';
 
@@ -45,6 +45,7 @@ export class WithdrawCryptoPage extends React.Component<
     }
 
     const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId)!;
     const balanceModel = this.walletStore.tradingWallets[0].balances.find(
       (assetBalance: BalanceModel) => {
         return assetBalance.assetId === assetId;
@@ -52,7 +53,10 @@ export class WithdrawCryptoPage extends React.Component<
     );
 
     if (balanceModel) {
-      return moneyFloor(balanceModel.balance - balanceModel.reserved);
+      return moneyFloor(
+        subtraction(balanceModel.balance, balanceModel.reserved),
+        asset.accuracy
+      );
     }
 
     return 0;
@@ -114,8 +118,6 @@ export class WithdrawCryptoPage extends React.Component<
                   requiredErrorMessage(this.withdrawStore.baseAddressTitle)
                 )
               })}
-              validateOnChange={false}
-              validateOnBlur
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
               render={this.renderForm}
@@ -146,6 +148,7 @@ export class WithdrawCryptoPage extends React.Component<
       },
       [OpStatus.Failed]: (errorCode?: string, errorMessage?: string) => {
         const validErrorCodes = ['LimitationCheckFailed', 'RuntimeProblem'];
+        const limitError = 'AmountIsLessThanLimit';
         const invalidAddressErrorMessages = [
           'Invalid address',
           'Invalid Destination Address. Please try again.'
@@ -156,6 +159,11 @@ export class WithdrawCryptoPage extends React.Component<
           invalidAddressErrorMessages.indexOf(errorMessage) > -1
         ) {
           setFieldError('baseAddress', 'Address is not valid');
+          return;
+        }
+
+        if (errorCode === limitError) {
+          setFieldError('amount', errorMessage || 'Something went wrong.');
           return;
         }
 
@@ -258,18 +266,7 @@ export class WithdrawCryptoPage extends React.Component<
         window.scrollTo(0, 0);
       }
     } else {
-      if (
-        this.withdrawStore.isAddressExtensionMandatory &&
-        !values.addressExtension
-      ) {
-        setFieldError(
-          'addressExtension',
-          `Field ${this.withdrawStore
-            .addressExtensionTitle} should not be empty`
-        );
-      } else {
-        setFieldError('baseAddress', 'Address is not valid');
-      }
+      setFieldError('baseAddress', 'Address is not valid');
       setSubmitting(false);
     }
   };
@@ -312,7 +309,7 @@ export class WithdrawCryptoPage extends React.Component<
           render={({field, form}: FieldProps<WithdrawCryptoPageProps>) => (
             <div
               className={classnames('form-group inline-form', {
-                'has-error': form.errors[field.name]
+                'has-error': form.errors[field.name] && form.touched[field.name]
               })}
             >
               <div className="row row_amount">
@@ -331,15 +328,19 @@ export class WithdrawCryptoPage extends React.Component<
                       <AmountInput
                         onChange={field.onChange}
                         onBlur={field.onBlur}
+                        onFocus={(e: any) => {
+                          formikBag.setFieldTouched(field.name, false);
+                        }}
                         value={field.value || ''}
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />
-                      {form.errors[field.name] && (
-                        <span className="help-block">
-                          {form.errors[field.name]}
-                        </span>
-                      )}
+                      {form.errors[field.name] &&
+                        form.touched[field.name] && (
+                          <span className="help-block">
+                            {form.errors[field.name]}
+                          </span>
+                        )}
                     </div>
                     {field.value > 0 && (
                       <div>

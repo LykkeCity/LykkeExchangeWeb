@@ -124,6 +124,13 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                   <tbody>
                     {balances.map(balance => (
                       <tr
+                        className={classnames({
+                          hidden:
+                            moneyRound(
+                              balance.balance,
+                              balance.asset!.accuracy
+                            ) === 0
+                        })}
                         key={balance.assetId + balance.balance}
                         // tslint:disable-next-line:jsx-no-lambda
                         onClick={() =>

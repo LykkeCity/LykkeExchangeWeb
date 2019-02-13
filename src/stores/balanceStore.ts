@@ -32,6 +32,24 @@ export class BalanceStore {
     return balance;
   };
 
+  subscribe = () => {
+    const BALANCES_TOPIC = 'balances';
+    this.rootStore.socketStore.subscribe(BALANCES_TOPIC, this.onUpdateBalance);
+  };
+
+  onUpdateBalance = async (args: any) => {
+    const dto = args[0];
+    const {id, a, b, r} = dto;
+    const wallet = this.rootStore.walletStore.findWalletById(id);
+    const balance =
+      wallet &&
+      wallet.balances.find(walletBalance => walletBalance.assetId === a);
+    if (balance) {
+      balance.reserved = r;
+      balance.balance = b;
+    }
+  };
+
   fetchAll = async () => await this.api!.fetchAll();
 
   fetchById = async (assetId: string) => {

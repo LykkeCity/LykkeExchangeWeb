@@ -29,6 +29,8 @@ export class ConfirmOperationPage extends React.Component<
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly socketStore = this.props.rootStore!.socketStore;
 
+  @observable socketSubscriptionId: string = '';
+
   readonly actions = {
     [OpStatus.Accepted]: () => {
       // TODO: Change when BE statuses fixed
@@ -133,7 +135,7 @@ export class ConfirmOperationPage extends React.Component<
     this.props.history.replace(ROUTE_CONFIRM_OPERATION_ID(operationId));
   };
 
-  private listenSocket = () => {
+  private listenSocket = async () => {
     const {operationId} = this.props.match.params;
 
     const TIMEOUT_LIMIT = 10000;
@@ -143,7 +145,7 @@ export class ConfirmOperationPage extends React.Component<
     );
 
     const OPERATIONS_TOPIC = 'operations';
-    this.socketStore.subscribe(
+    const subscription = await this.socketStore.subscribe(
       OPERATIONS_TOPIC,
       (res: [{OperationId: string; Status: string}]) => {
         const {OperationId: id, Status: status} = res[0];
@@ -154,10 +156,13 @@ export class ConfirmOperationPage extends React.Component<
         }
       }
     );
+    this.socketSubscriptionId = subscription.id;
   };
 
   private handleSocketTimeout = async () => {
+    const OPERATIONS_TOPIC = 'operations';
     const {operationId} = this.props.match.params;
+    this.socketStore.unsubscribe(OPERATIONS_TOPIC, this.socketSubscriptionId);
     const operation = await this.withdrawStore.fetchWithdrawOperation(
       operationId
     );

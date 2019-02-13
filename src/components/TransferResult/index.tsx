@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_WALLETS} from '../../constants/routes';
+import {ROUTE_WALLETS_HFT} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {NumberFormat} from '../NumberFormat';
 import './style.css';
@@ -30,7 +30,7 @@ export const TransferResult: React.SFC<
         </div>
       )}
       <div className="transfer-result__button">
-        <Link to={ROUTE_WALLETS} className="btn btn--primary">
+        <Link to={ROUTE_WALLETS_HFT} className="btn btn--primary">
           Go back to wallets
         </Link>
       </div>
@@ -49,7 +49,7 @@ export const TransferFail: React.SFC<RouteComponentProps<any>> = ({
       />
       <div className="transfer-result__desc">Your transaction {reason}</div>
       <div className="transfer-result__button">
-        <Link to={ROUTE_WALLETS} className="btn btn--primary">
+        <Link to={ROUTE_WALLETS_HFT} className="btn btn--primary">
           Go back to wallets
         </Link>
       </div>
