@@ -17,6 +17,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, BalanceModel, TransactionType} from '../../models';
+import {moneyFloor} from '../../utils';
 
 // tslint:disable-next-line:no-var-requires
 const QRCode = require('qrcode.react');
@@ -104,7 +105,8 @@ export class AssetPage extends React.Component<AssetPageProps> {
                 <h2 className="asset-page__name">{asset.name}</h2>
                 {balance && (
                   <span className="asset-page__amount">
-                    {asBalance(balance)} {balance.asset.name}
+                    {moneyFloor(balance.balance, balance.asset.accuracy)}{' '}
+                    {balance.asset.name}
                   </span>
                 )}
                 <div className="asset-page__description">
