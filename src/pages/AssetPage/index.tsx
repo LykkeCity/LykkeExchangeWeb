@@ -3,7 +3,6 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {asBalance} from '../../components/hoc/assetBalance';
 import TransactionsTable from '../../components/TransactionsTable';
 import WalletTabs from '../../components/WalletTabs/index';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
@@ -284,7 +283,8 @@ export class AssetPage extends React.Component<AssetPageProps> {
       <h2 className="sticky-title__name">{balance && balance.asset.name}</h2>
       {balance && (
         <span className="sticky-title__amount">
-          {asBalance(balance)} {balance.asset.name}
+          {moneyFloor(balance.balance, balance.asset.accuracy)}{' '}
+          {balance.asset.name}
         </span>
       )}
     </div>

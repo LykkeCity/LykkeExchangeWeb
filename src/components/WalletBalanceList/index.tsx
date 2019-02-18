@@ -24,8 +24,8 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {WalletModel} from '../../models/index';
-import {moneyRound, plural} from '../../utils';
-import {asAssetBalance, asBalance} from '../hoc/assetBalance';
+import {moneyFloor, moneyRound, plural} from '../../utils';
+import {asAssetBalance} from '../hoc/assetBalance';
 import Spinner from '../Spinner';
 
 import './style.css';
@@ -268,11 +268,19 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                           {balance.baseAsset!.name}
                         </td>
                         <td className="_amount">
-                          {asBalance(balance)} {balance.asset.name}
+                          {moneyFloor(
+                            balance.balance,
+                            balance.asset.accuracy
+                          )}{' '}
+                          {balance.asset.name}
                         </td>
                         <td className="_amount_responsive">
                           <div className="_amount_responsive__asset">
-                            {balance.asset.name} {asBalance(balance)}
+                            {balance.asset.name}{' '}
+                            {moneyFloor(
+                              balance.balance,
+                              balance.asset.accuracy
+                            )}
                           </div>
                           <div className="_amount_responsive__base_asset">
                             {balance.baseAsset!.name}{' '}
