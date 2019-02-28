@@ -37,8 +37,8 @@ export class RestProfileApi extends RestApi implements ProfileApi {
 
   verifySmsCode = (tfaCode: string, smsCode: string) =>
     this.post('/2fa/setup/google', {
-      GaCode: tfaCode,
-      SmsCode: smsCode
+      Code: smsCode,
+      GaCode: tfaCode
     });
 }
 
