@@ -7,7 +7,9 @@ const mockApi = {
   get2faCode: jest.fn(),
   get2faStatus: jest.fn(),
   getUserInfo: jest.fn(),
-  updateBaseAsset: jest.fn()
+  sendSmsCode: jest.fn(),
+  updateBaseAsset: jest.fn(),
+  verifySmsCode: jest.fn()
 };
 const profileStore = new ProfileStore(rootStore, mockApi);
 

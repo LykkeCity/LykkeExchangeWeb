@@ -7,7 +7,8 @@ export interface ProfileApi {
   getUserInfo: () => ApiResponse<any>;
   get2faStatus: () => ApiResponse<any>;
   get2faCode: () => ApiResponse<any>;
-  enable2fa: (code: string) => ApiResponse<any>;
+  sendSmsCode: () => ApiResponse<any>;
+  verifySmsCode: (tfaCode: string, smsCode: string) => ApiResponse<any>;
 }
 
 export class RestProfileApi extends RestApi implements ProfileApi {
@@ -32,9 +33,12 @@ export class RestProfileApi extends RestApi implements ProfileApi {
 
   get2faCode = () => this.get('/2fa/setup/google');
 
-  enable2fa = (code: string) =>
+  sendSmsCode = () => this.post('/2fa/setup/google/confirmRequest');
+
+  verifySmsCode = (tfaCode: string, smsCode: string) =>
     this.post('/2fa/setup/google', {
-      code
+      GaCode: tfaCode,
+      SmsCode: smsCode
     });
 }
 

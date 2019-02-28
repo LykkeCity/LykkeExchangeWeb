@@ -16,14 +16,21 @@ const QRCode = require('qrcode.react');
 // tslint:disable-next-line:no-var-requires
 const TextMask = require('react-text-mask').default;
 
+const SmsStatus = {
+  CallTimeout: 'CallTimeout',
+  LimitExceed: 'LimitExceed'
+};
+
 export class SecurityPage extends React.Component<RootStoreProps> {
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   @observable private code2fa = '';
+  @observable private smsCode = '';
   @observable private error = '';
   @observable private isLoading = false;
+  @observable private isSmsLoading = false;
 
   componentDidMount() {
     this.uiStore.activeHeaderMenuItem = MenuItem.Settings;
@@ -122,13 +129,32 @@ export class SecurityPage extends React.Component<RootStoreProps> {
             </div>
             <div className="tfa__form">
               <label htmlFor="code" className="control-label">
+                SMS Code
+              </label>
+              <div className={classnames('form-group form-group_sms')}>
+                <div className="error-bar" />
+                <TextMask
+                  className="form-control"
+                  mask={[/\d/, /\d/, /\d/, /\d/]}
+                  name="smsCode"
+                  id="smsCode"
+                  guide={false}
+                  // tslint:disable-next-line:jsx-no-lambda
+                  onChange={(e: any) => (this.smsCode = e.currentTarget.value)}
+                  value={this.smsCode}
+                />
+                <button
+                  className="btn btn-primary"
+                  onClick={this.sendSms}
+                  disabled={this.isSmsLoading}
+                >
+                  Get code
+                </button>
+              </div>
+              <label htmlFor="code" className="control-label">
                 2FA Code
               </label>
-              <div
-                className={classnames('form-group', {
-                  'has-error': !!this.error
-                })}
-              >
+              <div className={classnames('form-group')}>
                 <div className="error-bar" />
                 <TextMask
                   className="form-control"
@@ -141,11 +167,20 @@ export class SecurityPage extends React.Component<RootStoreProps> {
                     (this.code2fa = e.currentTarget.value.replace(' ', ''))}
                   value={this.code2fa}
                 />
-                <button className="btn btn-primary" onClick={this.toggle2fa}>
-                  Turn on
-                </button>
               </div>
-              {this.error && <span className="help-block">{this.error}</span>}
+              {this.error && (
+                <span
+                  className="help-block"
+                  dangerouslySetInnerHTML={{__html: this.error}}
+                />
+              )}
+              <button
+                className="btn btn-primary tfa__btn"
+                onClick={this.toggle2fa}
+                disabled={!this.smsCode || !this.code2fa || this.isLoading}
+              >
+                Submit
+              </button>
             </div>
             <div
               className={classnames('security-page__description', {
@@ -164,17 +199,36 @@ export class SecurityPage extends React.Component<RootStoreProps> {
     );
   }
 
+  private sendSms = async () => {
+    if (!this.isSmsLoading) {
+      this.isSmsLoading = true;
+      this.error = '';
+      const res = await this.profileStore.sendSmsCode();
+      if (res.Status === SmsStatus.CallTimeout) {
+        this.error = 'Please try again in one minute';
+      }
+      if (res.Status === SmsStatus.LimitExceed) {
+        this.error =
+          'Feature was temporarily disabled, please contact <a href="mailto:support@lykke.com">support@lykke.com</a>';
+      }
+      this.isSmsLoading = false;
+    }
+  };
+
   private toggle2fa = async (e: React.MouseEvent<any>) => {
     e.preventDefault();
     if (!this.isLoading) {
       this.isLoading = true;
       this.error = '';
-      const isValid = await this.profileStore.enable2fa(this.code2fa);
+      const isValid = await this.profileStore.enable2fa(
+        this.code2fa,
+        this.smsCode
+      );
       if (isValid) {
         this.analyticsService.track(AnalyticsEvent.Enable2fa);
         window.scrollTo(0, 0);
       } else {
-        this.error = 'Code not valid. Please try again.';
+        this.error = 'Invalid sms or 2fa code';
       }
       this.isLoading = false;
     }

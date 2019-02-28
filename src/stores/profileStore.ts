@@ -122,16 +122,24 @@ export class ProfileStore {
     });
   };
 
-  enable2fa = async (code: string) => {
-    const resp = await this.api!.enable2fa(code);
+  sendSmsCode = () => {
+    return this.api!.sendSmsCode();
+  };
 
-    runInAction(() => {
-      if (resp && resp.IsValid) {
-        this.tfaStatus = TfaStatus.Active;
-      }
-    });
+  enable2fa = async (tfaCode: string, smsCode: string) => {
+    try {
+      const resp = await this.api!.verifySmsCode(tfaCode, smsCode);
 
-    return resp && resp.IsValid;
+      runInAction(() => {
+        if (resp && resp.IsValid) {
+          this.tfaStatus = TfaStatus.Active;
+        }
+      });
+
+      return resp && resp.IsValid;
+    } catch (e) {
+      this.tfaStatus = TfaStatus.Forbidden;
+    }
   };
 }
 

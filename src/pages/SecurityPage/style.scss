@@ -143,7 +143,19 @@
           margin-left: 20px;
           width: 143px;
         }
+
+        &_sms {
+          .error-bar {
+            width: 3px;
+          }
+        }
       }
+    }
+
+    &__btn {
+      width: 400px;
+      display: block;
+      margin: 40px auto 0px;
     }
 
     &_enabled {
