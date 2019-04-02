@@ -35,7 +35,7 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
   const secondMenuLinkOptions = [
     {
       title: MenuItem.LykkeStreams,
-      url: 'https://streams.lykke.com/'
+      url: process.env.REACT_APP_STREAMS_URL || 'https://streams.lykke.com/'
     },
     {
       title: MenuItem.ApiKeys,
@@ -43,7 +43,9 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
     },
     {
       title: MenuItem.FeesAndLimits,
-      url: 'https://www.lykke.com/cp/wallet-fees-and-limits'
+      url:
+        process.env.REACT_APP_FEES_URL ||
+        'https://www.lykke.com/cp/wallet-fees-and-limits'
     }
   ];
 
