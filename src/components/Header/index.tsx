@@ -14,6 +14,9 @@ import {STORE_ROOT} from '../../constants/stores';
 
 import './style.css';
 
+const LYKKE_STREAMS_ROUTE = 'https://streams.lykke.com/';
+const FEES_AND_LIMITS_ROUTE = 'https://www.lykke.com/cp/wallet-fees-and-limits';
+
 export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
   const {authStore, profileStore, uiStore} = rootStore!;
 
@@ -35,7 +38,7 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
   const secondMenuLinkOptions = [
     {
       title: MenuItem.LykkeStreams,
-      url: 'https://streams.lykke.com/'
+      url: LYKKE_STREAMS_ROUTE
     },
     {
       title: MenuItem.ApiKeys,
@@ -43,13 +46,16 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
     },
     {
       title: MenuItem.FeesAndLimits,
-      url: 'https://www.lykke.com/cp/wallet-fees-and-limits'
+      url: FEES_AND_LIMITS_ROUTE
     }
   ];
 
   const renderLink = (classes: string, title: JSX.Element, url: string) => {
+    const isBlank =
+      [LYKKE_STREAMS_ROUTE, FEES_AND_LIMITS_ROUTE].indexOf(url) !== -1;
+
     const externalLinkRenderer = (
-      <a href={url} className={classes}>
+      <a href={url} className={classes} target={isBlank ? '_blank' : undefined}>
         {title}
       </a>
     );
