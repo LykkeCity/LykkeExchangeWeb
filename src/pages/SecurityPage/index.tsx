@@ -43,7 +43,7 @@ export class SecurityPage extends React.Component<RootStoreProps> {
   render() {
     const QR_SIZE = 190;
     const qrValue = `otpauth://totp/${this.profileStore.email}?secret=${this
-      .profileStore.code2fa}`;
+      .profileStore.code2fa}&issuer=Lykke`;
 
     return (
       <div className="security-page">
