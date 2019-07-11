@@ -73,18 +73,15 @@ export class ConfirmOperationPage extends React.Component<
             <div className="confirm-operation__title">
               Two-Factor Authentication (2FA)
             </div>
-            <div className="confirm-operation__subtitle">
+            <div className="confirm-operation__description">
+              Please enter 2FA code to confirm withdraw of{' '}
               {`${this.getTotalAmount(
                 this.withdrawStore.withdrawCrypto.amount
               )} ${asset && asset.name}
                 (including fee ${this.getFeeSize(
                   this.withdrawStore.withdrawCrypto.amount
                 )}
-                ${asset && asset.name})`}
-            </div>
-            <div className="confirm-operation__description">
-              Please enter 2FA code to confirm withdraw of{' '}
-              {this.withdrawStore.withdrawCrypto.amount} {asset && asset.name}:
+                ${asset && asset.name})`}:
             </div>
             <div className="confirm-operation-form">
               <div
