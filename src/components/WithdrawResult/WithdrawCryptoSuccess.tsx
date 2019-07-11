@@ -6,7 +6,6 @@ import {RootStoreProps} from '../../App';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
 
@@ -29,10 +28,6 @@ export class WithdrawCryptoSuccess extends React.Component<
   }
 
   render() {
-    const amount = Number(this.withdrawStore.withdrawCrypto.amount);
-    const assetId = this.withdrawStore.withdrawCrypto.assetId;
-    const asset = assetId && this.props.rootStore!.assetStore.getById(assetId);
-
     return (
       <div className="withdraw-result">
         <Icon
@@ -44,12 +39,6 @@ export class WithdrawCryptoSuccess extends React.Component<
           <br />successfuly broadcasted to Blockchain.
           <br />We will notify you when it will be confirmed.
         </div>
-        {asset && (
-          <div className="withdraw-result__amount">
-            <NumberFormat value={amount} accuracy={asset.accuracy} />{' '}
-            {asset.name}
-          </div>
-        )}
         <div className="withdraw-result__button">
           <Link to={ROUTE_WALLETS} className="btn btn--primary">
             Go back to wallets
