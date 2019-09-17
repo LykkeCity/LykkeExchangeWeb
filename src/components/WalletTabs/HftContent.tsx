@@ -25,10 +25,10 @@ class HftContent extends React.Component<RootStoreProps> {
             <p style={{marginTop: '10px'}} className="hint text-left">
               Read more about using API here&nbsp;<a
                 className="link"
-                href="https://www.lykke.com/lykke_api"
+                href="https://www.lykke.com/cp/lykke-trading-api"
                 target="_blank"
               >
-                {'https://www.lykke.com/lykke_api'}
+                {'https://www.lykke.com/cp/lykke-trading-api'}
               </a>
             </p>
           </div>
