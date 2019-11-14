@@ -199,7 +199,7 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
         <div className="deposit-swift-form__links">
           <a
             className="link"
-            href="https://www.lykke.com/terms_of_use"
+            href="https://www.lykke.com/terms-of-use"
             target="_blank"
             onClick={this.trackViewTermsOfUse}
           >

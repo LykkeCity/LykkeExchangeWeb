@@ -279,7 +279,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           <div className="deposit-credit-card-form__links">
             <a
               className="link"
-              href="https://www.lykke.com/terms_of_use"
+              href="https://www.lykke.com/terms-of-use"
               target="_blank"
               onClick={handleViewTermsOfUse}
             >
