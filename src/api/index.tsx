@@ -16,3 +16,4 @@ export {default as DialogApi} from './dialogApi';
 export {default as DisclaimerApi} from './disclaimerApi';
 export {default as WithdrawApi} from './withdrawApi';
 export {default as ResourceApi} from './resourceApi';
+export {default as KycApi} from './kycApi';

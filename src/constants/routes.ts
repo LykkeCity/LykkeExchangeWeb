@@ -47,6 +47,7 @@ export const ROUTE_HISTORY = '/history';
 
 export const ROUTE_PROFILE = '/profile';
 export const ROUTE_SECURITY = '/profile/security';
+export const ROUTE_VERIFICATION = '/profile/kyc';
 
 export const ROUTE_CONFIRM_OPERATION_BASE = '/operation/confirm';
 export const ROUTE_CONFIRM_OPERATION = `${ROUTE_CONFIRM_OPERATION_BASE}/:operationId`;

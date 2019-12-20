@@ -32,6 +32,7 @@
     "react-scripts-ts": "2.8.0",
     "react-select": "^1.0.0-rc.10",
     "react-text-mask": "^5.0.2",
+    "react-webcam": "^4.0.0",
     "sha.js": "^2.4.9",
     "socket-connection": "^1.1.1",
     "socket-connection-wamp": "^1.1.4",

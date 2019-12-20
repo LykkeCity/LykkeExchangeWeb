@@ -3,6 +3,7 @@
   "rules": {
     "member-access": [true, "no-public"],
     "interface-name": [true, "never-prefix"],
-    "jsx-boolean-value": ["never"]
+    "jsx-boolean-value": ["never"],
+    "jsx-no-lambda": ["never"]
   }
 }

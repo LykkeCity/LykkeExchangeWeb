@@ -1,0 +1,60 @@
+@import '../../styles/utils';
+
+.in-review-widget {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  background-color: #ffffff;
+  box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2),
+    0 2px 4px 0 rgba(140, 148, 160, 0.15);
+  padding: 16px;
+  border-radius: 5px;
+
+  @media (max-width: $screen-mobile) {
+    padding: 8px;
+  }
+
+  &__icon {
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  &-right {
+    display: flex;
+    flex-direction: column;
+    margin-left: 16px;
+    flex: 1;
+
+    &__tier {
+      font-size: 21px;
+      line-height: 20px;
+      font-weight: bold;
+
+      @media (max-width: $screen-mobile) {
+        font-size: 16px;
+      }
+    }
+
+    &__status {
+      font-size: 19px;
+      line-height: 20px;
+
+      @media (max-width: $screen-mobile) {
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__time-left {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+
+    @media (max-width: $screen-mobile) {
+      font-size: 13px;
+    }
+  }
+}
