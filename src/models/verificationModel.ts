@@ -65,3 +65,23 @@ export type VerificationStatus =
   | 'EMPTY'
   | 'REJECTED'
   | 'SUBMITTED';
+
+export interface Document {
+  Id: string;
+  Type: string;
+  Status: string;
+  RejectReason: string;
+  Files: File[];
+}
+
+export interface File {
+  Id: string;
+  Type: string;
+  Title?: any;
+  ContentType: string;
+  FileName: string;
+}
+
+export interface Documents {
+  [key: string]: Document | null;
+}

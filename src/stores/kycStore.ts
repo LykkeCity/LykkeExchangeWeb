@@ -1,6 +1,8 @@
 import {action, computed, observable, runInAction} from 'mobx';
 import {KycApi, KycApiV2} from '../api/kycApi';
 import {
+  Document,
+  Documents,
   DocumentType,
   IdCardType,
   Questionnaire,
@@ -21,7 +23,7 @@ function urltoFile(url: string, filename: string, mimeType: string) {
 
 export class KycStore {
   @observable tierInfo: TierInfo;
-  @observable documents: any;
+  @observable documents: Documents;
   @observable registration: RegistrationResponse;
   @observable questionnaire: Questionnaire[] = [];
   @observable showUpgradeToPro: boolean;
@@ -81,29 +83,29 @@ export class KycStore {
         this.documents = response.Result;
       });
       if (this.getSelfieStatus === 'REJECTED') {
-        const fileId = this.getDocumentByType('Selfie').Files[0].Id;
+        const fileId = this.getDocumentByType('Selfie')!.Files[0].Id;
         this.rejectedDocuments.SELFIE = await getKycFileBase64(fileId);
       } else if (this.getPoiStatus === 'REJECTED') {
         const doc = this.getDocumentByType('PoI');
-        const files = doc.Files;
-        if (doc.Type === 'IdCard') {
+        const files = doc!.Files;
+        if (doc!.Type === 'IdCard') {
           this.rejectedDocuments.IDENTITY_NATIONAL_CARD = await getKycFileBase64(
             files[0].Id
           );
-        } else if (doc.Type === 'Passport') {
+        } else if (doc!.Type === 'Passport') {
           this.rejectedDocuments.IDENTITY_PASSPORT = await getKycFileBase64(
             files[0].Id
           );
-        } else if (doc.Type === 'DrivingLicense') {
+        } else if (doc!.Type === 'DrivingLicense') {
           this.rejectedDocuments.IDENTITY_DRIVER_LICENSE = await getKycFileBase64(
             files[0].Id
           );
         }
       } else if (this.getPofStatus === 'REJECTED') {
-        const fileId = this.getDocumentByType('PoF').Files[0].Id;
+        const fileId = this.getDocumentByType('PoF')!.Files[0].Id;
         this.rejectedDocuments.FUNDS = await getKycFileBase64(fileId);
       } else if (this.getPoaStatus === 'REJECTED') {
-        const fileId = this.getDocumentByType('PoA').Files[0].Id;
+        const fileId = this.getDocumentByType('PoA')!.Files[0].Id;
         this.rejectedDocuments.ADDRESS = await getKycFileBase64(fileId);
       }
     }
@@ -157,14 +159,6 @@ export class KycStore {
       return null;
     }
     return this.tierInfo.NextTier;
-  }
-
-  @computed
-  get getNextTierDocuments() {
-    if (!this.getNextTier) {
-      return [];
-    }
-    return this.getNextTier.Documents || [];
   }
 
   @computed
@@ -478,7 +472,7 @@ export class KycStore {
     return !this.verificationDocuments.SELFIE || this.fileUploadLoading;
   }
 
-  getDocumentByType(type: DocumentType): any {
+  getDocumentByType(type: DocumentType): Document | null {
     if (!this.documents) {
       return null;
     }
