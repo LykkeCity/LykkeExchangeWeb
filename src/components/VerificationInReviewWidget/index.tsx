@@ -4,6 +4,8 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
+const ONE_HR = 60 * 60 * 1000;
+
 export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   rootStore
 }) => {
@@ -16,6 +18,12 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
     ProIndividual: 'Pro Individual'
   };
 
+  const submitDate = new Date(tierInfo.UpgradeRequest.SubmitDate);
+  submitDate.setTime(submitDate.getTime() + 48 * ONE_HR);
+  let hoursRemained = (submitDate.getTime() - new Date().getTime()) / ONE_HR;
+  hoursRemained = Math.floor(hoursRemained);
+  hoursRemained = Math.max(hoursRemained, 0);
+
   return (
     <div className="in-review-widget">
       <div className="in-review-widget__icon">
@@ -27,7 +35,7 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
         </div>
         <div className="in-review-widget-right__status">In Review</div>
       </div>
-      <div className="in-review-widget__time-left">48h left</div>
+      <div className="in-review-widget__time-left">{hoursRemained}h left</div>
     </div>
   );
 };
