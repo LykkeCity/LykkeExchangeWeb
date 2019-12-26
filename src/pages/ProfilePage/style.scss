@@ -8,6 +8,7 @@
     letter-spacing: -0.4px;
     line-height: 1.25;
     font-weight: $fw-bold;
+    margin-top: 30px;
 
     @include rem(margin-bottom, 70px);
   }
@@ -17,6 +18,139 @@
 
     @media all and (max-width: $screen-mobile) {
       width: 100%;
+      padding-top: 20px;
+    }
+  }
+
+  .account-level {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    border-radius: 5px;
+    font-family: Akrobat;
+
+    &__title {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    @media (max-width: $screen-mobile) {
+      padding: 8px;
+    }
+
+    &__icon {
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    &-right {
+      display: flex;
+      flex-direction: column;
+      margin-left: 12px;
+      flex: 1;
+
+      &__tier {
+        font-size: 21px;
+        line-height: 20px;
+        font-weight: bold;
+
+        @media (max-width: $screen-mobile) {
+          font-size: 16px;
+        }
+      }
+
+      &__status {
+        font-size: 19px;
+        line-height: 20px;
+
+        @media (max-width: $screen-mobile) {
+          font-size: 14px;
+        }
+      }
+    }
+
+    &__time-left {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+
+      @media (max-width: $screen-mobile) {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .deposit-limits {
+    &__title {
+      margin-top: 30px;
+      margin-bottom: 10px;
+      letter-spacing: -0.4px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    &-progress {
+      position: relative;
+      margin-top: 20px;
+
+      &__bar {
+        width: 100%;
+        height: 10px;
+        box-shadow: 0 0 0 1px #cccccc inset;
+
+        &-fill {
+          height: 10px;
+          position: relative;
+
+          &.low {
+            background: linear-gradient(90deg, #0cb104 0%, #18a400 100%);
+          }
+
+          &.medium {
+            background: linear-gradient(90deg, #1083ff 0%, #0c51d4 100%);
+          }
+
+          &.high {
+            background: linear-gradient(90deg, #ff2910 0%, #a43000 100%);
+          }
+
+          &__handle {
+            position: absolute;
+            top: -20px;
+            font-size: 14px;
+            min-width: 80px;
+
+            &.right {
+              right: 0;
+              text-align: right;
+            }
+
+            &.left {
+              left: 0;
+              text-align: left;
+            }
+          }
+        }
+      }
+    }
+
+    &-legend {
+      display: flex;
+      flex-direction: row;
+      font-size: 14px;
+
+      .first {
+        flex: 1;
+      }
+
+      .last {
+      }
     }
   }
 }

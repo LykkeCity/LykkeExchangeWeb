@@ -1,6 +1,5 @@
 import {MenuItem} from '@lykkex/react-components';
 import * as classNames from 'classnames';
-import {computed} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
@@ -48,6 +47,7 @@ import {
   ROUTE_TRANSFER_BASE,
   ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS,
+  ROUTE_VERIFICATION,
   ROUTE_WALLETS,
   ROUTE_WALLETS_TRADING,
   ROUTE_WITHDRAW_CRYPTO,
@@ -65,6 +65,7 @@ import {
   DepositSwiftPage,
   ProfilePage,
   SecurityPage,
+  VerificationPage,
   WalletPage,
   WithdrawCryptoPage,
   WithdrawSwiftPage
@@ -73,6 +74,58 @@ import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
 import HistoryPage from '../HistoryPage/index';
 import TransferPage from '../TransferPage/index';
+
+let RouteWithHeaderAndFooter: React.SFC<
+  RootStoreProps & RouteComponentProps<any> & any
+> = ({rootStore, ...routeProps}) => {
+  const uiStore = rootStore!.uiStore;
+  const classes = {
+    app: true,
+    'app--overlayed': rootStore!.uiStore.overlayed
+  };
+  const gatewayUrls = [
+    ROUTE_GATEWAY_CANCEL,
+    ROUTE_GATEWAY_FAIL,
+    ROUTE_GATEWAY_SUCCESS
+  ];
+  const handleOutsideClick = (e: React.MouseEvent<any>) => {
+    const {toggleBaseAssetPicker, showBaseCurrencyPicker} = uiStore;
+    const isBaseAssetTarget = e.target !== document.getElementById('baseAsset');
+    if (isBaseAssetTarget && showBaseCurrencyPicker) {
+      toggleBaseAssetPicker();
+    }
+  };
+  return (
+    <div
+      className={classNames(classes, {
+        hidden: gatewayUrls.indexOf(routeProps.location.pathname) > -1
+      })}
+      onClick={handleOutsideClick}
+    >
+      <div
+        className={classNames({
+          hidden: uiStore.hasPendingRequests
+        })}
+      >
+        <Header />
+      </div>
+      <div className="app__shell">
+        <Route {...routeProps} />
+      </div>
+      <div
+        className={classNames({
+          hidden: uiStore.hasPendingRequests
+        })}
+      >
+        <Footer />
+      </div>
+    </div>
+  );
+};
+
+RouteWithHeaderAndFooter = inject(STORE_ROOT)(
+  observer(RouteWithHeaderAndFooter)
+);
 
 export class ProtectedPage extends React.Component<
   RootStoreProps & RouteComponentProps<any>
@@ -90,14 +143,7 @@ export class ProtectedPage extends React.Component<
   private readonly authStore = this.props.rootStore!.authStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
   private readonly balanceStore = this.props.rootStore!.balanceStore;
-
-  @computed
-  private get classes() {
-    return {
-      app: true,
-      'app--overlayed': this.props.rootStore!.uiStore.overlayed
-    };
-  }
+  private readonly kycStore = this.props.rootStore!.kycStore;
 
   componentDidMount() {
     this.uiStore.startRequest();
@@ -127,7 +173,8 @@ export class ProtectedPage extends React.Component<
       this.processRequest(this.profileStore.fetchUserInfo),
       this.processRequest(this.profileStore.fetch2faStatus),
       this.processRequest(this.profileStore.fetchBaseAsset),
-      this.processRequest(this.depositStore.fetchDepositDefaultValues)
+      this.processRequest(this.depositStore.fetchDepositDefaultValues),
+      this.processRequest(this.kycStore.fetchTierInfo)
     ]).then(() => this.identifyAnalytics());
 
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
@@ -167,143 +214,133 @@ export class ProtectedPage extends React.Component<
 
   render() {
     const asLoading = loadable(this.uiStore.hasPendingRequests);
-    const gatewayUrls = [
-      ROUTE_GATEWAY_CANCEL,
-      ROUTE_GATEWAY_FAIL,
-      ROUTE_GATEWAY_SUCCESS
-    ];
-
     return (
-      <div
-        className={classNames(this.classes, {
-          hidden: gatewayUrls.indexOf(this.props.history.location.pathname) > -1
-        })}
-        onClick={this.handleOutsideClick}
-      >
-        <div
-          className={classNames({
-            hidden: this.uiStore.hasPendingRequests
-          })}
-        >
-          <Header />
-        </div>
-        <div className="app__shell">
-          <Switch>
-            <Redirect
-              exact={true}
-              path={ROUTE_ROOT}
-              to={ROUTE_WALLETS_TRADING}
-            />
-            <Redirect
-              exact={true}
-              path={ROUTE_WALLETS}
-              to={ROUTE_WALLETS_TRADING}
-            />
-            <Route path={ROUTE_WALLETS} component={asLoading(WalletPage)} />
-            <Route path={ROUTE_ASSET_PAGE} component={asLoading(AssetPage)} />
-            <Route
-              exact={true}
-              path={ROUTE_TRANSFER_BASE}
-              component={asLoading(TransferPage)}
-            />
-            <Route path={ROUTE_TRANSFER} component={asLoading(TransferPage)} />
-            <Route path={ROUTE_TRANSFER_SUCCESS} component={TransferResult} />
-            <Route path={ROUTE_TRANSFER_FAIL} component={TransferFail} />
-            <Redirect
-              exact={true}
-              path={ROUTE_AFFILIATE}
-              to={
-                this.affiliateStore.isAgreed
-                  ? ROUTE_AFFILIATE_STATISTICS
-                  : ROUTE_AFFILIATE_DETAILS
-              }
-            />
-            <Route
-              path={ROUTE_AFFILIATE}
-              component={asLoading(AffiliatePage)}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY}
-              component={PaymentGateway}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS}
-              component={DepositSuccess}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_SWIFT_EMAIL_SENT}
-              component={DepositRequisitesSent}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_CREDIT_CARD_FAIL}
-              component={DepositFail}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_CREDIT_CARD}
-              component={asLoading(DepositCreditCardPage)}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_SWIFT}
-              component={asLoading(DepositSwiftPage)}
-            />
-            <Route
-              path={ROUTE_DEPOSIT_CRYPTO}
-              component={asLoading(DepositCryptoPage)}
-            />
-            <Route
-              path={ROUTE_PROFILE}
-              exact
-              component={asLoading(ProfilePage)}
-            />
-            <Route
-              path={ROUTE_SECURITY}
-              exact
-              component={asLoading(SecurityPage)}
-            />
-            <Route
-              path={ROUTE_WITHDRAW_CRYPTO_FAIL}
-              exact
-              component={WithdrawCryptoFail}
-            />
-            <Route
-              path={ROUTE_WITHDRAW_CRYPTO_SUCCESS}
-              exact
-              component={WithdrawCryptoSuccess}
-            />
-            <Route
-              path={ROUTE_WITHDRAW_CRYPTO}
-              component={asLoading(WithdrawCryptoPage)}
-            />
-            <Route
-              path={ROUTE_WITHDRAW_SWIFT_FAIL}
-              exact
-              component={WithdrawSwiftFail}
-            />
-            <Route
-              path={ROUTE_WITHDRAW_SWIFT_SUCCESS}
-              exact
-              component={WithdrawSwiftSuccess}
-            />
-            <Route
-              path={ROUTE_WITHDRAW_SWIFT}
-              component={asLoading(WithdrawSwiftPage)}
-            />
-            <Route
-              path={ROUTE_CONFIRM_OPERATION}
-              component={asLoading(ConfirmOperationPage)}
-            />
-            <Route path={ROUTE_HISTORY} component={asLoading(HistoryPage)} />
-            <Route component={NoMatch} />
-          </Switch>
-        </div>
-        <div
-          className={classNames({
-            hidden: this.uiStore.hasPendingRequests
-          })}
-        >
-          <Footer />
-        </div>
-      </div>
+      <Switch>
+        <Redirect exact={true} path={ROUTE_ROOT} to={ROUTE_WALLETS_TRADING} />
+        <Redirect
+          exact={true}
+          path={ROUTE_WALLETS}
+          to={ROUTE_WALLETS_TRADING}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WALLETS}
+          component={asLoading(WalletPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_ASSET_PAGE}
+          component={asLoading(AssetPage)}
+        />
+        <RouteWithHeaderAndFooter
+          exact={true}
+          path={ROUTE_TRANSFER_BASE}
+          component={asLoading(TransferPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_TRANSFER}
+          component={asLoading(TransferPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_TRANSFER_SUCCESS}
+          component={TransferResult}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_TRANSFER_FAIL}
+          component={TransferFail}
+        />
+        <Redirect
+          exact={true}
+          path={ROUTE_AFFILIATE}
+          to={
+            this.affiliateStore.isAgreed
+              ? ROUTE_AFFILIATE_STATISTICS
+              : ROUTE_AFFILIATE_DETAILS
+          }
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_AFFILIATE}
+          component={asLoading(AffiliatePage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY}
+          component={PaymentGateway}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS}
+          component={DepositSuccess}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_SWIFT_EMAIL_SENT}
+          component={DepositRequisitesSent}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_CREDIT_CARD_FAIL}
+          component={DepositFail}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_CREDIT_CARD}
+          component={asLoading(DepositCreditCardPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_SWIFT}
+          component={asLoading(DepositSwiftPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_DEPOSIT_CRYPTO}
+          component={asLoading(DepositCryptoPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_PROFILE}
+          exact
+          component={asLoading(ProfilePage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_SECURITY}
+          exact
+          component={asLoading(SecurityPage)}
+        />
+        <Route
+          path={ROUTE_VERIFICATION}
+          exact
+          component={asLoading(VerificationPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WITHDRAW_CRYPTO_FAIL}
+          exact
+          component={WithdrawCryptoFail}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WITHDRAW_CRYPTO_SUCCESS}
+          exact
+          component={WithdrawCryptoSuccess}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WITHDRAW_CRYPTO}
+          component={asLoading(WithdrawCryptoPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WITHDRAW_SWIFT_FAIL}
+          exact
+          component={WithdrawSwiftFail}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WITHDRAW_SWIFT_SUCCESS}
+          exact
+          component={WithdrawSwiftSuccess}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_WITHDRAW_SWIFT}
+          component={asLoading(WithdrawSwiftPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_CONFIRM_OPERATION}
+          component={asLoading(ConfirmOperationPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_HISTORY}
+          component={asLoading(HistoryPage)}
+        />
+        <RouteWithHeaderAndFooter component={NoMatch} />
+      </Switch>
     );
   }
 
@@ -320,15 +357,6 @@ export class ProtectedPage extends React.Component<
       is2faEnabled: !!this.profileStore.is2faEnabled,
       isKycPassed: !!this.profileStore.isKycPassed
     });
-  };
-
-  private handleOutsideClick = (e: React.MouseEvent<any>) => {
-    const {toggleBaseAssetPicker, showBaseCurrencyPicker} = this.props
-      .rootStore!.uiStore;
-    const isBaseAssetTarget = e.target !== document.getElementById('baseAsset');
-    if (isBaseAssetTarget && showBaseCurrencyPicker) {
-      toggleBaseAssetPicker();
-    }
   };
 }
 
