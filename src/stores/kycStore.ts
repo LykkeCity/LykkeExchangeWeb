@@ -539,7 +539,7 @@ export class KycStore {
 
     const isRejected = doc.Status === 'Declined';
     if (isRejected) {
-      rejectReason = doc.RejectReason || 'Rejected';
+      rejectReason = doc.RejectReason;
     }
     return rejectReason;
   }
