@@ -23,7 +23,7 @@ export const QuestionText: React.SFC<QuestionProps> = ({question}) => {
             {renderError(field, form)}
           </div>
           <div
-            className={classNames('form-group', {
+            className={classNames('form-group question-text', {
               'has-error': form.errors[field.name] && form.touched[field.name]
             })}
           >

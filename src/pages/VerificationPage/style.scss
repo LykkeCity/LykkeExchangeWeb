@@ -684,6 +684,7 @@
         width: 100%;
         left: 0;
         margin-left: 0;
+        padding-top: 0;
 
         .dropdown__nav {
           width: 100%;
@@ -727,6 +728,7 @@
       &-radio {
         display: flex;
         flex-direction: row;
+        margin-top: 5px;
 
         &__button {
           padding: 12px 20px;
@@ -756,6 +758,12 @@
             font-weight: 500;
             border: 1px solid #0388ef;
           }
+        }
+      }
+
+      &-text {
+        .form-control {
+          margin-top: 5px;
         }
       }
     }
