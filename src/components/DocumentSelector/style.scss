@@ -21,7 +21,10 @@
     letter-spacing: normal;
     color: #b2b8bf;
     width: 400px;
+    min-height: 490px;
     text-align: left;
+    display: flex;
+    align-items: center;
   }
 
   &__clear-icon {

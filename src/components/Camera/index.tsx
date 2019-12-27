@@ -31,18 +31,20 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
     return (
       <div className="camera">
         {!picture && (
-          <WebCam
-            ref={ref => {
-              this.webCamRef = ref;
-            }}
-            audio={false}
-            imageSmoothing={false}
-            onUserMedia={noop}
-            onUserMediaError={noop}
-            screenshotQuality={1}
-            screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
-          />
+          <div className="camera__wrapper">
+            <WebCam
+              ref={ref => {
+                this.webCamRef = ref;
+              }}
+              audio={false}
+              imageSmoothing={false}
+              onUserMedia={noop}
+              onUserMediaError={noop}
+              screenshotQuality={1}
+              screenshotFormat="image/jpeg"
+              videoConstraints={videoConstraints}
+            />
+          </div>
         )}
         {picture && (
           <div>
