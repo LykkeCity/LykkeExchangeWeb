@@ -31,7 +31,7 @@ export const Completed: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
         )}
         <div className="mt-30 mb-30">
-          <Link to="/" className="btn btn-link">
+          <Link to="/" className="btn">
             OK
           </Link>
         </div>

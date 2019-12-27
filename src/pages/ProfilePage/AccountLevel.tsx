@@ -19,7 +19,7 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
   const showUpgradeButton = !!tierInfo.NextTier;
   const upgradeButton = (
     <div className="account-level__upgrade">
-      <Link to="/profile/kyc" className="btn btn-link">
+      <Link to="/profile/kyc" className="btn">
         Upgrade
       </Link>
     </div>
@@ -27,7 +27,7 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   const upgradeLimitButton = (
     <div className="account-level__upgrade">
-      <Link to="/profile/kyc" className="btn btn-link">
+      <Link to="/profile/kyc" className="btn">
         Upgrade Limit
       </Link>
     </div>
