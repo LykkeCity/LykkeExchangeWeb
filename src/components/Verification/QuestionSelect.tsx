@@ -1,3 +1,8 @@
+import {
+  Dropdown,
+  DropdownContainer,
+  DropdownControl
+} from '@lykkex/react-components';
 import classNames from 'classnames';
 import {Field, FieldConfig} from 'formik';
 import React from 'react';
@@ -16,7 +21,6 @@ export class QuestionSelect extends React.Component<
   QuestionSelectProps,
   QuestionSelectState
 > {
-  selectRef: any;
   state = {
     open: false,
     showOtherInput: false
@@ -24,42 +28,23 @@ export class QuestionSelect extends React.Component<
 
   constructor(props: QuestionSelectProps) {
     super(props);
-    this.handleClick = this.handleClick.bind(this);
   }
 
-  componentDidMount(): void {
-    document.addEventListener('mousedown', this.handleClick, false);
-    document.addEventListener('touchstart', this.handleClick, false);
-  }
-
-  componentWilUnmount(): void {
-    document.removeEventListener('mousedown', this.handleClick, false);
-    document.removeEventListener('touchend', this.handleClick, false);
-  }
-
-  handleClick(e: Event) {
-    if (this.selectRef && this.selectRef.contains(e.target)) {
-      return;
-    }
-
-    this.hideDropdown();
-  }
-
-  showDropdown() {
+  showDropdown(field: FieldConfig, form: any) {
     this.setState({open: true});
   }
 
-  hideDropdown() {
+  hideDropdown(field: FieldConfig, form: any) {
     this.setState({open: false});
+    form.setFieldTouched(field.name);
   }
 
   showOrHide(field: FieldConfig, form: any) {
     if (this.state.open) {
-      this.hideDropdown();
+      this.hideDropdown(field, form);
     } else {
-      this.showDropdown();
+      this.showDropdown(field, form);
     }
-    form.setFieldTouched(field.name);
   }
 
   renderOption(answer: Answer, field: FieldConfig, form: any) {
@@ -78,7 +63,6 @@ export class QuestionSelect extends React.Component<
           if (question.Type === 'Multiple') {
             if (answerId === 'OTHER') {
               this.setState({showOtherInput: true});
-              this.hideDropdown();
             } else {
               if (answerSelected) {
                 value.answerIds = value.answerIds.filter(
@@ -86,7 +70,6 @@ export class QuestionSelect extends React.Component<
                 );
               } else {
                 value.answerIds.push(answerId);
-                this.hideDropdown();
               }
             }
             if (value.answerIds.length > 0) {
@@ -102,8 +85,8 @@ export class QuestionSelect extends React.Component<
               form.setFieldValue(field.name, value);
               this.setState({showOtherInput: false});
             }
-            this.hideDropdown();
           }
+          this.hideDropdown(field, form);
         }}
       >
         <div className="question-dropdown__option-text">{answer.Text}</div>
@@ -127,7 +110,11 @@ export class QuestionSelect extends React.Component<
             value.answerIds = value.answerIds.filter(
               (v: string) => v !== answer.Id
             );
-            form.setFieldValue(field.name, value);
+            if (value.answerIds.length > 0) {
+              form.setFieldValue(field.name, value);
+            } else {
+              form.setFieldValue(field.name, null);
+            }
           }}
         >
           x
@@ -207,46 +194,53 @@ export class QuestionSelect extends React.Component<
     return (
       <Field name={question.Id}>
         {({field, form}: any) => (
-          <div
-            className="question"
-            ref={(ref: any) => {
-              this.selectRef = ref;
-            }}
-          >
+          <div className="question">
             <div className="question__text">
               {question.Index}. {question.Text}
               {renderError(field, form)}
             </div>
-            <div
-              className={classNames('question-placeholder', {
-                'has-error': form.errors[field.name] && form.touched[field.name]
-              })}
-              onClick={() => this.showOrHide(field, form)}
+            <Dropdown
+              isOpen={open}
+              trigger="click"
+              onClose={() => this.hideDropdown(field, form)}
             >
-              {this.getPlaceholder(field, form)}
-              <span className="question-placeholder__arrow">
-                {open ? '△' : '▽'}
-              </span>
-            </div>
-            <div>
-              <div
-                className={classNames(
-                  'question-dropdown',
-                  open ? 'open' : 'hide'
-                )}
-              >
-                {answers.map(answer => this.renderOption(answer, field, form))}
-                {question.HasOther &&
-                  this.renderOption(
-                    {
-                      Id: 'OTHER',
-                      Text: 'Other, please specify'
-                    },
-                    field,
-                    form
-                  )}
-              </div>
-            </div>
+              <DropdownControl>
+                <div
+                  className={classNames('question-placeholder', {
+                    'has-error':
+                      form.errors[field.name] && form.touched[field.name]
+                  })}
+                  onClick={(e: any) => {
+                    this.showOrHide(field, form);
+                  }}
+                >
+                  {this.getPlaceholder(field, form)}
+                  <span className="question-placeholder__arrow">
+                    {open ? '△' : '▽'}
+                  </span>
+                </div>
+              </DropdownControl>
+              {open ? (
+                <DropdownContainer className="question-dropdown">
+                  <div>
+                    {answers.map(answer =>
+                      this.renderOption(answer, field, form)
+                    )}
+                    {question.HasOther &&
+                      this.renderOption(
+                        {
+                          Id: 'OTHER',
+                          Text: 'Other, please specify'
+                        },
+                        field,
+                        form
+                      )}
+                  </div>
+                </DropdownContainer>
+              ) : (
+                ''
+              )}
+            </Dropdown>
             {showOtherInput && this.renderOtherInput(field, form)}
           </div>
         )}
