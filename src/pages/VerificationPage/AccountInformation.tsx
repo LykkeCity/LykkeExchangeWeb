@@ -58,7 +58,7 @@ export class AccountInformation extends React.Component<RootStoreProps> {
         </div>
         <div className="col-sm-6">{renderField('building', 'Building')}</div>
         <div className="col-sm-6">{renderField('apartment', 'Apartment')}</div>
-        <div className="col-sm-12">{renderField('zip', 'Zip', 'number')}</div>
+        <div className="col-sm-12">{renderField('zip', 'Zip')}</div>
         <div className="col-sm-12">
           <input
             type="submit"
