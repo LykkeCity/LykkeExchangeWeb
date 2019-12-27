@@ -74,6 +74,7 @@ export class VerificationPage extends React.Component<RootStoreProps> {
           </div>
           <div className="col-sm-7">
             <div className="verification-page__content-inner">
+              <Funds />
               {formMapping[currentFormToRender]}
             </div>
           </div>
