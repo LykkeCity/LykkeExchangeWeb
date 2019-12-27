@@ -32,7 +32,7 @@ export const QuestionText: React.SFC<QuestionProps> = ({question}) => {
               name={question.Id}
               type="text"
               className="form-control"
-              placeholder="Please answer this question"
+              placeholder={question.Text}
               value={field.value && field.value.other ? field.value.other : ''}
               onBlur={field.onBlur}
               onChange={(e: any) => {

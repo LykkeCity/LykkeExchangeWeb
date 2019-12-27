@@ -95,8 +95,13 @@ export class QuestionSelect extends React.Component<
               form.setFieldValue(field.name, null);
             }
           } else if (question.Type === 'Single') {
-            value.answerIds = [answerId];
-            form.setFieldValue(field.name, value);
+            if (answerId === 'OTHER') {
+              this.setState({showOtherInput: true});
+            } else {
+              value.answerIds = [answerId];
+              form.setFieldValue(field.name, value);
+              this.setState({showOtherInput: false});
+            }
             this.hideDropdown();
           }
         }}
@@ -143,8 +148,8 @@ export class QuestionSelect extends React.Component<
           a => a.Id === value.answerIds[0]
         )[0];
         placeholder = (
-          <div className="question-placeholder__text">
-            {selectedAnswer.Text}
+          <div className="question-placeholder__text selected">
+            {selectedAnswer ? selectedAnswer.Text : ''}
           </div>
         );
       } else if (question.Type === 'Multiple') {
@@ -161,9 +166,7 @@ export class QuestionSelect extends React.Component<
       }
     } else {
       placeholder = (
-        <div className="question-placeholder__text">
-          Please select your choice
-        </div>
+        <div className="question-placeholder__text">{question.Text}</div>
       );
     }
 
@@ -196,64 +199,58 @@ export class QuestionSelect extends React.Component<
   render() {
     const {question} = this.props;
     const {open, showOtherInput} = this.state;
+    const answers = question.Answers;
     const renderError = (field: FieldConfig, form: any) =>
       form.errors[field.name] &&
       form.touched[field.name] && <span className="question__error">*</span>;
 
-    const sortedAnswers = question.Answers.sort((a, b) =>
-      a.Text.localeCompare(b.Text)
-    );
-
-    if (question.HasOther) {
-      sortedAnswers.push({
-        Id: 'OTHER',
-        Text: 'Other, please specify'
-      });
-    }
-
     return (
-      <div
-        className="question"
-        ref={(ref: any) => {
-          this.selectRef = ref;
-        }}
-      >
-        <Field name={question.Id}>
-          {({field, form}: any) => (
-            <div>
-              <div className="question__text">
-                {question.Index}. {question.Text}
-                {renderError(field, form)}
-              </div>
-              <div
-                className={classNames('question-placeholder', {
-                  'has-error':
-                    form.errors[field.name] && form.touched[field.name]
-                })}
-                onClick={() => this.showOrHide(field, form)}
-              >
-                {this.getPlaceholder(field, form)}
-                <span className="question-placeholder__arrow">
-                  {open ? '△' : '▽'}
-                </span>
-              </div>
-              <div>
-                <div
-                  className={classNames(
-                    'question-dropdown',
-                    open ? 'open' : 'hide'
-                  )}
-                >
-                  {sortedAnswers.map(answer =>
-                    this.renderOption(answer, field, form)
-                  )}
-                </div>
-              </div>
-              {showOtherInput && this.renderOtherInput(field, form)}
+      <Field name={question.Id}>
+        {({field, form}: any) => (
+          <div
+            className="question"
+            ref={(ref: any) => {
+              this.selectRef = ref;
+            }}
+          >
+            <div className="question__text">
+              {question.Index}. {question.Text}
+              {renderError(field, form)}
             </div>
-          )}
-        </Field>
-      </div>
+            <div
+              className={classNames('question-placeholder', {
+                'has-error': form.errors[field.name] && form.touched[field.name]
+              })}
+              onClick={() => this.showOrHide(field, form)}
+            >
+              {this.getPlaceholder(field, form)}
+              <span className="question-placeholder__arrow">
+                {open ? '△' : '▽'}
+              </span>
+            </div>
+            <div>
+              <div
+                className={classNames(
+                  'question-dropdown',
+                  open ? 'open' : 'hide'
+                )}
+              >
+                {answers.map(answer => this.renderOption(answer, field, form))}
+                {question.HasOther &&
+                  this.renderOption(
+                    {
+                      Id: 'OTHER',
+                      Text: 'Other, please specify'
+                    },
+                    field,
+                    form
+                  )}
+              </div>
+            </div>
+            {showOtherInput && this.renderOtherInput(field, form)}
+          </div>
+        )}
+      </Field>
     );
   }
 }

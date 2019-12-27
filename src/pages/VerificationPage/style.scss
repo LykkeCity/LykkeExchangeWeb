@@ -625,6 +625,10 @@
 
         &__text {
           flex: 1;
+
+          &.selected {
+            color: #444444;
+          }
         }
 
         &__arrow {
