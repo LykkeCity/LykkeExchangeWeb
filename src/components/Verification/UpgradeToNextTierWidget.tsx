@@ -61,14 +61,14 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
     if (showUpgradeToPro) {
       return (
         <div className="verification-items">
-          {nextTierRequiredDocuments.indexOf('PoF') > -1 &&
-            showUpgradeToPro && (
-              <StepItem
-                text="Proof Of Funds"
-                status={pofStatus}
-                isActive={currentFormToRender === 'PoF'}
-              />
-            )}
+          {(nextTierRequiredDocuments.indexOf('PoF') > -1 ||
+            showUpgradeToPro) && (
+            <StepItem
+              text="Proof Of Funds"
+              status={pofStatus}
+              isActive={currentFormToRender === 'PoF'}
+            />
+          )}
         </div>
       );
     }
@@ -102,14 +102,14 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
               isActive={currentFormToRender === 'PoA'}
             />
           )}
-          {nextTierRequiredDocuments.indexOf('PoF') > -1 &&
-            showUpgradeToPro && (
-              <StepItem
-                text="Proof Of Funds"
-                status={pofStatus}
-                isActive={currentFormToRender === 'PoF'}
-              />
-            )}
+          {(nextTierRequiredDocuments.indexOf('PoF') > -1 ||
+            showUpgradeToPro) && (
+            <StepItem
+              text="Proof Of Funds"
+              status={pofStatus}
+              isActive={currentFormToRender === 'PoF'}
+            />
+          )}
           <StepItem
             text="Questionnaire"
             status={getQuestionnaireStatus}

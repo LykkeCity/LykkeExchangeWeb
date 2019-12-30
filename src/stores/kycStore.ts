@@ -61,9 +61,9 @@ export class KycStore {
   constructor(private api: KycApi, private apiv2: KycApiV2) {}
 
   fetchVerificationData = async () => {
-    await this.fetchTierInfo();
     await this.fetchDocuments();
     await this.fetchRegistration();
+    await this.fetchTierInfo();
   };
 
   fetchTierInfo = async () => {
