@@ -30,10 +30,10 @@ export class Selfie extends React.Component<RootStoreProps> {
               accept={[]}
               rejectedImage={rejectedSelfieImage}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture('SELFIE', pictureBase64);
+                this.kycStore.setDocument('SELFIE', pictureBase64);
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('SELFIE');
+                this.kycStore.clearDocument('SELFIE');
               }}
               rules={
                 <ul>

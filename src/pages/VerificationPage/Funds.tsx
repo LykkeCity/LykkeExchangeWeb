@@ -33,10 +33,10 @@ export class Funds extends React.Component<RootStoreProps> {
               rejectedImage={rejectedPofImage}
               accept={['.png', '.jpg', '.pdf']}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture('FUNDS', pictureBase64);
+                this.kycStore.setDocument('FUNDS', pictureBase64);
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('FUNDS');
+                this.kycStore.clearDocument('FUNDS');
               }}
               rules={
                 <ul>

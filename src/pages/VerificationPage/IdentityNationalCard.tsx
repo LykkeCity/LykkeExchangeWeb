@@ -13,6 +13,8 @@ export class IdentityNationalCard extends React.Component<
   RootStoreProps,
   IdentityNationalCardState
 > {
+  frontSideSelector: any;
+  backSideSelector: any;
   state = {activeSide: 'FRONT'} as IdentityNationalCardState;
   private readonly kycStore = this.props.rootStore!.kycStore;
 
@@ -37,6 +39,9 @@ export class IdentityNationalCard extends React.Component<
               'tab-button': true
             })}
             onClick={() => {
+              if (!this.kycStore.verificationDocuments.IDENTITY_NATIONAL_BACK) {
+                this.backSideSelector.turnOffCamera();
+              }
               this.setState({activeSide: 'FRONT'});
             }}
           >
@@ -49,6 +54,11 @@ export class IdentityNationalCard extends React.Component<
               'tab-button': true
             })}
             onClick={() => {
+              if (
+                !this.kycStore.verificationDocuments.IDENTITY_NATIONAL_FRONT
+              ) {
+                this.frontSideSelector.turnOffCamera();
+              }
               this.setState({activeSide: 'BACK'});
             }}
           >
@@ -59,35 +69,37 @@ export class IdentityNationalCard extends React.Component<
         <div className="mt-30">
           <div style={{display: activeSide === 'FRONT' ? 'block' : 'none'}}>
             <DocumentSelector
+              ref={ref => (this.frontSideSelector = ref)}
               fromCamera={true}
               maxFileSize={3}
               rejectedImage={rejectedPoiCardImage}
               accept={[]}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture(
+                this.kycStore.setDocument(
                   'IDENTITY_NATIONAL_FRONT',
                   pictureBase64
                 );
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('IDENTITY_NATIONAL_FRONT');
+                this.kycStore.clearDocument('IDENTITY_NATIONAL_FRONT');
               }}
               rules={rules}
             />
           </div>
           <div style={{display: activeSide === 'BACK' ? 'block' : 'none'}}>
             <DocumentSelector
+              ref={ref => (this.backSideSelector = ref)}
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture(
+                this.kycStore.setDocument(
                   'IDENTITY_NATIONAL_BACK',
                   pictureBase64
                 );
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('IDENTITY_NATIONAL_BACK');
+                this.kycStore.clearDocument('IDENTITY_NATIONAL_BACK');
               }}
               rules={rules}
             />

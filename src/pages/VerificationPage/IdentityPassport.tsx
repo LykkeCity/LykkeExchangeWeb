@@ -23,10 +23,10 @@ export class IdentityPassport extends React.Component<RootStoreProps> {
             accept={[]}
             rejectedImage={rejectedPoiPassportImage}
             onPictureTaken={pictureBase64 => {
-              this.kycStore.setPicture('IDENTITY_PASSPORT', pictureBase64);
+              this.kycStore.setDocument('IDENTITY_PASSPORT', pictureBase64);
             }}
             onPictureClear={() => {
-              this.kycStore.clearPicture('IDENTITY_PASSPORT');
+              this.kycStore.clearDocument('IDENTITY_PASSPORT');
             }}
             rules={
               <ul>

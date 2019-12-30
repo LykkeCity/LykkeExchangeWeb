@@ -406,22 +406,33 @@ export class KycStore {
   @action
   setSelectedIdCardType = (type: IdCardType) => {
     this.selectedIdCardType = type;
-    this.clearPicture('IDENTITY_PASSPORT');
-    this.clearPicture('IDENTITY_NATIONAL_FRONT');
-    this.clearPicture('IDENTITY_NATIONAL_BACK');
-    this.clearPicture('IDENTITY_DRIVER_LICENSE_FRONT');
-    this.clearPicture('IDENTITY_DRIVER_LICENSE_BACK');
+    this.clearDocument('IDENTITY_PASSPORT');
+    this.clearDocument('IDENTITY_NATIONAL_FRONT');
+    this.clearDocument('IDENTITY_NATIONAL_BACK');
+    this.clearDocument('IDENTITY_DRIVER_LICENSE_FRONT');
+    this.clearDocument('IDENTITY_DRIVER_LICENSE_BACK');
   };
 
   @action
-  setPicture = (pictureType: string, pictureBase64: any) => {
+  setDocument = (pictureType: string, pictureBase64: any) => {
     this.verificationDocuments[pictureType] = pictureBase64;
   };
 
   @action
-  clearPicture = (pictureType: string) => {
+  clearDocument = (pictureType: string) => {
     this.verificationDocuments[pictureType] = null;
   };
+
+  @computed
+  get hasIdentityDocumentSelected(): boolean {
+    return (
+      !!this.verificationDocuments.IDENTITY_DRIVER_LICENSE_BACK ||
+      !!this.verificationDocuments.IDENTITY_DRIVER_LICENSE_FRONT ||
+      !!this.verificationDocuments.IDENTITY_PASSPORT ||
+      !!this.verificationDocuments.IDENTITY_NATIONAL_BACK ||
+      !!this.verificationDocuments.IDENTITY_NATIONAL_FRONT
+    );
+  }
 
   @action
   setShowFileUploadServerErrorModal = (value: boolean) => {

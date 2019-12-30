@@ -31,10 +31,10 @@ export class Address extends React.Component<RootStoreProps> {
               rejectedImage={rejectedPoaImage}
               accept={['.png', '.jpg', '.pdf']}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture('ADDRESS', pictureBase64);
+                this.kycStore.setDocument('ADDRESS', pictureBase64);
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('ADDRESS');
+                this.kycStore.clearDocument('ADDRESS');
               }}
               rules={
                 <ul>
