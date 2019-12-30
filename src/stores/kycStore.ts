@@ -219,6 +219,9 @@ export class KycStore {
       // catch is ignored, because json parser throws exception when successful
       /* tslint:disable-next-line:no-empty */
     } catch (e) {}
+    if (this.isUpgradeRequestNeedToFillData) {
+      await this.api!.setKycProfile('Advanced');
+    }
     await this.fetchVerificationData();
   };
 
@@ -282,6 +285,9 @@ export class KycStore {
       if (result.Error) {
         this.setShowFileUploadServerErrorModal(true);
       } else {
+        if (this.isUpgradeRequestNeedToFillData) {
+          await this.api!.setKycProfile('Advanced');
+        }
         await this.fetchVerificationData();
       }
     } catch (e) {
@@ -306,6 +312,9 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
+      if (this.isUpgradeRequestNeedToFillData) {
+        await this.api!.setKycProfile('Advanced');
+      }
       await this.fetchVerificationData();
     }
 
@@ -342,6 +351,9 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
+      if (this.isUpgradeRequestNeedToFillData) {
+        await this.api!.setKycProfile('Advanced');
+      }
       await this.fetchVerificationData();
     }
 
@@ -565,6 +577,30 @@ export class KycStore {
   }
 
   @computed
+  get isUpgradeRequestRejected(): boolean {
+    if (
+      this.tierInfo &&
+      this.tierInfo.UpgradeRequest &&
+      this.tierInfo.UpgradeRequest.Status === 'Rejected'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
+  get isUpgradeRequestNeedToFillData(): boolean {
+    if (
+      this.tierInfo &&
+      this.tierInfo.UpgradeRequest &&
+      this.tierInfo.UpgradeRequest.Status === 'NeedToFillData'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
   get decideCurrentFormToRender() {
     const tierInfo = this.tierInfo;
     if (!tierInfo || !this.documents || !this.registration) {
@@ -577,6 +613,10 @@ export class KycStore {
     const poaStatus = this.getPoaStatus;
     const questionnaireStatus = this.getQuestionnaireStatus;
     const showUpgradeToPro = this.showUpgradeToPro;
+
+    if (this.isUpgradeRequestRejected) {
+      return 'Rejected';
+    }
 
     if (accountInfoStatus === 'EMPTY' || accountInfoStatus === 'REJECTED') {
       return 'AccountInformation';
@@ -603,7 +643,9 @@ export class KycStore {
     }
 
     if (tierInfo.UpgradeRequest) {
-      return 'InReview';
+      if (tierInfo.UpgradeRequest.Status === 'Pending') {
+        return 'InReview';
+      }
     }
 
     if (this.isMaxLimitReached) {

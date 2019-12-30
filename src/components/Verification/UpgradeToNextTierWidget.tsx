@@ -58,6 +58,10 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   }
 
   function getSidebarItems() {
+    if (kycStore.isUpgradeRequestRejected) {
+      return null;
+    }
+
     if (showUpgradeToPro) {
       return (
         <div className="verification-items">

@@ -17,7 +17,13 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
   };
 
   const isMaxLimitReached = kycStore.isMaxLimitReached;
-  const showUpgradeButton = !!tierInfo.NextTier;
+  let showUpgradeButton = false;
+  if (tierInfo.NextTier) {
+    showUpgradeButton = true;
+  }
+  if (kycStore.isUpgradeRequestRejected) {
+    showUpgradeButton = false;
+  }
   const upgradeButton = (
     <div className="account-level__upgrade">
       <Link

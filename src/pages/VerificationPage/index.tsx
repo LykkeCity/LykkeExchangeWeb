@@ -14,6 +14,7 @@ import Funds from './Funds';
 import Identity from './Identity';
 import InReview from './InReview';
 import Questionnaire from './Questionnaire';
+import Rejected from './Rejected';
 import Selfie from './Selfie';
 import Sidebar from './Sidebar';
 import './style.css';
@@ -59,6 +60,7 @@ export class VerificationPage extends React.Component<RootStoreProps> {
       PoF: <Funds />,
       PoI: <Identity />,
       Questionnaire: <Questionnaire />,
+      Rejected: <Rejected />,
       Selfie: <Selfie />,
       Spinner: <Spinner />,
       UpgradeLimit: <UpgradeLimit />

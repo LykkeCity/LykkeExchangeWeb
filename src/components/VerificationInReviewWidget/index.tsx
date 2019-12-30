@@ -19,6 +19,10 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   };
 
   const upgradeRequest = tierInfo.UpgradeRequest;
+  if (upgradeRequest.Status === 'Rejected') {
+    return null;
+  }
+
   const submitDate = new Date(upgradeRequest.SubmitDate);
   submitDate.setTime(submitDate.getTime() + 48 * ONE_HR);
   let hoursRemained = (submitDate.getTime() - new Date().getTime()) / ONE_HR;
