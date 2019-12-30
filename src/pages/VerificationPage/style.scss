@@ -541,18 +541,17 @@
       display: none;
       height: 40px;
       position: absolute;
-      top: 3px;
       width: 2px;
       z-index: 100;
     }
 
     label + .error-bar {
-      top: 35px;
+      top: 40px;
     }
 
     .has-error {
       .error-bar {
-        /*display: block; uncomment this line to show error left border*/
+        display: block;
       }
 
       .form-control {
@@ -635,7 +634,8 @@
         }
 
         &.has-error {
-          border-color: #a94442;
+          border-left-color: $red;
+          border-left-width: 2px;
         }
 
         &-tags {
@@ -764,6 +764,18 @@
       &-text {
         .form-control {
           margin-top: 5px;
+        }
+
+        &.has-error {
+          .form-control {
+            border-color: $gray-25;
+            border-left-color: $red;
+            border-left-width: 2px;
+
+            &:focus {
+              border-color: $gray-25;
+            }
+          }
         }
       }
     }
