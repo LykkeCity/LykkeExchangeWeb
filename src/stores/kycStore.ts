@@ -11,14 +11,8 @@ import {
   VerificationStatus
 } from '../models';
 
-function urltoFile(url: string, filename: string, mimeType: string) {
-  return fetch(url)
-    .then(res => {
-      return res.arrayBuffer();
-    })
-    .then(buf => {
-      return new File([buf], filename, {type: mimeType});
-    });
+interface VerificationDocuments {
+  [key: string]: File | null;
 }
 
 export class KycStore {
@@ -36,15 +30,15 @@ export class KycStore {
 
   @observable selectedIdCardType: IdCardType = 'Passport';
   @observable
-  verificationDocuments = {
-    ADDRESS: '',
-    FUNDS: '',
-    IDENTITY_DRIVER_LICENSE_BACK: '',
-    IDENTITY_DRIVER_LICENSE_FRONT: '',
-    IDENTITY_NATIONAL_BACK: '',
-    IDENTITY_NATIONAL_FRONT: '',
-    IDENTITY_PASSPORT: '',
-    SELFIE: ''
+  verificationDocuments: VerificationDocuments = {
+    ADDRESS: null,
+    FUNDS: null,
+    IDENTITY_DRIVER_LICENSE_BACK: null,
+    IDENTITY_DRIVER_LICENSE_FRONT: null,
+    IDENTITY_NATIONAL_BACK: null,
+    IDENTITY_NATIONAL_FRONT: null,
+    IDENTITY_PASSPORT: null,
+    SELFIE: null
   };
 
   // base64 representation of rejected images
@@ -230,7 +224,6 @@ export class KycStore {
   };
 
   uploadIdentity = async () => {
-    let file: File;
     const docs = this.verificationDocuments;
     let result;
 
@@ -238,47 +231,42 @@ export class KycStore {
 
     try {
       if (this.selectedIdCardType === 'Passport') {
-        file = await urltoFile(
-          docs.IDENTITY_PASSPORT,
-          'passport',
-          'image/jpeg'
+        result = await this.uploadKycFile(
+          'Passport',
+          '',
+          docs.IDENTITY_PASSPORT
         );
-        result = await this.uploadKycFile('Passport', '', file);
       }
 
       if (this.selectedIdCardType === 'Id') {
-        file = await urltoFile(
-          docs.IDENTITY_NATIONAL_BACK,
-          'id_back',
-          'image/jpeg'
+        result = await this.uploadKycFile(
+          'IdCard',
+          'BackSide',
+          docs.IDENTITY_NATIONAL_BACK
         );
-        result = await this.uploadKycFile('IdCard', 'BackSide', file);
 
         if (!result.Error) {
-          file = await urltoFile(
-            docs.IDENTITY_NATIONAL_FRONT,
-            'id_front',
-            'image/jpeg'
+          result = await this.uploadKycFile(
+            'IdCard',
+            '',
+            docs.IDENTITY_NATIONAL_FRONT
           );
-          result = await this.uploadKycFile('IdCard', '', file);
         }
       }
 
       if (this.selectedIdCardType === 'DrivingLicense') {
-        file = await urltoFile(
-          docs.IDENTITY_DRIVER_LICENSE_BACK,
-          'dl_back',
-          'image/jpeg'
+        result = await this.uploadKycFile(
+          'DrivingLicense',
+          'BackSide',
+          docs.IDENTITY_DRIVER_LICENSE_BACK
         );
-        result = await this.uploadKycFile('DrivingLicense', 'BackSide', file);
 
         if (!result.Error) {
-          file = await urltoFile(
-            docs.IDENTITY_DRIVER_LICENSE_FRONT,
-            'dl_front',
-            'image/jpeg'
+          result = await this.uploadKycFile(
+            'DrivingLicense',
+            '',
+            docs.IDENTITY_DRIVER_LICENSE_FRONT
           );
-          result = await this.uploadKycFile('DrivingLicense', '', file);
         }
       }
 
@@ -302,12 +290,7 @@ export class KycStore {
   uploadProofOfAddress = async () => {
     this.fileUploadLoading = true;
     const docs = this.verificationDocuments;
-    const file = await urltoFile(
-      docs.ADDRESS,
-      'proof_of_address',
-      'image/jpeg'
-    );
-    const result = await this.uploadKycFile('ProofOfAddress', '', file);
+    const result = await this.uploadKycFile('ProofOfAddress', '', docs.ADDRESS);
 
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
@@ -326,8 +309,7 @@ export class KycStore {
   uploadProofOfFunds = async () => {
     this.fileUploadLoading = true;
     const docs = this.verificationDocuments;
-    const file = await urltoFile(docs.FUNDS, 'proof_of_funds', 'image/jpeg');
-    const result = await this.uploadKycFile('ProofOfFunds', '', file);
+    const result = await this.uploadKycFile('ProofOfFunds', '', docs.FUNDS);
 
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
@@ -345,8 +327,7 @@ export class KycStore {
   uploadSelfie = async () => {
     this.fileUploadLoading = true;
     const docs = this.verificationDocuments;
-    const file = await urltoFile(docs.SELFIE, 'selfie', 'image/jpeg');
-    const result = await this.uploadKycFile('Selfie', '', file);
+    const result = await this.uploadKycFile('Selfie', '', docs.SELFIE);
 
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
@@ -414,8 +395,8 @@ export class KycStore {
   };
 
   @action
-  setDocument = (pictureType: string, pictureBase64: any) => {
-    this.verificationDocuments[pictureType] = pictureBase64;
+  setDocument = (pictureType: string, document: any) => {
+    this.verificationDocuments[pictureType] = document;
   };
 
   @action

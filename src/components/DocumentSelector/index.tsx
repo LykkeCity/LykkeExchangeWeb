@@ -10,8 +10,8 @@ interface DocumentSelectorProps {
   maxFileSize: number;
   accept: string[];
   rejectedImage?: string;
-  onPictureTaken: (pictureBase64: string) => void;
-  onPictureClear: () => void;
+  onDocumentTaken: (document: File) => void;
+  onDocumentClear: () => void;
 }
 
 type SelectorMode = 'EMPTY' | 'REJECTED' | 'CAMERA' | 'LIBRARY';
@@ -64,7 +64,7 @@ export class DocumentSelector extends React.Component<
   }
 
   renderLibraryButton() {
-    const {onPictureTaken, accept} = this.props;
+    const {onDocumentTaken, accept} = this.props;
     return (
       <div
         className="button"
@@ -98,7 +98,7 @@ export class DocumentSelector extends React.Component<
             reader.onload = () => {
               const libraryPictureSrc = reader.result as string;
               this.setState({libraryPictureSrc});
-              onPictureTaken(libraryPictureSrc);
+              onDocumentTaken(file);
             };
           }}
         />
@@ -109,7 +109,7 @@ export class DocumentSelector extends React.Component<
   }
 
   renderCameraOrRules() {
-    const {rules, onPictureTaken, onPictureClear} = this.props;
+    const {rules, onDocumentTaken, onDocumentClear} = this.props;
     const {selectedMode, libraryPictureSrc} = this.state;
 
     if (selectedMode === 'REJECTED') {
@@ -119,7 +119,7 @@ export class DocumentSelector extends React.Component<
             className="document-selector__clear-icon"
             onClick={() => {
               this.setState({selectedMode: 'EMPTY', libraryPictureSrc: ''});
-              onPictureClear();
+              onDocumentClear();
             }}
           >
             <img src={`${process.env.PUBLIC_URL}/images/icon_times.png`} />
@@ -136,11 +136,11 @@ export class DocumentSelector extends React.Component<
       return (
         <Camera
           ref={ref => (this.cameraRef = ref)}
-          onPictureTaken={onPictureTaken}
-          onPictureClear={onPictureClear}
+          onDocumentTaken={onDocumentTaken}
+          onDocumentClear={onDocumentClear}
           onBack={() => {
             this.setState({selectedMode: 'EMPTY'});
-            onPictureClear();
+            onDocumentClear();
           }}
         />
       );
@@ -152,7 +152,7 @@ export class DocumentSelector extends React.Component<
           <span
             className="document-selector__clear-icon"
             onClick={() => {
-              onPictureClear();
+              onDocumentClear();
               this.setState({selectedMode: 'EMPTY', libraryPictureSrc: ''});
             }}
           >

@@ -29,10 +29,10 @@ export class Selfie extends React.Component<RootStoreProps> {
               maxFileSize={3}
               accept={[]}
               rejectedImage={rejectedSelfieImage}
-              onPictureTaken={pictureBase64 => {
-                this.kycStore.setDocument('SELFIE', pictureBase64);
+              onDocumentTaken={document => {
+                this.kycStore.setDocument('SELFIE', document);
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('SELFIE');
               }}
               rules={

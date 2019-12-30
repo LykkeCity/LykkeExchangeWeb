@@ -84,13 +84,13 @@ export class IdentityDrivingLicense extends React.Component<
               maxFileSize={3}
               accept={[]}
               rejectedImage={rejectedPoiDrivingLicenseImage}
-              onPictureTaken={pictureBase64 => {
+              onDocumentTaken={document => {
                 this.kycStore.setDocument(
                   'IDENTITY_DRIVER_LICENSE_FRONT',
-                  pictureBase64
+                  document
                 );
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_DRIVER_LICENSE_FRONT');
               }}
               rules={rules}
@@ -102,13 +102,13 @@ export class IdentityDrivingLicense extends React.Component<
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
-              onPictureTaken={pictureBase64 => {
+              onDocumentTaken={document => {
                 this.kycStore.setDocument(
                   'IDENTITY_DRIVER_LICENSE_BACK',
-                  pictureBase64
+                  document
                 );
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_DRIVER_LICENSE_BACK');
               }}
               rules={rules}

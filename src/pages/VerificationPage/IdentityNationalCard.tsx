@@ -74,13 +74,10 @@ export class IdentityNationalCard extends React.Component<
               maxFileSize={3}
               rejectedImage={rejectedPoiCardImage}
               accept={[]}
-              onPictureTaken={pictureBase64 => {
-                this.kycStore.setDocument(
-                  'IDENTITY_NATIONAL_FRONT',
-                  pictureBase64
-                );
+              onDocumentTaken={document => {
+                this.kycStore.setDocument('IDENTITY_NATIONAL_FRONT', document);
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_NATIONAL_FRONT');
               }}
               rules={rules}
@@ -92,13 +89,10 @@ export class IdentityNationalCard extends React.Component<
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
-              onPictureTaken={pictureBase64 => {
-                this.kycStore.setDocument(
-                  'IDENTITY_NATIONAL_BACK',
-                  pictureBase64
-                );
+              onDocumentTaken={document => {
+                this.kycStore.setDocument('IDENTITY_NATIONAL_BACK', document);
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_NATIONAL_BACK');
               }}
               rules={rules}
