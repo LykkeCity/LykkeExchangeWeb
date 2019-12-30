@@ -25,6 +25,13 @@
     text-align: left;
     display: flex;
     align-items: center;
+
+    ul {
+      list-style: disc;
+      li {
+        margin-bottom: 5px;
+      }
+    }
   }
 
   &__clear-icon {

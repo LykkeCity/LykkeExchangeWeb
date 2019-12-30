@@ -14,7 +14,7 @@ export const Rejected: React.SFC<RootStoreProps> = ({rootStore}) => {
         We are terribly sorry, but we cannot approve your account based on the
         data you provided.
         <div className="mt-30 mb-30">
-          <Link to="/" className="btn">
+          <Link to="/" className="btn btn--stroke">
             OK
           </Link>
         </div>

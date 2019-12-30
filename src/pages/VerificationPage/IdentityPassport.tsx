@@ -29,20 +29,20 @@ export class IdentityPassport extends React.Component<RootStoreProps> {
               this.kycStore.clearPicture('IDENTITY_PASSPORT');
             }}
             rules={
-              <div>
-                <div>
-                  • Both sides of driving license should display a photograph,
+              <ul>
+                <li>
+                  Both sides of driving license should display a photograph,
                   full name and date of birth
-                </div>
-                <div>
-                  • Image should cover the entire document, be well lit and in
+                </li>
+                <li>
+                  Image should cover the entire document, be well lit and in
                   focus
-                </div>
-                <div>
-                  • Driving license and Proof of Address should be separate
+                </li>
+                <li>
+                  Driving license and Proof of Address should be separate
                   documents
-                </div>
-              </div>
+                </li>
+              </ul>
             }
           />
         </div>

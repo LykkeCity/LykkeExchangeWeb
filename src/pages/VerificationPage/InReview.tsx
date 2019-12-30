@@ -20,7 +20,7 @@ export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
     <div>
       <div className="verification-page__big-title">
         <VerificationInReviewWidget />
-        <div className="mt-30">We have everything we need.</div>
+        <div className="mt-30">We have everything we need!</div>
       </div>
       <div className="verification-page__content">
         We will check these documents and let you know withing 48 hours the
@@ -39,7 +39,7 @@ export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
         )}
         <div className="mt-30 mb-30">
-          <Link to="/" className="btn">
+          <Link to="/" className="btn btn--stroke">
             OK
           </Link>
         </div>

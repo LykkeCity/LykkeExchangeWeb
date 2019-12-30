@@ -21,18 +21,18 @@ export class IdentityDrivingLicense extends React.Component<
     const rejectedPoiDrivingLicenseImage = this.kycStore.rejectedDocuments
       .IDENTITY_DRIVER_LICENSE;
     const rules = (
-      <div>
-        <div>
-          • Both sides of driving license should display a photograph, full name
+      <ul>
+        <li>
+          Both sides of driving license should display a photograph, full name
           and date of birth
-        </div>
-        <div>
-          • Image should cover the entire document, be well lit and in focus
-        </div>
-        <div>
-          • Driving license and Proof of Address should be separate documents
-        </div>
-      </div>
+        </li>
+        <li>
+          Image should cover the entire document, be well lit and in focus
+        </li>
+        <li>
+          Driving license and Proof of Address should be separate documents
+        </li>
+      </ul>
     );
     return (
       <div className="identity-form">

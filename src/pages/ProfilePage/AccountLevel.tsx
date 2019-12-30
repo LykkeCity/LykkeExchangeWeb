@@ -28,10 +28,13 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
     <div className="account-level__upgrade">
       <Link
         to="/profile/kyc"
-        className="btn"
+        className="btn btn--stroke"
         onClick={() => {
           const upgradeRequest = tierInfo.UpgradeRequest;
-          if (upgradeRequest && upgradeRequest.Status === 'Pending') {
+          if (
+            (upgradeRequest && upgradeRequest.Status === 'Pending') ||
+            tierInfo.CurrentTier.Tier === 'Advanced'
+          ) {
             kycStore.showSwitchToPro();
           }
         }}

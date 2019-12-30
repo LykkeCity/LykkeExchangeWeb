@@ -27,7 +27,7 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   submitDate.setTime(submitDate.getTime() + 48 * ONE_HR);
   let hoursRemained = (submitDate.getTime() - new Date().getTime()) / ONE_HR;
   hoursRemained = Math.floor(hoursRemained);
-  hoursRemained = Math.max(hoursRemained, 0);
+  hoursRemained = Math.max(hoursRemained + 1, 0);
 
   const status = upgradeRequest.Status;
   let statusText = '';

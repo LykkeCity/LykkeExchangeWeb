@@ -14,7 +14,7 @@ export const Completed: React.SFC<RootStoreProps> = ({rootStore}) => {
   return (
     <div>
       <div className="verification-page__big-title">
-        Your account is approved
+        Your account is approved!
       </div>
       <div className="verification-page__content mt-30">
         You can now transfer up to {tierInfo.CurrentTier.MaxLimit} EUR and trade
@@ -31,7 +31,7 @@ export const Completed: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
         )}
         <div className="mt-30 mb-30">
-          <Link to="/" className="btn">
+          <Link to="/" className="btn btn--stroke">
             OK
           </Link>
         </div>

@@ -67,15 +67,16 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
             </span>
           )}
           {!picture && (
-            <img
-              className="btn-camera"
-              src={`${process.env.PUBLIC_URL}/images/cam_circle.png`}
+            <span
+              className="btn btn--stroke btn-sm"
               onClick={() => {
                 const newPicture = this.webCamRef.getScreenshot();
                 this.setState({picture: newPicture});
                 onPictureTaken(newPicture);
               }}
-            />
+            >
+              Take photo
+            </span>
           )}
         </div>
       </div>

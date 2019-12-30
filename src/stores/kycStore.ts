@@ -391,6 +391,7 @@ export class KycStore {
     this.requestUpgradeLimitLoading = true;
     // create a dummy ProIndividual tier request to upgrade limit
     await this.api!.setKycProfile('ProIndividual');
+    await this.fetchVerificationData();
     this.requestUpgradeLimitLoading = false;
   };
 

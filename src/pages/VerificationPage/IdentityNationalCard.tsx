@@ -21,12 +21,12 @@ export class IdentityNationalCard extends React.Component<
     const rejectedPoiCardImage = this.kycStore.rejectedDocuments
       .IDENTITY_NATIONAL_CARD;
     const rules = (
-      <div>
-        <div>
-          • Upload a clear and legible picture of{' '}
+      <ul>
+        <li>
+          Upload a clear and legible picture of{' '}
           {activeSide === 'FRONT' ? 'front' : 'back'} side of your National Id
-        </div>
-      </div>
+        </li>
+      </ul>
     );
     return (
       <div className="identity-form">
