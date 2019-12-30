@@ -18,11 +18,21 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
     ProIndividual: 'Pro Individual'
   };
 
-  const submitDate = new Date(tierInfo.UpgradeRequest.SubmitDate);
+  const upgradeRequest = tierInfo.UpgradeRequest;
+  const submitDate = new Date(upgradeRequest.SubmitDate);
   submitDate.setTime(submitDate.getTime() + 48 * ONE_HR);
   let hoursRemained = (submitDate.getTime() - new Date().getTime()) / ONE_HR;
   hoursRemained = Math.floor(hoursRemained);
   hoursRemained = Math.max(hoursRemained, 0);
+
+  const status = upgradeRequest.Status;
+  let statusText = '';
+
+  if (status === 'Pending') {
+    statusText = 'In Review';
+  } else if (status === 'NeedToFillData') {
+    statusText = 'Resubmission needed';
+  }
 
   return (
     <div className="in-review-widget">
@@ -33,7 +43,7 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
         <div className="in-review-widget-right__tier">
           {tierNamesMapping[tierInfo.UpgradeRequest.Tier]}
         </div>
-        <div className="in-review-widget-right__status">In Review</div>
+        <div className="in-review-widget-right__status">{statusText}</div>
       </div>
       <div className="in-review-widget__time-left">{hoursRemained}h left</div>
     </div>
