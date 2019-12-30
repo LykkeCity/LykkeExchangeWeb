@@ -30,27 +30,27 @@ export class Selfie extends React.Component<RootStoreProps> {
               accept={[]}
               rejectedImage={rejectedSelfieImage}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture('SELFIE', pictureBase64);
+                this.kycStore.setDocument('SELFIE', pictureBase64);
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('SELFIE');
+                this.kycStore.clearDocument('SELFIE');
               }}
               rules={
-                <div>
-                  <div>
-                    • Use your mobile camera to shoot a live selfie photograph
-                    of yourself
-                  </div>
-                  <div>• Selfie image should be well lit and sharp</div>
-                  <div>
-                    • Photograph of a photograph or computer screen is not
+                <ul>
+                  <li>
+                    Use your mobile camera to shoot a live selfie photograph of
+                    yourself
+                  </li>
+                  <li>• Selfie image should be well lit and sharp</li>
+                  <li>
+                    Photograph of a photograph or computer screen is not
                     suitable
-                  </div>
-                  <div>
-                    • Take off your glasses if your ID photograph is without
+                  </li>
+                  <li>
+                    Take off your glasses if your ID photograph is without
                     glasses
-                  </div>
-                </div>
+                  </li>
+                </ul>
               }
             />
             <div className="mt-30">

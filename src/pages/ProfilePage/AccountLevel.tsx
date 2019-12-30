@@ -5,7 +5,8 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
-  const tierInfo = rootStore!.kycStore.tierInfo;
+  const kycStore = rootStore!.kycStore;
+  const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
     return null;
   }
@@ -15,11 +16,29 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
     ProIndividual: 'Pro Individual'
   };
 
-  const isMaxLimitReached = rootStore!.kycStore.isMaxLimitReached;
-  const showUpgradeButton = !!tierInfo.NextTier;
+  const isMaxLimitReached = kycStore.isMaxLimitReached;
+  let showUpgradeButton = false;
+  if (tierInfo.NextTier) {
+    showUpgradeButton = true;
+  }
+  if (kycStore.isUpgradeRequestRejected) {
+    showUpgradeButton = false;
+  }
   const upgradeButton = (
     <div className="account-level__upgrade">
-      <Link to="/profile/kyc" className="btn btn-link">
+      <Link
+        to="/profile/kyc"
+        className="btn btn--stroke"
+        onClick={() => {
+          const upgradeRequest = tierInfo.UpgradeRequest;
+          if (
+            (upgradeRequest && upgradeRequest.Status === 'Pending') ||
+            tierInfo.CurrentTier.Tier === 'Advanced'
+          ) {
+            kycStore.showSwitchToPro();
+          }
+        }}
+      >
         Upgrade
       </Link>
     </div>
@@ -27,7 +46,7 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   const upgradeLimitButton = (
     <div className="account-level__upgrade">
-      <Link to="/profile/kyc" className="btn btn-link">
+      <Link to="/profile/kyc" className="btn btn--stroke">
         Upgrade Limit
       </Link>
     </div>

@@ -10,17 +10,19 @@ interface CameraProps {
 
 interface CameraState {
   picture: string;
+  state: 'OPEN' | 'PICTURE_TAKEN';
 }
 
 /* tslint:disable:no-empty */
 export default class Camera extends React.Component<CameraProps, CameraState> {
   webCamRef: any;
   state = {
-    picture: ''
-  };
+    picture: '',
+    state: 'OPEN'
+  } as CameraState;
 
   render() {
-    const {picture} = this.state;
+    const {picture, state} = this.state;
     const {onPictureTaken, onPictureClear, onBack} = this.props;
     const videoConstraints = {
       facingMode: 'user',
@@ -30,26 +32,45 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
     const noop = () => {};
     return (
       <div className="camera">
-        {!picture && (
-          <WebCam
-            ref={ref => {
-              this.webCamRef = ref;
-            }}
-            audio={false}
-            imageSmoothing={false}
-            onUserMedia={noop}
-            onUserMediaError={noop}
-            screenshotQuality={1}
-            screenshotFormat="image/jpeg"
-            videoConstraints={videoConstraints}
-          />
+        {state === 'OPEN' && (
+          <div>
+            <div className="camera__wrapper">
+              <WebCam
+                ref={ref => {
+                  this.webCamRef = ref;
+                }}
+                audio={false}
+                imageSmoothing={false}
+                onUserMedia={noop}
+                onUserMediaError={noop}
+                screenshotQuality={1}
+                screenshotFormat="image/jpeg"
+                videoConstraints={videoConstraints}
+              />
+            </div>
+            <div className="camera__buttons">
+              <span className="btn-back" onClick={onBack}>
+                Back
+              </span>
+              <span
+                className="btn btn--stroke btn-sm"
+                onClick={() => {
+                  const newPicture = this.webCamRef.getScreenshot();
+                  this.setState({picture: newPicture, state: 'PICTURE_TAKEN'});
+                  onPictureTaken(newPicture);
+                }}
+              >
+                Take photo
+              </span>
+            </div>
+          </div>
         )}
-        {picture && (
+        {state === 'PICTURE_TAKEN' && (
           <div>
             <span
               className="camera__clear-icon"
               onClick={() => {
-                this.setState({picture: ''});
+                this.setState({picture: '', state: 'OPEN'});
                 onPictureClear();
               }}
             >
@@ -58,24 +79,6 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
             <img className="camera__captured-image" src={picture} />
           </div>
         )}
-        <div className="camera__buttons">
-          {!picture && (
-            <span className="btn-back" onClick={onBack}>
-              Back
-            </span>
-          )}
-          {!picture && (
-            <img
-              className="btn-camera"
-              src={`${process.env.PUBLIC_URL}/images/cam_circle.png`}
-              onClick={() => {
-                const newPicture = this.webCamRef.getScreenshot();
-                this.setState({picture: newPicture});
-                onPictureTaken(newPicture);
-              }}
-            />
-          )}
-        </div>
       </div>
     );
   }

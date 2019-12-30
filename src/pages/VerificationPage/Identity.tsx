@@ -16,6 +16,8 @@ export class Identity extends React.Component<RootStoreProps> {
     const selectedIdCardType = this.kycStore.selectedIdCardType;
     const rejectReason = this.kycStore.getPoiRejectReason;
     const fileUploadLoading = this.kycStore.fileUploadLoading;
+    const hasIdentityDocumentSelected = this.kycStore
+      .hasIdentityDocumentSelected;
 
     return (
       <div className="verify-identity">
@@ -36,6 +38,14 @@ export class Identity extends React.Component<RootStoreProps> {
               icon={<Icons.Passport />}
               active={selectedIdCardType === 'Passport'}
               onClick={() => {
+                if (
+                  selectedIdCardType !== 'Passport' &&
+                  hasIdentityDocumentSelected
+                ) {
+                  if (!confirm('Are you sure to change document type?')) {
+                    return;
+                  }
+                }
                 this.kycStore.setSelectedIdCardType('Passport');
               }}
             />
@@ -44,6 +54,14 @@ export class Identity extends React.Component<RootStoreProps> {
               icon={<Icons.Id />}
               active={selectedIdCardType === 'Id'}
               onClick={() => {
+                if (
+                  selectedIdCardType !== 'Id' &&
+                  hasIdentityDocumentSelected
+                ) {
+                  if (!confirm('Are you sure to change document type?')) {
+                    return;
+                  }
+                }
                 this.kycStore.setSelectedIdCardType('Id');
               }}
             />
@@ -52,6 +70,14 @@ export class Identity extends React.Component<RootStoreProps> {
               icon={<Icons.DriverLicense />}
               active={selectedIdCardType === 'DrivingLicense'}
               onClick={() => {
+                if (
+                  selectedIdCardType !== 'DrivingLicense' &&
+                  hasIdentityDocumentSelected
+                ) {
+                  if (!confirm('Are you sure to change document type?')) {
+                    return;
+                  }
+                }
                 this.kycStore.setSelectedIdCardType('DrivingLicense');
               }}
             />

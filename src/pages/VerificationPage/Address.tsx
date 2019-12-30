@@ -31,27 +31,27 @@ export class Address extends React.Component<RootStoreProps> {
               rejectedImage={rejectedPoaImage}
               accept={['.png', '.jpg', '.pdf']}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture('ADDRESS', pictureBase64);
+                this.kycStore.setDocument('ADDRESS', pictureBase64);
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('ADDRESS');
+                this.kycStore.clearDocument('ADDRESS');
               }}
               rules={
-                <div>
-                  <div>
-                    • Please use: Bank/Card Statement or Gas/Electricity/Water
+                <ul>
+                  <li>
+                    Please use: Bank/Card Statement or Gas/Electricity/Water
                     Bill or Official Governmental Documents
-                  </div>
-                  <div>
-                    • The document should display Name, Surname, Street address
+                  </li>
+                  <li>
+                    The document should display Name, Surname, Street address
                     (Non-P.O Box), Date, Issuer name
-                  </div>
-                  <div>
-                    • The document you provide should not be older than 3 months
+                  </li>
+                  <li>
+                    The document you provide should not be older than 3 months
                     and should be different from your ID document
-                  </div>
-                  <div>• Please note that review might take up to 48 hours</div>
-                </div>
+                  </li>
+                  <li>Please note that review might take up to 48 hours</li>
+                </ul>
               }
             />
             <div className="mt-30">

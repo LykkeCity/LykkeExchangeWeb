@@ -33,26 +33,26 @@ export class Funds extends React.Component<RootStoreProps> {
               rejectedImage={rejectedPofImage}
               accept={['.png', '.jpg', '.pdf']}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture('FUNDS', pictureBase64);
+                this.kycStore.setDocument('FUNDS', pictureBase64);
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('FUNDS');
+                this.kycStore.clearDocument('FUNDS');
               }}
               rules={
-                <div>
-                  <div>
-                    • Upload a clear and legible picture or scan of your signed
+                <ul>
+                  <li>
+                    Upload a clear and legible picture or scan of your signed
                     source of funds document
-                  </div>
-                  <div>
-                    • Check the examples of{' '}
+                  </li>
+                  <li>
+                    Check the examples of{' '}
                     <a href="/" target="_blank">
                       acceptable documents
                     </a>{' '}
                     here
-                  </div>
-                  <div>• Please not that review might take up to 48 hours</div>
-                </div>
+                  </li>
+                  <li>Please not that review might take up to 48 hours</li>
+                </ul>
               }
             />
             <div className="mt-30">

@@ -28,6 +28,7 @@ export class DocumentSelector extends React.Component<
   DocumentSelectorState
 > {
   uploadInputRef: any;
+  cameraRef: any;
   state = {
     libraryPictureSrc: '',
     selectedMode: 'EMPTY' as SelectorMode,
@@ -45,6 +46,12 @@ export class DocumentSelector extends React.Component<
 
   setMode(mode: SelectorMode) {
     this.setState({selectedMode: mode});
+  }
+
+  turnOffCamera() {
+    if (this.state.selectedMode === 'CAMERA') {
+      this.setMode('EMPTY');
+    }
   }
 
   renderWebCamButton() {
@@ -128,6 +135,7 @@ export class DocumentSelector extends React.Component<
     if (selectedMode === 'CAMERA') {
       return (
         <Camera
+          ref={ref => (this.cameraRef = ref)}
           onPictureTaken={onPictureTaken}
           onPictureClear={onPictureClear}
           onBack={() => {

@@ -61,9 +61,9 @@ export class KycStore {
   constructor(private api: KycApi, private apiv2: KycApiV2) {}
 
   fetchVerificationData = async () => {
-    await this.fetchTierInfo();
     await this.fetchDocuments();
     await this.fetchRegistration();
+    await this.fetchTierInfo();
   };
 
   fetchTierInfo = async () => {
@@ -219,6 +219,9 @@ export class KycStore {
       // catch is ignored, because json parser throws exception when successful
       /* tslint:disable-next-line:no-empty */
     } catch (e) {}
+    if (this.isUpgradeRequestNeedToFillData) {
+      await this.api!.setKycProfile('Advanced');
+    }
     await this.fetchVerificationData();
   };
 
@@ -282,6 +285,9 @@ export class KycStore {
       if (result.Error) {
         this.setShowFileUploadServerErrorModal(true);
       } else {
+        if (this.isUpgradeRequestNeedToFillData) {
+          await this.api!.setKycProfile('Advanced');
+        }
         await this.fetchVerificationData();
       }
     } catch (e) {
@@ -306,6 +312,9 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
+      if (this.isUpgradeRequestNeedToFillData) {
+        await this.api!.setKycProfile('Advanced');
+      }
       await this.fetchVerificationData();
     }
 
@@ -342,6 +351,9 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
+      if (this.isUpgradeRequestNeedToFillData) {
+        await this.api!.setKycProfile('Advanced');
+      }
       await this.fetchVerificationData();
     }
 
@@ -379,6 +391,7 @@ export class KycStore {
     this.requestUpgradeLimitLoading = true;
     // create a dummy ProIndividual tier request to upgrade limit
     await this.api!.setKycProfile('ProIndividual');
+    await this.fetchVerificationData();
     this.requestUpgradeLimitLoading = false;
   };
 
@@ -393,22 +406,33 @@ export class KycStore {
   @action
   setSelectedIdCardType = (type: IdCardType) => {
     this.selectedIdCardType = type;
-    this.clearPicture('IDENTITY_PASSPORT');
-    this.clearPicture('IDENTITY_NATIONAL_FRONT');
-    this.clearPicture('IDENTITY_NATIONAL_BACK');
-    this.clearPicture('IDENTITY_DRIVER_LICENSE_FRONT');
-    this.clearPicture('IDENTITY_DRIVER_LICENSE_BACK');
+    this.clearDocument('IDENTITY_PASSPORT');
+    this.clearDocument('IDENTITY_NATIONAL_FRONT');
+    this.clearDocument('IDENTITY_NATIONAL_BACK');
+    this.clearDocument('IDENTITY_DRIVER_LICENSE_FRONT');
+    this.clearDocument('IDENTITY_DRIVER_LICENSE_BACK');
   };
 
   @action
-  setPicture = (pictureType: string, pictureBase64: any) => {
+  setDocument = (pictureType: string, pictureBase64: any) => {
     this.verificationDocuments[pictureType] = pictureBase64;
   };
 
   @action
-  clearPicture = (pictureType: string) => {
+  clearDocument = (pictureType: string) => {
     this.verificationDocuments[pictureType] = null;
   };
+
+  @computed
+  get hasIdentityDocumentSelected(): boolean {
+    return (
+      !!this.verificationDocuments.IDENTITY_DRIVER_LICENSE_BACK ||
+      !!this.verificationDocuments.IDENTITY_DRIVER_LICENSE_FRONT ||
+      !!this.verificationDocuments.IDENTITY_PASSPORT ||
+      !!this.verificationDocuments.IDENTITY_NATIONAL_BACK ||
+      !!this.verificationDocuments.IDENTITY_NATIONAL_FRONT
+    );
+  }
 
   @action
   setShowFileUploadServerErrorModal = (value: boolean) => {
@@ -539,7 +563,7 @@ export class KycStore {
 
     const isRejected = doc.Status === 'Declined';
     if (isRejected) {
-      rejectReason = doc.RejectReason || 'Rejected';
+      rejectReason = doc.RejectReason;
     }
     return rejectReason;
   }
@@ -565,6 +589,30 @@ export class KycStore {
   }
 
   @computed
+  get isUpgradeRequestRejected(): boolean {
+    if (
+      this.tierInfo &&
+      this.tierInfo.UpgradeRequest &&
+      this.tierInfo.UpgradeRequest.Status === 'Rejected'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
+  get isUpgradeRequestNeedToFillData(): boolean {
+    if (
+      this.tierInfo &&
+      this.tierInfo.UpgradeRequest &&
+      this.tierInfo.UpgradeRequest.Status === 'NeedToFillData'
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
   get decideCurrentFormToRender() {
     const tierInfo = this.tierInfo;
     if (!tierInfo || !this.documents || !this.registration) {
@@ -577,6 +625,10 @@ export class KycStore {
     const poaStatus = this.getPoaStatus;
     const questionnaireStatus = this.getQuestionnaireStatus;
     const showUpgradeToPro = this.showUpgradeToPro;
+
+    if (this.isUpgradeRequestRejected) {
+      return 'Rejected';
+    }
 
     if (accountInfoStatus === 'EMPTY' || accountInfoStatus === 'REJECTED') {
       return 'AccountInformation';
@@ -603,7 +655,9 @@ export class KycStore {
     }
 
     if (tierInfo.UpgradeRequest) {
-      return 'InReview';
+      if (tierInfo.UpgradeRequest.Status === 'Pending') {
+        return 'InReview';
+      }
     }
 
     if (this.isMaxLimitReached) {

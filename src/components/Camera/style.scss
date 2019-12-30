@@ -1,6 +1,10 @@
 .camera {
   position: relative;
 
+  &__wrapper {
+    height: 490px;
+  }
+
   &__clear-icon {
     position: absolute;
     top: -9px;
@@ -50,12 +54,6 @@
       cursor: pointer;
       position: absolute;
       left: 0px;
-    }
-
-    .btn-camera {
-      width: 62px;
-      height: 62px;
-      cursor: pointer;
     }
   }
 }

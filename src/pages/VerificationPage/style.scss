@@ -182,6 +182,10 @@
     background-color: #ffffff;
   }
 
+  .rejection-widget {
+    font-family: $ff;
+  }
+
   .account-current-tier-widget {
     display: flex;
     flex-direction: row;
@@ -537,18 +541,17 @@
       display: none;
       height: 40px;
       position: absolute;
-      top: 3px;
       width: 2px;
       z-index: 100;
     }
 
     label + .error-bar {
-      top: 35px;
+      top: 40px;
     }
 
     .has-error {
       .error-bar {
-        /*display: block; uncomment this line to show error left border*/
+        display: block;
       }
 
       .form-control {
@@ -621,13 +624,18 @@
 
         &__text {
           flex: 1;
+
+          &.selected {
+            color: #444444;
+          }
         }
 
         &__arrow {
         }
 
         &.has-error {
-          border-color: #a94442;
+          border-left-color: $red;
+          border-left-width: 2px;
         }
 
         &-tags {
@@ -672,24 +680,16 @@
       }
 
       &-dropdown {
-        position: absolute;
         background-color: #ffffff;
-        z-index: 11;
         width: 100%;
-        max-height: 300px;
-        overflow: auto;
+        left: 0;
+        margin-left: 0;
+        padding-top: 0;
 
-        &.hide {
-          display: none;
-        }
-
-        &.open {
-          display: block;
-          box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2),
-            0 2px 4px 0 rgba(140, 148, 160, 0.15);
-          -webkit-border-radius: 5px;
-          -moz-border-radius: 5px;
-          border-radius: 5px;
+        .dropdown__nav {
+          width: 100%;
+          padding: 0;
+          margin: 0;
         }
 
         &__option {
@@ -728,6 +728,7 @@
       &-radio {
         display: flex;
         flex-direction: row;
+        margin-top: 5px;
 
         &__button {
           padding: 12px 20px;
@@ -756,6 +757,24 @@
           &.active {
             font-weight: 500;
             border: 1px solid #0388ef;
+          }
+        }
+      }
+
+      &-text {
+        .form-control {
+          margin-top: 5px;
+        }
+
+        &.has-error {
+          .form-control {
+            border-color: $gray-25;
+            border-left-color: $red;
+            border-left-width: 2px;
+
+            &:focus {
+              border-color: $gray-25;
+            }
           }
         }
       }

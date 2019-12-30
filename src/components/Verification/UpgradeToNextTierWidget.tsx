@@ -33,7 +33,6 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
 
   const getAccountInformationStatus = kycStore.getAccountInformationStatus;
   const getQuestionnaireStatus = kycStore.getQuestionnaireStatus;
-  const nextTierRequiredDocuments = nextTier ? nextTier.Documents : [];
   const selfieStatus = kycStore.getSelfieStatus;
   const poiStatus = kycStore.getPoiStatus;
   const poaStatus = kycStore.getPoaStatus;
@@ -58,19 +57,8 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   }
 
   function getSidebarItems() {
-    if (showUpgradeToPro) {
-      return (
-        <div className="verification-items">
-          {nextTierRequiredDocuments.indexOf('PoF') > -1 &&
-            showUpgradeToPro && (
-              <StepItem
-                text="Proof Of Funds"
-                status={pofStatus}
-                isActive={currentFormToRender === 'PoF'}
-              />
-            )}
-        </div>
-      );
+    if (kycStore.isUpgradeRequestRejected) {
+      return null;
     }
 
     if (tierInfo.CurrentTier.Tier === 'Beginner') {
@@ -81,35 +69,28 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
             status={getAccountInformationStatus}
             isActive={currentFormToRender === 'AccountInformation'}
           />
-          {nextTierRequiredDocuments.indexOf('PoI') > -1 && (
+          <StepItem
+            text="Identity Documents"
+            status={poiStatus}
+            isActive={currentFormToRender === 'PoI'}
+          />
+          <StepItem
+            text="Selfie"
+            status={selfieStatus}
+            isActive={currentFormToRender === 'Selfie'}
+          />
+          <StepItem
+            text="Proof Of Address"
+            status={poaStatus}
+            isActive={currentFormToRender === 'PoA'}
+          />
+          {showUpgradeToPro && (
             <StepItem
-              text="Identity Documents"
-              status={poiStatus}
-              isActive={currentFormToRender === 'PoI'}
+              text="Proof Of Funds"
+              status={pofStatus}
+              isActive={currentFormToRender === 'PoF'}
             />
           )}
-          {nextTierRequiredDocuments.indexOf('Selfie') > -1 && (
-            <StepItem
-              text="Selfie"
-              status={selfieStatus}
-              isActive={currentFormToRender === 'Selfie'}
-            />
-          )}
-          {nextTierRequiredDocuments.indexOf('PoA') > -1 && (
-            <StepItem
-              text="Proof Of Address"
-              status={poaStatus}
-              isActive={currentFormToRender === 'PoA'}
-            />
-          )}
-          {nextTierRequiredDocuments.indexOf('PoF') > -1 &&
-            showUpgradeToPro && (
-              <StepItem
-                text="Proof Of Funds"
-                status={pofStatus}
-                isActive={currentFormToRender === 'PoF'}
-              />
-            )}
           <StepItem
             text="Questionnaire"
             status={getQuestionnaireStatus}
@@ -122,13 +103,11 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
     if (tierInfo.CurrentTier.Tier === 'Advanced') {
       return (
         <div className="verification-items">
-          {nextTierRequiredDocuments.indexOf('PoF') > -1 && (
-            <StepItem
-              text="Proof Of Funds"
-              status={pofStatus}
-              isActive={currentFormToRender === 'PoF'}
-            />
-          )}
+          <StepItem
+            text="Proof Of Funds"
+            status={pofStatus}
+            isActive={currentFormToRender === 'PoF'}
+          />
         </div>
       );
     }

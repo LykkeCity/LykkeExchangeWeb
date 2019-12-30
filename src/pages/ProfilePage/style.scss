@@ -97,7 +97,7 @@
 
     &-progress {
       position: relative;
-      margin-top: 20px;
+      margin-top: 30px;
 
       &__bar {
         width: 100%;
@@ -108,16 +108,12 @@
           height: 10px;
           position: relative;
 
-          &.low {
-            background: linear-gradient(90deg, #0cb104 0%, #18a400 100%);
-          }
-
           &.medium {
-            background: linear-gradient(90deg, #1083ff 0%, #0c51d4 100%);
+            background: linear-gradient(90deg, #1083ff 0%, #007aff 100%);
           }
 
           &.high {
-            background: linear-gradient(90deg, #ff2910 0%, #a43000 100%);
+            background: linear-gradient(90deg, #ee3a2a 0%, #f44336 100%);
           }
 
           &__handle {
@@ -144,6 +140,7 @@
       display: flex;
       flex-direction: row;
       font-size: 14px;
+      margin-top: 10px;
 
       .first {
         flex: 1;

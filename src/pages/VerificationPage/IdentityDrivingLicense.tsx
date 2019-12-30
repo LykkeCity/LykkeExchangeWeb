@@ -13,6 +13,8 @@ export class IdentityDrivingLicense extends React.Component<
   RootStoreProps,
   IdentityDrivingLicenseState
 > {
+  frontSideSelector: any;
+  backSideSelector: any;
   state = {activeSide: 'FRONT'} as IdentityDrivingLicenseState;
   private readonly kycStore = this.props.rootStore!.kycStore;
 
@@ -21,18 +23,18 @@ export class IdentityDrivingLicense extends React.Component<
     const rejectedPoiDrivingLicenseImage = this.kycStore.rejectedDocuments
       .IDENTITY_DRIVER_LICENSE;
     const rules = (
-      <div>
-        <div>
-          • Both sides of driving license should display a photograph, full name
+      <ul>
+        <li>
+          Both sides of driving license should display a photograph, full name
           and date of birth
-        </div>
-        <div>
-          • Image should cover the entire document, be well lit and in focus
-        </div>
-        <div>
-          • Driving license and Proof of Address should be separate documents
-        </div>
-      </div>
+        </li>
+        <li>
+          Image should cover the entire document, be well lit and in focus
+        </li>
+        <li>
+          Driving license and Proof of Address should be separate documents
+        </li>
+      </ul>
     );
     return (
       <div className="identity-form">
@@ -43,6 +45,12 @@ export class IdentityDrivingLicense extends React.Component<
               'tab-button': true
             })}
             onClick={() => {
+              if (
+                !this.kycStore.verificationDocuments
+                  .IDENTITY_DRIVER_LICENSE_BACK
+              ) {
+                this.backSideSelector.turnOffCamera();
+              }
               this.setState({activeSide: 'FRONT'});
             }}
           >
@@ -55,6 +63,12 @@ export class IdentityDrivingLicense extends React.Component<
               'tab-button': true
             })}
             onClick={() => {
+              if (
+                !this.kycStore.verificationDocuments
+                  .IDENTITY_DRIVER_LICENSE_FRONT
+              ) {
+                this.frontSideSelector.turnOffCamera();
+              }
               this.setState({activeSide: 'BACK'});
             }}
           >
@@ -65,35 +79,37 @@ export class IdentityDrivingLicense extends React.Component<
         <div className="mt-30">
           <div style={{display: activeSide === 'FRONT' ? 'block' : 'none'}}>
             <DocumentSelector
+              ref={ref => (this.frontSideSelector = ref)}
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
               rejectedImage={rejectedPoiDrivingLicenseImage}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture(
+                this.kycStore.setDocument(
                   'IDENTITY_DRIVER_LICENSE_FRONT',
                   pictureBase64
                 );
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('IDENTITY_DRIVER_LICENSE_FRONT');
+                this.kycStore.clearDocument('IDENTITY_DRIVER_LICENSE_FRONT');
               }}
               rules={rules}
             />
           </div>
           <div style={{display: activeSide === 'BACK' ? 'block' : 'none'}}>
             <DocumentSelector
+              ref={ref => (this.backSideSelector = ref)}
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
               onPictureTaken={pictureBase64 => {
-                this.kycStore.setPicture(
+                this.kycStore.setDocument(
                   'IDENTITY_DRIVER_LICENSE_BACK',
                   pictureBase64
                 );
               }}
               onPictureClear={() => {
-                this.kycStore.clearPicture('IDENTITY_DRIVER_LICENSE_BACK');
+                this.kycStore.clearDocument('IDENTITY_DRIVER_LICENSE_BACK');
               }}
               rules={rules}
             />
