@@ -100,7 +100,7 @@ export class AccountInformation extends React.Component<RootStoreProps> {
         <div className="verification-page__big-title">Account Information</div>
         <div className="verification-page__content">
           Please fill out your address so we are enabled to verify your account.
-          We ensure the confidentality of your personal information.
+          We ensure the confidentiality of your personal information.
           <div className="account-info-form verification-page__card">
             <div className="container">
               <div className="row">
