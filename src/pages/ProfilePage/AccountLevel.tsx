@@ -46,7 +46,7 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   const upgradeLimitButton = (
     <div className="account-level__upgrade">
-      <Link to="/profile/kyc" className="btn">
+      <Link to="/profile/kyc" className="btn btn--stroke">
         Upgrade Limit
       </Link>
     </div>
