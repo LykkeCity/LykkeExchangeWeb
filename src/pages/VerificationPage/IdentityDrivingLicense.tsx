@@ -25,14 +25,9 @@ export class IdentityDrivingLicense extends React.Component<
     const rules = (
       <ul>
         <li>
-          Both sides of driving license should display a photograph, full name
-          and date of birth
-        </li>
-        <li>
-          Image should cover the entire document, be well lit and in focus
-        </li>
-        <li>
-          Driving license and Proof of Address should be separate documents
+          Upload a clear and legible picture of{' '}
+          {activeSide === 'FRONT' ? 'front' : 'back'} side of your Driving
+          License
         </li>
       </ul>
     );
@@ -55,7 +50,7 @@ export class IdentityDrivingLicense extends React.Component<
             }}
           >
             <span className="number">1</span>
-            <span className="text">Frontside of Driver License</span>
+            <span className="text">Frontside</span>
           </div>
           <div
             className={classnames({
@@ -73,7 +68,7 @@ export class IdentityDrivingLicense extends React.Component<
             }}
           >
             <span className="number">2</span>
-            <span className="text">Backside of Driver License</span>
+            <span className="text">Backside</span>
           </div>
         </div>
         <div className="mt-30">

@@ -7,10 +7,10 @@
   &__title {
     letter-spacing: -0.4px;
     line-height: 1.25;
-    font-weight: $fw-bold;
+    font-weight: $fw-semi;
     margin-top: 30px;
 
-    @include rem(margin-bottom, 70px);
+    @include rem(margin-bottom, 20px);
   }
 
   .container {
@@ -31,11 +31,10 @@
     font-family: Akrobat;
 
     &__title {
-      margin-top: 30px;
       margin-bottom: 10px;
       letter-spacing: -0.4px;
       line-height: 1.25;
-      font-weight: 700;
+      font-weight: $fw-semi;
     }
 
     @media (max-width: $screen-mobile) {
@@ -92,7 +91,7 @@
       margin-bottom: 10px;
       letter-spacing: -0.4px;
       line-height: 1.25;
-      font-weight: 700;
+      font-weight: $fw-semi;
     }
 
     &-progress {

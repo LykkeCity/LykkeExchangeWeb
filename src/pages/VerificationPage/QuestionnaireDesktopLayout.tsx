@@ -3,7 +3,6 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
-import Spinner from '../../components/Spinner';
 import {Question} from '../../components/Verification';
 import {STORE_ROOT} from '../../constants/stores';
 import {Questionnaire} from '../../models';
@@ -38,6 +37,7 @@ export class QuestionnaireDesktopLayout extends React.Component<
 
   render() {
     const questionnaire = this.kycStore.questionnaire;
+    const questionnaireSubmitting = this.kycStore.questionnaireSubmitting;
     return (
       <Formik
         initialValues={this.getInitialValues()}
@@ -52,15 +52,12 @@ export class QuestionnaireDesktopLayout extends React.Component<
               type="submit"
               value="Submit"
               className="btn btn--primary"
-              disabled={formikBag.isSubmitting || !formikBag.isValid}
+              disabled={questionnaireSubmitting || !formikBag.isValid}
             />
-            {formikBag.isSubmitting && <Spinner />}
           </Form>
         )}
-        onSubmit={async (values: any, {setSubmitting}) => {
-          setSubmitting(true);
+        onSubmit={async (values: any) => {
           await this.kycStore.updateQuestionnaire(values);
-          setSubmitting(false);
         }}
       />
     );

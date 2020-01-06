@@ -19,10 +19,10 @@ export const DepositLimits: React.SFC<RootStoreProps> = ({rootStore}) => {
   const ratio = Math.min(current / max * 100, 100);
 
   let selectedGradient;
-  if (ratio <= 60) {
-    selectedGradient = 'medium';
-  } else {
+  if (current >= max) {
     selectedGradient = 'high';
+  } else {
+    selectedGradient = 'medium';
   }
 
   let handleAlignment = '';

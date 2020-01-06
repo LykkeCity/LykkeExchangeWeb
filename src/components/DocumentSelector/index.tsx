@@ -58,7 +58,7 @@ export class DocumentSelector extends React.Component<
     return (
       <div className="button" onClick={() => this.setMode('CAMERA')}>
         <img src={`${process.env.PUBLIC_URL}/images/cam_blue_icon.png`} />
-        <span className="text">Open webcam</span>
+        <span className="text">Take Photo</span>
       </div>
     );
   }

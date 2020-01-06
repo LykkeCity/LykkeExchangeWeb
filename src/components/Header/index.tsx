@@ -105,7 +105,7 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
             hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
           })}
         >
-          {renderSubmenuItem(ROUTE_PROFILE, 'Profile')}
+          {renderSubmenuItem(ROUTE_PROFILE, 'General')}
           {renderSubmenuItem(ROUTE_SECURITY, 'Security')}
         </div>
       )}

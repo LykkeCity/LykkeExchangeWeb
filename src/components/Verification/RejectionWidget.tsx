@@ -8,7 +8,7 @@ export const RejectionWidget: React.SFC<RejectionWidgetProps> = ({text}) => {
   if (!text) {
     return null;
   }
-  return <div className="alert alert-danger rejection-widget">{text}</div>;
+  return <div className="alert rejection-widget">{text}</div>;
 };
 
 export default RejectionWidget;

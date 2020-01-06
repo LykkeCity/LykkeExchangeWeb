@@ -19,7 +19,7 @@
       padding-right: 60px;
 
       .skip {
-        color: #0388ef !important;
+        color: $blue !important;
         font-family: $ff !important;
         font-weight: 500 !important;
         text-transform: none !important;
@@ -49,7 +49,7 @@
         font-size: 12px;
         padding: 25px 20px;
         background-position: 20px 18px;
-        color: #0388ef;
+        color: $blue;
         text-transform: uppercase;
       }
     }
@@ -62,6 +62,86 @@
 
     @media (max-width: $screen-tablet) {
       display: block;
+    }
+
+    .col-sm-7 {
+      padding-left: 0px;
+      padding-right: 0px;
+
+      .wrapper {
+        position: relative;
+        padding: 120px 30px;
+        margin-bottom: 20px;
+        margin-top: 30px;
+        width: 600px;
+
+        &.open {
+          pointer-events: none;
+        }
+
+        @media (max-width: $screen-tablet) {
+          width: 100%;
+        }
+
+        @media (max-width: $screen-mobile) {
+          padding: 15px;
+          margin-bottom: 30px;
+          margin-top: 0px;
+        }
+
+        &__overlay {
+          position: absolute;
+          top: 0;
+          right: 0;
+          bottom: 0;
+          left: 0;
+          background-color: rgba(196, 196, 196, 0.2);
+          pointer-events: none;
+          z-index: 1;
+        }
+
+        .v_spinner_container {
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .v_spinner {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          border-radius: 8px;
+          top: calc(50% - 44px);
+          left: calc(50% - 44px);
+          width: 88px;
+          height: 88px;
+          background: rgb(17, 17, 17);
+          opacity: 0.8;
+          z-index: 9;
+
+          &__inside {
+            @keyframes donut-spin {
+              0% {
+                transform: rotate(0deg);
+              }
+              100% {
+                transform: rotate(360deg);
+              }
+            }
+            display: inline-block;
+            border: 3px solid transparent;
+            border-left-color: rgb(3, 136, 239);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: donut-spin 1.2s linear infinite;
+          }
+        }
+      }
     }
   }
 
@@ -76,31 +156,16 @@
     &-container {
       min-height: 400px !important;
       background-color: #fbfbfb;
+      margin-bottom: 20px;
 
       @media (max-width: $screen-mobile) {
         min-height: 230px !important;
+        margin-bottom: 0px;
       }
     }
 
     &-inner {
       margin-top: 95px;
-    }
-  }
-
-  &__content-inner {
-    width: 600px;
-    margin-top: 120px;
-    margin-bottom: 120px;
-    padding: 30px;
-
-    @media (max-width: $screen-tablet) {
-      width: 100%;
-    }
-
-    @media (max-width: $screen-mobile) {
-      padding: 0px;
-      margin-top: 30px;
-      margin-bottom: 30px;
     }
   }
 
@@ -161,7 +226,7 @@
   }
 
   .upgrade-text {
-    color: #0388ef;
+    color: $blue;
     cursor: pointer;
   }
 
@@ -184,6 +249,10 @@
 
   .rejection-widget {
     font-family: $ff;
+    font-size: 16px;
+    background-color: transparent;
+    border-color: $red;
+    color: $red;
   }
 
   .account-current-tier-widget {
@@ -226,7 +295,7 @@
       color: #000000;
 
       @media (max-width: $screen-mobile) {
-        font-size: 14px;
+        font-size: 17px;
       }
     }
 
@@ -272,11 +341,11 @@
       font-style: normal;
       line-height: 0.75;
       letter-spacing: normal;
-      color: #0388ef;
+      color: $blue;
       margin-top: 10px;
 
       @media (max-width: $screen-mobile) {
-        font-size: 15px;
+        font-size: 17px;
       }
     }
 
@@ -306,6 +375,10 @@
       margin-bottom: 15px;
       align-items: center;
 
+      @media (max-width: $screen-mobile) {
+        margin-bottom: 10px;
+      }
+
       &__icon img {
         width: 20px;
         height: 20px;
@@ -330,15 +403,15 @@
         }
 
         &.approved {
-          color: #0388ef;
+          color: $blue;
         }
 
         &.rejected {
-          color: #ff3e2e;
+          color: $red;
         }
 
         &.submitted {
-          color: #ffae2c;
+          color: $yellow;
         }
 
         &.empty {
@@ -371,7 +444,7 @@
       padding: 5px;
 
       &.active {
-        background-color: #0388ef;
+        background-color: $blue;
         color: white;
 
         .text {
@@ -472,11 +545,11 @@
 
           &.active {
             .number {
-              background-color: #0388ef;
+              background-color: $blue;
             }
 
             .text {
-              color: #0388ef;
+              color: $blue;
             }
           }
 
@@ -756,7 +829,7 @@
 
           &.active {
             font-weight: 500;
-            border: 1px solid #0388ef;
+            border: 1px solid $blue;
           }
         }
       }

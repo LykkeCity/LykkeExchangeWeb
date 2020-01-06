@@ -13,7 +13,7 @@ const descriptionMapping = {
   Advanced: 'You can explore the worlds of crypto',
   Beginner: 'You can explore the worlds of crypto',
   ProIndividual:
-    'You can transfer up to $MaxLimit EUR and trade without limits and fees'
+    'You can deposit up to $MaxLimit EUR and trade without limits and fees'
 };
 
 export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({

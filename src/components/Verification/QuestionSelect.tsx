@@ -61,29 +61,29 @@ export class QuestionSelect extends React.Component<
         })}
         onClick={() => {
           if (question.Type === 'Multiple') {
-            if (answerId === 'OTHER') {
-              this.setState({showOtherInput: true});
+            if (answerSelected) {
+              value.answerIds = value.answerIds.filter(
+                (v: string) => v !== answerId
+              );
             } else {
-              if (answerSelected) {
-                value.answerIds = value.answerIds.filter(
-                  (v: string) => v !== answerId
-                );
-              } else {
-                value.answerIds.push(answerId);
+              value.answerIds.push(answerId);
+              if (answerId === 'OTHER') {
+                this.setState({showOtherInput: true});
               }
             }
+
             if (value.answerIds.length > 0) {
               form.setFieldValue(field.name, value);
             } else {
               form.setFieldValue(field.name, null);
             }
           } else if (question.Type === 'Single') {
+            value.answerIds = [answerId];
+            form.setFieldValue(field.name, value);
+            this.setState({showOtherInput: false});
+
             if (answerId === 'OTHER') {
               this.setState({showOtherInput: true});
-            } else {
-              value.answerIds = [answerId];
-              form.setFieldValue(field.name, value);
-              this.setState({showOtherInput: false});
             }
           }
           this.hideDropdown(field, form);
@@ -101,9 +101,10 @@ export class QuestionSelect extends React.Component<
     const value = field.value || {};
     value.answerIds = value.answerIds || [];
     value.other = value.other || '';
+    const text = answer.Id === 'OTHER' ? 'Other' : answer.Text;
     return (
       <span className="question-placeholder-tag" key={answer.Id}>
-        <span className="question-placeholder-tag__text">{answer.Text}</span>
+        <span className="question-placeholder-tag__text">{text}</span>
         <span
           className="question-placeholder-tag__remove"
           onClick={() => {
@@ -114,6 +115,9 @@ export class QuestionSelect extends React.Component<
               form.setFieldValue(field.name, value);
             } else {
               form.setFieldValue(field.name, null);
+            }
+            if (answer.Id === 'OTHER') {
+              this.setState({showOtherInput: false});
             }
           }}
         >
@@ -153,7 +157,7 @@ export class QuestionSelect extends React.Component<
       }
     } else {
       placeholder = (
-        <div className="question-placeholder__text">{question.Text}</div>
+        <div className="question-placeholder__text">Select option</div>
       );
     }
 
@@ -175,7 +179,8 @@ export class QuestionSelect extends React.Component<
               value.other = e.target.value;
               form.setFieldValue(field.name, value);
             } else {
-              form.setFieldValue(field.name, null);
+              value.other = '';
+              form.setFieldValue(field.name, value);
             }
           }}
         />
@@ -226,15 +231,6 @@ export class QuestionSelect extends React.Component<
                     {answers.map(answer =>
                       this.renderOption(answer, field, form)
                     )}
-                    {question.HasOther &&
-                      this.renderOption(
-                        {
-                          Id: 'OTHER',
-                          Text: 'Other, please specify'
-                        },
-                        field,
-                        form
-                      )}
                   </div>
                 </DropdownContainer>
               ) : (

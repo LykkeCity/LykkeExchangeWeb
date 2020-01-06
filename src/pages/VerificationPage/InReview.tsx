@@ -2,6 +2,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {Wrapper} from '../../components/Verification';
 import VerificationInReviewWidget from '../../components/VerificationInReviewWidget';
 import {STORE_ROOT} from '../../constants/stores';
 
@@ -17,10 +18,10 @@ export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
   }
   const upgradingTier = upgradeRequest.Tier;
   return (
-    <div>
+    <Wrapper>
       <div className="verification-page__big-title">
         <VerificationInReviewWidget />
-        <div className="mt-30">We have everything we need!</div>
+        <div>We have everything we need!</div>
       </div>
       <div className="verification-page__content">
         We will check these documents and let you know withing 48 hours the
@@ -39,12 +40,12 @@ export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
         )}
         <div className="mt-30 mb-30">
-          <Link to="/" className="btn btn--stroke">
+          <Link to="/profile" className="btn btn--stroke">
             OK
           </Link>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

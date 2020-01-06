@@ -2,6 +2,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {Wrapper} from '../../components/Verification';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const Completed: React.SFC<RootStoreProps> = ({rootStore}) => {
@@ -12,7 +13,7 @@ export const Completed: React.SFC<RootStoreProps> = ({rootStore}) => {
   }
   const showUpgradeToPro = !!tierInfo.NextTier;
   return (
-    <div>
+    <Wrapper>
       <div className="verification-page__big-title">
         Your account is approved!
       </div>
@@ -31,12 +32,12 @@ export const Completed: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
         )}
         <div className="mt-30 mb-30">
-          <Link to="/" className="btn btn--stroke">
+          <Link to="/profile" className="btn btn--stroke">
             OK
           </Link>
         </div>
       </div>
-    </div>
+    </Wrapper>
   );
 };
 

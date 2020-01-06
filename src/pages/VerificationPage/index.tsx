@@ -4,7 +4,7 @@ import React from 'react';
 import {RootStoreProps} from '../../App';
 import Footer from '../../components/Footer';
 import Spinner from '../../components/Spinner';
-import {VerificationHeader} from '../../components/Verification';
+import {VerificationHeader, Wrapper} from '../../components/Verification';
 // import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 import AccountInformation from './AccountInformation';
@@ -13,6 +13,7 @@ import Completed from './Completed';
 import Funds from './Funds';
 import Identity from './Identity';
 import InReview from './InReview';
+import NeedToFillData from './NeedToFillData';
 import Questionnaire from './Questionnaire';
 import Rejected from './Rejected';
 import Selfie from './Selfie';
@@ -56,13 +57,18 @@ export class VerificationPage extends React.Component<RootStoreProps> {
       AccountInformation: <AccountInformation />,
       Completed: <Completed />,
       InReview: <InReview />,
+      NeedToFillData: <NeedToFillData />,
       PoA: <Address />,
       PoF: <Funds />,
       PoI: <Identity />,
       Questionnaire: <Questionnaire />,
       Rejected: <Rejected />,
       Selfie: <Selfie />,
-      Spinner: <Spinner />,
+      Spinner: (
+        <Wrapper>
+          <Spinner />
+        </Wrapper>
+      ),
       UpgradeLimit: <UpgradeLimit />
     };
 
@@ -71,14 +77,10 @@ export class VerificationPage extends React.Component<RootStoreProps> {
         <VerificationHeader />
         {this.renderServerFileUploadErrorDialog()}
         <div className="container-fluid">
-          <div className="verification-page__sidebar-container col-sm-5">
+          <div className="col-sm-5 verification-page__sidebar-container">
             <Sidebar />
           </div>
-          <div className="col-sm-7">
-            <div className="verification-page__content-inner">
-              {formMapping[currentFormToRender]}
-            </div>
-          </div>
+          <div className="col-sm-7">{formMapping[currentFormToRender]}</div>
         </div>
         <Footer />
       </div>

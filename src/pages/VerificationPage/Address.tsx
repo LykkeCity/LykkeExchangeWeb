@@ -2,8 +2,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
 import DocumentSelector from '../../components/DocumentSelector';
-import Spinner from '../../components/Spinner';
-import {RejectionWidget} from '../../components/Verification';
+import {RejectionWidget, Wrapper} from '../../components/Verification';
 import {STORE_ROOT} from '../../constants/stores';
 
 export class Address extends React.Component<RootStoreProps> {
@@ -14,10 +13,12 @@ export class Address extends React.Component<RootStoreProps> {
     const rejectedPoaImage = this.kycStore.rejectedDocuments.ADDRESS;
     const fileUploadLoading = this.kycStore.fileUploadLoading;
     return (
-      <div>
-        <div className="verification-page__big-title">Proof of address</div>
+      <Wrapper loading={fileUploadLoading}>
+        <div className="verification-page__big-title">
+          Proof of address verification
+        </div>
         <div className="verification-page__content">
-          Please upload a document that states your address
+          Upload a clear and legible picture of your document
           {rejectReason && (
             <div className="mt-30">
               <RejectionWidget text={rejectReason} />
@@ -29,7 +30,7 @@ export class Address extends React.Component<RootStoreProps> {
               fromLibrary={true}
               maxFileSize={3}
               rejectedImage={rejectedPoaImage}
-              accept={['.png', '.jpg', '.pdf']}
+              accept={['.png', '.jpg', '.pdf', '.jpeg']}
               onDocumentTaken={document => {
                 this.kycStore.setDocument('ADDRESS', document);
               }}
@@ -62,11 +63,10 @@ export class Address extends React.Component<RootStoreProps> {
                 disabled={this.kycStore.shouldDisableAddressSubmitButton}
                 onClick={async () => this.kycStore.uploadProofOfAddress()}
               />
-              {fileUploadLoading && <Spinner />}
             </div>
           </div>
         </div>
-      </div>
+      </Wrapper>
     );
   }
 }

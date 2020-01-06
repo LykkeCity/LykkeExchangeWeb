@@ -20,13 +20,15 @@ export class KycStore {
   @observable documents: Documents;
   @observable registration: RegistrationResponse;
   @observable questionnaire: Questionnaire[] = [];
-  @observable showUpgradeToPro: boolean;
+  @observable showUpgradeToPro: boolean = false;
+  @observable showForm: boolean = false;
 
-  @observable fileUploadLoading: boolean;
-  @observable showFileUploadServerErrorModal: boolean;
-  @observable showUpdateAccountErrorModal: boolean;
-  @observable showUpdateQuestionnaireErrorModal: boolean;
-  @observable requestUpgradeLimitLoading: boolean;
+  @observable fileUploadLoading: boolean = false;
+  @observable showFileUploadServerErrorModal: boolean = false;
+  @observable showUpdateAccountErrorModal: boolean = false;
+  @observable showUpdateQuestionnaireErrorModal: boolean = false;
+  @observable requestUpgradeLimitLoading: boolean = false;
+  @observable questionnaireSubmitting: boolean = false;
 
   @observable selectedIdCardType: IdCardType = 'Passport';
   @observable
@@ -136,6 +138,12 @@ export class KycStore {
         let i = 1;
         this.questionnaire.map(question => {
           question.Index = i++;
+          if (question.HasOther) {
+            question.Answers.push({
+              Id: 'OTHER',
+              Text: 'Other, please specify'
+            });
+          }
           return question;
         });
       });
@@ -344,6 +352,7 @@ export class KycStore {
   };
 
   updateQuestionnaire = async (formValues: any) => {
+    this.questionnaireSubmitting = true;
     try {
       const normalizedAnswers = [];
       /* tslint:disable-next-line:no-empty forin */
@@ -357,15 +366,18 @@ export class KycStore {
       const response = await this.api!.updateQuestionnaire(normalizedAnswers);
       if (response.Error) {
         this.setShowUpdateQuestionnaireErrorModal(true);
+        this.questionnaireSubmitting = false;
         return;
       }
     } catch (e) {
       this.setShowUpdateQuestionnaireErrorModal(true);
+      this.questionnaireSubmitting = false;
       return;
     }
 
     await this.api!.setKycProfile('Advanced');
     await this.fetchVerificationData();
+    this.questionnaireSubmitting = false;
   };
 
   requestUpgradeLimit = async () => {
@@ -433,6 +445,11 @@ export class KycStore {
   @action
   showSwitchToPro = () => {
     this.showUpgradeToPro = true;
+  };
+
+  @action
+  setShowForm = (value: boolean) => {
+    this.showForm = value;
   };
 
   @computed
@@ -570,11 +587,30 @@ export class KycStore {
   }
 
   @computed
+  get getRejectedDocumentList(): string[] {
+    const list: string[] = [];
+    if (this.getPoiRejectReason) {
+      list.push(`- Identity documents (${this.getPoiRejectReason})`);
+    }
+    if (this.getSelfieRejectReason) {
+      list.push(`- Selfie (${this.getSelfieRejectReason})`);
+    }
+    if (this.getPoaRejectReason) {
+      list.push(`- Proof of address (${this.getPoaRejectReason})`);
+    }
+    if (this.getPofRejectReason) {
+      list.push(`- Proof of funds (${this.getPofRejectReason})`);
+    }
+    return list;
+  }
+
+  @computed
   get isUpgradeRequestRejected(): boolean {
     if (
       this.tierInfo &&
       this.tierInfo.UpgradeRequest &&
-      this.tierInfo.UpgradeRequest.Status === 'Rejected'
+      (this.tierInfo.UpgradeRequest.Status === 'Rejected' ||
+        this.tierInfo.UpgradeRequest.Status === 'RestrictedArea')
     ) {
       return true;
     }
@@ -609,6 +645,10 @@ export class KycStore {
 
     if (this.isUpgradeRequestRejected) {
       return 'Rejected';
+    }
+
+    if (this.isUpgradeRequestNeedToFillData && !this.showForm) {
+      return 'NeedToFillData';
     }
 
     if (accountInfoStatus === 'EMPTY' || accountInfoStatus === 'REJECTED') {
