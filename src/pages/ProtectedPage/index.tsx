@@ -127,6 +127,31 @@ RouteWithHeaderAndFooter = inject(STORE_ROOT)(
   observer(RouteWithHeaderAndFooter)
 );
 
+let NormalRoute: React.SFC<RootStoreProps & RouteComponentProps<any> & any> = ({
+  rootStore,
+  ...routeProps
+}) => {
+  const uiStore = rootStore!.uiStore;
+  const classes = {
+    app: true,
+    'app--overlayed': rootStore!.uiStore.overlayed
+  };
+  const handleOutsideClick = (e: React.MouseEvent<any>) => {
+    const {toggleBaseAssetPicker, showBaseCurrencyPicker} = uiStore;
+    const isBaseAssetTarget = e.target !== document.getElementById('baseAsset');
+    if (isBaseAssetTarget && showBaseCurrencyPicker) {
+      toggleBaseAssetPicker();
+    }
+  };
+  return (
+    <div className={classNames(classes)} onClick={handleOutsideClick}>
+      <Route {...routeProps} />
+    </div>
+  );
+};
+
+NormalRoute = inject(STORE_ROOT)(observer(NormalRoute));
+
 export class ProtectedPage extends React.Component<
   RootStoreProps & RouteComponentProps<any>
 > {
@@ -298,7 +323,7 @@ export class ProtectedPage extends React.Component<
           exact
           component={asLoading(SecurityPage)}
         />
-        <Route
+        <NormalRoute
           path={ROUTE_VERIFICATION}
           exact
           component={asLoading(VerificationPage)}
