@@ -6,7 +6,10 @@ import {RootStoreProps} from '../../App';
 import ClientDialog from '../../components/ClientDialog';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
-import {ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY} from '../../constants/routes';
+import {
+  ROUTE_DEPOSIT_CREDIT_CARD_GATEWAY,
+  ROUTE_VERIFICATION
+} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {DialogModel, GatewayUrls} from '../../models';
 import {DialogConditionType} from '../../models/dialogModel';
@@ -75,7 +78,10 @@ export class DepositCreditCardPage extends React.Component<
         dialog.conditionType === DialogConditionType.Predeposit
     );
     const assetDisclaimer = this.dialogStore.assetDisclaimers[0];
-
+    const showMaxDepositErrorDialog = this.depositStore
+      .showMaxDepositErrorDialog;
+    const fetchBankCardPaymentUrlError = this.depositStore
+      .fetchBankCardPaymentUrlError;
     return (
       <div className="container">
         <div className="deposit-credit-card">
@@ -88,7 +94,6 @@ export class DepositCreditCardPage extends React.Component<
           )}
           {assetDisclaimer && (
             <Dialog
-              className="has-scroll"
               visible={assetDisclaimer.visible}
               title={assetDisclaimer.header}
               onCancel={this.handleDisclaimerCancel}
@@ -101,6 +106,19 @@ export class DepositCreditCardPage extends React.Component<
               )}
             />
           )}
+          <Dialog
+            visible={showMaxDepositErrorDialog}
+            title="Error"
+            onCancel={this.handleMaxDepositErrorCancel}
+            cancelButton={{text: 'Later'}}
+            onConfirm={this.handleMaxDepositErrorConfirm}
+            confirmButton={{text: 'Upgrade'}}
+            description={
+              fetchBankCardPaymentUrlError
+                ? fetchBankCardPaymentUrlError.message
+                : ''
+            }
+          />
           <ul className="deposit-credit-card__icons">
             {cardIcons.map(cardIcon => (
               <li key={cardIcon}>
@@ -121,6 +139,7 @@ export class DepositCreditCardPage extends React.Component<
           </div>
           <DepositCreditCardForm
             onDisclaimerError={this.handleDisclaimerError}
+            onMaxDepositError={this.onMaxDepositError}
             onSuccess={this.handleSubmitSuccess}
             onSubmitForm={this.handleFormSubmit}
             asset={asset}
@@ -184,6 +203,19 @@ export class DepositCreditCardPage extends React.Component<
     if (this.showDislaimer) {
       this.dialogStore.assetDisclaimers[0].visible = true;
     }
+  };
+
+  private onMaxDepositError = (message: string) => {
+    this.depositStore.setShowMaxDepositErrorDialog(true);
+  };
+
+  private handleMaxDepositErrorCancel = () => {
+    this.depositStore.setShowMaxDepositErrorDialog(false);
+  };
+
+  private handleMaxDepositErrorConfirm = () => {
+    this.depositStore.setShowMaxDepositErrorDialog(false);
+    this.props.history.push(ROUTE_VERIFICATION);
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {

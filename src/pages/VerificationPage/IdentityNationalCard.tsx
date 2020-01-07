@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
 import DocumentSelector from '../../components/DocumentSelector';
+
 import {STORE_ROOT} from '../../constants/stores';
 
 interface IdentityNationalCardState {
@@ -26,7 +27,7 @@ export class IdentityNationalCard extends React.Component<
       <ul>
         <li>
           Upload a clear and legible picture of{' '}
-          {activeSide === 'FRONT' ? 'front' : 'back'} side of your National Id
+          {activeSide === 'FRONT' ? 'front' : 'back'} side of your National ID
         </li>
       </ul>
     );
@@ -46,7 +47,7 @@ export class IdentityNationalCard extends React.Component<
             }}
           >
             <span className="number">1</span>
-            <span className="text">Frontside of ID card</span>
+            <span className="text">Frontside</span>
           </div>
           <div
             className={classnames({
@@ -63,7 +64,7 @@ export class IdentityNationalCard extends React.Component<
             }}
           >
             <span className="number">2</span>
-            <span className="text">Backside of ID card</span>
+            <span className="text">Backside</span>
           </div>
         </div>
         <div className="mt-30">
@@ -74,13 +75,10 @@ export class IdentityNationalCard extends React.Component<
               maxFileSize={3}
               rejectedImage={rejectedPoiCardImage}
               accept={[]}
-              onPictureTaken={pictureBase64 => {
-                this.kycStore.setDocument(
-                  'IDENTITY_NATIONAL_FRONT',
-                  pictureBase64
-                );
+              onDocumentTaken={document => {
+                this.kycStore.setDocument('IDENTITY_NATIONAL_FRONT', document);
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_NATIONAL_FRONT');
               }}
               rules={rules}
@@ -92,13 +90,10 @@ export class IdentityNationalCard extends React.Component<
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
-              onPictureTaken={pictureBase64 => {
-                this.kycStore.setDocument(
-                  'IDENTITY_NATIONAL_BACK',
-                  pictureBase64
-                );
+              onDocumentTaken={document => {
+                this.kycStore.setDocument('IDENTITY_NATIONAL_BACK', document);
               }}
-              onPictureClear={() => {
+              onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_NATIONAL_BACK');
               }}
               rules={rules}

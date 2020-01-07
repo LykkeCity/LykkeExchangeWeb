@@ -5,7 +5,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
-import Spinner from '../../components/Spinner';
+import {Wrapper} from '../../components/Verification';
 import {STORE_ROOT} from '../../constants/stores';
 
 /* tslint:disable:no-empty */
@@ -52,23 +52,41 @@ export class AccountInformation extends React.Component<RootStoreProps> {
     );
 
     return (
-      <Form>
-        <div className="col-sm-12">
-          {renderField('streetAddress', 'Street Address')}
+      <Wrapper loading={formikBag.isSubmitting}>
+        <div className="verification-page__big-title">Account Information</div>
+        <div className="verification-page__content">
+          Please fill out your address so we are enabled to verify your account.
+          We ensure the confidentiality of your personal information.
+          <div className="account-info-form">
+            <div className="verification-page__card">
+              <div className="container">
+                <div className="row">
+                  <Form>
+                    <div className="col-sm-12">
+                      {renderField('streetAddress', 'Street Address')}
+                    </div>
+                    <div className="col-sm-6">
+                      {renderField('building', 'Building')}
+                    </div>
+                    <div className="col-sm-6">
+                      {renderField('apartment', 'Apartment')}
+                    </div>
+                    <div className="col-sm-12">{renderField('zip', 'Zip')}</div>
+                    <div className="col-sm-12">
+                      <input
+                        type="submit"
+                        className="btn btn--primary"
+                        value="Submit"
+                        disabled={formikBag.isSubmitting || !formikBag.isValid}
+                      />
+                    </div>
+                  </Form>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="col-sm-6">{renderField('building', 'Building')}</div>
-        <div className="col-sm-6">{renderField('apartment', 'Apartment')}</div>
-        <div className="col-sm-12">{renderField('zip', 'Zip')}</div>
-        <div className="col-sm-12">
-          <input
-            type="submit"
-            className="btn btn--primary"
-            value="Submit"
-            disabled={formikBag.isSubmitting || !formikBag.isValid}
-          />
-          {formikBag.isSubmitting && <Spinner />}
-        </div>
-      </Form>
+      </Wrapper>
     );
   }
 
@@ -97,57 +115,43 @@ export class AccountInformation extends React.Component<RootStoreProps> {
     return (
       <div>
         {this.renderUpdateAccountErrorModal()}
-        <div className="verification-page__big-title">Account Information</div>
-        <div className="verification-page__content">
-          Please fill out your address so we are enabled to verify your account.
-          We ensure the confidentiality of your personal information.
-          <div className="account-info-form verification-page__card">
-            <div className="container">
-              <div className="row">
-                <Formik
-                  initialValues={{
-                    apartment: '',
-                    building: '',
-                    streetAddress: registration
-                      ? registration.PersonalData.Address || ''
-                      : '',
-                    zip: registration ? registration.PersonalData.Zip || '' : ''
-                  }}
-                  enableReinitialize
-                  validationSchema={Yup.object().shape({
-                    building: Yup.string()
-                      .trim()
-                      .required(requiredErrorMessage('building')),
-                    streetAddress: Yup.string()
-                      .trim()
-                      .required(requiredErrorMessage('street address')),
-                    zip: Yup.number().required(requiredErrorMessage('zip'))
-                  })}
-                  // tslint:disable-next-line:jsx-no-lambda
-                  onSubmit={async (values: any, {setSubmitting}) => {
-                    setSubmitting(true);
-                    let address = '';
-                    if (values.apartment) {
-                      address = `${values.streetAddress} ${values.building}, Apt ${values.streetAddress}`;
-                    } else {
-                      address = `${values.streetAddress} ${values.building}`;
-                    }
-                    try {
-                      await this.kycStore.updateAccountInformation(
-                        address,
-                        values.zip
-                      );
-                      setSubmitting(false);
-                    } catch (e) {
-                      setSubmitting(false);
-                    }
-                  }}
-                  render={this.renderForm}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <Formik
+          initialValues={{
+            apartment: '',
+            building: '',
+            streetAddress: registration
+              ? registration.PersonalData.Address || ''
+              : '',
+            zip: registration ? registration.PersonalData.Zip || '' : ''
+          }}
+          enableReinitialize
+          validationSchema={Yup.object().shape({
+            building: Yup.string()
+              .trim()
+              .required(requiredErrorMessage('building')),
+            streetAddress: Yup.string()
+              .trim()
+              .required(requiredErrorMessage('street address')),
+            zip: Yup.string().required(requiredErrorMessage('zip'))
+          })}
+          // tslint:disable-next-line:jsx-no-lambda
+          onSubmit={async (values: any, {setSubmitting}) => {
+            setSubmitting(true);
+            let address = '';
+            if (values.apartment) {
+              address = `${values.streetAddress} ${values.building}, Apt ${values.apartment}`;
+            } else {
+              address = `${values.streetAddress} ${values.building}`;
+            }
+            try {
+              await this.kycStore.updateAccountInformation(address, values.zip);
+              setSubmitting(false);
+            } catch (e) {
+              setSubmitting(false);
+            }
+          }}
+          render={this.renderForm}
+        />
       </div>
     );
   }

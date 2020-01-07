@@ -30,7 +30,7 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
       url: ROUTE_WALLETS_TRADING
     },
     {
-      title: MenuItem.Settings,
+      title: MenuItem.Profile,
       url: ROUTE_PROFILE
     }
   ];
@@ -102,10 +102,10 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
       {!uiStore.hasPendingRequests && (
         <div
           className={classnames('subheader', {
-            hidden: uiStore.activeHeaderMenuItem !== MenuItem.Settings
+            hidden: uiStore.activeHeaderMenuItem !== MenuItem.Profile
           })}
         >
-          {renderSubmenuItem(ROUTE_PROFILE, 'Profile')}
+          {renderSubmenuItem(ROUTE_PROFILE, 'General')}
           {renderSubmenuItem(ROUTE_SECURITY, 'Security')}
         </div>
       )}

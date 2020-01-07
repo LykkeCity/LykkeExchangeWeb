@@ -62,15 +62,26 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
     }
 
     if (tierInfo.CurrentTier.Tier === 'Beginner') {
+      if (showUpgradeToPro) {
+        return (
+          <div className="verification-items">
+            <StepItem
+              text="Proof of funds"
+              status={pofStatus}
+              isActive={currentFormToRender === 'PoF'}
+            />
+          </div>
+        );
+      }
       return (
         <div className="verification-items">
           <StepItem
-            text="Account Information"
+            text="Account information"
             status={getAccountInformationStatus}
             isActive={currentFormToRender === 'AccountInformation'}
           />
           <StepItem
-            text="Identity Documents"
+            text="Identity documents"
             status={poiStatus}
             isActive={currentFormToRender === 'PoI'}
           />
@@ -80,17 +91,10 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
             isActive={currentFormToRender === 'Selfie'}
           />
           <StepItem
-            text="Proof Of Address"
+            text="Proof of address"
             status={poaStatus}
             isActive={currentFormToRender === 'PoA'}
           />
-          {showUpgradeToPro && (
-            <StepItem
-              text="Proof Of Funds"
-              status={pofStatus}
-              isActive={currentFormToRender === 'PoF'}
-            />
-          )}
           <StepItem
             text="Questionnaire"
             status={getQuestionnaireStatus}

@@ -3,14 +3,36 @@ import WebCam from 'react-webcam';
 import './style.css';
 
 interface CameraProps {
-  onPictureTaken: (picture: string) => void;
-  onPictureClear: () => void;
+  onDocumentTaken: (picture: File) => void;
+  onDocumentClear: () => void;
   onBack: () => void;
 }
 
 interface CameraState {
   picture: string;
   state: 'OPEN' | 'PICTURE_TAKEN';
+}
+
+function base64ImageToBlob(str: string): File {
+  // extract content type and base64 payload from original string
+  const pos = str.indexOf(';base64,');
+  const type = str.substring(5, pos);
+  const b64 = str.substr(pos + 8);
+
+  // decode base64
+  const imageContent = atob(b64);
+
+  // create an ArrayBuffer and a view (as unsigned 8-bit)
+  const buffer = new ArrayBuffer(imageContent.length);
+  const view = new Uint8Array(buffer);
+
+  // fill the view, using the decoded base64
+  for (let n = 0; n < imageContent.length; n++) {
+    view[n] = imageContent.charCodeAt(n);
+  }
+
+  // convert ArrayBuffer to Blob
+  return new File([buffer], 'screenshot.jpeg', {type});
 }
 
 /* tslint:disable:no-empty */
@@ -23,7 +45,7 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
 
   render() {
     const {picture, state} = this.state;
-    const {onPictureTaken, onPictureClear, onBack} = this.props;
+    const {onDocumentTaken, onDocumentClear, onBack} = this.props;
     const videoConstraints = {
       facingMode: 'user',
       height: 490,
@@ -57,7 +79,7 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
                 onClick={() => {
                   const newPicture = this.webCamRef.getScreenshot();
                   this.setState({picture: newPicture, state: 'PICTURE_TAKEN'});
-                  onPictureTaken(newPicture);
+                  onDocumentTaken(base64ImageToBlob(newPicture));
                 }}
               >
                 Take photo
@@ -71,7 +93,7 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
               className="camera__clear-icon"
               onClick={() => {
                 this.setState({picture: '', state: 'OPEN'});
-                onPictureClear();
+                onDocumentClear();
               }}
             >
               <img src={`${process.env.PUBLIC_URL}/images/icon_times.png`} />

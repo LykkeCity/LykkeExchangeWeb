@@ -4,3 +4,4 @@ export {default as UpgradeToNextTierWidget} from './UpgradeToNextTierWidget';
 export {default as Icons} from './Icons';
 export {default as Question} from './Question';
 export {default as RejectionWidget} from './RejectionWidget';
+export {default as Wrapper} from './Wrapper';

@@ -3,7 +3,6 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
-import Spinner from '../../components/Spinner';
 import {Question} from '../../components/Verification';
 import {STORE_ROOT} from '../../constants/stores';
 import {Questionnaire} from '../../models';
@@ -62,8 +61,8 @@ export class QuestionnaireMobileLayout extends React.Component<
 
   renderButton(formikBag: any) {
     const {currentStep} = this.state;
+    const questionnaireSubmitting = this.kycStore.questionnaireSubmitting;
     const isLastStep = TOTAL_STEPS === currentStep;
-
     if (isLastStep) {
       return (
         <div>
@@ -71,9 +70,8 @@ export class QuestionnaireMobileLayout extends React.Component<
             type="submit"
             value="Submit"
             className="btn btn--primary"
-            disabled={formikBag.isSubmitting || !formikBag.isValid}
+            disabled={questionnaireSubmitting || !formikBag.isValid}
           />
-          {formikBag.isSubmitting && <Spinner />}
         </div>
       );
     } else {
@@ -107,12 +105,9 @@ export class QuestionnaireMobileLayout extends React.Component<
         )}
         onSubmit={async (values: any, formikActions: any) => {
           if (isLastStep) {
-            formikActions.setSubmitting(true);
             await this.kycStore.updateQuestionnaire(values);
-            formikActions.setSubmitting(false);
           } else {
             this.setState({currentStep: currentStep + 1});
-            formikActions.setSubmitting(false);
             formikActions.setTouched({}); // call setTouched() because form stays valid somehow
           }
         }}

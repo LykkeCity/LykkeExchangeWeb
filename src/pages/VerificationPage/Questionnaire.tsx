@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
 import Spinner from '../../components/Spinner';
+import {Wrapper} from '../../components/Verification';
 import {STORE_ROOT} from '../../constants/stores';
 import QuestionnaireDesktopLayout from './QuestionnaireDesktopLayout';
 import QuestionnaireMobileLayout from './QuestionnaireMobileLayout';
@@ -56,6 +57,7 @@ export class Questionnaire extends React.Component<
   render() {
     const {layout} = this.state;
     const questionnaire = this.kycStore.questionnaire;
+    const questionnaireSubmitting = this.kycStore.questionnaireSubmitting;
     let layoutToRender;
 
     if (layout === 'MOBILE') {
@@ -64,7 +66,7 @@ export class Questionnaire extends React.Component<
       layoutToRender = <QuestionnaireDesktopLayout />;
     }
     return (
-      <div>
+      <Wrapper loading={questionnaireSubmitting}>
         {this.renderUpdateErrorDialog()}
         <div className="verification-page__big-title">Questionnaire</div>
         <div className="verification-page__content">
@@ -73,7 +75,7 @@ export class Questionnaire extends React.Component<
             <div className="questionnaire">{layoutToRender}</div>
           </div>
         </div>
-      </div>
+      </Wrapper>
     );
   }
 }

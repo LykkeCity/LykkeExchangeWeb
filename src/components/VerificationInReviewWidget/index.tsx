@@ -31,11 +31,15 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
 
   const status = upgradeRequest.Status;
   let statusText = '';
+  let showTimer = false;
 
   if (status === 'Pending') {
     statusText = 'In Review';
+    showTimer = true;
   } else if (status === 'NeedToFillData') {
     statusText = 'Resubmission needed';
+  } else {
+    return null;
   }
 
   return (
@@ -49,7 +53,9 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
         </div>
         <div className="in-review-widget-right__status">{statusText}</div>
       </div>
-      <div className="in-review-widget__time-left">{hoursRemained}h left</div>
+      <div className="in-review-widget__time-left">
+        {showTimer ? `${hoursRemained}h left` : ''}
+      </div>
     </div>
   );
 };

@@ -54,7 +54,7 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   return (
     <div>
-      <h2 className="account-level__title">Account level</h2>
+      <h2 className="account-level__title">Account Level</h2>
       <div className="account-level">
         <div className="account-level__icon">
           <img src={`${process.env.PUBLIC_URL}/images/verify_approved.png`} />
