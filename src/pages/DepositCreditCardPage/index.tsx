@@ -94,7 +94,6 @@ export class DepositCreditCardPage extends React.Component<
           )}
           {assetDisclaimer && (
             <Dialog
-              className="has-scroll"
               visible={assetDisclaimer.visible}
               title={assetDisclaimer.header}
               onCancel={this.handleDisclaimerCancel}
@@ -108,7 +107,6 @@ export class DepositCreditCardPage extends React.Component<
             />
           )}
           <Dialog
-            className="has-scroll"
             visible={showMaxDepositErrorDialog}
             title="Error"
             onCancel={this.handleMaxDepositErrorCancel}
