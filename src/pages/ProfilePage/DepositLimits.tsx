@@ -32,6 +32,7 @@ export const DepositLimits: React.SFC<RootStoreProps> = ({rootStore}) => {
     handleAlignment = 'right';
   }
 
+  const currentAsInteger = parseInt(`${current}`, 10);
   return (
     <div className="deposit-limits">
       <h2 className="deposit-limits__title">Deposit Limits</h2>
@@ -51,7 +52,7 @@ export const DepositLimits: React.SFC<RootStoreProps> = ({rootStore}) => {
                 handleAlignment
               )}
             >
-              {current} EUR
+              {currentAsInteger} EUR
             </span>
           </div>
         </div>
