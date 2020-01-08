@@ -12,6 +12,28 @@
         vertical-align: middle;
       }
     }
+
+    &.yellow {
+      a {
+        color: $yellow;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    &.red {
+      a {
+        color: $red;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
   }
 
   .tfa-banner,

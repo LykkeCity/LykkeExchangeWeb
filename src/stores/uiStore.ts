@@ -17,7 +17,6 @@ export class UiStore {
   @observable showQrWindow: boolean;
   @observable showBaseCurrencyPicker: boolean;
   @observable showBetaBanner: boolean;
-  @observable showKycBanner: boolean;
   @observable showEthWarning: boolean = false;
   @observable showAssetAddressModal: boolean = false;
   @observable transferError: string;

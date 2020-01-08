@@ -5,6 +5,7 @@ import {
   Documents,
   DocumentType,
   IdCardType,
+  KycStatuses,
   Questionnaire,
   RegistrationResponse,
   TierInfo,
@@ -609,8 +610,8 @@ export class KycStore {
     if (
       this.tierInfo &&
       this.tierInfo.UpgradeRequest &&
-      (this.tierInfo.UpgradeRequest.Status === 'Rejected' ||
-        this.tierInfo.UpgradeRequest.Status === 'RestrictedArea')
+      (this.tierInfo.UpgradeRequest.Status === KycStatuses.Rejected ||
+        this.tierInfo.UpgradeRequest.Status === KycStatuses.RestrictedArea)
     ) {
       return true;
     }
@@ -622,7 +623,19 @@ export class KycStore {
     if (
       this.tierInfo &&
       this.tierInfo.UpgradeRequest &&
-      this.tierInfo.UpgradeRequest.Status === 'NeedToFillData'
+      this.tierInfo.UpgradeRequest.Status === KycStatuses.NeedToFillData
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  @computed
+  get isUpgradeRequestPending(): boolean {
+    if (
+      this.tierInfo &&
+      this.tierInfo.UpgradeRequest &&
+      this.tierInfo.UpgradeRequest.Status === KycStatuses.Pending
     ) {
       return true;
     }
@@ -675,10 +688,8 @@ export class KycStore {
       return 'PoF';
     }
 
-    if (tierInfo.UpgradeRequest) {
-      if (tierInfo.UpgradeRequest.Status === 'Pending') {
-        return 'InReview';
-      }
+    if (this.isUpgradeRequestPending) {
+      return 'InReview';
     }
 
     if (this.isMaxLimitReached) {

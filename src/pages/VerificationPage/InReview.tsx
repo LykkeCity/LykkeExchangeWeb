@@ -1,12 +1,17 @@
 import {inject, observer} from 'mobx-react';
+import queryString from 'query-string';
 import React from 'react';
-import {Link} from 'react-router-dom';
+import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {Wrapper} from '../../components/Verification';
 import VerificationInReviewWidget from '../../components/VerificationInReviewWidget';
 import {STORE_ROOT} from '../../constants/stores';
 
-export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
+export const InReview: React.SFC<RootStoreProps & RouteComponentProps<any>> = ({
+  rootStore,
+  location,
+  history
+}) => {
   const kycStore = rootStore!.kycStore;
   const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
@@ -17,6 +22,18 @@ export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
     return null;
   }
   const upgradingTier = upgradeRequest.Tier;
+
+  // The same piece of code exists on Completed.tsx too. Move to a component?
+  const qs = queryString.parse(location.search);
+  const returnUrl = qs.returnUrl as string;
+  const onOkClick = () => {
+    if (returnUrl) {
+      document.location.href = returnUrl;
+    } else {
+      history.push('/profile');
+    }
+  };
+
   return (
     <Wrapper>
       <div className="verification-page__big-title">
@@ -40,9 +57,9 @@ export const InReview: React.SFC<RootStoreProps> = ({rootStore}) => {
           </div>
         )}
         <div className="mt-30 mb-30">
-          <Link to="/profile" className="btn btn--stroke">
+          <span className="btn btn--stroke" onClick={onOkClick}>
             OK
-          </Link>
+          </span>
         </div>
       </div>
     </Wrapper>
