@@ -32,12 +32,15 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   const status = upgradeRequest.Status;
   let statusText = '';
   let showTimer = false;
+  let icon = '';
 
   if (status === 'Pending') {
     statusText = 'In Review';
+    icon = `${process.env.PUBLIC_URL}/images/verify_submitted.png`;
     showTimer = true;
   } else if (status === 'NeedToFillData') {
     statusText = 'Resubmission needed';
+    icon = `${process.env.PUBLIC_URL}/images/verify_ntfd.png`;
   } else {
     return null;
   }
@@ -45,7 +48,7 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   return (
     <div className="in-review-widget">
       <div className="in-review-widget__icon">
-        <img src={`${process.env.PUBLIC_URL}/images/verify_submitted.png`} />
+        <img src={icon} />
       </div>
       <div className="in-review-widget-right">
         <div className="in-review-widget-right__tier">
