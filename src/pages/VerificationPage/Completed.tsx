@@ -1,5 +1,5 @@
 import {inject, observer} from 'mobx-react';
-import queryString from 'query-string';
+import queryString from 'qs';
 import React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
@@ -17,7 +17,7 @@ export const Completed: React.SFC<
   const showUpgradeToPro = !!tierInfo.NextTier;
 
   // The same piece of code exists on InReview.tsx too. Move to a component?
-  const qs = queryString.parse(location.search);
+  const qs = queryString.parse(location.search, {ignoreQueryPrefix: true});
   const returnUrl = qs.returnUrl as string;
   const onOkClick = () => {
     if (returnUrl) {
