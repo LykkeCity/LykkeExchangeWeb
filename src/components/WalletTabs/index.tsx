@@ -1,6 +1,6 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {withRouter} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
@@ -21,6 +21,8 @@ interface WalletTabsProps {
   onCreateNewWallet?: () => void;
 }
 
+const KYC_URL = process.env.REACT_APP_KYC_URL as string;
+
 export class WalletTabs extends React.Component<WalletTabsProps> {
   render() {
     return (
@@ -34,17 +36,13 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             text="To start trading now simply complete KYC"
             footer={
               <div>
-                <a
-                  href={`${process.env.REACT_APP_KYC_URL}?returnUrl=${window
-                    .location.origin}`}
-                  onClick={this.trackStartKyc}
-                >
+                <Link to={KYC_URL} onClick={this.trackStartKyc}>
                   <img
                     src={`${process.env.PUBLIC_URL}/images/id-icn.svg`}
                     alt="Go to KYC procedure"
                   />
                   <span>Go to KYC procedure</span>
-                </a>
+                </Link>
               </div>
             }
           />
@@ -56,17 +54,13 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             text="We are in the process of checking your documentation and will be in touch shortly"
             footer={
               <div>
-                <a
-                  href={`${process.env.REACT_APP_KYC_URL}?returnUrl=${window
-                    .location.origin}`}
-                  onClick={this.trackCheckKycStatus}
-                >
+                <Link to={KYC_URL} onClick={this.trackCheckKycStatus}>
                   <img
                     src={`${process.env.PUBLIC_URL}/images/info-icn.svg`}
                     alt="Check status"
                   />
                   <span>Check status</span>
-                </a>
+                </Link>
               </div>
             }
           />

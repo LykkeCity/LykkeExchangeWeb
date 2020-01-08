@@ -1,6 +1,7 @@
 import {Dialog} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
+import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import Footer from '../../components/Footer';
 import Spinner from '../../components/Spinner';
@@ -22,7 +23,9 @@ import './style.css';
 import UpgradeLimit from './UpgradeLimit';
 
 /* tslint:disable:no-empty */
-export class VerificationPage extends React.Component<RootStoreProps> {
+export class VerificationPage extends React.Component<
+  RootStoreProps & RouteComponentProps<any>
+> {
   readonly kycStore = this.props.rootStore!.kycStore;
 
   async componentDidMount() {
@@ -55,8 +58,8 @@ export class VerificationPage extends React.Component<RootStoreProps> {
 
     const formMapping = {
       AccountInformation: <AccountInformation />,
-      Completed: <Completed />,
-      InReview: <InReview />,
+      Completed: <Completed {...this.props} />,
+      InReview: <InReview {...this.props} />,
       NeedToFillData: <NeedToFillData />,
       PoA: <Address />,
       PoF: <Funds />,
