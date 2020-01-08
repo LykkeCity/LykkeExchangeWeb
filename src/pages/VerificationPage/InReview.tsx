@@ -1,5 +1,5 @@
 import {inject, observer} from 'mobx-react';
-import queryString from 'query-string';
+import queryString from 'qs';
 import React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
@@ -24,7 +24,7 @@ export const InReview: React.SFC<RootStoreProps & RouteComponentProps<any>> = ({
   const upgradingTier = upgradeRequest.Tier;
 
   // The same piece of code exists on Completed.tsx too. Move to a component?
-  const qs = queryString.parse(location.search);
+  const qs = queryString.parse(location.search, {ignoreQueryPrefix: true});
   const returnUrl = qs.returnUrl as string;
   const onOkClick = () => {
     if (returnUrl) {
