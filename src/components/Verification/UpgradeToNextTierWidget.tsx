@@ -95,6 +95,13 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
             status={poaStatus}
             isActive={currentFormToRender === 'PoA'}
           />
+          {nextTier.Documents.indexOf('PoF') > -1 && (
+            <StepItem
+              text="Proof of funds"
+              status={pofStatus}
+              isActive={currentFormToRender === 'PoF'}
+            />
+          )}
           <StepItem
             text="Questionnaire"
             status={getQuestionnaireStatus}
@@ -108,7 +115,7 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
       return (
         <div className="verification-items">
           <StepItem
-            text="Proof Of Funds"
+            text="Proof of funds"
             status={pofStatus}
             isActive={currentFormToRender === 'PoF'}
           />
