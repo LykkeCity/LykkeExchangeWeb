@@ -18,8 +18,11 @@ interface VerificationDocuments {
 
 export class KycStore {
   @observable tierInfo: TierInfo;
+  @observable tierInfoLoading: boolean = false;
   @observable documents: Documents;
+  @observable documentsLoading: boolean = false;
   @observable registration: RegistrationResponse;
+  @observable registrationLoading: boolean = false;
   @observable questionnaire: Questionnaire[] = [];
   @observable showUpgradeToPro: boolean = false;
   @observable showForm: boolean = false;
@@ -64,16 +67,19 @@ export class KycStore {
   };
 
   fetchTierInfo = async () => {
+    this.tierInfoLoading = true;
     const response = await this.api!.fetchTierInfo();
     if (response) {
       runInAction(() => {
         this.tierInfo = response.Result;
+        this.tierInfoLoading = false;
       });
     }
   };
 
   fetchDocuments = async () => {
     const self = this;
+    this.documentsLoading = true;
     const response = await this.api!.fetchDocuments();
     if (response) {
       runInAction(() => {
@@ -107,6 +113,8 @@ export class KycStore {
       }
     }
 
+    this.documentsLoading = false;
+
     async function getKycFileBase64(fileId: string): Promise<any> {
       return new Promise(async resolve => {
         const image = await self.getFile(fileId);
@@ -121,10 +129,12 @@ export class KycStore {
   };
 
   fetchRegistration = async () => {
+    this.registrationLoading = true;
     const response = await this.api!.fetchRegistration();
     if (response) {
       runInAction(() => {
         this.registration = response.Result;
+        this.registrationLoading = false;
       });
     }
   };
@@ -222,9 +232,7 @@ export class KycStore {
       // catch is ignored, because json parser throws exception when successful
       /* tslint:disable-next-line:no-empty */
     } catch (e) {}
-    if (this.isUpgradeRequestNeedToFillData) {
-      await this.api!.setKycProfile('Advanced');
-    }
+    await this.checkAndSetKycProfile();
     await this.fetchVerificationData();
   };
 
@@ -282,9 +290,7 @@ export class KycStore {
       if (result.Error) {
         this.setShowFileUploadServerErrorModal(true);
       } else {
-        if (this.isUpgradeRequestNeedToFillData) {
-          await this.api!.setKycProfile('Advanced');
-        }
+        await this.checkAndSetKycProfile();
         await this.fetchVerificationData();
       }
     } catch (e) {
@@ -304,9 +310,7 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
-      if (this.isUpgradeRequestNeedToFillData) {
-        await this.api!.setKycProfile('Advanced');
-      }
+      await this.checkAndSetKycProfile();
       await this.fetchVerificationData();
     }
 
@@ -323,7 +327,7 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
-      await this.api!.setKycProfile('ProIndividual');
+      await this.checkAndSetKycProfile();
       await this.fetchVerificationData();
       this.showUpgradeToPro = false;
     }
@@ -341,9 +345,7 @@ export class KycStore {
     if (result.Error) {
       this.setShowFileUploadServerErrorModal(true);
     } else {
-      if (this.isUpgradeRequestNeedToFillData) {
-        await this.api!.setKycProfile('Advanced');
-      }
+      await this.checkAndSetKycProfile();
       await this.fetchVerificationData();
     }
 
@@ -376,7 +378,7 @@ export class KycStore {
       return;
     }
 
-    await this.api!.setKycProfile('Advanced');
+    await this.checkAndSetKycProfile();
     await this.fetchVerificationData();
     this.questionnaireSubmitting = false;
   };
@@ -388,6 +390,64 @@ export class KycStore {
     await this.fetchVerificationData();
     this.requestUpgradeLimitLoading = false;
   };
+
+  checkAndSetKycProfile = async () => {
+    const tierInfo = this.tierInfo;
+    const upgradeRequest = tierInfo.UpgradeRequest;
+    if (this.isUserInLastStep && tierInfo && tierInfo.NextTier) {
+      // user had completed all the steps
+      // so set kyc profile again
+      await this.api!.setKycProfile(tierInfo.NextTier.Tier);
+    } else {
+      if (
+        tierInfo &&
+        upgradeRequest &&
+        upgradeRequest.Status === 'NeedToFillData'
+      ) {
+        if (this.getRejectedDocumentList.length === 1) {
+          // user had completed his all rejected documents
+          // so set kyc profile again
+          await this.api!.setKycProfile(upgradeRequest.Tier);
+        }
+      }
+    }
+  };
+
+  @computed
+  get isUserInLastStep(): boolean {
+    let result = false;
+    const currentForm = this.decideCurrentFormToRender;
+    const tierInfo = this.tierInfo;
+
+    if (tierInfo && tierInfo.NextTier && currentForm) {
+      const nextTier = tierInfo.NextTier;
+      const currentTier = tierInfo.CurrentTier;
+      // Mid risk
+      if (currentTier.Tier === 'Beginner' && nextTier.Tier === 'Advanced') {
+        if (currentForm === 'Questionnaire') {
+          result = true;
+        }
+      }
+
+      if (
+        currentTier.Tier === 'Beginner' &&
+        nextTier.Tier === 'ProIndividual'
+      ) {
+        // Mid risk
+        if (tierInfo.UpgradeRequest) {
+          if (currentForm === 'PoF') {
+            result = true;
+          }
+        } else {
+          // High risk
+          if (currentForm === 'Questionnaire') {
+            result = true;
+          }
+        }
+      }
+    }
+    return result;
+  }
 
   getFile = async (fileId: string) => {
     try {
@@ -645,7 +705,11 @@ export class KycStore {
   @computed
   get decideCurrentFormToRender() {
     const tierInfo = this.tierInfo;
-    if (!tierInfo || !this.documents || !this.registration) {
+    if (
+      this.tierInfoLoading ||
+      this.documentsLoading ||
+      this.registrationLoading
+    ) {
       return 'Spinner';
     }
 
@@ -653,6 +717,7 @@ export class KycStore {
     const poiStatus = this.getPoiStatus;
     const selfieStatus = this.getSelfieStatus;
     const poaStatus = this.getPoaStatus;
+    const pofStatus = this.getPofStatus;
     const questionnaireStatus = this.getQuestionnaireStatus;
     const showUpgradeToPro = this.showUpgradeToPro;
 
@@ -680,12 +745,19 @@ export class KycStore {
       return 'PoA';
     }
 
-    if (questionnaireStatus === 'EMPTY' || questionnaireStatus === 'REJECTED') {
-      return 'Questionnaire';
+    if (
+      (tierInfo.NextTier &&
+        tierInfo.NextTier.Documents.indexOf('PoF') > -1 &&
+        !tierInfo.UpgradeRequest) ||
+      showUpgradeToPro
+    ) {
+      if (pofStatus === 'EMPTY' || pofStatus === 'REJECTED') {
+        return 'PoF';
+      }
     }
 
-    if (showUpgradeToPro) {
-      return 'PoF';
+    if (questionnaireStatus === 'EMPTY' || questionnaireStatus === 'REJECTED') {
+      return 'Questionnaire';
     }
 
     if (this.isUpgradeRequestPending) {

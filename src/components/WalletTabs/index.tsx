@@ -53,6 +53,10 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
       ) {
         showUpgradeBanner = true;
         upgradeBannerText = `Upgrade your account level to deposit up to ${nextTier.MaxLimit} EUR monthly and trade without limits and fees`;
+
+        if (nextTier.MaxLimit === 0) {
+          upgradeBannerText = `Upgrade to get a monthly limit tailored for you`;
+        }
       } else if (
         currentTier.Tier === 'Advanced' &&
         currentTier.Current >= currentTier.MaxLimit
