@@ -10,6 +10,14 @@ const randomString = RandomString();
 const tokenStorage = StorageUtils.withKey(TOKEN_KEY);
 const stateStorage = StorageUtils.withKey(STATE_KEY);
 
+const decodeState = (state: any): any => {
+  return JSON.parse(atob(state));
+};
+
+const encodeState = (state: any): string => {
+  return btoa(JSON.stringify(state));
+};
+
 export class AuthStore {
   readonly rootStore: RootStore;
   @observable token = tokenStorage.get();
@@ -32,15 +40,22 @@ export class AuthStore {
     this.signOut();
   };
 
-  fetchToken = async (accessToken: string, state: string) => {
+  fetchToken = async (
+    accessToken: string,
+    state: string
+  ): Promise<string | undefined> => {
+    let redirectRoute = '';
+    state = decodeURIComponent(state);
     if (state === stateStorage.get()) {
       const {token} = await this.api!.fetchToken(accessToken);
       this.token = token;
+      redirectRoute = decodeState(state).route;
       tokenStorage.set(token);
       stateStorage.clear();
-      return Promise.resolve();
+      return Promise.resolve(redirectRoute);
     } else {
       this.catchUnauthorized();
+      return;
     }
   };
 
@@ -50,7 +65,13 @@ export class AuthStore {
       REACT_APP_CLIENT_ID: clientId
     } = process.env;
     const nonce = randomString.mixed(20);
-    const state = randomString.mixed(20);
+    // Send pathname as state to Oauth server
+    // Parse it in fetchToken() component
+    // Later pass it to use in AuthPage component for correct redirection
+    const state = encodeState({
+      nonce,
+      route: window.location.pathname
+    });
     stateStorage.set(state);
 
     const callbackUrl = window.location.origin + '/auth';
