@@ -8,9 +8,6 @@ export const VerificationHeader: React.SFC = ({}) => (
         <div className="logo">
           <a href="/">&nbsp;</a>
         </div>
-        <div className="beta">
-          <div>beta</div>
-        </div>
       </div>
       <div className="main-menu lykke-header__main-menu">&nbsp;</div>
       <div className="lykke-header__actions">
