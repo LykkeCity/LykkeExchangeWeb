@@ -703,6 +703,27 @@ export class KycStore {
   }
 
   @computed
+  get calculateTimeLeftForReview(): number {
+    const tierInfo = this.tierInfo;
+    if (!tierInfo) {
+      return 0;
+    }
+    const upgradeRequest = tierInfo.UpgradeRequest;
+    if (!upgradeRequest) {
+      return 0;
+    }
+    const ONE_HR = 60 * 60 * 1000;
+    const submitDate = new Date(upgradeRequest.SubmitDate);
+    submitDate.setTime(submitDate.getTime() + 48 * ONE_HR);
+    let hoursRemained = (submitDate.getTime() - new Date().getTime()) / ONE_HR;
+
+    hoursRemained = Math.floor(hoursRemained);
+    hoursRemained = Math.max(hoursRemained + 1, 0);
+
+    return hoursRemained;
+  }
+
+  @computed
   get decideCurrentFormToRender() {
     const tierInfo = this.tierInfo;
     if (

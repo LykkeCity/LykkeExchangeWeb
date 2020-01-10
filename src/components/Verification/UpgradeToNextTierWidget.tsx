@@ -15,7 +15,7 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   const descriptionMapping = {
     Advanced:
       'Upgrade to deposit up to $MaxLimit EUR monthly and trade without limits and fees',
-    ProIndividual: 'Upgrade to get a monthly tailored limit for you'
+    ProIndividual: 'Upgrade to get a monthly limit tailored for you'
   };
 
   const kycStore = rootStore!.kycStore;
@@ -44,8 +44,8 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
     tierName = 'ProIndividual';
   }
 
-  const nextTierName = nextTier ? tierNamesMapping[tierName] : '';
-  let nextTierDescription = nextTier ? descriptionMapping[tierName] : '';
+  const nextTierName = tierNamesMapping[tierName];
+  let nextTierDescription = descriptionMapping[tierName];
   nextTierDescription = nextTierDescription.replace(
     '$MaxLimit',
     nextTier.MaxLimit
@@ -54,6 +54,13 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   const currentFormToRender = kycStore.decideCurrentFormToRender;
   if (currentFormToRender === 'InReview' && !showUpgradeToPro) {
     return null;
+  }
+
+  let nextTierIcon = '';
+  if (nextTier.Tier === 'Advanced') {
+    nextTierIcon = `${process.env.PUBLIC_URL}/images/tier_advanced.png`;
+  } else if (nextTier.Tier === 'ProIndividual') {
+    nextTierIcon = `${process.env.PUBLIC_URL}/images/tier_pro.png`;
   }
 
   function getSidebarItems() {
@@ -129,7 +136,7 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   return (
     <div className="upgrade-to-next-tier-widget">
       <div className="upgrade-to-next-tier-widget__tier-icon">
-        <div className="dummy-icon" />
+        <img src={nextTierIcon} />
       </div>
       <div className="upgrade-to-next-tier-widget__right-wrapper">
         <div className="verification-page__muted-title">Upgrade To</div>

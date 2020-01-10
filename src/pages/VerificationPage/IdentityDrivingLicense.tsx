@@ -50,7 +50,7 @@ export class IdentityDrivingLicense extends React.Component<
             }}
           >
             <span className="number">1</span>
-            <span className="text">Frontside</span>
+            <span className="text">Front side</span>
           </div>
           <div
             className={classnames({
@@ -68,7 +68,7 @@ export class IdentityDrivingLicense extends React.Component<
             }}
           >
             <span className="number">2</span>
-            <span className="text">Backside</span>
+            <span className="text">Back side</span>
           </div>
         </div>
         <div className="mt-30">

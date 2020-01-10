@@ -15,7 +15,7 @@ export const NeedToFillData: React.SFC<RootStoreProps> = ({rootStore}) => {
   const getRejectedDocumentList = kycStore.getRejectedDocumentList;
   return (
     <Wrapper>
-      <div className="verification-page__big-title">Almost there</div>
+      <div className="verification-page__big-title">Almost there!</div>
       <div className="verification-page__content mt-30">
         We just need clarification on the following before taking the next
         steps:

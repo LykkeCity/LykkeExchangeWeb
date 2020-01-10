@@ -10,10 +10,11 @@ const tierNamesMapping = {
 };
 
 const descriptionMapping = {
-  Advanced: 'You can explore the worlds of crypto',
-  Beginner: 'You can explore the worlds of crypto',
+  Advanced:
+    'You can transfer up to $MaxLimit EUR and trade without limits and fees',
+  Beginner: 'You can explore the world of crypto',
   ProIndividual:
-    'You can deposit up to $MaxLimit EUR and trade without limits and fees'
+    'You can transfer up to $MaxLimit EUR and trade without limits and fees'
 };
 
 export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
@@ -24,17 +25,28 @@ export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
   if (!tierInfo) {
     return null;
   }
-  let description = descriptionMapping[tierInfo.CurrentTier.Tier];
-  description = description.replace('$MaxLimit', tierInfo.CurrentTier.MaxLimit);
+  const currentTier = tierInfo.CurrentTier;
+  let description = descriptionMapping[currentTier.Tier];
+  description = description.replace('$MaxLimit', currentTier.MaxLimit);
+
+  let tierIcon = '';
+  if (currentTier.Tier === 'Beginner') {
+    tierIcon = `${process.env.PUBLIC_URL}/images/tier_beginner.png`;
+  } else if (currentTier.Tier === 'Advanced') {
+    tierIcon = `${process.env.PUBLIC_URL}/images/tier_advanced.png`;
+  } else if (currentTier.Tier === 'ProIndividual') {
+    tierIcon = `${process.env.PUBLIC_URL}/images/tier_pro.png`;
+  }
+
   return (
     <div className="account-current-tier-widget">
       <div className="account-current-tier-widget__tier-icon">
-        <div className="dummy-icon" />
+        <img src={tierIcon} />
       </div>
       <div className="account-current-tier-widget__right-wrapper">
         <div className="verification-page__muted-title">Your Account</div>
         <div className="account-current-tier-widget__tier">
-          {tierNamesMapping[tierInfo.CurrentTier.Tier]}
+          {tierNamesMapping[currentTier.Tier]}
         </div>
         <div className="account-current-tier-widget__description">
           {description}

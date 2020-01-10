@@ -4,8 +4,6 @@ import {RootStoreProps} from '../../App';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
-const ONE_HR = 60 * 60 * 1000;
-
 export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   rootStore
 }) => {
@@ -23,12 +21,7 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
     return null;
   }
 
-  const submitDate = new Date(upgradeRequest.SubmitDate);
-  submitDate.setTime(submitDate.getTime() + 48 * ONE_HR);
-  let hoursRemained = (submitDate.getTime() - new Date().getTime()) / ONE_HR;
-  hoursRemained = Math.floor(hoursRemained);
-  hoursRemained = Math.max(hoursRemained + 1, 0);
-
+  const timeLeftForReview = rootStore!.kycStore.calculateTimeLeftForReview;
   const status = upgradeRequest.Status;
   let statusText = '';
   let showTimer = false;
@@ -57,7 +50,7 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
         <div className="in-review-widget-right__status">{statusText}</div>
       </div>
       <div className="in-review-widget__time-left">
-        {showTimer ? `${hoursRemained}h left` : ''}
+        {showTimer ? `${timeLeftForReview}h left` : ''}
       </div>
     </div>
   );
