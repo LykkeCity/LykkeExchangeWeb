@@ -14,13 +14,18 @@
     }
 
     &.yellow {
-      a {
+      a,
+      .text {
         color: $yellow;
       }
 
       img {
         width: 30px;
         height: 30px;
+      }
+
+      .text {
+        margin-left: 10px;
       }
     }
 

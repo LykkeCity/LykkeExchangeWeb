@@ -279,6 +279,11 @@
       margin-top: 6px;
       margin-left: 6px;
 
+      img {
+        width: 63px;
+        height: 63px;
+      }
+
       @media (max-width: $screen-mobile) {
         display: none;
       }
@@ -328,6 +333,10 @@
     }
 
     &__tier-icon {
+      img {
+        width: 63px;
+        height: 63px;
+      }
       @media (max-width: $screen-mobile) {
         display: none;
       }

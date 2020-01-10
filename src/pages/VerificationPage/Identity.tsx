@@ -65,7 +65,7 @@ export class Identity extends React.Component<RootStoreProps> {
                 }}
               />
               <DocumentTypeButton
-                name="Driver License"
+                name="Driving License"
                 icon={<Icons.DriverLicense />}
                 active={selectedIdCardType === 'DrivingLicense'}
                 onClick={() => {

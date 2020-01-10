@@ -23,6 +23,7 @@ interface WalletTabsProps {
   isUpgradeRequestNeedToFillData?: boolean;
   isUpgradeRequestPending?: boolean;
   tierInfo?: TierInfo;
+  timeLeftForReview?: number;
 }
 
 const KYC_URL = process.env.REACT_APP_KYC_URL as string;
@@ -33,7 +34,8 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
       isUpgradeRequestNeedToFillData,
       isUpgradeRequestPending,
       isUpgradeRequestRejected,
-      tierInfo
+      tierInfo,
+      timeLeftForReview
     } = this.props;
     let showUpgradeBanner = false;
     let upgradeBannerText = '';
@@ -95,14 +97,14 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
             text="We are in the process of checking your documents and will be in touch shortly"
             footer={
               <div>
-                <Link to={KYC_URL} onClick={this.trackCheckKycStatus}>
+                <div>
                   <img
                     src={`${process.env
                       .PUBLIC_URL}/images/verify_submitted.png`}
                     alt="Check status"
                   />
-                  <span>Check status</span>
-                </Link>
+                  <span className="text">{timeLeftForReview}h left</span>
+                </div>
               </div>
             }
           />
@@ -159,6 +161,7 @@ export default withRouter(
     onCreateNewWallet: rootStore!.uiStore.toggleWalletDrawer,
     show2faDisabledBanner: rootStore!.profileStore.is2faForbidden,
     showBetaBanner: rootStore!.uiStore.showBetaBanner,
-    tierInfo: rootStore!.kycStore.tierInfo
+    tierInfo: rootStore!.kycStore.tierInfo,
+    timeLeftForReview: rootStore!.kycStore.calculateTimeLeftForReview
   }))(observer(WalletTabs))
 );
