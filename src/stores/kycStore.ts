@@ -430,6 +430,15 @@ export class KycStore {
       }
 
       if (
+        currentTier.Tier === 'Advanced' &&
+        nextTier.Tier === 'ProIndividual'
+      ) {
+        if (currentForm === 'PoF') {
+          result = true;
+        }
+      }
+
+      if (
         currentTier.Tier === 'Beginner' &&
         nextTier.Tier === 'ProIndividual'
       ) {

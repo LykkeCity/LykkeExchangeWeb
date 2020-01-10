@@ -146,7 +146,6 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             onDisclaimerError();
           } else if (err.message.indexOf(MAX_DEPOSIT_ERROR) > -1) {
             onMaxDepositError(err.message);
-            setStatus(err.message);
           } else {
             setStatus(err.message);
           }

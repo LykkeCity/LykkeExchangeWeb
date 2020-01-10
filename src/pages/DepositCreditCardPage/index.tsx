@@ -108,7 +108,7 @@ export class DepositCreditCardPage extends React.Component<
           )}
           <Dialog
             visible={showMaxDepositErrorDialog}
-            title="Error"
+            title="Oops.."
             onCancel={this.handleMaxDepositErrorCancel}
             cancelButton={{text: 'Later'}}
             onConfirm={this.handleMaxDepositErrorConfirm}
