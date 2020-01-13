@@ -25,6 +25,7 @@ import './style.css';
 export interface DepositCreditCardFormProps extends RootStoreProps {
   asset: AssetModel;
   onDisclaimerError: () => void;
+  onMaxDepositError: (message: string) => void;
   onSubmitForm: (submitForm: () => void) => void;
   onSuccess: (gatewayUrls: GatewayUrls) => void;
   handleViewTermsOfUse?: () => void;
@@ -32,6 +33,7 @@ export interface DepositCreditCardFormProps extends RootStoreProps {
 }
 
 const DISCLAIMER_ERROR = 'User has pending disclaimer';
+const MAX_DEPOSIT_ERROR = 'Per transaction, you can deposit up to';
 
 export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   rootStore,
@@ -39,6 +41,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   handleGoBack,
   onSubmitForm,
   onDisclaimerError,
+  onMaxDepositError,
   handleViewTermsOfUse,
   onSuccess
 }) => {
@@ -141,6 +144,8 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           if (err.message === DISCLAIMER_ERROR) {
             validateForm();
             onDisclaimerError();
+          } else if (err.message.indexOf(MAX_DEPOSIT_ERROR) > -1) {
+            onMaxDepositError(err.message);
           } else {
             setStatus(err.message);
           }
@@ -279,7 +284,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           <div className="deposit-credit-card-form__links">
             <a
               className="link"
-              href="https://www.lykke.com/terms_of_use"
+              href="https://www.lykke.com/terms-of-use"
               target="_blank"
               onClick={handleViewTermsOfUse}
             >

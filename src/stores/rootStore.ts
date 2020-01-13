@@ -6,6 +6,7 @@ import {
   CatalogsStore,
   DepositStore,
   DialogStore,
+  KycStore,
   ProfileStore,
   TransactionStore,
   TransferStore,
@@ -31,6 +32,7 @@ import {
 } from '../api';
 import RestAffiliateApi from '../api/affiliateApi';
 import {RestFeaturesApi} from '../api/featuresApi';
+import {RestKycApi, RestKycApiV2} from '../api/kycApi';
 import AnalyticsService from '../services/analyticsService';
 import MarketService from '../services/marketService';
 import {FeatureStore} from './featuresStore';
@@ -54,6 +56,7 @@ export class RootStore {
   analyticsService: any;
   marketService: any;
   socketStore: SocketStore;
+  kycStore: KycStore;
 
   constructor() {
     this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
@@ -84,6 +87,7 @@ export class RootStore {
     this.analyticsService = AnalyticsService;
     this.marketService = MarketService;
     this.socketStore = new SocketStore(this);
+    this.kycStore = new KycStore(new RestKycApi(this), new RestKycApiV2(this));
   }
 
   reset() {

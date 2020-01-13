@@ -31,12 +31,12 @@ export default () => (
             <Copyright />
             <ul className="footer_links pull-right">
               <li>
-                <a href="https://www.lykke.com/privacy_policy" target="_blank">
+                <a href="https://www.lykke.com/privacy-policy" target="_blank">
                   Privacy Policy
                 </a>
               </li>
               <li>
-                <a href="https://www.lykke.com/terms_of_use" target="_blank">
+                <a href="https://www.lykke.com/terms-of-use" target="_blank">
                   Terms of Use
                 </a>
               </li>

@@ -2,8 +2,11 @@ import {MenuItem, Select} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import VerificationInReviewWidget from '../../components/VerificationInReviewWidget';
 import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
+import AccountLevel from './AccountLevel';
+import DepositLimits from './DepositLimits';
 
 import './style.css';
 
@@ -14,7 +17,7 @@ export class ProfilePage extends React.Component<RootStoreProps> {
   private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
-    this.uiStore.activeHeaderMenuItem = MenuItem.Settings;
+    this.uiStore.activeHeaderMenuItem = MenuItem.Profile;
     window.scrollTo(0, 0);
   }
 
@@ -22,7 +25,10 @@ export class ProfilePage extends React.Component<RootStoreProps> {
     return (
       <div className="profile-page">
         <div className="container">
-          <h2 className="profile-page__title">Profile</h2>
+          <VerificationInReviewWidget />
+          <AccountLevel />
+          <DepositLimits />
+          <h2 className="profile-page__title">Personal Data</h2>
           <div className="col-sm-6">
             <div className="form-group">
               <label htmlFor="firstName" className="control-label">

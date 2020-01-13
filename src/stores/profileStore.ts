@@ -9,7 +9,6 @@ import {
 import {ProfileApi} from '../api/profileApi';
 import {AssetModel, KycStatuses} from '../models/index';
 import {StorageUtils} from '../utils/index';
-import {identify} from '../utils/launchDarkly';
 import {RootStore} from './index';
 
 const BASE_CURRENCY_STORAGE_KEY = 'lww-base-currency';
@@ -47,7 +46,6 @@ export class ProfileStore {
 
   @observable email: string = '';
   @observable isKycPassed: boolean = false;
-  @observable isKycPending: boolean = false;
   @observable firstName: string = '';
   @observable lastName: string = '';
 
@@ -93,12 +91,10 @@ export class ProfileStore {
         KycStatus: kycStatus,
         LastName: lastName
       } = resp;
-      identify(process.env.REACT_APP_LAUNCH_DARKLY_CLIENT_ID, {key: email});
       extendObservable(this, {
         email,
         firstName,
         isKycPassed: kycStatus === KycStatuses.Ok,
-        isKycPending: kycStatus === KycStatuses.Pending,
         lastName
       });
     }

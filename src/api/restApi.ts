@@ -15,6 +15,7 @@ export class RestApi {
   protected getRes = this._getRes(() => this.apiBearerWretch());
   protected post = this._post(() => this.apiBearerWretch());
   protected postRes = this._postRes(() => this.apiBearerWretch());
+  protected postForm = this._postForm(() => this.apiBearerWretch());
   protected put = this._put(() => this.apiBearerWretch());
 
   constructor(protected rootStore: RootStore) {}
@@ -94,6 +95,23 @@ export class RestApi {
         .post()
         .unauthorized(callback)
         .res();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _postForm(wretcher: () => Wretcher) {
+    return (
+      url: string,
+      query: object,
+      payload?: any,
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
+      wretcher()
+        .url(url)
+        .query(query)
+        .formData(payload)
+        .post()
+        .unauthorized(callback)
+        .json();
   }
 
   // tslint:disable-next-line:variable-name

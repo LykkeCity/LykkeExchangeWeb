@@ -12,6 +12,7 @@ import {
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {OpStatus} from '../../models';
+import {moneyRound} from '../../utils';
 
 // tslint:disable-next-line:no-var-requires
 const TextMask = require('react-text-mask').default;
@@ -72,11 +73,15 @@ export class ConfirmOperationPage extends React.Component<
             <div className="confirm-operation__title">
               Two-Factor Authentication (2FA)
             </div>
-            <div className="confirm-operation__subtitle">
-              {this.withdrawStore.withdrawCrypto.amount} {asset && asset.name}
-            </div>
             <div className="confirm-operation__description">
-              Please enter 2FA code to confirm withdraw:
+              Please enter 2FA code to confirm withdraw of{' '}
+              {`${this.getTotalAmount(
+                this.withdrawStore.withdrawCrypto.amount
+              )} ${asset && asset.name}
+                (including fee ${this.getFeeSize(
+                  this.withdrawStore.withdrawCrypto.amount
+                )}
+                ${asset && asset.name})`}:
             </div>
             <div className="confirm-operation-form">
               <div
@@ -182,6 +187,31 @@ export class ConfirmOperationPage extends React.Component<
 
     this.withdrawStore.confirmWithdrawCryptoRequest(operationId, this.code);
   };
+
+  private getFeeSize(amount: number) {
+    const assetId = this.withdrawStore.withdrawCrypto.assetId;
+    const asset = this.assetStore.getById(assetId);
+    let fee = 0;
+
+    if (this.withdrawStore.absoluteFee) {
+      fee = this.withdrawStore.absoluteFee;
+    }
+
+    if (this.withdrawStore.relativeFee) {
+      fee = this.withdrawStore.relativeFee * amount;
+    }
+
+    return moneyRound(fee, asset && asset.accuracy);
+  }
+
+  private getTotalAmount(amount: number) {
+    const assetId = this.withdrawStore.withdrawCrypto.assetId;
+    const asset = this.assetStore.getById(assetId);
+    return moneyRound(
+      Number(amount) + this.getFeeSize(amount),
+      asset && asset.accuracy
+    );
+  }
 }
 
 export default inject(STORE_ROOT)(observer(ConfirmOperationPage));

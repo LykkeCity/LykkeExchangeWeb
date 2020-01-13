@@ -6,7 +6,6 @@ import {RootStoreProps} from '../../App';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
 
@@ -29,10 +28,6 @@ export class WithdrawSwiftSuccess extends React.Component<
   }
 
   render() {
-    const amount = Number(this.withdrawStore.withdrawSwift.amount);
-    const assetId = this.withdrawStore.withdrawSwift.assetId;
-    const asset = assetId && this.props.rootStore!.assetStore.getById(assetId);
-
     return (
       <div className="withdraw-result">
         <Icon
@@ -42,12 +37,6 @@ export class WithdrawSwiftSuccess extends React.Component<
         <div className="withdraw-result__desc">
           Your withdrawal request is now being processed by our team…
         </div>
-        {asset && (
-          <div className="withdraw-result__amount">
-            <NumberFormat value={amount} accuracy={asset.accuracy} />{' '}
-            {asset.name}
-          </div>
-        )}
         <div className="withdraw-result__button">
           <Link to={ROUTE_WALLETS} className="btn btn--primary">
             Go back to wallets

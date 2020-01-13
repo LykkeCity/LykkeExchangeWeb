@@ -1,0 +1,59 @@
+.camera {
+  position: relative;
+
+  &__wrapper {
+    height: 490px;
+  }
+
+  &__clear-icon {
+    position: absolute;
+    top: -9px;
+    right: -7px;
+    background-color: #fff;
+    border-radius: 2em;
+    color: #f00;
+    display: inline-block;
+    font-size: 17px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    width: 24px;
+    box-sizing: border-box;
+    box-shadow: 0 4px 15px 0 rgba(101, 113, 128, 0.2),
+      0 2px 4px 0 rgba(140, 148, 160, 0.15);
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+
+    img {
+      width: 10px;
+      height: 10px;
+    }
+
+    &:hover {
+      background-color: #fbfbfb;
+    }
+  }
+
+  &__captured-image {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin-top: 30px;
+    justify-content: center;
+    align-items: center;
+
+    .btn-back {
+      color: #0388ef;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      position: absolute;
+      left: 0px;
+    }
+  }
+}

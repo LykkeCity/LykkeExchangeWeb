@@ -5,7 +5,6 @@ import * as ReactDOM from 'react-dom';
 import {IntlProvider} from 'react-intl';
 import App from './App';
 import {RootStore} from './stores';
-import {LaunchDarkly} from './utils/launchDarkly';
 
 // tslint:disable-next-line:no-var-requires
 const TagManager = require('react-gtm-module');
@@ -59,12 +58,7 @@ function renderApp(rootStore: any) {
   ReactDOM.render(
     <Provider rootStore={rootStore}>
       <IntlProvider locale="en">
-        <LaunchDarkly
-          clientId={process.env.REACT_APP_LAUNCH_DARKLY_CLIENT_ID}
-          user={{key: rootStore!.profileStore.email}}
-        >
-          <App />
-        </LaunchDarkly>
+        <App />
       </IntlProvider>
     </Provider>,
     rootElement

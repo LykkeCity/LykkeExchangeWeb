@@ -241,10 +241,18 @@ export class WithdrawCryptoPage extends React.Component<
     formikBag: any
   ) => {
     const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId);
     const {setFieldError, setSubmitting} = formikBag;
 
     if (this.getTotalAmount(values.amount) > this.balance) {
-      setFieldError('amount', 'Requested amount is more than balance');
+      setFieldError(
+        'amount',
+        `Available amount ${this.balance} ${asset && asset.name}
+        is less than specified ${this.getTotalAmount(values.amount)} ${asset &&
+          asset.name}
+        (including fees ${this.getFeeSize(values.amount)} ${asset &&
+          asset.name})`
+      );
       setSubmitting(false);
       return;
     }
@@ -270,6 +278,27 @@ export class WithdrawCryptoPage extends React.Component<
       setSubmitting(false);
     }
   };
+
+  private getMaxAmount() {
+    const {assetId} = this.props.match.params;
+    const asset = this.assetStore.getById(assetId);
+
+    if (this.withdrawStore.absoluteFee) {
+      return moneyRound(
+        this.balance - this.withdrawStore.absoluteFee,
+        asset && asset.accuracy
+      );
+    }
+
+    if (this.withdrawStore.relativeFee) {
+      return moneyFloor(
+        this.balance / (this.withdrawStore.relativeFee + 1),
+        asset && asset.accuracy
+      );
+    }
+
+    return 0;
+  }
 
   private getFeeSize(amount: number) {
     const {assetId} = this.props.match.params;
@@ -318,7 +347,7 @@ export class WithdrawCryptoPage extends React.Component<
                     Amount
                   </label>
                 </div>
-                <div className="col-sm-8">
+                <div className="col-sm-5">
                   <div className="input-group">
                     <div className="input-group-addon addon-text">
                       {asset && asset.name}
@@ -350,17 +379,20 @@ export class WithdrawCryptoPage extends React.Component<
                             {this.getFeeSize(field.value)} {asset && asset.name}
                           </span>
                         </div>
-                        <div className="fee-info">
-                          <span className="fee-info__label">Total:</span>
-                          <span className="fee-info__value">
-                            {this.getTotalAmount(field.value)}{' '}
-                            {asset && asset.name}
-                          </span>
-                        </div>
                       </div>
                     )}
                   </div>
                 </div>
+                <button
+                  className="btn btn--primary col-sm-3 all-balance"
+                  type="button"
+                  onClick={(() => {
+                    const maxAmount = this.getMaxAmount();
+                    formikBag.setFieldValue(field.name, maxAmount);
+                  }).bind(this)}
+                >
+                  Use all balance
+                </button>
               </div>
             </div>
           )}
@@ -372,6 +404,26 @@ export class WithdrawCryptoPage extends React.Component<
             'addressExtension',
             this.withdrawStore.addressExtensionTitle
           )}
+        <Field
+          name={name}
+          // tslint:disable-next-line:jsx-no-lambda
+          render={({field, form}: FieldProps<WithdrawCryptoModel>) =>
+            form.values.amount ? (
+              <div className={classnames('form-group inline-form')}>
+                <div className="row field-row">
+                  <div className="col-sm-4">
+                    <label className="control-label">
+                      Total <span className="total-hint">(amount+fee)</span>
+                    </label>
+                  </div>
+                  <div className="col-sm-8 total-value">
+                    {this.getTotalAmount(form.values.amount)}{' '}
+                    {asset && asset.name}
+                  </div>
+                </div>
+              </div>
+            ) : null}
+        />
 
         <hr />
 

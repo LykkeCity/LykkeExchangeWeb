@@ -15,6 +15,7 @@
     text-align: center;
 
     @include rem(font-size, 40px);
+    @include rem(margin-bottom, 34px);
   }
 
   &__subtitle {
@@ -25,7 +26,6 @@
     text-align: center;
 
     @include rem(font-size, 40px);
-    @include rem(margin-bottom, 34px);
   }
 
   &__description {
