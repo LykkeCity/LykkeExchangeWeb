@@ -659,16 +659,28 @@ export class KycStore {
   @computed
   get getRejectedDocumentList(): string[] {
     const list: string[] = [];
-    if (this.getPoiRejectReason) {
+    if (
+      this.getDocumentByType('PoI') &&
+      this.getDocumentByType('PoI')!.Status === 'Declined'
+    ) {
       list.push(`- Identity documents (${this.getPoiRejectReason})`);
     }
-    if (this.getSelfieRejectReason) {
+    if (
+      this.getDocumentByType('Selfie') &&
+      this.getDocumentByType('Selfie')!.Status === 'Declined'
+    ) {
       list.push(`- Selfie (${this.getSelfieRejectReason})`);
     }
-    if (this.getPoaRejectReason) {
+    if (
+      this.getDocumentByType('PoA') &&
+      this.getDocumentByType('PoA')!.Status === 'Declined'
+    ) {
       list.push(`- Proof of address (${this.getPoaRejectReason})`);
     }
-    if (this.getPofRejectReason) {
+    if (
+      this.getDocumentByType('PoF') &&
+      this.getDocumentByType('PoF')!.Status === 'Declined'
+    ) {
       list.push(`- Proof of funds (${this.getPofRejectReason})`);
     }
     return list;
