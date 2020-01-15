@@ -663,25 +663,41 @@ export class KycStore {
       this.getDocumentByType('PoI') &&
       this.getDocumentByType('PoI')!.Status === 'Declined'
     ) {
-      list.push(`- Identity documents (${this.getPoiRejectReason})`);
+      if (this.getPoiRejectReason) {
+        list.push(`- Identity documents (${this.getPoiRejectReason})`);
+      } else {
+        list.push(`- Identity documents`);
+      }
     }
     if (
       this.getDocumentByType('Selfie') &&
       this.getDocumentByType('Selfie')!.Status === 'Declined'
     ) {
-      list.push(`- Selfie (${this.getSelfieRejectReason})`);
+      if (this.getSelfieRejectReason) {
+        list.push(`- Selfie (${this.getSelfieRejectReason})`);
+      } else {
+        list.push(`- Selfie`);
+      }
     }
     if (
       this.getDocumentByType('PoA') &&
       this.getDocumentByType('PoA')!.Status === 'Declined'
     ) {
-      list.push(`- Proof of address (${this.getPoaRejectReason})`);
+      if (this.getPoaRejectReason) {
+        list.push(`- Proof of address (${this.getPoaRejectReason})`);
+      } else {
+        list.push(`- Proof of address`);
+      }
     }
     if (
       this.getDocumentByType('PoF') &&
       this.getDocumentByType('PoF')!.Status === 'Declined'
     ) {
-      list.push(`- Proof of funds (${this.getPofRejectReason})`);
+      if (this.getPofRejectReason) {
+        list.push(`- Proof of funds (${this.getPofRejectReason})`);
+      } else {
+        list.push(`- Proof of funds`);
+      }
     }
     return list;
   }
@@ -750,7 +766,8 @@ export class KycStore {
     if (
       this.tierInfoLoading ||
       this.documentsLoading ||
-      this.registrationLoading
+      this.registrationLoading ||
+      !tierInfo
     ) {
       return 'Spinner';
     }
@@ -762,6 +779,7 @@ export class KycStore {
     const pofStatus = this.getPofStatus;
     const questionnaireStatus = this.getQuestionnaireStatus;
     const showUpgradeToPro = this.showUpgradeToPro;
+    const nextTier = tierInfo.NextTier;
 
     if (this.isUpgradeRequestRejected) {
       return 'Rejected';
@@ -787,15 +805,28 @@ export class KycStore {
       return 'PoA';
     }
 
-    if (
-      (tierInfo.NextTier &&
-        tierInfo.NextTier.Documents.indexOf('PoF') > -1 &&
-        !tierInfo.UpgradeRequest) ||
-      showUpgradeToPro
-    ) {
-      if (pofStatus === 'EMPTY' || pofStatus === 'REJECTED') {
-        return 'PoF';
+    if (tierInfo.CurrentTier.Tier === 'Advanced') {
+      if (nextTier && nextTier.Tier === 'ProIndividual') {
+        if (nextTier.Documents.indexOf('PoF') > -1) {
+          if (pofStatus === 'EMPTY' || pofStatus === 'REJECTED') {
+            return 'PoF';
+          }
+        }
       }
+    }
+
+    if (tierInfo.CurrentTier.Tier === 'Beginner') {
+      if (nextTier && nextTier.Tier === 'ProIndividual') {
+        if (nextTier.Documents.indexOf('PoF') > -1) {
+          if (pofStatus === 'EMPTY' || pofStatus === 'REJECTED') {
+            return 'PoF';
+          }
+        }
+      }
+    }
+
+    if (showUpgradeToPro) {
+      return 'PoF';
     }
 
     if (questionnaireStatus === 'EMPTY' || questionnaireStatus === 'REJECTED') {
