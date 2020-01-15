@@ -24,6 +24,7 @@ export class KycStore {
   @observable registration: RegistrationResponse;
   @observable registrationLoading: boolean = false;
   @observable questionnaire: Questionnaire[] = [];
+  @observable questionnaireLoading: boolean = false;
   @observable showUpgradeToPro: boolean = false;
   @observable showForm: boolean = false;
 
@@ -140,11 +141,11 @@ export class KycStore {
   };
 
   fetchQuestionnaire = async () => {
+    this.questionnaireLoading = true;
     const response = await this.api!.fetchQuestionnaire();
     if (response) {
       runInAction(() => {
         this.questionnaire = response.Result.Questionnaire;
-
         // give indexes to each question
         let i = 1;
         this.questionnaire.map(question => {
@@ -157,6 +158,7 @@ export class KycStore {
           }
           return question;
         });
+        this.questionnaireLoading = false;
       });
     }
   };
@@ -767,6 +769,7 @@ export class KycStore {
       this.tierInfoLoading ||
       this.documentsLoading ||
       this.registrationLoading ||
+      this.questionnaireLoading ||
       !tierInfo
     ) {
       return 'Spinner';
@@ -780,6 +783,7 @@ export class KycStore {
     const questionnaireStatus = this.getQuestionnaireStatus;
     const showUpgradeToPro = this.showUpgradeToPro;
     const nextTier = tierInfo.NextTier;
+    const upgradeRequest = tierInfo.UpgradeRequest;
 
     if (this.isUpgradeRequestRejected) {
       return 'Rejected';
@@ -806,21 +810,49 @@ export class KycStore {
     }
 
     if (tierInfo.CurrentTier.Tier === 'Advanced') {
-      if (nextTier && nextTier.Tier === 'ProIndividual') {
-        if (nextTier.Documents.indexOf('PoF') > -1) {
-          if (pofStatus === 'EMPTY' || pofStatus === 'REJECTED') {
-            return 'PoF';
-          }
+      if (nextTier && nextTier.Tier === 'ProIndividual' && !upgradeRequest) {
+        if (
+          nextTier.Documents.indexOf('PoF') > -1 &&
+          (pofStatus === 'EMPTY' || pofStatus === 'REJECTED')
+        ) {
+          return 'PoF';
+        }
+      }
+      if (
+        nextTier &&
+        nextTier.Tier === 'ProIndividual' &&
+        upgradeRequest &&
+        upgradeRequest.Status === 'NeedToFillData'
+      ) {
+        if (
+          nextTier.Documents.indexOf('PoF') > -1 &&
+          (pofStatus === 'EMPTY' || pofStatus === 'REJECTED')
+        ) {
+          return 'PoF';
         }
       }
     }
 
     if (tierInfo.CurrentTier.Tier === 'Beginner') {
-      if (nextTier && nextTier.Tier === 'ProIndividual') {
-        if (nextTier.Documents.indexOf('PoF') > -1) {
-          if (pofStatus === 'EMPTY' || pofStatus === 'REJECTED') {
-            return 'PoF';
-          }
+      if (nextTier && nextTier.Tier === 'ProIndividual' && !upgradeRequest) {
+        if (
+          nextTier.Documents.indexOf('PoF') > -1 &&
+          (pofStatus === 'EMPTY' || pofStatus === 'REJECTED')
+        ) {
+          return 'PoF';
+        }
+      }
+      if (
+        nextTier &&
+        nextTier.Tier === 'ProIndividual' &&
+        upgradeRequest &&
+        upgradeRequest.Status === 'NeedToFillData'
+      ) {
+        if (
+          nextTier.Documents.indexOf('PoF') > -1 &&
+          (pofStatus === 'EMPTY' || pofStatus === 'REJECTED')
+        ) {
+          return 'PoF';
         }
       }
     }
