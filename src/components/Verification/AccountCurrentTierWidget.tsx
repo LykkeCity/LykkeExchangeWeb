@@ -11,10 +11,10 @@ const tierNamesMapping = {
 
 const descriptionMapping = {
   Advanced:
-    'You can transfer up to $MaxLimit EUR and trade without limits and fees',
+    'You can deposit up to $MaxLimit EUR and trade without limits and fees',
   Beginner: 'You can explore the world of crypto',
   ProIndividual:
-    'You can transfer up to $MaxLimit EUR and trade without limits and fees'
+    'You can deposit up to $MaxLimit EUR and trade without limits and fees'
 };
 
 export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
