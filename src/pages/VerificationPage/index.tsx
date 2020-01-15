@@ -30,6 +30,7 @@ export class VerificationPage extends React.Component<
 
   async componentDidMount() {
     await this.kycStore.fetchVerificationData();
+    await this.kycStore.fetchQuestionnaire();
   }
 
   renderServerFileUploadErrorDialog() {

@@ -30,10 +30,6 @@ export class Questionnaire extends React.Component<
     }
   }
 
-  componentDidMount() {
-    this.kycStore.fetchQuestionnaire();
-  }
-
   renderUpdateErrorDialog() {
     const showUpdateQuestionnaireErrorModal = this.kycStore
       .showUpdateQuestionnaireErrorModal;
