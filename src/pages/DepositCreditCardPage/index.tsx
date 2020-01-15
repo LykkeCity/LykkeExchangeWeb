@@ -101,6 +101,7 @@ export class DepositCreditCardPage extends React.Component<
               onConfirm={this.handleDisclaimerConfirm}
               confirmButton={{text: 'I accept'}}
               shouldAccept
+              hasScroll
               description={this.renderDisclaimerDescription(
                 assetDisclaimer.text
               )}
