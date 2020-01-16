@@ -15,6 +15,8 @@ export class DepositStore {
   @observable gatewayUrls: GatewayUrls;
   @observable feePercentage: number = 0;
   @observable submitDeposit: () => void;
+  @observable showMaxDepositErrorDialog: boolean = false;
+  @observable fetchBankCardPaymentUrlError: any;
 
   constructor(readonly rootStore: RootStore, private api?: DepositApi) {
     this.defaultDeposit = new DepositCreditCardModel();
@@ -33,6 +35,11 @@ export class DepositStore {
     this.gatewayUrls = gatewayUrls;
   };
 
+  @action
+  setShowMaxDepositErrorDialog = (value: boolean) => {
+    this.showMaxDepositErrorDialog = value;
+  };
+
   fetchBankCardPaymentUrl = async (deposit: DepositCreditCardModel) => {
     let response: ApiResponse<any>;
 
@@ -40,6 +47,7 @@ export class DepositStore {
       response = await this.api!.fetchBankCardPaymentUrl(deposit);
     } catch (err) {
       if (err.message) {
+        this.fetchBankCardPaymentUrlError = JSON.parse(err.message);
         throw JSON.parse(err.message);
       }
       throw {

@@ -91,35 +91,31 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
               )}
             </div>
             <div className="wallet-action-bar__item">
-              {isKycPassed ? (
-                <Dropdown fullHeight>
-                  <DropdownControl>
-                    <a>Withdraw</a>
-                  </DropdownControl>
-                  <DropdownContainer>
-                    <DropdownList className="wallet-menu">
-                      {this.renderMenuItem(
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/withdraw-bl-transfer-icn.svg`,
-                        'Blockchain Transfer',
-                        assetsAvailableForCryptoWithdraw,
-                        (assetId: string) => ROUTE_WITHDRAW_CRYPTO_FROM(assetId)
-                      )}
-                    </DropdownList>
-                    <DropdownList className="wallet-menu">
-                      {this.renderMenuItem(
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/withdraw-swift-icn.svg`,
-                        'SWIFT',
-                        assetsAvailableForSwiftWithdraw,
-                        (assetId: string) => ROUTE_WITHDRAW_SWIFT_FROM(assetId)
-                      )}
-                    </DropdownList>
-                  </DropdownContainer>
-                </Dropdown>
-              ) : (
-                <a className="disabled">Withdraw</a>
-              )}
+              <Dropdown fullHeight>
+                <DropdownControl>
+                  <a>Withdraw</a>
+                </DropdownControl>
+                <DropdownContainer>
+                  <DropdownList className="wallet-menu">
+                    {this.renderMenuItem(
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/withdraw-bl-transfer-icn.svg`,
+                      'Blockchain Transfer',
+                      assetsAvailableForCryptoWithdraw,
+                      (assetId: string) => ROUTE_WITHDRAW_CRYPTO_FROM(assetId)
+                    )}
+                  </DropdownList>
+                  <DropdownList className="wallet-menu">
+                    {this.renderMenuItem(
+                      `${process.env
+                        .PUBLIC_URL}/images/paymentMethods/withdraw-swift-icn.svg`,
+                      'SWIFT',
+                      assetsAvailableForSwiftWithdraw,
+                      (assetId: string) => ROUTE_WITHDRAW_SWIFT_FROM(assetId)
+                    )}
+                  </DropdownList>
+                </DropdownContainer>
+              </Dropdown>
             </div>
           </div>
         )}

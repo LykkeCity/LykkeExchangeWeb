@@ -2,7 +2,6 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {ROUTE_ROOT} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AuthUtils} from '../../utils';
 
@@ -21,7 +20,7 @@ export class AuthPage extends React.Component<AuthPageProps> {
     if (accessToken) {
       this.authStore
         .fetchToken(accessToken, state)
-        .then(() => this.props.history.push(ROUTE_ROOT));
+        .then((route: string) => this.props.history.push(route));
     } else {
       this.authStore.signIn();
     }

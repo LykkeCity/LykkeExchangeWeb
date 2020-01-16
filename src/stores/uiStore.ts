@@ -17,7 +17,6 @@ export class UiStore {
   @observable showQrWindow: boolean;
   @observable showBaseCurrencyPicker: boolean;
   @observable showBetaBanner: boolean;
-  @observable showKycBanner: boolean;
   @observable showEthWarning: boolean = false;
   @observable showAssetAddressModal: boolean = false;
   @observable transferError: string;
@@ -54,7 +53,11 @@ export class UiStore {
       this.showQrWindow ||
       this.hasVisibleDialogs ||
       this.showEthWarning ||
-      this.showAssetAddressModal
+      this.showAssetAddressModal ||
+      this.rootStore.depositStore.showMaxDepositErrorDialog ||
+      this.rootStore.kycStore.showUpdateAccountErrorModal ||
+      this.rootStore.kycStore.showUpdateQuestionnaireErrorModal ||
+      this.rootStore.kycStore.showFileUploadServerErrorModal
     );
   }
 

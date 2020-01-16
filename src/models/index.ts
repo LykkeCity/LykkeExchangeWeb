@@ -21,3 +21,4 @@ export * from './depositSwiftModel';
 export * from './dialogModel';
 export * from './withdrawCryptoModel';
 export * from './withdrawSwiftModel';
+export * from './verificationModel';
