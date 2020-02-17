@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import './style.css';
 
-export const APPSTORE_LINK = 'https://appsto.re/ru/Dwjvcb.i';
+export const APPSTORE_LINK = 'https://itunes.apple.com/de/app/id1112839581/';
 export const GOOGLEPLAY_LINK =
   'https://play.google.com/store/apps/details?id=com.lykkex.LykkeWallet';
 
