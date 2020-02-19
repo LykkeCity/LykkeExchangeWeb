@@ -39,6 +39,7 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   const pofStatus = kycStore.getPofStatus;
   const showUpgradeToPro = kycStore.showUpgradeToPro;
   let tierName = nextTier.Tier;
+  const questionnaireAnswered = tierInfo.QuestionnaireAnswered;
 
   if (showUpgradeToPro) {
     tierName = 'ProIndividual';
@@ -126,6 +127,13 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
             status={pofStatus}
             isActive={currentFormToRender === 'PoF'}
           />
+          {questionnaireAnswered === false && (
+            <StepItem
+              text="Questionnaire"
+              status={getQuestionnaireStatus}
+              isActive={currentFormToRender === 'Questionnaire'}
+            />
+          )}
         </div>
       );
     }
