@@ -375,6 +375,7 @@ export class ProtectedPage extends React.Component<
   };
 
   private identifyAnalytics = () => {
+    this.analyticsService.setUserId(this.profileStore.email);
     this.analyticsService.identify({
       assetsCount:
         this.walletStore.tradingWallets.length &&
