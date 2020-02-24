@@ -152,7 +152,6 @@ export class ProtectedPage extends React.Component<
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
   private readonly featureStore = this.props.rootStore!.featureStore;
   private unlistenRouteChange: () => void;
-  private readonly depositStore = this.props.rootStore!.depositStore;
   private readonly dialogStore = this.props.rootStore!.dialogStore;
   private readonly socketStore = this.props.rootStore!.socketStore;
   private readonly authStore = this.props.rootStore!.authStore;
@@ -188,7 +187,6 @@ export class ProtectedPage extends React.Component<
       this.processRequest(this.profileStore.fetchUserInfo),
       this.processRequest(this.profileStore.fetch2faStatus),
       this.processRequest(this.profileStore.fetchBaseAsset),
-      this.processRequest(this.depositStore.fetchDepositDefaultValues),
       this.processRequest(this.kycStore.fetchTierInfo)
     ]).then(() => this.identifyAnalytics());
 

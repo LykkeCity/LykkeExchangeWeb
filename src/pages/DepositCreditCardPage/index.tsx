@@ -42,23 +42,24 @@ export class DepositCreditCardPage extends React.Component<
 
     this.catalogsStore.fetchCountries();
     this.depositStore.fetchFee();
+    this.depositStore.fetchDepositDefaultValues().then(_ => {
+      if (!!asset) {
+        this.depositStore.newDeposit.setAsset(asset);
+      }
+      if (!!wallet) {
+        this.depositStore.newDeposit.setWallet(wallet);
+      }
 
-    if (!!asset) {
-      this.depositStore.newDeposit.setAsset(asset);
-    }
-    if (!!wallet) {
-      this.depositStore.newDeposit.setWallet(wallet);
-    }
+      const clientDialog = this.dialogStore.pendingDialogs.find(
+        (dialog: DialogModel) =>
+          dialog.conditionType === DialogConditionType.Predeposit
+      );
+      if (clientDialog) {
+        clientDialog.visible = true;
+      }
 
-    const clientDialog = this.dialogStore.pendingDialogs.find(
-      (dialog: DialogModel) =>
-        dialog.conditionType === DialogConditionType.Predeposit
-    );
-    if (clientDialog) {
-      clientDialog.visible = true;
-    }
-
-    window.scrollTo(0, 0);
+      window.scrollTo(0, 0);
+    });
   }
 
   componentWillUnmount() {
