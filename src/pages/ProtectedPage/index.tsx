@@ -148,7 +148,6 @@ export class ProtectedPage extends React.Component<
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly profileStore = this.props.rootStore!.profileStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
-  private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
   private unlistenRouteChange: () => void;
   private readonly dialogStore = this.props.rootStore!.dialogStore;
@@ -158,35 +157,20 @@ export class ProtectedPage extends React.Component<
   private readonly balanceStore = this.props.rootStore!.balanceStore;
   private readonly kycStore = this.props.rootStore!.kycStore;
 
-  componentDidMount() {
+  constructor(props: RootStoreProps & RouteComponentProps<any>) {
+    super(props);
     this.uiStore.startRequest();
-    const assetsPromise = this.assetStore
-      .fetchAssets()
-      .then(() => {
-        return Promise.all([
-          this.processRequest(this.assetStore.fetchDescriptions),
-          this.processRequest(this.assetStore.fetchAssetIcons),
-          this.processRequest(this.assetStore.fetchAssetsAvailableForDeposit),
-          this.processRequest(this.assetStore.fetchAssetsAvailableForWithdraw),
-          this.processRequest(this.assetStore.fetchInstruments)
-        ]).then(() => this.assetStore.fetchRates());
-      })
-      .then(() =>
-        this.props.rootStore!.marketService.init(
-          this.assetStore.instruments,
-          this.assetStore.assets
-        )
-      )
-      .then(() => this.walletStore.fetchWallets())
-      .then(() => this.uiStore.finishRequest());
+  }
 
+  componentDidMount() {
     Promise.all([
-      assetsPromise,
       this.processRequest(this.profileStore.fetchUserInfo),
       this.processRequest(this.profileStore.fetch2faStatus),
       this.processRequest(this.profileStore.fetchBaseAsset),
       this.processRequest(this.kycStore.fetchTierInfo)
-    ]).then(() => this.identifyAnalytics());
+    ])
+      .then(() => this.identifyAnalytics())
+      .then(() => this.uiStore.finishRequest());
 
     const wampUrl = process.env.REACT_APP_WAMP_URL || '';
     const wampRealm = process.env.REACT_APP_WAMP_REALM || '';
@@ -195,7 +179,6 @@ export class ProtectedPage extends React.Component<
       this.balanceStore.subscribe();
     });
 
-    this.uiStore.startRequest();
     this.dialogStore
       .fetchPendingDialogs()
       .then(() => this.uiStore.finishRequest())

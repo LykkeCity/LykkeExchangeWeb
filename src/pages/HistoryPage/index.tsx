@@ -138,6 +138,7 @@ export class HistoryPage extends React.Component<RootStoreProps> {
     count: number,
     transactionTypes?: TransactionType[]
   ) => {
+    await this.walletStore.fetchWalletsData();
     const tradingWallet = this.walletStore.tradingWallets[0];
     if (tradingWallet) {
       await this.transactionStore.fetchWalletTransactions(

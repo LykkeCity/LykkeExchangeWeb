@@ -14,6 +14,8 @@ import {sum} from '../utils/math';
 export class WalletStore {
   @observable wallets: WalletModel[] = [];
   @observable selectedWallet: WalletModel;
+  @observable walletsLoading: boolean = false;
+  @observable walletsInitialized: boolean = false;
 
   @computed
   get totalBalance() {
@@ -120,6 +122,40 @@ export class WalletStore {
   };
 
   updateWallet = (wallet: WalletModel) => this.api!.updateWallet(wallet);
+
+  fetchWalletsData = async () => {
+    if (this.walletsInitialized) {
+      return;
+    }
+    this.walletsLoading = true;
+    const assetStore = this.rootStore!.assetStore;
+    const marketService = this.rootStore!.marketService;
+
+    await assetStore.fetchAssets();
+    await this.fetchAssetsMetadata();
+    await assetStore.fetchRates();
+
+    marketService.init(assetStore.instruments, assetStore.assets);
+
+    await this.fetchWallets();
+    this.walletsInitialized = true;
+    this.walletsLoading = false;
+  };
+
+  fetchAssetsMetadata = async () => {
+    const assetStore = this.rootStore!.assetStore;
+    return Promise.all([
+      this.processRequest(assetStore.fetchDescriptions),
+      this.processRequest(assetStore.fetchAssetIcons),
+      this.processRequest(assetStore.fetchAssetsAvailableForDeposit),
+      this.processRequest(assetStore.fetchAssetsAvailableForWithdraw),
+      this.processRequest(assetStore.fetchInstruments)
+    ]);
+  };
+
+  private processRequest = (request: () => Promise<void>) => {
+    return request();
+  };
 }
 
 export default WalletStore;
