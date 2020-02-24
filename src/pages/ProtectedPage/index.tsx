@@ -150,7 +150,6 @@ export class ProtectedPage extends React.Component<
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly affiliateStore = this.props.rootStore!.affiliateStore;
-  private readonly featureStore = this.props.rootStore!.featureStore;
   private unlistenRouteChange: () => void;
   private readonly dialogStore = this.props.rootStore!.dialogStore;
   private readonly socketStore = this.props.rootStore!.socketStore;
@@ -183,7 +182,6 @@ export class ProtectedPage extends React.Component<
 
     Promise.all([
       assetsPromise,
-      this.processRequest(this.featureStore.getFeatures),
       this.processRequest(this.profileStore.fetchUserInfo),
       this.processRequest(this.profileStore.fetch2faStatus),
       this.processRequest(this.profileStore.fetchBaseAsset),
