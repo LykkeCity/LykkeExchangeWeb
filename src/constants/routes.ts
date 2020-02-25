@@ -39,10 +39,6 @@ export const ROUTE_DEPOSIT_CRYPTO = `${ROUTE_DEPOSIT_CRYPTO_BASE}/:assetId`;
 export const ROUTE_DEPOSIT_CRYPTO_TO = (assetId: string) =>
   `${ROUTE_DEPOSIT_CRYPTO_BASE}/${assetId}`;
 
-export const ROUTE_GATEWAY_CANCEL = '/gateway/cancel';
-export const ROUTE_GATEWAY_SUCCESS = '/gateway/success';
-export const ROUTE_GATEWAY_FAIL = '/gateway/fail';
-
 export const ROUTE_HISTORY = '/history';
 
 export const ROUTE_PROFILE = '/profile';

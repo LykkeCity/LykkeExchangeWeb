@@ -36,9 +36,6 @@ import {
   ROUTE_DEPOSIT_CRYPTO,
   ROUTE_DEPOSIT_SWIFT,
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
-  ROUTE_GATEWAY_CANCEL,
-  ROUTE_GATEWAY_FAIL,
-  ROUTE_GATEWAY_SUCCESS,
   ROUTE_HISTORY,
   ROUTE_PROFILE,
   ROUTE_ROOT,
@@ -83,11 +80,6 @@ let RouteWithHeaderAndFooter: React.SFC<
     app: true,
     'app--overlayed': rootStore!.uiStore.overlayed
   };
-  const gatewayUrls = [
-    ROUTE_GATEWAY_CANCEL,
-    ROUTE_GATEWAY_FAIL,
-    ROUTE_GATEWAY_SUCCESS
-  ];
   const handleOutsideClick = (e: React.MouseEvent<any>) => {
     const {toggleBaseAssetPicker, showBaseCurrencyPicker} = uiStore;
     const isBaseAssetTarget = e.target !== document.getElementById('baseAsset');
@@ -96,12 +88,7 @@ let RouteWithHeaderAndFooter: React.SFC<
     }
   };
   return (
-    <div
-      className={classNames(classes, {
-        hidden: gatewayUrls.indexOf(routeProps.location.pathname) > -1
-      })}
-      onClick={handleOutsideClick}
-    >
+    <div className={classNames(classes)} onClick={handleOutsideClick}>
       <div
         className={classNames({
           hidden: uiStore.hasPendingRequests
@@ -291,7 +278,7 @@ export class ProtectedPage extends React.Component<
         />
         <RouteWithHeaderAndFooter
           path={ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS}
-          component={DepositSuccess}
+          component={asLoading(DepositSuccess)}
         />
         <RouteWithHeaderAndFooter
           path={ROUTE_DEPOSIT_SWIFT_EMAIL_SENT}
