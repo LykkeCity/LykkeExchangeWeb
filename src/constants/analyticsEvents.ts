@@ -185,7 +185,7 @@ export const AnalyticsEvent = {
   ProceedToPaymentProvider: (assetId: string) => ({
     details: {
       category,
-      info: {assetId, name: 'FXPaygate'},
+      info: {assetId, name: 'Link4Pay'},
       location: Place.DepositCreditCardPage,
       type: event
     },
