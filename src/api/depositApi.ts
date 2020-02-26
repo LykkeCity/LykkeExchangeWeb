@@ -10,6 +10,7 @@ export interface DepositApi {
   fetchFee: () => ApiResponse<any>;
   fetchSwiftRequisites: (assetId: string) => ApiResponse<any>;
   sendSwiftRequisites: (assetId: string, amount: number) => ApiResponse<any>;
+  fetchTransactionDetails: (transactionId: string) => ApiResponse<any>;
 }
 
 export class RestDepositApi extends RestApi implements DepositApi {
@@ -25,6 +26,9 @@ export class RestDepositApi extends RestApi implements DepositApi {
 
   sendSwiftRequisites = (assetId: string, amount: number) =>
     this.postRes(`/deposits/swift/${assetId}/email`, {amount});
+
+  fetchTransactionDetails = (transactionId: string) =>
+    this.get(`/deposits/fxpaygate/${transactionId}`);
 }
 
 export default RestDepositApi;

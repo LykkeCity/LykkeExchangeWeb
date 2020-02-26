@@ -1,8 +1,10 @@
 import {Icon} from '@lykkex/react-components';
 import {inject, observer} from 'mobx-react';
+import queryString from 'qs';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import Spinner from '../../components/Spinner';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
@@ -14,15 +16,20 @@ export class DepositSuccess extends React.Component<
   RootStoreProps & RouteComponentProps<any>
 > {
   private readonly depositStore = this.props.rootStore!.depositStore;
-  private readonly uiStore = this.props.rootStore!.uiStore;
-  private readonly walletStore = this.props.rootStore!.walletStore;
+  private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     window.scrollTo(0, 0);
 
-    this.uiStore.startRequest();
-    this.walletStore.fetchWallets().then(() => this.uiStore.finishRequest());
+    const location = this.props.location;
+    const qs = queryString.parse(location.search, {ignoreQueryPrefix: true});
+    const transactionId = qs.transactionId as string;
+
+    if (transactionId) {
+      this.depositStore.fetchTransactionDetails(transactionId);
+    }
+
     this.analyticsService.track(
       AnalyticsEvent.FinishDeposit(
         Place.SuccessPage,
@@ -34,8 +41,14 @@ export class DepositSuccess extends React.Component<
   }
 
   render() {
-    const amount = Number(this.depositStore.newDeposit.amount);
-    const {asset} = this.depositStore.newDeposit;
+    const {transactionDetailsLoading, transactionDetails} = this.depositStore;
+
+    if (transactionDetailsLoading || !transactionDetails) {
+      return <Spinner />;
+    }
+
+    const amount = Number(transactionDetails.Amount);
+    const asset = this.assetStore.getById(transactionDetails.AssetId);
 
     return (
       <div className="deposit-result">
