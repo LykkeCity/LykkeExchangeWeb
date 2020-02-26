@@ -33,7 +33,7 @@ export interface DepositCreditCardFormProps extends RootStoreProps {
 }
 
 const DISCLAIMER_ERROR = 'User has pending disclaimer';
-const MAX_DEPOSIT_ERROR = 'Per transaction, you can deposit up to';
+const MAX_DEPOSIT_ERROR = 'You can deposit up to';
 
 export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   rootStore,
@@ -144,7 +144,7 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
           if (err.message === DISCLAIMER_ERROR) {
             validateForm();
             onDisclaimerError();
-          } else if (err.message.indexOf(MAX_DEPOSIT_ERROR) > -1) {
+          } else if (err.message.indexOf(MAX_DEPOSIT_ERROR) === 0) {
             onMaxDepositError(err.message);
           } else {
             setStatus(err.message);

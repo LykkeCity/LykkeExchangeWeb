@@ -6,6 +6,7 @@ const mockApi = {
   fetchDepositDefaultValues: jest.fn(),
   fetchFee: jest.fn(),
   fetchSwiftRequisites: jest.fn(),
+  fetchTransactionDetails: jest.fn(),
   sendSwiftRequisites: jest.fn()
 };
 const depositStore = new DepositStore(rootStore, mockApi);

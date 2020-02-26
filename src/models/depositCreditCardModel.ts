@@ -1,8 +1,7 @@
 import {action, computed, observable} from 'mobx';
 import {
-  ROUTE_GATEWAY_CANCEL,
-  ROUTE_GATEWAY_FAIL,
-  ROUTE_GATEWAY_SUCCESS
+  ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
+  ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS
 } from '../constants/routes';
 import {AssetModel, WalletModel} from './';
 
@@ -44,21 +43,24 @@ export class DepositCreditCardModel {
 
   @computed
   get asJson() {
+    // when testing locally, hardcode this url instead localhost:
+    // http://link4pay-lykke.ngrok.io
+    // because above url is whitelisted by payment provider
     const url = `${location.protocol}//${location.host}`;
 
     return {
       Address: this.address,
       Amount: this.amount,
       AssetId: this.asset && this.asset.id,
-      CancelUrl: url + ROUTE_GATEWAY_CANCEL,
+      CancelUrl: url,
       City: this.city,
       Country: this.country,
       DepositOption: this.depositOption || DEFAULT_DEPOSIT_OPTION,
       Email: this.email,
-      FailUrl: url + ROUTE_GATEWAY_FAIL,
+      FailUrl: url + ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
       FirstName: this.firstName,
       LastName: this.lastName,
-      OkUrl: url + ROUTE_GATEWAY_SUCCESS,
+      OkUrl: url + ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
       Phone: this.phone,
       WalletId: this.wallet && this.wallet.id,
       Zip: this.zip
