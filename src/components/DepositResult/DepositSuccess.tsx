@@ -19,30 +19,27 @@ export class DepositSuccess extends React.Component<
   private readonly assetStore = this.props.rootStore!.assetStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
 
-  componentDidMount() {
+  async componentDidMount() {
     window.scrollTo(0, 0);
 
     const location = this.props.location;
     const qs = queryString.parse(location.search, {ignoreQueryPrefix: true});
     const transactionId = qs.transactionId as string;
-
     if (transactionId) {
-      this.depositStore.fetchTransactionDetails(transactionId);
+      await this.depositStore.fetchTransactionDetails(transactionId);
+      const {transactionDetails} = this.depositStore;
+      this.analyticsService.track(
+        AnalyticsEvent.FinishDeposit(
+          Place.SuccessPage,
+          'Credit Card',
+          transactionDetails.AssetId
+        )
+      );
     }
-
-    this.analyticsService.track(
-      AnalyticsEvent.FinishDeposit(
-        Place.SuccessPage,
-        'Credit Card',
-        this.depositStore.newDeposit.asset &&
-          this.depositStore.newDeposit.asset.id
-      )
-    );
   }
 
   render() {
     const {transactionDetailsLoading, transactionDetails} = this.depositStore;
-
     if (transactionDetailsLoading || !transactionDetails) {
       return <Spinner />;
     }
