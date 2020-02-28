@@ -4,6 +4,7 @@ import React from 'react';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {Question} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 import {Questionnaire} from '../../models';
 
@@ -11,6 +12,8 @@ export class QuestionnaireDesktopLayout extends React.Component<
   RootStoreProps
 > {
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
+
   createValidationSchema() {
     const questionnaire = this.kycStore.questionnaire;
     const shape = {};
@@ -57,6 +60,7 @@ export class QuestionnaireDesktopLayout extends React.Component<
           </Form>
         )}
         onSubmit={async (values: any) => {
+          this.analyticsService.track(AnalyticsEvent.Kyc.SubmitQuestionnaire);
           await this.kycStore.updateQuestionnaire(values);
         }}
       />

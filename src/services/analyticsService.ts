@@ -31,7 +31,7 @@ class AnalyticsService {
 
       if (process.env.REACT_APP_ENVIRONMENT !== 'production') {
         // tslint:disable-next-line
-        console.log('Amplitude.track', event);
+        console.log(event.title, event.details);
       }
     }
   };

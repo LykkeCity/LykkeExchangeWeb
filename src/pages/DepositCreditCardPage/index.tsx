@@ -212,11 +212,15 @@ export class DepositCreditCardPage extends React.Component<
 
   private handleMaxDepositErrorCancel = () => {
     this.depositStore.setShowMaxDepositErrorDialog(false);
+    this.analyticsService.track(AnalyticsEvent.DepositLimitValidation('later'));
   };
 
   private handleMaxDepositErrorConfirm = () => {
     this.depositStore.setShowMaxDepositErrorDialog(false);
     this.props.history.push(ROUTE_VERIFICATION);
+    this.analyticsService.track(
+      AnalyticsEvent.DepositLimitValidation('upgrade')
+    );
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {

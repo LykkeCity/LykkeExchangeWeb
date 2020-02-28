@@ -3,10 +3,12 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {Wrapper} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const UpgradeLimit: React.SFC<RootStoreProps> = ({rootStore}) => {
   const kycStore = rootStore!.kycStore;
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
     return null;
@@ -27,7 +29,15 @@ export const UpgradeLimit: React.SFC<RootStoreProps> = ({rootStore}) => {
         to increase the limit get in touch with{' '}
         <a href={`mailto:${email}?subject=${subject}&body=${body}`}>{email}</a>
         <div className="mt-30 mb-30">
-          <Link className="btn btn--stroke" to="/profile">
+          <Link
+            className="btn btn--stroke"
+            to="/profile"
+            onClick={() => {
+              analyticsService.track(
+                AnalyticsEvent.Kyc.SubmitLimitUpgrade('later')
+              );
+            }}
+          >
             Maybe later
           </Link>
           <button
@@ -35,6 +45,9 @@ export const UpgradeLimit: React.SFC<RootStoreProps> = ({rootStore}) => {
             style={{marginLeft: 20}}
             onClick={() => {
               kycStore.requestUpgradeLimit();
+              analyticsService.track(
+                AnalyticsEvent.Kyc.SubmitLimitUpgrade('now')
+              );
             }}
             disabled={requestUpgradeLimitLoading}
           >

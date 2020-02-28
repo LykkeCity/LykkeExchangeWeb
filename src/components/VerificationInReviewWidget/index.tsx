@@ -1,12 +1,14 @@
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 import './style.css';
 
 export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   rootStore
 }) => {
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = rootStore!.kycStore.tierInfo;
   if (!tierInfo || !tierInfo.UpgradeRequest) {
     return null;
@@ -39,7 +41,12 @@ export const VerificationInReviewWidget: React.SFC<RootStoreProps> = ({
   }
 
   return (
-    <div className="in-review-widget">
+    <div
+      className="in-review-widget"
+      onClick={() => {
+        analyticsService.track(AnalyticsEvent.ClickOnStatusWidget);
+      }}
+    >
       <div className="in-review-widget__icon">
         <img src={icon} />
       </div>

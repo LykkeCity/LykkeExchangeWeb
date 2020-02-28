@@ -3,6 +3,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
 import {Icons, RejectionWidget, Wrapper} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 import IdentityDrivingLicense from './IdentityDrivingLicense';
 import IdentityNationalCard from './IdentityNationalCard';
@@ -10,6 +11,7 @@ import IdentityPassport from './IdentityPassport';
 
 export class Identity extends React.Component<RootStoreProps> {
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   render() {
     const selectedIdCardType = this.kycStore.selectedIdCardType;
@@ -46,6 +48,9 @@ export class Identity extends React.Component<RootStoreProps> {
                     }
                   }
                   this.kycStore.setSelectedIdCardType('Passport');
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.SelectedIdType('Passport')
+                  );
                 }}
               />
               <DocumentTypeButton
@@ -62,6 +67,9 @@ export class Identity extends React.Component<RootStoreProps> {
                     }
                   }
                   this.kycStore.setSelectedIdCardType('Id');
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.SelectedIdType('ID')
+                  );
                 }}
               />
               <DocumentTypeButton
@@ -78,6 +86,9 @@ export class Identity extends React.Component<RootStoreProps> {
                     }
                   }
                   this.kycStore.setSelectedIdCardType('DrivingLicense');
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.SelectedIdType('DL')
+                  );
                 }}
               />
             </div>
@@ -92,7 +103,12 @@ export class Identity extends React.Component<RootStoreProps> {
                 className="btn btn--primary"
                 value="Submit"
                 disabled={this.kycStore.shouldDisableIdentitySubmitButton}
-                onClick={async () => await this.kycStore.uploadIdentity()}
+                onClick={async () => {
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.SubmitPhoto('ID')
+                  );
+                  await this.kycStore.uploadIdentity();
+                }}
               />
             </div>
           </div>
