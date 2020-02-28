@@ -15,11 +15,11 @@ export interface DepositApi {
 
 export class RestDepositApi extends RestApi implements DepositApi {
   fetchBankCardPaymentUrl = (deposit: DepositCreditCardModel) =>
-    this.post('/deposits/fxpaygate', deposit.asJson);
+    this.post('/deposits/paymentUrl', deposit.asJson);
 
-  fetchDepositDefaultValues = () => this.get('/deposits/fxpaygate/last');
+  fetchDepositDefaultValues = () => this.get('/deposits/last');
 
-  fetchFee = () => this.get('/deposits/fxpaygate/fee');
+  fetchFee = () => this.get('/deposits/bankCard/fee');
 
   fetchSwiftRequisites = (assetId: string) =>
     this.get(`/deposits/swift/${assetId}/requisites`);
@@ -28,7 +28,7 @@ export class RestDepositApi extends RestApi implements DepositApi {
     this.postRes(`/deposits/swift/${assetId}/email`, {amount});
 
   fetchTransactionDetails = (transactionId: string) =>
-    this.get(`/deposits/fxpaygate/${transactionId}`);
+    this.get(`/deposits/${transactionId}`);
 }
 
 export default RestDepositApi;
