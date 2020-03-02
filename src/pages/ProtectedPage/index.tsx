@@ -192,11 +192,8 @@ export class ProtectedPage extends React.Component<
       }
       this.uiStore.hideModals();
       this.dialogStore.clearAssetDisclaimers();
-      this.uiStore.startRequest();
       this.profileStore.fetch2faStatus();
-      this.dialogStore.fetchPendingDialogs().then(() => {
-        this.uiStore.finishRequest();
-      });
+      this.dialogStore.fetchPendingDialogs();
 
       this.analyticsService.pageview(this.props.history.location.pathname);
     });
