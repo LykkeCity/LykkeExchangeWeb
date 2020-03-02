@@ -3,7 +3,7 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
 import DocumentSelector from '../../components/DocumentSelector';
-
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 interface IdentityNationalCardState {
@@ -18,6 +18,7 @@ export class IdentityNationalCard extends React.Component<
   backSideSelector: any;
   state = {activeSide: 'FRONT'} as IdentityNationalCardState;
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   render() {
     const activeSide = this.state.activeSide;
@@ -70,6 +71,7 @@ export class IdentityNationalCard extends React.Component<
         <div className="mt-30">
           <div style={{display: activeSide === 'FRONT' ? 'block' : 'none'}}>
             <DocumentSelector
+              analyticsService={this.analyticsService}
               ref={ref => (this.frontSideSelector = ref)}
               fromCamera={true}
               maxFileSize={3}
@@ -80,12 +82,16 @@ export class IdentityNationalCard extends React.Component<
               }}
               onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_NATIONAL_FRONT');
+                this.analyticsService.track(
+                  AnalyticsEvent.Kyc.RetakePhoto('ID')
+                );
               }}
               rules={rules}
             />
           </div>
           <div style={{display: activeSide === 'BACK' ? 'block' : 'none'}}>
             <DocumentSelector
+              analyticsService={this.analyticsService}
               ref={ref => (this.backSideSelector = ref)}
               fromCamera={true}
               maxFileSize={3}
@@ -95,6 +101,9 @@ export class IdentityNationalCard extends React.Component<
               }}
               onDocumentClear={() => {
                 this.kycStore.clearDocument('IDENTITY_NATIONAL_BACK');
+                this.analyticsService.track(
+                  AnalyticsEvent.Kyc.RetakePhoto('ID')
+                );
               }}
               rules={rules}
             />

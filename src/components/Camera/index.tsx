@@ -1,8 +1,10 @@
 import React from 'react';
 import WebCam from 'react-webcam';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import './style.css';
 
 interface CameraProps {
+  analyticsService: any;
   onDocumentTaken: (picture: File) => void;
   onDocumentClear: () => void;
   onBack: () => void;
@@ -80,6 +82,9 @@ export default class Camera extends React.Component<CameraProps, CameraState> {
                   const newPicture = this.webCamRef.getScreenshot();
                   this.setState({picture: newPicture, state: 'PICTURE_TAKEN'});
                   onDocumentTaken(base64ImageToBlob(newPicture));
+                  this.props.analyticsService.track(
+                    AnalyticsEvent.Kyc.TakePhoto
+                  );
                 }}
               >
                 Take photo

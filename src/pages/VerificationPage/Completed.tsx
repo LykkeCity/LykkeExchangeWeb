@@ -4,12 +4,14 @@ import React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {Wrapper} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const Completed: React.SFC<
   RootStoreProps & RouteComponentProps<any>
 > = ({rootStore, location, history}) => {
   const kycStore = rootStore!.kycStore;
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
     return null;
@@ -25,6 +27,7 @@ export const Completed: React.SFC<
     } else {
       history.push('/profile');
     }
+    analyticsService.track(AnalyticsEvent.Kyc.UpgradeFromStatusScreen('later'));
   };
 
   return (
@@ -40,7 +43,12 @@ export const Completed: React.SFC<
             If you wish to get a monthly limit tailored for you, no problem!{' '}
             <span
               className="upgrade-text"
-              onClick={() => kycStore.showSwitchToPro()}
+              onClick={() => {
+                kycStore.showSwitchToPro();
+                analyticsService.track(
+                  AnalyticsEvent.Kyc.UpgradeFromStatusScreen('update')
+                );
+              }}
             >
               Just upgrade to a Pro Individual account.
             </span>
