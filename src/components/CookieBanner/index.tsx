@@ -87,7 +87,10 @@ class CookieBanner extends React.Component<RootStoreProps> {
             and use it's features. Additional cookies are only used if you
             consent to it. They serve statistical purposes and you can always
             change your privacy settings. For more information, see our{' '}
-            <a href="https://lykke.com/privacy-policy/">Privacy Policy</a>.
+            <a href="https://lykke.com/privacy-policy/" target="_blank">
+              Privacy Policy
+            </a>
+            .
           </div>
         </div>
         <div className="cookie__footer">
