@@ -21,6 +21,7 @@ import {moneyFloor} from '../../utils';
 // tslint:disable-next-line:no-var-requires
 const QRCode = require('qrcode.react');
 
+import Spinner from '../../components/Spinner';
 import './style.css';
 
 interface AssetPageProps extends RootStoreProps, RouteComponentProps<any> {}
@@ -77,6 +78,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   componentDidMount() {
     const {assetId} = this.props.match.params;
     this.assetStore.fetchAddress(assetId);
+    this.walletStore.fetchWalletsData();
 
     window.scrollTo(0, 0);
   }
@@ -85,8 +87,13 @@ export class AssetPage extends React.Component<AssetPageProps> {
     const {assetId} = this.props.match.params;
     const asset = this.assetStore.getById(assetId) || new AssetModel();
     const wallet = this.walletStore.tradingWallets[0];
+    const walletsLoading = this.walletStore.walletsLoading;
     const balance = wallet && wallet.balances.find(b => b.assetId === assetId);
     const QR_SIZE = 120;
+
+    if (!wallet || walletsLoading) {
+      return <Spinner />;
+    }
 
     return (
       <div className="asset-page-wrapper">
