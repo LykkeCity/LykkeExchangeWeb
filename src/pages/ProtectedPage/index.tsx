@@ -135,6 +135,7 @@ let NormalRoute: React.SFC<RootStoreProps & RouteComponentProps<any> & any> = ({
   return (
     <div className={classNames(classes)} onClick={handleOutsideClick}>
       <Route {...routeProps} />
+      <CookieBanner />
     </div>
   );
 };
