@@ -17,6 +17,7 @@ export class HistoryPage extends React.Component<RootStoreProps> {
   private readonly transactionStore = this.props.rootStore!.transactionStore;
   private readonly walletStore = this.props.rootStore!.walletStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
+  private readonly assetStore = this.props.rootStore!.assetStore;
 
   @observable private isExportLoading = false;
   private transactionType?: TransactionType[] = [
@@ -138,7 +139,15 @@ export class HistoryPage extends React.Component<RootStoreProps> {
     count: number,
     transactionTypes?: TransactionType[]
   ) => {
-    await this.walletStore.fetchWalletsData();
+    const assets = this.assetStore.assets;
+    const wallets = this.walletStore.wallets;
+    if (assets.length === 0) {
+      await this.assetStore.fetchAssets();
+    }
+    if (wallets.length === 0) {
+      await this.walletStore.fetchWallets();
+    }
+
     const tradingWallet = this.walletStore.tradingWallets[0];
     if (tradingWallet) {
       await this.transactionStore.fetchWalletTransactions(
