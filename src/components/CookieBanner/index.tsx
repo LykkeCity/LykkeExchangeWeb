@@ -16,8 +16,7 @@ export interface RootStoreProps {
 
 class CookieBanner extends React.Component<RootStoreProps> {
   state = {
-    statisticsCheck: false,
-    visible: false
+    statisticsCheck: false
   };
 
   private readonly analyticsService = this.props.rootStore!.analyticsService;
@@ -32,9 +31,11 @@ class CookieBanner extends React.Component<RootStoreProps> {
       statisticsCheck = parseInt(statisticsCookieValue, 10) ? true : false;
     }
     this.setState({
-      statisticsCheck,
-      visible: Cookies.get(BANNER_HIDDEN_COOKIE_NAME) !== '1'
+      statisticsCheck
     });
+    this.props.rootStore!.uiStore.setCookieBannerVisibility(
+      Cookies.get(BANNER_HIDDEN_COOKIE_NAME) !== '1'
+    );
   }
 
   getCookieConfiguration() {
@@ -64,7 +65,7 @@ class CookieBanner extends React.Component<RootStoreProps> {
     const config = this.getCookieConfiguration();
     Cookies.set(BANNER_HIDDEN_COOKIE_NAME, '1', config);
 
-    this.setState({visible: false});
+    this.props.rootStore!.uiStore.setCookieBannerVisibility(false);
 
     const {statisticsCheck} = this.state;
     if (statisticsCheck) {
@@ -77,8 +78,8 @@ class CookieBanner extends React.Component<RootStoreProps> {
   }
 
   render() {
-    const {visible} = this.state;
-    return visible ? (
+    const {cookieBannerVisible} = this.props.rootStore!.uiStore;
+    return cookieBannerVisible ? (
       <div className="cookie__banner">
         <div className="cookie__text">
           <div>
