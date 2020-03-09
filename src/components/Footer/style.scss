@@ -2,7 +2,7 @@
 
 .footer {
   position: absolute;
-  bottom: 0;
+  bottom: 40px;
   left: 0;
   width: 100%;
   z-index: 10;
@@ -28,6 +28,10 @@
     background: #f5f6f7;
 
     @include rem(padding, 17px 0);
+
+    .privacy-settings {
+      cursor: pointer;
+    }
   }
 
   &__copy {

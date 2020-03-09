@@ -93,7 +93,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
             <div className="wallet-action-bar__item">
               <Dropdown fullHeight>
                 <DropdownControl>
-                  <a>Withdraw</a>
+                  <a onClick={this.trackWithdrawMenuClick}>Withdraw</a>
                 </DropdownControl>
                 <DropdownContainer>
                   <DropdownList className="wallet-menu">
@@ -214,6 +214,10 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
 
   private trackHistoryMenuClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     this.analyticsService.track(AnalyticsEvent.ClickHistoryMenuItem);
+  };
+
+  private trackWithdrawMenuClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    this.analyticsService.track(AnalyticsEvent.ClickWithdrawMenuItem);
   };
 
   private handleCopyApiKey = (text: string) => {

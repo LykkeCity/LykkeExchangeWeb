@@ -435,8 +435,16 @@ export class KycStore {
         currentTier.Tier === 'Advanced' &&
         nextTier.Tier === 'ProIndividual'
       ) {
-        if (currentForm === 'PoF') {
-          result = true;
+        // if questionnaire answered before, then check for PoF
+        if (tierInfo.QuestionnaireAnswered) {
+          if (currentForm === 'PoF') {
+            result = true;
+          }
+        } else {
+          // if questionnaire not answered before, then this is the last step for this case
+          if (currentForm === 'Questionnaire') {
+            result = true;
+          }
         }
       }
 

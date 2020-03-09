@@ -1,20 +1,22 @@
 import {Dialog} from '@lykkex/react-components';
 import React from 'react';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import Camera from '../Camera';
 import './style.css';
 
 interface DocumentSelectorProps {
+  analyticsService: any;
   fromCamera: boolean;
   fromLibrary?: boolean;
   rules: any;
   maxFileSize: number;
   accept: string[];
   rejectedImage?: string;
-  onDocumentTaken: (document: File) => void;
+  onDocumentTaken: (document: File, from?: SelectorMode) => void;
   onDocumentClear: () => void;
 }
 
-type SelectorMode = 'EMPTY' | 'REJECTED' | 'CAMERA' | 'LIBRARY';
+export type SelectorMode = 'EMPTY' | 'REJECTED' | 'CAMERA' | 'LIBRARY';
 
 interface DocumentSelectorState {
   libraryPictureSrc: string | ArrayBuffer;
@@ -56,7 +58,13 @@ export class DocumentSelector extends React.Component<
 
   renderWebCamButton() {
     return (
-      <div className="button" onClick={() => this.setMode('CAMERA')}>
+      <div
+        className="button"
+        onClick={() => {
+          this.setMode('CAMERA');
+          this.props.analyticsService.track(AnalyticsEvent.Kyc.OpenCamera);
+        }}
+      >
         <img src={`${process.env.PUBLIC_URL}/images/cam_blue_icon.png`} />
         <span className="text">Take Photo</span>
       </div>
@@ -98,7 +106,7 @@ export class DocumentSelector extends React.Component<
             reader.onload = () => {
               const libraryPictureSrc = reader.result as string;
               this.setState({libraryPictureSrc});
-              onDocumentTaken(file);
+              onDocumentTaken(file, this.state.selectedMode);
             };
           }}
         />
@@ -135,11 +143,13 @@ export class DocumentSelector extends React.Component<
     if (selectedMode === 'CAMERA') {
       return (
         <Camera
+          analyticsService={this.props.analyticsService}
           ref={ref => (this.cameraRef = ref)}
           onDocumentTaken={onDocumentTaken}
           onDocumentClear={onDocumentClear}
           onBack={() => {
             this.setState({selectedMode: 'EMPTY'});
+            this.props.analyticsService.track(AnalyticsEvent.Kyc.CloseCamera);
             onDocumentClear();
           }}
         />

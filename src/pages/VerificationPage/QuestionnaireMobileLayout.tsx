@@ -4,6 +4,7 @@ import React from 'react';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {Question} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 import {Questionnaire} from '../../models';
 
@@ -21,6 +22,7 @@ export class QuestionnaireMobileLayout extends React.Component<
     currentStep: 1
   } as QuestionnaireMobileLayoutProps;
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   questionsPerStep() {
     const questionnaire = this.kycStore.questionnaire;
@@ -105,6 +107,7 @@ export class QuestionnaireMobileLayout extends React.Component<
         )}
         onSubmit={async (values: any, formikActions: any) => {
           if (isLastStep) {
+            this.analyticsService.track(AnalyticsEvent.Kyc.SubmitQuestionnaire);
             await this.kycStore.updateQuestionnaire(values);
           } else {
             this.setState({currentStep: currentStep + 1});

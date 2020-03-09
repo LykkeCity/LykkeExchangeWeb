@@ -1,6 +1,7 @@
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 const tierNamesMapping = {
@@ -21,6 +22,7 @@ export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
   rootStore
 }) => {
   const kycStore = rootStore!.kycStore;
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
     return null;
@@ -39,7 +41,12 @@ export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
   }
 
   return (
-    <div className="account-current-tier-widget">
+    <div
+      className="account-current-tier-widget"
+      onClick={() => {
+        analyticsService.track(AnalyticsEvent.Kyc.ClickOnYourAccount);
+      }}
+    >
       <div className="account-current-tier-widget__tier-icon">
         <img src={tierIcon} />
       </div>

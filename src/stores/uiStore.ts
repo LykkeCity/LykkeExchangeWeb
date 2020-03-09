@@ -22,6 +22,7 @@ export class UiStore {
   @observable transferError: string;
   @observable apiError: string;
   @observable activeHeaderMenuItem: string = MenuItem.Funds;
+  @observable cookieBannerVisible: boolean = false;
 
   @observable pendingRequestsCount: number = 0;
   @computed
@@ -125,6 +126,10 @@ export class UiStore {
     this.showConfirmRegenerateKey = false;
     this.showEthWarning = false;
     this.showAssetAddressModal = false;
+  };
+
+  setCookieBannerVisibility = (val: boolean) => {
+    this.cookieBannerVisible = val;
   };
 }
 

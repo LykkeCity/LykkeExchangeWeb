@@ -6,11 +6,13 @@ import React from 'react';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {Wrapper} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 /* tslint:disable:no-empty */
 export class AccountInformation extends React.Component<RootStoreProps> {
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   renderForm(formikBag: FormikProps<any>) {
     const renderError = (field: any, form: any) =>
@@ -136,6 +138,9 @@ export class AccountInformation extends React.Component<RootStoreProps> {
           })}
           // tslint:disable-next-line:jsx-no-lambda
           onSubmit={async (values: any, {setSubmitting}) => {
+            this.analyticsService.track(
+              AnalyticsEvent.Kyc.SubmitAccountInformation
+            );
             setSubmitting(true);
             let address = '';
             if (values.apartment) {

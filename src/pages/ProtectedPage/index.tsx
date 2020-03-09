@@ -4,6 +4,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Redirect, Route, RouteComponentProps, Switch} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import CookieBanner from '../../components/CookieBanner';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 import {loadable} from '../../components/hoc/loadable';
@@ -98,6 +99,7 @@ let RouteWithHeaderAndFooter: React.SFC<
       </div>
       <div className="app__shell">
         <Route {...routeProps} />
+        <CookieBanner />
       </div>
       <div
         className={classNames({
@@ -133,6 +135,7 @@ let NormalRoute: React.SFC<RootStoreProps & RouteComponentProps<any> & any> = ({
   return (
     <div className={classNames(classes)} onClick={handleOutsideClick}>
       <Route {...routeProps} />
+      <CookieBanner />
     </div>
   );
 };
@@ -362,6 +365,7 @@ export class ProtectedPage extends React.Component<
   };
 
   private identifyAnalytics = () => {
+    this.analyticsService.setUserId(this.profileStore.email);
     this.analyticsService.identify({
       assetsCount:
         this.walletStore.tradingWallets.length &&

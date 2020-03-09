@@ -5,6 +5,7 @@ import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {Wrapper} from '../../components/Verification';
 import VerificationInReviewWidget from '../../components/VerificationInReviewWidget';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const InReview: React.SFC<RootStoreProps & RouteComponentProps<any>> = ({
@@ -13,6 +14,7 @@ export const InReview: React.SFC<RootStoreProps & RouteComponentProps<any>> = ({
   history
 }) => {
   const kycStore = rootStore!.kycStore;
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
     return null;
@@ -32,6 +34,7 @@ export const InReview: React.SFC<RootStoreProps & RouteComponentProps<any>> = ({
     } else {
       history.push('/profile');
     }
+    analyticsService.track(AnalyticsEvent.Kyc.UpgradeFromStatusScreen('later'));
   };
 
   return (
@@ -50,7 +53,12 @@ export const InReview: React.SFC<RootStoreProps & RouteComponentProps<any>> = ({
             If you wish to get a monthly limit tailored for you, no problem!{' '}
             <span
               className="upgrade-text"
-              onClick={() => kycStore.showSwitchToPro()}
+              onClick={() => {
+                kycStore.showSwitchToPro();
+                analyticsService.track(
+                  AnalyticsEvent.Kyc.UpgradeFromStatusScreen('update')
+                );
+              }}
             >
               Just upgrade to a Pro Individual account.
             </span>

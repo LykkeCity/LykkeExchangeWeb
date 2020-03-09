@@ -8,18 +8,18 @@ import {STORE_ROOT} from '../../constants/stores';
 import QuestionnaireDesktopLayout from './QuestionnaireDesktopLayout';
 import QuestionnaireMobileLayout from './QuestionnaireMobileLayout';
 
-interface VerifyQuestionnaireProps {
+interface VerifyQuestionnaireState {
   layout: 'MOBILE' | 'DESKTOP';
 }
 
 /* tslint:disable:no-empty */
 export class Questionnaire extends React.Component<
   RootStoreProps,
-  VerifyQuestionnaireProps
+  VerifyQuestionnaireState
 > {
   state = {
     layout: 'DESKTOP'
-  } as VerifyQuestionnaireProps;
+  } as VerifyQuestionnaireState;
   private readonly kycStore = this.props.rootStore!.kycStore;
 
   componentWillMount() {

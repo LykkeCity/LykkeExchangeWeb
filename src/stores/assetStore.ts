@@ -119,8 +119,8 @@ export class AssetStore {
 
   fetchAssetsAvailableForDeposit = async () => {
     const resp = await this.api.fetchPaymentMethods();
-    const fxpaygate = resp.PaymentMethods.find(
-      (paymentMethod: any) => paymentMethod.Name === 'Fxpaygate'
+    const link4pay = resp.PaymentMethods.find(
+      (paymentMethod: any) => paymentMethod.Name === 'Link4Pay'
     );
     const swift = resp.PaymentMethods.find(
       (paymentMethod: any) => paymentMethod.Name === 'Swift'
@@ -129,10 +129,10 @@ export class AssetStore {
       (paymentMethod: any) => paymentMethod.Name === 'Cryptos'
     );
 
-    if (fxpaygate && fxpaygate.Available) {
+    if (link4pay && link4pay.Available) {
       runInAction(() => {
         this.assetsAvailableForCreditCardDeposit = this.prepareAssets(
-          fxpaygate.Assets
+          link4pay.Assets
         );
       });
     }
