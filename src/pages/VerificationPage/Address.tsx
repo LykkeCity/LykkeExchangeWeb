@@ -1,12 +1,16 @@
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
-import DocumentSelector from '../../components/DocumentSelector';
+import DocumentSelector, {
+  SelectorMode
+} from '../../components/DocumentSelector';
 import {RejectionWidget, Wrapper} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 export class Address extends React.Component<RootStoreProps> {
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   render() {
     const rejectReason = this.kycStore.getPoaRejectReason;
@@ -26,16 +30,25 @@ export class Address extends React.Component<RootStoreProps> {
           )}
           <div className="mt-30">
             <DocumentSelector
+              analyticsService={this.analyticsService}
               fromCamera={true}
               fromLibrary={true}
               maxFileSize={3}
               rejectedImage={rejectedPoaImage}
               accept={['.png', '.jpg', '.pdf', '.jpeg']}
-              onDocumentTaken={document => {
+              onDocumentTaken={(document: File, from: SelectorMode) => {
                 this.kycStore.setDocument('ADDRESS', document);
+                if (from === 'LIBRARY') {
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.UploadFromGallery('POA')
+                  );
+                }
               }}
               onDocumentClear={() => {
                 this.kycStore.clearDocument('ADDRESS');
+                this.analyticsService.track(
+                  AnalyticsEvent.Kyc.RetakePhoto('POA')
+                );
               }}
               rules={
                 <ul>
@@ -61,7 +74,12 @@ export class Address extends React.Component<RootStoreProps> {
                 className="btn btn--primary"
                 value="Submit"
                 disabled={this.kycStore.shouldDisableAddressSubmitButton}
-                onClick={async () => this.kycStore.uploadProofOfAddress()}
+                onClick={async () => {
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.SubmitPhoto('POA')
+                  );
+                  await this.kycStore.uploadProofOfAddress();
+                }}
               />
             </div>
           </div>

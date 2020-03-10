@@ -12,7 +12,9 @@ export const Place = {
   Header: 'Header',
   HistoryPage: 'History Page',
   KycBanner: 'KYC banner',
+  KycPage: 'KYC Page',
   MainMenu: 'Main Menu',
+  ProfilePage: 'Profile Page',
   SecurityPage: 'Security Page',
   SettingsPage: 'Settings Page',
   SuccessPage: 'Success Page',
@@ -38,7 +40,7 @@ export const AnalyticsEvent = {
       location: Place.KycBanner,
       type: buttonClick
     },
-    title: 'Check KYC status'
+    title: 'Resubmit docs'
   },
   ClickAppLink: (place: string, type: string) => ({
     details: {
@@ -113,6 +115,40 @@ export const AnalyticsEvent = {
     },
     title: 'Click on History Menu Item'
   },
+  ClickOnDepositLimitProgressBar: {
+    details: {
+      category,
+      location: Place.ProfilePage,
+      type: buttonClick
+    },
+    title: 'Click on deposit limit progress bar'
+  },
+  ClickOnStatusWidget: {
+    details: {
+      category,
+      location: Place.ProfilePage,
+      type: buttonClick
+    },
+    title: 'Click on status widget'
+  },
+
+  ClickWithdrawMenuItem: {
+    details: {
+      category,
+      location: Place.MainMenu,
+      type: buttonClick
+    },
+    title: 'Click on Withdraw Menu Item'
+  },
+  DepositLimitValidation: (type: string) => ({
+    details: {
+      category,
+      info: {type},
+      location: Place.DepositCreditCardPage,
+      type: buttonClick
+    },
+    title: 'Deposit limit validation'
+  }),
   Enable2fa: {
     details: {
       category,
@@ -182,10 +218,146 @@ export const AnalyticsEvent = {
     },
     title: 'Hover over Asset QR Icon'
   },
+  Kyc: {
+    ClickOnSidebar: {
+      details: {
+        category,
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Click on sidebar'
+    },
+    ClickOnYourAccount: {
+      details: {
+        category,
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Click on Your Account'
+    },
+    CloseCamera: {
+      details: {
+        category,
+        location: Place.KycPage
+      },
+      title: 'Close Camera'
+    },
+    OpenCamera: {
+      details: {
+        category,
+        location: Place.KycPage
+      },
+      title: 'Open Camera'
+    },
+    ResubmitFromStatusScreen: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Resubmit from status screen'
+    }),
+    RetakePhoto: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Retake photo'
+    }),
+    SelectedIdType: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Select ID type'
+    }),
+    SkipVerificationForLater: (step: string) => ({
+      details: {
+        category,
+        info: {step},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Skip verification for later'
+    }),
+    SubmitAccountInformation: {
+      details: {
+        category,
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Submit account information'
+    },
+    SubmitLimitUpgrade: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Submit limit upgrade'
+    }),
+    SubmitPhoto: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Submit photo'
+    }),
+    SubmitQuestionnaire: {
+      details: {
+        category,
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Submit questionnaire'
+    },
+    TakePhoto: {
+      details: {
+        category,
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Take photo'
+    },
+    UpgradeFromStatusScreen: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Upgrade from status screen'
+    }),
+    UploadFromGallery: (type: string) => ({
+      details: {
+        category,
+        info: {type},
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'Upload from gallery'
+    }),
+    ViewAcceptableDocs: {
+      details: {
+        category,
+        location: Place.KycPage,
+        type: buttonClick
+      },
+      title: 'View acceptable docs'
+    }
+  },
   ProceedToPaymentProvider: (assetId: string) => ({
     details: {
       category,
-      info: {assetId, name: 'FXPaygate'},
+      info: {assetId, name: 'Link4Pay'},
       location: Place.DepositCreditCardPage,
       type: event
     },
@@ -217,14 +389,22 @@ export const AnalyticsEvent = {
     },
     title: 'Start Deposit'
   }),
-  StartKyc: {
+  StartLimitUpgrade: {
     details: {
       category,
-      location: Place.KycBanner,
+      location: Place.ProfilePage,
       type: buttonClick
     },
-    title: 'Start KYC'
+    title: 'Start limit upgrade'
   },
+  StartTierUpgrade: (place: string) => ({
+    details: {
+      category,
+      location: place,
+      type: buttonClick
+    },
+    title: 'Start tier upgrade'
+  }),
   StartWithdraw: (place: string, type: string, assetId: string) => ({
     details: {
       category,

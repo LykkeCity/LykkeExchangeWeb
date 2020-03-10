@@ -69,7 +69,8 @@ export class DepositCreditCardPage extends React.Component<
     const asset = this.depositStore.newDeposit.asset;
     const cardIcons = [
       'icon-card-1.png',
-      'icon-card-4.png',
+      'icon-card-3.png',
+      'icon-card-2.png',
       'icon-card-5.png',
       'icon-card-6.png'
     ];
@@ -212,11 +213,15 @@ export class DepositCreditCardPage extends React.Component<
 
   private handleMaxDepositErrorCancel = () => {
     this.depositStore.setShowMaxDepositErrorDialog(false);
+    this.analyticsService.track(AnalyticsEvent.DepositLimitValidation('later'));
   };
 
   private handleMaxDepositErrorConfirm = () => {
     this.depositStore.setShowMaxDepositErrorDialog(false);
     this.props.history.push(ROUTE_VERIFICATION);
+    this.analyticsService.track(
+      AnalyticsEvent.DepositLimitValidation('upgrade')
+    );
   };
 
   private handleSubmitSuccess = (gatewayUrls: GatewayUrls) => {

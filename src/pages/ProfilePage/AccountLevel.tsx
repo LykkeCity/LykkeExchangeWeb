@@ -2,10 +2,12 @@ import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
   const kycStore = rootStore!.kycStore;
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = kycStore.tierInfo;
   if (!tierInfo) {
     return null;
@@ -37,6 +39,9 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
           ) {
             kycStore.showSwitchToPro();
           }
+          analyticsService.track(
+            AnalyticsEvent.StartTierUpgrade(Place.ProfilePage)
+          );
         }}
       >
         Upgrade
@@ -46,7 +51,13 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
 
   const upgradeLimitButton = (
     <div className="account-level__upgrade">
-      <Link to="/profile/kyc" className="btn btn--stroke">
+      <Link
+        to="/profile/kyc"
+        className="btn btn--stroke"
+        onClick={() => {
+          analyticsService.track(AnalyticsEvent.StartLimitUpgrade);
+        }}
+      >
         Upgrade Limit
       </Link>
     </div>

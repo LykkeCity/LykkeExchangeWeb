@@ -1,0 +1,80 @@
+@import '../../styles/utils';
+
+.cookie {
+  &__banner {
+    position: fixed;
+    z-index: 999999;
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(63, 77, 96, 0.4) 0px 8px 50px 0px,
+      rgba(63, 77, 96, 0.05) 0px 5px 5px 0px;
+    animation-name: bcCCNc;
+    animation-duration: 0.4s;
+    border-radius: 8px;
+    padding: 15px 25px;
+    width: 100%;
+    margin-left: 0px;
+    left: 0px;
+    bottom: 0px;
+
+    @media all and (max-width: $screen-mobile + 1) {
+      padding: 10px 20px;
+    }
+
+    &:before {
+      content: '';
+      height: 90%;
+      width: 2px;
+      background-color: rgb(3, 136, 239);
+      display: block;
+      position: absolute;
+      left: 0px;
+      top: 10px;
+    }
+  }
+
+  &__text {
+    line-height: 1.67;
+    color: rgb(51, 51, 51);
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgb(235, 237, 239);
+    font-size: 16px;
+
+    @media all and (max-width: $screen-mobile + 1) {
+      font-size: 14px;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    padding-top: 12px;
+
+    @media all and (max-width: $screen-mobile + 1) {
+      flex-direction: column;
+    }
+
+    .checkboxes {
+      display: flex;
+      -webkit-box-flex: 1;
+      flex-grow: 1;
+
+      .stats-checkbox {
+        margin-left: 10px;
+      }
+    }
+
+    .agree-button {
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1.5;
+      margin-right: 20px;
+      color: rgb(3, 136, 239);
+
+      @media all and (max-width: $screen-mobile + 1) {
+        align-self: flex-end;
+        margin-top: 10px;
+        font-size: 14px;
+      }
+    }
+  }
+}

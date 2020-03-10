@@ -8,6 +8,11 @@ import {
   GatewayUrls
 } from '../models/index';
 
+interface TransactionDetailResponse {
+  AssetId: string;
+  Amount: number;
+}
+
 export class DepositStore {
   @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
@@ -17,6 +22,8 @@ export class DepositStore {
   @observable submitDeposit: () => void;
   @observable showMaxDepositErrorDialog: boolean = false;
   @observable fetchBankCardPaymentUrlError: any;
+  @observable transactionDetails: TransactionDetailResponse;
+  @observable transactionDetailsLoading: boolean = false;
 
   constructor(readonly rootStore: RootStore, private api?: DepositApi) {
     this.defaultDeposit = new DepositCreditCardModel();
@@ -110,6 +117,17 @@ export class DepositStore {
     if (response) {
       runInAction(() => {
         this.feePercentage = response.Amount;
+      });
+    }
+  };
+
+  fetchTransactionDetails = async (transactionId: string) => {
+    this.transactionDetailsLoading = true;
+    const response = await this.api!.fetchTransactionDetails(transactionId);
+    this.transactionDetailsLoading = false;
+    if (response) {
+      runInAction(() => {
+        this.transactionDetails = response;
       });
     }
   };

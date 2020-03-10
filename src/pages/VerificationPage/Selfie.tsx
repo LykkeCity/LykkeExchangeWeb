@@ -3,10 +3,12 @@ import React from 'react';
 import {RootStoreProps} from '../../App';
 import DocumentSelector from '../../components/DocumentSelector';
 import {RejectionWidget, Wrapper} from '../../components/Verification';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 
 export class Selfie extends React.Component<RootStoreProps> {
   private readonly kycStore = this.props.rootStore!.kycStore;
+  private readonly analyticsService = this.props.rootStore!.analyticsService;
 
   render() {
     const rejectReason = this.kycStore.getSelfieRejectReason;
@@ -24,6 +26,7 @@ export class Selfie extends React.Component<RootStoreProps> {
           )}
           <div className="mt-30">
             <DocumentSelector
+              analyticsService={this.analyticsService}
               fromCamera={true}
               maxFileSize={3}
               accept={[]}
@@ -33,6 +36,9 @@ export class Selfie extends React.Component<RootStoreProps> {
               }}
               onDocumentClear={() => {
                 this.kycStore.clearDocument('SELFIE');
+                this.analyticsService.track(
+                  AnalyticsEvent.Kyc.RetakePhoto('Selfie')
+                );
               }}
               rules={
                 <ul>
@@ -49,7 +55,12 @@ export class Selfie extends React.Component<RootStoreProps> {
                 className="btn btn--primary"
                 value="Submit"
                 disabled={this.kycStore.shouldDisableSelfieSubmitButton}
-                onClick={async () => await this.kycStore.uploadSelfie()}
+                onClick={async () => {
+                  this.analyticsService.track(
+                    AnalyticsEvent.Kyc.SubmitPhoto('Selfie')
+                  );
+                  await this.kycStore.uploadSelfie();
+                }}
               />
             </div>
           </div>

@@ -1,7 +1,11 @@
+import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
+import {STORE_ROOT} from '../../constants/stores';
 
-export const VerificationHeader: React.SFC = ({}) => (
+export const VerificationHeader: React.SFC<RootStoreProps> = ({rootStore}) => (
   <div className="lykke-header">
     <div className="lykke-header__desktop-row">
       <div className="lykke-header__logo">
@@ -12,7 +16,16 @@ export const VerificationHeader: React.SFC = ({}) => (
       <div className="main-menu lykke-header__main-menu">&nbsp;</div>
       <div className="lykke-header__actions">
         <div className="lykke-header__skip-verification">
-          <Link to="/profile" className="skip">
+          <Link
+            to="/profile"
+            className="skip"
+            onClick={() => {
+              const currentForm = rootStore!.kycStore.decideCurrentFormToRender;
+              rootStore!.analyticsService.track(
+                AnalyticsEvent.Kyc.SkipVerificationForLater(currentForm)
+              );
+            }}
+          >
             Skip Verification For Later
           </Link>
         </div>
@@ -29,4 +42,4 @@ export const VerificationHeader: React.SFC = ({}) => (
   </div>
 );
 
-export default VerificationHeader;
+export default inject(STORE_ROOT)(observer(VerificationHeader));

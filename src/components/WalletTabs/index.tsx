@@ -2,7 +2,7 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link, withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import {AnalyticsEvent} from '../../constants/analyticsEvents';
+import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_HFT, ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {TierInfo} from '../../models';
 import {Banner} from '../Banner';
@@ -142,7 +142,9 @@ export class WalletTabs extends React.Component<WalletTabsProps> {
   }
 
   private trackStartKyc = () => {
-    this.props.analyticsService.track(AnalyticsEvent.StartKyc);
+    this.props.analyticsService.track(
+      AnalyticsEvent.StartTierUpgrade(Place.KycBanner)
+    );
   };
 
   private trackCheckKycStatus = () => {

@@ -1,6 +1,7 @@
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import {STORE_ROOT} from '../../constants/stores';
 import StepItem from './StepItem';
 
@@ -19,6 +20,7 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   };
 
   const kycStore = rootStore!.kycStore;
+  const analyticsService = rootStore!.analyticsService;
   const tierInfo = kycStore.tierInfo;
   const documents = kycStore.documents;
   const registration = kycStore.registration;
@@ -39,6 +41,7 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   const pofStatus = kycStore.getPofStatus;
   const showUpgradeToPro = kycStore.showUpgradeToPro;
   let tierName = nextTier.Tier;
+  const questionnaireAnswered = tierInfo.QuestionnaireAnswered;
 
   if (showUpgradeToPro) {
     tierName = 'ProIndividual';
@@ -126,6 +129,13 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
             status={pofStatus}
             isActive={currentFormToRender === 'PoF'}
           />
+          {questionnaireAnswered === false && (
+            <StepItem
+              text="Questionnaire"
+              status={getQuestionnaireStatus}
+              isActive={currentFormToRender === 'Questionnaire'}
+            />
+          )}
         </div>
       );
     }
@@ -134,7 +144,12 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
   }
 
   return (
-    <div className="upgrade-to-next-tier-widget">
+    <div
+      className="upgrade-to-next-tier-widget"
+      onClick={() => {
+        analyticsService.track(AnalyticsEvent.Kyc.ClickOnSidebar);
+      }}
+    >
       <div className="upgrade-to-next-tier-widget__tier-icon">
         <img src={nextTierIcon} />
       </div>
