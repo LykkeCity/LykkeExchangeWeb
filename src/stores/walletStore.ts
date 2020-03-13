@@ -146,7 +146,6 @@ export class WalletStore {
     const assetStore = this.rootStore!.assetStore;
     return Promise.all([
       this.processRequest(assetStore.fetchDescriptions),
-      this.processRequest(assetStore.fetchAssetIcons),
       this.processRequest(assetStore.fetchAssetsAvailableForDeposit),
       this.processRequest(assetStore.fetchAssetsAvailableForWithdraw),
       this.processRequest(assetStore.fetchInstruments)

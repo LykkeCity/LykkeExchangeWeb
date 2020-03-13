@@ -1,6 +1,5 @@
 import {computed, observable, runInAction} from 'mobx';
 import {AssetApi} from '../api/assetApi';
-import {ResourceApi} from '../api/resourceApi';
 import {AssetModel, InstrumentModel} from '../models/index';
 import {RootStore} from './index';
 
@@ -10,8 +9,6 @@ const AddressError = {
     'BlockchainWalletDepositAddressNotGenerated'
   ]
 };
-
-const ASSET_ICONS_RESOURCE_NAME = 'assetsDetails.iconUrls';
 
 export class AssetStore {
   @observable assets: AssetModel[] = [];
@@ -33,11 +30,7 @@ export class AssetStore {
       .filter(x => x.isBase);
   }
 
-  constructor(
-    readonly rootStore: RootStore,
-    private api: AssetApi,
-    private resourceApi: ResourceApi
-  ) {}
+  constructor(readonly rootStore: RootStore, private api: AssetApi) {}
 
   getById = (id: string) => this.assets.find(a => a.id === id);
 
@@ -79,19 +72,6 @@ export class AssetStore {
           return asset;
         }
       );
-    });
-  };
-
-  fetchAssetIcons = async () => {
-    const resp = await this.resourceApi.fetchAssetIcons();
-    const assetIcons = resp.Result.find(
-      (resource: any) => resource.Name === ASSET_ICONS_RESOURCE_NAME
-    ).Value;
-    assetIcons.forEach((assetIcon: any) => {
-      const asset = this.getById(assetIcon.Id);
-      if (asset) {
-        asset.iconUrl = assetIcon.Value;
-      }
     });
   };
 

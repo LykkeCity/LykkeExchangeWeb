@@ -24,7 +24,6 @@ import {
   DisclaimerApi,
   HistoryApi,
   ProfileApi,
-  ResourceApi,
   TransactionApi,
   TransferApi,
   WalletApi,
@@ -60,11 +59,7 @@ export class RootStore {
 
   constructor() {
     this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
-    this.assetStore = new AssetStore(
-      this,
-      new AssetApi(this),
-      new ResourceApi(this)
-    );
+    this.assetStore = new AssetStore(this, new AssetApi(this));
     this.authStore = new AuthStore(this, new AuthApi(this));
     this.walletStore = new WalletStore(this, new WalletApi(this));
     this.transactionStore = new TransactionStore(
