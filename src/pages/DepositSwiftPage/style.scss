@@ -119,6 +119,12 @@
       @include rem(margin-top, 61px);
     }
 
+    &__dislamier-text {
+      display: block;
+      margin-bottom: 20px;
+      @include rem(font-size, 14px);
+    }
+
     &__actions {
       text-align: center;
 
