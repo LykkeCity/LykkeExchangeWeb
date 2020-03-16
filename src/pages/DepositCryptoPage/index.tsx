@@ -119,6 +119,10 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               <Spinner />
             )}
             <div className="deposit-crypto__actions">
+              <div className="deposit-crypto__warning">
+                {warningMessages[asset.name] ||
+                  defaultWarningMessage(asset.name)}
+              </div>
               {(asset.addressBase || asset.address) && (
                 <div>
                   <CopyToClipboard
@@ -134,10 +138,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                       <button className="btn btn--primary">Copy address</button>
                     )}
                   </CopyToClipboard>
-                  <div className="deposit-crypto__warning">
-                    {warningMessages[asset.name] ||
-                      defaultWarningMessage(asset.name)}
-                  </div>
                 </div>
               )}
               <a
