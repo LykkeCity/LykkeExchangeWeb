@@ -179,11 +179,6 @@ export class ProtectedPage extends React.Component<
       this.balanceStore.subscribe();
     });
 
-    this.dialogStore
-      .fetchPendingDialogs()
-      .then(() => this.uiStore.finishRequest())
-      .catch(() => this.uiStore.finishRequest());
-
     this.analyticsService.init();
     this.unlistenRouteChange = this.props.history.listen(() => {
       const path = this.props.history.location.pathname;
@@ -193,7 +188,6 @@ export class ProtectedPage extends React.Component<
       this.uiStore.hideModals();
       this.dialogStore.clearAssetDisclaimers();
       this.profileStore.fetch2faStatus();
-      this.dialogStore.fetchPendingDialogs();
 
       this.analyticsService.pageview(this.props.history.location.pathname);
     });

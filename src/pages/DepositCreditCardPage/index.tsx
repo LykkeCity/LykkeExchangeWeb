@@ -3,7 +3,6 @@ import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import ClientDialog from '../../components/ClientDialog';
 import DepositCreditCardForm from '../../components/DepositCreditCardForm';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
@@ -11,8 +10,7 @@ import {
   ROUTE_VERIFICATION
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {DialogModel, GatewayUrls} from '../../models';
-import {DialogConditionType} from '../../models/dialogModel';
+import {GatewayUrls} from '../../models';
 
 import './style.css';
 
@@ -49,15 +47,6 @@ export class DepositCreditCardPage extends React.Component<
       if (!!wallet) {
         this.depositStore.newDeposit.setWallet(wallet);
       }
-
-      const clientDialog = this.dialogStore.pendingDialogs.find(
-        (dialog: DialogModel) =>
-          dialog.conditionType === DialogConditionType.Predeposit
-      );
-      if (clientDialog) {
-        clientDialog.visible = true;
-      }
-
       window.scrollTo(0, 0);
     });
   }
@@ -75,10 +64,7 @@ export class DepositCreditCardPage extends React.Component<
       'icon-card-5.png',
       'icon-card-6.png'
     ];
-    const clientDialog = this.dialogStore.pendingDialogs.find(
-      (dialog: DialogModel) =>
-        dialog.conditionType === DialogConditionType.Predeposit
-    );
+
     const assetDisclaimer = this.dialogStore.assetDisclaimers[0];
     const showMaxDepositErrorDialog = this.depositStore
       .showMaxDepositErrorDialog;
@@ -87,13 +73,6 @@ export class DepositCreditCardPage extends React.Component<
     return (
       <div className="container">
         <div className="deposit-credit-card">
-          {clientDialog && (
-            <ClientDialog
-              dialog={clientDialog}
-              onDialogConfirm={this.handleDialogConfirm}
-              onDialogCancel={this.handleDialogCancel}
-            />
-          )}
           {assetDisclaimer && (
             <Dialog
               visible={assetDisclaimer.visible}
@@ -164,17 +143,6 @@ export class DepositCreditCardPage extends React.Component<
     this.analyticsService.track(
       AnalyticsEvent.GoBack(Place.DepositCreditCardPage, source)
     );
-  };
-
-  private handleDialogConfirm = (dialog: DialogModel) => {
-    if (dialog.isConfirmed) {
-      this.dialogStore.submit(dialog);
-      this.dialogStore.removeDialog(dialog);
-    }
-  };
-
-  private handleDialogCancel = async (dialog: DialogModel) => {
-    this.dialogStore.removeDialog(dialog);
   };
 
   private renderDisclaimerDescription = (text: string) => (
