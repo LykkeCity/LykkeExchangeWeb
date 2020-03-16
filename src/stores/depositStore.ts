@@ -17,6 +17,7 @@ export class DepositStore {
   @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
   @observable swiftRequisites: DepositSwiftModel;
+  @observable swiftRequisitesLoading: boolean = false;
   @observable gatewayUrls: GatewayUrls;
   @observable feePercentage: number = 0;
   @observable submitDeposit: () => void;
@@ -92,6 +93,7 @@ export class DepositStore {
 
   fetchSwiftRequisites = async (assetId: string) => {
     this.swiftRequisites = new DepositSwiftModel();
+    this.swiftRequisitesLoading = true;
     const response = await this.api!.fetchSwiftRequisites(assetId);
 
     if (response) {
@@ -105,6 +107,7 @@ export class DepositStore {
         purposeOfPayment: response.PurposeOfPayment || ''
       });
     }
+    this.swiftRequisitesLoading = false;
   };
 
   sendSwiftRequisites = async (assetId: string, amount: number) => {
