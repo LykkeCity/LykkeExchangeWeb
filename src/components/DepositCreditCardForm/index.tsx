@@ -15,9 +15,8 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, DepositCreditCardModel, GatewayUrls} from '../../models';
-import {moneyCeil} from '../../utils';
+import {moneyCeil, moneyRound} from '../../utils';
 import {AmountInput} from '../AmountInput';
-import {FormSelect} from '../FormSelect';
 import {NumberFormat} from '../NumberFormat';
 
 import './style.css';
@@ -46,55 +45,17 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   onSuccess
 }) => {
   const {
-    catalogsStore: {countries},
     depositStore: {fetchBankCardPaymentUrl, newDeposit: deposit, feePercentage}
   } = rootStore!;
-  const countryOptions = countries.map(c => ({
-    label: c.name,
-    value: c.id
-  }));
+
   const requiredErrorMessage = (fieldName: string) =>
     `Field ${fieldName} should not be empty`;
   const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
-  const renderError = (field: any, form: any) =>
-    form.errors[field.name] &&
-    form.touched[field.name] && (
-      <span className="help-block">{form.errors[field.name]}</span>
-    );
-
-  const renderField = (
-    name: string,
-    label: string,
-    type = 'text',
-    isDisabled = false
-  ) => (
-    <Field
-      name={name}
-      // tslint:disable-next-line:jsx-no-lambda
-      render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-        <div
-          className={classNames('form-group', {
-            'has-error': form.errors[field.name] && form.touched[field.name]
-          })}
-        >
-          <label htmlFor={field.name} className="control-label">
-            {label}
-          </label>
-          <div className="error-bar" />
-          <input
-            id={field.name}
-            type={type}
-            {...field}
-            className="form-control"
-            disabled={isDisabled}
-          />
-          {renderError(field, form)}
-        </div>
-      )}
-    />
-  );
-
+  const getTotalAmount = (amount: number) => {
+    const fee = amount * feePercentage;
+    return moneyRound(Number(amount) + fee, asset && asset.accuracy);
+  };
   return (
     <Formik
       initialValues={deposit}
@@ -210,14 +171,17 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                           </span>
                         )}
                       {!!feePercentage && (
-                        <div className="fee-label">
-                          Fee: {asset && asset.name}{' '}
-                          {asset && (
-                            <NumberFormat
-                              value={moneyCeil(field.value * feePercentage)}
-                              accuracy={asset.accuracy}
-                            />
-                          )}
+                        <div>
+                          <div className="fee-info">
+                            <span className="fee-info__label"> Fee:</span>
+                            <span className="fee-info__value">
+                              {asset && asset.name}{' '}
+                              <NumberFormat
+                                value={moneyCeil(field.value * feePercentage)}
+                                accuracy={asset.accuracy}
+                              />
+                            </span>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -226,60 +190,26 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
               </div>
             )}
           />
-          <div className="separator" />
 
-          <div className="row">
-            <div className="col-sm-6">
-              {renderField('firstName', 'First Name')}
-            </div>
-
-            <div className="col-sm-6">
-              {renderField('lastName', 'Last Name')}
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-12">
-              <Field
-                name="country"
-                render={({field, form}: FieldProps<DepositCreditCardModel>) => (
-                  <div
-                    className={classNames('form-group', {
-                      'has-error':
-                        form.errors[field.name] && form.touched[field.name]
-                    })}
-                  >
-                    <label htmlFor={field.name} className="control-label">
-                      Country
-                    </label>
-                    <div className="error-bar" />
-                    <FormSelect options={countryOptions} {...field} />
-                    {renderError(field, form)}
+          <Field
+            name={name}
+            // tslint:disable-next-line:jsx-no-lambda
+            render={({field, form}: FieldProps<any>) =>
+              form.values.amount ? (
+                <div className={classNames('form-group inline-form')}>
+                  <div className="row field-row">
+                    <div className="col-sm-4">
+                      <label className="control-label">
+                        Total <span className="total-hint">(amount+fee)</span>
+                      </label>
+                    </div>
+                    <div className="col-sm-8 total-value">
+                      {getTotalAmount(form.values.amount)} {asset && asset.name}
+                    </div>
                   </div>
-                )}
-              />
-            </div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-6">{renderField('city', 'City')}</div>
-
-            <div className="col-sm-6">{renderField('zip', 'ZIP')}</div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-12">{renderField('address', 'Address')}</div>
-          </div>
-
-          <div className="row">
-            <div className="col-sm-6">
-              {renderField('phone', 'Phone Number', 'tel', true)}
-            </div>
-
-            <div className="col-sm-6">
-              {renderField('email', 'E-mail', 'email', true)}
-            </div>
-          </div>
+                </div>
+              ) : null}
+          />
 
           <div className="deposit-credit-card-form__links">
             <a
@@ -291,7 +221,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
               Terms of Use
             </a>
           </div>
-
+          <div className="deposit-credit-card-form__dislamier-text">
+            Third-party credit card payments are not accepted. First credit card
+            deposits may take up to 24 hours to be reflected in your portfolio
+            balance.
+          </div>
           <div
             className={classNames('deposit-credit-card-form__actions', {
               'has-error': formikBag.status
@@ -306,13 +240,15 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
             {!!formikBag.status && (
               <div className="help-block">{formikBag.status}</div>
             )}
-            <Link
-              to={ROUTE_WALLETS}
-              className="btn btn--flat"
-              onClick={() => handleGoBack && handleGoBack('button')}
-            >
-              Cancel and go back
-            </Link>
+            <div>
+              <Link
+                to={ROUTE_WALLETS}
+                className="btn btn--flat"
+                onClick={() => handleGoBack && handleGoBack('button')}
+              >
+                Go back
+              </Link>
+            </div>
           </div>
         </Form>
       )}

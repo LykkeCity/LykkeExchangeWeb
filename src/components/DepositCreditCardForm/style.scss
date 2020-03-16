@@ -8,6 +8,19 @@
     @include rem(margin-top, 30px);
   }
 
+  .inline-form {
+    margin-bottom: 20px;
+  }
+
+  .total-hint {
+    font-size: 14px;
+    color: rgba($secondary, 0.6);
+  }
+
+  .total-value {
+    padding-top: 13px;
+  }
+
   input[type='number']::-webkit-outer-spin-button,
   input[type='number']::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -65,16 +78,36 @@
     }
   }
 
-  .fee-label {
-    line-height: 1.5;
+  .fee-info {
+    margin-top: 13px;
+    &:last-child {
+      margin-bottom: 9px;
+    }
 
-    @include rem(margin-top, 13px);
+    &__label {
+      color: rgba($secondary, 0.6);
+      display: inline-block;
+      line-height: 1.5;
+      width: 39px;
+      margin-right: 10px;
+    }
+
+    &__value {
+      line-height: 1.5;
+    }
   }
 
   &__links {
     text-align: center;
 
     @include rem(margin-top, 41px);
+  }
+
+  &__dislamier-text {
+    display: block;
+    margin-top: 20px;
+    @include rem(font-size, 14px);
+    text-align: center;
   }
 
   &__actions {
