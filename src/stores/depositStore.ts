@@ -94,19 +94,22 @@ export class DepositStore {
   fetchSwiftRequisites = async (assetId: string) => {
     this.swiftRequisites = new DepositSwiftModel();
     this.swiftRequisitesLoading = true;
-    const response = await this.api!.fetchSwiftRequisites(assetId);
+    try {
+      const response = await this.api!.fetchSwiftRequisites(assetId);
+      if (response) {
+        this.swiftRequisites = new DepositSwiftModel({
+          accountName: response.AccountName || '',
+          accountNumber: response.AccountNumber || '',
+          bankAddress: response.BankAddress || '',
+          bic: response.Bic || '',
+          companyAddress: response.CompanyAddress || '',
+          correspondentAccount: response.CorrespondentAccount || '',
+          purposeOfPayment: response.PurposeOfPayment || ''
+        });
+      }
+      // tslint:disable-next-line
+    } catch (e) {}
 
-    if (response) {
-      this.swiftRequisites = new DepositSwiftModel({
-        accountName: response.AccountName || '',
-        accountNumber: response.AccountNumber || '',
-        bankAddress: response.BankAddress || '',
-        bic: response.Bic || '',
-        companyAddress: response.CompanyAddress || '',
-        correspondentAccount: response.CorrespondentAccount || '',
-        purposeOfPayment: response.PurposeOfPayment || ''
-      });
-    }
     this.swiftRequisitesLoading = false;
   };
 
