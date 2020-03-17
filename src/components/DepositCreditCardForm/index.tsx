@@ -212,17 +212,6 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                 </div>
               ) : null}
           />
-
-          <div className="deposit-credit-card-form__links">
-            <a
-              className="link"
-              href="https://www.lykke.com/terms-of-use"
-              target="_blank"
-              onClick={handleViewTermsOfUse}
-            >
-              Terms of Use
-            </a>
-          </div>
           <div className="deposit-credit-card-form__dislamier-text">
             Third-party credit card payments are not accepted. First credit card
             deposits may take up to 24 hours to be reflected in your portfolio
