@@ -15,7 +15,7 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, DepositCreditCardModel, GatewayUrls} from '../../models';
-import {moneyCeil, moneyRound} from '../../utils';
+import {moneyCeil} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {NumberFormat} from '../NumberFormat';
 
@@ -53,8 +53,10 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
   const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
   const getTotalAmount = (amount: number) => {
-    const fee = amount * feePercentage;
-    return moneyRound(Number(amount) + fee, asset && asset.accuracy);
+    const fee = moneyCeil(amount * feePercentage);
+    return (parseFloat('' + fee) + parseFloat('' + amount)).toFixed(
+      asset.accuracy
+    );
   };
   return (
     <Formik
