@@ -97,12 +97,6 @@
     }
   }
 
-  &__links {
-    text-align: center;
-
-    @include rem(margin-top, 41px);
-  }
-
   &__dislamier-text {
     display: block;
     margin-top: 20px;
