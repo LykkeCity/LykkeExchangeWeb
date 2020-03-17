@@ -94,7 +94,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             {asset.addressBase && asset.addressExtension ? (
               <div>
                 <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
+                  To deposit {asset.name} to your Portfolio please use the
                   following address and deposit tag or scan the QR codes.
                 </div>
                 {this.renderAddressBlock(
@@ -106,7 +106,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             ) : asset.address ? (
               <div>
                 <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
+                  To deposit {asset.name} to your Portfolio please use the
                   following address.
                 </div>
                 {this.renderAddressBlock(asset.address, 'Your wallet address')}

@@ -188,18 +188,21 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
         />
 
         <div className="requisites">
-          {this.renderField('bic', 'BIC')}
+          {this.renderField('bic', 'BIC (Swift)')}
           {this.renderField('accountNumber', 'Account number')}
           {this.renderField('accountName', 'Account name')}
           {this.renderField('bankAddress', 'Bank address')}
-          {this.renderField('correspondentAccount', 'Correspondent Account')}
-          {this.renderField('companyAddress', 'Company Address')}
-          {this.renderField('purposeOfPayment', 'Purpose of Payment')}
+          {this.renderField(
+            'correspondentAccount',
+            'The correspondent (intermediary) bank'
+          )}
+          {this.renderField('companyAddress', 'Company address')}
+          {this.renderField('purposeOfPayment', 'Purpose of payment')}
         </div>
 
         <div className="deposit-swift-form__actions">
           <div className="deposit-swift-form__dislamier-text">
-            Sender’s bank details should match with the wallet account. third
+            Sender’s bank details should match with the wallet account. Third
             party and/or anonymous payments cannot be accepted.
           </div>
           <input
