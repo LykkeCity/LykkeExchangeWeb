@@ -15,7 +15,6 @@ import {RootStoreProps} from '../../App';
 import {ROUTE_WALLETS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {AssetModel, DepositCreditCardModel, GatewayUrls} from '../../models';
-import {moneyCeil} from '../../utils';
 import {AmountInput} from '../AmountInput';
 import {NumberFormat} from '../NumberFormat';
 
@@ -52,11 +51,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
     `Field ${fieldName} should not be empty`;
   const DAILY_LIMIT_ERROR_MESSAGE = 'Credit card deposit limits reached.';
 
-  const getTotalAmount = (amount: number) => {
-    const fee = moneyCeil(amount * feePercentage);
-    return (parseFloat('' + fee) + parseFloat('' + amount)).toFixed(
-      asset.accuracy
+  const getTotalAmount = (amount: string) => {
+    const fee = parseFloat(
+      (parseFloat(amount) * feePercentage).toFixed(asset.accuracy)
     );
+    return fee + parseFloat(amount);
   };
   return (
     <Formik
@@ -172,20 +171,25 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                             )}
                           </span>
                         )}
-                      {!!feePercentage && (
-                        <div>
-                          <div className="fee-info">
-                            <span className="fee-info__label"> Fee:</span>
-                            <span className="fee-info__value">
-                              {asset && asset.name}{' '}
-                              <NumberFormat
-                                value={moneyCeil(field.value * feePercentage)}
-                                accuracy={asset.accuracy}
-                              />
-                            </span>
+                      {!!feePercentage &&
+                        asset && (
+                          <div>
+                            <div className="fee-info">
+                              <span className="fee-info__label"> Fee:</span>
+                              <span className="fee-info__value">
+                                {asset && asset.name}{' '}
+                                <NumberFormat
+                                  value={parseFloat(
+                                    (field.value * feePercentage).toFixed(
+                                      asset.accuracy
+                                    )
+                                  )}
+                                  accuracy={asset.accuracy}
+                                />
+                              </span>
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
                     </div>
                   </div>
                 </div>
@@ -206,7 +210,11 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
                       </label>
                     </div>
                     <div className="col-sm-8 total-value">
-                      {getTotalAmount(form.values.amount)} {asset && asset.name}
+                      {asset && asset.name}{' '}
+                      <NumberFormat
+                        value={getTotalAmount(form.values.amount)}
+                        accuracy={asset.accuracy}
+                      />
                     </div>
                   </div>
                 </div>
