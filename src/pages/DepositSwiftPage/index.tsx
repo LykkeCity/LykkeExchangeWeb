@@ -18,6 +18,7 @@ import {STORE_ROOT} from '../../constants/stores';
 import {DepositSwiftModel, DialogModel} from '../../models';
 import {DialogConditionType} from '../../models/dialogModel';
 
+import Spinner from '../../components/Spinner';
 import './style.css';
 
 interface DepositSwiftPageProps
@@ -48,6 +49,12 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
   }
 
   render() {
+    const {swiftRequisitesLoading} = this.depositStore;
+
+    if (swiftRequisitesLoading) {
+      return <Spinner />;
+    }
+
     const {assetId} = this.props.match.params;
     const asset = this.assetStore.getById(assetId);
     const sendSwiftRequisites = this.depositStore.sendSwiftRequisites;
@@ -83,8 +90,8 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
             </div>
             <div className="deposit-swift__subtitle">Swift</div>
             <div className="deposit-swift__description">
-              To deposit {!!asset && asset!.name} to your trading wallet please
-              use the following bank account details.
+              To deposit {!!asset && asset!.name} to your Portfolio please use
+              the following bank account details.
             </div>
             <Formik
               initialValues={this.depositStore.swiftRequisites}
@@ -119,12 +126,6 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
       </div>
     );
   }
-
-  private trackViewTermsOfUse = () => {
-    this.analyticsService.track(
-      AnalyticsEvent.ViewTermsOfUse(Place.DepositSwiftPage)
-    );
-  };
 
   private handleGoBack = (e: any) => {
     e.preventDefault();
@@ -187,31 +188,27 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
         />
 
         <div className="requisites">
+          {this.renderField('bic', 'BIC (Swift)')}
           {this.renderField('accountNumber', 'Account number')}
           {this.renderField('accountName', 'Account name')}
           {this.renderField('bankAddress', 'Bank address')}
-          {this.renderField('companyAddress', 'Company Address')}
-          {this.renderField('purposeOfPayment', 'Purpose of Payment')}
-          {this.renderField('bic', 'BIC')}
-          {this.renderField('correspondentAccount', 'Correspondent Account')}
-        </div>
-
-        <div className="deposit-swift-form__links">
-          <a
-            className="link"
-            href="https://www.lykke.com/terms-of-use"
-            target="_blank"
-            onClick={this.trackViewTermsOfUse}
-          >
-            Terms of Use
-          </a>
+          {this.renderField(
+            'correspondentAccount',
+            'The correspondent (intermediary) bank'
+          )}
+          {this.renderField('companyAddress', 'Company address')}
+          {this.renderField('purposeOfPayment', 'Purpose of payment')}
         </div>
 
         <div className="deposit-swift-form__actions">
+          <div className="deposit-swift-form__dislamier-text">
+            Sender’s bank details should match with the wallet account. Third
+            party and/or anonymous payments cannot be accepted.
+          </div>
           <input
             type="submit"
             value="Send to email"
-            className="btn btn--primary"
+            className="btn btn--primary mt-2"
             disabled={formikBag.isSubmitting || !formikBag.isValid}
           />
           <a href="#" onClick={this.handleGoBack} className="btn btn--flat">

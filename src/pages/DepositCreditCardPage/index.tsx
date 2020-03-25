@@ -136,8 +136,8 @@ export class DepositCreditCardPage extends React.Component<
           </div>
           <div className="deposit-credit-card__subtitle">Credit Card</div>
           <div className="deposit-credit-card__description">
-            To deposit {!!asset && asset!.name} to your trading wallet please
-            fill in the form.
+            To deposit {!!asset && asset!.name} to your Portfolio please fill in
+            the form.
           </div>
           <DepositCreditCardForm
             onDisclaimerError={this.handleDisclaimerError}

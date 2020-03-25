@@ -94,6 +94,7 @@
   &__warning {
     @include rem(font-size, 14px);
     @include rem(line-height, 20px);
+    margin-bottom: 20px;
   }
 }
 
