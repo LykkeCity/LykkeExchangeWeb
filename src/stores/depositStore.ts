@@ -17,6 +17,7 @@ export class DepositStore {
   @observable defaultDeposit: DepositCreditCardModel;
   @observable newDeposit: DepositCreditCardModel;
   @observable swiftRequisites: DepositSwiftModel;
+  @observable swiftRequisitesLoading: boolean = false;
   @observable gatewayUrls: GatewayUrls;
   @observable feePercentage: number = 0;
   @observable submitDeposit: () => void;
@@ -92,19 +93,24 @@ export class DepositStore {
 
   fetchSwiftRequisites = async (assetId: string) => {
     this.swiftRequisites = new DepositSwiftModel();
-    const response = await this.api!.fetchSwiftRequisites(assetId);
+    this.swiftRequisitesLoading = true;
+    try {
+      const response = await this.api!.fetchSwiftRequisites(assetId);
+      if (response) {
+        this.swiftRequisites = new DepositSwiftModel({
+          accountName: response.AccountName || '',
+          accountNumber: response.AccountNumber || '',
+          bankAddress: response.BankAddress || '',
+          bic: response.Bic || '',
+          companyAddress: response.CompanyAddress || '',
+          correspondentAccount: response.CorrespondentAccount || '',
+          purposeOfPayment: response.PurposeOfPayment || ''
+        });
+      }
+      // tslint:disable-next-line
+    } catch (e) {}
 
-    if (response) {
-      this.swiftRequisites = new DepositSwiftModel({
-        accountName: response.AccountName || '',
-        accountNumber: response.AccountNumber || '',
-        bankAddress: response.BankAddress || '',
-        bic: response.Bic || '',
-        companyAddress: response.CompanyAddress || '',
-        correspondentAccount: response.CorrespondentAccount || '',
-        purposeOfPayment: response.PurposeOfPayment || ''
-      });
-    }
+    this.swiftRequisitesLoading = false;
   };
 
   sendSwiftRequisites = async (assetId: string, amount: number) => {

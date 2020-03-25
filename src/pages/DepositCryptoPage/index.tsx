@@ -94,7 +94,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             {asset.addressBase && asset.addressExtension ? (
               <div>
                 <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
+                  To deposit {asset.name} to your Portfolio please use the
                   following address and deposit tag or scan the QR codes.
                 </div>
                 {this.renderAddressBlock(
@@ -106,7 +106,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             ) : asset.address ? (
               <div>
                 <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
+                  To deposit {asset.name} to your Portfolio please use the
                   following address.
                 </div>
                 {this.renderAddressBlock(asset.address, 'Your wallet address')}
@@ -119,6 +119,10 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               <Spinner />
             )}
             <div className="deposit-crypto__actions">
+              <div className="deposit-crypto__warning">
+                {warningMessages[asset.name] ||
+                  defaultWarningMessage(asset.name)}
+              </div>
               {(asset.addressBase || asset.address) && (
                 <div>
                   <CopyToClipboard
@@ -134,10 +138,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                       <button className="btn btn--primary">Copy address</button>
                     )}
                   </CopyToClipboard>
-                  <div className="deposit-crypto__warning">
-                    {warningMessages[asset.name] ||
-                      defaultWarningMessage(asset.name)}
-                  </div>
                 </div>
               )}
               <a
