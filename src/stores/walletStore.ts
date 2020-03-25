@@ -145,7 +145,6 @@ export class WalletStore {
   fetchAssetsMetadata = async () => {
     const assetStore = this.rootStore!.assetStore;
     return Promise.all([
-      this.processRequest(assetStore.fetchDescriptions),
       this.processRequest(assetStore.fetchAssetsAvailableForDeposit),
       this.processRequest(assetStore.fetchAssetsAvailableForWithdraw),
       this.processRequest(assetStore.fetchInstruments)

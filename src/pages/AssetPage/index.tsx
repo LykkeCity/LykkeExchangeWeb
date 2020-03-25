@@ -115,9 +115,6 @@ export class AssetPage extends React.Component<AssetPageProps> {
                     {balance.asset.name}
                   </span>
                 )}
-                <div className="asset-page__description">
-                  {asset.description}
-                </div>
               </div>
               {asset.addressBase && asset.addressExtension ? (
                 <div
