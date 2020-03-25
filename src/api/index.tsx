@@ -11,7 +11,6 @@ export {default as AffiliateApi} from './affiliateApi';
 export {default as HistoryApi} from './historyApi';
 export {default as TransactionApi} from './transactionApi';
 export {default as DepositApi} from './depositApi';
-export {default as CatalogsApi} from './catalogsApi';
 export {default as DisclaimerApi} from './disclaimerApi';
 export {default as WithdrawApi} from './withdrawApi';
 export {default as KycApi} from './kycApi';

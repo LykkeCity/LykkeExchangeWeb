@@ -28,7 +28,6 @@ export class DepositCreditCardPage extends React.Component<
   readonly uiStore = this.props.rootStore!.uiStore;
   readonly dialogStore = this.props.rootStore!.dialogStore;
   readonly analyticsService = this.props.rootStore!.analyticsService;
-  readonly catalogsStore = this.props.rootStore!.catalogsStore;
 
   private showDislaimer = false;
 
@@ -38,7 +37,6 @@ export class DepositCreditCardPage extends React.Component<
     const wallet = this.walletStore.findWalletById(walletId);
     const asset = this.assetStore.getById(assetId || baseAsset);
 
-    this.catalogsStore.fetchCountries();
     this.depositStore.fetchFee();
     this.depositStore.fetchDepositDefaultValues().then(_ => {
       if (!!asset) {
