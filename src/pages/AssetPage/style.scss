@@ -13,6 +13,10 @@
     justify-content: space-between;
   }
 
+  &__info {
+    @include rem(margin-bottom, 39px);
+  }
+
   &__name {
     font-family: $ff-alt;
     margin-bottom: 11px;
@@ -25,17 +29,7 @@
     @include rem(font-size, 36px);
   }
 
-  &__description {
-    color: $text;
-    line-height: 1.67;
-    margin-top: 30px;
-    max-width: 670px;
-
-    @include rem(font-size, 18px);
-    @include rem(margin-bottom, 39px);
-  }
-
-  &__addresses {
+  z &__addresses {
     display: flex;
   }
 

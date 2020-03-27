@@ -66,6 +66,7 @@ export class WithdrawCryptoPage extends React.Component<
     const {assetId} = this.props.match.params;
     this.withdrawStore.fetchFee(assetId);
     this.withdrawStore.fetchWithdrawCryptoInfo(assetId);
+    this.walletStore.fetchWalletsData();
 
     window.scrollTo(0, 0);
   }

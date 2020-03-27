@@ -3,7 +3,6 @@ import {
   AssetStore,
   AuthStore,
   BalanceStore,
-  CatalogsStore,
   DepositStore,
   DialogStore,
   KycStore,
@@ -18,13 +17,10 @@ import {
   AssetApi,
   AuthApi,
   BalanceApi,
-  CatalogsApi,
   DepositApi,
-  DialogApi,
   DisclaimerApi,
   HistoryApi,
   ProfileApi,
-  ResourceApi,
   TransactionApi,
   TransferApi,
   WalletApi,
@@ -40,7 +36,6 @@ import SocketStore from './socketStore';
 
 export class RootStore {
   affiliateStore: AffiliateStore;
-  catalogsStore: CatalogsStore;
   dialogStore: DialogStore;
   authStore: AuthStore;
   walletStore: WalletStore;
@@ -60,11 +55,7 @@ export class RootStore {
 
   constructor() {
     this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
-    this.assetStore = new AssetStore(
-      this,
-      new AssetApi(this),
-      new ResourceApi(this)
-    );
+    this.assetStore = new AssetStore(this, new AssetApi(this));
     this.authStore = new AuthStore(this, new AuthApi(this));
     this.walletStore = new WalletStore(this, new WalletApi(this));
     this.transactionStore = new TransactionStore(
@@ -78,12 +69,7 @@ export class RootStore {
     this.transferStore = new TransferStore(this, new TransferApi(this));
     this.depositStore = new DepositStore(this, new DepositApi(this));
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
-    this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
-    this.dialogStore = new DialogStore(
-      this,
-      new DialogApi(this),
-      new DisclaimerApi(this)
-    );
+    this.dialogStore = new DialogStore(this, new DisclaimerApi(this));
     this.analyticsService = AnalyticsService;
     this.marketService = MarketService;
     this.socketStore = new SocketStore(this);
@@ -102,12 +88,7 @@ export class RootStore {
     this.transferStore = new TransferStore(this, new TransferApi(this));
     this.depositStore = new DepositStore(this, new DepositApi(this));
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
-    this.catalogsStore = new CatalogsStore(this, new CatalogsApi(this));
-    this.dialogStore = new DialogStore(
-      this,
-      new DialogApi(this),
-      new DisclaimerApi(this)
-    );
+    this.dialogStore = new DialogStore(this, new DisclaimerApi(this));
     this.authStore.reset();
     this.marketService.reset();
     this.socketStore.reset();

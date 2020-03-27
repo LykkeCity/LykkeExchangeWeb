@@ -61,6 +61,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
 
   componentDidMount() {
     this.withdrawStore.fetchSwiftDefaultValues();
+    this.walletStore.fetchWalletsData();
 
     window.scrollTo(0, 0);
   }

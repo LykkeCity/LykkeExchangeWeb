@@ -32,11 +32,8 @@ export class UiStore {
 
   @computed
   get hasVisibleDialogs() {
-    return (
-      this.rootStore.dialogStore.pendingDialogs.some(
-        dialog => dialog.visible
-      ) ||
-      this.rootStore.dialogStore.assetDisclaimers.some(dialog => dialog.visible)
+    return this.rootStore.dialogStore.assetDisclaimers.some(
+      dialog => dialog.visible
     );
   }
 

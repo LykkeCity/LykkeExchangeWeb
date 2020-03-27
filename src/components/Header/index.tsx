@@ -2,7 +2,7 @@ import {Header as LykkeHeader, MenuItem} from '@lykkex/react-components';
 import classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {Link, Route} from 'react-router-dom';
+import {Link, RouteProps, withRouter} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
 import {
   ROUTE_PROFILE,
@@ -16,7 +16,10 @@ import './style.css';
 
 const FEES_AND_LIMITS_ROUTE = 'https://www.lykke.com/cp/wallet-fees-and-limits';
 
-export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
+export const Header: React.SFC<RootStoreProps & RouteProps> = ({
+  rootStore,
+  location
+}) => {
   const {authStore, profileStore, uiStore} = rootStore!;
 
   const headerLinkOptions = [
@@ -64,20 +67,16 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
       : internalLinkRenderer;
   };
 
-  const renderSubmenuItem = (route: string, title: string) => (
-    <Route
-      path={route}
-      exact={true}
-      // tslint:disable-next-line:jsx-no-lambda
-      children={({match}) => (
-        <div className="subheader__item">
-          <Link to={route} className={classnames({active: !!match})}>
-            {title}
-          </Link>
-        </div>
-      )}
-    />
-  );
+  const renderSubmenuItem = (route: string, title: string) => {
+    const active = location!.pathname === route;
+    return (
+      <div className="subheader__item">
+        <Link to={route} className={classnames({active})}>
+          {title}
+        </Link>
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -106,4 +105,4 @@ export const Header: React.SFC<RootStoreProps> = ({rootStore}) => {
   );
 };
 
-export default inject(STORE_ROOT)(observer(Header));
+export default withRouter(inject(STORE_ROOT)(observer(Header)));

@@ -26,6 +26,7 @@ export class DepositSuccess extends React.Component<
     const qs = queryString.parse(location.search, {ignoreQueryPrefix: true});
     const txnRef = qs.txnRef as string;
     if (txnRef) {
+      await this.assetStore.fetchAssets();
       await this.depositStore.fetchTransactionDetails(txnRef);
       const {transactionDetails} = this.depositStore;
       this.analyticsService.track(

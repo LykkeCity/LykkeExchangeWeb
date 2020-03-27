@@ -16,9 +16,17 @@ export class ProfilePage extends React.Component<RootStoreProps> {
   private readonly uiStore = this.props.rootStore!.uiStore;
   private readonly analyticsService = this.props.rootStore!.analyticsService;
 
-  componentDidMount() {
+  async componentDidMount() {
     this.uiStore.activeHeaderMenuItem = MenuItem.Profile;
     window.scrollTo(0, 0);
+
+    if (this.assetStore.assets.length === 0) {
+      await this.assetStore.fetchAssets();
+    }
+
+    if (this.assetStore.baseAssets.length === 0) {
+      await this.assetStore.fetchAvailableAssets();
+    }
   }
 
   render() {

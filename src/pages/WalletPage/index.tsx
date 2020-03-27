@@ -7,6 +7,7 @@ import CreateWalletForm from '../../components/CreateWalletForm';
 import Drawer from '../../components/Drawer';
 import EditWalletDrawer from '../../components/EditWalletDrawer/index';
 import GenerateWalletKeyForm from '../../components/GenerateWalletKeyForm';
+import Spinner from '../../components/Spinner';
 import WalletList from '../../components/WalletList';
 import WalletTabs from '../../components/WalletTabs/index';
 import Wizard, {WizardStep} from '../../components/Wizard';
@@ -33,7 +34,16 @@ export class WalletPage extends React.Component<RootStoreProps> {
     this.withdrawStore.resetCurrentWithdraw();
   }
 
+  componentDidMount() {
+    this.walletStore.fetchWalletsData();
+  }
+
   render() {
+    const {walletsLoading} = this.walletStore;
+    if (walletsLoading) {
+      return <Spinner />;
+    }
+
     return (
       <div className="container">
         <WalletTabs />
