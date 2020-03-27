@@ -5,7 +5,6 @@ export class AssetModel {
   id: string;
   name: string;
   category: AssetCategoryModel;
-  description: string;
   accuracy: number;
   iconUrl: string;
   @observable address: string;

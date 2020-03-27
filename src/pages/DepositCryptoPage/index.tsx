@@ -4,14 +4,11 @@ import * as React from 'react';
 import * as CopyToClipboard from 'react-copy-to-clipboard';
 import {RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
-import ClientDialog from '../../components/ClientDialog';
 import Spinner from '../../components/Spinner';
 import WalletTabs from '../../components/WalletTabs/index';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {ROUTE_WALLETS_TRADING} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {DialogModel} from '../../models';
-import {DialogConditionType} from '../../models/dialogModel';
 
 // tslint:disable-next-line:no-var-requires
 const QRCode = require('qrcode.react');
@@ -34,13 +31,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
   componentDidMount() {
     const {assetId} = this.props.match.params;
 
-    const clientDialog = this.dialogStore.pendingDialogs.find(
-      (dialog: DialogModel) =>
-        dialog.conditionType === DialogConditionType.Predeposit
-    );
-    if (clientDialog) {
-      clientDialog.visible = true;
-    }
     this.assetStore.fetchAddress(assetId).finally(() => {
       this.addressLoaded = true;
     });
@@ -51,10 +41,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
   render() {
     const {assetId} = this.props.match.params;
     const asset = this.assetStore.getById(assetId);
-    const clientDialog = this.dialogStore.pendingDialogs.find(
-      (dialog: DialogModel) =>
-        dialog.conditionType === DialogConditionType.Predeposit
-    );
     const defaultWarningMessage = (assetName: string) =>
       `Please, only send ${assetName} to this address. Depositing any other asset may result in funds loss.`;
     const warningMessages = {
@@ -68,13 +54,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
 
     return (
       <div className="container">
-        {clientDialog && (
-          <ClientDialog
-            dialog={clientDialog}
-            onDialogCancel={this.handleDialogCancel}
-            onDialogConfirm={this.handleDialogConfirm}
-          />
-        )}
         <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
         <a
           href="#"
@@ -94,7 +73,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             {asset.addressBase && asset.addressExtension ? (
               <div>
                 <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
+                  To deposit {asset.name} to your Portfolio please use the
                   following address and deposit tag or scan the QR codes.
                 </div>
                 {this.renderAddressBlock(
@@ -106,7 +85,7 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
             ) : asset.address ? (
               <div>
                 <div className="deposit-crypto__description">
-                  To deposit {asset.name} to your trading wallet please use the
+                  To deposit {asset.name} to your Portfolio please use the
                   following address.
                 </div>
                 {this.renderAddressBlock(asset.address, 'Your wallet address')}
@@ -119,6 +98,10 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               <Spinner />
             )}
             <div className="deposit-crypto__actions">
+              <div className="deposit-crypto__warning">
+                {warningMessages[asset.name] ||
+                  defaultWarningMessage(asset.name)}
+              </div>
               {(asset.addressBase || asset.address) && (
                 <div>
                   <CopyToClipboard
@@ -134,10 +117,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
                       <button className="btn btn--primary">Copy address</button>
                     )}
                   </CopyToClipboard>
-                  <div className="deposit-crypto__warning">
-                    {warningMessages[asset.name] ||
-                      defaultWarningMessage(asset.name)}
-                  </div>
                 </div>
               )}
               <a
@@ -211,25 +190,6 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
         assetId
       )
     );
-  };
-
-  private handleDialogConfirm = async (dialog: DialogModel) => {
-    if (!dialog.isConfirmed) {
-      return;
-    }
-
-    const {assetId} = this.props.match.params;
-    try {
-      await this.dialogStore.submit(dialog);
-    } finally {
-      this.dialogStore.removeDialog(dialog);
-      this.addressLoaded = false;
-      await this.assetStore.fetchAddress(assetId);
-    }
-  };
-
-  private handleDialogCancel = async (dialog: DialogModel) => {
-    this.dialogStore.removeDialog(dialog);
   };
 }
 

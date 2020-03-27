@@ -61,6 +61,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
 
   componentDidMount() {
     this.withdrawStore.fetchSwiftDefaultValues();
+    this.walletStore.fetchWalletsData();
 
     window.scrollTo(0, 0);
   }
@@ -80,25 +81,22 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
               {this.balance} {!!asset && asset!.name}
               <div className="withdraw-swift__subtitle-label">Available</div>
             </div>
-            <div className="withdraw-swift__description">
-              For the withdrawal of funds, the following account details will be
-              used.
-            </div>
+
             <Formik
               initialValues={this.withdrawStore.withdrawSwift}
               enableReinitialize
               validationSchema={Yup.object().shape({
                 accHolderAddress: Yup.string().required(
-                  requiredErrorMessage('Address of the accountholder')
+                  requiredErrorMessage('Address')
                 ),
                 accHolderCity: Yup.string().required(
-                  requiredErrorMessage('City of the accountholder')
+                  requiredErrorMessage('City')
                 ),
                 accHolderZipCode: Yup.string().required(
-                  requiredErrorMessage('Zip code of the accountholder')
+                  requiredErrorMessage('Zip code')
                 ),
                 accountName: Yup.string().required(
-                  requiredErrorMessage('Account Name')
+                  requiredErrorMessage('Full Name')
                 ),
                 accountNumber: Yup.string().required(
                   requiredErrorMessage('Account Number')
@@ -107,11 +105,11 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                   .moreThan(0, requiredErrorMessage('Amount'))
                   .required(requiredErrorMessage('Amount')),
                 bankName: Yup.string().required(
-                  requiredErrorMessage('Bank Name')
+                  requiredErrorMessage('Name of the Bank')
                 ),
                 bic: Yup.string()
-                  .required(requiredErrorMessage('BIC'))
-                  .matches(BIC_REGEX, 'Invalid BIC')
+                  .required(requiredErrorMessage('SWIFT'))
+                  .matches(BIC_REGEX, 'Invalid SWIFT')
               })}
               // tslint:disable-next-line:jsx-no-lambda
               onSubmit={this.handleSubmit}
@@ -289,13 +287,35 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
         />
         <div className="separator" />
 
-        {this.renderField('accountNumber', 'Account Number')}
-        {this.renderField('accountName', 'Account Name')}
-        {this.renderField('bankName', 'Bank Name')}
-        {this.renderField('bic', 'BIC')}
-        {this.renderField('accHolderAddress', 'Address of the accountholder')}
-        {this.renderField('accHolderCity', 'City of the accountholder')}
-        {this.renderField('accHolderZipCode', 'Zip code of the accountholder')}
+        <div className="withdraw-swift__form-parent-title">Account details</div>
+        <div className="separator dense" />
+        <div className="withdraw-swift__description">
+          For the withdrawal of funds, the following account details will be
+          used.
+        </div>
+        {this.renderField('bic', 'SWIFT')}
+        {this.renderField('bankName', 'Name of the Bank')}
+        {this.renderField(
+          'accountNumber',
+          "Beneficiary's Account number (IBAN)"
+        )}
+
+        <div
+          className="withdraw-swift__form-parent-title"
+          style={{marginTop: '10px'}}
+        >
+          Account holder information
+        </div>
+        <div className="separator dense" />
+        <div className="withdraw-swift__description">
+          Withdrawals to third parties or anonymous accounts are not allowed,
+          you can only make withdrawals to your own bank account.
+        </div>
+        {this.renderField('accountName', 'Full Name')}
+
+        {this.renderField('accHolderAddress', 'Address line')}
+        {this.renderField('accHolderCity', 'City')}
+        {this.renderField('accHolderZipCode', 'Zip code')}
 
         <div className="form-group">
           <label htmlFor="paymentPurpose" className="control-label">

@@ -30,6 +30,7 @@ export class PaymentGateway extends React.Component<PaymentGatewayProps> {
     return (
       <div className="payment-gateway">
         <iframe
+          sandbox="allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts allow-top-navigation allow-top-navigation-by-user-activation"
           onLoad={this.handleIframeLoaded}
           src={this.depositStore.gatewayUrls.paymentUrl}
         />
