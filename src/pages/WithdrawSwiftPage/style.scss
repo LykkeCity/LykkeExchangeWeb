@@ -40,6 +40,14 @@
     @include rem(margin-bottom, 29px);
   }
 
+  &__form-parent-title {
+    color: $heading;
+    font-family: $ff-alt;
+    font-weight: $fw-semi;
+
+    @include rem(font-size, 26px);
+  }
+
   &__description {
     color: $text;
     line-height: 1.5;
@@ -53,6 +61,11 @@
 
     @include rem(margin-bottom, 30px);
     @include rem(margin-top, 30px);
+
+    &.dense {
+      @include rem(margin-bottom, 15px);
+      @include rem(margin-top, 15px);
+    }
   }
 
   .withdraw-swift-form {

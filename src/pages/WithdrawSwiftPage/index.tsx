@@ -61,6 +61,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
 
   componentDidMount() {
     this.withdrawStore.fetchSwiftDefaultValues();
+    this.walletStore.fetchWalletsData();
 
     window.scrollTo(0, 0);
   }
@@ -80,10 +81,7 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
               {this.balance} {!!asset && asset!.name}
               <div className="withdraw-swift__subtitle-label">Available</div>
             </div>
-            <div className="withdraw-swift__description">
-              For the withdrawal of funds, the following account details will be
-              used.
-            </div>
+
             <Formik
               initialValues={this.withdrawStore.withdrawSwift}
               enableReinitialize
@@ -289,12 +287,30 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
         />
         <div className="separator" />
 
+        <div className="withdraw-swift__form-parent-title">Account details</div>
+        <div className="separator dense" />
+        <div className="withdraw-swift__description">
+          For the withdrawal of funds, the following account details will be
+          used.
+        </div>
         {this.renderField('bic', 'SWIFT')}
         {this.renderField('bankName', 'Name of the Bank')}
         {this.renderField(
           'accountNumber',
           "Beneficiary's Account number (IBAN)"
         )}
+
+        <div
+          className="withdraw-swift__form-parent-title"
+          style={{marginTop: '10px'}}
+        >
+          Account holder information
+        </div>
+        <div className="separator dense" />
+        <div className="withdraw-swift__description">
+          Withdrawals to third parties or anonymous accounts are not allowed,
+          you can only make withdrawals to your own bank account.
+        </div>
         {this.renderField('accountName', 'Full Name')}
 
         {this.renderField('accHolderAddress', 'Address line')}

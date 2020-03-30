@@ -7,7 +7,6 @@ import {RouteComponentProps} from 'react-router-dom';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
-import ClientDialog from '../../components/ClientDialog';
 import WalletTabs from '../../components/WalletTabs/index';
 import {AnalyticsEvent, Place} from '../../constants/analyticsEvents';
 import {
@@ -15,8 +14,7 @@ import {
   ROUTE_WALLETS_TRADING
 } from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
-import {DepositSwiftModel, DialogModel} from '../../models';
-import {DialogConditionType} from '../../models/dialogModel';
+import {DepositSwiftModel} from '../../models';
 
 import Spinner from '../../components/Spinner';
 import './style.css';
@@ -30,21 +28,11 @@ const DEPOSIT_LIMIT_ERROR = 'DepositLimitReached';
 export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
   readonly depositStore = this.props.rootStore!.depositStore;
-  readonly dialogStore = this.props.rootStore!.dialogStore;
   readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     const {assetId} = this.props.match.params;
     this.depositStore.fetchSwiftRequisites(assetId);
-
-    const clientDialog = this.dialogStore.pendingDialogs.find(
-      (dialog: DialogModel) =>
-        dialog.conditionType === DialogConditionType.Predeposit
-    );
-    if (clientDialog) {
-      clientDialog.visible = true;
-    }
-
     window.scrollTo(0, 0);
   }
 
@@ -65,24 +53,12 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
 
       this.props.history.replace(ROUTE_DEPOSIT_SWIFT_EMAIL_SENT);
     };
-    const clientDialog = this.dialogStore.pendingDialogs.find(
-      (dialog: DialogModel) =>
-        dialog.conditionType === DialogConditionType.Predeposit
-    );
-
     const requiredErrorMessage = (fieldName: string) =>
       `Field ${fieldName} should not be empty`;
 
     return (
       <div>
         <div className="container">
-          {clientDialog && (
-            <ClientDialog
-              dialog={clientDialog}
-              onDialogConfirm={this.handleDialogConfirm}
-              onDialogCancel={this.handleDialogCancel}
-            />
-          )}
           <WalletTabs activeTabRoute={ROUTE_WALLETS_TRADING} />
           <div className="deposit-swift">
             <div className="deposit-swift__title">
@@ -264,24 +240,6 @@ export class DepositSwiftPage extends React.Component<DepositSwiftPageProps> {
         setStatus('');
       }, HELPER_TEXT_TIMEOUT);
     }
-  };
-
-  private handleDialogConfirm = async (dialog: DialogModel) => {
-    if (!dialog.isConfirmed) {
-      return;
-    }
-
-    const {assetId} = this.props.match.params;
-    try {
-      await this.dialogStore.submit(dialog);
-    } finally {
-      this.dialogStore.removeDialog(dialog);
-      await this.depositStore.fetchSwiftRequisites(assetId);
-    }
-  };
-
-  private handleDialogCancel = async (dialog: DialogModel) => {
-    this.dialogStore.removeDialog(dialog);
   };
 }
 

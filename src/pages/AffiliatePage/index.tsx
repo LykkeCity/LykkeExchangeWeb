@@ -10,6 +10,10 @@ export class AffiliatePage extends React.Component<RootStoreProps> {
     super(props);
   }
 
+  async componentDidMount() {
+    await this.props.rootStore!.featureStore.getFeatures();
+  }
+
   render() {
     return (
       <div className="container">
