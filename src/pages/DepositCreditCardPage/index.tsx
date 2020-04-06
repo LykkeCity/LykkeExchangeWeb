@@ -55,12 +55,7 @@ export class DepositCreditCardPage extends React.Component<
 
   render() {
     const asset = this.depositStore.newDeposit.asset;
-    const cardIcons = [
-      'icon-card-1.png',
-      'icon-card-4.png',
-      'icon-card-5.png',
-      'icon-card-6.png'
-    ];
+    const cardIcons = ['icon-card-1.png', 'icon-card-5.png', 'icon-card-6.png'];
 
     const assetDisclaimer = this.dialogStore.assetDisclaimers[0];
     const showMaxDepositErrorDialog = this.depositStore
