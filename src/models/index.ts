@@ -22,3 +22,4 @@ export * from './dialogModel';
 export * from './withdrawCryptoModel';
 export * from './withdrawSwiftModel';
 export * from './verificationModel';
+export * from './transferFormModel';

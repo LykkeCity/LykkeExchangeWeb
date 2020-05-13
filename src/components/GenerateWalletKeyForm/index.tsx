@@ -23,7 +23,15 @@ interface GenerateWalletKeyFormProps extends RootStoreProps {
 export class GenerateWalletKeyForm extends React.Component<
   GenerateWalletKeyFormProps
 > {
-  state = {message: '', regenerateKeyTouched: false};
+  state = {
+    code2Fa: '',
+    errorMessage: '',
+    hideApiKey:
+      this.props.wallet.apiKey === '00000000-0000-0000-0000-000000000000',
+    isCodeValid: true,
+    message: '',
+    regenerateKeyTouched: false
+  };
 
   render() {
     return (
@@ -33,7 +41,9 @@ export class GenerateWalletKeyForm extends React.Component<
             <div className="asset_link__info">
               <div className="asset_link__title">API Key</div>
               <div className="asset_link__desc">
-                {this.props.wallet.apiKey}
+                {this.state.hideApiKey
+                  ? '********-****-****-****-************'
+                  : this.props.wallet.apiKey}
                 <input
                   id={WALLET_KEY_INPUT}
                   name={WALLET_KEY_INPUT}
@@ -71,14 +81,21 @@ export class GenerateWalletKeyForm extends React.Component<
               </Dropdown>
             </div>
             <div style={{position: 'relative'}} className="asset_link__action">
-              <CopyToClipboard
-                text={this.props.wallet.apiKey}
-                onCopy={this.handleCopyKey}
-              >
-                <button className="btn btn--icon" type="button">
+              {this.state.hideApiKey ? (
+                <button className="btn btn--icon disabled" type="button">
                   <i className="icon icon--copy_thin" />
                 </button>
-              </CopyToClipboard>
+              ) : (
+                <CopyToClipboard
+                  text={this.props.wallet.apiKey}
+                  onCopy={this.handleCopyKey}
+                >
+                  <button className="btn btn--icon" type="button">
+                    <i className="icon icon--copy_thin" />
+                  </button>
+                </CopyToClipboard>
+              )}
+
               {!!this.state.message && (
                 <small
                   style={{
@@ -95,6 +112,10 @@ export class GenerateWalletKeyForm extends React.Component<
             </div>
           </div>
         </div>
+        <div>
+          Api key is visibile and can be copied only within 1 minute after the
+          creation
+        </div>
         <Dialog
           className="regenerate-api-key-modal"
           visible={this.props.rootStore!.uiStore.showConfirmRegenerateKey}
@@ -106,7 +127,36 @@ export class GenerateWalletKeyForm extends React.Component<
           description={
             <span>
               This action is irreversible!
-              <br />Previous API key will become invalid
+              <br />Previous API key will become invalid<br />
+              <br />
+              <div
+                className={classnames('form-group', {
+                  'has-error': !this.state.isCodeValid
+                })}
+              >
+                <div className="row">
+                  <div className="col-sm-4">
+                    <label htmlFor="tr_code2fa" className="control-label">
+                      2FA code
+                    </label>
+                  </div>
+                  <div className="col-sm-8">
+                    <div className="error-bar" />
+                    <input
+                      type="text"
+                      id="tr_code2Fa"
+                      name="code2Fa"
+                      className="form-control"
+                      onChange={this.handleChange2Fa}
+                    />
+                    {!this.state.isCodeValid && (
+                      <span className="help-block">
+                        {this.state.errorMessage}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
             </span>
           }
         />
@@ -125,9 +175,24 @@ export class GenerateWalletKeyForm extends React.Component<
   private toggleConfirm = () =>
     this.props.rootStore!.uiStore.toggleConfirmRegenerateKey();
 
-  private handleRegenerateKey = () => {
-    this.toggleConfirm();
-    this.props.rootStore!.walletStore.regenerateApiKey(this.props.wallet);
+  private handleChange2Fa = (e: any) => {
+    this.setState({code2Fa: e.currentTarget.value});
+  };
+
+  private handleRegenerateKey = async () => {
+    const result = await this.props.rootStore!.walletStore.regenerateApiKey(
+      this.props.wallet,
+      this.state.code2Fa
+    );
+    if (!!result.IsCodeValid) {
+      this.toggleConfirm();
+      this.setState({hideApiKey: false});
+    } else {
+      this.setState({
+        errorMessage: result.Error.Message,
+        isCodeValid: !!result.IsCodeValid
+      });
+    }
   };
 
   private readonly handleCopyKey = (text: string) => {
