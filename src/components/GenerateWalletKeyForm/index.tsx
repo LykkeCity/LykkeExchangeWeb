@@ -113,7 +113,7 @@ export class GenerateWalletKeyForm extends React.Component<
           </div>
         </div>
         <div>
-          Api key is visibile and can be copied only within 5 minutes after the
+          Api key is visibile and can be copied only within 1 minute after the
           creation
         </div>
         <Dialog
@@ -186,6 +186,7 @@ export class GenerateWalletKeyForm extends React.Component<
     );
     if (!!result.IsCodeValid) {
       this.toggleConfirm();
+      this.setState({hideApiKey: false});
     } else {
       this.setState({
         errorMessage: result.Error.Message,

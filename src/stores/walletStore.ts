@@ -101,7 +101,14 @@ export class WalletStore {
   };
 
   regenerateApiKey = async (wallet: WalletModel, code: string) => {
-    return await this.api!.regenerateApiKey(wallet.id, code);
+    const resp = await this.api!.regenerateApiKey(wallet.id, code);
+    runInAction(() => {
+      if (resp.IsCodeValid) {
+        wallet.apiKey = resp.Payload.ApiKey;
+      }
+    });
+
+    return resp;
   };
 
   convertBalances = () => {
