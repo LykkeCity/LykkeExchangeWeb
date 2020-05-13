@@ -9,6 +9,7 @@ export class TransferModel {
   @observable to: WalletModel;
   @observable amount: number = 0;
   @observable asset: AssetModel;
+  @observable code2fa: string;
 
   @computed
   get amountInBaseCurrency() {
@@ -20,6 +21,7 @@ export class TransferModel {
     return {
       Amount: this.amount,
       AssetId: this.asset.id,
+      Code2Fa: this.code2fa,
       SourceWalletId: this.from.id,
       WalletId: this.to.id
     };
@@ -41,7 +43,8 @@ export class TransferModel {
       !!this.amount &&
       !!this.asset &&
       !!this.asset.id &&
-      !!this.hasEnoughAmount(this.amount)
+      !!this.hasEnoughAmount(this.amount) &&
+      !!this.code2fa
     );
   }
 
@@ -68,6 +71,11 @@ export class TransferModel {
   @action
   setAmount = (amount: number) => {
     this.amount = Number(amount);
+  };
+
+  @action
+  set2Fa = (code: string) => {
+    this.code2fa = code;
   };
 
   @action

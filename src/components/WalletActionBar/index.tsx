@@ -131,33 +131,34 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
             </Link>
           </div>
         )}
-        {wallet.apiKey && (
-          <div
-            className={classNames(
-              'wallet-action-bar__item',
-              'wallet-action-bar__item--key',
-              'pull-right'
-            )}
-          >
-            {!!this.state.message && (
-              <small
-                style={{
-                  color: 'green',
-                  fontWeight: 'normal',
-                  paddingRight: '1em'
-                }}
-              >
-                {this.state.message}
-              </small>
-            )}
-            <CopyToClipboard
-              text={this.props.wallet.apiKey}
-              onCopy={this.handleCopyApiKey}
+        {wallet.apiKey &&
+          wallet.apiKey !== '00000000-0000-0000-0000-000000000000' && (
+            <div
+              className={classNames(
+                'wallet-action-bar__item',
+                'wallet-action-bar__item--key',
+                'pull-right'
+              )}
             >
-              <a title="Click to copy your API Key">API Key</a>
-            </CopyToClipboard>
-          </div>
-        )}
+              {!!this.state.message && (
+                <small
+                  style={{
+                    color: 'green',
+                    fontWeight: 'normal',
+                    paddingRight: '1em'
+                  }}
+                >
+                  {this.state.message}
+                </small>
+              )}
+              <CopyToClipboard
+                text={this.props.wallet.apiKey}
+                onCopy={this.handleCopyApiKey}
+              >
+                <a title="Click to copy your API Key">API Key</a>
+              </CopyToClipboard>
+            </div>
+          )}
       </div>
     );
   }

@@ -24,8 +24,11 @@ export class RestWalletApi extends RestApi implements WalletApi {
   createApiWallet = (name: string, desc?: string) =>
     this.post('/wallets/hft', {Name: name, Description: desc});
 
-  regenerateApiKey = (id: string) =>
-    this.put(`/hft/${id}/regenerateKey`, undefined);
+  regenerateApiKey = (id: string, code: string) =>
+    this.put(`/hft/regenerateKey`, {
+      code,
+      id
+    });
 
   updateWallet = (wallet: WalletModel) =>
     this.put(`/wallets/${wallet.id}`, {

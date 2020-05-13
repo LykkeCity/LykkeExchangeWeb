@@ -54,4 +54,65 @@
       }
     }
   }
+
+  .help-block {
+    line-height: 1.54;
+    margin-left: 0;
+
+    &:first-letter {
+      text-transform: capitalize;
+    }
+
+    @include rem(font-size, 13px);
+    @include rem(margin-top, 6px);
+  }
+
+  .error-bar {
+    background-color: $red;
+    border-radius: 100px;
+    display: none;
+    height: 40px;
+    position: absolute;
+    top: 3px;
+    width: 2px;
+    z-index: 100;
+
+    @media (max-width: $screen-landscape) {
+      top: 4px;
+      height: 35px;
+    }
+
+    @media (max-width: $screen-mobile) {
+      top: 4px;
+      height: 30px;
+    }
+  }
+
+  label + .error-bar {
+    top: 35px;
+  }
+
+  .has-error {
+    .error-bar {
+      display: block;
+    }
+
+    .form-control {
+      border-color: $gray-25;
+
+      &:focus {
+        border-color: $gray-25;
+      }
+    }
+    .help-block {
+      color: $red;
+    }
+    .control-label {
+      color: $text;
+    }
+    .input-group-addon {
+      background-color: inherit;
+      color: inherit;
+    }
+  }
 }

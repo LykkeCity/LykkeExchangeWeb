@@ -1,12 +1,17 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
-import {RouteComponentProps} from 'react-router-dom';
+import {Link, RouteComponentProps} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {Banner} from '../../components/Banner';
+import {TfaDisabledBanner} from '../../components/Banner/TfaDisabledBanner';
 import {asAssetBalance} from '../../components/hoc/assetBalance';
 import {NumberFormat} from '../../components/NumberFormat/index';
 import TransferForm from '../../components/TransferForm/index';
 import TransferQrWindow from '../../components/TransferQrWindow';
+import {AnalyticsEvent} from '../../constants/analyticsEvents';
+
 import {
+  ROUTE_SECURITY,
   ROUTE_TRANSFER_FAIL,
   ROUTE_TRANSFER_SUCCESS
 } from '../../constants/routes';
@@ -23,6 +28,8 @@ export class TransferPage extends React.Component<TransferPageProps> {
   readonly transferStore = this.props.rootStore!.transferStore;
   readonly uiStore = this.props.rootStore!.uiStore;
   readonly assetStore = this.props.rootStore!.assetStore;
+  readonly profileStore = this.props.rootStore!.profileStore;
+  readonly analyticsService = this.props.rootStore!.analyticsService;
 
   componentDidMount() {
     const {walletId, assetId, dest} = this.props.match.params;
@@ -57,6 +64,22 @@ export class TransferPage extends React.Component<TransferPageProps> {
     return (
       <div className="container">
         <div className="transfer">
+          <TfaDisabledBanner show={this.profileStore.is2faForbidden} />
+          <Banner
+            show={!this.profileStore.is2faEnabled}
+            className="tfa-banner"
+            title="Two-Factor Authentication"
+            text={
+              <span>
+                To ensure the security of transfers from Lykke, you need to turn
+                on Two-Factor Authentication. Find out more about it{' '}
+                <Link to={ROUTE_SECURITY} onClick={this.trackStart2faSetup}>
+                  here
+                </Link>.
+              </span>
+            }
+          />
+
           <h1>Transfer</h1>
           <h2>
             {!!newTransfer.asset &&
@@ -90,6 +113,10 @@ export class TransferPage extends React.Component<TransferPageProps> {
       </div>
     );
   }
+
+  private trackStart2faSetup = () => {
+    this.analyticsService.track(AnalyticsEvent.Start2faSetup);
+  };
 
   private readonly handleTransfer = async (transfer: TransferModel) => {
     let k = 0;
