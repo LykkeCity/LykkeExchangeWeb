@@ -100,9 +100,8 @@ export class WalletStore {
     return this.createWallet(dto);
   };
 
-  regenerateApiKey = async (wallet: WalletModel) => {
-    const resp = await this.api!.regenerateApiKey(wallet.id);
-    runInAction(() => (wallet.apiKey = resp.ApiKey));
+  regenerateApiKey = async (wallet: WalletModel, code: string) => {
+    return await this.api!.regenerateApiKey(wallet.id, code);
   };
 
   convertBalances = () => {

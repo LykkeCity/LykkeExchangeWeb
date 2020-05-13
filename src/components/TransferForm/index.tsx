@@ -1,4 +1,5 @@
 import {Select} from '@lykkex/react-components';
+import * as classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
 import {Link} from 'react-router-dom';
@@ -26,15 +27,21 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   onTransfer = () => null
 }) => {
   const {
+    transferStore,
     transferStore: {newTransfer: transfer},
     walletStore,
     uiStore,
     uiStore: {toggleQrWindow},
+    profileStore,
     profileStore: {baseAssetAsModel}
   } = rootStore!;
 
   const handleChangeAmount = (e: any) => {
     transfer.setAmount(e.currentTarget.value);
+  };
+
+  const handleChange2Fa = (e: any) => {
+    transfer.set2Fa(e.currentTarget.value);
   };
 
   const handleChangeWallet = (side: 'from' | 'to') => (option: WalletModel) => {
@@ -66,12 +73,24 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const id = await transfer.sendTransfer();
-      if (!!id) {
+      transferStore.form.submitting = true;
+      const result = await transfer.sendTransfer();
+      transferStore.form.submitting = false;
+      transferStore.form.is2FaValid = !!result.IsCodeValid;
+      if (transferStore.form.is2FaValid) {
         toggleQrWindow();
         onTransfer(transfer);
+      } else {
+        if (result.Error.Code === 'SecondFactorCheckForbiden') {
+          profileStore.tfaStatus = 'forbidden';
+          transferStore.form.is2FaValid = true;
+          transferStore.form.code2FaError = result.Error.Message;
+        } else {
+          transferStore.form.code2FaError = result.Error.Message;
+        }
       }
     } catch (error) {
+      transferStore.form.submitting = false;
       uiStore.transferError = 'Something went wrong';
       setTimeout(() => {
         uiStore.transferError = '';
@@ -292,7 +311,6 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             </div>
           </div>
         </div>
-
         <div className="form-group">
           <div className="row">
             <div className="col-sm-8 col-sm-offset-4">
@@ -311,6 +329,34 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
             </div>
           </div>
         </div>
+        <div
+          className={classnames('form-group', {
+            'has-error': !transferStore.form.is2FaValid
+          })}
+        >
+          <div className="row">
+            <div className="col-sm-4">
+              <label htmlFor="tr_code2fa" className="control-label">
+                2FA code
+              </label>
+            </div>
+            <div className="col-sm-8">
+              <div className="error-bar" />
+              <input
+                type="text"
+                id="tr_code2Fa"
+                name="code2Fa"
+                className="form-control"
+                onChange={handleChange2Fa}
+              />
+              {!transferStore.form.is2FaValid && (
+                <span className="help-block">
+                  {transferStore.form.code2FaError}
+                </span>
+              )}
+            </div>
+          </div>
+        </div>
         {!!uiStore.transferError && (
           <div style={{color: 'red', textAlign: 'center'}}>
             {uiStore.transferError}
@@ -322,7 +368,12 @@ export const TransferForm: React.SFC<TransferFormProps> = ({
           type="submit"
           value="Submit"
           className="btn btn--primary"
-          disabled={!transfer.canTransfer}
+          disabled={
+            !transfer.canTransfer ||
+            !profileStore.is2faEnabled ||
+            profileStore.is2faForbidden ||
+            transferStore.form.submitting
+          }
           onClick={handleSubmit}
         />
         <Link to={ROUTE_WALLETS_HFT} className="btn btn--flat">

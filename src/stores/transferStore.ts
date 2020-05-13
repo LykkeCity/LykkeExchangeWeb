@@ -2,13 +2,16 @@ import {action, observable} from 'mobx';
 import {RootStore} from '.';
 import {TransferApi} from '../api/transferApi';
 import {TransferModel} from '../models';
+import {TransferFormModel} from '../models';
 
 export class TransferStore {
   @observable transfers: TransferModel[] = [];
   @observable newTransfer: TransferModel;
+  @observable form: TransferFormModel;
 
   constructor(readonly rootStore: RootStore, private api: TransferApi) {
     this.newTransfer = this.createTransfer(false);
+    this.form = new TransferFormModel();
   }
 
   @action
