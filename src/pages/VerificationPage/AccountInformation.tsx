@@ -128,9 +128,7 @@ export class AccountInformation extends React.Component<RootStoreProps> {
           }}
           enableReinitialize
           validationSchema={Yup.object().shape({
-            building: Yup.string()
-              .trim()
-              .required(requiredErrorMessage('building')),
+            building: Yup.string().trim(),
             streetAddress: Yup.string()
               .trim()
               .required(requiredErrorMessage('street address')),
