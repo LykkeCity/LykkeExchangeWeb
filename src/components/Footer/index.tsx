@@ -3,10 +3,7 @@ import * as React from 'react';
 import {STORE_ROOT} from '../../constants/stores';
 import {RootStore} from '../../stores';
 
-import Apps from '../Apps';
-import Subscribe from '../Blocks/Subscribe';
 import Copyright from '../Copyright';
-import Nav from './nav';
 import './style.css';
 
 export interface RootStoreProps {
