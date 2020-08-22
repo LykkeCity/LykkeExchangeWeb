@@ -15,21 +15,6 @@ export interface RootStoreProps {
 
 export const CookieBanner: React.SFC<RootStoreProps> = ({rootStore}) => (
   <footer className="footer">
-    <div className="footer__top">
-      <div className="container">
-        <div className="separator" />
-
-        <div className="row">
-          <div className="col-md-5">
-            <Apps theme="left" />
-            <Subscribe />
-          </div>
-          <div className="col-md-7">
-            <Nav />
-          </div>
-        </div>
-      </div>
-    </div>
     <div className="footer__bottom">
       <div className="container">
         <div className="separator" />
@@ -38,7 +23,7 @@ export const CookieBanner: React.SFC<RootStoreProps> = ({rootStore}) => (
             <Copyright />
             <ul className="footer_links pull-right">
               <li>
-                <a href="https://www.lykke.com/privacy-policy" target="_blank">
+                <a href="https://swisschain.io/privacy-policy" target="_blank">
                   Privacy Policy
                 </a>
               </li>
@@ -52,7 +37,7 @@ export const CookieBanner: React.SFC<RootStoreProps> = ({rootStore}) => (
                 </a>
               </li>
               <li>
-                <a href="https://www.lykke.com/terms-of-use" target="_blank">
+                <a href="https://swisschain.io/terms-of-use" target="_blank">
                   Terms of Use
                 </a>
               </li>
