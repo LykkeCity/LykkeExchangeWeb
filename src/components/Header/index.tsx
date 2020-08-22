@@ -41,10 +41,6 @@ export const Header: React.SFC<RootStoreProps & RouteProps> = ({
     {
       title: MenuItem.ApiKeys,
       url: ROUTE_WALLETS_HFT
-    },
-    {
-      title: MenuItem.FeesAndLimits,
-      url: FEES_AND_LIMITS_ROUTE
     }
   ];
 
