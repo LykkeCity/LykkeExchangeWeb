@@ -49,6 +49,14 @@ export default function Nav() {
               <a href="https://lykke.com/city/blog">Blog</a>
             </li>
           </menu>
+          <menu className="nav nav--list">
+            <li className="nav__title">API</li>
+            <li>
+              <a href="https://lykkecity.github.io/Trading-API">
+                Trading API documentation
+              </a>
+            </li>
+          </menu>
         </div>
 
         <div className="footer_nav__col">
