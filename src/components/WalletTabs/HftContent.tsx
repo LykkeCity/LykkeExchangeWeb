@@ -17,19 +17,9 @@ class HftContent extends React.Component<RootStoreProps> {
           <div className="col-sm-8">
             <p className="hint text-left">
               API Wallet offers you a faster trading interface. You can have
-              multiple API wallets. Funds deposited to API wallet are under
-              Lykke custodian. The API is secured with an API Key. Please keep
-              the key safe. To withdraw the funds from your API wallet you need
-              to transfer them to your Trading Wallet first.
-            </p>
-            <p style={{marginTop: '10px'}} className="hint text-left">
-              Read more about using API here&nbsp;<a
-                className="link"
-                href="https://www.lykke.com/cp/lykke-trading-api"
-                target="_blank"
-              >
-                {'https://www.lykke.com/cp/lykke-trading-api'}
-              </a>
+              multiple API wallets. The API is secured with an API Key. Please
+              keep the key safe. To withdraw the funds from your API wallet you
+              need to transfer them to your Trading Wallet first.
             </p>
           </div>
           <div className="col-sm-4 text-right">
