@@ -60,7 +60,7 @@ export class WalletPage extends React.Component<RootStoreProps> {
           <Wizard activeIndex={this.activeStep}>
             <WizardStep
               title="Name of wallet"
-              onCancel={this.uiStore.toggleWalletDrawer}
+              onCancel={this.handleCloseForm}
               onNext={this.handleCreateWallet}
               index={1}
             >
@@ -68,24 +68,24 @@ export class WalletPage extends React.Component<RootStoreProps> {
                 wallet={this.wallet}
                 onChangeName={this.handleChangeWalletName}
                 onSubmit={this.handleCreateWallet}
-                onCancel={this.uiStore.toggleWalletDrawer}
+                onCancel={this.handleCloseForm}
                 onChangeDesc={this.handleChangeWalletDesc}
               />
             </WizardStep>
             <WizardStep
-              title="Generate API key"
-              onCancel={this.uiStore.toggleWalletDrawer}
+              title="Generated API key"
+              onCancel={this.handleCloseForm}
               onNext={this.handleCreateWallet}
               index={2}
             >
-              <GenerateWalletKeyForm wallet={this.wallet} />
+              <GenerateWalletKeyForm wallet={this.wallet} controls={false} />
               <div className="drawer__footer">
                 <button
                   className="btn btn--primary"
                   type="button"
-                  onClick={this.uiStore.toggleWalletDrawer}
+                  onClick={this.handleCloseForm}
                 >
-                  Save
+                  Close
                 </button>
               </div>
             </WizardStep>
@@ -106,6 +106,12 @@ export class WalletPage extends React.Component<RootStoreProps> {
   private readonly handleCreateWallet = async () => {
     this.wallet = await this.walletStore.createApiWallet(this.wallet);
     this.activeStep++;
+  };
+
+  private readonly handleCloseForm = () => {
+    this.wallet.reset();
+    this.activeStep = 1;
+    this.uiStore.toggleWalletDrawer();
   };
 }
 
