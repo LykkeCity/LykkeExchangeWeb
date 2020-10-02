@@ -18,6 +18,7 @@ const WALLET_KEY_INPUT = 'walletKey';
 
 interface GenerateWalletKeyFormProps extends RootStoreProps {
   wallet: WalletModel;
+  controls: boolean;
 }
 
 export class GenerateWalletKeyForm extends React.Component<
@@ -42,7 +43,7 @@ export class GenerateWalletKeyForm extends React.Component<
               <div className="asset_link__title">API Key</div>
               <div className="asset_link__desc">
                 {this.state.hideApiKey
-                  ? '********-****-****-****-************'
+                  ? '************************************'
                   : this.props.wallet.apiKey}
                 <input
                   id={WALLET_KEY_INPUT}
@@ -54,38 +55,8 @@ export class GenerateWalletKeyForm extends React.Component<
                 />
               </div>
             </div>
-            <div
-              className="asset_link__action"
-              onTouchStartCapture={this.handleRegenerateKeyTouchStart}
-            >
-              <Dropdown
-                isTooltip
-                className={classnames({
-                  dropdown_touched: this.state.regenerateKeyTouched
-                })}
-              >
-                <DropdownControl>
-                  <button
-                    className="btn btn--icon"
-                    type="button"
-                    onClick={this.handleRegenerateKeyClick}
-                  >
-                    <i className="icon icon--key" />
-                  </button>
-                </DropdownControl>
-                <DropdownContainer>
-                  <div className="regenerate-button-tooltip">
-                    Regenerate a new API key
-                  </div>
-                </DropdownContainer>
-              </Dropdown>
-            </div>
             <div style={{position: 'relative'}} className="asset_link__action">
-              {this.state.hideApiKey ? (
-                <button className="btn btn--icon disabled" type="button">
-                  <i className="icon icon--copy_thin" />
-                </button>
-              ) : (
+              {!this.state.hideApiKey && (
                 <CopyToClipboard
                   text={this.props.wallet.apiKey}
                   onCopy={this.handleCopyKey}
@@ -110,11 +81,39 @@ export class GenerateWalletKeyForm extends React.Component<
                 </small>
               )}
             </div>
+            {this.props.controls && (
+              <div
+                className="asset_link__action"
+                onTouchStartCapture={this.handleRegenerateKeyTouchStart}
+              >
+                <Dropdown
+                  isTooltip
+                  className={classnames({
+                    dropdown_touched: this.state.regenerateKeyTouched
+                  })}
+                >
+                  <DropdownControl>
+                    <button
+                      className="btn btn--icon"
+                      type="button"
+                      onClick={this.handleRegenerateKeyClick}
+                    >
+                      <i className="icon icon--key" />
+                    </button>
+                  </DropdownControl>
+                  <DropdownContainer>
+                    <div className="regenerate-button-tooltip">
+                      Regenerate a new API key
+                    </div>
+                  </DropdownContainer>
+                </Dropdown>
+              </div>
+            )}
           </div>
         </div>
-        <div>
-          Api key is visibile and can be copied only within 1 minute after the
-          creation
+        <div className="hint">
+          <i className="icon icon--info" />Api key is visibile and can be copied
+          only within 1 minute after the creation
         </div>
         <Dialog
           className="regenerate-api-key-modal"

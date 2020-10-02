@@ -21,7 +21,12 @@ export const EditWalletDrawer: React.SFC<EditWalletDrawerProps> = ({
     <Drawer title="Edit Wallet" show={show} overlayed={overlayed}>
       <div className="drawer__title">
         <h2>{wallet.title}</h2>
-        <h3>API Wallet</h3>
+        <h3>
+          API Wallet{' '}
+          {wallet.apiv2Only && (
+            <span className="btn-info badge">Api v2 only</span>
+          )}
+        </h3>
       </div>
       <Wizard activeIndex={1}>
         <WizardStep

@@ -7,4 +7,9 @@
 
     @include rem(font-size, 50px);
   }
+
+  .badge {
+    vertical-align: middle;
+    margin-left: 30px;
+  }
 }
