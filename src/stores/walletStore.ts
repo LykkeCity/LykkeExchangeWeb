@@ -16,7 +16,8 @@ export class WalletStore {
   @observable selectedWallet: WalletModel;
   @observable walletsLoading: boolean = false;
   @observable walletsInitialized: boolean = false;
-
+  @observable origName: string;
+  @observable origDescription: string;
   @computed
   get totalBalance() {
     return this.wallets.map(w => w.totalBalance).reduce(sum, 0);
@@ -68,16 +69,31 @@ export class WalletStore {
   };
 
   createApiWallet = async (wallet: WalletModel) => {
-    const {title, desc} = wallet;
-    const dto = await this.api!.createApiWallet(title, desc);
+    const {title, desc, apiv2Only} = wallet;
+    const dto = await this.api!.createApiWallet(title, apiv2Only, desc);
     const newWallet = this.createWallet({
       ApiKey: dto.ApiKey,
-      Id: dto.WalletId
+      Apiv2Only: dto.Apiv2Only,
+      Description: dto.Description,
+      Id: dto.WalletId,
+      Name: dto.Name
+    });
+    const result = this.createWallet({
+      ApiKey: dto.ApiKey,
+      Apiv2Only: dto.Apiv2Only,
+      Description: dto.Description,
+      Id: dto.WalletId,
+      Name: dto.Name
     });
     this.addWallet(
-      extendObservable(newWallet, {title, desc, type: WalletType.Trusted})
+      extendObservable(newWallet, {
+        apiv2Only,
+        desc,
+        title,
+        type: WalletType.Trusted
+      })
     );
-    return newWallet;
+    return result;
   };
 
   findWalletById = (id: string) => this.wallets.find(w => w.id === id);
@@ -101,7 +117,11 @@ export class WalletStore {
   };
 
   regenerateApiKey = async (wallet: WalletModel, code: string) => {
-    const resp = await this.api!.regenerateApiKey(wallet.id, code);
+    const resp = await this.api!.regenerateApiKey(
+      wallet.id,
+      code,
+      wallet.apiv2Only
+    );
     runInAction(() => {
       if (resp.IsCodeValid) {
         wallet.apiKey = resp.Payload.ApiKey;

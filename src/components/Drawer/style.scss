@@ -54,6 +54,11 @@
     }
   }
 
+  .badge {
+    vertical-align: middle;
+    margin-left: 25px;
+  }
+
   &__content {
     overflow: auto;
     position: absolute;

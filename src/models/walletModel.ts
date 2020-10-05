@@ -13,6 +13,7 @@ export class WalletModel {
   @observable title = '';
   @observable desc = '';
   @observable apiKey = '';
+  @observable apiv2Only = true;
   @observable type: WalletType;
 
   @observable updating: boolean = false;
@@ -39,6 +40,7 @@ export class WalletModel {
 
   @observable collapsed = true;
   @observable expanded = !this.collapsed;
+  @observable optionsExanded = false;
 
   @computed
   get hasBalances() {
@@ -75,6 +77,7 @@ export class WalletModel {
       this.title = this.isTrading ? 'Trading Wallet' : dto.Name || this.title;
       this.desc = dto.Description || this.desc;
       this.apiKey = dto.ApiKey;
+      this.apiv2Only = dto.Apiv2Only;
       if (!!dto.Balances) {
         this.setBalances(dto.Balances);
       }
@@ -136,6 +139,13 @@ export class WalletModel {
     } finally {
       this.updating = false;
     }
+  };
+
+  reset = () => {
+    this.title = '';
+    this.desc = '';
+    this.apiv2Only = true;
+    this.optionsExanded = false;
   };
 }
 

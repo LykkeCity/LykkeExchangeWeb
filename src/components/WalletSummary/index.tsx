@@ -63,6 +63,9 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
                 )}
               />
             )}
+            {wallet.apiv2Only && (
+              <span className="btn-info badge">Api v2 only</span>
+            )}
           </h2>
           {!wallet.isTrading && (
             <div className="wallet__desc">
@@ -85,6 +88,8 @@ export default inject(({rootStore}: {rootStore: RootStore}) => ({
   baseAssetAsModel: rootStore!.profileStore.baseAssetAsModel!,
   onEditWallet: (wallet: WalletModel) => {
     rootStore.walletStore.selectedWallet = wallet;
+    rootStore.walletStore.origName = wallet.title;
+    rootStore.walletStore.origDescription = wallet.desc;
     rootStore.uiStore.toggleEditWalletDrawer();
   }
 }))(observer(WalletSummary));

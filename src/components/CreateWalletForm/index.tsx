@@ -49,10 +49,47 @@ export class WalletForm extends React.Component<WalletFormProps> {
           </label>
           <textarea
             id="desc"
+            name="desc"
+            value={this.props.wallet.desc}
             onChange={this.props.onChangeDesc}
             placeholder="Put your description, like My API Wallet"
             className="form-control"
           />
+        </div>
+        <div className="form-group">
+          <label className="control-label" onClick={this.toggleOptions}>
+            Options{' '}
+            <i
+              className={classNames(
+                'icon',
+                this.props.wallet.optionsExanded
+                  ? 'icon--chevron-thin-up'
+                  : 'icon--chevron-thin-down'
+              )}
+            />
+          </label>
+          {this.props.wallet.optionsExanded && (
+            <div>
+              <div className="form-group">
+                <div className="checkbox">
+                  <input
+                    type="checkbox"
+                    name="apiv2Only"
+                    id="apiv2Only"
+                    className="radio__control"
+                    defaultChecked={this.props.wallet.apiv2Only}
+                    onChange={this.toggleApiv2Only}
+                  />
+                  <label
+                    htmlFor="apiv2Only"
+                    className="control-label checkbox__label"
+                  >
+                    Use in api v2 only
+                  </label>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <div className="drawer__footer">
           <button
@@ -95,6 +132,14 @@ export class WalletForm extends React.Component<WalletFormProps> {
 
   private validateForm = () => {
     this.hasErrors = this.isDirty && !this.props.wallet.isValid;
+  };
+
+  private toggleOptions = () => {
+    this.props.wallet.optionsExanded = !this.props.wallet.optionsExanded;
+  };
+
+  private toggleApiv2Only = () => {
+    this.props.wallet.apiv2Only = !this.props.wallet.apiv2Only;
   };
 }
 

@@ -55,7 +55,7 @@ export const EditWalletForm: React.SFC<EditWalletFormProps> = ({
         value={wallet!.desc}
       />
     </div>
-    <GenerateWalletKeyForm wallet={wallet!} />
+    <GenerateWalletKeyForm wallet={wallet!} controls={true} />
     <div className="drawer__footer">
       <button
         className="btn btn--primary pull-right"
@@ -77,18 +77,15 @@ export default inject(
   ({rootStore: {walletStore, uiStore}}: {rootStore: RootStore}) => ({
     errors: uiStore.apiError,
     onCancel: async () => {
-      const {
-        findWalletById,
-        fetchWalletById,
-        selectedWallet: {id}
-      } = walletStore;
-      const oldWallet = await fetchWalletById(id);
+      const {findWalletById, selectedWallet: {id}} = walletStore;
       extendObservable(findWalletById(id)!, {
-        desc: oldWallet.desc,
-        title: oldWallet.title
+        desc: walletStore.origDescription,
+        title: walletStore.origName
       });
       uiStore.apiError = '';
       walletStore.selectedWallet = null!;
+      walletStore.origName = '';
+      walletStore.origDescription = '';
       uiStore.toggleEditWalletDrawer();
     },
     onSave: async (wallet: WalletModel) => {
