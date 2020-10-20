@@ -8,18 +8,9 @@ import {AssetModel, WalletModel} from './';
 export const DEFAULT_DEPOSIT_OPTION = 'BankCard';
 
 export class DepositCreditCardModel {
-  @observable address: string = '';
   @observable amount: number = 0;
   @observable asset: AssetModel;
-  @observable city: string = '';
-  @observable country: string = '';
-  @observable depositOption: string = '';
-  @observable email: string = '';
-  @observable firstName: string = '';
-  @observable lastName: string = '';
-  @observable phone: string = '';
   @observable wallet: WalletModel;
-  @observable zip: string = '';
 
   constructor(deposit?: Partial<DepositCreditCardModel>) {
     if (deposit) {
@@ -49,21 +40,12 @@ export class DepositCreditCardModel {
     const url = `${location.protocol}//${location.host}`;
 
     return {
-      Address: this.address,
       Amount: this.amount,
       AssetId: this.asset && this.asset.id,
       CancelUrl: url,
-      City: this.city,
-      Country: this.country,
-      DepositOption: this.depositOption || DEFAULT_DEPOSIT_OPTION,
-      Email: this.email,
       FailUrl: url + ROUTE_DEPOSIT_CREDIT_CARD_FAIL,
-      FirstName: this.firstName,
-      LastName: this.lastName,
       OkUrl: url + ROUTE_DEPOSIT_CREDIT_CARD_SUCCESS,
-      Phone: this.phone,
-      WalletId: this.wallet && this.wallet.id,
-      Zip: this.zip
+      WalletId: this.wallet && this.wallet.id
     };
   }
 }
