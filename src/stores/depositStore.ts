@@ -76,16 +76,7 @@ export class DepositStore {
 
     if (response) {
       this.defaultDeposit = new DepositCreditCardModel({
-        address: response.Address || '',
-        amount: 0,
-        city: response.City || '',
-        country: response.Country || '',
-        depositOption: response.DepositOption || '',
-        email: response.Email || '',
-        firstName: response.FirstName || '',
-        lastName: response.LastName || '',
-        phone: response.Phone || '',
-        zip: response.Zip || ''
+        amount: 0
       });
       this.resetCurrentDeposit();
     }

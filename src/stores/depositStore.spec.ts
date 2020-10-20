@@ -50,13 +50,8 @@ describe('deposit credit card store', () => {
         FirstName: 'foo'
       };
     });
-    expect(depositStore.newDeposit.firstName).toBe('');
     await depositStore.fetchDepositDefaultValues();
-    expect(depositStore.newDeposit.firstName).toBe('foo');
-    depositStore.newDeposit.update({firstName: 'bar'});
-    expect(depositStore.newDeposit.firstName).toBe('bar');
     depositStore.resetCurrentDeposit();
-    expect(depositStore.newDeposit.firstName).toBe('foo');
   });
 
   it('should handle API 503 error', async () => {
