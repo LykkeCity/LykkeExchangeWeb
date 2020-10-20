@@ -61,27 +61,9 @@ export const DepositCreditCardForm: React.SFC<DepositCreditCardFormProps> = ({
     <Formik
       initialValues={deposit}
       validationSchema={Yup.object().shape({
-        address: Yup.string()
-          .trim()
-          .required(requiredErrorMessage('Address')),
         amount: Yup.number()
           .moreThan(0, requiredErrorMessage('Amount'))
-          .required(requiredErrorMessage('Amount')),
-        city: Yup.string()
-          .trim()
-          .required(requiredErrorMessage('City')),
-        country: Yup.string()
-          .trim()
-          .required(requiredErrorMessage('Country')),
-        firstName: Yup.string()
-          .trim()
-          .required(requiredErrorMessage('First Name')),
-        lastName: Yup.string()
-          .trim()
-          .required(requiredErrorMessage('Last Name')),
-        zip: Yup.string()
-          .trim()
-          .required(requiredErrorMessage('Zip'))
+          .required(requiredErrorMessage('Amount'))
       })}
       // tslint:disable-next-line:jsx-no-lambda
       onSubmit={async (
