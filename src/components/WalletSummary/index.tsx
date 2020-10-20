@@ -64,7 +64,13 @@ export const WalletSummary: React.SFC<WalletSummaryProps> = ({
               />
             )}
             {wallet.apiv2Only && (
-              <span className="btn-info badge">Api v2 only</span>
+              <a
+                href="https://lykkecity.github.io/Trading-API"
+                target="_blank"
+                className="btn-info badge"
+              >
+                Api v2 only
+              </a>
             )}
           </h2>
           {!wallet.isTrading && (
