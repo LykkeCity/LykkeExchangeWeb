@@ -16,9 +16,10 @@ import {
   DepositRequisitesSent,
   DepositSuccess
 } from '../../components/DepositResult';
-import TransferResult from '../../components/TransferResult/index';
 import {TransferFail} from '../../components/TransferResult/index';
+import TransferResult from '../../components/TransferResult/index';
 import {
+  LkkInvestmentSuccess,
   WithdrawCryptoFail,
   WithdrawCryptoSuccess,
   WithdrawSwiftFail,
@@ -39,6 +40,7 @@ import {
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_HISTORY,
   ROUTE_LKK_INVESTMENT,
+  ROUTE_LKK_INVESTMENT_SUCCESS,
   ROUTE_PROFILE,
   ROUTE_ROOT,
   ROUTE_SECURITY,
@@ -313,6 +315,11 @@ export class ProtectedPage extends React.Component<
           path={ROUTE_WITHDRAW_SWIFT_SUCCESS}
           exact
           component={WithdrawSwiftSuccess}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_LKK_INVESTMENT_SUCCESS}
+          exact
+          component={LkkInvestmentSuccess}
         />
         <RouteWithHeaderAndFooter
           path={ROUTE_WITHDRAW_SWIFT}
