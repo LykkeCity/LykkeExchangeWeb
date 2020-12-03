@@ -28,6 +28,9 @@ export default function Nav() {
               <a href="https://lykke.com/apply-ico">Listing</a>
             </li>
             <li>
+              <a href="/lkk-investment">LKK investment</a>
+            </li>
+            <li>
               <a href="https://lykke.com/city/faq">FAQ</a>
             </li>
           </menu>

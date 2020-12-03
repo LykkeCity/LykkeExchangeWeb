@@ -14,3 +14,4 @@ export {default as DepositApi} from './depositApi';
 export {default as DisclaimerApi} from './disclaimerApi';
 export {default as WithdrawApi} from './withdrawApi';
 export {default as KycApi} from './kycApi';
+export {default as LkkInvestmentApi} from './lkkInvestmentApi';
