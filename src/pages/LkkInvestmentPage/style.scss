@@ -1,0 +1,206 @@
+@import '../../styles/utils';
+
+.lkk-investment {
+  max-width: 100%;
+  width: 570px;
+
+  @include rem(margin, 23px auto 90px);
+
+  .banner {
+    width: 570px;
+  }
+
+  &__title {
+    color: $heading;
+    font-family: $ff-alt;
+    font-weight: $fw-semi;
+    line-height: 1.25;
+    text-align: center;
+
+    @include rem(font-size, 40px);
+    @include rem(margin-bottom, 3px);
+    @include rem(margin-top, 39px);
+  }
+
+  &__subtitle {
+    color: $heading;
+    font-weight: $fw-light;
+    line-height: 1.11;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include rem(font-size, 36px);
+    @include rem(margin-bottom, 6px);
+  }
+
+  &__subtitle-label {
+    color: rgba($secondary, 0.6);
+    line-height: 1.85;
+    letter-spacing: 2.4px;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include rem(font-size, 13px);
+    @include rem(margin-bottom, 29px);
+  }
+
+  &__description {
+    color: $text;
+    line-height: 1.5;
+
+    @include rem(font-size, 16px);
+    @include rem(margin-bottom, 37px);
+  }
+
+  .separator {
+    border-top: 1px solid $border-alt;
+
+    @include rem(margin-bottom, 30px);
+    @include rem(margin-top, 30px);
+  }
+
+  .lkk-investment-form {
+    .inline-form {
+      margin-bottom: 20px;
+    }
+
+    input[type='number']::-webkit-outer-spin-button,
+    input[type='number']::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type='number'] {
+      -moz-appearance: textfield;
+    }
+
+    .help-block {
+      line-height: 1.54;
+      margin-left: 0;
+
+      &:first-letter {
+        text-transform: capitalize;
+      }
+
+      @include rem(font-size, 13px);
+      @include rem(margin-top, 6px);
+    }
+
+    .error-bar {
+      background-color: $red;
+      border-radius: 100px;
+      display: none;
+      height: 40px;
+      position: absolute;
+      top: 3px;
+      width: 2px;
+      z-index: 100;
+
+      @media (max-width: $screen-landscape) {
+        top: 4px;
+        height: 35px;
+      }
+
+      @media (max-width: $screen-mobile) {
+        top: 4px;
+        height: 30px;
+      }
+    }
+
+    label + .error-bar {
+      top: 35px;
+    }
+
+    .has-error {
+      .error-bar {
+        display: block;
+      }
+
+      .form-control {
+        border-color: $gray-25;
+
+        &:focus {
+          border-color: $gray-25;
+        }
+      }
+      .help-block {
+        color: $red;
+      }
+      .control-label {
+        color: $text;
+      }
+      .input-group-addon {
+        background-color: inherit;
+        color: inherit;
+      }
+    }
+
+    .amount-input {
+      margin-bottom: 13px;
+    }
+
+    .fee-info {
+      &:last-child {
+        margin-bottom: 9px;
+      }
+
+      &__label {
+        color: rgba($secondary, 0.6);
+        display: inline-block;
+        line-height: 1.5;
+        width: 39px;
+        margin-right: 10px;
+      }
+
+      &__value {
+        line-height: 1.5;
+      }
+    }
+
+    .total-hint {
+      font-size: 14px;
+      color: rgba($secondary, 0.6);
+    }
+
+    .total-value {
+      padding-top: 13px;
+    }
+
+    .all-balance {
+      font-size: 14px;
+      margin-top: 2px;
+    }
+
+    .field-row {
+      margin-bottom: 20px;
+    }
+
+    hr {
+      width: 100%;
+      border-top-width: 1px;
+
+      @include rem(margin, 60px 0);
+    }
+
+    &__actions {
+      text-align: center;
+
+      @include rem(margin-top, 30px);
+
+      input[type='submit'] {
+        width: 370px;
+        max-width: 100%;
+
+        @include rem(margin-bottom, 24px);
+
+        &:disabled {
+          cursor: not-allowed;
+        }
+      }
+
+      .btn--flat {
+        padding-top: 0;
+      }
+    }
+  }
+}

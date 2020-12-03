@@ -20,6 +20,7 @@ import {
   DepositApi,
   DisclaimerApi,
   HistoryApi,
+  LkkInvestmentApi,
   ProfileApi,
   TransactionApi,
   TransferApi,
@@ -66,7 +67,11 @@ export class RootStore {
     this.featureStore = new FeatureStore(new RestFeaturesApi(this));
     this.profileStore = new ProfileStore(this, new ProfileApi(this));
     this.uiStore = new UiStore(this);
-    this.transferStore = new TransferStore(this, new TransferApi(this));
+    this.transferStore = new TransferStore(
+      this,
+      new TransferApi(this),
+      new LkkInvestmentApi(this)
+    );
     this.depositStore = new DepositStore(this, new DepositApi(this));
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.dialogStore = new DialogStore(this, new DisclaimerApi(this));
@@ -85,7 +90,11 @@ export class RootStore {
       this,
       new TransactionApi(this, new HistoryApi(this))
     );
-    this.transferStore = new TransferStore(this, new TransferApi(this));
+    this.transferStore = new TransferStore(
+      this,
+      new TransferApi(this),
+      new LkkInvestmentApi(this)
+    );
     this.depositStore = new DepositStore(this, new DepositApi(this));
     this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
     this.dialogStore = new DialogStore(this, new DisclaimerApi(this));
