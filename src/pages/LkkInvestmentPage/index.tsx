@@ -175,16 +175,16 @@ export class LkkInvestmentPage extends React.Component<
         </div>
         <br />
 
-        <div className="container">
-          <div className="row lkk-investment__question">
-            In order to proceed with the investment, please read carefully the
-            LKK Investment Agreement:
-          </div>
-          <div className="lkk-investment__agreement_paragraph row">
+        <div className="row lkk-investment__question">
+          In order to proceed with the investment, please read carefully the LKK
+          Investment Agreement:
+        </div>
+        <div className="lkk-agreement-container">
+          <div className="lkk-investment__agreement_paragraph">
             This Private Agreement (“<b>Agreement</b>”) is executed on{' '}
             <b>[●]</b> by and between:
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>(A)</b>
             </div>
@@ -193,7 +193,7 @@ export class LkkInvestmentPage extends React.Component<
               <b>[●]</b> (the “<b>Investor</b>”); and
             </div>
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>(B)</b>
             </div>
@@ -203,13 +203,13 @@ export class LkkInvestmentPage extends React.Component<
               Switzerland ("<b>Olsen</b>"),
             </div>
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             (the Investor and Olsen each a “<b>Party</b>” and, jointly, the “<b>Parties</b>”).
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <i>WHEREAS</i>,
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>A.</b>
             </div>
@@ -221,7 +221,7 @@ export class LkkInvestmentPage extends React.Component<
               with a par value of CHF 0.01 each.
             </div>
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>B.</b>
             </div>
@@ -230,7 +230,7 @@ export class LkkInvestmentPage extends React.Component<
               100 Lykke coinsper common share (100:1 ratio) (“<b>LKK</b>”).
             </div>
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>C.</b>
             </div>
@@ -244,7 +244,7 @@ export class LkkInvestmentPage extends React.Component<
               or <i>[a private individual who has been duly KYCed by Lykke]</i>.
             </div>
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>D.</b>
             </div>
@@ -254,13 +254,13 @@ export class LkkInvestmentPage extends React.Component<
               Investor.
             </div>
           </div>
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             Now, therefore, the Parties agree to discipline their contractual
             relationship pursuant to the terms and condition set forth hereunder
             in this Agreement.
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>1.</b>
             </div>
@@ -276,7 +276,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>2.</b>
             </div>
@@ -287,7 +287,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">2.1</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -297,7 +297,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">2.2</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -325,7 +325,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>3.</b>
             </div>
@@ -336,7 +336,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">3.1</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -349,7 +349,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>4.</b>
             </div>
@@ -360,7 +360,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">4.1</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -370,7 +370,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>5.</b>
             </div>
@@ -381,7 +381,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">5.1</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -395,7 +395,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">5.2</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -409,7 +409,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">5.3</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -422,7 +422,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">5.4</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -437,7 +437,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">5.5</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -453,7 +453,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">5.6</div>
             <div className="col-sm-11">
               <div className="lkk-investment__agreement_paragraph_header">
@@ -466,7 +466,7 @@ export class LkkInvestmentPage extends React.Component<
             </div>
           </div>
 
-          <div className="lkk-investment__agreement_paragraph row">
+          <div className="lkk-investment__agreement_paragraph">
             <div className="col-sm-1">
               <b>6.</b>
             </div>
@@ -483,20 +483,20 @@ export class LkkInvestmentPage extends React.Component<
               </div>
             </div>
           </div>
-
-          <div className="row">
-            <Checkbox
-              label="By ticking this box you are confirming that you agree with the above agreement as well as the above-mentioned investment instructions."
-              checked={this.state.agreementAccepted === true}
-              onToggle={() =>
-                this.setState({
-                  agreementAccepted: !this.state.agreementAccepted
-                })}
-              className="lkk-investment__radiobutton"
-            />
-          </div>
         </div>
         <hr />
+
+        <div className="row">
+          <Checkbox
+            label="By ticking this box you are confirming that you agree with the above agreement as well as the above-mentioned investment instructions."
+            checked={this.state.agreementAccepted === true}
+            onToggle={() =>
+              this.setState({
+                agreementAccepted: !this.state.agreementAccepted
+              })}
+            className="lkk-investment__radiobutton"
+          />
+        </div>
 
         <div className="lkk-investment-form__actions">
           <input
