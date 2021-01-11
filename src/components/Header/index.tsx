@@ -14,7 +14,7 @@ import {STORE_ROOT} from '../../constants/stores';
 
 import './style.css';
 
-const FEES_AND_LIMITS_ROUTE = 'https://www.lykke.com/cp/wallet-fees-and-limits';
+const FEES_AND_LIMITS_ROUTE = 'https://support.lykke.com/hc/en-us/articles/115002141125-What-are-the-fees-and-charges-';
 
 export const Header: React.SFC<RootStoreProps & RouteProps> = ({
   rootStore,
