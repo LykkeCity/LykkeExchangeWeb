@@ -1,8 +1,7 @@
 import {action, observable} from 'mobx';
 import {RootStore} from '.';
-import {LkkInvestmentApi} from '../api/lkkInvestmentApi';
 import {TransferApi} from '../api/transferApi';
-import {LkkInvestmentModel, TransferModel} from '../models';
+import {TransferModel} from '../models';
 import {TransferFormModel} from '../models';
 
 export class TransferStore {
@@ -10,18 +9,10 @@ export class TransferStore {
   @observable newTransfer: TransferModel;
   @observable form: TransferFormModel;
 
-  constructor(
-    readonly rootStore: RootStore,
-    private api: TransferApi,
-    private lkkInvestmentApi: LkkInvestmentApi
-  ) {
+  constructor(readonly rootStore: RootStore, private api: TransferApi) {
     this.newTransfer = this.createTransfer(false);
     this.form = new TransferFormModel();
   }
-
-  @action
-  sendInvestmentRequest = (model: LkkInvestmentModel) =>
-    this.lkkInvestmentApi.sendRequest(model);
 
   @action
   createTransfer = (addtoStore = true) => {

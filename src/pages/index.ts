@@ -8,4 +8,3 @@ export {default as VerificationPage} from './VerificationPage';
 export {default as WithdrawCryptoPage} from './WithdrawCryptoPage';
 export {default as ConfirmOperationPage} from './ConfirmOperationPage';
 export {default as WithdrawSwiftPage} from './WithdrawSwiftPage';
-export {default as LkkInvestmentPage} from './LkkInvestmentPage';

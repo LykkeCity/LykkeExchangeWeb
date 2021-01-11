@@ -65,5 +65,3 @@ export const ROUTE_WITHDRAW_SWIFT_SUCCESS = `${ROUTE_WITHDRAW_SWIFT_BASE}/succes
 export const ROUTE_WITHDRAW_SWIFT_FAIL = `${ROUTE_WITHDRAW_SWIFT_BASE}/fail`;
 
 export const ROUTE_AUTH = '/auth';
-
-export const ROUTE_LKK_INVESTMENT = '/lkk-investment';
