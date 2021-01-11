@@ -8,7 +8,6 @@ import {RouteComponentProps} from 'react-router-dom';
 import Yup from 'yup';
 import {RootStoreProps} from '../../App';
 import {AmountInput} from '../../components/AmountInput';
-import {ROUTE_LKK_INVESTMENT_SUCCESS} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 import {LkkInvestmentModel} from '../../models';
 
@@ -22,7 +21,8 @@ export class LkkInvestmentPage extends React.Component<
   LkkInvestmentPageProps,
   {radioButtonValue: string; agreementAccepted: boolean}
 > {
-  state = {radioButtonValue: '', agreementAccepted: false};
+  state = {radioButtonValue: 'radio-bank-transfer', agreementAccepted: false};
+
   readonly profileStore = this.props.rootStore!.profileStore;
   readonly transferStore = this.props.rootStore!.transferStore;
 
@@ -77,7 +77,7 @@ export class LkkInvestmentPage extends React.Component<
     this.transferStore.sendInvestmentRequest(values);
 
     // todo
-    this.props.history.replace(ROUTE_LKK_INVESTMENT_SUCCESS);
+    this.props.history.replace('/successpage');
   };
 
   private radioButtonChanged = (value: string) => {
@@ -506,8 +506,7 @@ export class LkkInvestmentPage extends React.Component<
             disabled={
               formikBag.isSubmitting ||
               !formikBag.isValid ||
-              this.state.agreementAccepted === false ||
-              this.state.radioButtonValue === ''
+              this.state.agreementAccepted === false
             }
           />
         </div>
