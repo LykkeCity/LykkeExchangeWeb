@@ -7,15 +7,7 @@ const mockTransferApi = {
   fetchOperationDetails: jest.fn(),
   startTransfer: jest.fn()
 };
-const mockLkkInvestApi = {
-  sendRequest: jest.fn()
-};
-
-const transferStore = new TransferStore(
-  rootStore,
-  mockTransferApi as any,
-  mockLkkInvestApi as any
-);
+const transferStore = new TransferStore(rootStore, mockTransferApi as any);
 rootStore.assetStore.getById = jest.fn();
 const {createTransfer} = transferStore;
 const {walletStore: {createWallet}} = rootStore;
@@ -80,11 +72,7 @@ describe('transfer store', () => {
   });
 
   it('newTransfer should not be added to transfer list', () => {
-    const store = new TransferStore(
-      rootStore,
-      mockTransferApi,
-      mockLkkInvestApi
-    );
+    const store = new TransferStore(rootStore, mockTransferApi);
 
     expect(store.transfers.length).toBe(0);
     expect(store.transfers).not.toContain(store.newTransfer);

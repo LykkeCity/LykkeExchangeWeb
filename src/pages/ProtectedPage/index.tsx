@@ -19,7 +19,6 @@ import {
 import {TransferFail} from '../../components/TransferResult/index';
 import TransferResult from '../../components/TransferResult/index';
 import {
-  LkkInvestmentSuccess,
   WithdrawCryptoFail,
   WithdrawCryptoSuccess,
   WithdrawSwiftFail,
@@ -39,8 +38,6 @@ import {
   ROUTE_DEPOSIT_SWIFT,
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_HISTORY,
-  ROUTE_LKK_INVESTMENT,
-  ROUTE_LKK_INVESTMENT_SUCCESS,
   ROUTE_PROFILE,
   ROUTE_ROOT,
   ROUTE_SECURITY,
@@ -64,7 +61,6 @@ import {
   DepositCreditCardPage,
   DepositCryptoPage,
   DepositSwiftPage,
-  LkkInvestmentPage,
   ProfilePage,
   SecurityPage,
   VerificationPage,
@@ -317,11 +313,6 @@ export class ProtectedPage extends React.Component<
           component={WithdrawSwiftSuccess}
         />
         <RouteWithHeaderAndFooter
-          path={ROUTE_LKK_INVESTMENT_SUCCESS}
-          exact
-          component={LkkInvestmentSuccess}
-        />
-        <RouteWithHeaderAndFooter
           path={ROUTE_WITHDRAW_SWIFT}
           component={asLoading(WithdrawSwiftPage)}
         />
@@ -332,10 +323,6 @@ export class ProtectedPage extends React.Component<
         <RouteWithHeaderAndFooter
           path={ROUTE_HISTORY}
           component={asLoading(HistoryPage)}
-        />
-        <RouteWithHeaderAndFooter
-          path={ROUTE_LKK_INVESTMENT}
-          component={asLoading(LkkInvestmentPage)}
         />
         <RouteWithHeaderAndFooter component={NoMatch} />
       </Switch>

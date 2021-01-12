@@ -18,7 +18,6 @@ import {
   ROUTE_DEPOSIT_CREDIT_CARD_TO,
   ROUTE_DEPOSIT_CRYPTO_TO,
   ROUTE_DEPOSIT_SWIFT_TO,
-  ROUTE_LKK_INVESTMENT,
   ROUTE_TRANSFER_FROM,
   ROUTE_WITHDRAW_CRYPTO_FROM,
   ROUTE_WITHDRAW_SWIFT_FROM
@@ -399,24 +398,6 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
                                           balance.assetId
                                         )
                                     ]}
-                                  {wallet.isTrading &&
-                                    this.isAvailableForInvestmentRound(
-                                      balance.assetId
-                                    ) && [
-                                      <DropdownListItem
-                                        isCategory={true}
-                                        key="Invest"
-                                      >
-                                        Invest
-                                      </DropdownListItem>,
-                                      this.renderMenuItem(
-                                        'Investment Round',
-                                        ROUTE_LKK_INVESTMENT,
-                                        `${process.env
-                                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
-                                        balance.assetId
-                                      )
-                                    ]}
                                   {!wallet.isTrading && (
                                     <DropdownListItem>
                                       <Link
@@ -624,9 +605,6 @@ export class WalletBalanceList extends React.Component<WalletBalanceListProps> {
   private isAvailableForWithdraw = (assetId: string) =>
     this.isAvailableForSwiftWithdraw(assetId) ||
     this.isAvailableForCryptoWithdraw(assetId);
-
-  private isAvailableForInvestmentRound = (assetId: string) =>
-    assetId === 'LKK';
 }
 
 export default inject(STORE_ROOT)(observer(WalletBalanceList));

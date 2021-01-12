@@ -23,4 +23,3 @@ export * from './withdrawCryptoModel';
 export * from './withdrawSwiftModel';
 export * from './verificationModel';
 export * from './transferFormModel';
-export * from './lkkInvestmentModel';
