@@ -13,7 +13,7 @@ export class WalletModel {
   @observable title = '';
   @observable desc = '';
   @observable apiKey = '';
-  @observable apiv2Only = true;
+  @observable apiv2Only = false;
   @observable type: WalletType;
 
   @observable updating: boolean = false;
@@ -40,7 +40,7 @@ export class WalletModel {
 
   @observable collapsed = true;
   @observable expanded = !this.collapsed;
-  @observable optionsExanded = false;
+  @observable optionsExanded = true;
 
   @computed
   get hasBalances() {
@@ -144,8 +144,8 @@ export class WalletModel {
   reset = () => {
     this.title = '';
     this.desc = '';
-    this.apiv2Only = true;
-    this.optionsExanded = false;
+    this.apiv2Only = false;
+    this.optionsExanded = true;
   };
 }
 
