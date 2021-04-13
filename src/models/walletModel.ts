@@ -144,8 +144,8 @@ export class WalletModel {
   reset = () => {
     this.title = '';
     this.desc = '';
-    this.apiv2Only = true;
-    this.optionsExanded = false;
+    this.apiv2Only = false;
+    this.optionsExanded = true;
   };
 }
 
