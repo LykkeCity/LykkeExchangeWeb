@@ -25,9 +25,6 @@ export default function Nav() {
               </a>
             </li>
             <li>
-              <a href="https://lykke.com/apply-ico">Listing</a>
-            </li>
-            <li>
               <a href="https://lykke.com/city/faq">FAQ</a>
             </li>
           </menu>
@@ -37,10 +34,7 @@ export default function Nav() {
           <menu className="nav nav--list">
             <li className="nav__title">Company</li>
             <li>
-              <a href="https://lykke.com/leadership">Core team</a>
-            </li>
-            <li>
-              <a href="https://lykke.com/city/invest">Invest</a>
+              <a href="https://lykke.com/about/team">Core team</a>
             </li>
             <li>
               <a href="https://lykke.com/company/news">News</a>
@@ -75,10 +69,7 @@ export default function Nav() {
               <a href="https://github.com/LykkeCity/">Github</a>
             </li>
             <li>
-              <a href="https://streams.lykke.com/">Streams</a>
-            </li>
-            <li>
-              <a href="https://lykke.com/city/open_positions">Career</a>
+              <a href="https://lykke.com/about/careers">Career</a>
             </li>
           </menu>
         </div>
@@ -101,15 +92,7 @@ export default function Nav() {
               <a href="https://www.linkedin.com/company/lykke-ag">Linkedin</a>
             </li>
             <li>
-              <a href="https://www.reddit.com/r/lykke/">Reddit</a>
-            </li>
-            <li>
-              <a href="https://t.co/TmjMYnQD7T">Telegram</a>
-            </li>
-            <li>
-              <a href="https://t.me/LykkeDev" rel="noopener noreferrer">
-                Telegram DEV
-              </a>
+              <a href="https://t.me/lykkechannel">Telegram</a>
             </li>
             <li>
               <a href="https://lykke.com/cp/rss">RSS</a>
