@@ -58,25 +58,11 @@ export default ({theme}: any) => (
     </li>
     <li>
       <a
-        href="https://www.reddit.com/r/lykke/"
-        target="_blank"
-        className="social__item"
-      >
-        <i className="icon icon--reddit" />
-      </a>
-    </li>
-    <li>
-      <a
-        href="https://t.co/TmjMYnQD7T"
+        href="https://t.me/lykkechannel"
         target="_blank"
         className="social__item"
       >
         <i className="icon icon--telegram" />
-      </a>
-    </li>
-    <li>
-      <a href="https://t.me/LykkeDev" target="_blank" className="social__item">
-        <i className="icon icon--telegram_dev" />
       </a>
     </li>
   </ul>
