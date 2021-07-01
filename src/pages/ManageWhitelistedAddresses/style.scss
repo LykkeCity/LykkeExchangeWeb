@@ -96,6 +96,7 @@
   }
 
   table {
+    table-layout: fixed;
     background: $gray-5;
 
     &.selected {
@@ -104,11 +105,15 @@
 
     tr {
       td:first-child {
+        width: 135px;
         text-align: right;
         text-transform: uppercase;
       }
       td:last-child {
         font-weight: bolder;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
@@ -159,6 +164,10 @@
 
     .table-responsive {
       width: 350px;
+    }
+
+    table tr td:first-child {
+      width: 100px;
     }
 
     .actions {
