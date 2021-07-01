@@ -1,0 +1,208 @@
+@import '../../styles/utils';
+
+.arrow-back {
+  position: relative;
+  top: 35px;
+}
+
+.whitelisting-form {
+  .submit-note {
+    width: 250px;
+    margin: 0 auto 20px;
+    color: $red;
+  }
+}
+
+.manage-whitelisted-addresses-page {
+  @include rem(padding, 0 100px);
+
+  display: flex;
+
+  .content .items {
+    position: relative;
+
+    .hint {
+      position: absolute;
+      right: -22px;
+      opacity: 0.5;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .prev,
+    .next {
+      z-index: 10;
+      position: absolute;
+      right: -30px;
+      color: $blue;
+    }
+
+    .prev {
+      top: 0;
+    }
+
+    .next {
+      bottom: 0;
+    }
+
+    .icon {
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+
+      &.disabled {
+        color: $gray;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .status {
+    &.active {
+      color: $green;
+    }
+
+    &.pending {
+      color: $yellow;
+    }
+  }
+
+  .filters {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    .hint {
+      margin-right: 10px;
+      opacity: 0.5;
+    }
+
+    > input {
+      max-width: 300px;
+    }
+  }
+
+  .table-responsive {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    width: 550px;
+
+    & + .table-responsive {
+      margin-top: 20px;
+    }
+  }
+
+  table {
+    table-layout: fixed;
+    background: $gray-5;
+
+    &.selected {
+      border: 3px solid $blue;
+    }
+
+    tr {
+      td:first-child {
+        width: 135px;
+        text-align: right;
+        text-transform: uppercase;
+      }
+      td:last-child {
+        font-weight: bolder;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+
+    tr:nth-child(odd) {
+      background: $gray-25;
+    }
+  }
+
+  .actions {
+    margin-left: 100px;
+    margin-top: 70px;
+  }
+
+  @media (max-width: $screen-tablet) {
+    @include rem(padding, 0 50px);
+
+    .table-responsive {
+      width: 400px;
+    }
+
+    .actions {
+      margin-left: 40px;
+    }
+  }
+
+  @media (max-width: $screen-mobile-old) {
+    @include rem(padding, 0 10px);
+
+    .content .items {
+      .hint {
+        display: none;
+      }
+
+      .prev,
+      .next {
+        position: initial;
+        text-align: center;
+      }
+
+      .prev {
+        margin-bottom: 5px;
+      }
+
+      .next {
+        margin-top: 5px;
+      }
+    }
+
+    .table-responsive {
+      width: 350px;
+    }
+
+    table tr td:first-child {
+      width: 100px;
+    }
+
+    .actions {
+      margin-left: 20px;
+    }
+  }
+
+  @media (max-width: $screen-mobile-tiny) {
+    @include rem(padding, 0 50px);
+
+    flex-direction: column;
+
+    .table-responsive {
+      width: 100%;
+    }
+
+    .content {
+      order: 2;
+    }
+
+    .actions {
+      order: 1;
+      margin-left: 0;
+      margin-top: 0;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-around;
+
+      button {
+        width: 120px;
+      }
+    }
+  }
+}
+
+.manage-whitelisted-addresses-page-wrapper {
+  @include rem(margin-bottom, 90px);
+}

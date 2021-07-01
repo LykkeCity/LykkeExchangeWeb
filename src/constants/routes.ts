@@ -7,6 +7,9 @@ export const ROUTE_WALLETS = '/wallets';
 export const ROUTE_WALLETS_TRADING = '/wallets/trading';
 export const ROUTE_WALLETS_HFT = '/wallets/hft';
 
+export const ROUTE_MANAGE_WHITELISTED_ADDRESSES =
+  '/manage-whitelisted-addresses';
+
 export const ROUTE_TRANSFER_BASE = '/transfer';
 export const ROUTE_TRANSFER = `${ROUTE_TRANSFER_BASE}/:dest/:walletId/:assetId?`;
 export const ROUTE_TRANSFER_FROM = (walletId: string, assetId = '') =>

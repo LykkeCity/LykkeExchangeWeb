@@ -17,6 +17,7 @@ export class RestApi {
   protected postRes = this._postRes(() => this.apiBearerWretch());
   protected postForm = this._postForm(() => this.apiBearerWretch());
   protected put = this._put(() => this.apiBearerWretch());
+  protected delete = this._delete(() => this.apiBearerWretch());
 
   constructor(protected rootStore: RootStore) {}
 
@@ -125,6 +126,21 @@ export class RestApi {
         .url(url)
         .json(payload)
         .put()
+        .unauthorized(callback)
+        .json();
+  }
+
+  // tslint:disable-next-line:variable-name
+  private _delete(wretcher: () => Wretcher) {
+    return (
+      url: string,
+      payload: any,
+      callback: () => void = this.rootStore.authStore.redirectToAuthServer
+    ) =>
+      wretcher()
+        .url(url)
+        .json(payload)
+        .delete()
         .unauthorized(callback)
         .json();
   }
