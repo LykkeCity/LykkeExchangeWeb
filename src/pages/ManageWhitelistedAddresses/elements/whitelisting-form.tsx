@@ -62,7 +62,7 @@ export class WhitelistingForm extends React.Component<Props> {
 
   render() {
     return (
-      <form className="whitelisting-form">
+      <form className="whitelisting-form" onSubmit={this.handleSubmitForm}>
         <div className="form-group">
           <label htmlFor="name" className="control-label">
             Name
@@ -93,7 +93,7 @@ export class WhitelistingForm extends React.Component<Props> {
             onChange={this.handleAddressBaseChange}
             onBlur={this.validateAddressBase}
             className={classnames('form-control', {
-              'form-control--error': this.state.nameInvalid
+              'form-control--error': this.state.addressBaseInvalid
             })}
           />
           {this.state.addressBaseInvalid && (
@@ -111,7 +111,7 @@ export class WhitelistingForm extends React.Component<Props> {
             onChange={this.handleAddressExtensionChange}
             onBlur={this.validateAddressExtension}
             className={classnames('form-control', {
-              'form-control--error': this.state.nameInvalid
+              'form-control--error': this.state.addressExtensionInvalid
             })}
           />
           {this.state.addressExtensionInvalid && (
@@ -144,7 +144,6 @@ export class WhitelistingForm extends React.Component<Props> {
             <button
               className="btn btn--primary pull-right"
               type="submit"
-              onClick={this.handleSubmitDelete}
               disabled={!this.isFormValid || this.props.isSubmitting}
             >
               Remove
@@ -154,7 +153,6 @@ export class WhitelistingForm extends React.Component<Props> {
             <button
               className="btn btn--primary pull-right"
               type="submit"
-              onClick={this.handleSubmitAdd}
               disabled={!this.isFormValid || this.props.isSubmitting}
             >
               Add
@@ -178,7 +176,7 @@ export class WhitelistingForm extends React.Component<Props> {
   private handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({name: e.currentTarget.value});
     if (this.state.nameInvalid) {
-      this.validateName();
+      setTimeout(() => this.validateName(), 0);
     }
   };
 
@@ -187,7 +185,7 @@ export class WhitelistingForm extends React.Component<Props> {
   ) => {
     this.setState({addressBase: e.currentTarget.value});
     if (this.state.addressBaseInvalid) {
-      this.validateAddressBase();
+      setTimeout(() => this.validateAddressBase(), 0);
     }
   };
 
@@ -196,14 +194,14 @@ export class WhitelistingForm extends React.Component<Props> {
   ) => {
     this.setState({addressExtension: e.currentTarget.value});
     if (this.state.addressExtensionInvalid) {
-      this.validateAddressExtension();
+      setTimeout(() => this.validateAddressExtension(), 0);
     }
   };
 
   private handle2faCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({code2fa: e.currentTarget.value});
     if (this.state.code2faInvalid) {
-      this.validate2faCode();
+      setTimeout(() => this.validate2faCode(), 0);
     }
   };
 
@@ -219,26 +217,36 @@ export class WhitelistingForm extends React.Component<Props> {
   };
 
   private validateName = () => {
-    this.setState({nameInvalid: !this.state.name});
-    return !this.state.nameInvalid;
+    const nameInvalid = !this.state.name;
+    this.setState({nameInvalid});
+    return !nameInvalid;
   };
 
   private validateAddressBase = () => {
-    this.setState({addressBaseInvalid: !this.state.addressBase});
-    return !this.state.addressBaseInvalid;
+    const addressBaseInvalid = !this.state.addressBase;
+    this.setState({addressBaseInvalid});
+    return !addressBaseInvalid;
   };
 
   private validateAddressExtension = () => {
-    this.setState({addressExtensionInvalid: !this.state.addressExtension});
-    return !this.state.addressExtensionInvalid;
+    const addressExtensionInvalid = !this.state.addressExtension;
+    this.setState({addressExtensionInvalid});
+    return !addressExtensionInvalid;
   };
 
   private validate2faCode = () => {
-    this.setState({code2faInvalid: !this.state.code2fa});
-    return !this.state.code2faInvalid;
+    const code2faInvalid = !this.state.code2fa;
+    this.setState({code2faInvalid});
+    return !code2faInvalid;
   };
 
-  private handleSubmitAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
+  private handleSubmitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    this.props.selectedItem
+      ? await this.handleDeleteSubmit(e)
+      : await this.handleAddSubmit(e);
+  };
+
+  private handleAddSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!this.validateForm()) {
@@ -254,9 +262,7 @@ export class WhitelistingForm extends React.Component<Props> {
     this.setState({submitErrorCode});
   };
 
-  private handleSubmitDelete = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  private handleDeleteSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!this.validateForm()) {

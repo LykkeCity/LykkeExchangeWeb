@@ -44,6 +44,42 @@ export class ManageWhitelistedAddressesPage extends React.Component<
       : 1;
   }
 
+  @computed
+  private get filteredWhitelistings() {
+    const {whitelistings} = this.whitelistingStore;
+    const filter = this.filter.toLowerCase();
+    return filter.length && whitelistings && whitelistings.length
+      ? whitelistings.filter(
+          x =>
+            x.name.toLowerCase().includes(filter) ||
+            x.addressBase.toLowerCase().includes(filter) ||
+            (x.addressExtension || '--').toLowerCase().includes(filter) ||
+            x.status.toLowerCase().includes(filter)
+        )
+      : whitelistings;
+  }
+
+  @computed
+  private get allWhitelistingsCount() {
+    const {whitelistings} = this.whitelistingStore;
+    return whitelistings ? whitelistings.length : 0;
+  }
+
+  @computed
+  private get filteredWhitelistingsCount() {
+    return this.filteredWhitelistings ? this.filteredWhitelistings.length : 0;
+  }
+
+  @computed
+  private get pagedWhitelistings() {
+    return this.filteredWhitelistings && this.filteredWhitelistings.length
+      ? this.filteredWhitelistings.slice(
+          (this.page - 1) * this.pageSize,
+          this.page * this.pageSize
+        )
+      : this.filteredWhitelistings;
+  }
+
   componentDidMount() {
     this.fetchAll();
 
@@ -204,42 +240,6 @@ export class ManageWhitelistedAddressesPage extends React.Component<
     setTimeout(() => (this.selectedWhitelisting = item), 0);
 
   private handleGlobalClick = () => this.resetSelectedWhitelisting();
-
-  @computed
-  private get filteredWhitelistings() {
-    const {whitelistings} = this.whitelistingStore;
-    const filter = this.filter.toLowerCase();
-    return filter.length && whitelistings && whitelistings.length
-      ? whitelistings.filter(
-          x =>
-            x.name.toLowerCase().includes(filter) ||
-            x.addressBase.toLowerCase().includes(filter) ||
-            (x.addressExtension || '--').toLowerCase().includes(filter) ||
-            x.status.toLowerCase().includes(filter)
-        )
-      : whitelistings;
-  }
-
-  @computed
-  get allWhitelistingsCount() {
-    const {whitelistings} = this.whitelistingStore;
-    return whitelistings ? whitelistings.length : 0;
-  }
-
-  @computed
-  get filteredWhitelistingsCount() {
-    return this.filteredWhitelistings ? this.filteredWhitelistings.length : 0;
-  }
-
-  @computed
-  private get pagedWhitelistings() {
-    return this.filteredWhitelistings && this.filteredWhitelistings.length
-      ? this.filteredWhitelistings.slice(
-          (this.page - 1) * this.pageSize,
-          this.page * this.pageSize
-        )
-      : this.filteredWhitelistings;
-  }
 
   private resetSelectedWhitelisting = () => {
     if (!this.uiStore.showWhitelistingDrawer) {
