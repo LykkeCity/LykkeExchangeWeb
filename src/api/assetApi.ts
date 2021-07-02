@@ -11,6 +11,7 @@ export interface AssetApi {
   fetchCategories: () => ApiResponse<any>;
   fetchPaymentMethods: () => ApiResponse<any>;
   fetchWithdrawMethods: () => ApiResponse<any>;
+  fetchAvailableCryptoOperations: () => ApiResponse<any>;
 }
 
 export class RestAssetApi extends RestApi implements AssetApi {
@@ -27,6 +28,8 @@ export class RestAssetApi extends RestApi implements AssetApi {
 
   fetchPaymentMethods = () => this.get('/paymentmethods');
   fetchWithdrawMethods = () => this.get('/withdrawals/available');
+  fetchAvailableCryptoOperations = () =>
+    this.get('/assets/available/crypto-operations');
 }
 
 export default RestAssetApi;

@@ -1,6 +1,7 @@
 import {observable, runInAction} from 'mobx';
 import {RootStore} from '.';
-import {WhitelistingApi} from '../api/';
+import {AssetApi, WhitelistingApi} from '../api/';
+import CryptoOperationModel from '../models/cryptoOperationModel';
 import WhitelistingModel from '../models/whitelistingModel';
 
 export class WhitelistingStore {
@@ -9,15 +10,23 @@ export class WhitelistingStore {
   @observable whitelistings: WhitelistingModel[];
   @observable isLoading: boolean = false;
 
+  @observable cryptoOperations: CryptoOperationModel[];
+  @observable isLoadingCryptoOperations: boolean = false;
+
   @observable isLoadingCreate: boolean = false;
   @observable isLoadingDelete: boolean = false;
 
-  constructor(rootStore: RootStore, private api?: WhitelistingApi) {
+  constructor(
+    rootStore: RootStore,
+    private api?: WhitelistingApi,
+    private assetApi?: AssetApi
+  ) {
     this.rootStore = rootStore;
   }
 
   createWhitelisting = async (
     name: string,
+    assetId: string,
     addressBase: string,
     addressExtension: string,
     code2fa: string
@@ -26,6 +35,7 @@ export class WhitelistingStore {
     try {
       return await this.api!.createWhitelisting(
         name,
+        assetId,
         addressBase,
         addressExtension,
         code2fa
@@ -47,15 +57,30 @@ export class WhitelistingStore {
   fetchAll = async () => {
     this.isLoading = true;
     try {
-      const whitelistings = await this.api!.fetchAll();
+      const response = await this.api!.fetchAll();
       runInAction(
         () =>
-          (this.whitelistings = whitelistings.map(
+          (this.whitelistings = response.map(
             (dto: any) => new WhitelistingModel(dto)
           ))
       );
     } finally {
       runInAction(() => (this.isLoading = false));
+    }
+  };
+
+  fetchCryptoOperations = async () => {
+    this.isLoadingCryptoOperations = true;
+    try {
+      const response = await this.assetApi!.fetchAvailableCryptoOperations();
+      runInAction(
+        () =>
+          (this.cryptoOperations = response.Assets.map(
+            (dto: any) => new CryptoOperationModel(dto)
+          ))
+      );
+    } finally {
+      runInAction(() => (this.isLoadingCryptoOperations = false));
     }
   };
 }
