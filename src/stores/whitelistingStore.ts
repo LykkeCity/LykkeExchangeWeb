@@ -9,6 +9,7 @@ export class WhitelistingStore {
 
   @observable whitelistings: WhitelistingModel[];
   @observable isLoading: boolean = false;
+  @observable isLoaded: boolean = false;
 
   @observable cryptoOperations: CryptoOperationModel[];
   @observable isLoadingCryptoOperations: boolean = false;
@@ -65,7 +66,10 @@ export class WhitelistingStore {
           ))
       );
     } finally {
-      runInAction(() => (this.isLoading = false));
+      runInAction(() => {
+        this.isLoading = false;
+        this.isLoaded = true;
+      });
     }
   };
 

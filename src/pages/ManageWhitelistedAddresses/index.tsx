@@ -93,7 +93,7 @@ export class ManageWhitelistedAddressesPage extends React.Component<
 
   render() {
     if (
-      this.whitelistingStore.isLoading ||
+      (this.whitelistingStore.isLoading && !this.whitelistingStore.isLoaded) ||
       this.whitelistingStore.isLoadingCryptoOperations
     ) {
       return <Spinner />;
@@ -144,17 +144,21 @@ export class ManageWhitelistedAddressesPage extends React.Component<
                 allCount={this.allWhitelistingsCount}
                 filterChange={this.handleFilterChange}
               />
-              <WhitelistingList
-                items={this.pagedWhitelistings}
-                selectedItem={this.selectedWhitelisting}
-                page={this.page}
-                pageSize={this.pageSize}
-                lastPage={this.lastPage}
-                filteredCount={this.filteredWhitelistingsCount}
-                itemClick={this.handleItemClick}
-                prevPageClick={this.handlePrevClick}
-                nextPageClick={this.handleNextClick}
-              />
+              {this.whitelistingStore.isLoading ? (
+                <Spinner />
+              ) : (
+                <WhitelistingList
+                  items={this.pagedWhitelistings}
+                  selectedItem={this.selectedWhitelisting}
+                  page={this.page}
+                  pageSize={this.pageSize}
+                  lastPage={this.lastPage}
+                  filteredCount={this.filteredWhitelistingsCount}
+                  itemClick={this.handleItemClick}
+                  prevPageClick={this.handlePrevClick}
+                  nextPageClick={this.handleNextClick}
+                />
+              )}
             </div>
             <WhitelistingActions
               deleteEnabled={!!this.selectedWhitelisting}
