@@ -22,6 +22,7 @@ export type WhitelistingErrorCodes =
   | 'Unknown'
   | 'TwoFactorRequired'
   | 'SecondFactorCheckForbiden'
+  | 'SecondFactorCodeIncorrect'
   | 'AssetUnavailable'
   | 'BlockchainWalletDepositAddressNotGenerated'
   | 'AddressAlreadyWhitelisted';
@@ -194,6 +195,24 @@ export class ManageWhitelistedAddressesPage extends React.Component<
 
   private handleNextClick = () => this.page++;
 
+  private getSubmitErrorCode(response: any): WhitelistingErrorCodes {
+    if (response.IsCodeValid === true) {
+      return 'None';
+    } else if (response.Error) {
+      if (
+        response.Error.Code === 'TwoFactorRequired' ||
+        response.Error.Code === 'SecondFactorCheckForbiden' ||
+        response.Error.Code === 'SecondFactorCodeIncorrect'
+      ) {
+        return response.Error.Code as WhitelistingErrorCodes;
+      } else {
+        return 'Unknown';
+      }
+    } else {
+      return 'Unknown';
+    }
+  }
+
   private handleAddSubmit = async (
     name: string,
     assetId: string,
@@ -209,15 +228,12 @@ export class ManageWhitelistedAddressesPage extends React.Component<
         addressExtension,
         code2fa
       );
-      if (
-        response.Error.Code === 'TwoFactorRequired' ||
-        response.Error.Code === 'SecondFactorCheckForbiden'
-      ) {
-        return response.Error.Code;
+      const errorCode = this.getSubmitErrorCode(response);
+      if (errorCode === 'None') {
+        this.uiStore.toggleWhitelistingDrawer();
+        this.fetchAll();
       }
-      this.uiStore.toggleWhitelistingDrawer();
-      this.fetchAll();
-      return 'None';
+      return errorCode;
     } catch (error) {
       // TODO: error.code
       const err = error.toString();
@@ -239,15 +255,12 @@ export class ManageWhitelistedAddressesPage extends React.Component<
         this.selectedWhitelisting!.id,
         code2fa
       );
-      if (
-        response.Error.Code === 'TwoFactorRequired' ||
-        response.Error.Code === 'SecondFactorCheckForbiden'
-      ) {
-        return response.Error.Code;
+      const errorCode = this.getSubmitErrorCode(response);
+      if (errorCode === 'None') {
+        this.uiStore.toggleWhitelistingDrawer();
+        this.fetchAll();
       }
-      this.uiStore.toggleWhitelistingDrawer();
-      this.fetchAll();
-      return 'None';
+      return errorCode;
     } catch (error) {
       return 'Unknown';
     }
