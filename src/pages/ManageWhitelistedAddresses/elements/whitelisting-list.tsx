@@ -93,6 +93,12 @@ export class WhitelistingList extends React.Component<Props> {
                 <td>{x.addressExtension || '--'}</td>
               </tr>
               <tr>
+                <td>Status</td>
+                <td className={classnames('status', x.status.toLowerCase())}>
+                  {x.status}
+                </td>
+              </tr>
+              <tr>
                 <td>Added</td>
                 <td>
                   <FormattedDate
@@ -101,12 +107,6 @@ export class WhitelistingList extends React.Component<Props> {
                     year="2-digit"
                     value={x.createdAt}
                   />
-                </td>
-              </tr>
-              <tr>
-                <td>Status</td>
-                <td className={classnames('status', x.status.toLowerCase())}>
-                  {x.status}
                 </td>
               </tr>
             </tbody>
