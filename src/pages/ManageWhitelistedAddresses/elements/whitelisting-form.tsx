@@ -2,6 +2,7 @@ import {Select} from '@lykkex/react-components';
 import classnames from 'classnames';
 import React from 'react';
 import {WhitelistingErrorCodes} from '..';
+import TfaDisabledBanner from '../../../components/Banner/TfaDisabledBanner';
 import CryptoOperationModel from '../../../models/cryptoOperationModel';
 import WhitelistingModel from '../../../models/whitelistingModel';
 
@@ -54,6 +55,8 @@ export class WhitelistingForm extends React.Component<Props> {
         return 'The action requires 2fa enabled.';
       case 'SecondFactorCheckForbiden':
         return '2FA check forbidden.';
+      case 'SecondFactorCodeIncorrect':
+        return 'The provided code for 2FA is incorrect.';
       case 'AssetUnavailable':
         return 'The requested asset is unavailable for the current action.';
       case 'BlockchainWalletDepositAddressNotGenerated':
@@ -193,9 +196,12 @@ export class WhitelistingForm extends React.Component<Props> {
           >
             Cancel and close
           </button>
-          {this.state.submitErrorCode !== 'None' && (
-            <div className="label_error">{this.submitErrorMessage}</div>
-          )}
+          {this.state.submitErrorCode !== 'None' &&
+            (this.state.submitErrorCode === 'SecondFactorCheckForbiden' ? (
+              <TfaDisabledBanner show={true} />
+            ) : (
+              <div className="label_error">{this.submitErrorMessage}</div>
+            ))}
         </div>
       </form>
     );
