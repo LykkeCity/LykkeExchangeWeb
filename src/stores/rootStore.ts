@@ -24,6 +24,7 @@ import {
   TransactionApi,
   TransferApi,
   WalletApi,
+  WhitelistingApi,
   WithdrawApi
 } from '../api';
 import RestAffiliateApi from '../api/affiliateApi';
@@ -33,6 +34,7 @@ import AnalyticsService from '../services/analyticsService';
 import MarketService from '../services/marketService';
 import {FeatureStore} from './featuresStore';
 import SocketStore from './socketStore';
+import WhitelistingStore from './whitelistingStore';
 
 export class RootStore {
   affiliateStore: AffiliateStore;
@@ -52,10 +54,12 @@ export class RootStore {
   marketService: any;
   socketStore: SocketStore;
   kycStore: KycStore;
+  whitelistingStore: WhitelistingStore;
 
   constructor() {
+    const assetApi = new AssetApi(this);
     this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
-    this.assetStore = new AssetStore(this, new AssetApi(this));
+    this.assetStore = new AssetStore(this, assetApi);
     this.authStore = new AuthStore(this, new AuthApi(this));
     this.walletStore = new WalletStore(this, new WalletApi(this));
     this.transactionStore = new TransactionStore(
@@ -74,6 +78,11 @@ export class RootStore {
     this.marketService = MarketService;
     this.socketStore = new SocketStore(this);
     this.kycStore = new KycStore(new RestKycApi(this), new RestKycApiV2(this));
+    this.whitelistingStore = new WhitelistingStore(
+      this,
+      new WhitelistingApi(this),
+      assetApi
+    );
   }
 
   reset() {

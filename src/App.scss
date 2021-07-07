@@ -118,3 +118,7 @@ textarea.form-control {
 input::-ms-clear {
   display: none;
 }
+
+.form-control--error .select-dropdown__control {
+  border-color: $red;
+}

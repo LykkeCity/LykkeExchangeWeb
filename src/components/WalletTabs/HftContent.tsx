@@ -1,6 +1,8 @@
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';
+import {Link} from 'react-router-dom';
 import {RootStoreProps} from '../../App';
+import {ROUTE_MANAGE_WHITELISTED_ADDRESSES} from '../../constants/routes';
 import {STORE_ROOT} from '../../constants/stores';
 
 class HftContent extends React.Component<RootStoreProps> {
@@ -36,11 +38,17 @@ class HftContent extends React.Component<RootStoreProps> {
           </div>
           <div className="col-sm-4 text-right">
             <button
-              className="btn btn--primary btn-sm"
+              className="btn btn--primary btn-sm btn-block"
               onClick={this.uiStore.toggleWalletDrawer}
             >
               <i className="icon icon--add" /> New Wallet
             </button>
+            <Link
+              to={ROUTE_MANAGE_WHITELISTED_ADDRESSES}
+              className="text--truncate btn btn--primary btn-sm btn-block"
+            >
+              Manage Whitelisted Addresses
+            </Link>
           </div>
         </div>
       </div>

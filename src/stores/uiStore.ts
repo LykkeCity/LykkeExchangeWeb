@@ -11,6 +11,7 @@ const betaBannerHashesStorage = StorageUtils.withKey(
 export class UiStore {
   readonly rootStore: RootStore;
 
+  @observable showWhitelistingDrawer: boolean = false;
   @observable showWalletDrawer: boolean = false;
   @observable showEditWalletDrawer: boolean = false;
   @observable showConfirmRegenerateKey: boolean = false;
@@ -45,6 +46,7 @@ export class UiStore {
   @computed
   get overlayed() {
     return (
+      this.showWhitelistingDrawer ||
       this.showWalletDrawer ||
       this.showEditWalletDrawer ||
       this.showConfirmRegenerateKey ||
@@ -94,6 +96,10 @@ export class UiStore {
 
   readonly toggleWalletDrawer = () => {
     this.showWalletDrawer = !this.showWalletDrawer;
+  };
+
+  readonly toggleWhitelistingDrawer = () => {
+    this.showWhitelistingDrawer = !this.showWhitelistingDrawer;
   };
 
   readonly toggleEditWalletDrawer = () => {

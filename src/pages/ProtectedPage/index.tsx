@@ -38,6 +38,7 @@ import {
   ROUTE_DEPOSIT_SWIFT,
   ROUTE_DEPOSIT_SWIFT_EMAIL_SENT,
   ROUTE_HISTORY,
+  ROUTE_MANAGE_WHITELISTED_ADDRESSES,
   ROUTE_PROFILE,
   ROUTE_ROOT,
   ROUTE_SECURITY,
@@ -71,6 +72,7 @@ import {
 import AffiliatePage from '../AffiliatePage/index';
 import AssetPage from '../AssetPage/index';
 import HistoryPage from '../HistoryPage/index';
+import ManageWhitelistedAddressesPage from '../ManageWhitelistedAddresses/index';
 import TransferPage from '../TransferPage/index';
 
 let RouteWithHeaderAndFooter: React.SFC<
@@ -323,6 +325,10 @@ export class ProtectedPage extends React.Component<
         <RouteWithHeaderAndFooter
           path={ROUTE_HISTORY}
           component={asLoading(HistoryPage)}
+        />
+        <RouteWithHeaderAndFooter
+          path={ROUTE_MANAGE_WHITELISTED_ADDRESSES}
+          component={asLoading(ManageWhitelistedAddressesPage)}
         />
         <RouteWithHeaderAndFooter component={NoMatch} />
       </Switch>
