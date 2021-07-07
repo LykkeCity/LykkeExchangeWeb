@@ -53,6 +53,7 @@ export class ManageWhitelistedAddressesPage extends React.Component<
       ? whitelistings.filter(
           x =>
             x.name.toLowerCase().includes(filter) ||
+            x.walletName.toLowerCase().includes(filter) ||
             x.addressBase.toLowerCase().includes(filter) ||
             (x.addressExtension || '--').toLowerCase().includes(filter) ||
             x.status.toLowerCase().includes(filter)
@@ -84,6 +85,7 @@ export class ManageWhitelistedAddressesPage extends React.Component<
   componentDidMount() {
     this.fetchAll();
     this.fetchCryptoOperations();
+    this.fetchWallets();
 
     window.addEventListener('click', this.handleGlobalClick);
   }
@@ -125,6 +127,7 @@ export class ManageWhitelistedAddressesPage extends React.Component<
                 }
                 selectedItem={this.selectedWhitelisting}
                 cryptoOperations={this.whitelistingStore.cryptoOperations}
+                wallets={this.whitelistingStore.wallets}
                 addSubmit={this.handleAddSubmit}
                 deleteSubmit={this.handleDeleteSubmit}
                 cancelClick={this.handleCancelSubmit}
@@ -186,6 +189,14 @@ export class ManageWhitelistedAddressesPage extends React.Component<
   private fetchCryptoOperations = async () => {
     try {
       await this.whitelistingStore.fetchCryptoOperations();
+    } catch (error) {
+      // TODO
+    }
+  };
+
+  private fetchWallets = async () => {
+    try {
+      await this.whitelistingStore.fetchWallets();
     } catch (error) {
       // TODO
     }
