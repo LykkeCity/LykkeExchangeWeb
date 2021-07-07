@@ -97,9 +97,11 @@ export class WhitelistingStore {
     this.isLoadingWallets = true;
     try {
       const response = await this.walletApi!.fetchAll();
+      const wallets: WalletDtoModel[] = response.map(
+        (dto: any) => new WalletDtoModel(dto)
+      );
       runInAction(
-        () =>
-          (this.wallets = response.map((dto: any) => new WalletDtoModel(dto)))
+        () => (this.wallets = wallets.filter(x => x.type === 'Trusted'))
       );
     } finally {
       runInAction(() => (this.isLoadingWallets = false));
