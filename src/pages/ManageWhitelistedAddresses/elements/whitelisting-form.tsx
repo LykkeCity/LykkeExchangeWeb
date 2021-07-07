@@ -4,12 +4,14 @@ import React from 'react';
 import {WhitelistingErrorCodes} from '..';
 import TfaDisabledBanner from '../../../components/Banner/TfaDisabledBanner';
 import CryptoOperationModel from '../../../models/cryptoOperationModel';
+import {WalletDtoModel} from '../../../models/walletDtoModel';
 import WhitelistingModel from '../../../models/whitelistingModel';
 
 interface Props {
   isSubmitting: boolean;
   selectedItem?: WhitelistingModel;
   cryptoOperations: CryptoOperationModel[];
+  wallets: WalletDtoModel[];
   addSubmit: (
     name: string,
     assetId: string,
@@ -37,7 +39,9 @@ export class WhitelistingForm extends React.Component<Props> {
     code2faInvalid: false,
     name: this.props.selectedItem ? this.props.selectedItem.name : '',
     nameInvalid: false,
-    submitErrorCode: 'None' as WhitelistingErrorCodes
+    submitErrorCode: 'None' as WhitelistingErrorCodes,
+    walletId: '',
+    walletIdInvalid: false
   };
 
   private get isFormValid() {
@@ -150,6 +154,35 @@ export class WhitelistingForm extends React.Component<Props> {
           </div>
         )}
         <div className="form-group">
+          <label htmlFor="wallet" className="control-label">
+            Wallet
+          </label>
+          {this.props.selectedItem ? (
+            <input
+              disabled={true}
+              id="wallet"
+              value={this.props.selectedItem.walletName}
+              className="form-control"
+            />
+          ) : (
+            <Select
+              className={classnames({
+                'form-control--error': this.state.walletIdInvalid
+              })}
+              options={this.props.wallets}
+              labelKey="name"
+              valueKey="id"
+              onChange={this.handleWalletIdChange}
+              value={this.state.walletId}
+              placeholder="Select..."
+              searchPlaceholder="Enter wallet or select from list..."
+            />
+          )}
+          {this.state.walletIdInvalid && (
+            <div className="label_error">Please select Wallet</div>
+          )}
+        </div>
+        <div className="form-group">
           <label htmlFor="code2fa" className="control-label">
             2FA Code
           </label>
@@ -239,6 +272,13 @@ export class WhitelistingForm extends React.Component<Props> {
     }
   };
 
+  private handleWalletIdChange = (item: WalletDtoModel) => {
+    this.setState({walletId: item.id});
+    if (this.state.walletIdInvalid) {
+      setTimeout(() => this.validateWalletId(), 0);
+    }
+  };
+
   private handle2faCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({code2fa: e.currentTarget.value});
     if (this.state.code2faInvalid) {
@@ -254,6 +294,7 @@ export class WhitelistingForm extends React.Component<Props> {
           this.validateAddressBase(),
           this.validateAddressExtension(),
           this.validateAssetId(),
+          this.validateWalletId(),
           this.validate2faCode()
         ].every(x => x);
   };
@@ -280,6 +321,12 @@ export class WhitelistingForm extends React.Component<Props> {
     const assetIdInvalid = !this.state.assetId;
     this.setState({assetIdInvalid});
     return !assetIdInvalid;
+  };
+
+  private validateWalletId = () => {
+    const walletIdInvalid = !this.state.walletId;
+    this.setState({walletIdInvalid});
+    return !walletIdInvalid;
   };
 
   private validate2faCode = () => {
