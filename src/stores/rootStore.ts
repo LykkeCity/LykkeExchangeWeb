@@ -61,7 +61,8 @@ export class RootStore {
     this.affiliateStore = new AffiliateStore(this, new RestAffiliateApi(this));
     this.assetStore = new AssetStore(this, assetApi);
     this.authStore = new AuthStore(this, new AuthApi(this));
-    this.walletStore = new WalletStore(this, new WalletApi(this));
+    const walletApi = new WalletApi(this);
+    this.walletStore = new WalletStore(this, walletApi);
     this.transactionStore = new TransactionStore(
       this,
       new TransactionApi(this, new HistoryApi(this))
@@ -81,7 +82,8 @@ export class RootStore {
     this.whitelistingStore = new WhitelistingStore(
       this,
       new WhitelistingApi(this),
-      assetApi
+      assetApi,
+      walletApi
     );
   }
 

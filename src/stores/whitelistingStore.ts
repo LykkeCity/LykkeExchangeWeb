@@ -1,7 +1,8 @@
 import {observable, runInAction} from 'mobx';
 import {RootStore} from '.';
-import {AssetApi, WhitelistingApi} from '../api/';
+import {AssetApi, WalletApi, WhitelistingApi} from '../api/';
 import CryptoOperationModel from '../models/cryptoOperationModel';
+import {WalletDtoModel} from '../models/walletDtoModel';
 import WhitelistingModel from '../models/whitelistingModel';
 
 export class WhitelistingStore {
@@ -14,13 +15,17 @@ export class WhitelistingStore {
   @observable cryptoOperations: CryptoOperationModel[];
   @observable isLoadingCryptoOperations: boolean = false;
 
+  @observable wallets: WalletDtoModel[];
+  @observable isLoadingWallets: boolean = false;
+
   @observable isLoadingCreate: boolean = false;
   @observable isLoadingDelete: boolean = false;
 
   constructor(
     rootStore: RootStore,
     private api?: WhitelistingApi,
-    private assetApi?: AssetApi
+    private assetApi?: AssetApi,
+    private walletApi?: WalletApi
   ) {
     this.rootStore = rootStore;
   }
@@ -85,6 +90,19 @@ export class WhitelistingStore {
       );
     } finally {
       runInAction(() => (this.isLoadingCryptoOperations = false));
+    }
+  };
+
+  fetchWallets = async () => {
+    this.isLoadingWallets = true;
+    try {
+      const response = await this.walletApi!.fetchAll();
+      runInAction(
+        () =>
+          (this.wallets = response.map((dto: any) => new WalletDtoModel(dto)))
+      );
+    } finally {
+      runInAction(() => (this.isLoadingWallets = false));
     }
   };
 }
