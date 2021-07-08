@@ -10,7 +10,7 @@ export class WhitelistingModel {
   constructor(dto: any) {
     this.id = dto.Id;
     this.name = dto.Name;
-    this.walletName = dto.walletName;
+    this.walletName = dto.WalletName;
     this.addressBase = dto.AddressBase;
     this.addressExtension = dto.AddressExtension;
     this.createdAt = dto.CreatedAt;
