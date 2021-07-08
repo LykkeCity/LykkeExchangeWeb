@@ -35,7 +35,8 @@ export class WhitelistingStore {
     assetId: string,
     addressBase: string,
     addressExtension: string,
-    code2fa: string
+    code2fa: string,
+    walletId: string
   ) => {
     this.isLoadingCreate = true;
     try {
@@ -44,7 +45,8 @@ export class WhitelistingStore {
         assetId,
         addressBase,
         addressExtension,
-        code2fa
+        code2fa,
+        walletId
       );
     } finally {
       runInAction(() => (this.isLoadingCreate = false));

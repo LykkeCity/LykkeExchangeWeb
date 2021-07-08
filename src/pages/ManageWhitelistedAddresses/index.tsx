@@ -235,7 +235,8 @@ export class ManageWhitelistedAddressesPage extends React.Component<
     assetId: string,
     addressBase: string,
     addressExtension: string,
-    code2fa: string
+    code2fa: string,
+    walletId: string
   ): Promise<WhitelistingErrorCodes> => {
     try {
       const response = await this.whitelistingStore.createWhitelisting(
@@ -243,7 +244,8 @@ export class ManageWhitelistedAddressesPage extends React.Component<
         assetId,
         addressBase,
         addressExtension,
-        code2fa
+        code2fa,
+        walletId
       );
       const errorCode = this.getSubmitErrorCode(response);
       if (errorCode === 'None') {

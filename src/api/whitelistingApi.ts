@@ -8,7 +8,8 @@ export interface WhitelistingApi {
     assetId: string,
     addressBase: string,
     addressExtension: string,
-    сode2Fa: string
+    сode2Fa: string,
+    walletId: string
   ) => ApiResponse<any>;
   deleteWhitelisting: (id: string, сode2Fa: string) => any;
 }
@@ -21,14 +22,17 @@ export class RestWhitelistingApi extends RestApi implements WhitelistingApi {
     assetId: string,
     addressBase: string,
     addressExtension: string,
-    сode2Fa: string
+    сode2Fa: string,
+    walletId: string
   ) =>
     this.post('/whitelistings', {
       AddressBase: addressBase,
-      AddressExtension: addressExtension,
+      AddressExtension:
+        addressExtension && addressExtension.length ? addressExtension : null,
       AssetId: assetId,
       Code2Fa: сode2Fa,
-      Name: name
+      Name: name,
+      WalletId: walletId
     });
 
   deleteWhitelisting = (id: string, сode2Fa: string) =>

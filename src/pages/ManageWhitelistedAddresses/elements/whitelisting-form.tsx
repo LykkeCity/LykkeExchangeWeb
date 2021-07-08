@@ -17,7 +17,8 @@ interface Props {
     assetId: string,
     addressBase: string,
     addressExtension: string,
-    code2fa: string
+    code2fa: string,
+    walletId: string
   ) => Promise<WhitelistingErrorCodes>;
   deleteSubmit: (code2fa: string) => Promise<WhitelistingErrorCodes>;
   cancelClick: () => void;
@@ -338,7 +339,8 @@ export class WhitelistingForm extends React.Component<Props> {
       this.state.assetId,
       this.state.addressBase,
       this.state.addressExtension,
-      this.state.code2fa
+      this.state.code2fa,
+      this.state.walletId
     );
     this.setState({submitErrorCode});
   };
