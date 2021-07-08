@@ -13,6 +13,8 @@ interface DrawerProps {
 const DRAWER_CLASS_NAME = 'drawer';
 
 export class Drawer extends React.Component<DrawerProps> {
+  private contentRef: any;
+
   render() {
     return ReactDOM.createPortal(
       <div
@@ -29,11 +31,20 @@ export class Drawer extends React.Component<DrawerProps> {
               {this.props.title}
             </span>
           </div>
-          <div className="drawer__content">{this.props.children}</div>
+          <div className="drawer__content" ref={ref => (this.contentRef = ref)}>
+            {this.props.children}
+          </div>
         </div>
         <div className="drawer__overlay">&nbsp;</div>
       </div>,
       document.body
+    );
+  }
+
+  scrollToBottom() {
+    setTimeout(
+      () => (this.contentRef.scrollTop = this.contentRef.scrollHeight),
+      0
     );
   }
 }

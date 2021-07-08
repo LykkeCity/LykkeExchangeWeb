@@ -32,7 +32,6 @@ export class WhitelistingForm extends React.Component<Props> {
     addressExtension: this.props.selectedItem
       ? this.props.selectedItem.addressExtension || '--'
       : '',
-    addressExtensionInvalid: false,
     assetId: '',
     assetIdInvalid: false,
     code2fa: '',
@@ -49,7 +48,8 @@ export class WhitelistingForm extends React.Component<Props> {
       ? !this.state.code2faInvalid
       : !this.state.nameInvalid &&
           !this.state.addressBaseInvalid &&
-          !this.state.addressExtensionInvalid &&
+          !this.state.assetIdInvalid &&
+          !this.state.walletIdInvalid &&
           !this.state.code2faInvalid;
   }
 
@@ -122,14 +122,8 @@ export class WhitelistingForm extends React.Component<Props> {
             id="addressExtension"
             value={this.state.addressExtension}
             onChange={this.handleAddressExtensionChange}
-            onBlur={this.validateAddressExtension}
-            className={classnames('form-control', {
-              'form-control--error': this.state.addressExtensionInvalid
-            })}
+            className="form-control"
           />
-          {this.state.addressExtensionInvalid && (
-            <div className="label_error">Please input Memo/Tag</div>
-          )}
         </div>
         {!this.props.selectedItem && (
           <div className="form-group">
@@ -187,6 +181,7 @@ export class WhitelistingForm extends React.Component<Props> {
             2FA Code
           </label>
           <input
+            autoComplete="off"
             autoFocus={!!this.props.selectedItem}
             id="code2fa"
             value={this.state.code2fa}
@@ -260,9 +255,6 @@ export class WhitelistingForm extends React.Component<Props> {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     this.setState({addressExtension: e.currentTarget.value});
-    if (this.state.addressExtensionInvalid) {
-      setTimeout(() => this.validateAddressExtension(), 0);
-    }
   };
 
   private handleAssetIdChange = (item: CryptoOperationModel) => {
@@ -292,7 +284,6 @@ export class WhitelistingForm extends React.Component<Props> {
       : [
           this.validateName(),
           this.validateAddressBase(),
-          this.validateAddressExtension(),
           this.validateAssetId(),
           this.validateWalletId(),
           this.validate2faCode()
@@ -309,12 +300,6 @@ export class WhitelistingForm extends React.Component<Props> {
     const addressBaseInvalid = !this.state.addressBase;
     this.setState({addressBaseInvalid});
     return !addressBaseInvalid;
-  };
-
-  private validateAddressExtension = () => {
-    const addressExtensionInvalid = !this.state.addressExtension;
-    this.setState({addressExtensionInvalid});
-    return !addressExtensionInvalid;
   };
 
   private validateAssetId = () => {
