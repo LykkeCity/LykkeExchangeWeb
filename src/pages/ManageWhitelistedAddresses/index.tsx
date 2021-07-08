@@ -33,6 +33,8 @@ export class ManageWhitelistedAddressesPage extends React.Component<
   private readonly whitelistingStore = this.props.rootStore!.whitelistingStore;
   private readonly uiStore = this.props.rootStore!.uiStore;
 
+  private drawerRef: any;
+
   @observable private filter: string = '';
   @observable private selectedWhitelisting?: WhitelistingModel = undefined;
 
@@ -106,7 +108,11 @@ export class ManageWhitelistedAddressesPage extends React.Component<
       <div className="manage-whitelisted-addresses-page-wrapper">
         <div className="container">
           {this.uiStore.showWhitelistingDrawer && (
-            <Drawer title="" show={this.uiStore.showWhitelistingDrawer}>
+            <Drawer
+              ref={ref => (this.drawerRef = ref)}
+              title=""
+              show={this.uiStore.showWhitelistingDrawer}
+            >
               <div className="drawer__title">
                 {this.selectedWhitelisting ? (
                   <div>
@@ -229,7 +235,8 @@ export class ManageWhitelistedAddressesPage extends React.Component<
     assetId: string,
     addressBase: string,
     addressExtension: string,
-    code2fa: string
+    code2fa: string,
+    walletId: string
   ): Promise<WhitelistingErrorCodes> => {
     try {
       const response = await this.whitelistingStore.createWhitelisting(
@@ -237,12 +244,15 @@ export class ManageWhitelistedAddressesPage extends React.Component<
         assetId,
         addressBase,
         addressExtension,
-        code2fa
+        code2fa,
+        walletId
       );
       const errorCode = this.getSubmitErrorCode(response);
       if (errorCode === 'None') {
         this.uiStore.toggleWhitelistingDrawer();
         this.fetchAll();
+      } else {
+        this.drawerRef.scrollToBottom();
       }
       return errorCode;
     } catch (error) {
@@ -270,6 +280,8 @@ export class ManageWhitelistedAddressesPage extends React.Component<
       if (errorCode === 'None') {
         this.uiStore.toggleWhitelistingDrawer();
         this.fetchAll();
+      } else {
+        this.drawerRef.scrollToBottom();
       }
       return errorCode;
     } catch (error) {
