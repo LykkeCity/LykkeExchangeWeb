@@ -97,6 +97,64 @@ export class WhitelistingForm extends React.Component<Props> {
           )}
         </div>
         <div className="form-group">
+          <label htmlFor="wallet" className="control-label">
+            Wallet
+          </label>
+          {this.props.selectedItem ? (
+            <input
+              disabled={true}
+              id="wallet"
+              value={this.props.selectedItem.walletName}
+              className="form-control"
+            />
+          ) : (
+            <Select
+              className={classnames({
+                'form-control--error': this.state.walletIdInvalid
+              })}
+              options={this.props.wallets}
+              labelKey="name"
+              valueKey="id"
+              onChange={this.handleWalletIdChange}
+              value={this.state.walletId}
+              placeholder="Select..."
+              searchPlaceholder="Enter wallet or select from list..."
+            />
+          )}
+          {this.state.walletIdInvalid && (
+            <div className="label_error">Please select Wallet</div>
+          )}
+        </div>
+        <div className="form-group">
+          <label htmlFor="asset" className="control-label">
+            Asset
+          </label>
+          {this.props.selectedItem ? (
+            <input
+              disabled={true}
+              id="asset"
+              value={this.props.selectedItem.assetName}
+              className="form-control"
+            />
+          ) : (
+            <Select
+              className={classnames({
+                'form-control--error': this.state.assetIdInvalid
+              })}
+              options={this.props.cryptoOperations}
+              labelKey="displayId"
+              valueKey="id"
+              onChange={this.handleAssetIdChange}
+              value={this.state.assetId}
+              placeholder="Select..."
+              searchPlaceholder="Enter asset or select from list..."
+            />
+          )}
+          {this.state.assetIdInvalid && (
+            <div className="label_error">Please select Asset</div>
+          )}
+        </div>
+        <div className="form-group">
           <label htmlFor="addressBase" className="control-label">
             Address
           </label>
@@ -125,57 +183,6 @@ export class WhitelistingForm extends React.Component<Props> {
             onChange={this.handleAddressExtensionChange}
             className="form-control"
           />
-        </div>
-        {!this.props.selectedItem && (
-          <div className="form-group">
-            <label htmlFor="asset" className="control-label">
-              Asset
-            </label>
-            <Select
-              className={classnames({
-                'form-control--error': this.state.assetIdInvalid
-              })}
-              options={this.props.cryptoOperations}
-              labelKey="displayId"
-              valueKey="id"
-              onChange={this.handleAssetIdChange}
-              value={this.state.assetId}
-              placeholder="Select..."
-              searchPlaceholder="Enter asset or select from list..."
-            />
-            {this.state.assetIdInvalid && (
-              <div className="label_error">Please select Asset</div>
-            )}
-          </div>
-        )}
-        <div className="form-group">
-          <label htmlFor="wallet" className="control-label">
-            Wallet
-          </label>
-          {this.props.selectedItem ? (
-            <input
-              disabled={true}
-              id="wallet"
-              value={this.props.selectedItem.walletName}
-              className="form-control"
-            />
-          ) : (
-            <Select
-              className={classnames({
-                'form-control--error': this.state.walletIdInvalid
-              })}
-              options={this.props.wallets}
-              labelKey="name"
-              valueKey="id"
-              onChange={this.handleWalletIdChange}
-              value={this.state.walletId}
-              placeholder="Select..."
-              searchPlaceholder="Enter wallet or select from list..."
-            />
-          )}
-          {this.state.walletIdInvalid && (
-            <div className="label_error">Please select Wallet</div>
-          )}
         </div>
         <div className="form-group">
           <label htmlFor="code2fa" className="control-label">
