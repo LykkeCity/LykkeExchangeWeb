@@ -85,8 +85,12 @@ export class WhitelistingList extends React.Component<Props> {
                 <td>{x.name}</td>
               </tr>
               <tr>
-                <td>Wallet Name</td>
+                <td>Wallet</td>
                 <td>{x.walletName}</td>
+              </tr>
+              <tr>
+                <td>Asset</td>
+                <td>{x.assetName}</td>
               </tr>
               <tr>
                 <td>Address</td>
@@ -97,13 +101,24 @@ export class WhitelistingList extends React.Component<Props> {
                 <td>{x.addressExtension || '--'}</td>
               </tr>
               <tr>
-                <td>Added</td>
+                <td>Added At</td>
                 <td>
                   <FormattedDate
                     day="2-digit"
                     month="2-digit"
                     year="2-digit"
                     value={x.createdAt}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>Starts At</td>
+                <td>
+                  <FormattedDate
+                    day="2-digit"
+                    month="2-digit"
+                    year="2-digit"
+                    value={x.startsAt}
                   />
                 </td>
               </tr>
