@@ -15,6 +15,7 @@ interface Props {
   addSubmit: (
     name: string,
     assetId: string,
+    walletId: string,
     addressBase: string,
     addressExtension: string,
     code2fa: string
@@ -32,7 +33,6 @@ export class WhitelistingForm extends React.Component<Props> {
     addressExtension: this.props.selectedItem
       ? this.props.selectedItem.addressExtension || '--'
       : '',
-    addressExtensionInvalid: false,
     assetId: '',
     assetIdInvalid: false,
     code2fa: '',
@@ -49,7 +49,6 @@ export class WhitelistingForm extends React.Component<Props> {
       ? !this.state.code2faInvalid
       : !this.state.nameInvalid &&
           !this.state.addressBaseInvalid &&
-          !this.state.addressExtensionInvalid &&
           !this.state.code2faInvalid;
   }
 
@@ -121,15 +120,8 @@ export class WhitelistingForm extends React.Component<Props> {
             disabled={!!this.props.selectedItem}
             id="addressExtension"
             value={this.state.addressExtension}
-            onChange={this.handleAddressExtensionChange}
-            onBlur={this.validateAddressExtension}
-            className={classnames('form-control', {
-              'form-control--error': this.state.addressExtensionInvalid
-            })}
+            className={classnames('form-control')}
           />
-          {this.state.addressExtensionInvalid && (
-            <div className="label_error">Please input Memo/Tag</div>
-          )}
         </div>
         {!this.props.selectedItem && (
           <div className="form-group">
@@ -256,15 +248,6 @@ export class WhitelistingForm extends React.Component<Props> {
     }
   };
 
-  private handleAddressExtensionChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    this.setState({addressExtension: e.currentTarget.value});
-    if (this.state.addressExtensionInvalid) {
-      setTimeout(() => this.validateAddressExtension(), 0);
-    }
-  };
-
   private handleAssetIdChange = (item: CryptoOperationModel) => {
     this.setState({assetId: item.id});
     if (this.state.assetIdInvalid) {
@@ -292,7 +275,6 @@ export class WhitelistingForm extends React.Component<Props> {
       : [
           this.validateName(),
           this.validateAddressBase(),
-          this.validateAddressExtension(),
           this.validateAssetId(),
           this.validateWalletId(),
           this.validate2faCode()
@@ -309,12 +291,6 @@ export class WhitelistingForm extends React.Component<Props> {
     const addressBaseInvalid = !this.state.addressBase;
     this.setState({addressBaseInvalid});
     return !addressBaseInvalid;
-  };
-
-  private validateAddressExtension = () => {
-    const addressExtensionInvalid = !this.state.addressExtension;
-    this.setState({addressExtensionInvalid});
-    return !addressExtensionInvalid;
   };
 
   private validateAssetId = () => {
@@ -351,6 +327,7 @@ export class WhitelistingForm extends React.Component<Props> {
     const submitErrorCode = await this.props.addSubmit(
       this.state.name,
       this.state.assetId,
+      this.state.walletId,
       this.state.addressBase,
       this.state.addressExtension,
       this.state.code2fa

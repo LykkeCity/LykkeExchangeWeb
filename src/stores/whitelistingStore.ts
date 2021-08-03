@@ -33,6 +33,7 @@ export class WhitelistingStore {
   createWhitelisting = async (
     name: string,
     assetId: string,
+    walletId: string,
     addressBase: string,
     addressExtension: string,
     code2fa: string
@@ -42,6 +43,7 @@ export class WhitelistingStore {
       return await this.api!.createWhitelisting(
         name,
         assetId,
+        walletId,
         addressBase,
         addressExtension,
         code2fa
