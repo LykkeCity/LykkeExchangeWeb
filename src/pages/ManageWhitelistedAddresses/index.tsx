@@ -227,6 +227,7 @@ export class ManageWhitelistedAddressesPage extends React.Component<
   private handleAddSubmit = async (
     name: string,
     assetId: string,
+    walletId: string,
     addressBase: string,
     addressExtension: string,
     code2fa: string
@@ -235,6 +236,7 @@ export class ManageWhitelistedAddressesPage extends React.Component<
       const response = await this.whitelistingStore.createWhitelisting(
         name,
         assetId,
+        walletId,
         addressBase,
         addressExtension,
         code2fa

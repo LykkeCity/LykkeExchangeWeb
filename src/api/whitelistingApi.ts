@@ -6,6 +6,7 @@ export interface WhitelistingApi {
   createWhitelisting: (
     name: string,
     assetId: string,
+    walletId: string,
     addressBase: string,
     addressExtension: string,
     сode2Fa: string
@@ -19,6 +20,7 @@ export class RestWhitelistingApi extends RestApi implements WhitelistingApi {
   createWhitelisting = (
     name: string,
     assetId: string,
+    walletId: string,
     addressBase: string,
     addressExtension: string,
     сode2Fa: string
@@ -28,7 +30,8 @@ export class RestWhitelistingApi extends RestApi implements WhitelistingApi {
       AddressExtension: addressExtension,
       AssetId: assetId,
       Code2Fa: сode2Fa,
-      Name: name
+      Name: name,
+      WalletId: walletId
     });
 
   deleteWhitelisting = (id: string, сode2Fa: string) =>
