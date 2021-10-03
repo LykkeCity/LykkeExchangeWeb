@@ -69,53 +69,67 @@ export class WhitelistingList extends React.Component<Props> {
   }
 
   private renderItems = () => {
-    return this.props.items && this.props.items.length
-      ? this.props.items.map(x => (
-          <Table
-            key={x.id}
-            responsive
-            className={classnames({
-              selected:
-                this.props.selectedItem && this.props.selectedItem.id === x.id
-            })}
+    return this.props.items && this.props.items.length ? (
+      this.props.items.map(x => (
+        <Table
+          key={x.id}
+          responsive
+          className={classnames({
+            selected:
+              this.props.selectedItem && this.props.selectedItem.id === x.id
+          })}
+        >
+          <tbody onClick={() => this.props.itemClick(x)}>
+            <tr>
+              <td>Name</td>
+              <td>{x.name}</td>
+            </tr>
+            <tr>
+              <td>Wallet Name</td>
+              <td>{x.walletName}</td>
+            </tr>
+            <tr>
+              <td>Address</td>
+              <td>{x.addressBase}</td>
+            </tr>
+            <tr>
+              <td>Memo/Tag</td>
+              <td>{x.addressExtension || '--'}</td>
+            </tr>
+            <tr>
+              <td>Added</td>
+              <td>
+                <FormattedDate
+                  day="2-digit"
+                  month="2-digit"
+                  year="2-digit"
+                  value={x.createdAt}
+                />
+              </td>
+            </tr>
+            <tr>
+              <td>Status</td>
+              <td className={classnames('status', x.status.toLowerCase())}>
+                {x.status}
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      ))
+    ) : (
+      <div>
+        You don't have any whitelistings yet or generated deposit addresses.
+        <div>
+          Deposit address can be generated using{' '}
+          <a
+            target="_blank"
+            href="https://lykkecity.github.io/Trading-API/#create-deposit-addresses"
           >
-            <tbody onClick={() => this.props.itemClick(x)}>
-              <tr>
-                <td>Name</td>
-                <td>{x.name}</td>
-              </tr>
-              <tr>
-                <td>Wallet Name</td>
-                <td>{x.walletName}</td>
-              </tr>
-              <tr>
-                <td>Address</td>
-                <td>{x.addressBase}</td>
-              </tr>
-              <tr>
-                <td>Memo/Tag</td>
-                <td>{x.addressExtension || '--'}</td>
-              </tr>
-              <tr>
-                <td>Added</td>
-                <td>
-                  <FormattedDate
-                    day="2-digit"
-                    month="2-digit"
-                    year="2-digit"
-                    value={x.createdAt}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>Status</td>
-                <td className={classnames('status', x.status.toLowerCase())}>
-                  {x.status}
-                </td>
-              </tr>
-            </tbody>
-          </Table>
-        ))
-      : "You don't have any whitelistings yet";
+            this
+          </a>{' '}
+          API.
+        </div>
+      </div>
+    );
   };
 }

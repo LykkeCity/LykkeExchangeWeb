@@ -11,6 +11,8 @@ export class CryptoOperationModel {
   isBase: boolean;
   canBeBase: boolean;
   iconUrl: string;
+  siriusBlockchainId: string;
+  destinationTagLabel: string;
 
   constructor(dto: any) {
     this.id = dto.Id;
@@ -25,6 +27,8 @@ export class CryptoOperationModel {
     this.isBase = dto.IsBase;
     this.canBeBase = dto.CanBeBase;
     this.iconUrl = dto.IconUrl;
+    this.siriusBlockchainId = dto.SiriusBlockchainId;
+    this.destinationTagLabel = dto.DestinationTagLabel;
   }
 }
 
