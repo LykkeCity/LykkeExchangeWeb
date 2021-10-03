@@ -86,7 +86,7 @@ export class WhitelistingStore {
       const response = await this.assetApi!.fetchAvailableCryptoOperations();
       runInAction(
         () =>
-          (this.cryptoOperations = response.Assets.map(
+          (this.cryptoOperations = response.map(
             (dto: any) => new CryptoOperationModel(dto)
           ))
       );

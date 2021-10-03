@@ -33,12 +33,14 @@ export class WhitelistingForm extends React.Component<Props> {
     addressExtension: this.props.selectedItem
       ? this.props.selectedItem.addressExtension || '--'
       : '',
+    addressExtensionLabel: 'Memo/Tag',
     assetId: '',
     assetIdInvalid: false,
     code2fa: '',
     code2faInvalid: false,
     name: this.props.selectedItem ? this.props.selectedItem.name : '',
     nameInvalid: false,
+    showTag: false,
     submitErrorCode: 'None' as WhitelistingErrorCodes,
     walletId: '',
     walletIdInvalid: false
@@ -63,7 +65,7 @@ export class WhitelistingForm extends React.Component<Props> {
       case 'AssetUnavailable':
         return 'The requested asset is unavailable for the current action.';
       case 'BlockchainWalletDepositAddressNotGenerated':
-        return 'The deposit address is not generated.';
+        return 'The deposit address is not generated for selected wallet.';
       case 'AddressAlreadyWhitelisted':
         return 'Suggested address has already been whitelisted.';
       case 'Unknown':
@@ -94,35 +96,6 @@ export class WhitelistingForm extends React.Component<Props> {
             <div className="label_error">Please input Name</div>
           )}
         </div>
-        <div className="form-group">
-          <label htmlFor="addressBase" className="control-label">
-            Address
-          </label>
-          <input
-            disabled={!!this.props.selectedItem}
-            id="addressBase"
-            value={this.state.addressBase}
-            onChange={this.handleAddressBaseChange}
-            onBlur={this.validateAddressBase}
-            className={classnames('form-control', {
-              'form-control--error': this.state.addressBaseInvalid
-            })}
-          />
-          {this.state.addressBaseInvalid && (
-            <div className="label_error">Please input Address</div>
-          )}
-        </div>
-        <div className="form-group">
-          <label htmlFor="addressExtension" className="control-label">
-            Memo/Tag
-          </label>
-          <input
-            disabled={!!this.props.selectedItem}
-            id="addressExtension"
-            value={this.state.addressExtension}
-            className={classnames('form-control')}
-          />
-        </div>
         {!this.props.selectedItem && (
           <div className="form-group">
             <label htmlFor="asset" className="control-label">
@@ -143,6 +116,38 @@ export class WhitelistingForm extends React.Component<Props> {
             {this.state.assetIdInvalid && (
               <div className="label_error">Please select Asset</div>
             )}
+          </div>
+        )}
+        <div className="form-group">
+          <label htmlFor="addressBase" className="control-label">
+            Address
+          </label>
+          <input
+            disabled={!!this.props.selectedItem}
+            id="addressBase"
+            value={this.state.addressBase}
+            onChange={this.handleAddressBaseChange}
+            onBlur={this.validateAddressBase}
+            className={classnames('form-control', {
+              'form-control--error': this.state.addressBaseInvalid
+            })}
+          />
+          {this.state.addressBaseInvalid && (
+            <div className="label_error">Please input Address</div>
+          )}
+        </div>
+        {this.state.showTag && (
+          <div className="form-group">
+            <label htmlFor="addressExtension" className="control-label">
+              {this.state.addressExtensionLabel}
+            </label>
+            <input
+              disabled={!!this.props.selectedItem}
+              id="addressExtension"
+              value={this.state.addressExtension}
+              onChange={this.handleAddressExtensionChange}
+              className={classnames('form-control')}
+            />
           </div>
         )}
         <div className="form-group">
@@ -225,7 +230,22 @@ export class WhitelistingForm extends React.Component<Props> {
             (this.state.submitErrorCode === 'SecondFactorCheckForbiden' ? (
               <TfaDisabledBanner show={true} />
             ) : (
-              <div className="label_error">{this.submitErrorMessage}</div>
+              <div className="label_error">
+                {this.submitErrorMessage}
+                {this.state.submitErrorCode ===
+                  'BlockchainWalletDepositAddressNotGenerated' && (
+                  <div>
+                    Deposit address can be generated using{' '}
+                    <a
+                      target="_blank"
+                      href="https://lykkecity.github.io/Trading-API/#create-deposit-addresses"
+                    >
+                      this
+                    </a>{' '}
+                    API.
+                  </div>
+                )}
+              </div>
             ))}
         </div>
       </form>
@@ -248,8 +268,18 @@ export class WhitelistingForm extends React.Component<Props> {
     }
   };
 
+  private handleAddressExtensionChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    this.setState({addressExtension: e.currentTarget.value});
+  };
+
   private handleAssetIdChange = (item: CryptoOperationModel) => {
-    this.setState({assetId: item.id});
+    this.setState({
+      addressExtensionLabel: item.destinationTagLabel,
+      assetId: item.id,
+      showTag: item.destinationTagLabel != null
+    });
     if (this.state.assetIdInvalid) {
       setTimeout(() => this.validateAssetId(), 0);
     }
