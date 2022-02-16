@@ -61,28 +61,34 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                   </DropdownControl>
                   <DropdownContainer>
                     <DropdownList className="wallet-menu">
-                      {this.renderMenuItem(
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
-                        'Credit Card',
-                        assetsAvailableForCreditCardDeposit,
-                        (assetId: string) =>
-                          ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)
-                      )}
-                      {this.renderMenuItem(
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
-                        'Blockchain Transfer',
-                        assetsAvailableForCryptoDeposit,
-                        (assetId: string) => ROUTE_DEPOSIT_CRYPTO_TO(assetId)
-                      )}
-                      {this.renderMenuItem(
-                        `${process.env
-                          .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
-                        'SWIFT',
-                        assetsAvailableForSwiftDeposit,
-                        (assetId: string) => ROUTE_DEPOSIT_SWIFT_TO(assetId)
-                      )}
+                      {assetsAvailableForCreditCardDeposit &&
+                        assetsAvailableForCreditCardDeposit.length > 0 &&
+                        this.renderMenuItem(
+                          `${process.env
+                            .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
+                          'Credit Card 000',
+                          assetsAvailableForCreditCardDeposit,
+                          (assetId: string) =>
+                            ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)
+                        )}
+                      {assetsAvailableForCryptoDeposit &&
+                        assetsAvailableForCryptoDeposit.length > 0 &&
+                        this.renderMenuItem(
+                          `${process.env
+                            .PUBLIC_URL}/images/paymentMethods/deposit-bl-transfer-icn.svg`,
+                          'Blockchain Transfer',
+                          assetsAvailableForCryptoDeposit,
+                          (assetId: string) => ROUTE_DEPOSIT_CRYPTO_TO(assetId)
+                        )}
+                      {assetsAvailableForSwiftDeposit &&
+                        assetsAvailableForSwiftDeposit.length > 0 &&
+                        this.renderMenuItem(
+                          `${process.env
+                            .PUBLIC_URL}/images/paymentMethods/deposit-swift-icn.svg`,
+                          'SWIFT',
+                          assetsAvailableForSwiftDeposit,
+                          (assetId: string) => ROUTE_DEPOSIT_SWIFT_TO(assetId)
+                        )}
                     </DropdownList>
                   </DropdownContainer>
                 </Dropdown>
