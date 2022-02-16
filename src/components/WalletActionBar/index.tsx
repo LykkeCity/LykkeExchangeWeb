@@ -66,7 +66,7 @@ export class WalletActionBar extends React.Component<WalletActionBarProps> {
                         this.renderMenuItem(
                           `${process.env
                             .PUBLIC_URL}/images/paymentMethods/deposit-credit-card.svg`,
-                          'Credit Card 000',
+                          'Credit Card',
                           assetsAvailableForCreditCardDeposit,
                           (assetId: string) =>
                             ROUTE_DEPOSIT_CREDIT_CARD_TO(wallet.id, assetId)
