@@ -74,7 +74,9 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               <div>
                 <div className="deposit-crypto__description">
                   To deposit {asset.name} to your Portfolio please use the
-                  following address and deposit tag or scan the QR codes.
+                  following address on the {asset.blockchainNetworkName}{' '}
+                  blockchain network and deposit tag or scan the QR codes.
+                  Transfer to another blockchain will result in funds loss.
                 </div>
                 {this.renderAddressBlock(
                   asset.addressBase,
@@ -86,7 +88,9 @@ export class DepositCryptoPage extends React.Component<DepositCryptoPageProps> {
               <div>
                 <div className="deposit-crypto__description">
                   To deposit {asset.name} to your Portfolio please use the
-                  following address.
+                  following address on the {asset.blockchainNetworkName}{' '}
+                  blockchain network. Transfer to another blockchain will result
+                  in funds loss.
                 </div>
                 {this.renderAddressBlock(asset.address, 'Your wallet address')}
               </div>
