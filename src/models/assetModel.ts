@@ -4,6 +4,7 @@ import {AssetCategoryModel} from '.';
 export class AssetModel {
   id: string;
   name: string;
+  blockchainNetworkName: string;
   category: AssetCategoryModel;
   accuracy: number;
   iconUrl: string;

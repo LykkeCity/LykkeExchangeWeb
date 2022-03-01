@@ -92,7 +92,8 @@ export class WithdrawCryptoPage extends React.Component<
                   turn on Two-Factor Authentication. Find out more about it{' '}
                   <Link to={ROUTE_SECURITY} onClick={this.trackStart2faSetup}>
                     here
-                  </Link>.
+                  </Link>
+                  .
                 </span>
               }
             />
@@ -104,8 +105,9 @@ export class WithdrawCryptoPage extends React.Component<
             <div className="withdraw-crypto__description">
               Your wallet will not be charged until you authorize this
               transaction. Please ensure that the withdrawal address is a valid{' '}
-              {asset && asset.name} address. Transfer to another blockchain will
-              result in funds loss.
+              {asset && asset.name} address on the{' '}
+              {asset && asset.blockchainNetworkName} blockchain network.
+              Transfer to another blockchain will result in funds loss.
             </div>
             <Formik
               initialValues={this.withdrawStore.withdrawCrypto}
@@ -365,12 +367,11 @@ export class WithdrawCryptoPage extends React.Component<
                         name={field.name}
                         decimalLimit={asset && asset.accuracy}
                       />
-                      {form.errors[field.name] &&
-                        form.touched[field.name] && (
-                          <span className="help-block">
-                            {form.errors[field.name]}
-                          </span>
-                        )}
+                      {form.errors[field.name] && form.touched[field.name] && (
+                        <span className="help-block">
+                          {form.errors[field.name]}
+                        </span>
+                      )}
                     </div>
                     {field.value > 0 && (
                       <div>
@@ -423,7 +424,8 @@ export class WithdrawCryptoPage extends React.Component<
                   </div>
                 </div>
               </div>
-            ) : null}
+            ) : null
+          }
         />
 
         <hr />
@@ -472,10 +474,9 @@ export class WithdrawCryptoPage extends React.Component<
                 {...field}
                 className="form-control"
               />
-              {form.errors[field.name] &&
-                form.touched[field.name] && (
-                  <span className="help-block">{form.errors[field.name]}</span>
-                )}
+              {form.errors[field.name] && form.touched[field.name] && (
+                <span className="help-block">{form.errors[field.name]}</span>
+              )}
             </div>
           </div>
         </div>
