@@ -40,6 +40,8 @@ export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
     tierIcon = `${process.env.PUBLIC_URL}/images/tier_pro.png`;
   }
 
+  const isBeginner = tierInfo.CurrentTier.Tier === 'Beginner';
+
   return (
     <div
       className="account-current-tier-widget"
@@ -53,7 +55,7 @@ export const AccountCurrentTierWidget: React.SFC<RootStoreProps> = ({
       <div className="account-current-tier-widget__right-wrapper">
         <div className="verification-page__muted-title">Your Account</div>
         <div className="account-current-tier-widget__tier">
-          {tierNamesMapping[currentTier.Tier]}
+          {isBeginner ? 'Unverified' : tierNamesMapping[currentTier.Tier]}
         </div>
         <div className="account-current-tier-widget__description">
           {description}

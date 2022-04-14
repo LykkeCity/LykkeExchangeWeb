@@ -58,7 +58,7 @@ export interface TierInfo {
   QuestionnaireAnswered: boolean;
 }
 
-export type DocumentType = 'PoI' | 'PoA' | 'PoF' | 'Selfie';
+export type DocumentType = 'PoI' | 'PoA' | 'PoF' | 'Selfie' | 'Questionnaire';
 export type IdCardType = 'Passport' | 'Id' | 'DrivingLicense';
 export type VerificationStatus =
   | 'APPROVED'
