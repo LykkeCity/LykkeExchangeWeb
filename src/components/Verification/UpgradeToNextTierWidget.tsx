@@ -112,11 +112,13 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
               isActive={currentFormToRender === 'PoF'}
             />
           )}
-          <StepItem
-            text="Questionnaire"
-            status={getQuestionnaireStatus}
-            isActive={currentFormToRender === 'Questionnaire'}
-          />
+          {nextTier.Documents.indexOf('Questionnaire') > -1 && (
+            <StepItem
+              text="Questionnaire"
+              status={getQuestionnaireStatus}
+              isActive={currentFormToRender === 'Questionnaire'}
+            />
+          )}
         </div>
       );
     }
@@ -129,13 +131,14 @@ export const UpgradeToNextTierWidget: React.SFC<RootStoreProps> = ({
             status={pofStatus}
             isActive={currentFormToRender === 'PoF'}
           />
-          {questionnaireAnswered === false && (
-            <StepItem
-              text="Questionnaire"
-              status={getQuestionnaireStatus}
-              isActive={currentFormToRender === 'Questionnaire'}
-            />
-          )}
+          {nextTier.Documents.indexOf('Questionnaire') > -1 &&
+            questionnaireAnswered === false && (
+              <StepItem
+                text="Questionnaire"
+                status={getQuestionnaireStatus}
+                isActive={currentFormToRender === 'Questionnaire'}
+              />
+            )}
         </div>
       );
     }

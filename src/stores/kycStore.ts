@@ -422,48 +422,9 @@ export class KycStore {
     const tierInfo = this.tierInfo;
 
     if (tierInfo && tierInfo.NextTier && currentForm) {
-      const nextTier = tierInfo.NextTier;
-      const currentTier = tierInfo.CurrentTier;
-      // Mid risk
-      if (currentTier.Tier === 'Beginner' && nextTier.Tier === 'Advanced') {
-        if (currentForm === 'Questionnaire') {
-          result = true;
-        }
-      }
-
-      if (
-        currentTier.Tier === 'Advanced' &&
-        nextTier.Tier === 'ProIndividual'
-      ) {
-        // if questionnaire answered before, then check for PoF
-        if (tierInfo.QuestionnaireAnswered) {
-          if (currentForm === 'PoF') {
-            result = true;
-          }
-        } else {
-          // if questionnaire not answered before, then this is the last step for this case
-          if (currentForm === 'Questionnaire') {
-            result = true;
-          }
-        }
-      }
-
-      if (
-        currentTier.Tier === 'Beginner' &&
-        nextTier.Tier === 'ProIndividual'
-      ) {
-        // Mid risk
-        if (tierInfo.UpgradeRequest) {
-          if (currentForm === 'PoF') {
-            result = true;
-          }
-        } else {
-          // High risk
-          if (currentForm === 'Questionnaire') {
-            result = true;
-          }
-        }
-      }
+      result =
+        tierInfo.NextTier.Documents[tierInfo.NextTier.Documents.length - 1] ===
+        currentForm;
     }
     return result;
   }
@@ -869,8 +830,13 @@ export class KycStore {
       return 'PoF';
     }
 
-    if (questionnaireStatus === 'EMPTY' || questionnaireStatus === 'REJECTED') {
-      return 'Questionnaire';
+    if (nextTier && nextTier.Documents.indexOf('Questionnaire') > -1) {
+      if (
+        questionnaireStatus === 'EMPTY' ||
+        questionnaireStatus === 'REJECTED'
+      ) {
+        return 'Questionnaire';
+      }
     }
 
     if (this.isUpgradeRequestPending) {

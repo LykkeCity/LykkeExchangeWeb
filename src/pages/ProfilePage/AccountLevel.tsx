@@ -26,6 +26,9 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
   if (kycStore.isUpgradeRequestRejected) {
     showUpgradeButton = false;
   }
+
+  const isBeginner = tierInfo.CurrentTier.Tier === 'Beginner';
+
   const upgradeButton = (
     <div className="account-level__upgrade">
       <Link
@@ -44,7 +47,7 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
           );
         }}
       >
-        Upgrade
+        {isBeginner ? 'Verify' : 'Upgrade'}
       </Link>
     </div>
   );
@@ -68,13 +71,23 @@ export const AccountLevel: React.SFC<RootStoreProps> = ({rootStore}) => {
       <h2 className="account-level__title">Account Level</h2>
       <div className="account-level">
         <div className="account-level__icon">
-          <img src={`${process.env.PUBLIC_URL}/images/verify_approved.png`} />
+          <img
+            src={`${process.env.PUBLIC_URL}/images/${isBeginner
+              ? 'verify_ntfd.png'
+              : 'verify_approved.png'}`}
+          />
         </div>
         <div className="account-level-right">
           <div className="account-level-right__tier">
-            {tierNamesMapping[tierInfo.CurrentTier.Tier]}
+            {!isBeginner
+              ? tierNamesMapping[tierInfo.CurrentTier.Tier]
+              : 'Unverified'}
           </div>
-          <div className="account-level-right__status">Verified</div>
+          {!isBeginner ? (
+            <div className="account-level-right__status">Verified</div>
+          ) : (
+            ''
+          )}
         </div>
         {showUpgradeButton && upgradeButton}
         {!showUpgradeButton && isMaxLimitReached && upgradeLimitButton}
