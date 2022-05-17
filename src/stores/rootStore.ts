@@ -25,8 +25,10 @@ import {
   TransferApi,
   WalletApi,
   WhitelistingApi,
-  WithdrawApi
+  WithdrawApi,
+  WithdrawApiV1
 } from '../api';
+
 import RestAffiliateApi from '../api/affiliateApi';
 import {RestFeaturesApi} from '../api/featuresApi';
 import {RestKycApi, RestKycApiV2} from '../api/kycApi';
@@ -73,7 +75,11 @@ export class RootStore {
     this.uiStore = new UiStore(this);
     this.transferStore = new TransferStore(this, new TransferApi(this));
     this.depositStore = new DepositStore(this, new DepositApi(this));
-    this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
+    this.withdrawStore = new WithdrawStore(
+      this,
+      new WithdrawApi(this),
+      new WithdrawApiV1(this)
+    );
     this.dialogStore = new DialogStore(this, new DisclaimerApi(this));
     this.analyticsService = AnalyticsService;
     this.marketService = MarketService;
@@ -98,7 +104,11 @@ export class RootStore {
     );
     this.transferStore = new TransferStore(this, new TransferApi(this));
     this.depositStore = new DepositStore(this, new DepositApi(this));
-    this.withdrawStore = new WithdrawStore(this, new WithdrawApi(this));
+    this.withdrawStore = new WithdrawStore(
+      this,
+      new WithdrawApi(this),
+      new WithdrawApiV1(this)
+    );
     this.dialogStore = new DialogStore(this, new DisclaimerApi(this));
     this.authStore.reset();
     this.marketService.reset();

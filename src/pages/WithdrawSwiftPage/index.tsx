@@ -22,7 +22,7 @@ interface WithdrawSwiftPageProps
   extends RootStoreProps,
     RouteComponentProps<any> {}
 
-const BIC_REGEX = /^[a-zA-Z]{6}[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?$/;
+const BIC_REGEX = /^[a-zA-Z]{4}([a-zA-Z]{2})[a-zA-Z0-9]{2}([a-zA-Z0-9]{3})?$/;
 
 export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
   readonly assetStore = this.props.rootStore!.assetStore;
@@ -118,6 +118,26 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
           </div>
         </div>
       </div>
+    );
+  }
+
+  private getFee() {
+    return this.withdrawStore.swiftFee;
+  }
+
+  private displayFee() {
+    return !!this.withdrawStore.swiftFee;
+  }
+
+  private getWiredAmount(amount: number) {
+    return amount - this.withdrawStore.swiftFee;
+  }
+
+  private displayWiredAmount(amount: number) {
+    return (
+      amount > 0 &&
+      this.withdrawStore.withdrawSwift &&
+      !!this.withdrawStore.swiftFee
     );
   }
 
@@ -279,6 +299,29 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
                           </span>
                         )}
                     </div>
+                    {this.displayFee() && (
+                      <div>
+                        <div className="fee-info">
+                          <span className="fee-info__label">Fee: </span>
+                          <span className="fee-info__value">
+                            {this.getFee()} {asset && asset.name}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                    {this.displayWiredAmount(field.value) && (
+                      <div>
+                        <div className="fee-info">
+                          <span className="fee-info__label">
+                            Wired Amount:{' '}
+                          </span>
+                          <span className="fee-info__value">
+                            {this.getWiredAmount(field.value)}{' '}
+                            {asset && asset.name}
+                          </span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -293,7 +336,48 @@ export class WithdrawSwiftPage extends React.Component<WithdrawSwiftPageProps> {
           For the withdrawal of funds, the following account details will be
           used.
         </div>
-        {this.renderField('bic', 'SWIFT')}
+
+        <Field
+          name="bic"
+          // tslint:disable-next-line:jsx-no-lambda
+          render={({field, form}: FieldProps<WithdrawSwiftModel>) => (
+            <div
+              className={classnames('form-group', {
+                'has-error': form.errors[field.name] && form.touched[field.name]
+              })}
+            >
+              <label htmlFor={field.name} className="control-label">
+                SWIFT
+              </label>
+              <div className="error-bar" />
+              <input
+                id={field.name}
+                type="text"
+                onChange={e => {
+                  field.onChange(e);
+                  if (e.target.value) {
+                    const match = e.target.value.match(BIC_REGEX);
+                    if (match) {
+                      this.withdrawStore.fetchSwiftFee(assetId, match[1]);
+                    } else {
+                      this.withdrawStore.resetSwiftFee();
+                    }
+                  }
+                }}
+                onBlur={field.onBlur}
+                onFocus={(e: any) => {
+                  formikBag.setFieldTouched(field.name, false);
+                }}
+                className="form-control"
+              />
+              {form.errors[field.name] &&
+                form.touched[field.name] && (
+                  <span className="help-block">{form.errors[field.name]}</span>
+                )}
+            </div>
+          )}
+        />
+
         {this.renderField('bankName', 'Name of the Bank')}
         {this.renderField(
           'accountNumber',
