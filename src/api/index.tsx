@@ -13,5 +13,6 @@ export {default as TransactionApi} from './transactionApi';
 export {default as DepositApi} from './depositApi';
 export {default as DisclaimerApi} from './disclaimerApi';
 export {default as WithdrawApi} from './withdrawApi';
+export {default as WithdrawApiV1} from './withdrawApiV1';
 export {default as KycApi} from './kycApi';
 export {default as WhitelistingApi} from './whitelistingApi';

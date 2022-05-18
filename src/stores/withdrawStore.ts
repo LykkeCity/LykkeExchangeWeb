@@ -1,6 +1,7 @@
 import {action, observable} from 'mobx';
 import {RootStore} from '.';
 import {WithdrawApi} from '../api/withdrawApi';
+import {WithdrawApiV1} from '../api/withdrawApiV1';
 import {WithdrawCryptoModel, WithdrawSwiftModel} from '../models';
 
 export class WithdrawStore {
@@ -8,11 +9,16 @@ export class WithdrawStore {
   @observable withdrawSwift: WithdrawSwiftModel;
   @observable relativeFee: number = 0;
   @observable absoluteFee: number = 0;
+  @observable swiftFee: number = 0;
   @observable isAddressExtensionMandatory: boolean = false;
   @observable baseAddressTitle: string = 'To';
   @observable addressExtensionTitle: string = 'Address Extension';
 
-  constructor(readonly rootStore: RootStore, private api: WithdrawApi) {
+  constructor(
+    readonly rootStore: RootStore,
+    private api: WithdrawApi,
+    private apiV1: WithdrawApiV1
+  ) {
     this.resetCurrentWithdraw();
   }
 
@@ -122,11 +128,25 @@ export class WithdrawStore {
   };
 
   @action
+  fetchSwiftFee = async (currency: string, country: string) => {
+    const resp = await this.apiV1.fetchSwiftFee(currency, country);
+    if (resp) {
+      this.swiftFee = resp.Result.Size;
+    }
+  };
+
+  @action
+  resetSwiftFee = () => {
+    this.swiftFee = 0;
+  };
+
+  @action
   resetCurrentWithdraw = () => {
     this.withdrawCrypto = new WithdrawCryptoModel();
     this.withdrawSwift = new WithdrawSwiftModel();
     this.relativeFee = 0;
     this.absoluteFee = 0;
+    this.swiftFee = 0;
     this.isAddressExtensionMandatory = false;
     this.baseAddressTitle = 'To';
     this.addressExtensionTitle = 'Address Extension';
