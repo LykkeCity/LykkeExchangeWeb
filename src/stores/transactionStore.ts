@@ -93,18 +93,14 @@ export class TransactionStore {
   fetchTransactionsCsvUrl = async (
     operationType?: TransactionType[],
     assetId?: string
-  ) =>
-    new Promise<string>(async resolve => {
-      const exportId = await this.api.fetchExportCsvId(assetId, operationType);
-      const HISTORY_EXPORT_TOPIC = 'history.export';
-      this.rootStore.socketStore.subscribe(
-        HISTORY_EXPORT_TOPIC,
-        (res: [{Id: string; Url: string}]) => {
-          const {Id: id, Url: url} = res[0];
-          if (url && id === exportId) {
-            resolve(url);
-          }
-        }
-      );
-    });
+  ) => {
+    const exportId = await this.api.fetchExportCsvId(assetId, operationType);
+    while (true) {
+      const url = await this.api.fetchExportCsvUrl(exportId);
+      if (url) {
+        return url;
+      }
+      await new Promise(resolve => setTimeout(resolve, 2 * 1000));
+    }
+  };
 }
