@@ -338,7 +338,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
         transactionType,
         assetId
       );
-      window.location.replace(url);
+      location.assign(url);
       this.isExportLoading = false;
     }
   };
