@@ -344,7 +344,7 @@ export class AssetPage extends React.Component<AssetPageProps> {
   };
 
   // to force safari download file instead of open link
-  // see for details
+  // see for details https://github.com/johnculviner/jquery.fileDownload#2019-modern-browsers-update
   private fetchCsvData = async (url: string) => {
     const a = document.createElement('a');
     a.style.display = 'none';
