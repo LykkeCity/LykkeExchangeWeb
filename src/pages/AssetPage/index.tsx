@@ -338,9 +338,21 @@ export class AssetPage extends React.Component<AssetPageProps> {
         transactionType,
         assetId
       );
-      location.assign(url);
+      await this.fetchCsvData(url);
       this.isExportLoading = false;
     }
+  };
+
+  // to force safari download file instead of open link
+  // see for details https://github.com/johnculviner/jquery.fileDownload#2019-modern-browsers-update
+  private fetchCsvData = async (url: string) => {
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = url;
+    a.download = 'history.json';
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(url);
   };
 
   private loadTransactions = async (
