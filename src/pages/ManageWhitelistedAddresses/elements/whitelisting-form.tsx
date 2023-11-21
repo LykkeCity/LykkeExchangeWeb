@@ -1,4 +1,4 @@
-import {Select} from '@lykkex/react-components';
+import {Select} from '@lykkecity/react-components';
 import classnames from 'classnames';
 import React from 'react';
 import {WhitelistingErrorCodes} from '..';

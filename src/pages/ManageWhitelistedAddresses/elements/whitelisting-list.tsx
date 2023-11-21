@@ -1,4 +1,4 @@
-import {Table} from '@lykkex/react-components';
+import {Table} from '@lykkecity/react-components';
 import classnames from 'classnames';
 import React from 'react';
 import {FormattedDate} from 'react-intl';

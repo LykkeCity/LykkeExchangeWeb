@@ -1,4 +1,4 @@
-import {Dialog} from '@lykkex/react-components';
+import {Dialog} from '@lykkecity/react-components';
 import React from 'react';
 import {AnalyticsEvent} from '../../constants/analyticsEvents';
 import Camera from '../Camera';

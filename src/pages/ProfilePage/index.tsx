@@ -1,4 +1,4 @@
-import {MenuItem, Select} from '@lykkex/react-components';
+import {MenuItem, Select} from '@lykkecity/react-components';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RootStoreProps} from '../../App';

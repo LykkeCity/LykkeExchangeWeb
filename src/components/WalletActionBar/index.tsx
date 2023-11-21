@@ -5,7 +5,7 @@ import {
   DropdownList,
   DropdownListItem,
   DropdownPosition
-} from '@lykkex/react-components';
+} from '@lykkecity/react-components';
 import * as classNames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';

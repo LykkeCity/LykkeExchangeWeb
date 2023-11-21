@@ -1,4 +1,4 @@
-import {Dialog} from '@lykkex/react-components';
+import {Dialog} from '@lykkecity/react-components';
 import {inject, observer} from 'mobx-react';
 import React from 'react';
 import {RouteComponentProps} from 'react-router-dom';
