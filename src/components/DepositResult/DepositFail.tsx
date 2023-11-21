@@ -1,4 +1,4 @@
-import {Icon} from '@lykkex/react-components';
+import {Icon} from '@lykkecity/react-components';
 import * as React from 'react';
 import {Link, RouteComponentProps} from 'react-router-dom';
 import {ROUTE_WALLETS} from '../../constants/routes';

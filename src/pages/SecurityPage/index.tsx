@@ -1,4 +1,4 @@
-import {MenuItem} from '@lykkex/react-components';
+import {MenuItem} from '@lykkecity/react-components';
 import classnames from 'classnames';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';

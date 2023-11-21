@@ -3,7 +3,7 @@ import {
   Dropdown,
   DropdownContainer,
   DropdownControl
-} from '@lykkex/react-components';
+} from '@lykkecity/react-components';
 import classnames from 'classnames';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';

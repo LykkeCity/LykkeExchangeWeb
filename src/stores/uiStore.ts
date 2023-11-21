@@ -1,4 +1,4 @@
-import {MenuItem} from '@lykkex/react-components';
+import {MenuItem} from '@lykkecity/react-components';
 import {action, computed, observable, reaction} from 'mobx';
 import {RootStore} from '.';
 import {getHash, StorageUtils} from '../utils';
