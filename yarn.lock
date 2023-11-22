@@ -14,8 +14,8 @@
 
 "@lykkecity/react-components@0.9.9":
   version "0.9.9"
-  resolved "https://registry.yarnpkg.com/@lykkecity/react-components/-/react-components-0.9.9.tgz#01988fe0ec9f03dfd464812e594ba17016f7f360"
-  integrity sha512-yqo0veYQ9NCK2wG5ogq+ACo6WCpAyqxVcuON2/Jcu3VWtkwLyT8PRhgqrrawDpVLxqrCwG4LVkw5HFClqcc+GQ==
+  resolved "https://npm.pkg.github.com/download/@lykkecity/react-components/0.9.9/12816edf97697776a5bdb12f2a556821e5cfc47d#12816edf97697776a5bdb12f2a556821e5cfc47d"
+  integrity sha512-0D6cWPti/jHTwwdrsjaTmBp7+PMO1GCETmGk1jmnBvAnszRUJuoWMjVmhcFwG+pfnTvmT7OiZGbzqa+ekwTG9w==
   dependencies:
     recharts "^1.1.0"
 
