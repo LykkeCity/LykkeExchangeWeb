@@ -1,0 +1,29 @@
+name: test build
+
+on:
+  push:
+      branches:
+        - test
+  pull_request:
+    types:
+      - labeled
+      - unlabeled
+      - opened
+      - reopened
+      - synchronize
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    #runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        build-args: |
+          "GITHUB_REGISTRY_TOKEN=${{ secrets.GITHUB_REGISTRY_TOKEN }}"
+          "VERSION=1.0.1"
+        push: false
+        tags: swisschains/lykkeexchangeweb:test
