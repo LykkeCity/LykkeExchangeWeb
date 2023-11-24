@@ -18,4 +18,5 @@ jobs:
         build-args: |
           "GITHUB_REGISTRY_TOKEN=${{ secrets.REGISTRY_GITHUB_TOKEN }}"
           "VERSION=1.0.1"
+        push: true
         tags: swisschains/lykkeexchangeweb:test
