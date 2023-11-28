@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: test
     #runs-on: self-hosted
     steps:
     - uses: actions/checkout@v3
