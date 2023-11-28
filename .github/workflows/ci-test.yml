@@ -33,5 +33,8 @@ jobs:
           "REACT_APP_WAMP_REALM=${{ vars.REACT_APP_WAMP_REALM }}"
           "REACT_APP_WAMP_URL=${{ vars.REACT_APP_WAMP_URL }}"
           "REACT_APP_WEBWALLET_URL=${{ vars.REACT_APP_WEBWALLET_URL }}"
+          "REACT_APP_LAUNCH_DARKLY_CLIENT_ID=${{ vars.REACT_APP_LAUNCH_DARKLY_CLIENT_ID }}
+          "REACT_APP_KYC_URL=${{ vars.REACT_APP_KYC_URL }}"
+          "REACT_APP_ENVIRONMENT=${{ vars.REACT_APP_ENVIRONMENT }}
         push: true
         tags: swisschains/lykkeexchangeweb:test
