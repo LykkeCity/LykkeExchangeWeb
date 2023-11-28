@@ -25,6 +25,7 @@ jobs:
           "GITHUB_REGISTRY_TOKEN=${{ secrets.REGISTRY_GITHUB_TOKEN }}"
           "VERSION=1.0.1"
           "REACT_APP_API_URL=${{ vars.REACT_APP_API_URL }}"
+          "REACT_APP_APIV1_URL=${{ vars.REACT_APP_APIV1_URL }}"
           "REACT_APP_AUTH_URL=${{ vars.REACT_APP_AUTH_URL }}"
           "REACT_APP_CALLBACK_URL=${{ vars.REACT_APP_CALLBACK_URL }}"
           "REACT_APP_CLIENT_ID=${{ vars.REACT_APP_CLIENT_ID }}"
