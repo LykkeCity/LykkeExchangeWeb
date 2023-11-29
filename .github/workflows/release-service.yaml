@@ -48,16 +48,3 @@ jobs:
           "REACT_APP_ENVIRONMENT=${{ secrets.REACT_APP_ENVIRONMENT }}"`
         push: true
         tags: ${{ vars.DOCKER_IMAGE_OWNER }}/${{ env.DOCKER_IMAGE_NAME }}:${{ env.TAG }}
-    - name: Update Docker Image
-      uses: swisschain/replace-docker-image@master
-      env:
-        DOCKER_IMAGE_NAME: ${{ env.DOCKER_IMAGE_NAME }}
-        DOCKER_REPOSITORY_NAME: ${{ vars.DOCKER_IMAGE_OWNER }}
-        GIT_USER_API_TOKEN: ${{ secrets.GIT_INFRASTRUCTURE_REPOSITORY_PUSH_API_TOKEN }}
-        GIT_USER_NAME: ${{ vars.GIT_INFRASTRUCTURE_REPOSITORY_PUSH_USER_NAME }}
-        GIT_USER_EMAIL: ${{ vars.GIT_INFRASTRUCTURE_REPOSITORY_PUSH_USER_EMAIL }}
-        GIT_INFRASTRUCTURE_REPOSITORY_BRANCH: 'master'
-        GIT_INFRASTRUCTURE_REPOSITORY_OWNER: ${{ github.repository_owner }}
-        GIT_INFRASTRUCTURE_REPOSITORY_NAME: ${{ vars.GIT_INFRASTRUCTURE_REPOSITORY_NAME }}
-        GIT_REPOSITORY_NAME: ${{ github.event.repository.name }}
-        INPUT_TAG_NAME_SKIP: 'service-'  
