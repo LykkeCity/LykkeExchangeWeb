@@ -2,7 +2,7 @@ import {
   Dropdown,
   DropdownContainer,
   DropdownControl
-} from '@lykkex/react-components';
+} from '@lykkecity/react-components';
 import classNames from 'classnames';
 import {Field, FieldConfig} from 'formik';
 import React from 'react';

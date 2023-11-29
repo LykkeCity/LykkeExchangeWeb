@@ -1,4 +1,4 @@
-import {Checkbox} from '@lykkex/react-components';
+import {Checkbox} from '@lykkecity/react-components';
 import Cookies from 'js-cookie';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';

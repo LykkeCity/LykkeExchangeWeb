@@ -1,4 +1,4 @@
-import {Icon} from '@lykkex/react-components';
+import {Icon} from '@lykkecity/react-components';
 import {observable} from 'mobx';
 import {inject, observer} from 'mobx-react';
 import * as React from 'react';

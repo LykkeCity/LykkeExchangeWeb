@@ -1,4 +1,4 @@
-import {Error404} from '@lykkex/react-components';
+import {Error404} from '@lykkecity/react-components';
 import * as React from 'react';
 
 export const NoMatch = () => (

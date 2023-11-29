@@ -1,4 +1,4 @@
-import {Dialog} from '@lykkex/react-components';
+import {Dialog} from '@lykkecity/react-components';
 import classNames from 'classnames';
 import {Field, FieldProps, Form, Formik, FormikProps} from 'formik';
 import {inject, observer} from 'mobx-react';
