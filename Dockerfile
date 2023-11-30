@@ -39,8 +39,8 @@ RUN yarn build
 
 FROM ilagnev/alpine-nginx-lua
 
-ARG VERSION=1.0.0
-ENV APP_VERSION=$VERSION
+ARG BUILD_VERSION=1.0.0
+ENV APP_VERSION=$BUILD_VERSION
 
 WORKDIR /usr/share/nginx/html
 COPY --from=builder /app/build/ /usr/share/nginx/html
